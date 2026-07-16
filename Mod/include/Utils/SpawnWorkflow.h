@@ -1,63 +1,60 @@
 #pragma once
 
-#include <array>
+#include <expected>
 #include <functional>
+#include <optional>
 #include <string>
+#include <vector>
 
 #include "Core/ModContext.h"
 #include "Menu/SectionConfig.h"
-#include "Utils/ArmorGenerationOptions.h"
-#include "Utils/CustomizableWeapon.h"
+#include "Utils/ArmorPresetSerializer.h"
+#include "Utils/ItemSpawnPresetSerializer.h"
 #include "Utils/LivePreviewManager.h"
-#include "Utils/LoadoutPresetSerializer.h"
+#include "Utils/LoadoutPresetResolver.h"
 #include "Utils/NPCPresetSerializer.h"
 #include "Utils/WeaponClassPaths.h"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/Enum_Nationalities_structs.hpp"
-#include "SDK/Enum_WeaponType_Specific_structs.hpp"
-#include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
 namespace SpawnWorkflow {
     using ActorCallback = std::function<void(SDK::AActor*)>;
+    using ActorSetup = std::function<std::expected<void, std::string>(SDK::AActor*)>;
 
-    // Queue* returns whether the request was accepted/enqueued; the game-thread spawn can still fail later.
+    struct SpawnResult {
+        bool success = false;
+        SDK::AActor* actor = nullptr;
+        std::string error;
+    };
+    using SpawnCompletion = std::function<void(SpawnResult)>;
+
+    // Queue* returns whether the request was accepted/enqueued. setupActor is part of the transaction: a failure
+    // removes the new actor and onComplete reports it instead of publishing a partial spawn as successful.
     bool QueueWeaponSpawn(
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Weapon1 passport,
-        WeaponClassPaths classPaths, ActorCallback onSpawned = nullptr
+        WeaponClassPaths classPaths, ActorSetup setupActor = nullptr, std::string deferredWeaponName = {},
+        SpawnCompletion onComplete = nullptr
     );
     bool QueueWeaponPreview(
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Weapon1 passport, WeaponClassPaths classPaths, ActorCallback onSpawned,
-        ActorCallback onPreviewReady
+        ActorCallback onPreviewReady, std::string deferredWeaponName = {}
     );
 
-    bool QueueArmorSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
-        ActorCallback onSpawned = nullptr
-    );
     bool QueueArmorPreview(
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
-        SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady = nullptr
+        ArmorPresetData preset, ActorCallback onPreviewReady = nullptr
     );
 
-    struct ItemSpawnParams {
-        enum class Kind { ClassPath, GeneratedCustomizableWeapon, RandomArmor, ModularArmor, ArmorPreset };
-
-        Kind kind = Kind::ClassPath;
-        std::string classPath;
-        std::string armorCorePath;
-        std::array<int, 3> modules{};
-        SDK::FStr_Passport_Armor1 armorPassport{};
-        SDK::EArmorSlots_Enum armorSlot{};
-        CustomizableWeapon customizable = CustomizableWeapon::None;
-        SDK::Enum_Ranks tier{};
-        SDK::Enum_WeaponType_Specific weaponSpecificType = SDK::Enum_WeaponType_Specific::NewEnumerator7;
-        EquipmentGenerator::ArmorGenerationOptions armorOptions{};
-    };
-
-    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnParams& request);
-    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnParams request);
+    bool SpawnItemPreset(
+        const RuntimeContextSnapshot& runtime, const ItemSpawnPresetData& data,
+        const SpawnCompletion& onComplete = nullptr, std::string* error = nullptr
+    );
+    bool QueueItemPresetSpawn(
+        const RuntimeContextSnapshot& snapshot, const ItemSpawnPresetData& data, SpawnCompletion onComplete = nullptr,
+        std::string* error = nullptr
+    );
 
     struct NPCSpawnParams {
         std::string classPath;
@@ -67,10 +64,20 @@ namespace SpawnWorkflow {
         bool bodyguard = false;
         int team = 0;
         NPCOverrides overrides{};
-        bool hasLoadout = false;
-        LoadoutPresetData loadout{};
+        std::optional<ResolvedLoadoutPresetData> loadout;
+        SpawnCompletion onComplete = nullptr;
     };
 
+    [[nodiscard]] std::expected<NPCSpawnParams, std::string> BuildNPCSpawnParams(
+        const NPCPresetData& preset, std::optional<ResolvedLoadoutPresetData> loadout = std::nullopt
+    );
+
+    // Game-thread only. Uses the same NPC initialization and cleanup path as the queued spawn helpers,
+    // but preserves an explicit caller-provided transform for scenario and batch placement.
+    bool SpawnNPCAt(
+        SDK::UWorld* world, int playerTeam, const SDK::FTransform& transform, bool snapToGround,
+        const NPCSpawnParams& request
+    );
     bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnParams& request);
     bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnParams request);
 }

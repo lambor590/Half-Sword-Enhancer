@@ -28,24 +28,25 @@ namespace Spawner {
     /// can use it directly instead of duplicating the pattern.
     SDK::AActor* DeferredSpawn(
         const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
-        const std::function<void(SDK::AActor*)>& preFinishCallback = nullptr
+        const std::function<void(SDK::AActor*)>& preFinishCallback = nullptr,
+        SDK::ESpawnActorScaleMethod scaleMethod = SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
     );
 
     SDK::FVector GetGroundPosition(
         const SDK::UWorld* world, const SDK::FVector& position, float groundOffset = 50.0f,
         float traceDistance = 1000.0f
     );
-    void SpawnActor(
+    SDK::AActor* SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& callback = nullptr, bool snapToGround = false,
         SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, const std::function<void(SDK::AActor*)>& postSpawnCallback = nullptr,
         SDK::Enum_WeaponType_Specific weaponSpecificType = SDK::Enum_WeaponType_Specific::NewEnumerator7
     );
-    void SpawnArmorFromPassport(
+    SDK::AActor* SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
         bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
-    void SpawnCustomizableFromPassport(
+    SDK::AActor* SpawnCustomizableFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
         bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
@@ -58,7 +59,8 @@ namespace Spawner {
     SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, const SpawnConfig& cfg);
 
     bool SpawnAndEquipArmor(
-        const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport
+        const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport,
+        const std::function<void(SDK::AActor*)>& onSpawned = nullptr
     );
 
 }
