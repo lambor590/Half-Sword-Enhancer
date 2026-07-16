@@ -83,6 +83,9 @@
     <ClCompile Include="src\UpdateManager.cpp" />
     <ClCompile Include="src\SteamLocator.cpp" />
     <ClCompile Include="src\InstallManager.cpp" />
+    <ClCompile Include="src\JsonString.cpp" />
+    <ClCompile Include="src\SelfUpdate.cpp" />
+    <ClCompile Include="src\Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Launcher.h" />
@@ -93,6 +96,10 @@
     <ClInclude Include="include\UpdateManager.h" />
     <ClInclude Include="include\SteamLocator.h" />
     <ClInclude Include="include\InstallManager.h" />
+    <ClInclude Include="include\JsonString.h" />
+    <ClInclude Include="include\SelfUpdate.h" />
+    <ClInclude Include="include\GameEdition.h" />
+    <ClInclude Include="include\Version.h" />
     <ClInclude Include="resource\resource.h" />
   </ItemGroup>
   <ItemGroup>
