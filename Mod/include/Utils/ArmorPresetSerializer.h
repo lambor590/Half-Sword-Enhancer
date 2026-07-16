@@ -1,7 +1,8 @@
 #pragma once
 
+#include <array>
 #include <string>
-#include <vector>
+#include <string_view>
 
 #include "Menu/Preset.h"
 #include "Utils/OverrideTypes.h"
@@ -18,16 +19,20 @@ struct ArmorRuntimeProps {
 
 struct ArmorPresetData : PresetDataBase {
     static constexpr const char* K_PRESETS_SUBDIR = "armor_presets";
+    static constexpr const char* K_PRESET_KIND = "armor";
 
     SDK::FStr_Passport_Armor1 passport{};
     ArmorRuntimeProps runtimeProps{};
 
     std::string armorCorePath;
 
-    static std::vector<PresetFieldDescriptor> GetPresetFields(ArmorPresetData& data);
-    static std::vector<OverrideGroupDescriptor> GetOverrideGroups(ArmorPresetData& data);
-    static void SerializeCustom(const ArmorPresetData& data, CSimpleIniA& ini);
-    static void DeserializeCustom(ArmorPresetData& data, const CSimpleIniA& ini);
+    static std::array<PresetFieldDescriptor, 1> GetPresetFields(ArmorPresetData& data);
+    static std::array<PresetOverrideDescriptor, 10> GetPresetOverrides(ArmorPresetData& data);
+    [[nodiscard]] PresetOperationResult ValidateForSave() const;
+    static void SerializeCustom(const ArmorPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {});
+    [[nodiscard]] static PresetOperationResult DeserializeCustom(
+        ArmorPresetData& data, const CSimpleIniA& ini, std::string_view sectionPrefix = {}
+    );
 };
 
 using ArmorPresetSerializer = PresetSerializer<ArmorPresetData>;

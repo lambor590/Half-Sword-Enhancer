@@ -1,7 +1,8 @@
 #pragma once
 
+#include <array>
 #include <string>
-#include <vector>
+#include <string_view>
 
 #include "Menu/Preset.h"
 #include "Utils/OverrideTypes.h"
@@ -26,6 +27,7 @@ struct MeshOverridePreset : MeshOverrideSettings {
 
 struct WeaponPresetData : PresetDataBase {
     static constexpr const char* K_PRESETS_SUBDIR = "weapon_presets";
+    static constexpr const char* K_PRESET_KIND = "weapon";
 
     SDK::FStr_Passport_Weapon1 passport{};
 
@@ -42,11 +44,20 @@ struct WeaponPresetData : PresetDataBase {
     MeshOverridePreset meshPresets[MODULE_SLOT_COUNT];
 
     WeaponClassPaths classPaths{};
+    std::string gripMeshPath;
+    int coaInt = 0;
 
-    static std::vector<PresetFieldDescriptor> GetPresetFields(WeaponPresetData& data);
-    static std::vector<OverrideGroupDescriptor> GetOverrideGroups(WeaponPresetData& data);
-    static void SerializeCustom(const WeaponPresetData& data, CSimpleIniA& ini);
-    static void DeserializeCustom(WeaponPresetData& data, const CSimpleIniA& ini);
+    // FName cannot be reconstructed safely from the render/filesystem thread.
+    // The serializer keeps its raw string here for a later game-thread materialization.
+    std::string deferredWeaponName;
+
+    static std::array<PresetFieldDescriptor, 18> GetPresetFields(WeaponPresetData& data);
+    static std::array<PresetOverrideDescriptor, 20> GetPresetOverrides(WeaponPresetData& data);
+    [[nodiscard]] PresetOperationResult ValidateForSave() const;
+    static void SerializeCustom(const WeaponPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {});
+    [[nodiscard]] static PresetOperationResult DeserializeCustom(
+        WeaponPresetData& data, const CSimpleIniA& ini, std::string_view sectionPrefix = {}
+    );
 };
 
 using WeaponPresetSerializer = PresetSerializer<WeaponPresetData>;
