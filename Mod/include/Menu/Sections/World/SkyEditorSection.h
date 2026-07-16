@@ -8,11 +8,13 @@
 
 class SkyEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::World, "Sky Editor", "Environment"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::World, "Sky Editor", "Change the time of day, lighting, atmosphere, fog, and clouds."
+    };
 
 private:
     static constexpr int TAB_COUNT = 5;
-    static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Sky Light", "Fog", "Clouds"};
+    static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Ambient Light", "Fog", "Clouds"};
 
     SDK::UDirectionalLightComponent* sunComp = nullptr;
     SDK::USkyAtmosphereComponent* atmoComp = nullptr;

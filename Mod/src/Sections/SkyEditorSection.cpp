@@ -1,5 +1,4 @@
 #include "Menu/Sections/World/SkyEditorSection.h"
-#include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
 #include "Utils/GuiUtils.h"
 #include "SDK/Enum_DayTime_structs.hpp"
@@ -38,37 +37,43 @@ namespace {
     };
 
     constexpr LightingPresetSet K_MAP_LIGHTING_PRESETS[] = {
-        {"Map_Arena_Ambush", {
+        {"Map_Arena_Ambush",
+         {
              L"/Game/Maps/Lighting/Arena_Ambush_Map_Morning_Lighting",
              L"/Game/Maps/Lighting/Arena_Ambush_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_Ambush_Map_Evening_Lighting",
              L"/Game/Maps/Lighting/Arena_Ambush_Map_Night_Lighting",
          }},
-        {"Map_Arena_EastTower", {
+        {"Map_Arena_EastTower",
+         {
              L"/Game/Maps/Lighting/Map_Arena_EastTower_Dawn_Lighting",
              L"/Game/Maps/Lighting/Map_Arena_EastTower_Lighting",
              L"/Game/Maps/Lighting/Map_Arena_EastTower_Dawn_Lighting",
              L"/Game/Maps/Lighting/Map_Arena_EastTower_Night_Lighting",
          }},
-        {"Map_Arena_Slums", {
+        {"Map_Arena_Slums",
+         {
              L"/Game/Maps/Lighting/Map_Arena_Slums_Morning_Lighting",
              L"/Game/Maps/Lighting/Map_Arena_Slums_Lighting",
              L"/Game/Maps/Lighting/Map_Arena_Slums_Evening_Lighting_2",
              L"/Game/Maps/Lighting/Map_Arena_Slums_Night_Lighting",
          }},
-        {"Map_Arena_Cellar", {
+        {"Map_Arena_Cellar",
+         {
              L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
          }},
-        {"Map_Arena_LordsHall", {
+        {"Map_Arena_LordsHall",
+         {
              L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
              L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
          }},
-        {"Workshop_Smithery_Map", {
+        {"Workshop_Smithery_Map",
+         {
              L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
              L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
              L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
@@ -324,7 +329,7 @@ void SkyEditorSection::FindComponents() {
     searchPending = true;
     cachedWorld = world;
 
-    GameHook::QueueAction([this, world](const RuntimeContextSnapshot&) {
+    const bool queued = GameHook::QueueAction([this, world](const RuntimeContextSnapshot&) {
         if (world != cachedWorld) return;
 
         sunTargets.clear();
@@ -365,6 +370,7 @@ void SkyEditorSection::FindComponents() {
 
         componentsReady.store(true, std::memory_order_release);
     });
+    if (!queued) searchPending = false;
 }
 
 void SkyEditorSection::OnOpen() {
@@ -492,12 +498,12 @@ void SkyEditorSection::ApplyPreset(int presetIndex) {
 
 void SkyEditorSection::RenderSunTab() {
     if (!sunComp) {
-        ImGui::TextDisabled("DirectionalLight not found");
+        ImGui::TextDisabled("Sun controls are unavailable in this map.");
         return;
     }
-    if (ImGui::DragFloat("Intensity", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f")) QueueApplySunState();
+    if (ImGui::DragFloat("Brightness", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f")) QueueApplySunState();
     float col[3] = {sunColor[0], sunColor[1], sunColor[2]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
+    GuiUtils::SetNextColorFieldWidth("Color");
     if (ImGui::ColorEdit3("Color", col)) {
         sunColor[0] = col[0];
         sunColor[1] = col[1];
@@ -505,118 +511,112 @@ void SkyEditorSection::RenderSunTab() {
         sunUseTemperature = false;
         QueueApplySunState();
     }
-    ImGui::PopItemWidth();
-    if (ImGui::DragFloat("Temperature", &sunTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
+    if (ImGui::DragFloat("Color Temperature", &sunTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
         sunUseTemperature = true;
         QueueApplySunState();
     }
     ImGui::Separator();
     bool extChanged = false;
-    extChanged |= ImGui::DragFloat("Sun Disk Size", &sunSourceAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Soft Angle", &sunSoftAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Bloom Scale", &sunBloomScale, 0.01f, 0.0f, 0.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Bloom Threshold", &sunBloomThreshold, 0.1f, 0.0f, 0.0f, "%.1f");
-    extChanged |= ImGui::DragFloat("Shadow Amount", &sunShadowAmount, 0.01f, 0.0f, 1.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Volumetric", &sunVolumetricScatter, 0.01f, 0.0f, 0.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Indirect", &sunIndirectIntensity, 0.01f, 0.0f, 0.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Sun Size", &sunSourceAngle, 0.05f, 0.0f, 20.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Shadow Softness", &sunSoftAngle, 0.05f, 0.0f, 20.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Glow", &sunBloomScale, 0.01f, 0.0f, 0.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Glow Sensitivity", &sunBloomThreshold, 0.1f, 0.0f, 0.0f, "%.1f");
+    extChanged |= ImGui::DragFloat("Shadow Strength", &sunShadowAmount, 0.01f, 0.0f, 1.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Atmospheric Light", &sunVolumetricScatter, 0.01f, 0.0f, 0.0f, "%.2f");
+    extChanged |= ImGui::DragFloat("Indirect Light", &sunIndirectIntensity, 0.01f, 0.0f, 0.0f, "%.2f");
     if (extChanged) QueueApplySunState();
 }
 
 void SkyEditorSection::RenderAtmoTab() {
     if (!atmoComp) {
-        ImGui::TextDisabled("SkyAtmosphere not found");
+        ImGui::TextDisabled("Atmosphere controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Rayleigh Scale", &rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Sky Color Strength", &rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
     float rc[3] = {rayleighColor[0], rayleighColor[1], rayleighColor[2]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-    if (ImGui::ColorEdit3("Rayleigh Color", rc)) {
+    GuiUtils::SetNextColorFieldWidth("Sky Color");
+    if (ImGui::ColorEdit3("Sky Color", rc)) {
         rayleighColor[0] = rc[0];
         rayleighColor[1] = rc[1];
         rayleighColor[2] = rc[2];
         changed = true;
     }
-    ImGui::PopItemWidth();
-    changed |= GuiUtils::DebouncedDragFloat("Mie Scale", &mieScale, 0.01f, 0.0f, 0.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Mie Anisotropy", &mieAnisotropy, 0.005f, 0.0f, 1.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Multi Scattering", &multiScatter, 0.01f, 0.0f, 0.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Atmo Height", &atmoHeight, 0.5f, 0.0f, 0.0f, "%.1f km");
+    changed |= GuiUtils::DebouncedDragFloat("Haze Strength", &mieScale, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Haze Focus", &mieAnisotropy, 0.005f, 0.0f, 1.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Light Scattering", &multiScatter, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Atmosphere Height", &atmoHeight, 0.5f, 0.0f, 0.0f, "%.1f km");
     float sl[4] = {skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-    if (ImGui::ColorEdit4("Sky Luminance", sl)) {
+    GuiUtils::SetNextColorFieldWidth("Sky Tint");
+    if (ImGui::ColorEdit4("Sky Tint", sl)) {
         skyLuminance[0] = sl[0];
         skyLuminance[1] = sl[1];
         skyLuminance[2] = sl[2];
         skyLuminance[3] = sl[3];
         changed = true;
     }
-    ImGui::PopItemWidth();
     if (changed) ApplyAtmosphere();
 }
 
 void SkyEditorSection::RenderSkyLightTab() {
     if (!skyLightComp) {
-        ImGui::TextDisabled("SkyLight not found");
+        ImGui::TextDisabled("Ambient light controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Intensity", &skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Brightness", &skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
     float col[3] = {skyLightColor[0], skyLightColor[1], skyLightColor[2]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
+    GuiUtils::SetNextColorFieldWidth("Color");
     if (ImGui::ColorEdit3("Color", col)) {
         skyLightColor[0] = col[0];
         skyLightColor[1] = col[1];
         skyLightColor[2] = col[2];
         changed = true;
     }
-    ImGui::PopItemWidth();
     float lh[4] = {lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-    if (ImGui::ColorEdit4("Lower Hemisphere", lh)) {
+    GuiUtils::SetNextColorFieldWidth("Ground Light");
+    if (ImGui::ColorEdit4("Ground Light", lh)) {
         lowerHemiColor[0] = lh[0];
         lowerHemiColor[1] = lh[1];
         lowerHemiColor[2] = lh[2];
         lowerHemiColor[3] = lh[3];
         changed = true;
     }
-    ImGui::PopItemWidth();
     if (changed) ApplySkyLight();
 }
 
 void SkyEditorSection::RenderFogTab() {
     if (!fogComp) {
-        ImGui::TextDisabled("Fog not found");
+        ImGui::TextDisabled("Fog controls are unavailable in this map.");
         return;
     }
     bool changed = false;
     changed |= GuiUtils::DebouncedDragFloat("Density", &fogDensity, 0.001f, 0.0f, 0.0f, "%.4f");
-    changed |= GuiUtils::DebouncedDragFloat("Falloff", &fogFalloff, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Vertical Fade", &fogFalloff, 0.01f, 0.0f, 0.0f, "%.3f");
     changed |= GuiUtils::DebouncedDragFloat("Start Distance", &fogStartDist, 10.f, 0.0f, 0.0f, "%.0f");
-    changed |= GuiUtils::DebouncedDragFloat("Max Opacity", &fogMaxOpacity, 0.01f, 0.0f, 1.0f, "%.2f");
+    changed |= GuiUtils::DebouncedDragFloat("Maximum Thickness", &fogMaxOpacity, 0.01f, 0.0f, 1.0f, "%.2f");
     float col[3] = {fogColor[0], fogColor[1], fogColor[2]};
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-    if (ImGui::ColorEdit3("Inscattering Color", col)) {
+    GuiUtils::SetNextColorFieldWidth("Fog Color");
+    if (ImGui::ColorEdit3("Fog Color", col)) {
         fogColor[0] = col[0];
         fogColor[1] = col[1];
         fogColor[2] = col[2];
         changed = true;
     }
-    ImGui::PopItemWidth();
     if (changed) ApplyFog();
 }
 
 void SkyEditorSection::RenderCloudsTab() {
     if (!cloudComp) {
-        ImGui::TextDisabled("VolumetricCloud not found");
+        ImGui::TextDisabled("Cloud controls are unavailable in this map.");
         return;
     }
     bool changed = false;
     changed |= GuiUtils::DebouncedDragFloat("Base Altitude", &cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
     changed |= GuiUtils::DebouncedDragFloat("Layer Height", &cloudHeight, 0.1f, 0.1f, 100.0f, "%.1f km");
-    changed |= GuiUtils::DebouncedDragFloat("View Samples", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    changed |= GuiUtils::DebouncedDragFloat("Shadow Samples", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    changed |= GuiUtils::DebouncedDragFloat("Shadow Distance", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
+    changed |= GuiUtils::DebouncedDragFloat("Visual Quality", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+    changed |= GuiUtils::DebouncedDragFloat("Shadow Quality", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+    changed |= GuiUtils::DebouncedDragFloat("Shadow Range", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
     if (changed) ApplyClouds();
 }
 
@@ -633,7 +633,6 @@ bool SkyEditorSection::UpdateComponentScan() {
 }
 
 void SkyEditorSection::Render() {
-    const SectionStyle::StyleRAII style;
     ImGui::PushID("SkyEdit");
 
     if (!UpdateComponentScan()) {
@@ -644,15 +643,15 @@ void SkyEditorSection::Render() {
     ImGui::PushItemWidth(GuiUtils::K_DRAG_WIDTH);
 
     if (sunComp) {
-        if (ImGui::DragFloat("Sun Pitch", &sunPitch, 0.2f, -90.f, 90.f, "%.1f")) QueueApplySunState();
-        if (ImGui::DragFloat("Sun Yaw", &sunYaw, 0.2f, -180.f, 180.f, "%.1f")) QueueApplySunState();
+        if (ImGui::DragFloat("Sun Height", &sunPitch, 0.2f, -90.f, 90.f, "%.1f")) QueueApplySunState();
+        if (ImGui::DragFloat("Sun Direction", &sunYaw, 0.2f, -180.f, 180.f, "%.1f")) QueueApplySunState();
     }
     ImGui::PopItemWidth();
 
     ImGui::Spacing();
     for (int i = 0; i < K_TIME_PRESET_COUNT; ++i) {
-        if (i > 0) ImGui::SameLine();
-        if (ImGui::Button(K_TIME_PRESETS[i].label)) ApplyPreset(i);
+        if (i > 0) (void)GuiUtils::SameLineIfFitsButton(K_TIME_PRESETS[i].label);
+        if (GuiUtils::Button(K_TIME_PRESETS[i].label)) ApplyPreset(i);
     }
 
     ImGui::Spacing();
