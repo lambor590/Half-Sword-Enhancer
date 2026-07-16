@@ -1,12 +1,11 @@
 #pragma once
 
-#include <string>
 #include <expected>
 #include <filesystem>
-#include <vector>
+#include <optional>
 #include <cstdint>
 
-#include "Util.h"
+#include "GameEdition.h"
 
 namespace hse {
 
@@ -24,7 +23,8 @@ namespace hse {
     };
 
     [[nodiscard]] std::expected<GameLocation, SteamError> LocateGame();
-    [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(const std::filesystem::path& manualPath
+    [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(
+        const std::filesystem::path& manualPath, std::optional<GameEdition> knownEdition = std::nullopt
     );
 
 }
