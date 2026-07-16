@@ -2,5 +2,5 @@
 
 namespace ModRuntimeLifecycle {
     void StartAsync() noexcept;
-    void Stop() noexcept;
+    [[nodiscard]] bool Stop() noexcept;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <cstdint>
 
 namespace SDK {
     class UWorld;
@@ -8,9 +9,6 @@ namespace SDK {
     class APlayerController;
     class AWorldSettings;
 }
-
-class GameHook;
-class ConfigManager;
 
 struct RuntimeContextSnapshot {
     SDK::UWorld* world = nullptr;
@@ -26,16 +24,15 @@ public:
     RuntimeContextSnapshot RefreshGameThreadCache();
     RuntimeContextSnapshot GetRenderSnapshot() const noexcept;
 
-    GameHook& gameHook;
-    ConfigManager& configManager;
-
 private:
-    ModContext();
-
-    RuntimeContextSnapshot gameThreadSnapshot{};
+    ModContext() = default;
 
     std::atomic<SDK::UWorld*> renderWorld{nullptr};
+    std::atomic<std::int32_t> renderWorldIndex{-1};
     std::atomic<SDK::AWillie_BP_C*> renderPlayer{nullptr};
+    std::atomic<std::int32_t> renderPlayerIndex{-1};
     std::atomic<SDK::APlayerController*> renderController{nullptr};
+    std::atomic<std::int32_t> renderControllerIndex{-1};
     std::atomic<SDK::AWorldSettings*> renderWorldSettings{nullptr};
+    std::atomic<std::int32_t> renderWorldSettingsIndex{-1};
 };

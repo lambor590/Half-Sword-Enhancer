@@ -5,78 +5,105 @@
 #include <mutex>
 #include <thread>
 
+#include "ConfigManager.h"
+#include "Gui.h"
 #include "Hooks/GameHook.h"
 #include "Logger.h"
+#include "Menu/Keybind.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Menu/Sections/World/MapLoaderSection.h"
 #include "Render/Renderer.h"
 #include "Utils/AIDirector.h"
+#include "Utils/ActorUtils.h"
 #include "Utils/AssetOverrideManager.h"
+#include "Utils/EquipmentApplication.h"
+#include "Utils/FreeCameraManager.h"
 
 namespace {
-    enum class State : std::uint8_t { NotStarted, Starting, Running, Failed, Stopping, Stopped };
-    enum class StartedStep : std::uint8_t { None, Renderer, GameHook };
+    enum class StartedStep : std::uint8_t { None, GameHook, Renderer, AssetOverrides, RuntimeSubsystems };
 
     Logger logger{"ModRuntimeLifecycle"};
     Renderer renderer;
-
-    std::atomic<State> state{State::NotStarted};
+    std::atomic<bool> active{false};
     std::atomic<bool> stopRequested{false};
     StartedStep startedStep = StartedStep::None;
-
     std::mutex workerMutex;
     std::thread startupWorker;
 
-    void StopStartedAdapters() noexcept {
-        try {
-            if (startedStep == StartedStep::GameHook) {
-                AIDirector::Get().OnRuntimeShutdown();
-                GameHook::Get().Unhook();
-            }
-            if (startedStep != StartedStep::None) renderer.Cleanup();
-            startedStep = StartedStep::None;
-        } catch (...) {
-            logger.Log("Exception during Mod runtime lifecycle cleanup");
-        }
+    [[nodiscard]] bool StartedAtLeast(StartedStep step) noexcept {
+        return startedStep >= step;
     }
 
-    void MarkStartupFailed(const char* step) noexcept {
+    void ShutdownStarted() noexcept {
+        if (StartedAtLeast(StartedStep::Renderer)) renderer.Cleanup();
+        if (!ConfigManager::Get().Flush()) logger.Log("Deferred configuration could not be flushed during shutdown");
+
+        if (StartedAtLeast(StartedStep::RuntimeSubsystems)) AIDirector::Get().PrepareForRuntimeShutdown();
+
+        if (StartedAtLeast(StartedStep::AssetOverrides) &&
+            !GameHook::Get().ExecuteOnGameThreadAndWait([](const RuntimeContextSnapshot& runtime) {
+                if (StartedAtLeast(StartedStep::RuntimeSubsystems)) {
+                    FreeCameraManager::Get().PrepareForRuntimeShutdown(runtime);
+                    EquipmentApplication::AbortRuntimeTransactionsForShutdown();
+                }
+                AssetOverrideManager::Get().PrepareForRuntimeShutdown();
+            })) {
+            logger.Log("Game-thread runtime cleanup could not be completed");
+        }
+
+        if (StartedAtLeast(StartedStep::GameHook)) {
+            GameHook::Get().Quiesce();
+            if (StartedAtLeast(StartedStep::Renderer)) MapLoaderSection::OnRuntimeShutdown();
+            if (StartedAtLeast(StartedStep::RuntimeSubsystems)) {
+                FreeCameraManager::Get().OnRuntimeShutdown();
+                EquipmentApplication::OnRuntimeShutdown();
+                AIDirector::Get().OnRuntimeShutdown();
+                ActorUtils::OnRuntimeShutdown();
+            }
+            if (StartedAtLeast(StartedStep::Renderer)) KeybindRuntime::OnRuntimeShutdown();
+            if (StartedAtLeast(StartedStep::AssetOverrides)) AssetOverrideManager::Get().Shutdown();
+            GameHook::Get().Unhook();
+        }
+        startedStep = StartedStep::None;
+        active.store(false, std::memory_order_release);
+    }
+
+    [[nodiscard]] bool ContinueStartup(StartedStep completedStep) noexcept {
+        startedStep = completedStep;
+        if (!stopRequested.load(std::memory_order_acquire)) return true;
+        ShutdownStarted();
+        return false;
+    }
+
+    void FailStartup(const char* step) noexcept {
         logger.Log("Startup failed at %s", step);
-        StopStartedAdapters();
-        state.store(State::Failed, std::memory_order_release);
+        ShutdownStarted();
     }
 
     void StartWorker() noexcept {
         try {
-            if (!renderer.Hook()) {
-                MarkStartupFailed("renderer hook");
-                return;
-            }
-            startedStep = StartedStep::Renderer;
-
-            if (stopRequested.load(std::memory_order_acquire)) {
-                StopStartedAdapters();
-                state.store(State::Stopped, std::memory_order_release);
-                return;
-            }
-
             if (!GameHook::Get().Hook()) {
-                MarkStartupFailed("game hook");
+                FailStartup("game hook");
                 return;
             }
-            startedStep = StartedStep::GameHook;
+            if (!ContinueStartup(StartedStep::GameHook)) return;
 
-            if (stopRequested.load(std::memory_order_acquire)) {
-                StopStartedAdapters();
-                state.store(State::Stopped, std::memory_order_release);
+            if (!renderer.Hook()) {
+                FailStartup("renderer hook");
                 return;
             }
+            if (!ContinueStartup(StartedStep::Renderer)) return;
 
             if (!AssetOverrideManager::Get().Initialize()) {
-                MarkStartupFailed("asset overrides");
+                FailStartup("asset overrides");
                 return;
             }
+            if (!ContinueStartup(StartedStep::AssetOverrides)) return;
+
+            FreeCameraManager::Get().OnRuntimeStart();
+            if (!ContinueStartup(StartedStep::RuntimeSubsystems)) return;
         } catch (...) {
-            MarkStartupFailed("startup exception");
+            FailStartup("startup exception");
             return;
         }
 
@@ -85,45 +112,36 @@ namespace {
         } catch (...) {
             logger.Log("Non-critical graphics startup settings failed");
         }
-
-        state.store(State::Running, std::memory_order_release);
     }
 }
 
 void ModRuntimeLifecycle::StartAsync() noexcept {
     std::lock_guard lock(workerMutex);
-
-    const auto current = state.load(std::memory_order_acquire);
-    if (current == State::Starting || current == State::Running || current == State::Stopping) return;
-
+    if (active.load(std::memory_order_acquire)) return;
     if (startupWorker.joinable()) startupWorker.join();
 
     stopRequested.store(false, std::memory_order_release);
     startedStep = StartedStep::None;
-    state.store(State::Starting, std::memory_order_release);
-
+    active.store(true, std::memory_order_release);
     try {
-        startupWorker = std::thread([]() noexcept { StartWorker(); });
+        startupWorker = std::thread(StartWorker);
     } catch (...) {
         logger.Log("Failed to create startup worker");
-        state.store(State::Failed, std::memory_order_release);
+        active.store(false, std::memory_order_release);
     }
 }
 
-void ModRuntimeLifecycle::Stop() noexcept {
-    stopRequested.store(true, std::memory_order_release);
-
-    {
-        std::lock_guard lock(workerMutex);
-        if (startupWorker.joinable()) startupWorker.join();
+bool ModRuntimeLifecycle::Stop() noexcept {
+    if (GameHook::Get().IsGameThread() || renderer.IsInCallback() || Gui::Get().IsInCallback()) {
+        logger.Log("Runtime shutdown must be requested outside game/render/window callbacks");
+        return false;
     }
 
-    const auto current = state.load(std::memory_order_acquire);
-    if (current == State::NotStarted || current == State::Stopped || current == State::Stopping) return;
+    std::lock_guard lock(workerMutex);
+    stopRequested.store(true, std::memory_order_release);
+    if (startupWorker.joinable()) startupWorker.join();
+    if (!active.load(std::memory_order_acquire)) return true;
 
-    if (startedStep == StartedStep::None) return;
-
-    state.store(State::Stopping, std::memory_order_release);
-    StopStartedAdapters();
-    state.store(State::Stopped, std::memory_order_release);
+    ShutdownStarted();
+    return true;
 }
