@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
-#include <format>
+#include <string_view>
 #include <expected>
 #include <optional>
-#include <compare>
 #include <filesystem>
 #include <cstdint>
+
+#include "Version.h"
 
 namespace hse {
 
@@ -20,36 +21,11 @@ namespace hse {
         UpdateFailed = 5
     };
 
-    class Version {
-    public:
-        constexpr Version() noexcept = default;
-        constexpr Version(std::uint16_t major, std::uint16_t minor, std::uint16_t patch) noexcept
-            : major_(major), minor_(minor), patch_(patch) {}
-        explicit Version(std::string_view versionString) noexcept;
-
-        constexpr auto operator<=>(const Version&) const noexcept = default;
-        constexpr bool operator==(const Version&) const noexcept = default;
-
-        [[nodiscard]] std::string ToString() const;
-        [[nodiscard]] constexpr bool IsValid() const noexcept { return major_ > 0 || minor_ > 0 || patch_ > 0; }
-
-        [[nodiscard]] constexpr std::uint16_t major() const noexcept { return major_; }
-        [[nodiscard]] constexpr std::uint16_t minor() const noexcept { return minor_; }
-        [[nodiscard]] constexpr std::uint16_t patch() const noexcept { return patch_; }
-
-    private:
-        std::uint16_t major_ = 0;
-        std::uint16_t minor_ = 0;
-        std::uint16_t patch_ = 0;
-    };
-
     struct UpdateInfo {
         bool available = false;
         Version currentVersion;
         Version remoteVersion;
         std::string downloadUrlLauncher;
-        std::string downloadUrlMod;
-        std::string downloadUrlProxy;
     };
 
 #ifdef EXPERIMENTAL_VERSION
@@ -69,31 +45,24 @@ namespace hse {
 
     class UpdateManager {
     public:
-        UpdateManager() = default;
-        ~UpdateManager() = default;
-        UpdateManager(const UpdateManager&) = delete;
-        UpdateManager& operator=(const UpdateManager&) = delete;
-        UpdateManager(UpdateManager&&) = delete;
-        UpdateManager& operator=(UpdateManager&&) = delete;
-
-        [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion();
-        [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates();
-        [[nodiscard]] std::expected<Version, UpdateError> GetInstalledModVersion(
+        [[nodiscard]] static std::expected<Version, UpdateError> GetLocalVersion();
+        [[nodiscard]] static std::expected<UpdateInfo, UpdateError> CheckForUpdates();
+        [[nodiscard]] static std::expected<Version, UpdateError> GetInstalledModVersion(
             const std::filesystem::path& gameBinPath
         );
-        [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallMod(
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallMod(
             const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
         );
-        [[nodiscard]] std::expected<void, UpdateError> DownloadModToPath(
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadModToPath(
             std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize = 300000
         );
-        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
-            std::string_view downloadUrl, std::string_view timestamp = {}
+        [[nodiscard]] static std::expected<void, UpdateError> UpdateLauncher(
+            std::string_view downloadUrl, const Version& expectedVersion, std::string_view timestamp = {}
         );
 
 #ifdef EXPERIMENTAL_VERSION
-        [[nodiscard]] std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates();
-        [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
+        [[nodiscard]] static std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates();
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
             const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
         );
 #endif
@@ -101,27 +70,23 @@ namespace hse {
     private:
         static constexpr std::string_view GITHUB_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/latest";
-        static constexpr std::string_view TEMP_FOLDER = "temp";
-
 #ifdef EXPERIMENTAL_VERSION
         static constexpr std::string_view GITHUB_EXPERIMENTAL_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/experimental-latest";
 #endif
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
-        [[nodiscard]] std::expected<void, UpdateError> DownloadToTempAndInstall(
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadToTempAndInstall(
             std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
             const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize = 300000
         );
-        [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const;
         [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
             const std::filesystem::path& filePath
         );
-        [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const;
         [[nodiscard]] static std::expected<std::string, UpdateError> ParseJsonStringField(
             std::string_view json, std::string_view fieldName
         );
-        [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const;
+        [[nodiscard]] static std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json);
 
 #ifdef EXPERIMENTAL_VERSION
         struct ExperimentalAssets {
@@ -135,12 +100,6 @@ namespace hse {
 
         [[nodiscard]] static std::expected<ExperimentalAssets, UpdateError> ParseExperimentalAssets(
             std::string_view json
-        );
-        [[nodiscard]] static std::expected<std::string_view, UpdateError> ExtractExperimentalAsset(
-            std::string_view json, std::string_view assetName
-        );
-        [[nodiscard]] static std::expected<void, UpdateError> StoreExperimentalAsset(
-            ExperimentalAssets& assets, std::string_view assetName, std::string_view object
         );
 #endif
     };
