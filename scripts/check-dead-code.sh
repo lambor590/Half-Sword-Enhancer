@@ -16,28 +16,16 @@ SOURCES=(
     "$PROJECT_ROOT/Mod/src/"
     "$PROJECT_ROOT/Mod/include/"
     "$PROJECT_ROOT/Launcher/src/"
+    "$PROJECT_ROOT/Launcher/include/"
     "$PROJECT_ROOT/Proxy/src/"
+    "$PROJECT_ROOT/UE4SSBridge/src/"
 )
-
-EXCLUDES=(
-    "$PROJECT_ROOT/Mod/SDK/"
-    "$PROJECT_ROOT/Mod/ext/"
-    "$PROJECT_ROOT/ext/"
-    "$PROJECT_ROOT/Launcher/ext/"
-    "$PROJECT_ROOT/Proxy/ext/"
-)
-
-EXCLUDE_ARGS=()
-for dir in "${EXCLUDES[@]}"; do
-    EXCLUDE_ARGS+=(-i "$dir")
-done
 
 echo "Running dead code analysis with cppcheck..."
 echo ""
 
 OUTPUT=$(cppcheck \
     "${SOURCES[@]}" \
-    "${EXCLUDE_ARGS[@]}" \
     --enable=unusedFunction \
     --suppress=unusedFunction:*DllMain.cpp \
     --suppress=unusedFunction:*trampolines.asm \
@@ -52,6 +40,12 @@ OUTPUT=$(cppcheck \
     --quiet \
     --template='{file}:{line}: {severity}: {message} [{id}]' \
     2>&1)
+CPPCHECK_EXIT=$?
+if [ "$CPPCHECK_EXIT" -ne 0 ]; then
+    echo "$OUTPUT"
+    exit "$CPPCHECK_EXIT"
+fi
+
 FALSE_POSITIVES=(
     'Mod/src/Override\.cpp:[0-9]+: .*SerializeAll.*\[unusedFunction\]$'
     'Mod/src/Override\.cpp:[0-9]+: .*DeserializeAll.*\[unusedFunction\]$'
@@ -60,19 +54,16 @@ FALSE_POSITIVES=(
 )
 
 for pattern in "${FALSE_POSITIVES[@]}"; do
-    OUTPUT=$(grep -vE "$pattern" <<< "$OUTPUT" || true)
+    OUTPUT=$(grep -vE "$pattern" <<< "$OUTPUT")
 done
 
-WARNINGS=$(echo "$OUTPUT" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
-
-if [ -n "$OUTPUT" ] && [ "$WARNINGS" -gt 0 ]; then
+if [ -n "$OUTPUT" ]; then
     echo "$OUTPUT"
-fi
-
-echo ""
-if [ "$WARNINGS" -gt 0 ]; then
-    echo "WARNING: $WARNINGS dead code issue(s) found"
+    echo ""
+    ISSUES=$(wc -l <<< "$OUTPUT")
+    echo "WARNING: $ISSUES dead-code analysis issue(s) found"
     exit 1
 fi
 
+echo ""
 echo "No dead code issues detected."
