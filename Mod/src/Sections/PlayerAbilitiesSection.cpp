@@ -1,9 +1,9 @@
+#include <array>
 #include <chrono>
 #include <cmath>
 #include <vector>
 
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
-#include "Menu/SectionStyle.h"
 
 #include "SDK/AIModule_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -21,12 +21,69 @@ namespace {
     constexpr double KICK_FOOT_MASS_WEIGHT = 1.0;
     constexpr double KICK_CALF_MASS_WEIGHT = 0.75;
     constexpr double KICK_THIGH_MASS_WEIGHT = 0.35;
-    constexpr double KICK_IMPULSE_TRANSFER_WEIGHTS[] = {0.35, 0.40, 0.25};
-    constexpr double KNOCKBACK_MIN_SPEED = 0.001;
-    constexpr double KNOCKBACK_MIN_SPEED_SQ = KNOCKBACK_MIN_SPEED * KNOCKBACK_MIN_SPEED;
+    constexpr std::array KICK_IMPULSE_TRANSFER_WEIGHTS{0.35, 0.40, 0.25};
+    constexpr double KNOCKBACK_EPSILON = 0.001;
+    constexpr double KNOCKBACK_MIN_SPEED_SQ = KNOCKBACK_EPSILON * KNOCKBACK_EPSILON;
     constexpr double KNOCKBACK_MIN_DISTANCE_SQ = 1.0;
     constexpr auto PUNCH_KNOCKBACK_CONTACT_GAP = std::chrono::milliseconds(150);
     constexpr double PUNCH_KNOCKBACK_RESET_RATIO = 0.35;
+
+    struct BoneControlDefinition {
+        const char* name;
+        const char* tooltip;
+        const char* configSection;
+        int PlayerAbilitiesSection::Config::* key;
+        bool PlayerAbilitiesSection::Config::* blockDislocation;
+        float PlayerAbilitiesSection::Config::* breakStrengthMultiplier;
+        float PlayerAbilitiesSection::Config::* massMultiplier;
+        const char* blockTooltip;
+        const char* strengthTooltip;
+        const char* massTooltip;
+    };
+
+    constexpr std::array BONE_CONTROL_DEFINITIONS{
+        BoneControlDefinition{
+            "Bone Durability",
+            "Make your bones harder or easier to break, prevent dislocations, and change your weight",
+            "BoneControl",
+            &PlayerAbilitiesSection::Config::boneControlKey,
+            &PlayerAbilitiesSection::Config::blockBoneDislocation,
+            &PlayerAbilitiesSection::Config::boneBreakStrengthMultiplier,
+            &PlayerAbilitiesSection::Config::boneMassMultiplier,
+            "Keeps your joints from dislocating",
+            "Controls how easily your bones break",
+            "Controls how heavy you feel during movement, falls, and impacts",
+        },
+        BoneControlDefinition{
+            "Enemy Bone Durability",
+            "Make enemy bones harder or easier to break, prevent dislocations, and change their weight",
+            "EnemyBoneControl",
+            &PlayerAbilitiesSection::Config::enemyBoneControlKey,
+            &PlayerAbilitiesSection::Config::blockEnemyBoneDislocation,
+            &PlayerAbilitiesSection::Config::enemyBoneBreakStrengthMultiplier,
+            &PlayerAbilitiesSection::Config::enemyBoneMassMultiplier,
+            "Keeps enemy joints from dislocating",
+            "Controls how easily enemy bones break",
+            "Controls how heavy enemies feel during movement, falls, and impacts",
+        },
+    };
+
+    constexpr std::array<const char*, 2> BONE_APPLY_HOOKS{"ReceiveTick", "Get Damage"};
+    constexpr std::array<const char*, 11> BONE_BLOCK_HOOKS{
+        "Event Check Bone Dislocation Status",
+        "Break Arm L",
+        "Break Arm R",
+        "Break Leg L",
+        "Break Leg R",
+        "Break Back",
+        "Break Head",
+        "Break L Constraint",
+        "Break R Constraint",
+        "BreakConstraint",
+        "Snap Neck",
+    };
+
+    enum class BoneHookAction : std::uint8_t { MarkSpawned, ApplyPendingMass, BlockDislocation };
 
     struct KickBoneSet {
         SDK::FName foot;
@@ -51,35 +108,35 @@ namespace {
     }
 
     void BoostWeaponKnockback(SDK::AModularWeaponBP_C* weapon, float configuredMultiplier) noexcept {
-        const auto multiplier = static_cast<double>(configuredMultiplier);
-        if (!weapon || multiplier <= 1.0) return;
+        if (!weapon || configuredMultiplier <= 1.0f) return;
 
+        const auto multiplier = static_cast<double>(configuredMultiplier);
         if (weapon->Kick_Power < multiplier) {
             weapon->Kick_Power = multiplier;
         }
     }
 
     const KickBoneSet& KickBones(bool leftKick) {
-        static KickBoneSet left{
+        static const KickBoneSet LEFT{
             SDK::BasicFilesImplUtils::StringToName(L"foot_l"),
             SDK::BasicFilesImplUtils::StringToName(L"calf_l"),
             SDK::BasicFilesImplUtils::StringToName(L"thigh_l"),
         };
-        static KickBoneSet right{
+        static const KickBoneSet RIGHT{
             SDK::BasicFilesImplUtils::StringToName(L"foot_r"),
             SDK::BasicFilesImplUtils::StringToName(L"calf_r"),
             SDK::BasicFilesImplUtils::StringToName(L"thigh_r"),
         };
-        return leftKick ? left : right;
+        return leftKick ? LEFT : RIGHT;
     }
 
     double KickLimbMass(SDK::USkeletalMeshComponent* mesh, bool leftKick) {
         if (!mesh) return 0.0;
 
         const auto& bones = KickBones(leftKick);
-        return static_cast<double>(mesh->GetBoneMass(bones.foot, true)) * KICK_FOOT_MASS_WEIGHT
-             + static_cast<double>(mesh->GetBoneMass(bones.calf, true)) * KICK_CALF_MASS_WEIGHT
-             + static_cast<double>(mesh->GetBoneMass(bones.thigh, true)) * KICK_THIGH_MASS_WEIGHT;
+        return static_cast<double>(mesh->GetBoneMass(bones.foot, true)) * KICK_FOOT_MASS_WEIGHT +
+               static_cast<double>(mesh->GetBoneMass(bones.calf, true)) * KICK_CALF_MASS_WEIGHT +
+               static_cast<double>(mesh->GetBoneMass(bones.thigh, true)) * KICK_THIGH_MASS_WEIGHT;
     }
 
     double BoneMass(SDK::USkeletalMeshComponent* mesh, const SDK::TArray<SDK::FName>& bones) {
@@ -104,7 +161,7 @@ namespace {
         return 0.0;
     }
 
-    bool ComputeKnockbackImpulse(
+    [[nodiscard]] bool ComputeKnockbackImpulse(
         SDK::AWillie_BP_C* attacker, SDK::AWillie_BP_C* target, SDK::UPrimitiveComponent* hitComponent,
         const SDK::FVector& weaponVelocity, const SDK::FVector& impactPoint, const SDK::FName& targetBone,
         double attackerMass, double multiplier, SDK::FVector& impulse
@@ -115,12 +172,12 @@ namespace {
         if (weaponSpeedSq <= KNOCKBACK_MIN_SPEED_SQ) return false;
 
         auto* targetMesh = hitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())
-                             ? static_cast<SDK::USkeletalMeshComponent*>(hitComponent)
-                             : nullptr;
+                               ? static_cast<SDK::USkeletalMeshComponent*>(hitComponent)
+                               : nullptr;
         if (!targetMesh || targetBone.IsNone()) return false;
 
         const double targetMass = targetMesh->GetBoneMass(targetBone, true);
-        if (targetMass <= 0.001 || attackerMass <= 0.001) return false;
+        if (targetMass <= KNOCKBACK_EPSILON || attackerMass <= KNOCKBACK_EPSILON) return false;
 
         auto outwardDirection = target->K2_GetActorLocation() - attacker->K2_GetActorLocation();
         outwardDirection.Z = 0.0;
@@ -134,7 +191,7 @@ namespace {
         const auto relativeVelocity =
             weaponVelocity - targetMesh->GetPhysicsLinearVelocityAtPoint(impactPoint, targetBone);
         const double relativeSpeed = relativeVelocity.Dot(direction);
-        if (relativeSpeed <= 0.001) return false;
+        if (relativeSpeed <= KNOCKBACK_EPSILON) return false;
 
         const double effectiveMass = (attackerMass * targetMass) / (attackerMass + targetMass);
         impulse = direction * (relativeSpeed * effectiveMass * (multiplier - 1.0));
@@ -159,926 +216,863 @@ namespace {
             }
         }
 
-        g_punchKnockbackContacts.push_back(PunchKnockbackContact{
-            .fist = fist,
-            .target = target,
-            .targetBone = targetBone,
-            .lastSeen = now,
-            .appliedImpulse = 0.0,
-        });
+        g_punchKnockbackContacts.push_back(
+            PunchKnockbackContact{
+                .fist = fist,
+                .target = target,
+                .targetBone = targetBone,
+                .lastSeen = now,
+                .appliedImpulse = 0.0,
+            }
+        );
         return &g_punchKnockbackContacts.back();
     }
 
-    constexpr int KickImpulseTransferStepCount() noexcept {
-        return static_cast<int>(sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS) / sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS[0]));
+    template <bool playerScope>
+    [[nodiscard]] BoneControl::Settings BoneSettings(const PlayerAbilitiesSection::Config& cfg, bool active) noexcept {
+        if (!active) return {};
+        if constexpr (playerScope) {
+            return {
+                .blockDislocation = cfg.blockBoneDislocation,
+                .breakStrengthMultiplier = cfg.boneBreakStrengthMultiplier,
+                .massMultiplier = cfg.boneMassMultiplier,
+            };
+        } else {
+            return {
+                .blockDislocation = cfg.blockEnemyBoneDislocation,
+                .breakStrengthMultiplier = cfg.enemyBoneBreakStrengthMultiplier,
+                .massMultiplier = cfg.enemyBoneMassMultiplier,
+            };
+        }
     }
 
+    template <bool playerScope, BoneHookAction action>
+    void HandleBoneControlHook(const PlayerAbilitiesSection::Config& cfg, GameHook::ProcessEventContext& context) {
+        auto* willie = BoneControl::WillieOwner(context.object);
+        if (!BoneControl::MatchesScope(willie, playerScope)) return;
+
+        constexpr bool BLOCK_DISLOCATION = action == BoneHookAction::BlockDislocation;
+        const auto settings = BoneSettings<playerScope>(cfg, true);
+        const bool cancel =
+            BLOCK_DISLOCATION && settings.blockDislocation && BoneControl::ShouldCancelBreak(context, willie);
+        BoneControl::Apply(willie, settings, BLOCK_DISLOCATION);
+
+        if constexpr (action == BoneHookAction::MarkSpawned) {
+            BoneControl::MarkSpawnedWillie(willie);
+        } else if constexpr (action == BoneHookAction::ApplyPendingMass) {
+            BoneControl::ApplyPendingSpawnMass(willie, settings);
+        }
+        if (cancel) context.Cancel();
+    }
+
+    template <bool playerScope>
+    std::vector<KeybindFunctionHook> MakeBoneControlHooks(const PlayerAbilitiesSection::Config* config) {
+        std::vector<KeybindFunctionHook> hooks;
+        hooks.reserve(2 + BONE_APPLY_HOOKS.size() + BONE_BLOCK_HOOKS.size());
+
+        hooks.push_back({
+            .functionName = "ReceiveBeginPlay",
+            .callback = [config](
+                            GameHook::ProcessEventContext& context
+                        ) { HandleBoneControlHook<playerScope, BoneHookAction::MarkSpawned>(*config, context); },
+            .phase = GameHook::HookPhase::After,
+        });
+
+        for (const auto* functionName : BONE_APPLY_HOOKS) {
+            hooks.push_back({
+                .functionName = functionName,
+                .callback = [config](GameHook::ProcessEventContext& context) {
+                    HandleBoneControlHook<playerScope, BoneHookAction::ApplyPendingMass>(*config, context);
+                },
+            });
+        }
+        hooks.push_back({
+            .functionName = "Get Damage",
+            .callback = [config](
+                            GameHook::ProcessEventContext& context
+                        ) { HandleBoneControlHook<playerScope, BoneHookAction::ApplyPendingMass>(*config, context); },
+            .phase = GameHook::HookPhase::After,
+        });
+
+        for (const auto* functionName : BONE_BLOCK_HOOKS) {
+            hooks.push_back({
+                .functionName = functionName,
+                .callback = [config](GameHook::ProcessEventContext& context) {
+                    HandleBoneControlHook<playerScope, BoneHookAction::BlockDislocation>(*config, context);
+                },
+            });
+        }
+        return hooks;
+    }
 }
 
 PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, SECTION) {
+    kickWindows.reserve(4);
+    g_punchKnockbackContacts.reserve(8);
     InitKeybinds();
 }
 
 void PlayerAbilitiesSection::Render() {
-    const SectionStyle::StyleRAII style;
     keybinds.Render();
 }
 
+template <bool playerScope> void PlayerAbilitiesSection::AddBoneControl() {
+    constexpr const auto& DEFINITION = BONE_CONTROL_DEFINITIONS[playerScope ? 0 : 1];
+    keybinds.Add({
+        .name = DEFINITION.name,
+        .tooltip = DEFINITION.tooltip,
+        .configSection = DEFINITION.configSection,
+        .keyPtr = &(cfg.*DEFINITION.key),
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                if (!active) BoneControl::ClearPendingSpawnMass(playerScope);
+                BoneControl::ApplyToScope(runtime, playerScope, BoneSettings<playerScope>(cfg, active));
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .functionHooks = MakeBoneControlHooks<playerScope>(&cfg),
+        .params =
+            {KeybindParam(
+                 "block_dislocation", "Prevent Dislocations", &(cfg.*DEFINITION.blockDislocation),
+                 DEFINITION.blockTooltip
+             ),
+             KeybindParam(
+                 "break_strength_multiplier", "Bone Strength", &(cfg.*DEFINITION.breakStrengthMultiplier), 0.0f, 0.0f,
+                 DEFINITION.strengthTooltip
+             ),
+             KeybindParam(
+                 "mass_multiplier", "Body Weight", &(cfg.*DEFINITION.massMultiplier), 0.0f, 0.0f, DEFINITION.massTooltip
+             )},
+        .group = "Bones & Balance",
+    });
+}
+
+PlayerAbilitiesSection::KickWindow* PlayerAbilitiesSection::FindKickWindow(SDK::AWeapon_Feet_C* foot) noexcept {
+    for (auto& window : kickWindows) {
+        if (window.foot == foot) return &window;
+    }
+    return nullptr;
+}
+
+void PlayerAbilitiesSection::ClearPendingKickImpulse(KickWindow& window) noexcept {
+    window.pendingImpulseComponent = nullptr;
+    window.pendingImpulseStep = 0;
+}
+
+void PlayerAbilitiesSection::ApplyPendingKickImpulse(KickWindow& window) {
+    if (!window.pendingImpulseComponent) return;
+    if (window.pendingImpulseStep >= KICK_IMPULSE_TRANSFER_WEIGHTS.size()) {
+        ClearPendingKickImpulse(window);
+        return;
+    }
+
+    const auto impulse = window.pendingImpulse * KICK_IMPULSE_TRANSFER_WEIGHTS[window.pendingImpulseStep];
+    window.pendingImpulseComponent
+        ->AddImpulseAtLocation(impulse, window.pendingImpulseLocation, window.pendingImpulseBone);
+
+    if (++window.pendingImpulseStep >= KICK_IMPULSE_TRANSFER_WEIGHTS.size()) {
+        ClearPendingKickImpulse(window);
+    }
+}
+
+void PlayerAbilitiesSection::OpenKickWindow(bool leftKick, GameHook::ProcessEventContext& context) {
+    auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                         : nullptr;
+    if (!attacker || (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies)) return;
+
+    const float multiplier = cfg.kickPowerMultiplier;
+    auto* foot = GetKickFoot(attacker, leftKick);
+    if (!foot || multiplier <= 1.0f) return;
+    if (auto* window = FindKickWindow(foot)) {
+        ApplyPendingKickImpulse(*window);
+        return;
+    }
+
+    auto& window = kickWindows.emplace_back();
+    window.foot = foot;
+    window.left = leftKick;
+    if (leftKick) {
+        attacker->Kick_Rate_L *= multiplier;
+    } else {
+        attacker->Kick_Rate_R *= multiplier;
+    }
+    BoostWeaponKnockback(foot, multiplier);
+}
+
+void PlayerAbilitiesSection::CloseKickWindow(bool leftKick, GameHook::ProcessEventContext& context) {
+    auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                         : nullptr;
+    auto* foot = GetKickFoot(attacker, leftKick);
+    std::erase_if(kickWindows, [foot](const KickWindow& window) { return window.foot == foot; });
+}
+
+void PlayerAbilitiesSection::HandleKickHit(GameHook::ProcessEventContext& context) {
+    auto* params = context.Params<
+        SDK::Params::
+            Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
+    if (!params || !params->HitComponent) return;
+
+    auto* target = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                       ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                       : nullptr;
+    auto* foot = params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Feet_C::StaticClass())
+                     ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
+                     : nullptr;
+    auto* attacker = foot ? foot->Parent_Actor : nullptr;
+    if (!foot || !target || !attacker || attacker == target ||
+        (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies))
+        return;
+
+    auto* window = FindKickWindow(foot);
+    if (!window || window->impulseSpent) return;
+
+    const auto targetBone = params->Hit.MyBoneName;
+    SDK::FVector impulse{};
+    if (!ComputeKnockbackImpulse(
+            attacker, target, params->HitComponent, foot->Weapon_Velocity, params->Hit.ImpactPoint, targetBone,
+            KickLimbMass(attacker->Mesh, window->left), static_cast<double>(cfg.kickPowerMultiplier), impulse
+        ))
+        return;
+
+    BoostWeaponKnockback(foot, cfg.kickPowerMultiplier);
+    window->pendingImpulseComponent = params->HitComponent;
+    window->pendingImpulse = impulse;
+    window->pendingImpulseLocation = params->Hit.ImpactPoint;
+    window->pendingImpulseBone = targetBone;
+    window->pendingImpulseStep = 0;
+    ApplyPendingKickImpulse(*window);
+    window->impulseSpent = true;
+}
+
+void PlayerAbilitiesSection::HandlePunchHit(GameHook::ProcessEventContext& context) {
+    auto* params = context.Params<
+        SDK::Params::
+            Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
+    if (!params || !params->HitComponent) return;
+
+    auto* target = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                       ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                       : nullptr;
+    auto* fist = params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Fists_C::StaticClass())
+                     ? static_cast<SDK::AWeapon_Fists_C*>(params->OtherActor)
+                     : nullptr;
+    auto* attacker = fist ? fist->Parent_Actor : nullptr;
+    if (!fist || !target || !attacker || attacker == target ||
+        (!BoneControl::MatchesScope(attacker, true) && !cfg.knockbackAffectsEnemies))
+        return;
+
+    const auto targetBone = params->Hit.MyBoneName;
+    auto* contact = TouchPunchKnockbackContact(fist, target, targetBone);
+    SDK::FVector impulse{};
+    if (!ComputeKnockbackImpulse(
+            attacker, target, params->HitComponent, fist->Weapon_Velocity, params->Hit.ImpactPoint, targetBone,
+            PunchLimbMass(attacker, fist), static_cast<double>(cfg.knockbackMultiplier), impulse
+        )) {
+        if (contact) contact->appliedImpulse = 0.0;
+        return;
+    }
+
+    if (contact) {
+        const double contactImpulse = impulse.Magnitude();
+        if (contact->appliedImpulse > KNOCKBACK_EPSILON &&
+            contactImpulse < contact->appliedImpulse * PUNCH_KNOCKBACK_RESET_RATIO) {
+            contact->appliedImpulse = contactImpulse;
+        }
+
+        const double remainingImpulse = contactImpulse - contact->appliedImpulse;
+        if (remainingImpulse <= KNOCKBACK_EPSILON) return;
+        if (remainingImpulse < contactImpulse) impulse *= remainingImpulse / contactImpulse;
+        contact->appliedImpulse = contactImpulse;
+    }
+
+    BoostWeaponKnockback(fist, cfg.knockbackMultiplier);
+    params->HitComponent->AddImpulseAtLocation(impulse, params->Hit.ImpactPoint, targetBone);
+}
+
+void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runtime) {
+    auto* world = runtime.world;
+    auto* player = runtime.player;
+    auto* controller = runtime.controller;
+    if (!player || !controller || !world) return;
+
+    if (PossessState::lastWorld != world) {
+        PossessState::Reset();
+        PossessState::lastWorld = world;
+    }
+
+    auto* currentPawn = controller->K2_GetPawn();
+    if (PossessState::possessed && currentPawn != PossessState::possessed) [[unlikely]] {
+        PossessState::Reset();
+    }
+
+    if (!PossessState::possessed) [[likely]] {
+        PossessState::originalPawn = currentPawn;
+        auto* nearest = ActorUtils::FindNearestWillie(world, player, player, GameConstants::MAX_DISTANCE);
+        if (!nearest) [[unlikely]]
+            return;
+
+        PossessState::prevController = static_cast<SDK::AAIController*>(nearest->GetController());
+        if (PossessState::prevController) [[likely]] {
+            PossessState::prevController->SetActorTickEnabled(false);
+        }
+        controller->Possess(nearest);
+        nearest->Player = true;
+        PossessState::possessed = nearest;
+        return;
+    }
+
+    auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
+    controller->Possess(PossessState::originalPawn);
+    williePawn->Player = false;
+    if (PossessState::prevController) [[likely]] {
+        PossessState::prevController->Possess(williePawn);
+        PossessState::prevController->SetActorTickEnabled(true);
+    }
+    PossessState::Reset();
+}
+
 void PlayerAbilitiesSection::InitKeybinds() {
-    keybinds.Add(
-        {
-            .name = "Infinite Stamina",
-            .tooltip = "Keeps your stamina bar full at all times",
-            .configSection = "InfiniteStamina",
-            .keyPtr = &cfg.infiniteStaminaKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Stamina = GameConstants::DEFAULT_HEALTH;
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
+    keybinds.Add({
+        .name = "Infinite Stamina",
+        .tooltip = "Keeps your stamina full",
+        .configSection = "InfiniteStamina",
+        .keyPtr = &cfg.infiniteStaminaKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Stamina = GameConstants::DEFAULT_HEALTH;
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Enemy Infinite Stamina",
-            .tooltip = "Keeps enemy stamina full at all times",
-            .configSection = "EnemyInfiniteStamina",
-            .keyPtr = &cfg.enemyInfiniteStaminaKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
-                        willie->Stamina = GameConstants::DEFAULT_HEALTH;
-                    });
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
+    keybinds.Add({
+        .name = "Enemy Infinite Stamina",
+        .tooltip = "Keeps enemy stamina full",
+        .configSection = "EnemyInfiniteStamina",
+        .keyPtr = &cfg.enemyInfiniteStaminaKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
+                    willie->Stamina = GameConstants::DEFAULT_HEALTH;
+                });
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Infinite Consciousness",
-            .tooltip = "Prevents you from losing consciousness, so you can't be knocked out",
-            .configSection = "InfiniteConsciousness",
-            .keyPtr = &cfg.infiniteConsciousnessKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    ActorUtils::SetInfiniteConsciousness(p);
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
+    keybinds.Add({
+        .name = "Knockout Immunity",
+        .tooltip = "Keeps you conscious",
+        .configSection = "InfiniteConsciousness",
+        .keyPtr = &cfg.infiniteConsciousnessKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                ActorUtils::SetInfiniteConsciousness(p);
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Enemy Infinite Consciousness",
-            .tooltip = "Enemies can't be knocked out",
-            .configSection = "EnemyInfiniteConsciousness",
-            .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
+    keybinds.Add({
+        .name = "Enemy Knockout Immunity",
+        .tooltip = "Keeps enemies conscious",
+        .configSection = "EnemyInfiniteConsciousness",
+        .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Consciousness Multiplier",
-            .tooltip = "Multiply your consciousness cap to resist knockouts",
-            .configSection = "ConsciousnessMultiplier",
-            .keyPtr = &cfg.consciousnessMultiplierKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
-                    p->Consciousness_Cap = cap;
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params = {KeybindParam(
-                "consciousness_multiplier", "Multiplier", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
-                "Multiplies consciousness cap"
-            )},
-        }
-    );
+    keybinds.Add({
+        .name = "Knockout Resistance",
+        .tooltip = "Makes you harder to knock out",
+        .configSection = "ConsciousnessMultiplier",
+        .keyPtr = &cfg.consciousnessMultiplierKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
+                p->Consciousness_Cap = cap;
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "consciousness_multiplier", "Resistance", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
+            "Controls how hard you are to knock out"
+        )},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Enemy Consciousness Multiplier",
-            .tooltip = "Multiply enemy consciousness cap to make them harder to knock out",
-            .configSection = "EnemyConsciousnessMultiplier",
-            .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
-                    ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
-                        willie->Consciousness_Cap = cap;
-                    });
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params = {KeybindParam(
-                "enemy_consciousness_multiplier", "Multiplier", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
-                "Multiplies enemy consciousness cap"
-            )},
-        }
-    );
+    keybinds.Add({
+        .name = "Enemy Knockout Resistance",
+        .tooltip = "Makes enemies harder to knock out",
+        .configSection = "EnemyConsciousnessMultiplier",
+        .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
+                ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
+                    willie->Consciousness_Cap = cap;
+                });
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "enemy_consciousness_multiplier", "Resistance", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
+            "Controls how hard enemies are to knock out"
+        )},
+        .group = "Health & Recovery",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Jump",
-            .tooltip = "Jump with configurable force. There's no way to make it more natural, so it will always be a "
-                       "bit floaty.",
-            .configSection = "Jump",
-            .keyPtr = &cfg.jumpKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
-                },
-            .params = {KeybindParam("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")},
-        }
-    );
+    keybinds.Add({
+        .name = "Jump",
+        .tooltip = "Jump into the air",
+        .configSection = "Jump",
+        .keyPtr = &cfg.jumpKey,
+        .callback =
+            [this](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
+            },
+        .params = {KeybindParam("force", "Height", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")},
+        .group = "Movement & Strength",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Speed Multiplier",
-            .tooltip = "Speed multiplier for running and walking. More noticible when you run a long distance.",
-            .configSection = "SpeedMultiplier",
-            .keyPtr = &cfg.playerSpeedKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
-                                                   : GameConstants::DEFAULT_PLAYER_SPEED;
-                    p->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
-                                                    : GameConstants::DEFAULT_PLAYER_SPEED;
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params =
-                {KeybindParam(
-                     "run_speed_multiplier", "Run Speed Multiplier", &cfg.playerRunMultiplier, 1.0f, 100.0f,
-                     "Makes you run faster in a natural way"
-                 ),
-                 KeybindParam(
-                     "walk_speed_multiplier", "Walk Speed Multiplier", &cfg.playerWalkMultiplier, 1.0f, 100.0f,
-                     "Makes you walk faster in a natural way"
-                 )},
-        }
-    );
+    keybinds.Add({
+        .name = "Movement Speed",
+        .tooltip = "Move faster while walking and running",
+        .configSection = "SpeedMultiplier",
+        .keyPtr = &cfg.playerSpeedKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
+                                               : GameConstants::DEFAULT_PLAYER_SPEED;
+                p->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
+                                                : GameConstants::DEFAULT_PLAYER_SPEED;
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "run_speed_multiplier", "Run Speed", &cfg.playerRunMultiplier, 1.0f, 100.0f,
+                 "Controls your running speed"
+             ),
+             KeybindParam(
+                 "walk_speed_multiplier", "Walk Speed", &cfg.playerWalkMultiplier, 1.0f, 100.0f,
+                 "Controls your walking speed"
+             )},
+        .group = "Movement & Strength",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Strength Multiplier",
-            .tooltip = "Strength multiplier for muscle power, grab force and hands rigidity",
-            .configSection = "StrengthMultiplier",
-            .keyPtr = &cfg.playerStrengthKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
-                                             : GameConstants::DEFAULT_MUSCLE_POWER;
-                    p->R_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                                                   : GameConstants::DEFAULT_GRAB_FORCE;
-                    p->L_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                                                   : GameConstants::DEFAULT_GRAB_FORCE;
-                    p->Hands_Rigidity__Gauntlets_ =
-                        active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
-                               : GameConstants::DEFAULT_HANDS_RIGIDITY;
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params =
-                {KeybindParam(
-                     "strength_multiplier", "Strength Multiplier", &cfg.playerStrengthMultiplier, 1.0f, 10.0f,
-                     "Makes your body more rigid and responsive."
-                 ),
-                 KeybindParam(
-                     "grab_force_multiplier", "Grab Force Multiplier", &cfg.playerGrabForceMultiplier, 1.0f, 10.0f,
-                     "Makes it harder for your hands to loose grip."
-                 ),
-                 KeybindParam(
-                     "hands_rigidity_multiplier", "Hands Rigidity Multiplier", &cfg.playerHandsRigidityMultiplier, 1.0f,
-                     10.0f, "Makes your punches hit harder"
-                 )},
-        }
-    );
+    keybinds.Add({
+        .name = "Strength",
+        .tooltip = "Become stronger, hold objects more firmly, and hit harder",
+        .configSection = "StrengthMultiplier",
+        .keyPtr = &cfg.playerStrengthKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
+                                         : GameConstants::DEFAULT_MUSCLE_POWER;
+                p->R_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
+                                               : GameConstants::DEFAULT_GRAB_FORCE;
+                p->L_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
+                                               : GameConstants::DEFAULT_GRAB_FORCE;
+                p->Hands_Rigidity__Gauntlets_ =
+                    active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
+                           : GameConstants::DEFAULT_HANDS_RIGIDITY;
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "strength_multiplier", "Body Strength", &cfg.playerStrengthMultiplier, 1.0f, 10.0f,
+                 "Controls how strong and responsive your body feels"
+             ),
+             KeybindParam(
+                 "grab_force_multiplier", "Grip Strength", &cfg.playerGrabForceMultiplier, 1.0f, 10.0f,
+                 "Controls how firmly you hold objects"
+             ),
+             KeybindParam(
+                 "hands_rigidity_multiplier", "Punch Power", &cfg.playerHandsRigidityMultiplier, 1.0f, 10.0f,
+                 "Controls how hard your punches hit"
+             )},
+        .group = "Movement & Strength",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Custom Body Tonus",
-            .tooltip = "Adjusts muscle tension and prevents body weakening. Heavily affects your movement speed.",
-            .configSection = "CustomBodyTonus",
-            .keyPtr = &cfg.bodyTonusKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * cfg.bodyTonusAllBodyMultiplier;
-                    if (cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
-                        p->Head_Tonus = GameConstants::FULL_TONUS;
-                        p->Arm_L_Tonus = GameConstants::FULL_TONUS;
-                        p->Arm_R_Tonus = GameConstants::FULL_TONUS;
-                        p->Leg_L_Tonus = GameConstants::FULL_TONUS;
-                        p->Leg_R_Tonus = GameConstants::FULL_TONUS;
-                    }
-                },
-            .events = {GameEvent::OffLedge},
-            .params =
-                {KeybindParam(
-                     "all_body", "All Body Tonus Multiplier", &cfg.bodyTonusAllBodyMultiplier, 1.0f, 10.0f,
-                     "Controls overall body muscle tension and strength."
-                 ),
-                 KeybindParam(
-                     "no_body_weakening", "No Body Weakening", &cfg.bodyTonusNoBodyWeakening,
-                     "Prevents body parts from becoming weak or limp when getting hit"
-                 )},
-        }
-    );
-
-    auto boneSettings = [this](bool playerScope, bool active) {
-        if (!active) return BoneControl::Settings{};
-        return BoneControl::Settings{
-            .blockDislocation = playerScope ? cfg.blockBoneDislocation : cfg.blockEnemyBoneDislocation,
-            .breakStrengthMultiplier = playerScope ? cfg.boneBreakStrengthMultiplier
-                                                   : cfg.enemyBoneBreakStrengthMultiplier,
-            .massMultiplier = playerScope ? cfg.boneMassMultiplier : cfg.enemyBoneMassMultiplier,
-        };
-    };
-
-    auto handleBoneControlHook =
-        [boneSettings](bool playerScope, bool cancelDislocationCheck, GameHook::ProcessEventContext& context) {
-        auto* willie = BoneControl::WillieOwner(context.object);
-        if (!BoneControl::MatchesScope(willie, playerScope)) return;
-
-        const auto settings = boneSettings(playerScope, true);
-        const bool willCancel =
-            cancelDislocationCheck && settings.blockDislocation && BoneControl::ShouldCancelBreak(context, willie);
-        BoneControl::Apply(willie, settings, cancelDislocationCheck);
-        if (willCancel) {
-            context.Cancel();
-        }
-    };
-
-    auto markSpawnedWillie = [](bool playerScope, GameHook::ProcessEventContext& context) {
-        auto* willie = BoneControl::WillieOwner(context.object);
-        if (!BoneControl::MatchesScope(willie, playerScope)) return;
-
-        BoneControl::MarkSpawnedWillie(willie);
-    };
-
-    auto applyPendingSpawnMass = [boneSettings](bool playerScope, GameHook::ProcessEventContext& context) {
-        auto* willie = BoneControl::WillieOwner(context.object);
-        if (!BoneControl::MatchesScope(willie, playerScope)) return;
-
-        BoneControl::ApplyPendingSpawnMass(willie, boneSettings(playerScope, true));
-    };
-
-    auto makeBoneControlHooks = [handleBoneControlHook, markSpawnedWillie, applyPendingSpawnMass](bool playerScope) {
-        auto apply = [handleBoneControlHook, applyPendingSpawnMass, playerScope](GameHook::ProcessEventContext& context) {
-            handleBoneControlHook(playerScope, false, context);
-            applyPendingSpawnMass(playerScope, context);
-        };
-        auto applyAndMarkPending = [handleBoneControlHook, markSpawnedWillie,
-                                    playerScope](GameHook::ProcessEventContext& context) {
-            handleBoneControlHook(playerScope, false, context);
-            markSpawnedWillie(playerScope, context);
-        };
-        auto block = [handleBoneControlHook, playerScope](GameHook::ProcessEventContext& context) {
-            handleBoneControlHook(playerScope, true, context);
-        };
-
-        return std::vector<KeybindFunctionHook>{
-            {"ReceiveBeginPlay", applyAndMarkPending, GameHook::HookPhase::After},
-            {"ReceiveTick", apply},
-            {"Get Damage", apply},
-            {"Get Damage", apply, GameHook::HookPhase::After},
-            {"Event Check Bone Dislocation Status", block},
-            {"Break Arm L", block},
-            {"Break Arm R", block},
-            {"Break Leg L", block},
-            {"Break Leg R", block},
-            {"Break Back", block},
-            {"Break Head", block},
-            {"Break L Constraint", block},
-            {"Break R Constraint", block},
-            {"BreakConstraint", block},
-            {"Snap Neck", block},
-        };
-    };
-
-    auto addBoneControl =
-        [&](bool playerScope, const char* name, const char* tooltip, const char* section, int* key, bool* block,
-            float* strength, float* mass, const char* blockTooltip, const char* strengthTooltip,
-            const char* massTooltip) {
-            keybinds.Add(
-                {
-                    .name = name,
-                    .tooltip = tooltip,
-                    .configSection = section,
-                    .keyPtr = key,
-                    .callback =
-                        [boneSettings, playerScope](bool active, const RuntimeContextSnapshot& runtime) {
-                            if (!active) BoneControl::ClearPendingSpawnMass(playerScope);
-                            BoneControl::ApplyToScope(runtime, playerScope, boneSettings(playerScope, active));
-                        },
-                    .runOnToggle = true,
-                    .functionHooks = makeBoneControlHooks(playerScope),
-                    .params =
-                        {KeybindParam("block_dislocation", "Disable Dislocation", block, blockTooltip),
-                         KeybindParam(
-                             "break_strength_multiplier", "Break Strength", strength, 0.0f, 0.0f, strengthTooltip
-                         ),
-                         KeybindParam("mass_multiplier", "Mass Multiplier", mass, 0.0f, 0.0f, massTooltip)},
+    keybinds.Add({
+        .name = "Body Stability",
+        .tooltip = "Stay upright and resist weakened or limp limbs",
+        .configSection = "CustomBodyTonus",
+        .keyPtr = &cfg.bodyTonusKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->All_Body_Tonus =
+                    GameConstants::DEFAULT_ALL_BODY_TONUS * (active ? cfg.bodyTonusAllBodyMultiplier : 1.0f);
+                if (active && cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
+                    p->Head_Tonus = GameConstants::FULL_TONUS;
+                    p->Arm_L_Tonus = GameConstants::FULL_TONUS;
+                    p->Arm_R_Tonus = GameConstants::FULL_TONUS;
+                    p->Leg_L_Tonus = GameConstants::FULL_TONUS;
+                    p->Leg_R_Tonus = GameConstants::FULL_TONUS;
                 }
-            );
-        };
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "all_body", "Stability", &cfg.bodyTonusAllBodyMultiplier, 1.0f, 10.0f,
+                 "Controls how firmly you hold your posture"
+             ),
+             KeybindParam(
+                 "no_body_weakening", "Limb Stability", &cfg.bodyTonusNoBodyWeakening,
+                 "Keeps injured limbs from going limp"
+             )},
+        .group = "Movement & Strength",
+    });
 
-    addBoneControl(
-        true, "Bone Control", "Controls your bone snapping, dislocation resistance, and body mass scaling",
-        "BoneControl", &cfg.boneControlKey, &cfg.blockBoneDislocation, &cfg.boneBreakStrengthMultiplier,
-        &cfg.boneMassMultiplier, "Prevents the bone dislocation check from applying to you",
-        "Multiplies bone break thresholds when Disable Dislocation is off",
-        "Scales physical body mass; high values strongly affect ragdoll and impact behavior"
-    );
-    addBoneControl(
-        false, "Enemy Bone Control", "Controls enemy bone snapping, dislocation resistance, and body mass scaling",
-        "EnemyBoneControl", &cfg.enemyBoneControlKey, &cfg.blockEnemyBoneDislocation,
-        &cfg.enemyBoneBreakStrengthMultiplier, &cfg.enemyBoneMassMultiplier,
-        "Prevents the bone dislocation check from applying to enemies",
-        "Multiplies enemy bone break thresholds when Disable Dislocation is off",
-        "Scales enemy physical body mass; high values strongly affect ragdoll and impact behavior"
-    );
+    AddBoneControl<true>();
+    AddBoneControl<false>();
 
-    keybinds.Add(
-        {
-            .name = "Break Enemy Bones",
-            .tooltip = "Runs the game's bone break functions on all enemies",
-            .configSection = "BreakEnemyBones",
-            .keyPtr = &cfg.enemyBreakBonesKey,
-            .callback =
-                []([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    BoneControl::BreakEnemies(runtime);
+    keybinds.Add({
+        .name = "Break Enemy Bones",
+        .tooltip = "Breaks every enemy's bones",
+        .configSection = "BreakEnemyBones",
+        .keyPtr = &cfg.enemyBreakBonesKey,
+        .callback = [](bool, const RuntimeContextSnapshot& runtime) { BoneControl::BreakEnemies(runtime); },
+        .group = "Bones & Balance",
+        .destructive = true,
+    });
+
+    keybinds.Add({
+        .name = "Ragdoll",
+        .tooltip = "Makes you collapse",
+        .configSection = "Ragdoll",
+        .keyPtr = &cfg.ragdollKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Bones & Balance",
+    });
+
+    keybinds.Add({
+        .name = "Ragdoll Enemies",
+        .tooltip = "Makes enemies collapse",
+        .configSection = "EnemyRagdoll",
+        .keyPtr = &cfg.enemyRagdollKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
+                    willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+                });
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Bones & Balance",
+    });
+
+    keybinds.Add({
+        .name = "Drunk Enemies",
+        .tooltip = "Makes enemies stumble and lose balance",
+        .configSection = "DrunkEnemies",
+        .keyPtr = &cfg.enemyDrunkKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                const double level = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
+                ActorUtils::ForEachWillie(world, player, [level](SDK::AWillie_BP_C* willie) { willie->Drunk = level; });
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "drunk_level", "Intensity", &cfg.enemyDrunkLevel, 0.0f, 1.0f, "Controls how unsteady enemies are"
+        )},
+        .group = "Bones & Balance",
+    });
+
+    keybinds.Add({
+        .name = "Unlimited Kicks",
+        .tooltip = "Kick repeatedly without waiting",
+        .configSection = "NoKickCooldown",
+        .keyPtr = &cfg.noKickCooldownKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Kick_Cooldown = false;
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Combat & Survival",
+    });
+
+    keybinds.Add({
+        .name = "Kick Power",
+        .tooltip = "Send targets farther with your kicks",
+        .configSection = "KickMultiplier",
+        .keyPtr = &cfg.kickMultiplierKey,
+        .kind = KeybindKind::State,
+        .functionHooks =
+            {
+                KeybindFunctionHook{
+                    .functionName = "Kick L Timeline__UpdateFunc",
+                    .callback = [this](GameHook::ProcessEventContext& context) { OpenKickWindow(true, context); },
+                    .phase = GameHook::HookPhase::After,
                 },
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Ragdoll",
-            .tooltip = "Makes character go completely limp and ragdoll",
-            .configSection = "Ragdoll",
-            .keyPtr = &cfg.ragdollKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+                KeybindFunctionHook{
+                    .functionName = "Kick R Timeline__UpdateFunc",
+                    .callback = [this](GameHook::ProcessEventContext& context) { OpenKickWindow(false, context); },
+                    .phase = GameHook::HookPhase::After,
                 },
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Enemy Ragdoll",
-            .tooltip = "Makes all enemies go limp and ragdoll",
-            .configSection = "EnemyRagdoll",
-            .keyPtr = &cfg.enemyRagdollKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
-                        willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
-                    });
+                KeybindFunctionHook{
+                    .functionName = "Kick L Timeline__FinishedFunc",
+                    .callback = [this](GameHook::ProcessEventContext& context) { CloseKickWindow(true, context); },
+                    .phase = GameHook::HookPhase::After,
                 },
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Drunk Enemies",
-            .tooltip = "Makes all enemies stumble around drunk",
-            .configSection = "DrunkEnemies",
-            .keyPtr = &cfg.enemyDrunkKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillie(world, player, [this, active](SDK::AWillie_BP_C* willie) {
-                        willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
-                    });
+                KeybindFunctionHook{
+                    .functionName = "Kick R Timeline__FinishedFunc",
+                    .callback = [this](GameHook::ProcessEventContext& context) { CloseKickWindow(false, context); },
+                    .phase = GameHook::HookPhase::After,
                 },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params = {KeybindParam(
-                "drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
-                "How drunk the enemies are (0 = sober, 1 = fully drunk)"
-            )},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "No Kick Cooldown",
-            .tooltip = "Removes cooldown between kicks for rapid kicking",
-            .configSection = "NoKickCooldown",
-            .keyPtr = &cfg.noKickCooldownKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Kick_Cooldown = false;
+                KeybindFunctionHook{
+                    .functionName = "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_"
+                                    "ComponentHitSignature__DelegateSignature",
+                    .callback = [this](GameHook::ProcessEventContext& context) { HandleKickHit(context); },
                 },
-            .events = {GameEvent::OffLedge},
-        }
-    );
+            },
+        .params =
+            {KeybindParam(
+                 "kick_power_multiplier", "Power", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
+                 "Controls how far your kicks send targets"
+             ),
+             KeybindParam(
+                 "apply_to_enemies", "Strong Enemy Kicks", &cfg.kickMultiplierAffectsEnemies,
+                 "Enemy kicks send targets just as far"
+             )},
+        .group = "Combat & Survival",
+    });
 
-    auto findKickWindow = [this](SDK::AWeapon_Feet_C* foot) -> KickWindow* {
-        for (auto& window : kickWindows) {
-            if (window.foot == foot) return &window;
-        }
-        return nullptr;
-    };
-
-    auto clearPendingKickImpulse = [](KickWindow& window) {
-        window.pendingImpulseComponent = nullptr;
-        window.pendingImpulse = {};
-        window.pendingImpulseLocation = {};
-        window.pendingImpulseBone = {};
-        window.pendingImpulseStep = 0;
-    };
-
-    auto applyPendingKickImpulse = [clearPendingKickImpulse](KickWindow& window) {
-        if (!window.pendingImpulseComponent) return;
-
-        if (window.pendingImpulseStep >= KickImpulseTransferStepCount()) {
-            clearPendingKickImpulse(window);
-            return;
-        }
-
-        const double weight = KICK_IMPULSE_TRANSFER_WEIGHTS[window.pendingImpulseStep];
-        const auto impulse = window.pendingImpulse * weight;
-        window.pendingImpulseComponent->AddImpulseAtLocation(
-            impulse, window.pendingImpulseLocation, window.pendingImpulseBone
-        );
-
-        ++window.pendingImpulseStep;
-        if (window.pendingImpulseStep >= KickImpulseTransferStepCount()) {
-            clearPendingKickImpulse(window);
-        }
-    };
-
-    auto openKickWindow = [this, findKickWindow, applyPendingKickImpulse](
-                              bool leftKick, GameHook::ProcessEventContext& context
-                          ) {
-        auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                           ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                           : nullptr;
-        if (!attacker) return;
-        if (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies) return;
-
-        const float multiplier = cfg.kickPowerMultiplier;
-        auto* foot = GetKickFoot(attacker, leftKick);
-        if (!foot || multiplier <= 1.0f) return;
-        if (auto* window = findKickWindow(foot)) {
-            applyPendingKickImpulse(*window);
-            return;
-        }
-
-        auto& window = kickWindows.emplace_back();
-        window.foot = foot;
-        window.left = leftKick;
-        window.impulseSpent = false;
-        if (leftKick) {
-            attacker->Kick_Rate_L *= multiplier;
-        } else {
-            attacker->Kick_Rate_R *= multiplier;
-        }
-        BoostWeaponKnockback(foot, multiplier);
-    };
-
-    auto closeKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
-        auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                           ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                           : nullptr;
-        auto* foot = GetKickFoot(attacker, leftKick);
-        std::erase_if(kickWindows, [foot](const KickWindow& window) { return window.foot == foot; });
-    };
-
-    keybinds.Add(
-        {
-            .name = "Kick Multiplier",
-            .tooltip = "Multiplies the physical impulse applied by kicks",
-            .configSection = "KickMultiplier",
-            .keyPtr = &cfg.kickMultiplierKey,
-            .functionHooks =
-                {
-                    KeybindFunctionHook{
-                        .functionName = "Kick L Timeline__UpdateFunc",
-                        .callback =
-                            [openKickWindow](GameHook::ProcessEventContext& context) {
-                                openKickWindow(true, context);
-                            },
-                        .phase = GameHook::HookPhase::After,
-                    },
-                    KeybindFunctionHook{
-                        .functionName = "Kick R Timeline__UpdateFunc",
-                        .callback =
-                            [openKickWindow](GameHook::ProcessEventContext& context) {
-                                openKickWindow(false, context);
-                            },
-                        .phase = GameHook::HookPhase::After,
-                    },
-                    KeybindFunctionHook{
-                        .functionName = "Kick L Timeline__FinishedFunc",
-                        .callback =
-                            [closeKickWindow](GameHook::ProcessEventContext& context) {
-                                closeKickWindow(true, context);
-                            },
-                        .phase = GameHook::HookPhase::After,
-                    },
-                    KeybindFunctionHook{
-                        .functionName = "Kick R Timeline__FinishedFunc",
-                        .callback =
-                            [closeKickWindow](GameHook::ProcessEventContext& context) {
-                                closeKickWindow(false, context);
-                            },
-                        .phase = GameHook::HookPhase::After,
-                    },
-                    KeybindFunctionHook{
-                        .functionName =
-                            "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
-                        .callback =
-                            [this, findKickWindow, applyPendingKickImpulse](GameHook::ProcessEventContext& context) {
-                                auto* params = context.Params<
-                                    SDK::Params::
-                                        Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
-                                if (!params || !params->HitComponent) return;
-
-                                auto* target =
-                                    context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                                        ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                                        : nullptr;
-
-                                auto* foot =
-                                    params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Feet_C::StaticClass())
-                                        ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
-                                        : nullptr;
-                                auto* attacker = foot ? foot->Parent_Actor : nullptr;
-                                if (!foot || !target || !attacker || attacker == target) return;
-                                if (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies)
-                                    return;
-
-                                auto* window = findKickWindow(foot);
-                                if (!window || window->impulseSpent) return;
-
-                                const auto targetBone = params->Hit.MyBoneName;
-                                const double attackerMass = KickLimbMass(attacker->Mesh, window->left);
-                                SDK::FVector impulse{};
-                                if (!ComputeKnockbackImpulse(
-                                        attacker, target, params->HitComponent, foot->Weapon_Velocity,
-                                        params->Hit.ImpactPoint, targetBone, attackerMass,
-                                        static_cast<double>(cfg.kickPowerMultiplier), impulse
-                                    ))
-                                    return;
-
-                                BoostWeaponKnockback(foot, cfg.kickPowerMultiplier);
-                                window->pendingImpulseComponent = params->HitComponent;
-                                window->pendingImpulse = impulse;
-                                window->pendingImpulseLocation = params->Hit.ImpactPoint;
-                                window->pendingImpulseBone = targetBone;
-                                window->pendingImpulseStep = 0;
-                                applyPendingKickImpulse(*window);
-                                window->impulseSpent = true;
-                            },
-                    },
+    keybinds.Add({
+        .name = "Punch Power",
+        .tooltip = "Send targets farther with your punches",
+        .configSection = "KnockbackMultiplier",
+        .keyPtr = &cfg.knockbackMultiplierKey,
+        .kind = KeybindKind::State,
+        .functionHooks =
+            {
+                KeybindFunctionHook{
+                    .functionName = "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_"
+                                    "ComponentHitSignature__DelegateSignature",
+                    .callback = [this](GameHook::ProcessEventContext& context) { HandlePunchHit(context); },
                 },
-            .params =
-                {KeybindParam(
-                     "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
-                     "Multiplies the mass-aware physical impulse applied by kicks"
-                 ),
-                 KeybindParam(
-                     "apply_to_enemies", "Apply To Enemies", &cfg.kickMultiplierAffectsEnemies,
-                     "Lets enemy kicks use this multiplier too"
-                 )},
-        }
-    );
+            },
+        .params =
+            {KeybindParam(
+                 "knockback_multiplier", "Power", &cfg.knockbackMultiplier, 1.0f, 100.0f,
+                 "Controls how far your punches send targets"
+             ),
+             KeybindParam(
+                 "apply_to_enemies", "Strong Enemy Punches", &cfg.knockbackAffectsEnemies,
+                 "Enemy punches send targets just as far"
+             )},
+        .group = "Combat & Survival",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Knockback Multiplier",
-            .tooltip = "Multiplies the physical impulse applied by punches",
-            .configSection = "KnockbackMultiplier",
-            .keyPtr = &cfg.knockbackMultiplierKey,
-            .functionHooks =
-                {
-                    KeybindFunctionHook{
-                        .functionName =
-                            "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
-                        .callback =
-                            [this](GameHook::ProcessEventContext& context) {
-                                auto* params = context.Params<
-                                    SDK::Params::
-                                        Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
-                                if (!params || !params->HitComponent) return;
+    keybinds.Add({
+        .name = "Invulnerability",
+        .tooltip = "Take no damage",
+        .configSection = "Invulnerability",
+        .keyPtr = &cfg.invulnerabilityKey,
+        .callback =
+            [](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->BitPad_5C_0 = active;
+                p->Invulnerable = active;
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .group = "Combat & Survival",
+    });
 
-                                auto* target =
-                                    context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                                        ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                                        : nullptr;
-                                auto* fist =
-                                    params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Fists_C::StaticClass())
-                                        ? static_cast<SDK::AWeapon_Fists_C*>(params->OtherActor)
-                                        : nullptr;
-                                auto* attacker = fist ? fist->Parent_Actor : nullptr;
-                                if (!fist || !target || !attacker || attacker == target) return;
-                                if (!BoneControl::MatchesScope(attacker, true) && !cfg.knockbackAffectsEnemies) return;
+    keybinds.Add({
+        .name = "Full Recovery",
+        .tooltip = "Keeps you healthy, conscious, and free of pain and broken bones",
+        .configSection = "NoPain",
+        .keyPtr = &cfg.noPainKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                ActorUtils::ApplyNoPainEffect(p);
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Combat & Survival",
+    });
 
-                                const auto targetBone = params->Hit.MyBoneName;
-                                auto* contact = TouchPunchKnockbackContact(fist, target, targetBone);
-                                const double fistMass = PunchLimbMass(attacker, fist);
-                                SDK::FVector impulse{};
-                                if (!ComputeKnockbackImpulse(
-                                        attacker, target, params->HitComponent, fist->Weapon_Velocity,
-                                        params->Hit.ImpactPoint, targetBone, fistMass,
-                                        static_cast<double>(cfg.knockbackMultiplier), impulse
-                                    )) {
-                                    if (contact) contact->appliedImpulse = 0.0;
-                                    return;
-                                }
+    keybinds.Add({
+        .name = "Enemy Full Recovery",
+        .tooltip = "Keeps enemies healthy, conscious, and free of pain and broken bones",
+        .configSection = "EnemyNoPain",
+        .keyPtr = &cfg.enemyNoPainKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
+            },
+        .kind = KeybindKind::State,
+        .events = {GameEvent::OffLedge},
+        .group = "Combat & Survival",
+    });
 
-                                if (contact) {
-                                    const double contactImpulse = impulse.Magnitude();
-                                    if (contact->appliedImpulse > 0.001
-                                        && contactImpulse < contact->appliedImpulse * PUNCH_KNOCKBACK_RESET_RATIO) {
-                                        contact->appliedImpulse = contactImpulse;
-                                    }
+    keybinds.Add({
+        .name = "Stand Up",
+        .tooltip = "Stand up immediately",
+        .configSection = "GetUp",
+        .keyPtr = &cfg.getUpKey,
+        .callback =
+            [](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                p->Get_Up_Rate = GameConstants::GET_UP_RATE;
+            },
+        .group = "Special Abilities",
+    });
 
-                                    const double remainingImpulse = contactImpulse - contact->appliedImpulse;
-                                    if (remainingImpulse <= 0.001) {
-                                        return;
-                                    }
+    keybinds.Add({
+        .name = "Dash",
+        .tooltip = "Surge forward",
+        .configSection = "Dash",
+        .keyPtr = &cfg.dashKey,
+        .callback =
+            [this](bool, const RuntimeContextSnapshot& runtime) {
+                auto* p = runtime.player;
+                if (!p) return;
+                SDK::FVector forwardVector = p->GetActorForwardVector();
+                p->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
+            },
+        .params = {KeybindParam("force", "Speed", &cfg.dashForce, 1000.0f, 10000.0f, "Controls how fast you dash")},
+        .group = "Special Abilities",
+    });
 
-                                    if (remainingImpulse < contactImpulse) {
-                                        impulse *= remainingImpulse / contactImpulse;
-                                    }
-                                    contact->appliedImpulse = contactImpulse;
-                                }
+    keybinds.Add({
+        .name = "Bite",
+        .tooltip = "Bite nearby targets",
+        .configSection = "BiteAttack",
+        .keyPtr = &cfg.biteAttackKey,
+        .callback = [](bool active,
+                       const RuntimeContextSnapshot& runtime) { ActorUtils::ApplyBiteState(runtime.player, active); },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .group = "Special Abilities",
+    });
 
-                                BoostWeaponKnockback(fist, cfg.knockbackMultiplier);
-
-                                params->HitComponent->AddImpulseAtLocation(
-                                    impulse, params->Hit.ImpactPoint, targetBone
-                                );
-                            },
-                    },
-                },
-            .params =
-                {KeybindParam(
-                     "knockback_multiplier", "Multiplier", &cfg.knockbackMultiplier, 1.0f, 100.0f,
-                     "Multiplies the physical impulse applied by punches"
-                 ),
-                 KeybindParam(
-                     "apply_to_enemies", "Apply To Enemies", &cfg.knockbackAffectsEnemies,
-                     "Lets enemy punches use this multiplier too"
-                 )},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Invulnerability",
-            .tooltip = "Makes you immune to all damage like a god",
-            .configSection = "Invulnerability",
-            .keyPtr = &cfg.invulnerabilityKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->BitPad_5C_0 = active;
-                    p->Invulnerable = active;
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "No Pain",
-            .tooltip = "Makes you immune to pain and removes all pain effects",
-            .configSection = "NoPain",
-            .keyPtr = &cfg.noPainKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    ActorUtils::ApplyNoPainEffect(p);
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Enemy No Pain",
-            .tooltip = "Makes all enemies immune to pain and removes their pain effects",
-            .configSection = "EnemyNoPain",
-            .keyPtr = &cfg.enemyNoPainKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
-                },
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Get Up",
-            .tooltip = "Forces you to stand up when knocked down",
-            .configSection = "GetUp",
-            .keyPtr = &cfg.getUpKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    p->Get_Up_Rate = GameConstants::GET_UP_RATE;
-                },
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Dash",
-            .tooltip = "Dash forward with configurable force",
-            .configSection = "Dash",
-            .keyPtr = &cfg.dashKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* p = runtime.player;
-                    if (!p) return;
-                    SDK::FVector forwardVector = p->GetActorForwardVector();
-                    p->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
-                },
-            .params = {KeybindParam("force", "Force", &cfg.dashForce, 1000.0f, 10000.0f, "Controls how fast you dash")},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Bite Attack",
-            .tooltip = "Bite the nearest enemy like a zombie",
-            .configSection = "BiteAttack",
-            .keyPtr = &cfg.biteAttackKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    ActorUtils::ApplyBiteState(runtime.player, active);
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Enemy Bite",
-            .tooltip = "Make the nearest enemy bite another enemy",
-            .configSection = "EnemyBite",
-            .keyPtr = &cfg.enemyBiteKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    if (active) {
-                        ActorUtils::ApplyBiteState(
-                            ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange), true
-                        );
-                        return;
-                    }
-                    ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
-                        ActorUtils::ApplyBiteState(willie, false);
-                    });
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params =
-                {KeybindParam("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target")},
-        }
-    );
-
-    keybinds.Add(
-        {
-            .name = "Enemy Bite All",
-            .tooltip = "Make all enemies within range bite each other",
-            .configSection = "EnemyBiteAll",
-            .keyPtr = &cfg.enemyBiteAllKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    if (!player || !world) return;
-                    ActorUtils::ForEachWillieInRadius(
-                        world, player, cfg.biteAllRange,
-                        [active](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, active); }
+    keybinds.Add({
+        .name = "Nearest Enemy Bites",
+        .tooltip = "Makes the nearest enemy bite",
+        .configSection = "EnemyBite",
+        .keyPtr = &cfg.enemyBiteKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                if (active) {
+                    ActorUtils::ApplyBiteState(
+                        ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange), true
                     );
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-            .params =
-                {KeybindParam("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite")},
-        }
-    );
+                    return;
+                }
+                ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
+                    ActorUtils::ApplyBiteState(willie, false);
+                });
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params =
+            {KeybindParam("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Controls how far away the enemy can be")},
+        .group = "Special Abilities",
+    });
 
-    keybinds.Add(
-        {
-            .name = "Possess Nearest Willie",
-            .tooltip = "Take control of the closest NPC",
-            .configSection = "PossessNearestWillie",
-            .keyPtr = &cfg.possessWillieKey,
-            .callback =
-                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                    auto* world = runtime.world;
-                    auto* player = runtime.player;
-                    auto* controller = runtime.controller;
-                    if (!player || !controller || !world) return;
+    keybinds.Add({
+        .name = "Nearby Enemies Bite",
+        .tooltip = "Makes nearby enemies bite",
+        .configSection = "EnemyBiteAll",
+        .keyPtr = &cfg.enemyBiteAllKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* world = runtime.world;
+                auto* player = runtime.player;
+                if (!player || !world) return;
+                ActorUtils::ForEachWillieInRadius(world, player, cfg.biteAllRange, [active](SDK::AWillie_BP_C* willie) {
+                    ActorUtils::ApplyBiteState(willie, active);
+                });
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .params =
+            {KeybindParam("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Controls how far away enemies can be")},
+        .group = "Special Abilities",
+    });
 
-                    if (PossessState::lastWorld != world) {
-                        PossessState::Reset();
-                        PossessState::lastWorld = world;
-                    }
-
-                    SDK::APawn* currentPawn = controller->K2_GetPawn();
-                    if (PossessState::possessed && currentPawn != PossessState::possessed) [[unlikely]] {
-                        PossessState::Reset();
-                    }
-
-                    if (!PossessState::possessed) [[likely]] {
-                        PossessState::originalPawn = currentPawn;
-                        SDK::AWillie_BP_C* nearest = nullptr;
-                        float minDist = GameConstants::MAX_DISTANCE;
-
-                        ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
-                            const float dist = player->GetDistanceTo(willie);
-                            if (dist < minDist) {
-                                minDist = dist;
-                                nearest = willie;
-                            }
-                        });
-
-                        if (!nearest) [[unlikely]]
-                            return;
-
-                        if (nearest->IsA(SDK::AWillie_BP_C::StaticClass())) [[likely]] {
-                            PossessState::prevController = static_cast<SDK::AAIController*>(nearest->GetController());
-                            if (PossessState::prevController) [[likely]] {
-                                PossessState::prevController->SetActorTickEnabled(false);
-                            }
-                        }
-                        controller->Possess(nearest);
-                        nearest->Player = true;
-                        PossessState::possessed = nearest;
-                    } else {
-                        auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
-                        controller->Possess(PossessState::originalPawn);
-                        williePawn->Player = false;
-                        if (PossessState::prevController) [[likely]] {
-                            PossessState::prevController->Possess(williePawn);
-                            PossessState::prevController->SetActorTickEnabled(true);
-                        }
-                        PossessState::Reset();
-                    }
-                },
-        }
-    );
+    keybinds.Add({
+        .name = "Control Nearest NPC",
+        .tooltip = "Take control of the nearest NPC; use it again to return",
+        .configSection = "PossessNearestWillie",
+        .keyPtr = &cfg.possessWillieKey,
+        .callback = [](bool, const RuntimeContextSnapshot& runtime) { TogglePossession(runtime); },
+        .group = "Special Abilities",
+    });
 }
