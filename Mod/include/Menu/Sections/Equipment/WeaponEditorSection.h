@@ -1,11 +1,14 @@
 #pragma once
 
-#include <vector>
+#include <atomic>
+#include <cstdint>
+#include <mutex>
+#include <optional>
 #include <string>
 #include <string_view>
-#include <atomic>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
@@ -24,7 +27,9 @@ namespace SDK {
 
 class WeaponEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::Equipment, "Weapon Editor"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::Equipment, "Weapon Editor", "Create weapons with the shape, weight, appearance, and power you want."
+    };
 
     struct Config {
         int weaponType = 1;
@@ -45,8 +50,14 @@ private:
     KeybindList keybinds;
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     WeaponClassPaths weaponPaths{};
-    bool weaponGenerationPending = false;
+    std::string gripMeshPath;
+    int coaInt = 0;
+    std::string deferredWeaponName;
+    std::atomic<bool> weaponGenerationPending{false};
     bool modulePoolQueued = false;
+    std::atomic<std::uint64_t> draftRevision{0};
+    std::uint64_t renderDraftRevision = 0;
+    std::uint64_t pendingPresetApplyRevision = 0;
 
     using WeaponRuntimeProps = WeaponPresetData::WeaponRuntimeProps;
 
@@ -88,11 +99,27 @@ private:
     struct MeshOverride : MeshOverrideSettings {
         SDK::UObject* mesh = nullptr;
         int poolIndex = -1;
+        std::string path;
     };
 
     struct MeshSnapshot {
         MeshOverride slots[MODULE_SLOT_COUNT];
     };
+
+    struct SpawnDraftSnapshot {
+        SpawnConfig spawn;
+        SDK::FStr_Passport_Weapon1 passport{};
+        WeaponClassPaths classPaths;
+        std::string deferredName;
+        WeaponRuntimeProps runtime;
+        MeshSnapshot meshes;
+        bool hasRuntimeOverrides = false;
+        bool hasMeshOverrides = false;
+    };
+
+    std::mutex spawnDraftMutex;
+    SpawnDraftSnapshot publishedSpawnDraft;
+    std::uint64_t publishedSpawnDraftRevision = 0;
 
     std::vector<MeshPoolEntry> meshPool;
     std::unordered_map<std::string, int> meshPathIndex;
@@ -103,10 +130,35 @@ private:
     int staticMeshCount = 0;
     int skeletalMeshCount = 0;
 
-    std::vector<MeshPoolEntry> pendingMeshEntries;
-    std::atomic<bool> meshPendingReady{false};
-    std::atomic<bool> meshResolvePending{false};
-    bool meshPendingIsFullReplace = false;
+    struct PendingMeshBatch {
+        std::vector<MeshPoolEntry> entries;
+        bool fullReplace = false;
+    };
+
+    struct PendingDraftUpdate {
+        std::uint64_t revision = 0;
+        WeaponPresetData data;
+        SDK::UObject* loadedMeshes[MODULE_SLOT_COUNT] = {};
+        bool replaceAll = false;
+        bool completesPresetApply = false;
+    };
+
+    struct PendingStatus {
+        std::string message;
+        bool isError = false;
+        std::uint64_t revision = 0;
+        bool completesPresetApply = false;
+    };
+
+    struct PendingRenderUpdates {
+        std::optional<PendingDraftUpdate> draft;
+        std::vector<PendingMeshBatch> meshBatches;
+        std::vector<PendingStatus> statuses;
+    };
+
+    std::mutex pendingRenderMutex;
+    PendingRenderUpdates pendingRenderUpdates;
+    std::atomic<bool> pendingRenderReady{false};
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     std::vector<int> filteredMeshIndices;
     uint32_t meshPoolVersion = 0;
@@ -115,6 +167,7 @@ private:
     char assetPathBuf[256] = {};
 
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];
+    std::mutex skeletalPreviewMutex;
     SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
@@ -134,14 +187,17 @@ private:
         SDK::USkeletalMeshComponent** outSkeletalComps = nullptr, bool enableSkeletalCollision = false
     );
     MeshSnapshot BuildMeshSnapshot() const;
-    void ApplyMeshToPreview();
+    SpawnDraftSnapshot BuildSpawnDraftSnapshot() const;
+    void PublishSpawnDraftSnapshot();
+    bool PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update);
+    void ApplyMeshToPreview(const MeshSnapshot& snapshot);
     void ResetWeaponPassport();
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
     void GenerateWeaponPassport();
     void RandomizeWeaponPassport();
-    void ApplyOverridesToActor(SDK::AActor* actor) const;
     void SpawnPreview();
     void SpawnWeapon();
+    void SpawnWeapon(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft);
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f);
     static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f);
     void RenderWeaponTypeCombo();
@@ -153,15 +209,20 @@ private:
     void RenderAppearanceTab();
     void RenderMeshTransformControls(MeshOverride& ovr);
     void RenderMeshCombo(int slotIdx);
-    void DrainPendingMeshEntries();
+    void PublishMeshEntries(std::vector<MeshPoolEntry> entries, bool fullReplace);
+    void PublishDraftUpdate(PendingDraftUpdate update);
+    void PublishStatus(
+        std::string message, bool isError = false, std::uint64_t revision = 0, bool completesPresetApply = false
+    );
+    void DrainPendingRenderUpdates();
+    void ApplyDraftUpdate(PendingDraftUpdate update);
     void RebuildMeshDisplayCache();
-    int FindMeshPoolIndexByPath(const std::string& path) const;
     int FindMeshPoolIndexByObject(SDK::UObject* mesh) const;
     void ResolveMeshOverrideIndices();
     void RenderMeshTab();
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;
-    void ApplyPresetData(WeaponPresetData d);
+    PresetApplyDisposition ApplyPresetData(const WeaponPresetData& data);
     void SetStatus(const std::string& msg, bool isError = false);
     void RenderSpawnFooter();
     void InitKeybinds();
