@@ -6,18 +6,14 @@
 
 using namespace Microsoft::WRL;
 
+thread_local std::uint32_t Renderer::currentCallbackDepth = 0;
+
 namespace {
     constexpr int VMT_PRESENT_OFFSET = 8;
     constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
     constexpr int VMT_RESIZE_BUFFERS1_OFFSET = 39;
     constexpr int VMT_CREATE_SWAP_CHAIN_OFFSET = 10;
     constexpr int VMT_CREATE_SWAP_CHAIN_FOR_HWND_OFFSET = 15;
-    constexpr size_t PTR_SIZE = sizeof(size_t);
-
-    constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
-    constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
-    constexpr size_t VMT_RESIZE_BUFFERS1_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS1_OFFSET;
-    constexpr UINT D3D12_SRV_DESCRIPTOR_COUNT = 64;
     constexpr UINT D3D12_SKIP_LOG_LIMIT = 8;
     constexpr UINT SYNC_TIMEOUT_MS = 500;
     constexpr UINT64 FENCE_INCREMENT = 1;
@@ -69,17 +65,26 @@ namespace {
 }
 
 HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
-    g_Renderer->OnPresent(pThis, flags);
-    return std::bit_cast<Present>(g_Renderer->presentReturnAddress)(pThis, syncInterval, flags);
+    auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
+    if (callback.DispatchHooks()) renderer.OnPresent(pThis, flags);
+    const auto original =
+        std::bit_cast<Present>(renderer.presentReturnAddress ? renderer.presentReturnAddress : renderer.presentAddress);
+    return original ? original(pThis, syncInterval, flags) : E_FAIL;
 }
 
 HRESULT __fastcall HookOnResizeBuffers(
     IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
 ) noexcept {
-    g_Renderer->BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    const HRESULT result = std::bit_cast<ResizeBuffers>(g_Renderer->resizeBuffersReturnAddress
-    )(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    g_Renderer->AfterResizeBuffers(width, height, result);
+    auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
+    if (callback.DispatchHooks())
+        renderer.BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    const auto original = std::bit_cast<ResizeBuffers>(
+        renderer.resizeBuffersReturnAddress ? renderer.resizeBuffersReturnAddress : renderer.resizeBuffersAddress
+    );
+    const HRESULT result = original ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags) : E_FAIL;
+    if (callback.DispatchHooks()) renderer.AfterResizeBuffers(width, height, result);
     return result;
 }
 
@@ -87,22 +92,34 @@ HRESULT __fastcall HookOnResizeBuffers1(
     IDXGISwapChain3* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags,
     const UINT* creationNodeMask, IUnknown* const* presentQueue
 ) noexcept {
-    g_Renderer->BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    const HRESULT result = std::bit_cast<ResizeBuffers1>(g_Renderer->resizeBuffers1ReturnAddress
-    )(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue);
-    if (SUCCEEDED(result) && presentQueue && bufferCount > 0) {
-        g_Renderer->CaptureCommandQueue(presentQueue[0]);
+    auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
+    if (callback.DispatchHooks())
+        renderer.BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    const auto original = std::bit_cast<ResizeBuffers1>(
+        renderer.resizeBuffers1ReturnAddress ? renderer.resizeBuffers1ReturnAddress : renderer.resizeBuffers1Address
+    );
+    const HRESULT result =
+        original
+            ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue)
+            : E_FAIL;
+    if (callback.DispatchHooks() && SUCCEEDED(result) && presentQueue && bufferCount > 0) {
+        renderer.CaptureCommandQueue(presentQueue[0]);
     }
-    g_Renderer->AfterResizeBuffers(width, height, result);
+    if (callback.DispatchHooks()) renderer.AfterResizeBuffers(width, height, result);
     return result;
 }
 
 HRESULT __fastcall HookOnCreateSwapChain(
     IDXGIFactory* pThis, IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain
 ) noexcept {
-    const HRESULT result = std::bit_cast<CreateSwapChain>(g_Renderer->createSwapChainReturnAddress
-    )(pThis, pDevice, pDesc, ppSwapChain);
-    if (SUCCEEDED(result)) g_Renderer->CaptureCommandQueue(pDevice);
+    auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
+    const auto original = std::bit_cast<CreateSwapChain>(
+        renderer.createSwapChainReturnAddress ? renderer.createSwapChainReturnAddress : renderer.createSwapChainAddress
+    );
+    const HRESULT result = original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
+    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
 }
 
@@ -111,9 +128,15 @@ HRESULT __fastcall HookOnCreateSwapChainForHwnd(
     const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* pFullscreenDesc, IDXGIOutput* pRestrictToOutput,
     IDXGISwapChain1** ppSwapChain
 ) noexcept {
-    const HRESULT result = std::bit_cast<CreateSwapChainForHwnd>(g_Renderer->createSwapChainForHwndReturnAddress
-    )(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain);
-    if (SUCCEEDED(result)) g_Renderer->CaptureCommandQueue(pDevice);
+    auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
+    const auto original = std::bit_cast<CreateSwapChainForHwnd>(
+        renderer.createSwapChainForHwndReturnAddress ? renderer.createSwapChainForHwndReturnAddress
+                                                     : renderer.createSwapChainForHwndAddress
+    );
+    const HRESULT result =
+        original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain) : E_FAIL;
+    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
 }
 
@@ -124,20 +147,127 @@ static inline void GetWindowDimensions(HWND handle, int& width, int& height) noe
     height = clientRect.bottom - clientRect.top;
 }
 
+bool Renderer::BeginCallback() noexcept {
+    auto callback = callbackState.load(std::memory_order_acquire);
+    for (;;) {
+        if ((callback & CALLBACK_COUNT_MASK) == CALLBACK_COUNT_MASK) {
+            callbackState.wait(callback, std::memory_order_acquire);
+            callback = callbackState.load(std::memory_order_acquire);
+            continue;
+        }
+        if (callbackState
+                .compare_exchange_weak(callback, callback + 1, std::memory_order_acq_rel, std::memory_order_acquire)) {
+            callback += 1;
+            auto phase = CallbackPhaseOf(callback);
+            while (phase == CallbackPhase::Exclusive || phase == CallbackPhase::Installing) {
+                callbackState.wait(callback, std::memory_order_acquire);
+                callback = callbackState.load(std::memory_order_acquire);
+                phase = CallbackPhaseOf(callback);
+            }
+            return phase == CallbackPhase::Running;
+        }
+    }
+}
+
+void Renderer::EndCallback() noexcept {
+    callbackState.fetch_sub(1, std::memory_order_acq_rel);
+    callbackState.notify_all();
+}
+
+void Renderer::TransitionCallbackPhase(CallbackPhase phase) noexcept {
+    auto callback = callbackState.load(std::memory_order_acquire);
+    for (;;) {
+        const auto updated = CallbackState(phase, callback & CALLBACK_COUNT_MASK);
+        if (callbackState
+                .compare_exchange_weak(callback, updated, std::memory_order_acq_rel, std::memory_order_acquire)) {
+            callbackState.notify_all();
+            return;
+        }
+    }
+}
+
+void Renderer::BeginInstall() noexcept {
+    auto callback = callbackState.load(std::memory_order_acquire);
+    for (;;) {
+        if (CallbackPhaseOf(callback) == CallbackPhase::Unhooked && (callback & CALLBACK_COUNT_MASK) == 0 &&
+            callbackState.compare_exchange_weak(
+                callback, CallbackState(CallbackPhase::Installing), std::memory_order_acq_rel, std::memory_order_acquire
+            )) {
+            return;
+        }
+        callbackState.wait(callback, std::memory_order_acquire);
+        callback = callbackState.load(std::memory_order_acquire);
+    }
+}
+
+void Renderer::CompleteInstall(bool success) noexcept {
+    TransitionCallbackPhase(success ? CallbackPhase::Running : CallbackPhase::Unhooked);
+}
+
+void Renderer::QuiesceCallbacks() noexcept {
+    auto callback = callbackState.load(std::memory_order_acquire);
+    for (;;) {
+        auto phase = CallbackPhaseOf(callback);
+        if (phase == CallbackPhase::Exclusive || phase == CallbackPhase::Unhooked) return;
+        if (phase == CallbackPhase::Running) {
+            const auto draining = CallbackState(CallbackPhase::Draining, callback & CALLBACK_COUNT_MASK);
+            if (!callbackState
+                     .compare_exchange_weak(callback, draining, std::memory_order_acq_rel, std::memory_order_acquire)) {
+                continue;
+            }
+            callback = draining;
+            phase = CallbackPhase::Draining;
+        }
+        if (phase == CallbackPhase::Installing) {
+            const auto exclusive = CallbackState(CallbackPhase::Exclusive, callback & CALLBACK_COUNT_MASK);
+            if (callbackState
+                    .compare_exchange_weak(callback, exclusive, std::memory_order_acq_rel, std::memory_order_acquire)) {
+                return;
+            }
+            continue;
+        }
+        if (phase == CallbackPhase::Draining && (callback & CALLBACK_COUNT_MASK) == 0) {
+            if (callbackState.compare_exchange_weak(
+                    callback, CallbackState(CallbackPhase::Exclusive), std::memory_order_acq_rel,
+                    std::memory_order_acquire
+                )) {
+                return;
+            }
+            continue;
+        }
+        callbackState.wait(callback, std::memory_order_acquire);
+        callback = callbackState.load(std::memory_order_acquire);
+    }
+}
+
+void Renderer::CompleteUnhook() noexcept {
+    TransitionCallbackPhase(CallbackPhase::Retiring);
+
+    auto callback = callbackState.load(std::memory_order_acquire);
+    for (;;) {
+        if (CallbackPhaseOf(callback) == CallbackPhase::Retiring && (callback & CALLBACK_COUNT_MASK) == 0 &&
+            callbackState.compare_exchange_weak(
+                callback, CallbackState(CallbackPhase::Unhooked), std::memory_order_acq_rel, std::memory_order_acquire
+            )) {
+            callbackState.notify_all();
+            return;
+        }
+        callbackState.wait(callback, std::memory_order_acquire);
+        callback = callbackState.load(std::memory_order_acquire);
+    }
+}
+
 bool Renderer::Hook() {
+    BeginInstall();
     g_Renderer = this;
 
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
     if (!dummySwapChain) {
         logger.Log("Failed to create dummy swap chain, hooking aborted");
-        g_Renderer = nullptr;
+        CompleteInstall(false);
         return false;
     }
-    if (!HookSwapChain(
-            dummySwapChain, (uintptr_t)&HookOnPresent, (uintptr_t)&HookOnResizeBuffers,
-            (uintptr_t)&HookOnResizeBuffers1, &presentReturnAddress, &resizeBuffersReturnAddress,
-            &resizeBuffers1ReturnAddress
-        )) {
+    if (!HookSwapChain(dummySwapChain)) {
         logger.Log("Failed to hook swap chain");
         Cleanup();
         return false;
@@ -147,6 +277,7 @@ bool Renderer::Hook() {
         logger.Log("DXGI factory hooks unavailable; D3D12 command queue capture may be unavailable");
     }
 
+    CompleteInstall(true);
     return true;
 }
 
@@ -197,11 +328,10 @@ bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
         return false;
     }
 
-    if (state.commandQueueCaptured && commandQueue.Get() == newQueue) [[likely]]
+    if (commandQueue.Get() == newQueue) [[likely]]
         return false;
 
     commandQueue = newQueue;
-    state.commandQueueCaptured = true;
     state.dx12QueueMismatchLogged = false;
     state.dx12QueueMissingLogged = false;
     return true;
@@ -215,9 +345,7 @@ bool Renderer::CaptureCommandQueue(IUnknown* queueCandidate) noexcept {
     return CaptureCommandQueue(newQueue.Get());
 }
 
-void Renderer::BeforeResizeBuffers(
-    IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT
-) noexcept {
+void Renderer::BeforeResizeBuffers(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT) noexcept {
     state.inResize = true;
 
     ReleaseD3DResourcesForResize();
@@ -429,7 +557,7 @@ bool Renderer::CreateD3D12SrvHeap() noexcept {
     }
     d3d12SrvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     d3d12NextSrvDescriptor = 0;
-    d3d12FreeSrvDescriptors.clear();
+    d3d12FreeSrvDescriptorCount = 0;
     return true;
 }
 
@@ -494,7 +622,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
             ReleaseImGuiRenderer();
             d3d12SrvHeap.Reset();
             d3d12NextSrvDescriptor = 0;
-            d3d12FreeSrvDescriptors.clear();
+            d3d12FreeSrvDescriptorCount = 0;
         }
         d3d12Device = newD3D12Device;
         state.backend = RenderBackend::D3D12;
@@ -532,7 +660,6 @@ bool Renderer::InitD3D12() {
         if (FAILED(commandQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) || queueDevice.Get() != d3d12Device.Get()) {
             logger.Log("D3D12 command queue reset: device changed");
             commandQueue.Reset();
-            state.commandQueueCaptured = false;
             state.dx12QueueMismatchLogged = false;
         }
     }
@@ -640,7 +767,7 @@ void Renderer::ReleaseGraphicsResources() noexcept {
     d3d12Device.Reset();
     d3d12SrvHeap.Reset();
     d3d12NextSrvDescriptor = 0;
-    d3d12FreeSrvDescriptors.clear();
+    d3d12FreeSrvDescriptorCount = 0;
     imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     imguiD3D12BufferCount = 0;
     fence.Reset();
@@ -648,7 +775,6 @@ void Renderer::ReleaseGraphicsResources() noexcept {
         CloseHandle(fenceEvent);
         fenceEvent = nullptr;
     }
-    state.commandQueueCaptured = false;
 }
 
 void Renderer::ReleaseD3DResourcesForResize() noexcept {
@@ -667,7 +793,6 @@ void Renderer::ReleaseD3DResourcesForResize() noexcept {
     ReleaseRenderTargets();
 
     if (backend == RenderBackend::D3D11) {
-        ReleaseContextState();
         d3d11Context.Reset();
         d3d11Device.Reset();
     }
@@ -700,9 +825,8 @@ void Renderer::AllocateD3D12SrvDescriptor(
 ) {
     auto* renderer = static_cast<Renderer*>(info->UserData);
     UINT descriptorIndex = 0;
-    if (!renderer->d3d12FreeSrvDescriptors.empty()) {
-        descriptorIndex = renderer->d3d12FreeSrvDescriptors.back();
-        renderer->d3d12FreeSrvDescriptors.pop_back();
+    if (renderer->d3d12FreeSrvDescriptorCount > 0) {
+        descriptorIndex = renderer->d3d12FreeSrvDescriptors[--renderer->d3d12FreeSrvDescriptorCount];
     } else {
         descriptorIndex = renderer->d3d12NextSrvDescriptor++;
     }
@@ -729,27 +853,35 @@ void Renderer::FreeD3D12SrvDescriptor(
     if (cpuHandle.ptr < start.ptr || renderer->d3d12SrvDescriptorSize == 0) return;
 
     const UINT descriptorIndex = static_cast<UINT>((cpuHandle.ptr - start.ptr) / renderer->d3d12SrvDescriptorSize);
-    if (descriptorIndex < D3D12_SRV_DESCRIPTOR_COUNT) renderer->d3d12FreeSrvDescriptors.push_back(descriptorIndex);
+    if (descriptorIndex < D3D12_SRV_DESCRIPTOR_COUNT &&
+        renderer->d3d12FreeSrvDescriptorCount < D3D12_SRV_DESCRIPTOR_COUNT) {
+        renderer->d3d12FreeSrvDescriptors[renderer->d3d12FreeSrvDescriptorCount++] = descriptorIndex;
+    }
 }
 
 void Renderer::Cleanup() noexcept {
+    QuiesceCallbacks();
     if (presentAddress || resizeBuffersAddress || resizeBuffers1Address) {
         if (presentAddress) MemoryUtils::Unhook(presentAddress);
         if (resizeBuffersAddress) MemoryUtils::Unhook(resizeBuffersAddress);
         if (resizeBuffers1Address) MemoryUtils::Unhook(resizeBuffers1Address);
-        presentAddress = 0;
-        resizeBuffersAddress = 0;
-        resizeBuffers1Address = 0;
         presentReturnAddress = 0;
         resizeBuffersReturnAddress = 0;
         resizeBuffers1ReturnAddress = 0;
     }
     UnhookFactory();
+    CompleteUnhook();
+
+    presentAddress = 0;
+    resizeBuffersAddress = 0;
+    resizeBuffers1Address = 0;
+    createSwapChainAddress = 0;
+    createSwapChainForHwndAddress = 0;
 
     ReleaseGraphicsResources();
-    commandQueue.Reset();
 
     if (state.imguiContextReady) [[likely]] {
+        Gui::Get().Shutdown();
         ImGui_ImplWin32_Shutdown();
         ImGui::DestroyContext();
         state.imguiContextReady = false;
@@ -757,7 +889,6 @@ void Renderer::Cleanup() noexcept {
     }
 
     state = {};
-    g_Renderer = nullptr;
 }
 
 IDXGISwapChain* Renderer::CreateDummySwapChain() {
@@ -798,75 +929,62 @@ IDXGISwapChain* Renderer::CreateDummySwapChain() {
 
     const D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
 
-    IDXGISwapChain* swapChainResult = nullptr;
-    ID3D11Device* device = nullptr;
+    ComPtr<IDXGISwapChain> swapChainResult;
+    ComPtr<ID3D11Device> device;
 
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(
+    const HRESULT result = D3D11CreateDeviceAndSwapChain(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChainResult,
         &device, nullptr, nullptr
     );
 
-    if (FAILED(hr)) {
-        logger.Log("Hardware device failed (0x%08X), falling back to WARP", hr);
-        if (device) {
-            device->Release();
-            device = nullptr;
-        }
-        hr = D3D11CreateDeviceAndSwapChain(
-            nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChainResult,
-            &device, nullptr, nullptr
-        );
-    }
-
-    if (device) device->Release();
-
-    if (FAILED(hr) || !swapChainResult) {
-        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%08X", hr);
+    if (FAILED(result) || !swapChainResult) {
+        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%08X", result);
         return nullptr;
     }
 
-    return swapChainResult;
+    return swapChainResult.Detach();
 }
 
-bool Renderer::HookSwapChain(
-    IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
-    uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
-    uintptr_t* outResize1Return
-) {
+bool Renderer::HookSwapChain(IDXGISwapChain* dummySwapChain) {
     if (!dummySwapChain) return false;
+    ComPtr<IDXGISwapChain> ownedSwapChain;
+    ownedSwapChain.Attach(dummySwapChain);
 
     auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
-    uintptr_t presentHookAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
-    uintptr_t resizeBuffersHookAddress = vmt[VMT_RESIZE_BUFFERS_BYTE_OFFSET / sizeof(uintptr_t)];
+    const uintptr_t presentHookAddress = vmt[VMT_PRESENT_OFFSET];
+    const uintptr_t resizeBuffersHookAddress = vmt[VMT_RESIZE_BUFFERS_OFFSET];
 
-    if (!MemoryUtils::PlaceHook(presentHookAddress, presentDetourFunction, outPresentReturn)) {
-        dummySwapChain->Release();
+    if (!MemoryUtils::PlaceHook(
+            presentHookAddress, reinterpret_cast<uintptr_t>(&HookOnPresent), &presentReturnAddress
+        )) {
         return false;
     }
     this->presentAddress = presentHookAddress;
 
-    if (!MemoryUtils::PlaceHook(resizeBuffersHookAddress, resizeBuffersDetourFunction, outResizeReturn)) {
+    if (!MemoryUtils::PlaceHook(
+            resizeBuffersHookAddress, reinterpret_cast<uintptr_t>(&HookOnResizeBuffers), &resizeBuffersReturnAddress
+        )) {
         MemoryUtils::Unhook(presentAddress);
         presentAddress = 0;
         presentReturnAddress = 0;
-        dummySwapChain->Release();
         return false;
     }
     this->resizeBuffersAddress = resizeBuffersHookAddress;
 
-    IDXGISwapChain3* swapChain3Dummy = nullptr;
+    ComPtr<IDXGISwapChain3> swapChain3Dummy;
     if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain3Dummy))) && swapChain3Dummy) {
-        auto* swapChain3Vmt = *reinterpret_cast<uintptr_t**>(swapChain3Dummy);
-        uintptr_t resizeBuffers1HookAddress = swapChain3Vmt[VMT_RESIZE_BUFFERS1_BYTE_OFFSET / sizeof(uintptr_t)];
-        if (MemoryUtils::PlaceHook(resizeBuffers1HookAddress, resizeBuffers1DetourFunction, outResize1Return)) {
+        auto* swapChain3Vmt = *reinterpret_cast<uintptr_t**>(swapChain3Dummy.Get());
+        const uintptr_t resizeBuffers1HookAddress = swapChain3Vmt[VMT_RESIZE_BUFFERS1_OFFSET];
+        if (MemoryUtils::PlaceHook(
+                resizeBuffers1HookAddress, reinterpret_cast<uintptr_t>(&HookOnResizeBuffers1),
+                &resizeBuffers1ReturnAddress
+            )) {
             this->resizeBuffers1Address = resizeBuffers1HookAddress;
         } else {
             logger.Log("ResizeBuffers1 hook failed; continuing with Present and ResizeBuffers hooks");
         }
-        swapChain3Dummy->Release();
     }
 
-    dummySwapChain->Release();
     return true;
 }
 
@@ -907,8 +1025,6 @@ void Renderer::UnhookFactory() noexcept {
     if (createSwapChainAddress) MemoryUtils::Unhook(createSwapChainAddress);
     if (createSwapChainForHwndAddress) MemoryUtils::Unhook(createSwapChainForHwndAddress);
 
-    createSwapChainAddress = 0;
     createSwapChainReturnAddress = 0;
-    createSwapChainForHwndAddress = 0;
     createSwapChainForHwndReturnAddress = 0;
 }

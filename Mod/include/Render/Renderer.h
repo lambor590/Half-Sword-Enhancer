@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Windows.h>
+#include <array>
+#include <atomic>
 #include <d3d11.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
@@ -19,16 +21,54 @@ using ResizeBuffers1 =
     HRESULT(__stdcall*)(IDXGISwapChain3*, UINT, UINT, UINT, DXGI_FORMAT, UINT, const UINT*, IUnknown* const*);
 using CreateSwapChain = HRESULT(__stdcall*)(IDXGIFactory*, IUnknown*, DXGI_SWAP_CHAIN_DESC*, IDXGISwapChain**);
 using CreateSwapChainForHwnd = HRESULT(__stdcall*)(
-    IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*,
-    IDXGIOutput*, IDXGISwapChain1**
+    IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*, IDXGIOutput*,
+    IDXGISwapChain1**
 );
 
 class Renderer {
 public:
     [[nodiscard]] bool Hook();
     void Cleanup() noexcept;
+    [[nodiscard]] bool IsInCallback() const noexcept { return currentCallbackDepth > 0; }
 
 private:
+    class CallbackLease {
+    public:
+        explicit CallbackLease(Renderer& owner) noexcept : owner(owner), dispatchHooks(owner.BeginCallback()) {
+            ++currentCallbackDepth;
+        }
+        ~CallbackLease() {
+            --currentCallbackDepth;
+            owner.EndCallback();
+        }
+        [[nodiscard]] bool DispatchHooks() const noexcept { return dispatchHooks; }
+
+        CallbackLease(const CallbackLease&) = delete;
+        CallbackLease& operator=(const CallbackLease&) = delete;
+
+    private:
+        Renderer& owner;
+        bool dispatchHooks = false;
+    };
+
+    static constexpr std::uint64_t CALLBACK_PHASE_SHIFT = 61;
+    static constexpr std::uint64_t CALLBACK_COUNT_MASK = (std::uint64_t{1} << CALLBACK_PHASE_SHIFT) - 1;
+    enum class CallbackPhase : std::uint64_t { Running, Draining, Exclusive, Unhooked, Installing, Retiring };
+    static constexpr std::uint64_t CallbackState(CallbackPhase phase, std::uint64_t count = 0) noexcept {
+        return (static_cast<std::uint64_t>(phase) << CALLBACK_PHASE_SHIFT) | count;
+    }
+    static constexpr CallbackPhase CallbackPhaseOf(std::uint64_t state) noexcept {
+        return static_cast<CallbackPhase>(state >> CALLBACK_PHASE_SHIFT);
+    }
+
+    [[nodiscard]] bool BeginCallback() noexcept;
+    void EndCallback() noexcept;
+    void TransitionCallbackPhase(CallbackPhase phase) noexcept;
+    void BeginInstall() noexcept;
+    void CompleteInstall(bool success) noexcept;
+    void QuiesceCallbacks() noexcept;
+    void CompleteUnhook() noexcept;
+
     enum class RenderBackend : std::uint8_t { Unknown, D3D11, D3D12 };
 
     struct RenderState {
@@ -37,7 +77,6 @@ private:
         bool imguiContextReady = false;
         bool imguiRendererReady = false;
         bool inResize = false;
-        bool commandQueueCaptured = false;
         bool dx12QueueMismatchLogged = false;
         bool dx12QueueMissingLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
@@ -53,6 +92,8 @@ private:
     };
 
     Logger logger{"Renderer"};
+    std::atomic<std::uint64_t> callbackState{CallbackState(CallbackPhase::Unhooked)};
+    static thread_local std::uint32_t currentCallbackDepth;
 
     // Addresses of the original methods after MemoryUtils installs the detours.
     uintptr_t presentAddress = 0;
@@ -93,19 +134,17 @@ private:
     UINT d3d12RtvDescriptorSize = 0;
     UINT d3d12SrvDescriptorSize = 0;
     UINT d3d12NextSrvDescriptor = 0;
+    static constexpr UINT D3D12_SRV_DESCRIPTOR_COUNT = 64;
     UINT d3d12SkipLogCount = 0;
     DXGI_FORMAT d3d12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     DXGI_FORMAT imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     uint8_t imguiD3D12BufferCount = 0;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
-    std::vector<UINT> d3d12FreeSrvDescriptors;
+    std::array<UINT, D3D12_SRV_DESCRIPTOR_COUNT> d3d12FreeSrvDescriptors{};
+    UINT d3d12FreeSrvDescriptorCount = 0;
 
     IDXGISwapChain* CreateDummySwapChain();
-    [[nodiscard]] bool HookSwapChain(
-        IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
-        uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
-        uintptr_t* outResize1Return
-    );
+    [[nodiscard]] bool HookSwapChain(IDXGISwapChain* dummySwapChain);
     [[nodiscard]] bool HookFactory();
     void UnhookFactory() noexcept;
 
