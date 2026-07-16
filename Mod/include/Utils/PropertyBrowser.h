@@ -5,17 +5,19 @@
 #include <cctype>
 #include <cstdint>
 #include <cstdio>
-#include <map>
+#include <cstring>
 #include <ranges>
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "imgui/imgui.h"
 #include "SDK/Basic.hpp"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "Utils/BlueprintRegistry.h"
 #include "Utils/GuiUtils.h"
 
 namespace PropertyBrowser {
@@ -52,15 +54,31 @@ namespace PropertyBrowser {
         std::string displayName;
         std::string rawName;
         std::string category;
-        std::vector<std::string> enumNames;
+        const std::vector<std::string>* enumNames = nullptr;
         int32_t offset = 0;
         int32_t elementSize = 0;
-        float enumComboWidth = K_ENUM_WIDTH;
+        float enumMaxTextWidthEm = 0.0f;
         PropType type = PropType::Unsupported;
         SDK::UStruct* structType = nullptr;
         std::string typeName;
         uint8_t fieldMask = 0;
         uint8_t byteOffset = 0;
+    };
+
+    struct PropertyCategory {
+        const std::string* name = nullptr;
+        std::vector<const PropertyInfo*> properties;
+    };
+
+    struct PropertySchema {
+        std::vector<PropertyInfo> properties;
+        std::vector<PropertyCategory> categories;
+        int editableCount = 0;
+    };
+
+    struct EnumInfo {
+        std::vector<std::string> names;
+        float maxTextWidthEm = 0.0f;
     };
 
     struct WorldActor {
@@ -71,10 +89,16 @@ namespace PropertyBrowser {
         float distanceToPlayer = -1.0f;
     };
 
+    [[nodiscard]] inline std::string CleanPropertyName(const std::string& raw);
+
     [[nodiscard]] inline std::string BuildActorDisplayLabel(
         std::string_view className, std::string_view instanceName, float distanceToPlayer
     ) {
         std::string label;
+        label.reserve(
+            className.size() + (instanceName.empty() || instanceName == className ? 0 : instanceName.size() + 3) +
+            (distanceToPlayer >= 0.0f ? 35 : 0)
+        );
         if (distanceToPlayer >= 0.0f) {
             char distance[32];
             std::snprintf(distance, sizeof(distance), "%.1fm", distanceToPlayer);
@@ -82,10 +106,12 @@ namespace PropertyBrowser {
             label += " | ";
         }
 
-        label += className;
-        if (!instanceName.empty() && instanceName != className) {
+        const std::string visibleClass = CleanPropertyName(std::string(className));
+        const std::string visibleInstance = CleanPropertyName(std::string(instanceName));
+        label += visibleClass;
+        if (!visibleInstance.empty() && visibleInstance != visibleClass) {
             label += " | ";
-            label += instanceName;
+            label += visibleInstance;
         }
         return label;
     }
@@ -101,8 +127,7 @@ namespace PropertyBrowser {
             const auto location = actor->K2_GetActorLocation();
             result.distanceToPlayer = static_cast<float>(location.GetDistanceTo(*playerLocation) * 0.01);
         }
-        result.displayLabel =
-            BuildActorDisplayLabel(result.className, result.instanceName, result.distanceToPlayer);
+        result.displayLabel = BuildActorDisplayLabel(result.className, result.instanceName, result.distanceToPlayer);
         return result;
     }
 
@@ -118,6 +143,11 @@ namespace PropertyBrowser {
         }
 
         auto& levels = world->Levels;
+        size_t actorCapacity = 0;
+        for (int32_t index = 0; index < levels.Num(); ++index) {
+            if (const auto* level = levels[index]) actorCapacity += static_cast<size_t>(level->Actors.Num());
+        }
+        result.reserve(actorCapacity);
         for (int32_t li = 0; li < levels.Num(); ++li) {
             auto* level = levels[li];
             if (!level) continue;
@@ -130,8 +160,7 @@ namespace PropertyBrowser {
         }
 
         std::ranges::sort(result, [](const WorldActor& a, const WorldActor& b) {
-            if (a.distanceToPlayer >= 0.0f && b.distanceToPlayer >= 0.0f &&
-                a.distanceToPlayer != b.distanceToPlayer)
+            if (a.distanceToPlayer >= 0.0f && b.distanceToPlayer >= 0.0f && a.distanceToPlayer != b.distanceToPlayer)
                 return a.distanceToPlayer < b.distanceToPlayer;
             if (a.className != b.className) return a.className < b.className;
             return a.instanceName < b.instanceName;
@@ -140,24 +169,8 @@ namespace PropertyBrowser {
         return result;
     }
 
-    [[nodiscard]] inline bool IsHexChar(char c) {
-        return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
-    }
-
     [[nodiscard]] inline std::string CleanPropertyName(const std::string& raw) {
         std::string cleaned = raw;
-
-        // Strip trailing Dumper-7 hash suffix like "_0EB204DF"
-        if (cleaned.size() > 9 && cleaned[cleaned.size() - 9] == '_') {
-            bool allHex = true;
-            for (size_t i = cleaned.size() - 8; i < cleaned.size(); ++i) {
-                if (!IsHexChar(cleaned[i])) {
-                    allHex = false;
-                    break;
-                }
-            }
-            if (allHex) cleaned.erase(cleaned.size() - 9);
-        }
 
         // Strip trailing numeric suffix like "_21"
         if (cleaned.size() > 1) {
@@ -167,21 +180,24 @@ namespace PropertyBrowser {
             if (i > 0 && i < cleaned.size() && cleaned[i - 1] == '_') cleaned.erase(i - 1);
         }
 
-        for (char& c : cleaned) {
-            if (c == '_') c = ' ';
-        }
-        return cleaned;
+        const auto readable = BlueprintRegistry::CleanDisplayName(cleaned);
+        return readable.empty() ? "Setting" : readable;
     }
 
     [[nodiscard]] inline std::string ExtractCategory(const std::string& raw) {
         auto pos = raw.find('_');
         if (pos == std::string::npos || pos == 0) return "General";
-        return raw.substr(0, pos);
+        return CleanPropertyName(raw.substr(0, pos));
     }
 
     [[nodiscard]] inline std::string ShortEnumValueName(const std::string& fullName) {
         auto colonPos = fullName.rfind(':');
-        return colonPos != std::string::npos ? fullName.substr(colonPos + 1) : fullName;
+        std::string shortName = colonPos != std::string::npos ? fullName.substr(colonPos + 1) : fullName;
+        constexpr std::string_view GENERATED_PREFIX = "NewEnumerator";
+        if (shortName.starts_with(GENERATED_PREFIX)) {
+            shortName = "Option " + shortName.substr(GENERATED_PREFIX.size());
+        }
+        return CleanPropertyName(shortName);
     }
 
     [[nodiscard]] inline std::string FindUserDefinedEnumDisplayName(
@@ -300,11 +316,15 @@ namespace PropertyBrowser {
         return PropType::Unsupported;
     }
 
-    [[nodiscard]] inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr) {
-        static std::unordered_map<SDK::UEnum*, std::vector<std::string>> cache;
-        std::vector<std::string> names;
-        if (!enumPtr) return names;
-        if (auto it = cache.find(enumPtr); it != cache.end()) return it->second;
+    [[nodiscard]] inline const EnumInfo& GetEnumInfo(SDK::UEnum* enumPtr) {
+        static std::unordered_map<SDK::UEnum*, EnumInfo> cache;
+        static const EnumInfo empty;
+        if (!enumPtr) return empty;
+        auto [cacheIt, inserted] = cache.try_emplace(enumPtr);
+        if (!inserted) return cacheIt->second;
+        auto& info = cacheIt->second;
+        auto& names = info.names;
+        names.reserve(static_cast<size_t>(enumPtr->Names.Num()));
 
         SDK::UUserDefinedEnum* udEnum =
             enumPtr->IsA(SDK::UUserDefinedEnum::StaticClass()) ? static_cast<SDK::UUserDefinedEnum*>(enumPtr) : nullptr;
@@ -327,16 +347,21 @@ namespace PropertyBrowser {
 
             names.push_back(std::move(shortName));
         }
-        auto [it, _] = cache.emplace(enumPtr, std::move(names));
-        return it->second;
+
+        float maxWidth = ImGui::CalcTextSize("Unknown").x;
+        for (const auto& name : names)
+            maxWidth = (std::max)(maxWidth, ImGui::CalcTextSize(name.c_str()).x);
+        info.maxTextWidthEm = maxWidth / (std::max)(1.0f, ImGui::GetFontSize());
+        return info;
     }
 
-    [[nodiscard]] inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
-        static std::unordered_map<SDK::UStruct*, std::vector<PropertyInfo>> cache;
-        if (!ustruct) return {};
+    [[nodiscard]] inline const PropertySchema& GetPropertySchema(SDK::UStruct* ustruct) {
+        static std::unordered_map<SDK::UStruct*, PropertySchema> cache;
+        static const PropertySchema empty;
+        if (!ustruct) return empty;
         if (auto it = cache.find(ustruct); it != cache.end()) return it->second;
 
-        std::vector<PropertyInfo> result;
+        PropertySchema schema;
 
         for (auto* s = ustruct; s; s = s->SuperStruct) {
             std::string sName = s->GetName();
@@ -353,9 +378,9 @@ namespace PropertyBrowser {
                 std::string rawName = prop->Name.ToString();
 
                 PropertyInfo info;
-                info.rawName = rawName;
                 info.displayName = CleanPropertyName(rawName);
                 info.category = ExtractCategory(rawName);
+                info.rawName = std::move(rawName);
                 info.offset = prop->Offset;
                 info.elementSize = prop->ElementSize;
                 info.type = type;
@@ -371,37 +396,29 @@ namespace PropertyBrowser {
                 }
 
                 if (type == PropType::Enum) {
-                    info.enumNames = BuildEnumNames(enumPtr);
-
-                    float maxW = ImGui::CalcTextSize("Unknown").x;
-                    for (const auto& name : info.enumNames) {
-                        const float width = ImGui::CalcTextSize(name.c_str()).x;
-                        if (width > maxW) maxW = width;
-                    }
-                    info.enumComboWidth = GuiUtils::ComboWidthFromText(maxW);
-                    if (info.enumComboWidth < K_ENUM_WIDTH) info.enumComboWidth = K_ENUM_WIDTH;
+                    const auto& enumInfo = GetEnumInfo(enumPtr);
+                    info.enumNames = &enumInfo.names;
+                    info.enumMaxTextWidthEm = enumInfo.maxTextWidthEm;
                 }
 
-                result.push_back(std::move(info));
+                schema.properties.push_back(std::move(info));
             }
         }
 
-        std::ranges::sort(result, [](const PropertyInfo& a, const PropertyInfo& b) {
+        std::ranges::sort(schema.properties, [](const PropertyInfo& a, const PropertyInfo& b) {
             if (a.category != b.category) return a.category < b.category;
             return a.rawName < b.rawName;
         });
 
-        auto [it, _] = cache.emplace(ustruct, std::move(result));
-        return it->second;
-    }
-
-    using CategoryMap = std::map<std::string, std::vector<const PropertyInfo*>>;
-
-    [[nodiscard]] inline CategoryMap GroupByCategory(const std::vector<PropertyInfo>& props) {
-        CategoryMap map;
-        for (const auto& p : props)
-            map[p.category].push_back(&p);
-        return map;
+        auto cacheIt = cache.emplace(ustruct, std::move(schema)).first;
+        auto& cached = cacheIt->second;
+        for (const auto& property : cached.properties) {
+            if (IsEditable(property.type)) ++cached.editableCount;
+            if (cached.categories.empty() || *cached.categories.back().name != property.category)
+                cached.categories.push_back({.name = &property.category});
+            cached.categories.back().properties.push_back(&property);
+        }
+        return cached;
     }
 
     [[nodiscard]] inline bool PropertyMatchesFilter(const PropertyInfo& prop, const char* filter, size_t filterLen);
@@ -411,8 +428,8 @@ namespace PropertyBrowser {
     ) {
         if (!structType || filterLen == 0 || depth > 6) return false;
 
-        auto props = EnumerateProperties(structType);
-        for (const auto& prop : props) {
+        const auto& schema = GetPropertySchema(structType);
+        for (const auto& prop : schema.properties) {
             if (PropertyMatchesFilter(prop, filter, filterLen)) return true;
             if (prop.type == PropType::Struct && StructMatchesFilter(prop.structType, filter, filterLen, depth + 1))
                 return true;
@@ -449,28 +466,26 @@ namespace PropertyBrowser {
 
     inline bool RenderStructWidget(const PropertyInfo& prop, std::byte* structBytes) {
         if (!prop.structType) {
-            ImGui::TextDisabled("%s: unsupported struct", prop.displayName.c_str());
+            ImGui::TextDisabled("%s: can't be edited", prop.displayName.c_str());
             return false;
         }
 
-        auto props = EnumerateProperties(prop.structType);
-        int editableCount = 0;
-        for (const auto& nested : props)
-            if (IsEditable(nested.type)) ++editableCount;
+        const auto& schema = GetPropertySchema(prop.structType);
 
         char label[192];
-        std::snprintf(label, sizeof(label), "%s (%d)", prop.displayName.c_str(), editableCount);
+        std::snprintf(label, sizeof(label), "%s (%d)", prop.displayName.c_str(), schema.editableCount);
         const bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_None);
         if (!open) return false;
 
         bool changed = false;
-        auto categories = GroupByCategory(props);
-        for (auto& [category, categoryProps] : categories) {
+        for (const auto& category : schema.categories) {
             char categoryLabel[160];
-            std::snprintf(categoryLabel, sizeof(categoryLabel), "%s (%zu)", category.c_str(), categoryProps.size());
+            std::snprintf(
+                categoryLabel, sizeof(categoryLabel), "%s (%zu)", category.name->c_str(), category.properties.size()
+            );
             if (!ImGui::TreeNodeEx(categoryLabel, ImGuiTreeNodeFlags_DefaultOpen)) continue;
 
-            for (const auto* nested : categoryProps) {
+            for (const auto* nested : category.properties) {
                 if (!IsVisible(nested->type)) continue;
                 changed |= RenderPropertyWidget(*nested, structBytes);
             }
@@ -483,7 +498,7 @@ namespace PropertyBrowser {
     }
 
     inline void RenderReadOnlyTextValue(const PropertyInfo& prop, const std::string& value) {
-        ImGui::TextDisabled("%s: %s", prop.displayName.c_str(), value.empty() ? "(empty)" : value.c_str());
+        ImGui::TextDisabled("%s: %s", prop.displayName.c_str(), value.empty() ? "Empty" : value.c_str());
     }
 
     inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes) {
@@ -537,13 +552,17 @@ namespace PropertyBrowser {
                 int intVal =
                     (prop.elementSize <= 1) ? static_cast<int>(*valuePtr) : *reinterpret_cast<int32_t*>(valuePtr);
 
-                if (!prop.enumNames.empty()) {
-                    const char* preview = (intVal >= 0 && intVal < static_cast<int>(prop.enumNames.size()))
-                                              ? prop.enumNames[intVal].c_str()
+                if (prop.enumNames && !prop.enumNames->empty()) {
+                    const auto& names = *prop.enumNames;
+                    const char* preview = (intVal >= 0 && intVal < static_cast<int>(names.size()))
+                                              ? names[static_cast<size_t>(intVal)].c_str()
                                               : "Unknown";
-                    if (GuiUtils::BeginSizedCombo(prop.displayName.c_str(), preview, prop.enumComboWidth)) {
-                        for (int i = 0; i < static_cast<int>(prop.enumNames.size()); ++i) {
-                            if (ImGui::Selectable(prop.enumNames[i].c_str(), i == intVal)) {
+                    const float comboWidth =
+                        (std::max)(K_ENUM_WIDTH,
+                                   GuiUtils::ComboWidthFromText(prop.enumMaxTextWidthEm * ImGui::GetFontSize()));
+                    if (GuiUtils::BeginSizedCombo(prop.displayName.c_str(), preview, comboWidth)) {
+                        for (int i = 0; i < static_cast<int>(names.size()); ++i) {
+                            if (ImGui::Selectable(names[static_cast<size_t>(i)].c_str(), i == intVal)) {
                                 if (prop.elementSize <= 1)
                                     *valuePtr = static_cast<uint8_t>(i);
                                 else
@@ -567,15 +586,14 @@ namespace PropertyBrowser {
                 break;
             }
             case PropType::LinearColor: {
-                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+                GuiUtils::SetNextColorFieldWidth(prop.displayName.c_str());
                 changed = ImGui::ColorEdit4(prop.displayName.c_str(), reinterpret_cast<float*>(valuePtr));
-                ImGui::PopItemWidth();
                 break;
             }
             case PropType::Color: {
                 uint8_t* bytes = valuePtr;
                 float col[4] = {bytes[2] / 255.0f, bytes[1] / 255.0f, bytes[0] / 255.0f, bytes[3] / 255.0f};
-                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+                GuiUtils::SetNextColorFieldWidth(prop.displayName.c_str());
                 if (ImGui::ColorEdit4(prop.displayName.c_str(), col)) {
                     bytes[2] = static_cast<uint8_t>(col[0] * 255.0f);
                     bytes[1] = static_cast<uint8_t>(col[1] * 255.0f);
@@ -583,7 +601,6 @@ namespace PropertyBrowser {
                     bytes[3] = static_cast<uint8_t>(col[3] * 255.0f);
                     changed = true;
                 }
-                ImGui::PopItemWidth();
                 break;
             }
             case PropType::Vector2D:
@@ -595,19 +612,12 @@ namespace PropertyBrowser {
             case PropType::Rotator:
                 changed = DragDouble3(prop.displayName.c_str(), reinterpret_cast<double*>(valuePtr), 0.5f, "%.1f");
                 break;
-            case PropType::Struct:
-                changed = RenderStructWidget(prop, reinterpret_cast<std::byte*>(valuePtr));
-                break;
+            case PropType::Struct: changed = RenderStructWidget(prop, reinterpret_cast<std::byte*>(valuePtr)); break;
             case PropType::Object: {
                 auto* object = *reinterpret_cast<SDK::UObject**>(valuePtr);
                 const bool live = IsLiveObject(object);
-                std::string value = live ? object->GetName() : "(null)";
+                std::string value = live ? CleanPropertyName(object->GetName()) : "None";
                 RenderReadOnlyTextValue(prop, value);
-                if (live && ImGui::IsItemHovered()) {
-                    GuiUtils::BeginStyledTooltip();
-                    ImGui::TextUnformatted(object->GetFullName().c_str());
-                    GuiUtils::EndStyledTooltip();
-                }
                 break;
             }
             case PropType::Name:
@@ -623,14 +633,106 @@ namespace PropertyBrowser {
             }
             case PropType::Array:
             case PropType::Map:
-            case PropType::Set:
-                ImGui::TextDisabled("%s: %s container", prop.displayName.c_str(), prop.typeName.c_str());
-                break;
+            case PropType::Set: ImGui::TextDisabled("%s: view only", prop.displayName.c_str()); break;
             case PropType::Unsupported: break;
         }
 
         ImGui::PopID();
         return changed;
+    }
+
+    struct PanelState {
+        const PropertySchema* schema = nullptr;
+        std::vector<PropertyCategory> visibleCategories;
+        std::string visibleFilter;
+        char filterBuffer[128] = "";
+        bool visiblePropertiesReady = false;
+        int expandState = 0;
+
+        void Clear() {
+            schema = nullptr;
+            InvalidateVisibleProperties();
+        }
+
+        void SetType(SDK::UStruct* type) {
+            schema = &GetPropertySchema(type);
+            InvalidateVisibleProperties();
+        }
+
+        [[nodiscard]] int EditableCount() const { return schema ? schema->editableCount : 0; }
+
+        void InvalidateVisibleProperties() {
+            visibleCategories.clear();
+            visibleFilter.clear();
+            visiblePropertiesReady = false;
+        }
+
+        [[nodiscard]] size_t PrepareVisibleProperties() {
+            const size_t filterLength = std::strlen(filterBuffer);
+            if (visiblePropertiesReady && visibleFilter.size() == filterLength &&
+                std::memcmp(visibleFilter.data(), filterBuffer, filterLength) == 0)
+                return filterLength;
+
+            visibleCategories.clear();
+            visibleFilter.assign(filterBuffer, filterLength);
+            visiblePropertiesReady = true;
+            if (!schema) return filterLength;
+            for (const auto& category : schema->categories) {
+                PropertyCategory visible{.name = category.name};
+                visible.properties.reserve(category.properties.size());
+                for (const auto* property : category.properties) {
+                    if (!IsVisible(property->type)) continue;
+                    if (filterLength > 0 && !PropertyMatchesFilter(*property, filterBuffer, filterLength)) continue;
+                    visible.properties.push_back(property);
+                }
+                if (!visible.properties.empty()) visibleCategories.push_back(std::move(visible));
+            }
+            return filterLength;
+        }
+    };
+
+    template <typename OnPropertyChanged>
+    inline void RenderPanel(
+        PanelState& state, std::byte* objectBytes, const char* filterId, const char* childId,
+        OnPropertyChanged onPropertyChanged, bool showNoMatches = false, bool spaceBeforeList = false
+    ) {
+        if (!objectBytes) return;
+
+        ImGui::SeparatorText("Detailed Settings");
+        const float buttonWidth = ImGui::CalcTextSize("+").x + ImGui::GetStyle().FramePadding.x * 2;
+        const float buttonsWidth = buttonWidth * 2 + ImGui::GetStyle().ItemSpacing.x;
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - buttonsWidth - ImGui::GetStyle().ItemSpacing.x);
+        if (ImGui::InputTextWithHint(filterId, "Search settings...", state.filterBuffer, sizeof(state.filterBuffer)))
+            state.visiblePropertiesReady = false;
+        ImGui::SameLine();
+        if (ImGui::Button("+", ImVec2(buttonWidth, 0))) state.expandState = 1;
+        GuiUtils::HelpTooltip("Expand all groups");
+        ImGui::SameLine();
+        if (ImGui::Button("-", ImVec2(buttonWidth, 0))) state.expandState = -1;
+        GuiUtils::HelpTooltip("Collapse all groups");
+
+        if (spaceBeforeList) ImGui::Spacing();
+        const size_t filterLength = state.PrepareVisibleProperties();
+        ImGui::BeginChild(childId, ImVec2(0, 0), ImGuiChildFlags_None);
+        for (const auto& category : state.visibleCategories) {
+            char label[128];
+            std::snprintf(label, sizeof(label), "%s (%zu)", category.name->c_str(), category.properties.size());
+            if (state.expandState != 0) ImGui::SetNextItemOpen(state.expandState > 0);
+            if (!ImGui::TreeNodeEx(label, filterLength > 0 ? ImGuiTreeNodeFlags_DefaultOpen : 0)) continue;
+            for (const auto* property : category.properties)
+                if (RenderPropertyWidget(*property, objectBytes)) onPropertyChanged();
+            ImGui::TreePop();
+        }
+        state.expandState = 0;
+        if (showNoMatches && state.visibleCategories.empty()) ImGui::TextDisabled("No matching settings");
+        ImGui::EndChild();
+    }
+
+    inline void RenderPanel(
+        PanelState& state, std::byte* objectBytes, const char* filterId, const char* childId,
+        bool showNoMatches = false, bool spaceBeforeList = false
+    ) {
+        RenderPanel(state, objectBytes, filterId, childId, [] {}, showNoMatches, spaceBeforeList);
     }
 
 } // namespace PropertyBrowser

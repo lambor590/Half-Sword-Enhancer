@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -9,7 +11,9 @@
 
 class WorldEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::World, "World Editor", "Environment"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::World, "World Editor", "Move, hide, and customize objects in the current map."
+    };
 
 private:
     std::vector<PropertyBrowser::WorldActor> allActors;
@@ -20,17 +24,8 @@ private:
     bool browseTargetIsActor = false;
     SDK::AActor* selectedActor = nullptr;
     SDK::UWorld* cachedWorld = nullptr;
-    std::vector<PropertyBrowser::PropertyInfo> properties;
-    PropertyBrowser::CategoryMap categories;
-    struct VisibleCategory {
-        std::string name;
-        std::vector<const PropertyBrowser::PropertyInfo*> props;
-    };
-    std::vector<VisibleCategory> visibleCategories;
-    std::string visiblePropertyFilter;
-    bool visiblePropertiesReady = false;
+    PropertyBrowser::PanelState propertyPanel;
     char actorSearchBuf[64] = "";
-    char propSearchBuf[128] = "";
     std::string infoText;
     std::string selectedActorLabel;
     GuiUtils::StatusMessage status;
@@ -42,9 +37,23 @@ private:
     bool clickPickActive = false;
     bool pickPending = false;
     int activeQuickFilter = 0;
-    int expandState = 0;
     bool findPending = false;
     int selectedTargetIndex = -1;
+
+    enum class SelectionOperation : std::uint8_t { Pick, Find };
+
+    struct SelectionResult {
+        SelectionOperation operation = SelectionOperation::Pick;
+        std::uint64_t generation = 0;
+        SDK::UWorld* world = nullptr;
+        SDK::AActor* actor = nullptr;
+        SDK::UObject* preferredTarget = nullptr;
+        std::string className;
+        std::string error;
+    };
+    std::uint64_t selectionGeneration = 0;
+    std::mutex selectionResultMutex;
+    std::vector<SelectionResult> selectionResults;
 
     struct BrowseTarget {
         SDK::UObject* object = nullptr;
@@ -66,9 +75,17 @@ private:
         const char* filter;
     };
     static constexpr QuickFilter QUICK_FILTERS[] = {
-        {"All", ""},          {"Sky", "Sky"},     {"Light", "Light"},   {"Fog", "Fog"},     {"Post", "PostProcess"},
-        {"Volume", "Volume"}, {"Water", "Water"}, {"Camera", "Camera"}, {"Decal", "Decal"}, {"Audio", "Audio"},
-        {"Prop", "Prop"},
+        {"All", ""},
+        {"Sky", "Sky"},
+        {"Lights", "Light"},
+        {"Fog", "Fog"},
+        {"Effects", "PostProcess"},
+        {"Areas", "Volume"},
+        {"Water", "Water"},
+        {"Cameras", "Camera"},
+        {"Surface Details", "Decal"},
+        {"Audio", "Audio"},
+        {"Props", "Prop"},
     };
     static constexpr float NEARBY_RANGE_METERS = 40.0f;
 
@@ -85,6 +102,8 @@ private:
     void SelectTarget(int index);
     void SelectActor(int index);
     void SelectActorDirect(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
+    void PublishSelectionResult(SelectionResult result);
+    void DrainSelectionResults(SDK::UWorld* world);
     void PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, ImVec2 viewportSize);
     void RenderClickPickOverlay();
     void HighlightSelected();
@@ -95,11 +114,6 @@ private:
     void QueueActorTransform(
         SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
     );
-    void RenderCategory(
-        const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
-        size_t filterLen
-    );
-    void RebuildVisibleProperties(size_t filterLen);
     void RenderActorSelector();
     void RenderTargetSelector();
     void RenderTargetControls();
@@ -107,7 +121,6 @@ private:
     void RenderComponentControls();
     void RenderMaterialInspector();
     void RenderMaterialEntry(int index, SDK::UMaterialInterface* material);
-    void RenderPropertyToolbar();
 
 public:
     explicit WorldEditorSection(ModContext& ctx);
