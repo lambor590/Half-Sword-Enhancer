@@ -2,13 +2,12 @@
 
 #include <iterator>
 
-#include "Menu/SectionStyle.h"
 #include "Utils/GuiUtils.h"
 
 namespace {
     constexpr const char* SCOPE_LABELS[] = {
-        "All NPCs",  "Nearest NPC", "Radius",    "Team",        "Targeting Player", "Has AI",
-        "Tick Enabled", "Has Target",    "No Target", "Player Team", "Not Player Team",
+        "All NPCs",      "Nearest NPC",  "Within Distance", "Matching Alliance", "Fighting Player", "Controllable NPCs",
+        "Unfrozen NPCs", "Has Opponent", "No Opponent",     "Player Alliance",   "Other Alliances",
     };
 
     constexpr const char* PROFILE_LABELS[] = {
@@ -17,7 +16,7 @@ namespace {
     };
 
     constexpr const char* COMBAT_BEHAVIOR_LABELS[] = {
-        "0", "1", "2", "3", "4", "5",
+        "Style 1", "Style 2", "Style 3", "Style 4", "Style 5", "Style 6",
     };
 
     constexpr const char* STRAFE_LABELS[] = {
@@ -31,11 +30,11 @@ namespace {
             case AIDirectorSection::Directive::FightEachOther: return "Fight Each Other";
             case AIDirectorSection::Directive::ProtectPlayer: return "Protect Player";
             case AIDirectorSection::Directive::IgnorePlayer: return "Ignore Player";
-            case AIDirectorSection::Directive::PanicFlee: return "Panic / Flee";
-            case AIDirectorSection::Directive::FreezeAI: return "Freeze AI";
-            case AIDirectorSection::Directive::DuelMode: return "Duel Mode";
+            case AIDirectorSection::Directive::PanicFlee: return "Panic and Flee";
+            case AIDirectorSection::Directive::FreezeAI: return "Freeze NPCs";
+            case AIDirectorSection::Directive::DuelMode: return "Duel";
             case AIDirectorSection::Directive::None:
-            default: return "None";
+            default: return "Normal";
         }
     }
 
@@ -97,10 +96,6 @@ void AIDirectorSection::StopAI() {
     AIDirector::Get().StopAI(SelectedTargets());
 }
 
-void AIDirectorSection::AttackPlayer() {
-    ToggleDirective(Directive::AttackPlayer);
-}
-
 void AIDirectorSection::ApplyBehavior() {
     AIDirector::Get().ApplyBehavior(SelectedTargets(), SelectedBehavior());
 }
@@ -111,14 +106,6 @@ void AIDirectorSection::ApplyTeam() {
 
 void AIDirectorSection::ApplyProfile() {
     AIDirector::Get().ApplyProfile(SelectedTargets(), profile);
-}
-
-void AIDirectorSection::FightEachOther() {
-    ToggleDirective(Directive::FightEachOther);
-}
-
-void AIDirectorSection::ProtectPlayer() {
-    ToggleDirective(Directive::ProtectPlayer);
 }
 
 void AIDirectorSection::ToggleDirective(Directive directive) {
@@ -154,10 +141,10 @@ void AIDirectorSection::SetDirective(Directive directive) {
 }
 
 void AIDirectorSection::RenderScope() {
-    ImGui::SeparatorText("Targets");
+    ImGui::SeparatorText("Affected NPCs");
 
     int scopeIdx = static_cast<int>(scope);
-    if (GuiUtils::BeginSizedCombo("Scope", SCOPE_LABELS[scopeIdx], 170.0f)) {
+    if (GuiUtils::BeginSizedCombo("Apply To", SCOPE_LABELS[scopeIdx], 170.0f)) {
         for (int i = 0; i < static_cast<int>(std::size(SCOPE_LABELS)); ++i) {
             if (ImGui::Selectable(SCOPE_LABELS[i], i == scopeIdx)) scope = static_cast<Scope>(i);
             if (i == scopeIdx) ImGui::SetItemDefaultFocus();
@@ -165,95 +152,101 @@ void AIDirectorSection::RenderScope() {
         ImGui::EndCombo();
     }
 
-    if (scope == Scope::Radius) GuiUtils::DebouncedDragFloat("Radius", &radius, 10.0f, 50.0f, 5000.0f, "%.0f");
-    if (scope == Scope::Team) GuiUtils::DebouncedDragInt("Team Filter", &team, 0.2f, 0, 32);
-    if (ImGui::Button("Refresh Status")) RefreshStatus();
+    if (scope == Scope::Radius) GuiUtils::DebouncedDragFloat("Distance", &radius, 10.0f, 50.0f, 5000.0f, "%.0f");
+    if (scope == Scope::Team) GuiUtils::DebouncedDragInt("Alliance", &team, 0.2f, 0, 32);
+    if (ImGui::Button("Update Overview")) RefreshStatus();
     status.Render();
 }
 
 void AIDirectorSection::RenderStatus() {
-    ImGui::SeparatorText("Status");
+    ImGui::SeparatorText("Overview");
 
     if (summary.targets < 0) {
-        ImGui::TextUnformatted("Not refreshed");
+        ImGui::TextUnformatted("Not checked yet");
         return;
     }
 
-    ImGui::Text("Targets: %d", summary.targets);
-    ImGui::SameLine();
-    ImGui::Text("AI BP: %d", summary.aiControllers);
-    ImGui::SameLine();
-    ImGui::Text("Tick: %d", summary.tickEnabled);
-    ImGui::Text("Assigned: %d", summary.targetAssigned);
-    ImGui::SameLine();
-    ImGui::Text("No Target: %d", summary.noTarget);
-    ImGui::SameLine();
-    ImGui::Text("Vs Player: %d", summary.targetingPlayer);
-    ImGui::Text("Teams: %d - %d", summary.teamMin, summary.teamMax);
+    constexpr ImGuiTableFlags STATUS_FLAGS = ImGuiTableFlags_SizingStretchSame | ImGuiTableFlags_NoSavedSettings;
+    if (ImGui::BeginTable("##AIStatus", 3, STATUS_FLAGS)) {
+        ImGui::TableNextColumn();
+        ImGui::Text("Affected: %d", summary.targets);
+        ImGui::TableNextColumn();
+        ImGui::Text("Controllable: %d", summary.aiControllers);
+        ImGui::TableNextColumn();
+        ImGui::Text("Unfrozen: %d", summary.tickEnabled);
+        ImGui::TableNextColumn();
+        ImGui::Text("In Combat: %d", summary.targetAssigned);
+        ImGui::TableNextColumn();
+        ImGui::Text("No Opponent: %d", summary.noTarget);
+        ImGui::TableNextColumn();
+        ImGui::Text("Fighting Player: %d", summary.targetingPlayer);
+        ImGui::EndTable();
+    }
+    ImGui::Text("Alliances: %d - %d", summary.teamMin, summary.teamMax);
     ImGui::Text(
-        "Intent A/D/R/S: %.2f / %.2f / %.2f / %.2f", summary.attackIntent, summary.defendIntent, summary.retreatIntent,
-        summary.strafeIntent
+        "Aggression / Defense / Retreat / Footwork: %.2f / %.2f / %.2f / %.2f", summary.attackIntent,
+        summary.defendIntent, summary.retreatIntent, summary.strafeIntent
     );
 }
 
 void AIDirectorSection::RenderAI() {
-    ImGui::SeparatorText("AI");
+    ImGui::SeparatorText("NPC Actions");
 
-    if (ImGui::Button("Enable Tick")) SetAITick(true);
-    ImGui::SameLine();
-    if (ImGui::Button("Disable Tick")) SetAITick(false);
-    ImGui::SameLine();
-    if (ImGui::Button("Stop AI")) StopAI();
+    if (GuiUtils::Button("Resume NPCs")) SetAITick(true);
+    (void)GuiUtils::SameLineIfFitsButton("Freeze NPCs");
+    if (GuiUtils::Button("Freeze NPCs")) SetAITick(false);
+    (void)GuiUtils::SameLineIfFitsButton("End Combat");
+    if (GuiUtils::Button("End Combat")) StopAI();
 
-    if (ImGui::Button("Target Player")) ForceTargetPlayer();
-    ImGui::SameLine();
-    if (ImGui::Button("Target Nearest")) ForceTargetNearest();
-    ImGui::SameLine();
-    if (ImGui::Button("Clear Target")) ClearTargets();
+    if (GuiUtils::Button("Focus on Player")) ForceTargetPlayer();
+    (void)GuiUtils::SameLineIfFitsButton("Focus on Nearest NPC");
+    if (GuiUtils::Button("Focus on Nearest NPC")) ForceTargetNearest();
+    (void)GuiUtils::SameLineIfFitsButton("Forget Opponents");
+    if (GuiUtils::Button("Forget Opponents")) ClearTargets();
 
-    if (ImGui::Button("Force Attack")) ForceAttack();
-    ImGui::SameLine();
-    if (ImGui::Button("Force Dash")) ForceDash();
-    ImGui::SameLine();
-    if (ImGui::Button("Stop Blade")) StopBlades();
+    if (GuiUtils::Button("Attack")) ForceAttack();
+    (void)GuiUtils::SameLineIfFitsButton("Dash");
+    if (GuiUtils::Button("Dash")) ForceDash();
+    (void)GuiUtils::SameLineIfFitsButton("Stop Weapon Swing");
+    if (GuiUtils::Button("Stop Weapon Swing")) StopBlades();
 }
 
 void AIDirectorSection::RenderBehavior() {
-    ImGui::SeparatorText("Profiles");
+    ImGui::SeparatorText("Combat Personality");
 
     int profileIdx = static_cast<int>(profile);
-    if (GuiUtils::BeginSizedCombo("Profile", PROFILE_LABELS[profileIdx], 160.0f)) {
+    if (GuiUtils::BeginSizedCombo("Personality", PROFILE_LABELS[profileIdx], 160.0f)) {
         for (int i = 0; i < static_cast<int>(std::size(PROFILE_LABELS)); ++i) {
             if (ImGui::Selectable(PROFILE_LABELS[i], i == profileIdx)) profile = static_cast<Profile>(i);
             if (i == profileIdx) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
     }
-    if (ImGui::Button("Apply Profile")) ApplyProfile();
+    if (ImGui::Button("Use Personality")) ApplyProfile();
 
-    ImGui::SeparatorText("Core Behavior");
+    ImGui::SeparatorText("Custom Behavior");
     ImGui::Checkbox("Fearless", &fearless);
-    GuiUtils::DebouncedDragFloat("Drunk", &drunkLevel, 0.01f, 0.0f, 1.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Body Skill", &bodySkill, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Drunkenness", &drunkLevel, 0.01f, 0.0f, 1.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Physical Skill", &bodySkill, 0.05f, 0.0f, 10.0f, "%.2f");
     GuiUtils::DebouncedDragFloat("Weapon Skill", &weaponSkill, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Dodge Rate", &dodgeRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Dodging", &dodgeRate, 0.05f, 0.0f, 10.0f, "%.2f");
     GuiUtils::DebouncedDragFloat("Running Speed", &runningSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
 }
 
 void AIDirectorSection::RenderAdvanced() {
-    ImGui::SeparatorText("Advanced");
+    ImGui::SeparatorText("Fine Tuning");
 
-    GuiUtils::DebouncedDragFloat("Attack Intent", &attackIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Defend Intent", &defendIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Retreat Intent", &retreatIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Strafe Intent", &strafeIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Berserk Rate", &berserkRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Parry Rate", &parryRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Aggression", &attackIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Defense", &defendIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Retreat Tendency", &retreatIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Footwork", &strafeIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Berserk Tendency", &berserkRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Parrying", &parryRate, 0.05f, 0.0f, 10.0f, "%.2f");
     GuiUtils::DebouncedDragFloat("Swing Speed", &swingSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Attack Change Rate", &changeAttackRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Approach Distance", &approachDistance, 5.0f, 0.0f, 1000.0f, "%.0f");
+    GuiUtils::DebouncedDragFloat("Attack Variety", &changeAttackRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Preferred Distance", &approachDistance, 5.0f, 0.0f, 1000.0f, "%.0f");
 
-    if (GuiUtils::BeginSizedCombo("Combat Behavior", COMBAT_BEHAVIOR_LABELS[combatBehavior], 150.0f)) {
+    if (GuiUtils::BeginSizedCombo("Fighting Style", COMBAT_BEHAVIOR_LABELS[combatBehavior], 150.0f)) {
         for (int i = 0; i < static_cast<int>(std::size(COMBAT_BEHAVIOR_LABELS)); ++i) {
             if (ImGui::Selectable(COMBAT_BEHAVIOR_LABELS[i], i == combatBehavior)) combatBehavior = i;
             if (i == combatBehavior) ImGui::SetItemDefaultFocus();
@@ -261,7 +254,7 @@ void AIDirectorSection::RenderAdvanced() {
         ImGui::EndCombo();
     }
 
-    if (GuiUtils::BeginSizedCombo("Strafe Mode", STRAFE_LABELS[strafeMode], 150.0f)) {
+    if (GuiUtils::BeginSizedCombo("Footwork Style", STRAFE_LABELS[strafeMode], 150.0f)) {
         for (int i = 0; i < static_cast<int>(std::size(STRAFE_LABELS)); ++i) {
             if (ImGui::Selectable(STRAFE_LABELS[i], i == strafeMode)) strafeMode = i;
             if (i == strafeMode) ImGui::SetItemDefaultFocus();
@@ -270,47 +263,53 @@ void AIDirectorSection::RenderAdvanced() {
     }
 
     auto invincibility = static_cast<float>(aiInvincibility);
-    if (GuiUtils::DebouncedDragFloat("AI Invincibility", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
+    if (GuiUtils::DebouncedDragFloat("Damage Resistance", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
         aiInvincibility = invincibility;
 
     auto armorInvincibility = static_cast<float>(aiArmorInvincibility);
-    if (GuiUtils::DebouncedDragFloat("AI Armor Invincibility", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
+    if (GuiUtils::DebouncedDragFloat("Armor Resistance", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
         aiArmorInvincibility = armorInvincibility;
 
-    if (ImGui::Button("Apply Behavior")) ApplyBehavior();
+    if (ImGui::Button("Use Custom Behavior")) ApplyBehavior();
 
-    ImGui::SeparatorText("Teams");
-    GuiUtils::DebouncedDragInt("New Team", &newTeam, 0.2f, 0, 32);
-    if (ImGui::Button("Apply Team")) ApplyTeam();
+    ImGui::SeparatorText("Alliances");
+    GuiUtils::DebouncedDragInt("Alliance", &newTeam, 0.2f, 0, 32);
+    if (ImGui::Button("Change Alliance")) ApplyTeam();
 }
 
 void AIDirectorSection::RenderTactics() {
     ImGui::SeparatorText("Tactics");
 
     const auto currentDirective = activeDirective;
-    ImGui::Text("Directive: %s", DirectiveLabel(currentDirective));
+    ImGui::Text("Current Behavior: %s", DirectiveLabel(currentDirective));
 
-    if (ImGui::Button("Attack Player")) AttackPlayer();
-    ImGui::SameLine();
-    if (ImGui::Button("Fight Each Other")) FightEachOther();
-    ImGui::SameLine();
-    if (ImGui::Button("Protect Player")) ProtectPlayer();
-
-    if (ImGui::Button("Ignore Player")) ToggleDirective(Directive::IgnorePlayer);
-    ImGui::SameLine();
-    if (ImGui::Button("Panic / Flee")) ToggleDirective(Directive::PanicFlee);
-    ImGui::SameLine();
-    if (ImGui::Button("Freeze AI")) ToggleDirective(Directive::FreezeAI);
-    ImGui::SameLine();
-    if (ImGui::Button("Duel Mode")) ToggleDirective(Directive::DuelMode);
+    struct TacticAction {
+        const char* label;
+        Directive directive;
+    };
+    static constexpr TacticAction TACTICS[] = {
+        {"Attack Player", Directive::AttackPlayer},
+        {"Fight Each Other", Directive::FightEachOther},
+        {"Protect Player", Directive::ProtectPlayer},
+        {"Ignore Player", Directive::IgnorePlayer},
+        {"Panic and Flee", Directive::PanicFlee},
+        {"Freeze NPCs", Directive::FreezeAI},
+        {"Duel", Directive::DuelMode},
+    };
+    for (size_t i = 0; i < std::size(TACTICS); ++i) {
+        const auto& tactic = TACTICS[i];
+        if (i > 0) (void)GuiUtils::SameLineIfFitsButton(tactic.label);
+        const auto tone =
+            tactic.directive == currentDirective ? GuiUtils::ButtonTone::Primary : GuiUtils::ButtonTone::Default;
+        if (GuiUtils::Button(tactic.label, tone)) ToggleDirective(tactic.directive);
+    }
 
     if (currentDirective != Directive::None) {
-        if (ImGui::Button("Clear Directive")) SetDirective(Directive::None);
+        if (GuiUtils::Button("Restore Normal Behavior", GuiUtils::ButtonTone::Quiet)) SetDirective(Directive::None);
     }
 }
 
 void AIDirectorSection::Render() {
-    const SectionStyle::StyleRAII style;
     SyncDirectorSnapshot();
     RenderScope();
     RenderStatus();

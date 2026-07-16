@@ -8,7 +8,9 @@
 
 class AIDirectorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::World, "AI Director", "Environment"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::World, "NPC Control", "Choose who NPCs fight and how they behave in combat."
+    };
 
     using Scope = AIDirector::Scope;
     using Profile = AIDirector::Profile;
@@ -53,12 +55,9 @@ private:
     void RefreshStatus();
     void SetAITick(bool enabled);
     void StopAI();
-    void AttackPlayer();
     void ApplyBehavior();
     void ApplyTeam();
     void ApplyProfile();
-    void FightEachOther();
-    void ProtectPlayer();
     void ToggleDirective(Directive directive);
     void ForceTargetPlayer();
     void ForceTargetNearest();
