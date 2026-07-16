@@ -127,6 +127,7 @@ public:
     void SetDirective(TargetFilter query, Directive directive);
     void ClearDirective();
     [[nodiscard]] Directive ActiveDirective() const noexcept;
+    void PrepareForRuntimeShutdown() noexcept;
     void OnRuntimeShutdown() noexcept;
     Snapshot GetSnapshot() const;
 
@@ -145,7 +146,7 @@ private:
     struct ActorState {
         int willieTeam = 0;
         int aiTeam = 0;
-        uintptr_t target = 0;
+        SDK::AWillie_BP_C* target = nullptr;
         double bodySkill = 0.0;
         double weaponSkill = 0.0;
         double dodgeRate = 0.0;
@@ -181,7 +182,9 @@ private:
     void ApplyProfile(const RuntimeContextSnapshot& runtime, TargetFilter query, Profile profile);
     void SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter query, TargetMode mode);
     void TriggerImpulse(const RuntimeContextSnapshot& runtime, TargetFilter query, Impulse impulse);
-    void StartDirective(const RuntimeContextSnapshot& runtime, TargetFilter query, Directive directive, bool switchingDirective);
+    void StartDirective(
+        const RuntimeContextSnapshot& runtime, TargetFilter query, Directive directive, bool switchingDirective
+    );
     void ClearDirective(const RuntimeContextSnapshot& runtime);
     void ApplyDirective(const RuntimeContextSnapshot& runtime, bool triggerAttack);
     void OnDirectiveTick(const RuntimeContextSnapshot& runtime);
@@ -199,13 +202,13 @@ private:
     mutable std::mutex directiveMutex;
     Snapshot snapshot;
     std::uint64_t nextResultSequence = 0;
-    std::atomic<int> activeDirective{static_cast<int>(Directive::None)};
+    std::atomic<Directive> activeDirective{Directive::None};
     TargetFilter directiveQuery;
     bool pendingDirectiveRestore = false;
     bool pendingDirectiveInitialTrigger = false;
     double nextDirectiveApplyTime = 0.0;
     EventBus::SubscriptionHandle directiveTickSubscription = EventBus::INVALID_SUBSCRIPTION;
-    std::unordered_map<uintptr_t, ActorState> originalStates;
+    std::unordered_map<SDK::AWillie_BP_C*, ActorState> originalStates;
     std::vector<SDK::AWillie_BP_C*> targetsBuffer;
     std::vector<SDK::AWillie_BP_C*> enemiesBuffer;
 };
