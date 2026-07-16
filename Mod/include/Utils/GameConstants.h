@@ -63,6 +63,10 @@ namespace GameConstants {
     }
 
     constexpr const char* WILLIE_BP_PATH = "/Game/Character/Blueprints/Willie_BP.Willie_BP_C";
+    constexpr const char* MODULAR_WEAPON_BP_PATH =
+        "/Game/Assets/Weapons/Blueprints/ModularWeaponBP.ModularWeaponBP_C";
+    constexpr const char* CUSTOMIZABLE_WEAPON_BP_PATH =
+        "/Game/Assets/Weapons/Blueprints/ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C";
 
     constexpr float DEFAULT_HEALTH = 100.0f;
     constexpr float DEFAULT_PAIN = 0.0f;
