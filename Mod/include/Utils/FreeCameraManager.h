@@ -1,5 +1,7 @@
 #pragma once
 
+#include <atomic>
+
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
 
@@ -32,7 +34,14 @@ public:
     static FreeCameraManager& Get();
 
     void Apply(bool enabled, bool lockPlayerInput, FreeCameraSettings settings);
+    void UpdateSettings(FreeCameraSettings settings);
     void ConfigureScreenOverlays(ScreenOverlaySettings settings);
+    [[nodiscard]] bool IsActive(SDK::UWorld* world) const noexcept;
+    [[nodiscard]] bool IsPlayerInputLocked(SDK::UWorld* world) const noexcept;
+    void OnRuntimeStart();
+    // Game-thread only. Restores camera, input, and hidden widgets before hooks are removed.
+    void PrepareForRuntimeShutdown(const RuntimeContextSnapshot& runtime);
+    void OnRuntimeShutdown() noexcept;
 
     FreeCameraManager(const FreeCameraManager&) = delete;
     FreeCameraManager& operator=(const FreeCameraManager&) = delete;
@@ -45,6 +54,7 @@ private:
     bool EnsureCheatManager();
     bool EnableDebugCamera(const RuntimeContextSnapshot& runtime, const FreeCameraSettings& settings);
     void ApplyDebugCameraSettings(const FreeCameraSettings& settings);
+    void ApplyFrozenCameraSettings(const FreeCameraSettings& settings);
     void DisableDebugCamera();
     void FreezeDebugCamera(const RuntimeContextSnapshot& runtime, const FreeCameraSettings& settings);
     bool SpawnFrozenCamera(const RuntimeContextSnapshot& runtime, const SDK::FMinimalViewInfo& viewInfo);
@@ -52,17 +62,17 @@ private:
     void RestoreOriginalViewTarget();
     void RestoreOriginalPlayerController();
     void ClearState() noexcept;
+    void PublishState() noexcept;
     void ApplyPlayerInputLock(const RuntimeContextSnapshot& runtime, bool locked, const FreeCameraSettings& settings);
     void ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime);
     void ApplyConstructedScreenOverlay(SDK::UObject* object);
     void RestoreGameplayInput(const SDK::UObject* worldContext);
-    [[nodiscard]] bool ShouldHideScreenOverlays() const noexcept;
+    void EnsureScreenOverlayHooks();
+    [[nodiscard]] bool ShouldHideScreenOverlays() noexcept;
 
-    bool active = false;
     bool playerInputLocked = false;
     int hiddenResultMenuCount = 0;
-    GameHook::HookHandle screenOverlayConstructHook = GameHook::INVALID_HOOK_HANDLE;
-    GameHook::HookHandle screenOverlayPauseHook = GameHook::INVALID_HOOK_HANDLE;
+    GameHook::SubscriptionGroup screenOverlaySubscriptions;
     ScreenOverlaySettings screenOverlays;
     SDK::UWorld* activeWorld = nullptr;
     SDK::APlayerController* originalController = nullptr;
@@ -71,4 +81,6 @@ private:
     SDK::ADebugCameraController* debugController = nullptr;
     SDK::AActor* originalViewTarget = nullptr;
     SDK::ACameraActor* frozenCameraActor = nullptr;
+    std::atomic<SDK::UWorld*> publishedWorld = nullptr;
+    std::atomic_bool publishedInputLocked = false;
 };
