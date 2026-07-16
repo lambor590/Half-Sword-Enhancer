@@ -1,27 +1,85 @@
-#include "Windows.h"
+#include <Windows.h>
 
-static constexpr int FUNC_COUNT = 180;
+#include <algorithm>
+#include <cstddef>
+#include <cwchar>
+#include <string_view>
+#include <vector>
 
-extern "C" FARPROC originalFuncs[FUNC_COUNT]{};
+#include "winmm_exports.generated.h"
 
-static HMODULE hOriginalDLL = nullptr;
+extern "C" FARPROC originalFuncs[winmm_exports::kCount]{};
+extern "C" volatile LONG proxyState = 0;
 
 namespace {
-    HMODULE LoadOriginalDLL() {
-        char systemPath[MAX_PATH];
-        GetSystemDirectoryA(systemPath, MAX_PATH);
-        char originalDllPath[MAX_PATH];
-        wsprintfA(originalDllPath, "%s\\winmm.dll", systemPath);
-        return LoadLibraryA(originalDllPath);
+    constexpr DWORD PROXY_READY_WAIT_MS = 250;
+    constexpr LONG PROXY_FAILED = -1;
+    constexpr LONG PROXY_READY = 1;
+    constexpr std::size_t MAX_PATH_CHARACTERS = 32'768;
+    constexpr std::wstring_view MOD_FILENAME = L"HSEnhancer.dll";
+
+    HANDLE proxyReadyEvent = nullptr;
+
+    [[nodiscard]] HMODULE LoadOriginalDll() noexcept {
+        wchar_t path[MAX_PATH]{};
+        const UINT systemDirectoryLength = GetSystemDirectoryW(path, MAX_PATH);
+        constexpr wchar_t DLL_SUFFIX[] = L"\\winmm.dll";
+        constexpr std::size_t DLL_SUFFIX_CHARACTERS = sizeof(DLL_SUFFIX) / sizeof(wchar_t);
+        if (systemDirectoryLength == 0 || systemDirectoryLength + DLL_SUFFIX_CHARACTERS > MAX_PATH) return nullptr;
+
+        std::wmemcpy(path + systemDirectoryLength, DLL_SUFFIX, DLL_SUFFIX_CHARACTERS);
+        return LoadLibraryW(path);
     }
 
-    bool LoadModDLL() {
-        HMODULE hModDLL = LoadLibraryA("HSEnhancer.dll");
-        if (hModDLL) {
+    [[nodiscard]] bool ResolveOriginalFunctions(HMODULE originalDll) noexcept {
+        for (std::size_t index = 0; index < winmm_exports::kCount; ++index) {
+            originalFuncs[index] = GetProcAddress(originalDll, winmm_exports::kNames[index]);
+            if (!originalFuncs[index]) return false;
+        }
+        return true;
+    }
+
+    void PublishProxyState(LONG state) noexcept {
+        InterlockedExchange(&proxyState, state);
+        if (proxyReadyEvent) SetEvent(proxyReadyEvent);
+    }
+
+    [[nodiscard]] std::vector<wchar_t> BuildModPath(HMODULE module) {
+        std::vector<wchar_t> path(MAX_PATH);
+        while (path.size() <= MAX_PATH_CHARACTERS) {
+            const DWORD length = GetModuleFileNameW(module, path.data(), static_cast<DWORD>(path.size()));
+            if (length == 0) return {};
+            if (length < path.size()) {
+                const wchar_t* separator = std::wcsrchr(path.data(), L'\\');
+                if (!separator) return {};
+                const auto prefixLength = static_cast<std::size_t>(separator - path.data()) + 1;
+                path.resize(prefixLength + MOD_FILENAME.size() + 1);
+                std::wmemcpy(path.data() + prefixLength, MOD_FILENAME.data(), MOD_FILENAME.size());
+                path.back() = L'\0';
+                return path;
+            }
+            if (path.size() == MAX_PATH_CHARACTERS) return {};
+            path.resize((std::min)(path.size() * 2, MAX_PATH_CHARACTERS));
+        }
+        return {};
+    }
+
+    [[nodiscard]] bool LoadModDll(HMODULE proxyModule) {
+        const auto modPath = BuildModPath(proxyModule);
+        HMODULE modDll = modPath.empty() ? nullptr : LoadLibraryW(modPath.data());
+        if (modDll) {
             using InitFn = void (*)();
-            auto init = reinterpret_cast<InitFn>(GetProcAddress(hModDLL, "HSE_Initialize"));
-            if (init) init();
-            return true;
+            auto init = reinterpret_cast<InitFn>(GetProcAddress(modDll, "HSE_Initialize"));
+            if (init) {
+                init();
+                return true;
+            }
+            FreeLibrary(modDll);
+            MessageBoxA(
+                nullptr, "'HSEnhancer.dll' does not export HSE_Initialize and cannot be started.",
+                "Half Sword Enhancer", MB_OK | MB_ICONERROR
+            );
+            return false;
         }
 
         MessageBoxA(
@@ -32,210 +90,54 @@ namespace {
         );
         return false;
     }
-}
 
-static DWORD WINAPI BootstrapMod(LPVOID) {
-    LoadModDLL();
-    return 0;
-}
+    DWORD WINAPI BootstrapMod(LPVOID context) {
+        const HMODULE originalDll = LoadOriginalDll();
+        if (!originalDll || !ResolveOriginalFunctions(originalDll)) {
+            if (originalDll) FreeLibrary(originalDll);
+            PublishProxyState(PROXY_FAILED);
+            MessageBoxA(
+                nullptr, "Could not load the original System32 'winmm.dll'.", "Half Sword Enhancer",
+                MB_OK | MB_ICONERROR
+            );
+            return 0;
+        }
+        PublishProxyState(PROXY_READY);
 
-// clang-format off
-static constexpr const char* FUNC_NAMES[FUNC_COUNT] =
-    {"CloseDriver",
-     "DefDriverProc",
-     "DriverCallback",
-     "DrvGetModuleHandle",
-     "GetDriverModuleHandle",
-     "OpenDriver",
-     "PlaySound",
-     "PlaySoundA",
-     "PlaySoundW",
-     "SendDriverMessage",
-     "WOWAppExit",
-     "auxGetDevCapsA",
-     "auxGetDevCapsW",
-     "auxGetNumDevs",
-     "auxGetVolume",
-     "auxOutMessage",
-     "auxSetVolume",
-     "joyConfigChanged",
-     "joyGetDevCapsA",
-     "joyGetDevCapsW",
-     "joyGetNumDevs",
-     "joyGetPos",
-     "joyGetPosEx",
-     "joyGetThreshold",
-     "joyReleaseCapture",
-     "joySetCapture",
-     "joySetThreshold",
-     "mciDriverNotify",
-     "mciDriverYield",
-     "mciExecute",
-     "mciFreeCommandResource",
-     "mciGetCreatorTask",
-     "mciGetDeviceIDA",
-     "mciGetDeviceIDFromElementIDA",
-     "mciGetDeviceIDFromElementIDW",
-     "mciGetDeviceIDW",
-     "mciGetDriverData",
-     "mciGetErrorStringA",
-     "mciGetErrorStringW",
-     "mciGetYieldProc",
-     "mciLoadCommandResource",
-     "mciSendCommandA",
-     "mciSendCommandW",
-     "mciSendStringA",
-     "mciSendStringW",
-     "mciSetDriverData",
-     "mciSetYieldProc",
-     "midiConnect",
-     "midiDisconnect",
-     "midiInAddBuffer",
-     "midiInClose",
-     "midiInGetDevCapsA",
-     "midiInGetDevCapsW",
-     "midiInGetErrorTextA",
-     "midiInGetErrorTextW",
-     "midiInGetID",
-     "midiInGetNumDevs",
-     "midiInMessage",
-     "midiInOpen",
-     "midiInPrepareHeader",
-     "midiInReset",
-     "midiInStart",
-     "midiInStop",
-     "midiInUnprepareHeader",
-     "midiOutCacheDrumPatches",
-     "midiOutCachePatches",
-     "midiOutClose",
-     "midiOutGetDevCapsA",
-     "midiOutGetDevCapsW",
-     "midiOutGetErrorTextA",
-     "midiOutGetErrorTextW",
-     "midiOutGetID",
-     "midiOutGetNumDevs",
-     "midiOutGetVolume",
-     "midiOutLongMsg",
-     "midiOutMessage",
-     "midiOutOpen",
-     "midiOutPrepareHeader",
-     "midiOutReset",
-     "midiOutSetVolume",
-     "midiOutShortMsg",
-     "midiOutUnprepareHeader",
-     "midiStreamClose",
-     "midiStreamOpen",
-     "midiStreamOut",
-     "midiStreamPause",
-     "midiStreamPosition",
-     "midiStreamProperty",
-     "midiStreamRestart",
-     "midiStreamStop",
-     "mixerClose",
-     "mixerGetControlDetailsA",
-     "mixerGetControlDetailsW",
-     "mixerGetDevCapsA",
-     "mixerGetDevCapsW",
-     "mixerGetID",
-     "mixerGetLineControlsA",
-     "mixerGetLineControlsW",
-     "mixerGetLineInfoA",
-     "mixerGetLineInfoW",
-     "mixerGetNumDevs",
-     "mixerMessage",
-     "mixerOpen",
-     "mixerSetControlDetails",
-     "mmDrvInstall",
-     "mmGetCurrentTask",
-     "mmTaskBlock",
-     "mmTaskCreate",
-     "mmTaskSignal",
-     "mmTaskYield",
-     "mmioAdvance",
-     "mmioAscend",
-     "mmioClose",
-     "mmioCreateChunk",
-     "mmioDescend",
-     "mmioFlush",
-     "mmioGetInfo",
-     "mmioInstallIOProcA",
-     "mmioInstallIOProcW",
-     "mmioOpenA",
-     "mmioOpenW",
-     "mmioRead",
-     "mmioRenameA",
-     "mmioRenameW",
-     "mmioSeek",
-     "mmioSendMessage",
-     "mmioSetBuffer",
-     "mmioSetInfo",
-     "mmioStringToFOURCCA",
-     "mmioStringToFOURCCW",
-     "mmioWrite",
-     "mmsystemGetVersion",
-     "sndPlaySoundA",
-     "sndPlaySoundW",
-     "timeBeginPeriod",
-     "timeEndPeriod",
-     "timeGetDevCaps",
-     "timeGetSystemTime",
-     "timeGetTime",
-     "timeKillEvent",
-     "timeSetEvent",
-     "waveInAddBuffer",
-     "waveInClose",
-     "waveInGetDevCapsA",
-     "waveInGetDevCapsW",
-     "waveInGetErrorTextA",
-     "waveInGetErrorTextW",
-     "waveInGetID",
-     "waveInGetNumDevs",
-     "waveInGetPosition",
-     "waveInMessage",
-     "waveInOpen",
-     "waveInPrepareHeader",
-     "waveInReset",
-     "waveInStart",
-     "waveInStop",
-     "waveInUnprepareHeader",
-     "waveOutBreakLoop",
-     "waveOutClose",
-     "waveOutGetDevCapsA",
-     "waveOutGetDevCapsW",
-     "waveOutGetErrorTextA",
-     "waveOutGetErrorTextW",
-     "waveOutGetID",
-     "waveOutGetNumDevs",
-     "waveOutGetPitch",
-     "waveOutGetPlaybackRate",
-     "waveOutGetPosition",
-     "waveOutGetVolume",
-     "waveOutMessage",
-     "waveOutOpen",
-     "waveOutPause",
-     "waveOutPrepareHeader",
-     "waveOutReset",
-     "waveOutRestart",
-     "waveOutSetPitch",
-     "waveOutSetPlaybackRate",
-     "waveOutSetVolume",
-     "waveOutUnprepareHeader",
-     "waveOutWrite"};
-// clang-format on
-
-static void CacheOriginalFunctions() {
-    for (int i = 0; i < FUNC_COUNT; i++)
-        originalFuncs[i] = GetProcAddress(hOriginalDLL, FUNC_NAMES[i]);
-}
-
-BOOL APIENTRY DllMain(HMODULE /*hModule*/, DWORD reasonForCall, LPVOID /*lpReserved*/) {
-    if (reasonForCall == DLL_PROCESS_ATTACH) {
-        hOriginalDLL = LoadOriginalDLL();
-        CacheOriginalFunctions();
-        HANDLE bootstrapThread = CreateThread(nullptr, 0, BootstrapMod, nullptr, 0, nullptr);
-        if (bootstrapThread) CloseHandle(bootstrapThread);
-    } else if (reasonForCall == DLL_PROCESS_DETACH) {
-        if (hOriginalDLL) FreeLibrary(hOriginalDLL);
+        (void)LoadModDll(static_cast<HMODULE>(context));
+        return 0;
     }
+}
+
+extern "C" FARPROC WaitForOriginalFunction(std::size_t index) noexcept {
+    if (index >= winmm_exports::kCount) return nullptr;
+
+    LONG state = InterlockedCompareExchange(&proxyState, 0, 0);
+    if (state == PROXY_READY) return originalFuncs[index];
+    if (state == PROXY_FAILED || !proxyReadyEvent) return nullptr;
+
+    (void)WaitForSingleObject(proxyReadyEvent, PROXY_READY_WAIT_MS);
+    state = InterlockedCompareExchange(&proxyState, 0, 0);
+    return state == PROXY_READY ? originalFuncs[index] : nullptr;
+}
+
+BOOL APIENTRY DllMain(HMODULE module, DWORD reasonForCall, LPVOID /*reserved*/) {
+    if (reasonForCall != DLL_PROCESS_ATTACH) return TRUE;
+
+    DisableThreadLibraryCalls(module);
+
+    // Loading another DLL from DllMain runs under the loader lock and can deadlock.
+    // Bootstrap after attach instead; an unusually early winmm call fails closed in
+    // the assembly trampoline if the post-attach worker cannot publish in time.
+    proxyReadyEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+    if (!proxyReadyEvent) return FALSE;
+
+    HANDLE bootstrapThread = CreateThread(nullptr, 0, BootstrapMod, module, 0, nullptr);
+    if (!bootstrapThread) {
+        CloseHandle(proxyReadyEvent);
+        proxyReadyEvent = nullptr;
+        return FALSE;
+    }
+    CloseHandle(bootstrapThread);
     return TRUE;
 }
