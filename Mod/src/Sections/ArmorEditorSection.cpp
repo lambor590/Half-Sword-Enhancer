@@ -1,54 +1,49 @@
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
-#include "Menu/SectionStyle.h"
 
-#include <cstring>
 #include <utility>
 #include "Hooks/GameHook.h"
 #include "Utils/ArmorGenerationUi.h"
+#include "Utils/BlueprintRegistry.h"
 #include "Utils/EquipmentGenerator.h"
+#include "Utils/GameClass.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
+#include "Utils/PresetApplication.h"
 #include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
+namespace {
+    template <typename... OverrideTypes> bool HasAnyEnabledOverride(const OverrideTypes&... overrides) {
+        return (... || overrides.enabled);
+    }
+}
+
 void ArmorEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
     protectionFields = {
-        OverrideField(
-            "Blunt Protection", rp.protectionBlunt, 0.1f, "Protection against blunt/crushing damage"
-        ),
-        OverrideField(
-            "Cut Protection", rp.protectionCut, 0.1f, "Protection against cutting/slashing damage"
-        ),
-        OverrideField(
-            "Stab Protection", rp.protectionStab, 0.1f, "Protection against piercing/stabbing damage"
-        ),
+        OverrideField("Blunt Protection", rp.protectionBlunt, 0.1f, "Protection against blunt/crushing damage"),
+        OverrideField("Cut Protection", rp.protectionCut, 0.1f, "Protection against cutting/slashing damage"),
+        OverrideField("Stab Protection", rp.protectionStab, 0.1f, "Protection against piercing/stabbing damage"),
     };
     physicsFields = {
         OverrideField(
-            "Material Density", rp.materialDensity, 0.1f,
-            "Material density - affects weight and impact absorption"
+            "Material Heaviness", rp.materialDensity, 0.1f,
+            "Higher values make the armor heavier and absorb more impact"
         ),
-        OverrideField("Mass Scale", rp.massScale, 0.01f, "Overall mass multiplier for the armor piece"),
+        OverrideField("Weight", rp.massScale, 0.01f, "Overall armor weight"),
     };
     behaviorFields = {
+        OverrideField("Gauntlet Grip", rp.handsRigidity, 0.1f, "Grip strength while wearing these gauntlets"),
+        OverrideField("Helmet Security", rp.strapPower, 0.1f, "How securely the helmet stays on"),
         OverrideField(
-            "Hands Rigidity", rp.handsRigidity, 0.1f, "Gauntlet hand rigidity - affects grip strength"
+            "NPC Damage Resistance", rp.aiInvincibilityRate, 0.01f, "Damage resistance for NPCs wearing this armor"
         ),
-        OverrideField(
-            "Strap Power", rp.strapPower, 0.1f,
-            "Helmet strap force - affects how securely the helmet stays on"
-        ),
-        OverrideField(
-            "AI Invincibility Rate", rp.aiInvincibilityRate, 0.01f,
-            "Rate at which AI ignores damage when wearing this armor"
-        ),
-        OverrideField("Price Override", rp.price, 1.0f, "Override the runtime price value on the actor"),
-        OverrideField("Pick Up", rp.pickUp, "Allow picking up this armor piece from the ground"),
+        OverrideField("Custom Price", rp.price, 1.0f, "Custom armor price"),
+        OverrideField("Can Be Picked Up", rp.pickUp, "Allow this armor to be picked up from the ground"),
     };
 }
 
@@ -59,7 +54,7 @@ int ArmorEditorSection::CountAllActive() const {
 bool ArmorEditorSection::IsModularCore() const {
     SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
     if (!coreClass || !coreClass->ClassDefaultObject) return false;
-    return coreClass->ClassDefaultObject->IsA(SDK::ABP_Armor_Modular_Core_Master_C::StaticClass());
+    return GameClass::IsModularArmor(coreClass->ClassDefaultObject);
 }
 
 void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
@@ -70,14 +65,14 @@ void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
     armorModules.populatedForCore = coreClass;
 
     if (!coreClass->ClassDefaultObject) return;
-    if (!coreClass->ClassDefaultObject->IsA(SDK::ABP_Armor_Modular_Core_Master_C::StaticClass())) return;
+    if (!GameClass::IsModularArmor(coreClass->ClassDefaultObject)) return;
 
     auto* cdo = static_cast<SDK::ABP_Armor_Modular_Core_Master_C*>(coreClass->ClassDefaultObject);
 
     auto collect = [](std::vector<ModuleEntry>& out, const SDK::TArray<SDK::UClass*>& arr) {
         out.reserve(arr.Num());
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i]) out.push_back({arr[i], arr[i]->GetName()});
+            if (arr[i]) out.push_back({arr[i], BlueprintRegistry::CleanDisplayName(arr[i]->GetName())});
         }
     };
     collect(armorModules.modules1, cdo->Available_Modules_1);
@@ -87,7 +82,14 @@ void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
 }
 
 void ArmorEditorSection::ResetArmorPassport() {
+    renderDraftRevision = draftRevision.fetch_add(1, std::memory_order_acq_rel) + 1;
+    armorGenerationPending.store(false, std::memory_order_release);
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        pendingRenderUpdates.draft.reset();
+    }
     armorPassport = {};
+    armorCorePath.clear();
     armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = {0.5f, 0.5f, 0.5f, 1.0f};
     armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {0.5f, 0.5f, 0.5f, 1.0f};
     armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E = static_cast<SDK::Enum_Ranks>(4);
@@ -97,22 +99,37 @@ void ArmorEditorSection::ResetArmorPassport() {
 void ArmorEditorSection::QueueGeneration(
     SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, EquipmentGenerator::ArmorGenerationOptions options
 ) {
-    armorGenerationPending = true;
-    GameHook::QueueAction([this, slot, tier, options](const RuntimeContextSnapshot& runtime) {
-        auto* world = runtime.world;
-        if (!world) {
-            armorGenerationPending = false;
-            return;
-        }
-        auto generated = EquipmentGenerator::GenerateArmor(world, tier, slot, options);
-        if (EquipmentGenerator::IsArmorPassportValid(generated)) {
-            armorPassport = generated;
-            PopulateModulePoolForCurrentCore();
-        } else {
-            presets.status.Set("Generation failed for this slot/tier", true);
-        }
-        armorGenerationPending = false;
-    });
+    const std::uint64_t revision = draftRevision.fetch_add(1, std::memory_order_acq_rel) + 1;
+    armorGenerationPending.store(true, std::memory_order_release);
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        pendingRenderUpdates.draft.reset();
+    }
+    const bool queued =
+        GameHook::QueueAction([this, slot, tier, options, revision](const RuntimeContextSnapshot& runtime) {
+            auto* world = runtime.world;
+            if (!world) {
+                if (draftRevision.load(std::memory_order_acquire) == revision)
+                    armorGenerationPending.store(false, std::memory_order_release);
+                return;
+            }
+            auto generated = EquipmentGenerator::GenerateArmor(world, tier, slot, options);
+            auto snapshot = PresetApplication::SnapshotArmorPassport(generated);
+            if (snapshot) {
+                PendingDraftUpdate update;
+                update.revision = revision;
+                update.data = std::move(*snapshot);
+                PublishDraftUpdate(std::move(update));
+            } else {
+                PublishStatus("Could not create an armor design for the selected slot and tier", true, revision);
+            }
+            if (draftRevision.load(std::memory_order_acquire) == revision)
+                armorGenerationPending.store(false, std::memory_order_release);
+        });
+    if (!queued) {
+        armorGenerationPending.store(false, std::memory_order_release);
+        presets.status.Set("Could not create armor design", true);
+    }
 }
 
 void ArmorEditorSection::GenerateArmorPassport() {
@@ -130,39 +147,6 @@ void ArmorEditorSection::RandomizeArmorPassport() {
     GenerateArmorPassport();
 }
 
-namespace {
-
-    using A = SDK::ABP_Armor_Master_C;
-
-    static constexpr OverrideSetter PROTECTION_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Blunt = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Cut = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Stab = GetDouble(f); },
-    };
-
-    static constexpr OverrideSetter PHYSICS_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Material_Density = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Mass_Scale = GetDouble(f); },
-    };
-
-    static constexpr OverrideSetter BEHAVIOR_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Hands_Rigidity__Gauntlets_ = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Strap_Power__Helmet_ = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->AI_Invinvcibility_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Price = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Pick_Up = GetBool(f); },
-    };
-
-} // namespace
-
-void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
-    if (!actor) return;
-    auto* a = static_cast<void*>(static_cast<SDK::ABP_Armor_Master_C*>(actor));
-    ApplyWithSetters(protectionFields, a, PROTECTION_SETTERS);
-    ApplyWithSetters(physicsFields, a, PHYSICS_SETTERS);
-    ApplyWithSetters(behaviorFields, a, BEHAVIOR_SETTERS);
-}
-
 void ArmorEditorSection::SpawnPreview() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
         preview.Destroy();
@@ -178,26 +162,18 @@ void ArmorEditorSection::SpawnPreview() {
     lastPreviewedProps = runtimeProps;
 
     bool hasOverrides = CountAllActive() > 0;
+    auto runtimeSnapshot = runtimeProps;
+    auto preset = BuildPresetData();
 
     SpawnWorkflow::QueueArmorPreview(
-        snapshot, preview, cfg.spawn, armorPassport,
-        [this, hasOverrides](SDK::AActor* actor) {
-            if (hasOverrides) ApplyOverridesToActor(actor);
+        snapshot, preview, cfg.spawn, std::move(preset), [hasOverrides, runtimeSnapshot](SDK::AActor* actor) {
+            if (hasOverrides) (void)PresetApplication::ApplyArmorRuntimeOverrides(actor, runtimeSnapshot);
         }
     );
 }
 
 bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b) {
-    static constexpr size_t BEFORE_TMAP =
-        offsetof(SDK::FStr_Passport_Armor1, SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51);
-    static constexpr size_t AFTER_TMAP =
-        offsetof(SDK::FStr_Passport_Armor1, RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A);
-    static constexpr size_t TAIL_SIZE = sizeof(SDK::FStr_Passport_Armor1) - AFTER_TMAP;
-
-    if (std::memcmp(&a, &b, BEFORE_TMAP) != 0) return true;
-    return std::memcmp(
-               reinterpret_cast<const char*>(&a) + AFTER_TMAP, reinterpret_cast<const char*>(&b) + AFTER_TMAP, TAIL_SIZE
-           ) != 0;
+    return !PresetApplication::ArmorPassportsEqual(a, b);
 }
 
 void ArmorEditorSection::RenderArmorTierCombo() {
@@ -223,14 +199,49 @@ void ArmorEditorSection::SpawnArmor() {
 
     if (cfg.preview.livePreview) preview.Disable();
 
-    std::function<void(SDK::AActor*)> callback = nullptr;
-    if (CountAllActive() > 0) {
-        callback = [this](SDK::AActor* actor) {
-            ApplyOverridesToActor(actor);
-        };
-    }
+    SpawnArmor(snapshot, BuildSpawnDraftSnapshot());
+}
 
-    SpawnWorkflow::QueueArmorSpawn(snapshot, cfg.spawn, armorPassport, callback);
+ArmorEditorSection::SpawnDraftSnapshot ArmorEditorSection::BuildSpawnDraftSnapshot() const {
+    return {
+        .spawn = cfg.spawn,
+        .preset = BuildPresetData(),
+    };
+}
+
+void ArmorEditorSection::PublishSpawnDraftSnapshot() {
+    auto snapshot = BuildSpawnDraftSnapshot();
+    std::scoped_lock lock(spawnDraftMutex);
+    if (renderDraftRevision < publishedSpawnDraftRevision) return;
+    publishedSpawnDraft = snapshot;
+    publishedSpawnDraftRevision = renderDraftRevision;
+}
+
+bool ArmorEditorSection::PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update) {
+    std::scoped_lock lock(spawnDraftMutex);
+    if (draftRevision.load(std::memory_order_acquire) != update.revision ||
+        update.revision < publishedSpawnDraftRevision)
+        return false;
+
+    auto snapshot = publishedSpawnDraft;
+    snapshot.preset = update.data;
+    publishedSpawnDraft = snapshot;
+    publishedSpawnDraftRevision = update.revision;
+    return true;
+}
+
+void ArmorEditorSection::SpawnArmor(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft) {
+    if (draft.preset.armorCorePath.empty() || !runtime.player || !runtime.world) return;
+    ItemSpawnPresetData data;
+    data.source = ItemSpawnPresetSource::ArmorPreset;
+    data.spawn = {
+        .distanceForward = draft.spawn.distanceForward,
+        .distanceUp = draft.spawn.distanceUp,
+        .scale = draft.spawn.scale,
+        .snapToGround = draft.spawn.snapToGround,
+    };
+    data.armorPreset = MakePresetCopyLink(std::move(draft.preset));
+    (void)SpawnWorkflow::QueueItemPresetSpawn(runtime, data);
 }
 
 void ArmorEditorSection::RenderGenerationControls() {
@@ -256,25 +267,28 @@ void ArmorEditorSection::RenderGenerationControls() {
         ImGui::EndCombo();
     }
 
-    ImGui::SameLine();
+    (void)GuiUtils::SameLineIfFits(GuiUtils::CachedTierComboWidth());
     RenderArmorTierCombo();
 
     ArmorGenerationUi::RenderOptions(cfg.armorOptions);
 
     ImGui::Spacing();
-    if (ImGui::Button("Generate")) {
+    if (GuiUtils::Button("Create Armor Design")) {
         if (player && world) GenerateArmorPassport();
     }
-    ImGui::SameLine();
-    if (ImGui::Button("Randomize")) {
+    GuiUtils::HelpTooltip("Create an armor design for the selected slot and tier");
+    (void)GuiUtils::SameLineIfFitsButton("Random Armor Design");
+    if (GuiUtils::Button("Random Armor Design")) {
         if (player && world) RandomizeArmorPassport();
     }
-    ImGui::SameLine();
-    if (ImGui::Button("Reset")) ResetArmorPassport();
+    GuiUtils::HelpTooltip("Create a random armor design");
+    (void)GuiUtils::SameLineIfFitsButton("Clear Armor Design");
+    if (GuiUtils::Button("Clear Armor Design")) ResetArmorPassport();
+    GuiUtils::HelpTooltip("Return the editor to an empty armor design");
 
     if (armorGenerationPending) {
-        ImGui::SameLine();
-        ImGui::TextDisabled("Generating...");
+        (void)GuiUtils::SameLineIfFits(ImGui::CalcTextSize("Creating design...").x);
+        ImGui::TextDisabled("Creating design...");
     }
 
     ImGui::PopID();
@@ -284,7 +298,7 @@ void ArmorEditorSection::RenderModulesTab() {
     ImGui::PushID("modules");
 
     if (!IsModularCore()) {
-        ImGui::TextDisabled("This armor does not support modules");
+        ImGui::TextDisabled("This armor does not support custom parts");
         ImGui::PopID();
         return;
     }
@@ -292,26 +306,26 @@ void ArmorEditorSection::RenderModulesTab() {
     PopulateModulePoolForCurrentCore();
 
     if (!armorModules.populated) {
-        ImGui::TextDisabled("Module pool not loaded");
+        ImGui::TextDisabled("Armor parts are unavailable");
         ImGui::PopID();
         return;
     }
 
-    ImGui::Checkbox("Core Removed", &armorPassport.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B);
-    TooltipHelper::ShowTooltip("Remove the core piece, keeping only attached modules");
+    ImGui::Checkbox("Parts Only", &armorPassport.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B);
+    GuiUtils::HelpTooltip("Show only the attached armor parts");
 
     ImGui::Spacing();
     GuiUtils::RenderModuleIndexCombo(
-        "Module 1", armorPassport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4, armorModules.modules1, moduleFilters[0],
-        armorModules.cachedWidths[0]
+        "Armor Part 1", armorPassport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4, armorModules.modules1,
+        moduleFilters[0], armorModules.cachedWidths[0]
     );
     GuiUtils::RenderModuleIndexCombo(
-        "Module 2", armorPassport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0, armorModules.modules2, moduleFilters[1],
-        armorModules.cachedWidths[1]
+        "Armor Part 2", armorPassport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0, armorModules.modules2,
+        moduleFilters[1], armorModules.cachedWidths[1]
     );
     GuiUtils::RenderModuleIndexCombo(
-        "Module 3", armorPassport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2, armorModules.modules3, moduleFilters[2],
-        armorModules.cachedWidths[2]
+        "Armor Part 3", armorPassport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2, armorModules.modules3,
+        moduleFilters[2], armorModules.cachedWidths[2]
     );
 
     ImGui::PopID();
@@ -320,7 +334,7 @@ void ArmorEditorSection::RenderModulesTab() {
 void ArmorEditorSection::RenderColorsTab() {
     ImGui::PushID("colors");
 
-    ImGui::SeparatorText("Passport Fabric Colors");
+    ImGui::SeparatorText("Fabric Colors");
     GuiUtils::RenderColorEditor("Fabric Color 1", armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
     GuiUtils::RenderColorEditor("Fabric Color 2", armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C);
 
@@ -330,17 +344,17 @@ void ArmorEditorSection::RenderColorsTab() {
 void ArmorEditorSection::RenderStatsTab() {
     ImGui::PushID("stats");
 
-    ImGui::SeparatorText("Passport");
+    ImGui::SeparatorText("Base Values");
     GuiUtils::RenderFreeTierCombo("Tier", armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E);
-    TooltipHelper::ShowTooltip("Stored tier value in the passport");
+    GuiUtils::HelpTooltip("Base armor tier");
     GuiUtils::RenderPriceDrag("Price", armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192);
-    TooltipHelper::ShowTooltip("Armor price value stored in the passport");
+    GuiUtils::HelpTooltip("Base armor price");
 
-    ImGui::SeparatorText("Runtime Overrides");
-    TooltipHelper::ShowTooltip("Override armor stats after spawning. Enable each to apply its value.");
+    ImGui::SeparatorText("Custom Stats");
+    GuiUtils::HelpTooltip("Enable only the armor values you want to change.");
 
-    if (ImGui::Button("Reset All Overrides")) runtimeProps = {};
-    TooltipHelper::ShowTooltip("Disable all runtime overrides");
+    if (ImGui::Button("Clear Custom Stats")) runtimeProps = {};
+    GuiUtils::HelpTooltip("Disable every custom armor value");
     GuiUtils::RenderOverrideCount(CountAllActive());
 
     ImGui::Spacing();
@@ -349,17 +363,17 @@ void ArmorEditorSection::RenderStatsTab() {
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Physics")) {
+    if (ImGui::TreeNode("Weight")) {
         RenderOverrideGroup(physicsFields);
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Behavior")) {
+    if (ImGui::TreeNode("Other")) {
         RenderOverrideGroup({behaviorFields.data(), 4});
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Toggles")) {
+    if (ImGui::TreeNode("Availability")) {
         RenderOverrideField(behaviorFields[4]);
         ImGui::TreePop();
     }
@@ -370,60 +384,185 @@ void ArmorEditorSection::RenderStatsTab() {
 ArmorPresetData ArmorEditorSection::BuildPresetData() const {
     ArmorPresetData d;
     d.passport = armorPassport;
+    d.passport.SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51 = {};
     d.runtimeProps = runtimeProps;
-    d.armorCorePath = PresetUtils::ObjectToAbsolutePath(armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+    d.armorCorePath =
+        armorCorePath.empty()
+            ? PresetUtils::ObjectToAbsolutePath(armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
+            : armorCorePath;
     return d;
 }
 
-void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
-    armorPassport = d.passport;
-    runtimeProps = d.runtimeProps;
-    armorModules = {};
+PresetApplyDisposition ArmorEditorSection::ApplyPresetData(const ArmorPresetData& preset) {
+    const std::uint64_t revision = draftRevision.fetch_add(1, std::memory_order_acq_rel) + 1;
+    pendingPresetApplyRevision = revision;
+    armorGenerationPending.store(false, std::memory_order_release);
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        pendingRenderUpdates.draft.reset();
+    }
 
-    if (!d.armorCorePath.empty()) {
-        GameHook::QueueAction([this, path = d.armorCorePath](const RuntimeContextSnapshot&) {
-            armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
+    auto queuedData = preset;
+    const bool queued =
+        GameHook::QueueAction([this, data = std::move(queuedData), revision](const RuntimeContextSnapshot&) mutable {
+            if (draftRevision.load(std::memory_order_acquire) != revision) {
+                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
+                return;
+            }
+
+            std::string error;
+            auto materialized = data;
+            if (!PresetApplication::MaterializeArmorPreset(materialized, &error)) {
+                PublishStatus("Could not load preset: " + error, true, revision, true);
+                return;
+            }
+            auto flattened = PresetApplication::SnapshotArmorPassport(materialized.passport);
+            if (!flattened) {
+                PublishStatus("This armor preset is invalid", true, revision, true);
+                return;
+            }
+            data.passport = flattened->passport;
+            data.armorCorePath = std::move(flattened->armorCorePath);
+
+            PendingDraftUpdate update;
+            update.revision = revision;
+            update.data = std::move(data);
+            update.replaceAll = true;
+            update.completesPresetApply = true;
+            if (!PublishAppliedPresetSpawnSnapshot(update)) {
+                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
+                return;
+            }
+            PublishDraftUpdate(std::move(update));
         });
+    if (!queued) {
+        pendingPresetApplyRevision = 0;
+        presets.status.Set("Could not load preset", true);
+        return PresetApplyDisposition::Rejected;
+    }
+    return PresetApplyDisposition::Pending;
+}
+
+void ArmorEditorSection::PublishDraftUpdate(PendingDraftUpdate update) {
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        if (draftRevision.load(std::memory_order_acquire) != update.revision) {
+            if (!update.completesPresetApply) return;
+            pendingRenderUpdates.statuses.push_back(
+                {"Preset could not be loaded; your current edits were kept", true, update.revision, true}
+            );
+        } else {
+            pendingRenderUpdates.draft = std::move(update);
+        }
+    }
+    pendingRenderReady.store(true, std::memory_order_release);
+}
+
+void ArmorEditorSection::PublishStatus(
+    std::string message, bool isError, std::uint64_t revision, bool completesPresetApply
+) {
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        pendingRenderUpdates.statuses.push_back({std::move(message), isError, revision, completesPresetApply});
+    }
+    pendingRenderReady.store(true, std::memory_order_release);
+}
+
+void ArmorEditorSection::ApplyDraftUpdate(PendingDraftUpdate update) {
+    renderDraftRevision = update.revision;
+    armorPassport = update.data.passport;
+    armorCorePath = std::move(update.data.armorCorePath);
+    if (update.replaceAll) runtimeProps = update.data.runtimeProps;
+    armorModules = {};
+}
+
+void ArmorEditorSection::DrainPendingRenderUpdates() {
+    if (!pendingRenderReady.exchange(false, std::memory_order_acq_rel)) return;
+
+    PendingRenderUpdates updates;
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        updates = std::move(pendingRenderUpdates);
+        pendingRenderUpdates = {};
+    }
+
+    const std::uint64_t currentRevision = draftRevision.load(std::memory_order_acquire);
+    if (updates.draft) {
+        const std::uint64_t updateRevision = updates.draft->revision;
+        const bool completesPresetApply = updates.draft->completesPresetApply;
+        if (updateRevision == currentRevision) {
+            ApplyDraftUpdate(std::move(*updates.draft));
+            if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+                presets.CompletePendingApply(true);
+                pendingPresetApplyRevision = 0;
+            }
+        } else if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+            presets.CompletePendingApply(false, "Preset could not be loaded; your current edits were kept");
+            pendingPresetApplyRevision = 0;
+        }
+    }
+    for (auto& status : updates.statuses) {
+        if (status.completesPresetApply) {
+            if (status.revision != pendingPresetApplyRevision) continue;
+            presets.CompletePendingApply(false, std::move(status.message));
+            pendingPresetApplyRevision = 0;
+            continue;
+        }
+        if (status.revision != 0 && status.revision != currentRevision) continue;
+        presets.status.Set(status.message, status.isError);
     }
 }
 
 ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     ResetArmorPassport();
     BuildDescriptors();
+    PublishSpawnDraftSnapshot();
     InitKeybinds();
 }
 
+void ArmorEditorSection::OnOpen() {
+    DrainPendingRenderUpdates();
+}
+
 void ArmorEditorSection::InitKeybinds() {
-    keybinds.Add(
-        {
-            .name = "Spawn Armor",
-            .tooltip = "Spawns the currently edited armor with runtime overrides applied",
-            .configSection = "SpawnArmor",
-            .keyPtr = &cfg.spawnKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnArmor(); },
-            .params =
-                {KeybindParam(
-                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
-                 ),
-                 KeybindParam(
-                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                     "Spawn distance in front of player"
-                 ),
-                 KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-                 KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-                 KeybindParam(
-                     "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit"
-                 )},
-        }
-    );
+    keybinds.Add({
+        .name = "Spawn Armor",
+        .tooltip = "Place the armor shown in the editor in front of you",
+        .configSection = "SpawnArmor",
+        .keyPtr = &cfg.spawnKey,
+        .callback =
+            [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                SpawnDraftSnapshot draft;
+                {
+                    std::scoped_lock lock(spawnDraftMutex);
+                    draft = publishedSpawnDraft;
+                }
+                SpawnArmor(runtime, draft);
+            },
+        .params =
+            {KeybindParam(
+                 "snap_to_ground", "Place on Ground", &cfg.spawn.snapToGround, "Place spawned armor on the ground"
+             ),
+             KeybindParam(
+                 "distance_forward", "Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                 "How far in front of the player the armor appears"
+             ),
+             KeybindParam("distance_up", "Height", &cfg.spawn.distanceUp, 0.0f, 200.0f, "How high the armor appears"),
+             KeybindParam("scale", "Size", &cfg.spawn.scale, 0.1f, 5.0f, "Armor size"),
+             KeybindParam(
+                 "live_preview", "Preview Changes", &cfg.preview.livePreview, "Show your edits on preview armor"
+             )},
+    });
 }
 
 void ArmorEditorSection::Render() {
-    SectionStyle::StyleRAII style;
     auto [world, player] = RenderPlayerWorld();
 
+    DrainPendingRenderUpdates();
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
+    const bool presetApplyPending = presets.IsApplyPending();
+    if (presetApplyPending) ImGui::BeginDisabled();
 
     keybinds.Render();
     ImGui::Spacing();
@@ -436,7 +575,7 @@ void ArmorEditorSection::Render() {
 
     GuiUtils::BeginScrollWithFooter("##armor_scroll");
 
-    static constexpr const char* AE_TAB_LABELS[] = {"Modules", "Colors", "Stats", "Presets"};
+    static constexpr const char* AE_TAB_LABELS[] = {"Parts", "Colors", "Stats", "Presets"};
     GuiUtils::RenderUnderlineTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
     switch (activeTab) {
         case 0: RenderModulesTab(); break;
@@ -444,7 +583,8 @@ void ArmorEditorSection::Render() {
         case 2: RenderStatsTab(); break;
         case 3:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](const ArmorPresetData& d) { ApplyPresetData(d); }
+                [this]() { return BuildPresetData(); },
+                [this](const ArmorPresetData& data) { return ApplyPresetData(data); }
             );
             break;
         default: break;
@@ -452,16 +592,17 @@ void ArmorEditorSection::Render() {
 
     ImGui::EndChild();
 
-    bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
+    const bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr && player && world;
     if (!canSpawn) ImGui::BeginDisabled();
-    if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
-        if (player && world) SpawnArmor();
-    }
+    if (GuiUtils::Button("Spawn Armor", GuiUtils::ButtonTone::Primary)) SpawnArmor();
     if (!canSpawn) ImGui::EndDisabled();
 
-    if (cfg.preview.livePreview) {
+    if (presetApplyPending) ImGui::EndDisabled();
+
+    if (!presetApplyPending && cfg.preview.livePreview) {
         bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) || runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }
+    PublishSpawnDraftSnapshot();
 }
