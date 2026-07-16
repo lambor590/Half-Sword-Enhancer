@@ -25,13 +25,13 @@ run_check() {
         RESULTS+=("[PASS] $name")
         ((PASSED++))
     else
-        EXIT_CODE=$?
-        if [ "$EXIT_CODE" -eq 1 ]; then
-            RESULTS+=("[FAIL] $name")
-            ((FAILED++))
-        else
+        local exit_code=$?
+        if [ "$exit_code" -eq 2 ]; then
             RESULTS+=("[SKIP] $name")
             ((SKIPPED++))
+        else
+            RESULTS+=("[FAIL] $name")
+            ((FAILED++))
         fi
     fi
     echo ""
