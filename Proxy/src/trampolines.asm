@@ -1,196 +1,57 @@
 .data
 EXTERN originalFuncs:QWORD
+EXTERN proxyState:DWORD
 
 .code
+EXTERN WaitForOriginalFunction:PROC
 
 curIndex = 0
 
-PROXY MACRO funcName
+PROXY MACRO funcName, waitName, notReadyResult
     funcName PROC
-        jmp QWORD PTR [originalFuncs + curIndex * 8]
+        cmp DWORD PTR [proxyState], 1
+        jne waitName
+        mov rax, QWORD PTR [originalFuncs + curIndex * 8]
+        jmp rax
     funcName ENDP
+
+    waitName PROC FRAME
+        sub rsp, 88h
+        .allocstack 88h
+        .endprolog
+        mov QWORD PTR [rsp + 20h], rcx
+        mov QWORD PTR [rsp + 28h], rdx
+        mov QWORD PTR [rsp + 30h], r8
+        mov QWORD PTR [rsp + 38h], r9
+        movdqu XMMWORD PTR [rsp + 40h], xmm0
+        movdqu XMMWORD PTR [rsp + 50h], xmm1
+        movdqu XMMWORD PTR [rsp + 60h], xmm2
+        movdqu XMMWORD PTR [rsp + 70h], xmm3
+        mov ecx, curIndex
+        call WaitForOriginalFunction
+        test rax, rax
+        jz notReady
+        mov rcx, QWORD PTR [rsp + 20h]
+        mov rdx, QWORD PTR [rsp + 28h]
+        mov r8, QWORD PTR [rsp + 30h]
+        mov r9, QWORD PTR [rsp + 38h]
+        movdqu xmm0, XMMWORD PTR [rsp + 40h]
+        movdqu xmm1, XMMWORD PTR [rsp + 50h]
+        movdqu xmm2, XMMWORD PTR [rsp + 60h]
+        movdqu xmm3, XMMWORD PTR [rsp + 70h]
+        add rsp, 88h
+        jmp QWORD PTR [originalFuncs + curIndex * 8]
+    notReady:
+        mov eax, notReadyResult
+        add rsp, 88h
+        ret
+    waitName ENDP
+
     curIndex = curIndex + 1
 ENDM
 
-PROXY CloseDriver
-PROXY DefDriverProc
-PROXY DriverCallback
-PROXY DrvGetModuleHandle
-PROXY GetDriverModuleHandle
-PROXY OpenDriver
-PROXY PlaySound
-PROXY PlaySoundA
-PROXY PlaySoundW
-PROXY SendDriverMessage
-PROXY WOWAppExit
-PROXY auxGetDevCapsA
-PROXY auxGetDevCapsW
-PROXY auxGetNumDevs
-PROXY auxGetVolume
-PROXY auxOutMessage
-PROXY auxSetVolume
-PROXY joyConfigChanged
-PROXY joyGetDevCapsA
-PROXY joyGetDevCapsW
-PROXY joyGetNumDevs
-PROXY joyGetPos
-PROXY joyGetPosEx
-PROXY joyGetThreshold
-PROXY joyReleaseCapture
-PROXY joySetCapture
-PROXY joySetThreshold
-PROXY mciDriverNotify
-PROXY mciDriverYield
-PROXY mciExecute
-PROXY mciFreeCommandResource
-PROXY mciGetCreatorTask
-PROXY mciGetDeviceIDA
-PROXY mciGetDeviceIDFromElementIDA
-PROXY mciGetDeviceIDFromElementIDW
-PROXY mciGetDeviceIDW
-PROXY mciGetDriverData
-PROXY mciGetErrorStringA
-PROXY mciGetErrorStringW
-PROXY mciGetYieldProc
-PROXY mciLoadCommandResource
-PROXY mciSendCommandA
-PROXY mciSendCommandW
-PROXY mciSendStringA
-PROXY mciSendStringW
-PROXY mciSetDriverData
-PROXY mciSetYieldProc
-PROXY midiConnect
-PROXY midiDisconnect
-PROXY midiInAddBuffer
-PROXY midiInClose
-PROXY midiInGetDevCapsA
-PROXY midiInGetDevCapsW
-PROXY midiInGetErrorTextA
-PROXY midiInGetErrorTextW
-PROXY midiInGetID
-PROXY midiInGetNumDevs
-PROXY midiInMessage
-PROXY midiInOpen
-PROXY midiInPrepareHeader
-PROXY midiInReset
-PROXY midiInStart
-PROXY midiInStop
-PROXY midiInUnprepareHeader
-PROXY midiOutCacheDrumPatches
-PROXY midiOutCachePatches
-PROXY midiOutClose
-PROXY midiOutGetDevCapsA
-PROXY midiOutGetDevCapsW
-PROXY midiOutGetErrorTextA
-PROXY midiOutGetErrorTextW
-PROXY midiOutGetID
-PROXY midiOutGetNumDevs
-PROXY midiOutGetVolume
-PROXY midiOutLongMsg
-PROXY midiOutMessage
-PROXY midiOutOpen
-PROXY midiOutPrepareHeader
-PROXY midiOutReset
-PROXY midiOutSetVolume
-PROXY midiOutShortMsg
-PROXY midiOutUnprepareHeader
-PROXY midiStreamClose
-PROXY midiStreamOpen
-PROXY midiStreamOut
-PROXY midiStreamPause
-PROXY midiStreamPosition
-PROXY midiStreamProperty
-PROXY midiStreamRestart
-PROXY midiStreamStop
-PROXY mixerClose
-PROXY mixerGetControlDetailsA
-PROXY mixerGetControlDetailsW
-PROXY mixerGetDevCapsA
-PROXY mixerGetDevCapsW
-PROXY mixerGetID
-PROXY mixerGetLineControlsA
-PROXY mixerGetLineControlsW
-PROXY mixerGetLineInfoA
-PROXY mixerGetLineInfoW
-PROXY mixerGetNumDevs
-PROXY mixerMessage
-PROXY mixerOpen
-PROXY mixerSetControlDetails
-PROXY mmDrvInstall
-PROXY mmGetCurrentTask
-PROXY mmTaskBlock
-PROXY mmTaskCreate
-PROXY mmTaskSignal
-PROXY mmTaskYield
-PROXY mmioAdvance
-PROXY mmioAscend
-PROXY mmioClose
-PROXY mmioCreateChunk
-PROXY mmioDescend
-PROXY mmioFlush
-PROXY mmioGetInfo
-PROXY mmioInstallIOProcA
-PROXY mmioInstallIOProcW
-PROXY mmioOpenA
-PROXY mmioOpenW
-PROXY mmioRead
-PROXY mmioRenameA
-PROXY mmioRenameW
-PROXY mmioSeek
-PROXY mmioSendMessage
-PROXY mmioSetBuffer
-PROXY mmioSetInfo
-PROXY mmioStringToFOURCCA
-PROXY mmioStringToFOURCCW
-PROXY mmioWrite
-PROXY mmsystemGetVersion
-PROXY sndPlaySoundA
-PROXY sndPlaySoundW
-PROXY timeBeginPeriod
-PROXY timeEndPeriod
-PROXY timeGetDevCaps
-PROXY timeGetSystemTime
-PROXY timeGetTime
-PROXY timeKillEvent
-PROXY timeSetEvent
-PROXY waveInAddBuffer
-PROXY waveInClose
-PROXY waveInGetDevCapsA
-PROXY waveInGetDevCapsW
-PROXY waveInGetErrorTextA
-PROXY waveInGetErrorTextW
-PROXY waveInGetID
-PROXY waveInGetNumDevs
-PROXY waveInGetPosition
-PROXY waveInMessage
-PROXY waveInOpen
-PROXY waveInPrepareHeader
-PROXY waveInReset
-PROXY waveInStart
-PROXY waveInStop
-PROXY waveInUnprepareHeader
-PROXY waveOutBreakLoop
-PROXY waveOutClose
-PROXY waveOutGetDevCapsA
-PROXY waveOutGetDevCapsW
-PROXY waveOutGetErrorTextA
-PROXY waveOutGetErrorTextW
-PROXY waveOutGetID
-PROXY waveOutGetNumDevs
-PROXY waveOutGetPitch
-PROXY waveOutGetPlaybackRate
-PROXY waveOutGetPosition
-PROXY waveOutGetVolume
-PROXY waveOutMessage
-PROXY waveOutOpen
-PROXY waveOutPause
-PROXY waveOutPrepareHeader
-PROXY waveOutReset
-PROXY waveOutRestart
-PROXY waveOutSetPitch
-PROXY waveOutSetPlaybackRate
-PROXY waveOutSetVolume
-PROXY waveOutUnprepareHeader
-PROXY waveOutWrite
+include winmm_exports.generated.inc
+
+.ERRNZ curIndex - WINMM_EXPORT_COUNT
 
 END
