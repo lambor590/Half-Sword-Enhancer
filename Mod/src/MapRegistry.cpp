@@ -75,7 +75,7 @@ namespace {
             "/Game/Maps/Workshop_Smithery_Map",
         };
 
-        return std::ranges::find(BASE_GAME_MAPS, packageName) != std::ranges::end(BASE_GAME_MAPS);
+        return std::ranges::binary_search(BASE_GAME_MAPS, packageName);
     }
 
     std::string CleanMapName(std::string_view packageName) {
@@ -100,7 +100,7 @@ namespace {
 void MapRegistry::BuildCategories() {
     categories.clear();
     for (const auto& m : maps) {
-        if (categories.empty() || categories.back() != m.category) categories.push_back(m.category);
+        if (categories.empty() || categories.back() != m.category) categories.emplace_back(m.category);
     }
 }
 
@@ -188,9 +188,8 @@ void MapRegistry::PerformScan() {
             std::string displayName = CleanMapName(packageName);
             if (displayName.empty()) continue;
 
-            std::string category = IsKnownBaseGameMap(packageName) ? std::string(BASE_GAME_CATEGORY)
-                                                                   : std::string(MODDED_CATEGORY);
-            maps.push_back({std::move(displayName), std::move(packageName), std::move(category)});
+            const std::string_view category = IsKnownBaseGameMap(packageName) ? BASE_GAME_CATEGORY : MODDED_CATEGORY;
+            maps.push_back({std::move(displayName), std::move(packageName), category});
         }
 
         std::ranges::sort(maps, [](const MapEntry& a, const MapEntry& b) {
@@ -215,15 +214,17 @@ void MapRegistry::PerformScan() {
 void MapRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
+        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+            state.store(ScanState::NotStarted, std::memory_order_release);
     }
 }
 
 void MapRegistry::RequestRescan() {
     auto current = state.load(std::memory_order_acquire);
     if (current != ScanState::Complete && current != ScanState::Failed) return;
-    if (state.compare_exchange_strong(current, ScanState::Scanning, std::memory_order_acq_rel))
-        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
+    if (state.compare_exchange_strong(current, ScanState::Scanning, std::memory_order_acq_rel) &&
+        !GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+        state.store(current, std::memory_order_release);
 }
 
 float MapRegistry::GetMaxDisplayNameWidth() {

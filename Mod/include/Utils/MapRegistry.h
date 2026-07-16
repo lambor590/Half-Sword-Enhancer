@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <atomic>
 #include "Utils/BlueprintRegistry.h"
@@ -8,7 +9,7 @@
 struct MapEntry {
     std::string displayName;
     std::string packageName;
-    std::string category;
+    std::string_view category;
 };
 
 class MapRegistry {
