@@ -4,10 +4,7 @@
 #include <string_view>
 #include <vector>
 #include <atomic>
-#include <algorithm>
-#include <array>
 #include <cstdint>
-#include <unordered_map>
 #include "Utils/CustomizableWeapon.h"
 
 struct BlueprintEntry {
@@ -48,32 +45,12 @@ private:
     std::vector<ItemLocation> itemLocations;
     std::vector<std::string> customPaths;
     std::vector<std::string> loweredItemNames;
-    std::array<std::vector<ItemIndex>, 65536> searchBuckets;
-    std::vector<uint16_t> usedSearchBuckets;
 
-    struct StringHash {
-        using is_transparent = void;
-
-        [[nodiscard]] size_t operator()(std::string_view value) const noexcept {
-            return std::hash<std::string_view>{}(value);
-        }
-
-        [[nodiscard]] size_t operator()(const std::string& value) const noexcept {
-            return (*this)(std::string_view(value));
-        }
+    struct SearchEntry {
+        uint16_t key = 0;
+        uint32_t item = 0;
     };
-
-    struct StringEqual {
-        using is_transparent = void;
-
-        [[nodiscard]] bool operator()(std::string_view lhs, std::string_view rhs) const noexcept {
-            return lhs == rhs;
-        }
-    };
-
-    using NameIndexMap = std::unordered_map<std::string, size_t, StringHash, StringEqual>;
-    NameIndexMap categoryIndices;
-    std::vector<NameIndexMap> subcategoryIndices;
+    std::vector<SearchEntry> searchIndex;
 
     void PerformScan();
     void ScanWeaponTiers();
@@ -82,7 +59,6 @@ private:
     void SortCategories();
     void RebuildItemLocations();
     void RebuildSearchIndex();
-    void RebuildCategoryIndices();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(
         const std::string& packagePath, const std::string& assetName
@@ -91,7 +67,7 @@ private:
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
 
-    ItemIndex AddItem(const BlueprintEntry& entry, std::string_view category, std::string_view subcategory);
+    ItemIndex AddItem(BlueprintEntry&& entry, std::string_view category, std::string_view subcategory);
 
 public:
     static BlueprintRegistry& Get() {

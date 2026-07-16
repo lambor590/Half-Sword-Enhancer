@@ -1,6 +1,7 @@
 #include <ranges>
 #include <string_view>
 #include <array>
+#include <cctype>
 #include <utility>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
@@ -22,32 +23,32 @@ static constexpr std::string_view VALID_ASSET_PREFIXES[] = {
 };
 
 static constexpr std::pair<std::string_view, std::string_view> WEAPON_PATH_CATEGORIES[] = {
-    {"Tools", "Tools"},       {"Reforged", "Reforged"}, {"Improvized", "Improvised"},
-    {"Ranged", "Ranged"},     {"Treasure", "Treasure"}, {"Unique", "Unique"},
+    {"Tools", "Tools"},   {"Reforged", "Reforged"}, {"Improvized", "Improvised"},
+    {"Ranged", "Ranged"}, {"Treasure", "Treasure"}, {"Unique", "Unique"},
 };
 
 static std::string DisplayNameFromClassPath(const std::string& path) {
-    size_t dotPos = path.rfind('.');
-    if (dotPos == std::string::npos) return path;
-    std::string name = path.substr(dotPos + 1);
-    if (name.size() > 2 && name.ends_with("_C")) name.resize(name.size() - 2);
+    std::string_view name = path;
+    const size_t dotPos = name.rfind('.');
+    if (dotPos == std::string_view::npos) return path;
+    name.remove_prefix(dotPos + 1);
+    if (name.size() > 2 && name.ends_with("_C")) name.remove_suffix(2);
     return BlueprintRegistry::CleanDisplayName(name);
 }
 
-static bool HasValidAssetPrefix(const std::string& assetName) {
+static bool HasValidAssetPrefix(std::string_view assetName) {
     for (auto prefix : VALID_ASSET_PREFIXES) {
-        if (assetName.compare(0, prefix.size(), prefix.data()) == 0) return true;
+        if (assetName.starts_with(prefix)) return true;
     }
     return false;
 }
 
-static bool HasPathSegment(const std::string& path, std::string_view segment) {
-    std::string needle = "/" + std::string(segment);
-    size_t pos = path.find(needle);
+static bool HasPathSegment(std::string_view path, std::string_view segment) {
+    size_t pos = path.find(segment);
     while (pos != std::string::npos) {
-        const size_t after = pos + needle.size();
-        if (after == path.size() || path[after] == '/') return true;
-        pos = path.find(needle, pos + 1);
+        const size_t after = pos + segment.size();
+        if (pos > 0 && path[pos - 1] == '/' && (after == path.size() || path[after] == '/')) return true;
+        pos = path.find(segment, pos + 1);
     }
     return false;
 }
@@ -116,29 +117,29 @@ namespace {
 void BlueprintRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
+        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+            state.store(ScanState::NotStarted, std::memory_order_release);
     }
 }
 
 void BlueprintRegistry::RequestRescan() {
+    ScanState previous = ScanState::Complete;
     ScanState expected = ScanState::Complete;
     if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
         expected = ScanState::Failed;
         if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) return;
+        previous = ScanState::Failed;
     }
     tierScanDone = false;
-    GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
+    if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+        state.store(previous, std::memory_order_release);
 }
 
 void BlueprintRegistry::PerformScan() {
     items.clear();
     categories.clear();
     itemLocations.clear();
-    categoryIndices.clear();
-    subcategoryIndices.clear();
     items.reserve(512);
-    categoryIndices.reserve(32);
-    subcategoryIndices.reserve(32);
 
     bool scanSuccess = false;
 
@@ -193,7 +194,7 @@ void BlueprintRegistry::PerformScan() {
                 entry.displayName = CleanDisplayName(assetName);
                 entry.classPath = asset.PackageName.GetRawString() + "." + assetName + "_C";
 
-                AddItem(entry, category, subcategory);
+                AddItem(std::move(entry), category, subcategory);
             }
 
             scanSuccess = !items.empty();
@@ -213,38 +214,33 @@ void BlueprintRegistry::PerformScan() {
     RebuildItemLocations();
     RebuildSearchIndex();
 
-    state.store(items.empty() ? ScanState::Failed : ScanState::Complete, std::memory_order_release);
+    state.store(scanSuccess ? ScanState::Complete : ScanState::Failed, std::memory_order_release);
 }
 
 size_t BlueprintRegistry::FindOrCreateCategory(std::string_view name) {
-    if (auto it = categoryIndices.find(name); it != categoryIndices.end()) return it->second;
+    const auto existing = std::ranges::find(categories, name, &CategoryData::name);
+    if (existing != categories.end()) return static_cast<size_t>(existing - categories.begin());
 
     const size_t index = categories.size();
     categories.push_back({std::string(name), {}});
-    categoryIndices.emplace(categories.back().name, index);
-    subcategoryIndices.emplace_back();
     return index;
 }
 
 size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_view name) {
     auto& subs = categories[catIdx].subcategories;
-    while (subcategoryIndices.size() <= catIdx)
-        subcategoryIndices.emplace_back();
-
-    auto& indexMap = subcategoryIndices[catIdx];
-    if (auto it = indexMap.find(name); it != indexMap.end()) return it->second;
+    const auto existing = std::ranges::find(subs, name, &SubcategoryData::name);
+    if (existing != subs.end()) return static_cast<size_t>(existing - subs.begin());
 
     const size_t index = subs.size();
     subs.push_back({std::string(name), {}});
-    indexMap.emplace(subs.back().name, index);
     return index;
 }
 
 BlueprintRegistry::ItemIndex BlueprintRegistry::AddItem(
-    const BlueprintEntry& entry, std::string_view category, std::string_view subcategory
+    BlueprintEntry&& entry, std::string_view category, std::string_view subcategory
 ) {
     const ItemIndex idx = items.size();
-    items.push_back(entry);
+    items.push_back(std::move(entry));
     size_t catIdx = FindOrCreateCategory(category);
     size_t subIdx = FindOrCreateSubcategory(catIdx, subcategory);
     categories[catIdx].subcategories[subIdx].itemIndices.push_back(idx);
@@ -305,54 +301,100 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
 }
 
 std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
-    std::string name{assetName};
+    const auto slash = assetName.find_last_of("/\\");
+    if (slash != std::string_view::npos) assetName.remove_prefix(slash + 1);
+    const auto dot = assetName.find_last_of('.');
+    if (dot != std::string_view::npos) assetName.remove_prefix(dot + 1);
 
-    static constexpr std::string_view PREFIXES[] = {
-        "BP_GameWeapon_Customizable_",
-        "BP_GameWeapon_",
-        "BP_Weapon_Reforged_",
-        "BP_Weapon_Tool_",
-        "BP_Weapon_Improv_",
-        "BP_Weapon_Ranged_Weapon_",
-        "BP_Weapon_Ranged_Projectle_",
-        "BP_Weapon_Treasure_",
-        "BP_Weapon_",
-        "ModularWeaponBP_Tool_",
-        "ModularWeaponBP_",
-        "BP_Armor_Modular_Core_",
-        "BP_Armor_Modular_Module_",
-        "BP_Armor_Head_Hat_",
-        "BP_Armor_Head_",
-        "BP_Armor_Body_Doublet_",
-        "BP_Armor_Body_",
-        "BP_Armor_Arms_",
-        "BP_Armor_Legs_Hosen_",
-        "BP_Armor_Legs_",
-        "BP_Armor_Hands_",
-        "BP_Armor_Feet_",
-        "BP_Armor_Neck_",
-        "BP_Armor_Shoulders_",
-        "BP_Armor_",
-        "BP_Container_",
-        "BP_Prop_Light_",
-        "BP_Prop_Furniture_",
-        "BP_Prop_Smithing_",
-        "BP_Prop_Construction_",
-        "BP_Fence_",
-        "BP_Quiver_",
-        "BP_Candle",
-        "BP_",
-        "Shield_"};
+    std::string cleaned{assetName};
+    if (cleaned.ends_with("_C")) cleaned.resize(cleaned.size() - 2);
+    if (cleaned.size() > 9 && cleaned[cleaned.size() - 9] == '_' &&
+        std::ranges::all_of(cleaned.end() - 8, cleaned.end(), [](unsigned char value) {
+            return std::isxdigit(value) != 0;
+        })) {
+        cleaned.resize(cleaned.size() - 9);
+    }
+    const auto numericSuffix = cleaned.find_last_of('_');
+    if (numericSuffix != std::string::npos && cleaned.size() - numericSuffix > 3 &&
+        std::ranges::all_of(
+            cleaned.begin() + static_cast<std::ptrdiff_t>(numericSuffix + 1), cleaned.end(),
+            [](unsigned char value) { return std::isdigit(value) != 0; }
+        )) {
+        cleaned.resize(numericSuffix);
+    }
+    assetName = cleaned;
 
-    for (auto prefix : PREFIXES) {
-        if (name.size() > prefix.size() && name.compare(0, prefix.size(), prefix.data()) == 0) {
-            name = name.substr(prefix.size());
+    static constexpr std::string_view PREFIXES[] =
+        {"BP_GameWeapon_Customizable_",
+         "BP_GameWeapon_",
+         "BP_Weapon_Reforged_",
+         "BP_Weapon_Tool_",
+         "BP_Weapon_Improv_",
+         "BP_Weapon_Ranged_Weapon_",
+         "BP_Weapon_Ranged_Projectle_",
+         "BP_Weapon_Treasure_",
+         "BP_Weapon_",
+         "ModularWeaponBP_Tool_",
+         "ModularWeaponBP_",
+         "BP_Armor_Modular_Core_",
+         "BP_Armor_Modular_Module_",
+         "BP_Armor_Head_Hat_",
+         "BP_Armor_Head_",
+         "BP_Armor_Body_Doublet_",
+         "BP_Armor_Body_",
+         "BP_Armor_Arms_",
+         "BP_Armor_Legs_Hosen_",
+         "BP_Armor_Legs_",
+         "BP_Armor_Hands_",
+         "BP_Armor_Feet_",
+         "BP_Armor_Neck_",
+         "BP_Armor_Shoulders_",
+         "BP_Armor_",
+         "BP_Container_",
+         "BP_Prop_Light_",
+         "BP_Prop_Furniture_",
+         "BP_Prop_Smithing_",
+         "BP_Prop_Construction_",
+         "BP_Fence_",
+         "BP_Quiver_",
+         "BP_Candle",
+         "Module_",
+         "MODULE_",
+         "BPI_",
+         "WBP_",
+         "ABP_",
+         "SK_",
+         "SM_",
+         "BP_",
+         "Shield_"};
+
+    bool removedPrefix = true;
+    while (removedPrefix) {
+        removedPrefix = false;
+        for (auto prefix : PREFIXES) {
+            if (assetName.size() <= prefix.size() || !assetName.starts_with(prefix)) continue;
+            assetName.remove_prefix(prefix.size());
+            removedPrefix = true;
             break;
         }
     }
 
-    for (char& c : name) {
-        if (c == '_') c = ' ';
+    std::string name;
+    name.reserve(assetName.size() + 8);
+    for (size_t index = 0; index < assetName.size(); ++index) {
+        const auto current = static_cast<unsigned char>(assetName[index]);
+        if (current == '_') {
+            if (!name.empty() && name.back() != ' ') name.push_back(' ');
+            continue;
+        }
+        if (!name.empty() && name.back() != ' ' && std::isupper(current)) {
+            const auto previous = static_cast<unsigned char>(assetName[index - 1]);
+            const bool followsWord = std::islower(previous) || std::isdigit(previous);
+            const bool endsAcronym = index + 1 < assetName.size() && std::isupper(previous) &&
+                                     std::islower(static_cast<unsigned char>(assetName[index + 1]));
+            if (followsWord || endsAcronym) name.push_back(' ');
+        }
+        name.push_back(static_cast<char>(current));
     }
 
     auto start = name.find_first_not_of(' ');
@@ -363,14 +405,15 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
     while (!name.empty() && name.back() == ' ')
         name.pop_back();
 
-    if (name.empty()) name = std::string{assetName};
+    if (name.empty()) name = "Unnamed";
+    name.front() = static_cast<char>(std::toupper(static_cast<unsigned char>(name.front())));
     return name;
 }
 
 void BlueprintRegistry::EnsureTiersScanned() {
     if (tierScanDone) return;
     tierScanDone = true;
-    GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanWeaponTiers(); });
+    if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanWeaponTiers(); })) tierScanDone = false;
 }
 
 void BlueprintRegistry::ScanWeaponTiers() {
@@ -402,7 +445,7 @@ void BlueprintRegistry::InjectCustomizableWeapons() {
         BlueprintEntry entry;
         entry.displayName = GameConstants::WEAPON_TYPE_NAMES[i];
         entry.customizable = static_cast<CustomizableWeapon>(i + 1);
-        AddItem(entry, "Weapons", "Customizable");
+        AddItem(std::move(entry), "Weapons", "Customizable");
     }
 }
 
@@ -413,7 +456,7 @@ void BlueprintRegistry::InjectCustomPaths() {
         BlueprintEntry entry;
         entry.classPath = path;
         entry.displayName = DisplayNameFromClassPath(path);
-        AddItem(entry, "Custom", "Saved");
+        AddItem(std::move(entry), "Custom", "Saved");
     }
 }
 
@@ -438,26 +481,6 @@ void BlueprintRegistry::SortCategories() {
             return a.name < b.name;
         });
     }
-
-    RebuildCategoryIndices();
-}
-
-void BlueprintRegistry::RebuildCategoryIndices() {
-    categoryIndices.clear();
-    subcategoryIndices.clear();
-    categoryIndices.reserve(categories.size());
-    subcategoryIndices.reserve(categories.size());
-
-    for (size_t ci = 0; ci < categories.size(); ++ci) {
-        auto& category = categories[ci];
-        categoryIndices.emplace(category.name, ci);
-
-        auto& subIndex = subcategoryIndices.emplace_back();
-        subIndex.reserve(category.subcategories.size());
-        for (size_t si = 0; si < category.subcategories.size(); ++si) {
-            subIndex.emplace(category.subcategories[si].name, si);
-        }
-    }
 }
 
 void BlueprintRegistry::RebuildItemLocations() {
@@ -469,8 +492,8 @@ void BlueprintRegistry::RebuildItemLocations() {
             for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
                 const ItemIndex itemIdx = sub.itemIndices[ii];
                 if (itemIdx >= itemLocations.size()) continue;
-                itemLocations[itemIdx] = {
-                    static_cast<uint8_t>(ci), static_cast<uint8_t>(si), static_cast<ItemIndex>(ii)};
+                itemLocations[itemIdx] =
+                    {static_cast<uint8_t>(ci), static_cast<uint8_t>(si), static_cast<ItemIndex>(ii)};
             }
         }
     }
@@ -479,30 +502,32 @@ void BlueprintRegistry::RebuildItemLocations() {
 void BlueprintRegistry::RebuildSearchIndex() {
     loweredItemNames.clear();
     loweredItemNames.reserve(items.size());
+    size_t entryCount = 0;
     for (const auto& item : items) {
         loweredItemNames.push_back(ToLowerAscii(item.displayName));
+        if (item.displayName.size() > 1) entryCount += item.displayName.size() - 1;
     }
 
-    for (const uint16_t key : usedSearchBuckets) {
-        searchBuckets[key].clear();
-    }
-    usedSearchBuckets.clear();
-
-    std::array<int32_t, 65536> lastSeen;
-    lastSeen.fill(-1);
+    searchIndex.clear();
+    searchIndex.reserve(entryCount);
+    std::vector<uint16_t> itemKeys;
 
     for (ItemIndex itemIdx = 0; itemIdx < loweredItemNames.size(); ++itemIdx) {
         const auto& name = loweredItemNames[itemIdx];
         if (name.size() < 2) continue;
 
+        itemKeys.clear();
+        itemKeys.reserve(name.size() - 1);
         for (size_t i = 1; i < name.size(); ++i) {
-            const uint16_t key = BigramKey(name[i - 1], name[i]);
-            if (lastSeen[key] == static_cast<int32_t>(itemIdx)) continue;
-            if (searchBuckets[key].empty()) usedSearchBuckets.push_back(key);
-            searchBuckets[key].push_back(itemIdx);
-            lastSeen[key] = static_cast<int32_t>(itemIdx);
+            itemKeys.push_back(BigramKey(name[i - 1], name[i]));
         }
+        std::ranges::sort(itemKeys);
+        const auto uniqueEnd = std::ranges::unique(itemKeys).begin();
+        for (auto key = itemKeys.begin(); key != uniqueEnd; ++key)
+            searchIndex.push_back({*key, static_cast<uint32_t>(itemIdx)});
     }
+
+    std::ranges::sort(searchIndex, {}, &SearchEntry::key);
 }
 
 void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemIndex>& out) const {
@@ -515,13 +540,6 @@ void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemInd
     }
 
     const std::string loweredFilter = ToLowerAscii(filter);
-    if (loweredItemNames.size() != items.size()) {
-        for (ItemIndex i = 0; i < items.size(); ++i) {
-            if (ToLowerAscii(items[i].displayName).find(loweredFilter) != std::string::npos) out.push_back(i);
-        }
-        return;
-    }
-
     if (loweredFilter.size() < 2) {
         for (ItemIndex i = 0; i < loweredItemNames.size(); ++i) {
             if (loweredItemNames[i].find(loweredFilter) != std::string::npos) out.push_back(i);
@@ -529,21 +547,29 @@ void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemInd
         return;
     }
 
-    const std::vector<ItemIndex>* bestBucket = nullptr;
+    auto bestBegin = searchIndex.end();
+    auto bestEnd = searchIndex.end();
     for (size_t i = 1; i < loweredFilter.size(); ++i) {
-        const auto& bucket = searchBuckets[BigramKey(loweredFilter[i - 1], loweredFilter[i])];
-        if (!bestBucket || bucket.size() < bestBucket->size()) {
-            bestBucket = &bucket;
-            if (bucket.empty()) return;
+        const uint16_t key = BigramKey(loweredFilter[i - 1], loweredFilter[i]);
+        const auto first =
+            std::lower_bound(searchIndex.begin(), searchIndex.end(), key, [](const SearchEntry& entry, uint16_t value) {
+                return entry.key < value;
+            });
+        const auto last = std::upper_bound(first, searchIndex.end(), key, [](uint16_t value, const SearchEntry& entry) {
+            return value < entry.key;
+        });
+        if (first == last) return;
+        if (bestBegin == searchIndex.end() || last - first < bestEnd - bestBegin) {
+            bestBegin = first;
+            bestEnd = last;
         }
     }
-    if (!bestBucket) return;
+    if (bestBegin == searchIndex.end()) return;
 
-    out.reserve(bestBucket->size());
-    for (ItemIndex idx : *bestBucket) {
-        if (idx < loweredItemNames.size() && loweredItemNames[idx].find(loweredFilter) != std::string::npos) {
-            out.push_back(idx);
-        }
+    out.reserve(static_cast<size_t>(bestEnd - bestBegin));
+    for (auto entry = bestBegin; entry != bestEnd; ++entry) {
+        const ItemIndex idx = entry->item;
+        if (loweredItemNames[idx].find(loweredFilter) != std::string::npos) out.push_back(idx);
     }
 }
 
@@ -559,7 +585,7 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
         BlueprintEntry entry;
         entry.classPath = path;
         entry.displayName = DisplayNameFromClassPath(path);
-        AddItem(entry, "Custom", "Saved");
+        AddItem(std::move(entry), "Custom", "Saved");
         SortCategories();
         RebuildItemLocations();
         RebuildSearchIndex();
@@ -575,8 +601,9 @@ void BlueprintRegistry::RemoveCustomPath(size_t index) {
 void BlueprintRegistry::LoadCustomPaths() {
     customPaths.clear();
     auto& cfg = ConfigManager::Get();
-    int count = cfg.GetInt("CustomBlueprints", "count", 0);
-    for (int i = 0; i < count && i < 100; ++i) {
+    const int count = cfg.GetInt("CustomBlueprints", "count", 0);
+    if (count > 0) customPaths.reserve(static_cast<size_t>(count));
+    for (int i = 0; i < count; ++i) {
         char key[16];
         std::snprintf(key, sizeof(key), "path_%d", i);
         std::string path = cfg.GetString("CustomBlueprints", key, "");
@@ -586,11 +613,13 @@ void BlueprintRegistry::LoadCustomPaths() {
 
 void BlueprintRegistry::SaveCustomPaths() {
     auto& cfg = ConfigManager::Get();
-    cfg.SetInt("CustomBlueprints", "count", static_cast<int>(customPaths.size()));
-    for (size_t i = 0; i < customPaths.size(); ++i) {
-        char key[16];
-        std::snprintf(key, sizeof(key), "path_%zu", i);
-        cfg.SetString("CustomBlueprints", key, customPaths[i]);
-    }
-    cfg.SaveConfigDeferred();
+    cfg.BatchSave([&cfg, this] {
+        cfg.DeleteSection("CustomBlueprints");
+        cfg.SetInt("CustomBlueprints", "count", static_cast<int>(customPaths.size()));
+        for (size_t i = 0; i < customPaths.size(); ++i) {
+            char key[16];
+            std::snprintf(key, sizeof(key), "path_%zu", i);
+            cfg.SetString("CustomBlueprints", key, customPaths[i].c_str());
+        }
+    });
 }
