@@ -31,7 +31,7 @@ namespace {
     }
 
     [[nodiscard]] constexpr const char* InstallModeName(hse::InstallMode mode) noexcept {
-        return mode == hse::InstallMode::Ue4ss ? "UE4SS" : "standalone";
+        return mode == hse::InstallMode::Ue4ss ? "UE4SS integration" : "direct installation";
     }
 
     [[nodiscard]] std::optional<hse::InstallMode> ParseInstallMode(std::string_view value) noexcept {
@@ -45,7 +45,7 @@ namespace {
 HSELauncher::HSELauncher() : config(hse::LauncherConfig::Instance()), gameEdition_(hse::GameEdition::FullGame) {}
 
 void HSELauncher::SetupConsole() {
-    auto localVersionResult = updateManager.GetLocalVersion();
+    auto localVersionResult = hse::UpdateManager::GetLocalVersion();
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
 #ifdef EXPERIMENTAL_VERSION
@@ -68,24 +68,17 @@ void HSELauncher::DisplayBanner() {
     )";
     SetConsoleTextAttribute(hConsole, CONSOLE_YELLOW);
 
-#ifdef EXPERIMENTAL_VERSION
-    std::cout << R"(
-        ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ EXPERIMENTAL BUILD ]
-      / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
-     / /___/ / / / / / / /_/ / / / / /__/  __/ /
-    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
-    )"
-              << "\n";
-#else
     std::cout << R"(
         ______      __
        / ____/___  / /_  ____ _____  ________  _____
-      / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
-     / /___/ / / / / / / /_/ / / / / /__/  __/ /
-    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
-    )"
-              << "\n";
+       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
+      / /___/ / / / / / / /_/ / / / / /__/  __/ /
+     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
+    )";
+#ifdef EXPERIMENTAL_VERSION
+    std::cout << "        [ EXPERIMENTAL BUILD ]\n";
+#else
+    std::cout << '\n';
 #endif
 
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
@@ -104,11 +97,11 @@ void HSELauncher::ShowFirstRunInstructions() {
         nullptr,
         "The installer will automatically:\n"
         "- Find your Half Sword installation\n"
-        "- Install and update the mod files\n\n"
+        "- Install and update Half Sword Enhancer\n\n"
         "Once the mod is installed, just launch the game normally!\n\n"
         "In-game:\n"
         "- Press INSERT to show/hide the mod interface\n"
-        "- Use the Settings section to customize interface keybinds\n"
+        "- Use the Settings section to customize interface shortcuts\n"
         "- All mod features are accessible through the interface\n\n"
         "Have fun!",
         "Mod Usage Guide", MB_OK | MB_ICONINFORMATION
@@ -117,18 +110,16 @@ void HSELauncher::ShowFirstRunInstructions() {
 
 bool HSELauncher::AskForUpdatePreference() {
     if (config.HasCheckForUpdatesSetting()) return config.GetCheckForUpdates();
-    hse::Logger::info("Asking user for update preference...");
     int result = MessageBoxA(
         nullptr,
-        "Would you like the installer to check for new updates automatically?\n\n"
+        "Would you like Half Sword Enhancer to check for new updates automatically?\n\n"
         "- YES: Get notified when new versions are available\n"
-        "- NO: Check manually when you want\n\n"
-        "You can change this setting later by editing the configuration file.",
+        "- NO: Check manually when you want",
         "Update Settings", MB_YESNO | MB_ICONQUESTION
     );
     bool enableUpdates = (result == IDYES);
     [[maybe_unused]] const auto saveResult = config.SetCheckForUpdates(enableUpdates);
-    hse::Logger::info(enableUpdates ? "User enabled update checking" : "User disabled update checking");
+    hse::Logger::info(enableUpdates ? "Automatic update checks enabled" : "Automatic update checks disabled");
     return enableUpdates;
 }
 
@@ -142,9 +133,9 @@ bool HSELauncher::PerformSelfUpdate() {
 
 #ifdef EXPERIMENTAL_VERSION
     if (!cachedExperimentalInfo_) {
-        auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
+        auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
-            hse::Logger::error("Failed to check for experimental updates");
+            hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
             return true;
         }
         cachedExperimentalInfo_ = *experimentalUpdateResult;
@@ -167,10 +158,10 @@ bool HSELauncher::PerformSelfUpdate() {
 
         if (result == IDYES) {
             hse::Logger::info("Updating launcher to stable release...");
-            auto launcherResult = updateManager.UpdateLauncher(stable.downloadUrlLauncher);
+            auto launcherResult = hse::UpdateManager::UpdateLauncher(stable.downloadUrlLauncher, stable.remoteVersion);
             return static_cast<bool>(launcherResult);
         }
-        hse::Logger::info("User declined stable release migration");
+        hse::Logger::info("Stable launcher update skipped");
         return true;
     }
 
@@ -180,8 +171,14 @@ bool HSELauncher::PerformSelfUpdate() {
         int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
             hse::Logger::info("Updating experimental launcher...");
-            auto launcherResult =
-                updateManager.UpdateLauncher(experimentalInfo.downloadUrlLauncher, experimentalInfo.launcherTimestamp);
+            auto localVersion = hse::UpdateManager::GetLocalVersion();
+            if (!localVersion) {
+                hse::Logger::error("The launcher update could not be verified");
+                return false;
+            }
+            auto launcherResult = hse::UpdateManager::UpdateLauncher(
+                experimentalInfo.downloadUrlLauncher, *localVersion, experimentalInfo.launcherTimestamp
+            );
             return static_cast<bool>(launcherResult);
         }
     }
@@ -189,9 +186,9 @@ bool HSELauncher::PerformSelfUpdate() {
     return true;
 #else
     if (!cachedUpdateInfo_) {
-        auto updateInfoResult = updateManager.CheckForUpdates();
+        auto updateInfoResult = hse::UpdateManager::CheckForUpdates();
         if (!updateInfoResult) {
-            hse::Logger::error("Failed to check for updates");
+            hse::Logger::warn("Could not check for launcher updates. Installation will continue.");
             return true;
         }
         cachedUpdateInfo_ = *updateInfoResult;
@@ -214,12 +211,13 @@ bool HSELauncher::PerformSelfUpdate() {
     int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
 
     if (result != IDYES) {
-        hse::Logger::info("User declined launcher update");
+        hse::Logger::info("Launcher update skipped");
         return true;
     }
 
     hse::Logger::info("Updating launcher...");
-    auto launcherUpdateResult = updateManager.UpdateLauncher(updateInfo.downloadUrlLauncher);
+    auto launcherUpdateResult =
+        hse::UpdateManager::UpdateLauncher(updateInfo.downloadUrlLauncher, updateInfo.remoteVersion);
     return static_cast<bool>(launcherUpdateResult);
 #endif
 }
@@ -227,50 +225,50 @@ bool HSELauncher::PerformSelfUpdate() {
 bool HSELauncher::LocateGame() {
     if (config.HasGamePath()) {
         auto savedPath = config.GetGamePath();
-        if (std::filesystem::exists(savedPath)) {
-            gameBinPath_ = savedPath;
-            gameEdition_ = config.GetGameEdition();
+        auto savedLocation = hse::LocateGameAt(savedPath, config.GetGameEdition());
+        if (savedLocation) {
+            gameBinPath_ = std::move(savedLocation->binariesPath);
+            gameEdition_ = savedLocation->edition;
             hse::Logger::info(
-                "Game found (saved): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+                "Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
             );
             return true;
         }
-        hse::Logger::warn("Saved game path no longer valid, re-detecting...");
+        hse::Logger::warn("Half Sword is no longer available at its previous location. Searching again...");
     }
 
-    hse::Logger::info("Searching for Half Sword installation...");
+    hse::Logger::info("Searching for Half Sword...");
     auto locateResult = hse::LocateGame();
     if (locateResult) {
         gameBinPath_ = locateResult->binariesPath;
         gameEdition_ = locateResult->edition;
-        [[maybe_unused]] const auto savePathResult = config.SetGamePath(gameBinPath_);
-        [[maybe_unused]] const auto saveEditionResult = config.SetGameEdition(gameEdition_);
-        hse::Logger::info("Game found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
+        if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
+            hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
+        hse::Logger::info(
+            "Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+        );
         return true;
     }
 
-    hse::Logger::warn("Could not auto-detect game installation");
+    hse::Logger::warn("Half Sword was not found automatically");
     std::filesystem::path manualPath = AskManualPath();
     if (manualPath.empty()) return false;
 
     auto manualResult = hse::LocateGameAt(manualPath);
     if (!manualResult) {
         hse::logAndShowError(
-            "Invalid game path: " + manualPath.string(),
-            "The specified path does not appear to contain a valid Half Sword installation.\n\n"
-            "Please provide the path to the game folder, e.g.:\n"
-            "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
+            "Half Sword was not found at: " + manualPath.string(), "That folder does not contain Half Sword.\n\n"
+                                                                   "Please provide the path to the game folder, e.g.:\n"
+                                                                   "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
         );
         return false;
     }
 
     gameBinPath_ = manualResult->binariesPath;
     gameEdition_ = manualResult->edition;
-    [[maybe_unused]] const auto savePathResult = config.SetGamePath(gameBinPath_);
-    [[maybe_unused]] const auto saveEditionResult = config.SetGameEdition(gameEdition_);
-    hse::Logger::info(
-        "Game found (manual): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
-    );
+    if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
+        hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
+    hse::Logger::info("Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
     return true;
 }
 
@@ -285,7 +283,8 @@ std::filesystem::path HSELauncher::AskManualPath() {
     const auto first = path.find_first_not_of("\"'");
     if (first == std::string::npos) return {};
     const auto last = path.find_last_not_of("\"'");
-    path = path.substr(first, last - first + 1);
+    path.erase(last + 1);
+    path.erase(0, first);
 
     return std::filesystem::path(path);
 }
@@ -293,31 +292,33 @@ std::filesystem::path HSELauncher::AskManualPath() {
 #ifdef EXPERIMENTAL_VERSION
 hse::InstallMode HSELauncher::GetInstallMode() {
     if (auto stored = ParseInstallMode(config.GetString(INSTALL_SECTION, INSTALL_MODE_KEY, ""))) {
-        hse::Logger::info("Install mode: %s", InstallModeName(*stored));
-        return *stored;
+        if (hse::IsInstallModeAvailable(gameBinPath_, *stored)) {
+            hse::Logger::info("Installation method: %s", InstallModeName(*stored));
+            return *stored;
+        }
+        hse::Logger::warn("UE4SS was not found, so the previous installation choice cannot be used");
     }
 
     const auto detectedMode = hse::DetectInstallMode(gameBinPath_);
     std::string message = "Choose how to install this closed-test build.\n\n"
-                          "YES: UE4SS mode. Use this if UE4SS is installed; HSE will be installed as "
-                          "ue4ss\\Mods\\HSEnhancer\\dlls\\main.dll.\n\n"
-                          "NO: Standalone mode. HSE will use the winmm.dll proxy.\n\n";
+                          "YES: Integrate with your existing UE4SS installation.\n\n"
+                          "NO: Install directly into Half Sword.\n\n";
 
     message += detectedMode == hse::InstallMode::Ue4ss
-                   ? "UE4SS files were detected, so UE4SS mode is recommended."
-                   : "UE4SS was not detected, so standalone mode is recommended unless you install UE4SS yourself.";
+                   ? "An existing UE4SS installation was found, so integration is recommended."
+                   : "No UE4SS installation was found, so direct installation is recommended.";
 
     const UINT defaultButton = detectedMode == hse::InstallMode::Ue4ss ? MB_DEFBUTTON1 : MB_DEFBUTTON2;
     const int result =
-        MessageBoxA(nullptr, message.c_str(), "Install Mode", MB_YESNO | MB_ICONQUESTION | defaultButton);
+        MessageBoxA(nullptr, message.c_str(), "Installation Method", MB_YESNO | MB_ICONQUESTION | defaultButton);
     const auto installMode = result == IDYES ? hse::InstallMode::Ue4ss : hse::InstallMode::Standalone;
 
     if (auto saveResult = config.SetString(INSTALL_SECTION, INSTALL_MODE_KEY, InstallModeConfigValue(installMode));
         !saveResult) {
-        hse::Logger::warn("Failed to save install mode preference");
+        hse::Logger::warn("Could not remember the installation method. You may be asked again.");
     }
 
-    hse::Logger::info("Install mode selected: %s", InstallModeName(installMode));
+    hse::Logger::info("Installation method selected: %s", InstallModeName(installMode));
     return installMode;
 }
 #endif
@@ -332,14 +333,14 @@ bool HSELauncher::CheckAndInstallMod() {
 
 #ifdef EXPERIMENTAL_VERSION
     if (needsInstall) {
-        hse::Logger::info("Mod files incomplete. Downloading experimental build...");
+        hse::Logger::info("Half Sword Enhancer is not ready. Downloading the experimental version...");
 
         if (!cachedExperimentalInfo_) {
-            auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
+            auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
             if (!experimentalUpdateResult) {
                 hse::logAndShowError(
-                    "Failed to get experimental release information",
-                    "Could not connect to update server. Please check your internet connection."
+                    "Could not check available experimental versions",
+                    "Could not connect to the update server. Please check your internet connection."
                 );
                 return false;
             }
@@ -348,23 +349,23 @@ bool HSELauncher::CheckAndInstallMod() {
 
         auto& info = *cachedExperimentalInfo_;
         if (info.downloadUrlMod.empty()) {
-            hse::Logger::info("No experimental build available, downloading stable release...");
-            auto stableInfo = updateManager.CheckForUpdates();
+            hse::Logger::info("No experimental version is available. Installing the latest stable version...");
+            auto stableInfo = hse::UpdateManager::CheckForUpdates();
             if (!stableInfo || !stableInfo->remoteVersion.IsValid()) {
                 hse::logAndShowError(
-                    "No mod available",
-                    "Could not find any mod version to install. Please check your internet connection."
+                    "No Half Sword Enhancer version is available",
+                    "No Half Sword Enhancer version could be found. Please check your internet connection."
                 );
                 return false;
             }
             return DownloadAndInstall(stableInfo->remoteVersion, installMode);
         }
 
-        auto result = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
+        auto result = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
         if (!result) {
             hse::logAndShowError(
-                "Failed to install experimental mod",
-                "Failed to download and install the mod. Please check your internet connection."
+                "Could not install the experimental version",
+                "Half Sword Enhancer could not be installed. Please check your internet connection and try again."
             );
             return false;
         }
@@ -372,9 +373,9 @@ bool HSELauncher::CheckAndInstallMod() {
     }
 
     if (!cachedExperimentalInfo_) {
-        auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
+        auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
-            hse::Logger::error("Failed to check for experimental updates");
+            hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
             return true;
         }
         cachedExperimentalInfo_ = *experimentalUpdateResult;
@@ -384,7 +385,7 @@ bool HSELauncher::CheckAndInstallMod() {
 
     if (info.stableRelease && info.stableRelease->available) {
         auto& stable = *info.stableRelease;
-        std::string message = "A stable mod release is available!\n\n"
+        std::string message = "A stable Half Sword Enhancer version is available!\n\n"
                               "Stable release: " +
                               stable.remoteVersion.ToString() +
                               "\n\n"
@@ -396,28 +397,30 @@ bool HSELauncher::CheckAndInstallMod() {
     }
 
     if (info.modUpdateAvailable && !info.downloadUrlMod.empty()) {
-        std::string message = "A new experimental mod build is available!\n\n"
+        std::string message = "A new experimental Half Sword Enhancer version is available!\n\n"
                               "Do you want to install the update now?";
-        int result = MessageBoxA(nullptr, message.c_str(), "Mod Update Available", MB_YESNO | MB_ICONINFORMATION);
+        int result = MessageBoxA(nullptr, message.c_str(), "Half Sword Enhancer Update", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
-            auto updateResult = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
+            auto updateResult = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
             if (!updateResult) {
-                hse::showError("Failed to update experimental mod files.");
+                hse::showError(
+                    "Half Sword Enhancer could not be updated. Please check your internet connection and try again."
+                );
                 return false;
             }
         }
     } else {
-        hse::Logger::info("Mod is up to date");
+        hse::Logger::info("Half Sword Enhancer is up to date");
     }
 
     return true;
 #else
     if (!cachedUpdateInfo_) {
-        auto updateInfoResult = updateManager.CheckForUpdates();
+        auto updateInfoResult = hse::UpdateManager::CheckForUpdates();
         if (!updateInfoResult) {
             hse::logAndShowError(
-                "Failed to get remote version information",
-                "Could not connect to update server. Please check your internet connection."
+                "Could not check the latest Half Sword Enhancer version",
+                "Could not connect to the update server. Please check your internet connection."
             );
             return false;
         }
@@ -427,23 +430,25 @@ bool HSELauncher::CheckAndInstallMod() {
     auto& updateInfo = *cachedUpdateInfo_;
 
     if (needsInstall) {
-        hse::Logger::info("Mod files incomplete. Downloading...");
+        hse::Logger::info("Half Sword Enhancer is not ready. Downloading the latest version...");
 
         if (!updateInfo.remoteVersion.IsValid()) {
-            hse::logAndShowError("Invalid version information", "Received invalid version data from server.");
+            hse::logAndShowError(
+                "The available version could not be identified", "The update could not be read. Try again later."
+            );
             return false;
         }
 
         return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
-    auto installedVersion = updateManager.GetInstalledModVersion(gameBinPath_);
+    auto installedVersion = hse::UpdateManager::GetInstalledModVersion(gameBinPath_);
     bool needsUpdate = false;
 
     if (installedVersion) {
         needsUpdate = updateInfo.remoteVersion > *installedVersion;
         if (needsUpdate) {
-            std::string message = "A mod update is available!\n\n"
+            std::string message = "A Half Sword Enhancer update is available!\n\n"
                                   "Installed: " +
                                   installedVersion->ToString() +
                                   "\n"
@@ -453,20 +458,20 @@ bool HSELauncher::CheckAndInstallMod() {
                                   "Do you want to update now?";
             int result = MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONINFORMATION);
             if (result != IDYES) {
-                hse::Logger::info("User declined mod update");
+                hse::Logger::info("Half Sword Enhancer update skipped");
                 return true;
             }
         }
     } else {
-        needsUpdate = updateInfo.available;
-        if (needsUpdate) {
-            std::string message = "An update may be available (v" + updateInfo.remoteVersion.ToString() +
-                                  ").\n\n"
-                                  "Do you want to reinstall the mod?";
-            int result = MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONQUESTION);
-            if (result != IDYES) {
-                return true;
-            }
+        needsUpdate = true;
+        std::string message = "The installed Half Sword Enhancer version could not be identified.\n\n"
+                              "Available version: " +
+                              updateInfo.remoteVersion.ToString() +
+                              "\n\nDo you want to reinstall Half Sword Enhancer to ensure it is current?";
+        int result = MessageBoxA(nullptr, message.c_str(), "Version Unknown", MB_YESNO | MB_ICONQUESTION);
+        if (result != IDYES) {
+            hse::Logger::info("Reinstallation skipped");
+            return true;
         }
     }
 
@@ -474,17 +479,21 @@ bool HSELauncher::CheckAndInstallMod() {
         return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
-    hse::Logger::info("Mod is up to date (v%s)", installedVersion->ToString().c_str());
+    if (installedVersion)
+        hse::Logger::info("Half Sword Enhancer is up to date (v%s)", installedVersion->ToString().c_str());
+    else
+        hse::Logger::info("Half Sword Enhancer is installed, but its version could not be identified");
     return true;
 #endif
 }
 
 bool HSELauncher::DownloadAndInstall(const hse::Version& version, hse::InstallMode installMode) {
-    auto result = updateManager.DownloadAndInstallMod(version, gameBinPath_, installMode);
+    auto result = hse::UpdateManager::DownloadAndInstallMod(version, gameBinPath_, installMode);
     if (!result) {
         hse::logAndShowError(
-            "Failed to install mod v" + version.ToString(),
-            "Failed to download and install the mod. Please check your internet connection and try again."
+            "Could not install Half Sword Enhancer v" + version.ToString(),
+            "Half Sword Enhancer could not be downloaded and installed. Please check your internet connection and "
+            "try again."
         );
         return false;
     }
@@ -506,7 +515,7 @@ void HSELauncher::OfferGameLaunch() {
 }
 
 void HSELauncher::ShowExitMessage(bool success) {
-    if (success) hse::Logger::info("Installer completed successfully");
+    if (success) hse::Logger::info("Half Sword Enhancer is ready");
     hse::Logger::info("Exiting in %d seconds...", EXIT_DELAY_SECONDS);
     std::this_thread::sleep_for(std::chrono::seconds(EXIT_DELAY_SECONDS));
 }

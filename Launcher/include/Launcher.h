@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <optional>
 #include <cstdint>
 #include <filesystem>
@@ -14,7 +13,6 @@ namespace hse {
 }
 
 class HSELauncher {
-    hse::UpdateManager updateManager;
     hse::LauncherConfig& config;
 
     std::filesystem::path gameBinPath_;
