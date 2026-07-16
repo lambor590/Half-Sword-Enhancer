@@ -1,26 +1,98 @@
 #include "Menu/Sections/World/MapLoaderSection.h"
-#include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
 
 #include "Utils/MapRegistry.h"
 #include "Utils/EquipmentApplication.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/GameClass.h"
+#include "Utils/PresetApplication.h"
+#include "Utils/PresetLinkResolution.h"
+#include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
-#include "Utils/NPCSpawnHelpers.h"
-#include "Utils/EquipmentGenerator.h"
+#include "Utils/SpawnWorkflow.h"
 #include "Utils/GameConstants.h"
 #include "SDK/GI_Settings_classes.hpp"
+#include "SDK/Willie_BP_classes.hpp"
+
+#include <algorithm>
+#include <cstdio>
+#include <string_view>
+
+namespace {
+    constexpr auto AUTO_SPAWN_TIMEOUT = std::chrono::seconds(60);
+
+    [[nodiscard]] std::string FriendlyMapName(const MapRegistry& registry, std::string_view name) {
+        const auto leaf = name.substr(name.rfind('/') == std::string_view::npos ? 0 : name.rfind('/') + 1);
+        for (const auto& map : registry.GetMaps()) {
+            const auto mapLeaf = map.packageName.substr(map.packageName.rfind('/') + 1);
+            if (map.packageName == name || mapLeaf == leaf) return map.displayName;
+        }
+
+        std::string result(leaf);
+        std::ranges::replace(result, '_', ' ');
+        return result;
+    }
+
+    struct AutoSpawnNpcBatch {
+        int remaining = 0;
+        int succeeded = 0;
+        int failures = 0;
+        std::function<void(int, int)> onComplete;
+
+        void FinishOne(bool success) {
+            if (remaining <= 0) return;
+            if (success)
+                ++succeeded;
+            else
+                ++failures;
+            if (--remaining != 0 || !onComplete) return;
+            auto completion = std::move(onComplete);
+            completion(succeeded, failures);
+        }
+    };
+
+}
 
 void MapLoaderSection::RefreshLevelName() {
-    if (!levelNameDirty) return;
     auto* world = RenderWorld();
-    if (world) {
-        SDK::FString currentLevel = SDK::UGameplayStatics::GetCurrentLevelName(world, true);
-        cachedLevelName = currentLevel.ToString();
-    } else {
-        cachedLevelName.clear();
+
+    {
+        std::lock_guard lock(levelNameMutex);
+        if (pendingLevelName) {
+            if (pendingLevelName->world == world) {
+                cachedLevelName = std::move(pendingLevelName->name);
+                observedLevelWorld = world;
+            } else {
+                observedLevelWorld = nullptr;
+            }
+            pendingLevelName.reset();
+        }
     }
-    levelNameDirty = false;
+
+    if (!world) {
+        observedLevelWorld = nullptr;
+        cachedLevelName.clear();
+        return;
+    }
+
+    if (world == observedLevelWorld) return;
+    cachedLevelName.clear();
+    if (levelNameRequestPending.exchange(true, std::memory_order_acq_rel)) return;
+    observedLevelWorld = world;
+
+    if (GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+            LevelNameResult result{.world = runtime.world};
+            if (runtime.world) result.name = runtime.world->GetName();
+            {
+                std::lock_guard lock(levelNameMutex);
+                pendingLevelName = std::move(result);
+            }
+            levelNameRequestPending.store(false, std::memory_order_release);
+        }))
+        return;
+
+    observedLevelWorld = nullptr;
+    levelNameRequestPending.store(false, std::memory_order_release);
 }
 
 void MapLoaderSection::RebuildFilter(MapRegistry& reg) {
@@ -64,173 +136,443 @@ void MapLoaderSection::RebuildFilter(MapRegistry& reg) {
 }
 
 void MapLoaderSection::LoadMap(const std::string& packageName) {
-    if (!RenderWorld()) return;
-    if (optAutoSpawn) pendingAutoSpawn = true;
-
-    bool freshStart = optFreshStart, tutorial = optTutorial;
-    bool freeMode = optFreeMode, carnage = optCarnage;
-    int foes = optFoesAmount, foeTier = optFoeTier;
-    int combatants = optCombatantsAmount, opponentTier = optOpponentTier;
-
-    GameHook::QueueAction([this, pn = packageName, freshStart, tutorial, freeMode, carnage, foes, foeTier, combatants,
-                           opponentTier](const RuntimeContextSnapshot& runtime) {
-        auto* world = runtime.world;
-        if (!world) return;
-        auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
-        if (gi) {
-            gi->Fresh_Start_Map__Temp_ = freshStart;
-            gi->Tutorial_Enabled = tutorial;
-            gi->Free_Mode_Activated = freeMode;
-            gi->Free_Mode_Carnage = carnage;
-            gi->Free_Mode_Foes_Amount = foes;
-            gi->Free_Mode_Tier = static_cast<SDK::Enum_Ranks>(foeTier);
-            gi->Combatants_Amount = combatants;
-            gi->Current_Opponent_TIer_to_Spawn = static_cast<SDK::Enum_Ranks>(opponentTier);
-        }
-
-        std::wstring wideName(pn.begin(), pn.end());
-        auto levelName = SDK::BasicFilesImplUtils::StringToName(wideName.c_str());
-        SDK::UGameplayStatics::OpenLevel(world, levelName, true, SDK::FString(L""));
-        levelNameDirty = true;
+    auto scenario = BuildScenarioPreset(packageName);
+    const bool queued = GameHook::QueueAction([scenario = std::move(scenario)](const RuntimeContextSnapshot& runtime) {
+        std::string error;
+        (void)MapLoaderSection::RunScenario(runtime, scenario, &error);
     });
+    if (!queued) presetStatus.Set("Could not open the selected map", true);
+}
+
+bool MapLoaderSection::RunScenario(
+    const RuntimeContextSnapshot& runtime, const MapScenarioPresetData& scenario, std::string* error
+) {
+    auto* instance = runtimeInstance.load(std::memory_order_acquire);
+    if (!instance) {
+        if (error) *error = "Map Setup is unavailable.";
+        return false;
+    }
+
+    std::string localError;
+    if (instance->RunScenarioImpl(runtime, scenario, &localError)) {
+        if (error) error->clear();
+        return true;
+    }
+
+    if (error) *error = localError;
+    {
+        std::lock_guard lock(instance->autoSpawnMutex);
+        instance->autoSpawnFeedback = AutoSpawnFeedback{
+            localError.empty() ? "The scenario could not be started." : localError,
+            true,
+        };
+    }
+    return false;
+}
+
+bool MapLoaderSection::RunScenarioImpl(
+    const RuntimeContextSnapshot& runtime, const MapScenarioPresetData& scenario, std::string* error
+) {
+    if (!runtime.world) {
+        if (error) *error = "The current map is no longer available.";
+        return false;
+    }
+    if (auto validation = scenario.ValidateForSave(); !validation) {
+        if (error) *error = "This scenario is incomplete: " + validation.error;
+        return false;
+    }
+
+    std::wstring wideName;
+    if (!PresetUtils::TryUtf8ToWide(scenario.packageName, wideName)) {
+        if (error) *error = "The destination path is not valid.";
+        return false;
+    }
+    if (!runtime.controller || !runtime.controller->Class->GetFunction("PlayerController", "ClientTravel")) {
+        if (error) *error = "The game is not ready to open another map.";
+        return false;
+    }
+
+    const auto& options = scenario.preLoad;
+    auto* gameInstance = runtime.world->OwningGameInstance;
+    if (!GameClass::IsGameSettings(gameInstance)) {
+        if (error) *error = "A new session cannot be started from this map.";
+        return false;
+    }
+    auto* gi = static_cast<SDK::UGI_Settings_C*>(gameInstance);
+
+    std::shared_ptr<const PreparedAutoSpawn> prepared;
+    if (scenario.autoSpawn.enabled) {
+        std::string prepareError;
+        prepared = PrepareAutoSpawn(scenario.autoSpawn, prepareError);
+        if (!prepared) {
+            if (error) *error = std::move(prepareError);
+            return false;
+        }
+    }
+
+    SDK::UClass* playerClass = nullptr;
+    if (scenario.autoSpawn.enabled) {
+        playerClass = runtime.player ? runtime.player->Class : nullptr;
+        if (playerClass && !GameClass::IsWillieClass(playerClass)) playerClass = nullptr;
+    }
+
+    std::uint64_t generation = 0;
+    const bool needsAutoSpawn = static_cast<bool>(prepared);
+    {
+        std::lock_guard lock(autoSpawnMutex);
+        generation = ++autoSpawnGeneration;
+        pendingAutoSpawn.reset();
+        autoSpawnFeedback.reset();
+        if (prepared)
+            pendingAutoSpawn = PendingAutoSpawn{
+                .prepared = std::move(prepared),
+                .sourceWorld = runtime.world,
+                .playerClass = playerClass,
+                .deadline = std::chrono::steady_clock::now() + AUTO_SPAWN_TIMEOUT,
+                .generation = generation,
+            };
+    }
+    if (needsAutoSpawn)
+        StartAutoSpawnSubscription();
+    else
+        autoSpawnSubscriptions.Clear();
+
+    gi->Fresh_Start_Map__Temp_ = options.freshStart;
+    gi->Tutorial_Enabled = options.tutorial;
+    gi->Free_Mode_Activated = options.freeMode;
+    gi->Free_Mode_Carnage = options.carnage;
+    gi->Free_Mode_Foes_Amount = options.foesAmount;
+    gi->Free_Mode_Tier = static_cast<SDK::Enum_Ranks>(options.foeTier);
+    gi->Combatants_Amount = options.combatantsAmount;
+    gi->Current_Opponent_TIer_to_Spawn = static_cast<SDK::Enum_Ranks>(options.opponentTier);
+
+    runtime.controller
+        ->ClientTravel(SDK::FString(wideName.c_str()), SDK::ETravelType::TRAVEL_Absolute, false, SDK::FGuid{});
+    if (error) error->clear();
+    return true;
+}
+
+std::shared_ptr<const MapLoaderSection::PreparedAutoSpawn> MapLoaderSection::PrepareAutoSpawn(
+    const MapScenarioPresetData::AutoSpawnOptions& options, std::string& error
+) {
+    const auto& appDataRoot = ConfigManager::GetAppDataPath();
+    PresetResolveContext context;
+    const auto failure = [&error](std::string_view component, const auto& cause) {
+        error = std::string(component) + ": " +
+                (cause.error.empty() ? "could not be loaded" : PresetLinkResolution::FormatDiagnostic(cause));
+        return std::shared_ptr<const PreparedAutoSpawn>{};
+    };
+
+    if (MapScenarioRequiresNpcPreset(options.enabled, options.npcCount) && IsEmptyPresetLink(options.npcPreset)) {
+        error = "Choose an NPC setup before adding NPCs.";
+        return {};
+    }
+
+    PreparedAutoSpawn prepared;
+    if (!IsEmptyPresetLink(options.playerPreset)) {
+        auto player = PresetLinkResolution::Resolve<PlayerPresetSerializer>(options.playerPreset, appDataRoot, context);
+        if (!player.success || !player.value) return failure("Player preset", player);
+        prepared.player = std::move(*player.value);
+    }
+
+    if (!IsEmptyPresetLink(options.loadoutPreset)) {
+        auto loadout = LoadoutPresetResolver{appDataRoot}.Resolve(options.loadoutPreset, context);
+        if (!loadout.success || !loadout.value) return failure("Loadout preset", loadout);
+        prepared.loadout = std::move(*loadout.value);
+    }
+
+    if (!IsEmptyPresetLink(options.npcPreset) && options.npcCount > 0) {
+        auto npc = NPCPresetResolver(appDataRoot).Resolve(options.npcPreset, context);
+        if (!npc.success || !npc.value) return failure("NPC preset", npc);
+        prepared.npc = std::move(npc.value->preset);
+        prepared.npcLoadout = std::move(npc.value->loadout);
+        prepared.npcCount = options.npcCount;
+    }
+
+    error.clear();
+    return std::make_shared<PreparedAutoSpawn>(std::move(prepared));
+}
+
+bool MapLoaderSection::IsAutoSpawnAttemptCurrent(std::uint64_t generation) {
+    std::lock_guard lock(autoSpawnMutex);
+    return generation == autoSpawnGeneration;
+}
+
+void MapLoaderSection::FinishAutoSpawnAttempt(std::uint64_t generation, std::string message, bool error) {
+    {
+        std::lock_guard lock(autoSpawnMutex);
+        if (generation != autoSpawnGeneration) return;
+        if (pendingAutoSpawn && pendingAutoSpawn->generation == generation) pendingAutoSpawn.reset();
+        ++autoSpawnGeneration;
+        autoSpawnFeedback = AutoSpawnFeedback{std::move(message), error};
+    }
+    autoSpawnSubscriptions.Clear();
+}
+
+void MapLoaderSection::FlushAutoSpawnFeedback() {
+    std::optional<AutoSpawnFeedback> feedback;
+    {
+        std::lock_guard lock(autoSpawnMutex);
+        feedback = std::move(autoSpawnFeedback);
+        autoSpawnFeedback.reset();
+    }
+    if (feedback) presetStatus.Set(feedback->message, feedback->error);
 }
 
 void MapLoaderSection::SpawnAutoNPCs(
-    SDK::UWorld* w, SDK::AWillie_BP_C* willie, const NPCPresetData& npcPreset, int npcCount
+    SDK::UWorld* w, SDK::AWillie_BP_C* willie, const NPCPresetData& npcPreset,
+    const std::optional<ResolvedLoadoutPresetData>& npcLoadout, int npcCount, std::function<void(int, int)> onComplete
 ) {
+    if (npcCount <= 0) {
+        if (onComplete) onComplete(0, 0);
+        return;
+    }
+
+    auto baseRequestResult = SpawnWorkflow::BuildNPCSpawnParams(npcPreset, npcLoadout);
+    if (!baseRequestResult) {
+        if (onComplete) onComplete(0, npcCount);
+        return;
+    }
+    const auto baseRequest = std::move(*baseRequestResult);
+    auto batch = std::make_shared<AutoSpawnNpcBatch>();
+    batch->remaining = npcCount;
+    batch->onComplete = std::move(onComplete);
     for (int n = 0; n < npcCount; ++n) {
         float angle = (6.2832f / static_cast<float>(npcCount)) * static_cast<float>(n);
-        float dist = 300.0f;
+        auto dist = static_cast<float>(npcPreset.spawnDistanceForward);
         SDK::FTransform npcTransform = willie->GetTransform();
         auto fwd = willie->GetActorForwardVector();
         npcTransform.Translation.X += fwd.X * dist + std::cos(angle) * 100.0f * static_cast<float>(n);
         npcTransform.Translation.Y += fwd.Y * dist + std::sin(angle) * 100.0f * static_cast<float>(n);
-        npcTransform.Scale3D = {1.0, 1.0, 1.0};
+        npcTransform.Translation.Z += static_cast<float>(npcPreset.spawnDistanceUp);
+        const double scale = npcPreset.spawnScale;
+        npcTransform.Scale3D = {scale, scale, scale};
 
-        auto nationality = static_cast<SDK::Enum_Nationalities>(std::clamp(npcPreset.nationality, 0, 6));
-        auto tier = static_cast<SDK::Enum_Ranks>(std::clamp(npcPreset.tier, 0, 8));
-
-        Spawner::SpawnActor(
-            w, std::string(GameConstants::WILLIE_BP_PATH), npcTransform,
-            [w, nationality, tier, mercenary = npcPreset.mercenary, ovr = npcPreset.overrides](SDK::AActor* actor) {
-                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-                if (!npc) return;
-                auto passport = EquipmentGenerator::GenerateCharacter(w, npc->Class, nationality, tier, mercenary);
-                NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
-                npc->Character_Passport = passport;
-                NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
-            },
-            true, Spawner::DEFAULT_SPAWN_TIER,
-            [ovr = npcPreset.overrides](SDK::AActor* actor) {
-                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-                if (!npc) return;
-
-                NPCSpawnHelpers::ApplyHairColor(npc, ovr);
-            }
-        );
+        auto request = baseRequest;
+        request.onComplete = [batch](const SpawnWorkflow::SpawnResult& result) {
+            batch->FinishOne(result.success);
+        };
+        (void)SpawnWorkflow::SpawnNPCAt(w, willie->Team_Int, npcTransform, npcPreset.snapToGround, request);
     }
+}
+
+void MapLoaderSection::ApplyPreparedAutoSpawn(
+    SDK::UWorld* world, SDK::AWillie_BP_C* willie, const std::shared_ptr<const PreparedAutoSpawn>& prepared,
+    std::uint64_t generation
+) {
+    if (!IsAutoSpawnAttemptCurrent(generation)) return;
+    if (!prepared || !world || !willie) {
+        FinishAutoSpawnAttempt(generation, "The destination is no longer available", true);
+        return;
+    }
+
+    const bool playerSucceeded =
+        !prepared->player || PresetApplication::ApplyPlayerOverrides(willie, prepared->player->overrides);
+    auto spawnNpcs = [this, world, willie, prepared, generation, playerSucceeded](bool loadoutSucceeded) {
+        if (!IsAutoSpawnAttemptCurrent(generation)) return;
+
+        const auto complete = [this, prepared, generation, playerSucceeded,
+                               loadoutSucceeded](int succeeded, int failures) {
+            if (!IsAutoSpawnAttemptCurrent(generation)) return;
+            const bool partial = !playerSucceeded || !loadoutSucceeded || failures > 0;
+            std::string message;
+            if (!playerSucceeded) message += "The player appearance could not be applied. ";
+            if (!loadoutSucceeded) message += "The player equipment could not be equipped. ";
+            if (prepared->npc && prepared->npcCount > 0) {
+                message += "Added " + std::to_string(succeeded) + "/" + std::to_string(prepared->npcCount) + " NPCs.";
+            } else {
+                message += partial ? "Some starting characters could not be added." : "Starting characters are ready.";
+            }
+            FinishAutoSpawnAttempt(generation, std::move(message), partial);
+        };
+
+        if (!prepared->npc || prepared->npcCount <= 0) {
+            complete(0, 0);
+            return;
+        }
+        if (!world || !willie) {
+            complete(0, prepared->npcCount);
+            return;
+        }
+        SpawnAutoNPCs(world, willie, *prepared->npc, prepared->npcLoadout, prepared->npcCount, std::move(complete));
+    };
+
+    if (!prepared->loadout) {
+        spawnNpcs(true);
+        return;
+    }
+
+    std::string error;
+    const bool started = EquipmentApplication::ApplyPlayerLoadout(
+        world, willie, *prepared->loadout, &error, [spawnNpcs](bool success) mutable { spawnNpcs(success); }
+    );
+    if (!started) spawnNpcs(false);
+}
+
+void MapLoaderSection::AdvancePendingAutoSpawn(const RuntimeContextSnapshot& runtime) {
+    auto* controller = runtime.controller;
+    auto* world = runtime.world;
+    PendingAutoSpawn pending;
+    {
+        std::lock_guard lock(autoSpawnMutex);
+        if (!pendingAutoSpawn) return;
+        pending = *pendingAutoSpawn;
+    }
+
+    if (!world || !controller || (pending.sourceWorld && pending.sourceWorld == world)) {
+        if (std::chrono::steady_clock::now() >= pending.deadline) {
+            FinishAutoSpawnAttempt(pending.generation, "The destination did not become ready in time", true);
+        }
+        return;
+    }
+    auto* willie = runtime.player;
+    bool spawnedPlayer = false;
+    if (!willie) {
+        auto* gameInstance = world->OwningGameInstance;
+        if (!GameClass::IsGameSettings(gameInstance)) {
+            FinishAutoSpawnAttempt(pending.generation, "The selected player setup is unavailable", true);
+            return;
+        }
+        auto* gi = static_cast<SDK::UGI_Settings_C*>(gameInstance);
+
+        auto* willieClass =
+            pending.playerClass ? pending.playerClass : Spawner::LoadClass(GameConstants::WILLIE_BP_PATH);
+        if (!GameClass::IsWillieClass(willieClass)) {
+            FinishAutoSpawnAttempt(pending.generation, "Could not prepare the player", true);
+            return;
+        }
+
+        const auto transform = controller->GetTransform();
+        auto* newActor = Spawner::DeferredSpawn(world, willieClass, transform, [&](SDK::AActor* actor) {
+            if (!actor) return;
+            auto* newWillie = static_cast<SDK::AWillie_BP_C*>(actor);
+            newWillie->Player = true;
+            newWillie->Team_Int = 0;
+            newWillie->Character_Passport = gi->Player_Character;
+
+            if (pending.prepared->player) {
+                const auto& overrides = pending.prepared->player->overrides;
+                if (overrides.heightRate.enabled)
+                    newWillie->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B =
+                        overrides.heightRate.value;
+                if (overrides.muscleRate.enabled)
+                    newWillie->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD =
+                        overrides.muscleRate.value;
+            }
+        });
+        if (!GameClass::IsWillie(newActor)) {
+            if (newActor) newActor->K2_DestroyActor();
+            FinishAutoSpawnAttempt(pending.generation, "Could not add the player to the destination", true);
+            return;
+        }
+        willie = static_cast<SDK::AWillie_BP_C*>(newActor);
+        spawnedPlayer = true;
+    }
+
+    std::unique_lock lock(autoSpawnMutex);
+    if (!pendingAutoSpawn || pendingAutoSpawn->generation != pending.generation ||
+        pending.generation != autoSpawnGeneration) {
+        lock.unlock();
+        if (spawnedPlayer && willie) willie->K2_DestroyActor();
+        return;
+    }
+
+    pendingAutoSpawn.reset();
+    lock.unlock();
+    autoSpawnSubscriptions.Clear();
+
+    if (spawnedPlayer) {
+        controller->Possess(willie);
+        willie->Set_Up_Armor(true, false);
+    }
+    ApplyPreparedAutoSpawn(world, willie, pending.prepared, pending.generation);
 }
 
 void MapLoaderSection::SpawnPlayer() {
-    std::filesystem::path presetPath;
-    if (playerPicker.HasSelection()) presetPath = playerPicker.SelectedPath();
-
-    bool hasLoadout = loadoutPicker.HasSelection();
-    LoadoutPresetData loadoutData;
-    if (hasLoadout) {
-        loadoutData = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
-        if (!loadoutData.success) hasLoadout = false;
+    std::string prepareError;
+    auto options = BuildScenarioPreset(std::string{}).autoSpawn;
+    options.npcCount = 0;
+    options.npcPreset = {};
+    auto prepared = optAutoSpawn ? PrepareAutoSpawn(options, prepareError) : std::make_shared<PreparedAutoSpawn>();
+    if (!prepared) {
+        presetStatus.Set(prepareError.empty() ? "The starting player could not be prepared." : prepareError, true);
+        return;
     }
 
-    bool hasNPCPreset = npcPicker.HasSelection() && optAutoNPCCount > 0;
-    NPCPresetData npcData;
-    if (hasNPCPreset) {
-        npcData = NPCPresetSerializer::LoadFromFile(npcPicker.SelectedPath());
-        if (!npcData.success) hasNPCPreset = false;
+    std::uint64_t generation = 0;
+    {
+        std::lock_guard lock(autoSpawnMutex);
+        generation = ++autoSpawnGeneration;
+        autoSpawnFeedback.reset();
+        pendingAutoSpawn = PendingAutoSpawn{
+            .prepared = std::move(prepared),
+            .sourceWorld = nullptr,
+            .playerClass = nullptr,
+            .deadline = std::chrono::steady_clock::now() + AUTO_SPAWN_TIMEOUT,
+            .generation = generation,
+        };
     }
-    int npcCount = hasNPCPreset ? optAutoNPCCount : 0;
 
-    GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData), hasNPCPreset,
-                           npcPreset = std::move(npcData), npcCount](const RuntimeContextSnapshot& runtime) {
-        auto* controller = runtime.controller;
-        auto* world = runtime.world;
-        if (!controller || !world) return;
-
-        auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
-
-        auto* willieClass = Spawner::LoadClass(GameConstants::WILLIE_BP_PATH);
-        if (!willieClass) return;
-
-        auto transform = controller->GetTransform();
-
-        auto* newActor = Spawner::DeferredSpawn(world, willieClass, transform, [&](SDK::AActor* actor) {
-            auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-            willie->Player = true;
-            willie->Team_Int = 0;
-            if (gi) willie->Character_Passport = gi->Player_Character;
-
-            if (!presetPath.empty()) {
-                auto preset = PlayerPresetSerializer::LoadFromFile(presetPath);
-                if (preset.success) {
-                    auto& o = preset.overrides;
-                    if (o.heightRate.enabled) {
-                        willie->Height_Rate = o.heightRate.value;
-                        willie->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = o.heightRate.value;
-                    }
-                    if (o.muscleRate.enabled) {
-                        willie->Muscle_Rate = o.muscleRate.value;
-                        willie->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = o.muscleRate.value;
-                    }
-                }
-            }
-        });
-        if (!newActor) return;
-
-        auto* willie = static_cast<SDK::AWillie_BP_C*>(newActor);
-
-        controller->Possess(willie);
-        willie->Set_Up_Armor(true, false);
-
-        if (hasLoadout) EquipmentApplication::ApplyNPCLoadout(world, willie, loadout);
-        if (hasNPCPreset) SpawnAutoNPCs(world, willie, npcPreset, npcCount);
+    const bool queued = GameHook::QueueAction([this, generation](const RuntimeContextSnapshot& runtime) {
+        if (!IsAutoSpawnAttemptCurrent(generation)) return;
+        StartAutoSpawnSubscription();
+        AdvancePendingAutoSpawn(runtime);
     });
+    if (!queued) {
+        FinishAutoSpawnAttempt(generation, "Could not add the player to the destination map", true);
+        return;
+    }
+    presetStatus.Set("The player will be added when the destination opens.");
 }
 
 void MapLoaderSection::RenderPreLoadOptions() {
-    if (!ImGui::TreeNode("Pre-Load Options")) return;
+    if (!ImGui::TreeNode("Starting Conditions")) return;
+
+    ImGui::TextDisabled("Choose how the destination map should begin.");
 
     ImGui::Checkbox("Fresh Start", &optFreshStart);
-    ImGui::SameLine();
+    GuiUtils::HelpTooltip("Start the map as if entering it for the first time.");
+    (void)GuiUtils::SameLineIfFitsCheckbox("Tutorial");
     ImGui::Checkbox("Tutorial", &optTutorial);
+    GuiUtils::HelpTooltip("Show the game's tutorial in the destination map.");
 
     ImGui::SeparatorText("Free Mode");
     ImGui::Checkbox("Free Mode", &optFreeMode);
-    ImGui::SameLine();
+    GuiUtils::HelpTooltip("Start without a fixed campaign objective.");
+    if (!optFreeMode) ImGui::BeginDisabled();
     ImGui::Checkbox("Carnage", &optCarnage);
+    GuiUtils::HelpTooltip("Use Carnage rules in Free Mode.");
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    GuiUtils::DebouncedDragInt("##Foes", &optFoesAmount, 0.2f, 0, 7, "Foes: %d");
-    ImGui::SameLine();
-    GuiUtils::RenderFreeTierCombo("##FoeTier", optFoeTier);
+    GuiUtils::DebouncedDragInt("Enemies", &optFoesAmount, 0.2f, 0, 7);
+    GuiUtils::HelpTooltip("Choose how many enemies appear in Free Mode (0-7).");
+    GuiUtils::RenderFreeTierCombo("Enemy Tier", optFoeTier);
+    GuiUtils::HelpTooltip("Choose the strength of Free Mode enemies.");
+    if (!optFreeMode) ImGui::EndDisabled();
 
     ImGui::SeparatorText("Combat");
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    GuiUtils::DebouncedDragInt("##Enemies", &optCombatantsAmount, 0.2f, 0, 7, "Enemies: %d");
-    ImGui::SameLine();
-    GuiUtils::RenderFreeTierCombo("##OpponentTier", optOpponentTier);
+    GuiUtils::DebouncedDragInt("Starting Fighters", &optCombatantsAmount, 0.2f, 0, 7);
+    GuiUtils::HelpTooltip("Choose how many fighters are present when the map starts (0-7).");
+    GuiUtils::RenderFreeTierCombo("Opponent Tier", optOpponentTier);
+    GuiUtils::HelpTooltip("Choose the strength of opponents present when the map starts.");
 
-    ImGui::SeparatorText("Player");
-    ImGui::Checkbox("Auto-Spawn Player", &optAutoSpawn);
+    ImGui::SeparatorText("Starting Characters");
+    ImGui::Checkbox("Add Player", &optAutoSpawn);
+    GuiUtils::HelpTooltip("Enter the map with the selected player appearance and equipment.");
 
     if (optAutoSpawn) {
-        playerPicker.Render("Player Preset", "None (use save)");
-        loadoutPicker.Render("Loadout Preset");
+        (void)playerPresetLink.Render("Player Appearance", "None (use save)");
+        (void)loadoutPresetLink.Render("Player Equipment");
 
-        ImGui::SeparatorText("Auto-Spawn NPCs");
-        npcPicker.Render("NPC Preset");
-        if (npcPicker.HasSelection()) {
-            ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-            GuiUtils::DebouncedDragInt("##NPCCount", &optAutoNPCCount, 0.2f, 0, 10, "Count: %d");
-        }
+        ImGui::SeparatorText("NPCs");
+        (void)npcPresetLink.Render("NPC Setup");
+        const bool hasNPCPreset = npcPresetLink.HasLink();
+        if (!hasNPCPreset) optAutoNPCCount = 0;
+        if (!hasNPCPreset) ImGui::BeginDisabled();
+        ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
+        GuiUtils::DebouncedDragInt("Number of NPCs", &optAutoNPCCount, 0.2f, 0, 10);
+        if (!hasNPCPreset) ImGui::EndDisabled();
+        if (!hasNPCPreset) ImGui::TextDisabled("Choose an NPC setup to add NPCs.");
     }
 
     ImGui::TreePop();
@@ -240,7 +582,8 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
     const auto& maps = reg.GetMaps();
     const auto& cats = reg.GetCategories();
 
-    if (ImGui::InputTextWithHint("##MapSearch", "Search...", searchBuffer, sizeof(searchBuffer))) filterDirty = true;
+    if (ImGui::InputTextWithHint("##MapSearch", "Search maps...", searchBuffer, sizeof(searchBuffer)))
+        filterDirty = true;
 
     if (cats.size() > 1) {
         if (cachedCatComboW == 0.0f) {
@@ -253,7 +596,7 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
         }
 
         const char* catPreview = selectedCategoryIndex == 0 ? "All" : cats[selectedCategoryIndex - 1].c_str();
-        if (GuiUtils::BeginSizedCombo("##MapCategory", catPreview, cachedCatComboW)) {
+        if (GuiUtils::BeginSizedCombo("Category", catPreview, cachedCatComboW)) {
             if (ImGui::Selectable("All", selectedCategoryIndex == 0)) {
                 selectedCategoryIndex = 0;
                 filterDirty = true;
@@ -272,101 +615,285 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
     RebuildFilter(reg);
 
     if (filteredIndices.empty()) {
-        ImGui::TextColored(K_GRAY_TEXT, "No matches");
+        ImGui::TextDisabled("No maps match the current search and category.");
+        if (searchBuffer[0] != '\0' || selectedCategoryIndex != 0) {
+            if (GuiUtils::Button("Clear Filters", GuiUtils::ButtonTone::Quiet)) {
+                searchBuffer[0] = '\0';
+                selectedCategoryIndex = 0;
+                filterDirty = true;
+            }
+        }
     } else {
         if (selectedFilteredIndex >= static_cast<int>(filteredIndices.size())) selectedFilteredIndex = 0;
 
         const char* preview = maps[filteredIndices[selectedFilteredIndex]].displayName.c_str();
-        if (GuiUtils::BeginSizedCombo("##MapSelector", preview, cachedComboW)) {
+        if (GuiUtils::BeginSizedCombo("Map", preview, cachedComboW)) {
             GuiUtils::RenderClippedList(static_cast<int>(filteredIndices.size()), selectedFilteredIndex, [&](int i) {
                 const auto& entry = maps[filteredIndices[i]];
                 bool selected = (i == selectedFilteredIndex);
-                if (ImGui::Selectable(entry.displayName.c_str(), selected)) selectedFilteredIndex = i;
-                if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))
-                    ImGui::SetItemTooltip("%s", entry.packageName.c_str());
+                if (ImGui::Selectable(entry.displayName.c_str(), selected)) {
+                    selectedFilteredIndex = i;
+                    packageOverride.clear();
+                }
             });
             ImGui::EndCombo();
         }
-
-        ImGui::Spacing();
-        if (ImGui::Button("Load Map")) LoadMap(maps[filteredIndices[selectedFilteredIndex]].packageName);
-        ImGui::SameLine();
-        if (ImGui::Button("Restart Current") && !cachedLevelName.empty()) LoadMap(cachedLevelName);
     }
 }
 
-MapLoaderSection::MapLoaderSection(ModContext& ctx) : Section(ctx, SECTION) {}
+std::string MapLoaderSection::CurrentPackageName(const MapRegistry& reg) const {
+    if (!packageOverride.empty()) return packageOverride;
+    const auto& maps = reg.GetMaps();
+    if (selectedFilteredIndex < 0 || selectedFilteredIndex >= static_cast<int>(filteredIndices.size())) return {};
+    const int mapIndex = filteredIndices[static_cast<size_t>(selectedFilteredIndex)];
+    if (mapIndex < 0 || mapIndex >= static_cast<int>(maps.size())) return {};
+    return maps[static_cast<size_t>(mapIndex)].packageName;
+}
+
+MapScenarioPresetData MapLoaderSection::BuildScenarioPreset(std::string packageName) const {
+    MapScenarioPresetData data;
+    data.packageName = std::move(packageName);
+    data.preLoad = {
+        .freshStart = optFreshStart,
+        .tutorial = optTutorial,
+        .freeMode = optFreeMode,
+        .carnage = optCarnage,
+        .foesAmount = optFoesAmount,
+        .foeTier = optFoeTier,
+        .combatantsAmount = optCombatantsAmount,
+        .opponentTier = optOpponentTier,
+    };
+    data.autoSpawn = {
+        .enabled = optAutoSpawn,
+        .npcCount = optAutoNPCCount,
+        .playerPreset = playerPresetLink.GetLink(),
+        .loadoutPreset = loadoutPresetLink.GetLink(),
+        .npcPreset = npcPresetLink.GetLink(),
+    };
+    return data;
+}
+
+MapScenarioPresetData MapLoaderSection::BuildScenarioPreset(const MapRegistry& reg) const {
+    return BuildScenarioPreset(CurrentPackageName(reg));
+}
+
+void MapLoaderSection::ApplyScenarioPreset(MapScenarioPresetData data) {
+    const auto loadedName = data.name;
+    packageOverride = std::move(data.packageName);
+    optFreshStart = data.preLoad.freshStart;
+    optTutorial = data.preLoad.tutorial;
+    optFreeMode = data.preLoad.freeMode;
+    optCarnage = data.preLoad.carnage;
+    optFoesAmount = data.preLoad.foesAmount;
+    optFoeTier = data.preLoad.foeTier;
+    optCombatantsAmount = data.preLoad.combatantsAmount;
+    optOpponentTier = data.preLoad.opponentTier;
+    optAutoSpawn = data.autoSpawn.enabled;
+    optAutoNPCCount = data.autoSpawn.npcCount;
+    const auto& appDataRoot = ConfigManager::GetAppDataPath();
+    playerPresetLink.SetLink(std::move(data.autoSpawn.playerPreset), appDataRoot);
+    loadoutPresetLink.SetLink(std::move(data.autoSpawn.loadoutPreset), appDataRoot);
+    npcPresetLink.SetLink(std::move(data.autoSpawn.npcPreset), appDataRoot);
+    scenarioPresets.status.Set(
+        "Scenario ready: " + loadedName + ". Review its destination and characters, then start it when ready."
+    );
+}
+
+void MapLoaderSection::RenderScenarioPresets(MapRegistry& reg) {
+    if (!ImGui::TreeNode("Saved Scenarios")) return;
+
+    scenarioPresets.status.Render();
+    const auto packageName = CurrentPackageName(reg);
+    ImGui::TextDisabled("Save the destination and starting conditions for later.");
+    const auto destinationName = FriendlyMapName(reg, packageName);
+    ImGui::TextDisabled("Destination: %s", packageName.empty() ? "None" : destinationName.c_str());
+    playerPresetLink.RefreshIfCatalogChanged();
+    loadoutPresetLink.RefreshIfCatalogChanged();
+    npcPresetLink.RefreshIfCatalogChanged();
+    const bool npcLinkHealthy = !MapScenarioRequiresNpcPreset(optAutoSpawn, optAutoNPCCount) ||
+                                (npcPresetLink.HasLink() && !npcPresetLink.IsBroken());
+    const bool linksHealthy =
+        !optAutoSpawn || (!playerPresetLink.IsBroken() && !loadoutPresetLink.IsBroken() && npcLinkHealthy);
+    if (!linksHealthy) {
+        GuiUtils::RenderCallout(
+            "scenario-links-broken",
+            "Some starting choices are missing. Choose replacements before saving or starting.",
+            GuiUtils::CalloutTone::Warning
+        );
+    }
+    scenarioPresets.RenderPresetsTab(
+        [this, &reg]() {
+            auto data = BuildScenarioPreset(reg);
+            return PresetBuildResult<MapScenarioPresetData>::Success(std::move(data));
+        },
+        [this](MapScenarioPresetData data) { ApplyScenarioPreset(std::move(data)); },
+        !packageName.empty() && linksHealthy
+    );
+    ImGui::TreePop();
+}
+
+std::atomic<MapLoaderSection*> MapLoaderSection::runtimeInstance{nullptr};
+
+void MapLoaderSection::StartAutoSpawnSubscription() {
+    autoSpawnSubscriptions.Clear();
+    (void)autoSpawnSubscriptions.Subscribe(GameEvent::OnTick, [this](EventBus::EventContext& event) {
+        AdvancePendingAutoSpawn(event.Runtime());
+    });
+}
+
+void MapLoaderSection::OnRuntimeStart() {
+    auto* instance = runtimeInstance.load(std::memory_order_acquire);
+    if (!instance) return;
+
+    bool pending = false;
+    {
+        std::lock_guard lock(instance->autoSpawnMutex);
+        pending = instance->pendingAutoSpawn.has_value();
+    }
+    if (pending) instance->StartAutoSpawnSubscription();
+}
+
+void MapLoaderSection::OnRuntimeShutdown() noexcept {
+    if (auto* instance = runtimeInstance.load(std::memory_order_acquire)) {
+        instance->autoSpawnSubscriptions.Clear();
+        {
+            std::lock_guard lock(instance->autoSpawnMutex);
+            ++instance->autoSpawnGeneration;
+            instance->pendingAutoSpawn.reset();
+            instance->autoSpawnFeedback.reset();
+        }
+        instance->presetStatus = {};
+    }
+}
+
+MapLoaderSection::MapLoaderSection(ModContext& ctx) : Section(ctx, SECTION) {
+    runtimeInstance.store(this, std::memory_order_release);
+}
 
 void MapLoaderSection::Render() {
-    const SectionStyle::StyleRAII style;
-    auto [world, player] = RenderPlayerWorld();
+    auto* player = RenderPlayer();
+    FlushAutoSpawnFeedback();
+    presetStatus.Render();
 
     auto& reg = MapRegistry::Get();
     auto scanState = reg.GetState();
 
     if (scanState == ScanState::NotStarted || scanState == ScanState::Scanning) {
         if (scanState == ScanState::NotStarted) reg.RequestScan();
-        ImGui::TextColored(K_YELLOW_TEXT, "Scanning maps...");
+        GuiUtils::RenderCallout("map-scan-progress", "Finding available maps...", GuiUtils::CalloutTone::Info);
         return;
     }
 
     if (scanState == ScanState::Failed) {
-        ImGui::TextColored(K_ORANGE_TEXT, "No maps found");
-        if (ImGui::Button("Retry")) reg.RequestRescan();
+        const auto result = GuiUtils::RenderCallout(
+            "map-scan-failed", "No maps were found. Try finding them again.", GuiUtils::CalloutTone::Error, false,
+            "Retry"
+        );
+        if (result.actionClicked) reg.RequestRescan();
         return;
     }
 
-    const auto& maps = reg.GetMaps();
-
     RefreshLevelName();
     if (!cachedLevelName.empty()) {
-        ImGui::Text("Current: %s", cachedLevelName.c_str());
+        ImGui::TextDisabled("Current map");
+        (void)GuiUtils::SameLineIfFits(ImGui::CalcTextSize(cachedLevelName.c_str()).x);
+        const auto currentMapName = FriendlyMapName(reg, cachedLevelName);
+        ImGui::TextUnformatted(currentMapName.c_str());
         ImGui::Spacing();
     }
 
     bool hasPlayer = player != nullptr;
 
-    if (pendingAutoSpawn && !hasPlayer && world) {
-        SpawnPlayer();
-        pendingAutoSpawn = false;
-    }
-
     if (!hasPlayer) {
-        ImGui::TextColored(K_ORANGE_TEXT, "No player detected");
-        ImGui::SameLine();
-        if (ImGui::Button("Spawn Player")) SpawnPlayer();
-        ImGui::Spacing();
+        const auto result = GuiUtils::RenderCallout(
+            "map-no-player", "No player is active in this map.", GuiUtils::CalloutTone::Warning, false, "Spawn Player"
+        );
+        if (result.actionClicked) SpawnPlayer();
     }
 
+    ImGui::SeparatorText("Destination");
+    if (!packageOverride.empty()) {
+        const std::string message = "Scenario destination: " + FriendlyMapName(reg, packageOverride) +
+                                    ". Choosing another map below will replace it.";
+        const auto result = GuiUtils::RenderCallout(
+            "staged-map-destination", message, GuiUtils::CalloutTone::Info, false, "Use Selected Map"
+        );
+        if (result.actionClicked) packageOverride.clear();
+    }
     RenderMapSelector(reg);
 
     ImGui::Spacing();
 
     RenderPreLoadOptions();
-
-    ImGui::Spacing();
-    ImGui::Separator();
     ImGui::Spacing();
 
-    ImGui::Text("Custom path");
-    ImGui::InputTextWithHint("##CustomMapPath", "/Game/Maps/...", customPathBuffer, sizeof(customPathBuffer));
-    if (ImGui::Button("Load Custom") && customPathBuffer[0] != '\0') LoadMap(std::string(customPathBuffer));
-
-    ImGui::Spacing();
-    ImGui::Separator();
-    ImGui::Spacing();
-
-    if (ImGui::Button("Rescan Maps")) {
-        reg.RequestRescan();
-        selectedFilteredIndex = 0;
-        selectedCategoryIndex = 0;
-        searchBuffer[0] = '\0';
-        filterDirty = true;
-        cachedCatComboW = 0.0f;
-        playerPicker.Invalidate();
-        loadoutPicker.Invalidate();
-        npcPicker.Invalidate();
+    const auto packageName = CurrentPackageName(reg);
+    const bool npcLinkHealthy = !MapScenarioRequiresNpcPreset(optAutoSpawn, optAutoNPCCount) ||
+                                (npcPresetLink.HasLink() && !npcPresetLink.IsBroken());
+    const bool linksHealthy =
+        !optAutoSpawn || (!playerPresetLink.IsBroken() && !loadoutPresetLink.IsBroken() && npcLinkHealthy);
+    const bool canLoad = !packageName.empty() && linksHealthy;
+    const char* loadLabel = packageOverride.empty() ? "Play Selected Map" : "Start Scenario";
+    if (!canLoad) ImGui::BeginDisabled();
+    if (GuiUtils::Button(loadLabel, GuiUtils::ButtonTone::Primary)) LoadMap(packageName);
+    if (!canLoad) ImGui::EndDisabled();
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled)) {
+        if (packageName.empty())
+            ImGui::SetItemTooltip("Choose a destination map first");
+        else if (!linksHealthy)
+            ImGui::SetItemTooltip("Replace the missing saved choices before starting.");
+        else
+            ImGui::SetItemTooltip("End the current session and begin in the selected map.");
     }
-    ImGui::SameLine();
-    ImGui::TextColored(K_GRAY_TEXT, "(%zu maps)", maps.size());
+
+    ImGui::Spacing();
+    const bool canRestart = !cachedLevelName.empty() && linksHealthy;
+    if (!canRestart) ImGui::BeginDisabled();
+    if (ImGui::Button("Restart Current Map")) LoadMap(cachedLevelName);
+    if (!canRestart) ImGui::EndDisabled();
+    if (!canRestart && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
+        ImGui::SetItemTooltip(
+            linksHealthy ? "The current map is not available yet."
+                         : "Replace the missing saved choices before restarting."
+        );
+
+    ImGui::Spacing();
+    RenderScenarioPresets(reg);
+
+    if (ImGui::TreeNode("Advanced")) {
+        ImGui::Text("Custom Map Path");
+        ImGui::InputTextWithHint("##CustomMapPath", "/Game/Maps/...", customPathBuffer, sizeof(customPathBuffer));
+        const bool canLoadCustomPath = customPathBuffer[0] != '\0' && linksHealthy;
+        if (!canLoadCustomPath) ImGui::BeginDisabled();
+        if (GuiUtils::Button("Open Custom Map", GuiUtils::ButtonTone::Primary)) {
+            packageOverride = customPathBuffer;
+            LoadMap(packageOverride);
+        }
+        if (!canLoadCustomPath) ImGui::EndDisabled();
+        if (!canLoadCustomPath &&
+            ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
+            ImGui::SetItemTooltip(
+                customPathBuffer[0] == '\0' ? "Enter a custom map path first"
+                                            : "Replace the missing saved choices before opening the map."
+            );
+
+        ImGui::Spacing();
+        if (ImGui::Button("Find Maps Again")) {
+            reg.RequestRescan();
+            selectedFilteredIndex = 0;
+            selectedCategoryIndex = 0;
+            searchBuffer[0] = '\0';
+            filterDirty = true;
+            cachedCatComboW = 0.0f;
+            playerPresetLink.GetPicker().Invalidate();
+            loadoutPresetLink.GetPicker().Invalidate();
+            npcPresetLink.GetPicker().Invalidate();
+            scenarioPresets.presetListDirty = true;
+        }
+        char catalogStatus[64];
+        std::snprintf(catalogStatus, sizeof(catalogStatus), "%zu maps available", reg.GetMaps().size());
+        (void)GuiUtils::SameLineIfFits(ImGui::CalcTextSize(catalogStatus).x);
+        ImGui::TextDisabled("%s", catalogStatus);
+        ImGui::TreePop();
+    }
 }
