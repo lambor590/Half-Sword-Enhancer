@@ -8,6 +8,7 @@
 
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/CustomizableWeapon.h"
+#include "Utils/BlueprintRegistry.h"
 #include "Utils/GameConstants.h"
 #include "Utils/PresetUtils.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
@@ -81,7 +82,10 @@ private:
     ) {
         for (int i = 0; i < arr.Num(); ++i) {
             if (arr[i] && seen.insert(arr[i]).second)
-                out.push_back({arr[i], arr[i]->GetName(), PresetUtils::ObjectToAbsolutePath(arr[i]), sourceType});
+                out.push_back(
+                    {arr[i], BlueprintRegistry::CleanDisplayName(arr[i]->GetName()),
+                     PresetUtils::ObjectToAbsolutePath(arr[i]), sourceType}
+                );
         }
     }
 };

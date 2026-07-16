@@ -1,6 +1,5 @@
 #pragma once
 
-#include <array>
 #include <unordered_set>
 #include <utility>
 
@@ -104,22 +103,20 @@ namespace ActorUtils {
         return willie && FearlessReinforcementTargets().contains(willie);
     }
 
-    inline void SetFearlessReinforcementHooksEnabled(bool enabled) {
-        static bool registered = false;
-        static std::array<GameHook::HookHandle, 2> hookHandles{
-            GameHook::INVALID_HOOK_HANDLE, GameHook::INVALID_HOOK_HANDLE
-        };
-        if (registered == enabled) return;
+    inline GameHook::SubscriptionGroup& FearlessReinforcementSubscriptions() {
+        static GameHook::SubscriptionGroup subscriptions;
+        return subscriptions;
+    }
 
-        auto& hook = GameHook::Get();
+    inline void ApplyFearlessReinforcementHookState(bool enabled) {
+        auto& subscriptions = FearlessReinforcementSubscriptions();
         if (!enabled) {
-            for (auto& handle : hookHandles) {
-                hook.Unsubscribe(handle);
-                handle = GameHook::INVALID_HOOK_HANDLE;
-            }
-            registered = false;
+            subscriptions.Reset();
             return;
         }
+        if (subscriptions.IsSubscribed()) return;
+
+        subscriptions.Reset();
 
         auto reinforceFearless = [](GameHook::ProcessEventContext& context) {
             if (!context.object || !context.object->IsA(SDK::AWillie_BP_C::StaticClass())) return;
@@ -128,9 +125,27 @@ namespace ActorUtils {
             if (!willie->DED && IsFearlessReinforced(willie)) ApplyFearlessEffect(willie);
         };
 
-        hookHandles[0] = hook.Subscribe("Get Damage", GameHook::HookPhase::After, reinforceFearless);
-        hookHandles[1] = hook.Subscribe("Dismemberment Finish Event", GameHook::HookPhase::After, reinforceFearless);
-        registered = true;
+        const auto damageHook = subscriptions.Subscribe("Get Damage", GameHook::HookPhase::After, reinforceFearless);
+        const auto dismembermentHook =
+            subscriptions.Subscribe("Dismemberment Finish Event", GameHook::HookPhase::After, reinforceFearless);
+        if (damageHook == GameHook::INVALID_HOOK_HANDLE || dismembermentHook == GameHook::INVALID_HOOK_HANDLE) {
+            subscriptions.Reset();
+        }
+    }
+
+    inline void SetFearlessReinforcementHooksEnabled(bool enabled) {
+        GameHook::QueueAction([enabled](const RuntimeContextSnapshot&) {
+            ApplyFearlessReinforcementHookState(enabled);
+        });
+    }
+
+    inline void OnRuntimeShutdown() noexcept {
+        try {
+            FearlessReinforcementSubscriptions().Reset();
+            FearlessReinforcementTargets().clear();
+        } catch (...) {
+            // Shutdown must continue to GameHook::Unhook even if a lazy static could not initialize.
+        }
     }
 
     template <typename Func>

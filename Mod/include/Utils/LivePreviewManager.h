@@ -59,9 +59,7 @@ public:
         return IsCurrent(token.state.lock(), token.generation);
     }
 
-    [[nodiscard]] static bool SetPreviewActor(
-        const PreviewToken& token, SDK::AActor* actor, SDK::UWorld* world
-    ) {
+    [[nodiscard]] static bool SetPreviewActor(const PreviewToken& token, SDK::AActor* actor, SDK::UWorld* world) {
         auto state = token.state.lock();
         if (!state) return false;
 
@@ -111,11 +109,13 @@ public:
         if (rotationState->queued.exchange(true, std::memory_order_acq_rel)) return;
 
         auto queuedRotation = rotationState;
-        GameHook::QueueAction([actor, world, queuedRotation](const RuntimeContextSnapshot& runtime) {
+        if (!GameHook::QueueAction([actor, world, queuedRotation](const RuntimeContextSnapshot& runtime) {
+                queuedRotation->queued.store(false, std::memory_order_release);
+                const double y = queuedRotation->yaw.load(std::memory_order_acquire);
+                if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
+            })) {
             queuedRotation->queued.store(false, std::memory_order_release);
-            const double y = queuedRotation->yaw.load(std::memory_order_acquire);
-            if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
-        });
+        }
     }
 
     void SyncToggleState() {
@@ -163,9 +163,7 @@ private:
         CleanupFn onCleanup;
     };
 
-    [[nodiscard]] static bool IsCurrent(
-        const std::shared_ptr<PreviewState>& state, std::uint64_t generation
-    ) {
+    [[nodiscard]] static bool IsCurrent(const std::shared_ptr<PreviewState>& state, std::uint64_t generation) {
         return state && state->alive.load(std::memory_order_acquire) &&
                state->enabled.load(std::memory_order_acquire) &&
                state->generation.load(std::memory_order_acquire) == generation;

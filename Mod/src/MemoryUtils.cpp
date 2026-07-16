@@ -17,22 +17,20 @@
 namespace {
     constexpr unsigned char NOP_INSTRUCTION = 0x90;
     constexpr size_t MAX_ASM_BYTES = 30;
-    constexpr size_t FAR_JUMP_SIZE = 14;
-    constexpr size_t NEAR_JUMP_SIZE = 5;
-    constexpr size_t TRAMPOLINE_BUFFER_SIZE = FAR_JUMP_SIZE * 3;
-    constexpr size_t PROTECTION_BUFFER = FAR_JUMP_SIZE;
+    constexpr size_t ABS_JUMP_SIZE = 14;
+    constexpr size_t REL_JUMP_SIZE = 5;
+    constexpr size_t TRAMPOLINE_BUFFER_SIZE = ABS_JUMP_SIZE * 3;
+    constexpr size_t PROTECTION_BUFFER = ABS_JUMP_SIZE;
     constexpr size_t MEMORY_RANGE_32BIT = 0x7fffffff;
     constexpr size_t ALLOCATION_INCREMENT = 65536;
     constexpr size_t ABS_JUMP_HEADER_SIZE = 6;
-    constexpr size_t ABS_JUMP_FULL_SIZE = 14;
-    constexpr size_t REL_JUMP_SIZE = 5;
 
     static constexpr uint8_t ABS_JUMP_HEADER[ABS_JUMP_HEADER_SIZE] = {0xff, 0x25, 0x00, 0x00, 0x00, 0x00};
 
     Logger logger{"MemoryUtils"};
 
     struct HookRecord {
-        std::array<uint8_t, 32> originalBytes{};
+        std::array<uint8_t, MAX_ASM_BYTES> originalBytes{};
         size_t originalBytesSize = 0;
         uintptr_t trampolineBase = 0;
     };
@@ -220,7 +218,7 @@ namespace {
         if (!SafeReadMemoryArray(address, buffer)) return 0;
 
         if (IsAbsoluteJumpStub(buffer, sizeof(buffer))) {
-            return FAR_JUMP_SIZE;
+            return ABS_JUMP_SIZE;
         }
 
         for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;) {
@@ -233,7 +231,7 @@ namespace {
     }
 
     static bool PlaceJump(uintptr_t address, uintptr_t destination, bool absolute, size_t clearance) {
-        const size_t jumpSize = absolute ? ABS_JUMP_FULL_SIZE : REL_JUMP_SIZE;
+        const size_t jumpSize = absolute ? ABS_JUMP_SIZE : REL_JUMP_SIZE;
         if (!address || clearance < jumpSize) return false;
 
         int32_t offset = 0;
@@ -257,7 +255,7 @@ namespace {
         if (absolute) {
             std::memcpy(ptr, ABS_JUMP_HEADER, ABS_JUMP_HEADER_SIZE);
             std::memcpy(ptr + ABS_JUMP_HEADER_SIZE, &destination, sizeof(destination));
-            std::memset(ptr + ABS_JUMP_FULL_SIZE, NOP_INSTRUCTION, clearance - ABS_JUMP_FULL_SIZE);
+            std::memset(ptr + ABS_JUMP_SIZE, NOP_INSTRUCTION, clearance - ABS_JUMP_SIZE);
         } else {
             ptr[0] = 0xe9;
             std::memcpy(ptr + 1, &offset, sizeof(offset));
@@ -296,7 +294,7 @@ namespace {
 
         for (size_t pos = 0; pos < size;) {
             if (IsAbsoluteJumpStub(code + pos, size - pos)) {
-                pos += FAR_JUMP_SIZE;
+                pos += ABS_JUMP_SIZE;
                 continue;
             }
 
@@ -359,8 +357,8 @@ namespace MemoryUtils {
             return false;
         }
 
-        size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
-        if (clearance < NEAR_JUMP_SIZE) {
+        size_t clearance = CalculateRequiredAsmClearance(addressToHook, REL_JUMP_SIZE);
+        if (clearance < REL_JUMP_SIZE) {
             logger.Log("Failed to calculate hook clearance at {:#x}", addressToHook);
             return false;
         }
@@ -373,7 +371,7 @@ namespace MemoryUtils {
             return false;
         }
 
-        uintptr_t originalInstructions = trampoline + FAR_JUMP_SIZE + PROTECTION_BUFFER;
+        uintptr_t originalInstructions = trampoline + ABS_JUMP_SIZE + PROTECTION_BUFFER;
         std::memcpy(Ptr<void>(originalInstructions), Ptr<const void>(addressToHook), clearance);
 
         HookRecord hookInfo;
@@ -386,8 +384,10 @@ namespace MemoryUtils {
         hookInfo.trampolineBase = trampoline;
         std::memcpy(hookInfo.originalBytes.data(), Ptr<const void>(originalInstructions), clearance);
 
-        if (!PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, FAR_JUMP_SIZE) ||
-            !PlaceJump(trampoline + trampolineSize - FAR_JUMP_SIZE, addressToHook + clearance, true, FAR_JUMP_SIZE)) {
+        if (!PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, ABS_JUMP_SIZE) ||
+            !PlaceJump(
+                trampoline + trampolineSize - ABS_JUMP_SIZE, addressToHook + clearance, true, ABS_JUMP_SIZE
+            )) {
             VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
@@ -421,14 +421,15 @@ namespace MemoryUtils {
         }
 
         hooks.emplace(addressToHook, hookInfo);
+        *returnAddress = resolvedReturnAddress;
 
         if (!PlaceJump(addressToHook, trampoline, false, clearance)) {
+            *returnAddress = addressToHook;
             hooks.erase(addressToHook);
             VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
 
-        *returnAddress = resolvedReturnAddress;
         return true;
     }
 

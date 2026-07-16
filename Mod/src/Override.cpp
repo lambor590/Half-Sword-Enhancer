@@ -147,11 +147,7 @@ void RenderOverrideField(const OverrideDescriptor& field) {
         case OverrideFieldType::Int: RenderIntDrag(field); break;
         case OverrideFieldType::Bool: RenderBoolCombo(field); break;
     }
-    if (field.tooltip && ImGui::IsItemHovered()) {
-        GuiUtils::BeginStyledTooltip();
-        ImGui::TextUnformatted(field.tooltip);
-        GuiUtils::EndStyledTooltip();
-    }
+    if (field.tooltip) GuiUtils::HelpTooltip(field.tooltip);
     ImGui::PopID();
 }
 
