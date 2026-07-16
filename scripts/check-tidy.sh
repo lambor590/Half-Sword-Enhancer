@@ -7,20 +7,10 @@ UNAME="$(uname -s 2>/dev/null || echo unknown)"
 case "$UNAME" in
     MINGW*|MSYS*|CYGWIN*)
         if command -v pwsh &>/dev/null; then
-            pwsh -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-tidy.ps1" "$@"
-            exit $?
+            exec pwsh -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-tidy.ps1" "$@"
         fi
 
-        if command -v powershell.exe &>/dev/null; then
-            SCRIPT_PATH="$SCRIPT_DIR/check-tidy.ps1"
-            if command -v cygpath &>/dev/null; then
-                SCRIPT_PATH="$(cygpath -w "$SCRIPT_PATH")"
-            fi
-            powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_PATH" "$@"
-            exit $?
-        fi
-
-        echo "PowerShell not found. Run scripts/check-tidy.ps1 from Windows PowerShell."
+        echo "PowerShell 7 not found. Run scripts/check-tidy.ps1 with pwsh."
         exit 2
         ;;
     *)

@@ -7,8 +7,6 @@ param(
 
     [string[]]$Files = @(),
 
-    [switch]$ExperimentalBuild,
-
     [switch]$StrictNaming
 )
 
@@ -21,22 +19,59 @@ Set-Location $repoRoot
 $ProjectSpecs = @{
     Launcher = @{
         Name = "Launcher"
-        SourceDir = "Launcher/src"
         IncludeDirs = @("Launcher/include", "ext")
-        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "NDEBUG", "_CONSOLE")
+        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "_CONSOLE")
     }
     Mod = @{
         Name = "Mod"
-        SourceDir = "Mod/src"
         IncludeDirs = @("Mod/include", "Mod/include/imgui", "Mod/ext", "Mod/SDK", "ext")
-        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "NDEBUG", "MOD_EXPORTS", "_WINDOWS", "_USRDLL")
+        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "MOD_EXPORTS", "_WINDOWS", "_USRDLL")
     }
     Proxy = @{
         Name = "Proxy"
-        SourceDir = "Proxy/src"
-        IncludeDirs = @("Proxy/include", "ext")
-        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "NDEBUG", "_WINDOWS", "_USRDLL")
+        IncludeDirs = @("Proxy/include", "Proxy/bin/intermediate/tidy/generated", "ext")
+        Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "_WINDOWS", "_USRDLL")
     }
+}
+
+$clangRepoRoot = $repoRoot.Replace("\", "/")
+$headerRoot = [regex]::Escape($clangRepoRoot)
+$tidyChecks = @(
+    "-*",
+    "bugprone-*",
+    "-bugprone-easily-swappable-parameters",
+    "performance-*",
+    "modernize-use-override",
+    "modernize-use-nullptr",
+    "modernize-use-auto",
+    "misc-unused-using-decls",
+    "readability-identifier-naming"
+) -join ","
+$ignoredOutputPattern = @(
+    '^\d+ warnings?( and \d+ errors?)? generated\.$',
+    '^Suppressed \d+ warnings',
+    '^Error while trying to load a compilation database:$',
+    '^Could not auto-detect compilation database for file ',
+    '^No compilation database found in ',
+    '^fixed-compilation-database: Error while opening fixed database:',
+    '^json-compilation-database: Error while opening JSON database:',
+    '^Running without flags\.$'
+) -join '|'
+
+function Initialize-GeneratedSources {
+    param([hashtable]$Spec)
+
+    if ($Spec.Name -ne "Proxy") {
+        return
+    }
+
+    $generatedDir = Join-Path $repoRoot "Proxy/bin/intermediate/tidy/generated"
+    & (Join-Path $repoRoot "Proxy/tools/GenerateWinmmExports.ps1") `
+        -DefinitionFile (Join-Path $repoRoot "Proxy/src/winmm.def") `
+        -CppOutput (Join-Path $generatedDir "winmm_exports.generated.h") `
+        -AsmOutput (Join-Path $generatedDir "winmm_exports.generated.inc") `
+        -ModuleDefinitionOutput (Join-Path $generatedDir "winmm.generated.def") `
+        -ExpectedCount 180 | Out-Null
 }
 
 function Resolve-Executable {
@@ -49,7 +84,6 @@ function Resolve-Executable {
 
     $candidates = @(
         "$env:ProgramFiles\LLVM\bin\$Name",
-        "${env:ProgramFiles(x86)}\LLVM\bin\$Name",
         "$env:ProgramFiles\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\bin\$Name"
     )
 
@@ -95,12 +129,6 @@ function Import-VisualStudioEnvironment {
     }
 }
 
-function Convert-ToClangPath {
-    param([string]$Path)
-
-    return $Path.Replace("\", "/")
-}
-
 function Get-ProjectForFile {
     param([string]$Path)
 
@@ -109,10 +137,9 @@ function Get-ProjectForFile {
         throw "File not found: $Path"
     }
 
-    $root = Convert-ToClangPath (Resolve-Path $repoRoot).Path
-    $normalized = Convert-ToClangPath $resolved.Path
-    if ($normalized.StartsWith("$root/")) {
-        $normalized = $normalized.Substring($root.Length + 1)
+    $normalized = $resolved.Path.Replace("\", "/")
+    if ($normalized.StartsWith("$clangRepoRoot/")) {
+        $normalized = $normalized.Substring($clangRepoRoot.Length + 1)
     }
 
     if ($normalized -like "Launcher/*") { return "Launcher" }
@@ -138,38 +165,14 @@ function Get-SourceFiles {
             }
     }
 
-    return Get-ChildItem -Path $Spec.SourceDir -Recurse -File -Filter "*.cpp" |
-        Where-Object {
-            $path = Convert-ToClangPath $_.FullName
-            $path -notmatch "/ext/" -and $path -notmatch "/SDK/"
-        } |
+    return Get-ChildItem -Path (Join-Path $Spec.Name "src") -Recurse -File -Filter "*.cpp" |
         ForEach-Object { $_.FullName }
 }
 
 function Get-HeaderFilter {
     param([hashtable]$Spec)
 
-    $root = [regex]::Escape((Convert-ToClangPath (Resolve-Path $repoRoot).Path))
-    return "^$root/$($Spec.Name)/"
-}
-
-function Get-Checks {
-    $checks = @(
-        "-*",
-        "bugprone-*",
-        "-bugprone-easily-swappable-parameters",
-        "performance-*",
-        "modernize-use-override",
-        "modernize-use-nullptr",
-        "modernize-use-auto",
-        "misc-unused-using-decls"
-    )
-
-    if ($StrictNaming) {
-        $checks += "readability-identifier-naming"
-    }
-
-    return ($checks -join ",")
+    return "^$headerRoot/$($Spec.Name)/"
 }
 
 function Invoke-TidyForProject {
@@ -178,6 +181,7 @@ function Invoke-TidyForProject {
         [string]$ClangTidy
     )
 
+    Initialize-GeneratedSources $Spec
     $sources = @(Get-SourceFiles $Spec)
     if ($sources.Count -eq 0) {
         return 0
@@ -185,25 +189,17 @@ function Invoke-TidyForProject {
 
     Write-Host "  [$($Spec.Name)] Checking $($sources.Count) source file(s)..."
 
-    $defines = New-Object System.Collections.Generic.List[string]
-    foreach ($define in $Spec.Defines) {
-        $defines.Add("/D$define") | Out-Null
-    }
-    if ($ExperimentalBuild -or $Configuration -eq "Release Experimental") {
-        $defines.Add("/DEXPERIMENTAL_VERSION") | Out-Null
-    }
+    $defines = @($Spec.Defines | ForEach-Object { "/D$_" })
     if ($Configuration -eq "Debug") {
-        $defines.Remove("/DNDEBUG") | Out-Null
-        $defines.Add("/D_DEBUG") | Out-Null
+        $defines += "/D_DEBUG"
+    } else {
+        $defines += "/DNDEBUG"
     }
+    if ($Configuration -eq "Release Experimental") { $defines += "/DEXPERIMENTAL_VERSION" }
 
-    $includes = New-Object System.Collections.Generic.List[string]
-    foreach ($include in $Spec.IncludeDirs) {
-        $resolved = Resolve-Path $include -ErrorAction SilentlyContinue
-        if ($resolved) {
-            $includes.Add("/I$($resolved.Path)") | Out-Null
-        }
-    }
+    $includes = @($Spec.IncludeDirs | ForEach-Object {
+        if ($resolved = Resolve-Path $_ -ErrorAction SilentlyContinue) { "/I$($resolved.Path)" }
+    })
 
     $compileArgs = @(
         "/nologo",
@@ -213,11 +209,11 @@ function Invoke-TidyForProject {
         "/Zc:__cplusplus",
         "/Zc:preprocessor",
         "-Wno-c++11-narrowing"
-    ) + $defines.ToArray() + $includes.ToArray()
+    ) + $defines + $includes
 
     $tidyArgs = @(
         "--quiet",
-        "--checks=$(Get-Checks)",
+        "--checks=$tidyChecks",
         "--warnings-as-errors=*",
         "--header-filter=$(Get-HeaderFilter $Spec)",
         "--system-headers=false",
@@ -238,15 +234,7 @@ function Invoke-TidyForProject {
 
         $filteredOutput = @($output | Where-Object {
             $line = $_.ToString()
-            $line -and
-                $line -notmatch "^\d+ warnings?( and \d+ errors?)? generated\.$" -and
-                $line -notmatch "^Suppressed \d+ warnings" -and
-                $line -notmatch "^Error while trying to load a compilation database:$" -and
-                $line -notmatch "^Could not auto-detect compilation database for file " -and
-                $line -notmatch "^No compilation database found in " -and
-                $line -notmatch "^fixed-compilation-database: Error while opening fixed database:" -and
-                $line -notmatch "^json-compilation-database: Error while opening JSON database:" -and
-                $line -notmatch "^Running without flags\.$"
+            $line -and $line -notmatch $ignoredOutputPattern
         })
 
         if ($filteredOutput.Count -gt 0) {
