@@ -4,7 +4,18 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
     branches: [main]
-    paths: ['Mod/**', 'Launcher/**', 'Proxy/**', 'ext/**', 'scripts/**', '.clang-tidy', '.clang-format']
+    paths:
+      - 'Mod/**'
+      - 'Launcher/**'
+      - 'Proxy/**'
+      - 'UE4SSBridge/**'
+      - 'ext/**'
+      - 'scripts/**'
+      - 'Half Sword Enhancer.sln'
+      - 'Directory.Build.*'
+      - '.github/workflows/quality-gate.yml'
+      - '.clang-tidy'
+      - '.clang-format'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,3 +36,25 @@ jobs:
 
       - name: Run quality checks
         run: bash scripts/check-all.sh
+
+  windows-build:
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release, Release Experimental]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Build solution
+        shell: pwsh
+        run: >-
+          msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
+          "/p:Configuration=${{ matrix.configuration }}" /p:Platform=x64 /p:SkipGameInstall=true
+
+      - name: Run clang-tidy
+        shell: pwsh
+        run: '& ".\scripts\check-tidy.ps1" -Project All -Configuration "${{ matrix.configuration }}"'
