@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <array>
 #include <cstdint>
 #include <functional>
@@ -76,14 +77,11 @@ public:
     void Dispatch(GameEvent event, GameHook::ProcessEventContext& processEvent);
 
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EVENT_NAMES[] = {
-            "OnWalkingOffLedge",
-            "ReceiveTick",
-        };
-        return EVENT_NAMES[static_cast<uint8_t>(event)];
+        return EVENT_NAMES[static_cast<size_t>(event)];
     }
 
-    static constexpr size_t EVENT_COUNT = 2;
+    static constexpr std::array EVENT_NAMES{"OnWalkingOffLedge", "ReceiveTick"};
+    static constexpr size_t EVENT_COUNT = EVENT_NAMES.size();
 
     void Clear();
 
@@ -91,8 +89,6 @@ public:
     EventBus& operator=(const EventBus&) = delete;
 
 private:
-    static constexpr size_t INVALID_INDEX = static_cast<size_t>(-1);
-
     EventBus() = default;
 
     struct Subscriber {
@@ -100,16 +96,10 @@ private:
         EventCallback callback;
     };
 
-    struct SubscriberLocation {
-        size_t eventIndex = INVALID_INDEX;
-        size_t subscriberIndex = INVALID_INDEX;
-    };
-
     void AddSubscriber(GameEvent event, SubscriptionHandle handle, EventCallback callback);
     void RemoveSubscriber(SubscriptionHandle handle);
 
     std::array<std::vector<Subscriber>, EVENT_COUNT> subscribers;
     std::array<GameHook::HookHandle, EVENT_COUNT> eventHookHandles{};
-    std::vector<SubscriberLocation> subscriberIndex;
-    SubscriptionHandle nextHandle = 1;
+    std::atomic<SubscriptionHandle> nextHandle{1};
 };

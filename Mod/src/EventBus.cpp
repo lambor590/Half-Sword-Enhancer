@@ -3,6 +3,7 @@
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
 
+#include <algorithm>
 #include <utility>
 
 EventBus& EventBus::Get() {
@@ -13,12 +14,15 @@ EventBus& EventBus::Get() {
 EventBus::SubscriptionHandle EventBus::Subscribe(GameEvent event, EventCallback callback) {
     if (!callback) return INVALID_SUBSCRIPTION;
 
-    const auto handle = nextHandle++;
+    const auto handle = nextHandle.fetch_add(1, std::memory_order_relaxed);
+    if (handle == INVALID_SUBSCRIPTION) return INVALID_SUBSCRIPTION;
 
-    GameHook::QueueAction([this, event, handle, cb = std::move(callback)](const RuntimeContextSnapshot&) mutable {
+    return GameHook::QueueAction([this, event, handle,
+                                  cb = std::move(callback)](const RuntimeContextSnapshot&) mutable {
         AddSubscriber(event, handle, std::move(cb));
-    });
-    return handle;
+    })
+               ? handle
+               : INVALID_SUBSCRIPTION;
 }
 
 void EventBus::Unsubscribe(SubscriptionHandle handle) {
@@ -31,8 +35,7 @@ EventBus::SubscriptionGroup::~SubscriptionGroup() {
     Clear();
 }
 
-EventBus::SubscriptionGroup::SubscriptionGroup(SubscriptionGroup&& other) noexcept
-    : handles(std::move(other.handles)) {
+EventBus::SubscriptionGroup::SubscriptionGroup(SubscriptionGroup&& other) noexcept : handles(std::move(other.handles)) {
     other.handles.clear();
 }
 
@@ -76,24 +79,17 @@ void EventBus::Clear() {
     for (auto& list : subscribers) {
         list.clear();
     }
-    subscriberIndex.clear();
-    nextHandle = 1;
+    nextHandle.store(1, std::memory_order_relaxed);
 }
 
 void EventBus::AddSubscriber(GameEvent event, SubscriptionHandle handle, EventCallback callback) {
     const auto idx = static_cast<size_t>(event);
     auto& list = subscribers[idx];
     const bool wasEmpty = list.empty();
-    const size_t subscriberListIndex = list.size();
-
     if (list.capacity() == 0) {
         list.reserve(event == GameEvent::OffLedge ? 32 : 4);
     }
     list.push_back({.handle = handle, .callback = std::move(callback)});
-    if (subscriberIndex.size() <= handle) {
-        subscriberIndex.resize(static_cast<size_t>(handle) + 1);
-    }
-    subscriberIndex[handle] = {.eventIndex = idx, .subscriberIndex = subscriberListIndex};
 
     if (wasEmpty) {
         eventHookHandles[idx] = GameHook::Get().Subscribe(
@@ -104,26 +100,19 @@ void EventBus::AddSubscriber(GameEvent event, SubscriptionHandle handle, EventCa
 }
 
 void EventBus::RemoveSubscriber(SubscriptionHandle handle) {
-    if (handle == INVALID_SUBSCRIPTION || handle >= subscriberIndex.size()) return;
+    if (handle == INVALID_SUBSCRIPTION) return;
 
-    const auto location = subscriberIndex[handle];
-    if (location.eventIndex == INVALID_INDEX) return;
+    for (size_t eventIndex = 0; eventIndex < subscribers.size(); ++eventIndex) {
+        auto& list = subscribers[eventIndex];
+        const auto subscriber = std::ranges::find(list, handle, &Subscriber::handle);
+        if (subscriber == list.end()) continue;
 
-    auto& list = subscribers[location.eventIndex];
-
-    const size_t lastIndex = list.size() - 1;
-    if (location.subscriberIndex != lastIndex) {
-        list[location.subscriberIndex] = std::move(list[lastIndex]);
-        subscriberIndex[list[location.subscriberIndex].handle] = {
-            .eventIndex = location.eventIndex,
-            .subscriberIndex = location.subscriberIndex,
-        };
-    }
-    list.pop_back();
-    subscriberIndex[handle] = {};
-
-    if (list.empty()) {
-        GameHook::Get().Unsubscribe(eventHookHandles[location.eventIndex]);
-        eventHookHandles[location.eventIndex] = GameHook::INVALID_HOOK_HANDLE;
+        if (subscriber != list.end() - 1) *subscriber = std::move(list.back());
+        list.pop_back();
+        if (list.empty()) {
+            GameHook::Get().Unsubscribe(eventHookHandles[eventIndex]);
+            eventHookHandles[eventIndex] = GameHook::INVALID_HOOK_HANDLE;
+        }
+        return;
     }
 }
