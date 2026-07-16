@@ -6,7 +6,9 @@
 
 class FreeCameraSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::World, "Free Camera", "Environment"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::World, "Free Camera", "Move the view freely and choose how the camera feels."
+    };
 
     explicit FreeCameraSection(ModContext& ctx);
     ~FreeCameraSection() override;
@@ -24,8 +26,6 @@ private:
 
     Config cfg;
     KeybindList keybinds;
-    bool freeCameraEnabled = false;
-    bool inputLocked = false;
 
     void InitKeybinds();
     void SetFreeCameraEnabled(bool enabled);
