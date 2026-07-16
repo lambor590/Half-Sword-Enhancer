@@ -1,10 +1,11 @@
 #pragma once
 
+#include <atomic>
 #include <functional>
 #include <cstdint>
 #include <deque>
 #include <string>
-#include <string_view>
+#include <type_traits>
 #include <vector>
 
 #include "Core/ModContext.h"
@@ -15,42 +16,43 @@
 class ModContext;
 
 struct KeybindParam {
-    enum class Type : uint8_t { Int, Float, Bool };
+    enum class Type : uint8_t { Int, Float, Double, Bool };
 
-    std::string_view name;
-    std::string_view displayName;
-    std::string_view tooltip;
+    const char* name;
+    const char* displayName;
+    const char* tooltip;
     Type type;
     void* valuePtr;
 
-    union {
-        int intMin, intMax;
-        float floatMin, floatMax;
-    } minValue{}, maxValue{};
-
-    mutable std::string id;
+    float minValue = 0.0f;
+    float maxValue = 0.0f;
 
     KeybindParam(
-        std::string_view name, std::string_view displayName, int* value, int minVal = 0, int maxVal = 100,
-        std::string_view tooltip = ""
+        const char* name, const char* displayName, int* value, int minVal = 0, int maxVal = 100,
+        const char* tooltip = ""
     );
 
     KeybindParam(
-        std::string_view name, std::string_view displayName, float* value, float minVal = 0.0f, float maxVal = 1.0f,
-        std::string_view tooltip = ""
+        const char* name, const char* displayName, float* value, float minVal = 0.0f, float maxVal = 1.0f,
+        const char* tooltip = ""
     );
 
     KeybindParam(
-        std::string_view name, std::string_view displayName, bool* value, std::string_view tooltip = ""
+        const char* name, const char* displayName, double* value, double minVal = 0.0, double maxVal = 1.0,
+        const char* tooltip = ""
     );
+
+    KeybindParam(const char* name, const char* displayName, bool* value, const char* tooltip = "");
 };
 
 struct KeybindFunctionHook {
-    std::string_view functionName;
+    const char* functionName;
     GameHook::HookCallback callback;
     GameHook::HookPhase phase = GameHook::HookPhase::Before;
     GameHook::HookHandle handle = GameHook::INVALID_HOOK_HANDLE;
 };
+
+enum class KeybindKind : uint8_t { Command, State };
 
 struct KeybindEntry {
     std::string name;
@@ -58,37 +60,48 @@ struct KeybindEntry {
     std::string configSection;
     int* keyPtr = nullptr;
     std::function<void(bool, const RuntimeContextSnapshot&)> callback;
-    bool runOnToggle = false;
-    bool isEnabled = false;
+    KeybindKind kind = KeybindKind::Command;
+    std::function<bool()> stateGetter;
+    std::function<bool()> available;
+    bool applyOnToggle = false;
+    std::atomic_bool isActive = false;
+    bool persistParams = true;
 
     std::vector<GameEvent> events;
     EventBus::SubscriptionGroup eventSubscriptions;
     std::vector<KeybindFunctionHook> functionHooks;
 
+    std::vector<KeybindParam> params;
+    std::function<void()> onParamsChanged;
+    const char* group = "";
+    bool destructive = false;
+
     /// UI state -- managed by rendering.
-    bool waitingForKey = false;
-    int prevKey = 0;
     int pendingOriginalKey = 0;
     int pendingConflictKey = 0;
-    bool popupWasOpen = false;
+    bool configPopupOpenLastFrame = false;
+    bool configDirty = false;
+    float naturalWidth = 0.0f;
 
-    std::vector<KeybindParam> params;
+    bool initialized = false;
 
-    /// Cached ImGui IDs to avoid per-frame string allocation.
-    std::string keyId;
-    std::string checkId;
-    std::string popupId;
-    std::string paramButtonId;
-    std::string conflictPopupId;
+    bool IsState() const noexcept { return kind == KeybindKind::State; }
+    bool CurrentState() const { return stateGetter ? stateGetter() : isActive.load(std::memory_order_acquire); }
+    bool IsAvailable() const { return !available || available(); }
+    ~KeybindEntry();
 
-    bool IsToggle() const noexcept { return runOnToggle || !events.empty() || !functionHooks.empty(); }
+    // Definitions are assembled as aggregates, then transferred into their final stable storage before Init().
+    // A registered entry must never move because runtime callbacks retain its address.
+    void AdoptDefinition(KeybindEntry& source) noexcept;
     void Init();
-    void Render(bool highlight = false, bool scrollIntoView = false);
+    void Render(bool highlight = false, bool scrollIntoView = false, float cellWidth = 0.0f);
 };
+
+static_assert(!std::is_copy_constructible_v<KeybindEntry> && !std::is_move_constructible_v<KeybindEntry>);
 
 class KeybindList {
 public:
-    void Add(KeybindEntry entry);
+    void Add(KeybindEntry&& entry);
     void Render();
     void RequestHighlight(const KeybindEntry* entry);
     std::deque<KeybindEntry>& Entries() noexcept { return entries; }
@@ -100,8 +113,16 @@ private:
     bool scrollHighlightedEntry = false;
 };
 
-/// Cached config read.
-namespace TooltipHelper {
-    void ShowTooltip(std::string_view tooltip);
-    void InvalidateCache();
+namespace KeybindUi {
+    [[nodiscard]] float CalculateKeycapWidth(const char* label, float maximumWidth);
+    [[nodiscard]] bool RenderKeycap(const char* id, const char* label, float width);
+}
+
+namespace KeybindRuntime {
+    // UI thread. Persists any in-progress popup edits before navigation hides their controls.
+    void FlushPendingParamChanges() noexcept;
+    // Game-thread only. Rehydrates enabled event/function hooks after GameHook restarts.
+    void OnRuntimeStart();
+    // Game-thread only. Releases runtime subscriptions without changing persisted enabled state.
+    void OnRuntimeShutdown() noexcept;
 }
