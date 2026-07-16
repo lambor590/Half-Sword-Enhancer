@@ -1,39 +1,29 @@
+#include <array>
 #include <cmath>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "Utils/EquipmentGenerator.h"
+#include "Utils/GameClass.h"
 #include "Utils/GameConstants.h"
+#include "Utils/Spawner.h"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/Modular_Weapon_Part_Master_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Sword_Arming_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Sword_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Sword_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Sword_Great_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Mace_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Mace_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Mace_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Hafted_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Hafted_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Hafted_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Polearm_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Polearm_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Polearm_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Pollaxe_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Pollaxe_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Pollaxe_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Casted_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Casted_Short_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Casted_Long_classes.hpp"
-#include "SDK/BP_GameWeapon_Customizable_Messer_classes.hpp"
 
 namespace EquipmentGenerator {
 
     namespace {
         constexpr int MAX_ATTEMPTS = 3;
+        constexpr std::array<std::string_view, GameConstants::WEAPON_TYPE_COUNT + 1> CUSTOMIZABLE_CLASS_SUFFIXES = {
+            "",             "Sword_Arming", "Sword_Short", "Sword_Long",   "Sword_Great",  "Mace_Short",
+            "Mace",         "Mace_Long",    "Hafted_Short", "Hafted",      "Hafted_Long",  "Polearm_Short",
+            "Polearm",      "Polearm_Long", "Pollaxe_Short", "Pollaxe",    "Pollaxe_Long", "Casted_Short",
+            "Casted",       "Casted_Long",  "Messer",
+        };
 
         const SDK::UWorld* cachedWorld = nullptr;
         SDK::ABP_Generator_Weapons_Random_C* weaponGenerator = nullptr;
@@ -250,31 +240,15 @@ namespace EquipmentGenerator {
     }
 
     SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type) {
-        switch (type) {
-            case CustomizableWeapon::SwordArming: return SDK::UBP_GameWeapon_Customizable_Sword_Arming_C::StaticClass();
-            case CustomizableWeapon::SwordShort: return SDK::UBP_GameWeapon_Customizable_Sword_Short_C::StaticClass();
-            case CustomizableWeapon::SwordLong: return SDK::UBP_GameWeapon_Customizable_Sword_Long_C::StaticClass();
-            case CustomizableWeapon::SwordGreat: return SDK::UBP_GameWeapon_Customizable_Sword_Great_C::StaticClass();
-            case CustomizableWeapon::MaceShort: return SDK::UBP_GameWeapon_Customizable_Mace_Short_C::StaticClass();
-            case CustomizableWeapon::Mace: return SDK::UBP_GameWeapon_Customizable_Mace_C::StaticClass();
-            case CustomizableWeapon::MaceLong: return SDK::UBP_GameWeapon_Customizable_Mace_Long_C::StaticClass();
-            case CustomizableWeapon::HaftedShort: return SDK::UBP_GameWeapon_Customizable_Hafted_Short_C::StaticClass();
-            case CustomizableWeapon::Hafted: return SDK::UBP_GameWeapon_Customizable_Hafted_C::StaticClass();
-            case CustomizableWeapon::HaftedLong: return SDK::UBP_GameWeapon_Customizable_Hafted_Long_C::StaticClass();
-            case CustomizableWeapon::PolearmShort:
-                return SDK::UBP_GameWeapon_Customizable_Polearm_Short_C::StaticClass();
-            case CustomizableWeapon::Polearm: return SDK::UBP_GameWeapon_Customizable_Polearm_C::StaticClass();
-            case CustomizableWeapon::PolearmLong: return SDK::UBP_GameWeapon_Customizable_Polearm_Long_C::StaticClass();
-            case CustomizableWeapon::PollaxeShort:
-                return SDK::UBP_GameWeapon_Customizable_Pollaxe_Short_C::StaticClass();
-            case CustomizableWeapon::Pollaxe: return SDK::UBP_GameWeapon_Customizable_Pollaxe_C::StaticClass();
-            case CustomizableWeapon::PollaxeLong: return SDK::UBP_GameWeapon_Customizable_Pollaxe_Long_C::StaticClass();
-            case CustomizableWeapon::CastedShort: return SDK::UBP_GameWeapon_Customizable_Casted_Short_C::StaticClass();
-            case CustomizableWeapon::Casted: return SDK::UBP_GameWeapon_Customizable_Casted_C::StaticClass();
-            case CustomizableWeapon::CastedLong: return SDK::UBP_GameWeapon_Customizable_Casted_Long_C::StaticClass();
-            case CustomizableWeapon::Messer: return SDK::UBP_GameWeapon_Customizable_Messer_C::StaticClass();
-            default: return nullptr;
-        }
+        const auto index = static_cast<std::size_t>(type);
+        if (index == 0 || index >= CUSTOMIZABLE_CLASS_SUFFIXES.size()) return nullptr;
+
+        std::string className = "BP_GameWeapon_Customizable_";
+        className += CUSTOMIZABLE_CLASS_SUFFIXES[index];
+        auto* loaded = Spawner::LoadClass(
+            "/Game/Blueprints/GameLogic/Forge/" + className + "." + className + "_C"
+        );
+        return GameClass::IsSubclassOf(loaded, "BP_GameWeapon_Customizable_Master_C") ? loaded : nullptr;
     }
 
     SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(
@@ -298,7 +272,12 @@ namespace EquipmentGenerator {
         if (!head || !grip) return {};
 
         SDK::FStr_Passport_Weapon1 output{};
-        output.WeaponClass_54_B478ECF7499977809745A3973AD678EC = SDK::AModularWeaponBP_C::StaticClass();
+        output.WeaponClass_54_B478ECF7499977809745A3973AD678EC =
+            Spawner::LoadClass(GameConstants::MODULAR_WEAPON_BP_PATH);
+        if (!GameClass::IsSubclassOf(
+                output.WeaponClass_54_B478ECF7499977809745A3973AD678EC, "ModularWeaponBP_C"
+            ))
+            return {};
         output.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = head;
         output.GuardModule_13_6DD2B06245505E53B529D090333012F0 =
             PickModule(cdo->Module_Guards_Array, requestedTier, modulePrice);

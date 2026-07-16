@@ -9,8 +9,7 @@
 namespace ArmorGenerationUi {
     inline SDK::UEnum* SteelTypeEnum() {
         static SDK::UEnum* enumPtr = nullptr;
-        if (!enumPtr)
-            enumPtr = SDK::UObject::FindObjectFast<SDK::UEnum>("Steel_Type", SDK::EClassCastFlags::Enum);
+        if (!enumPtr) enumPtr = SDK::UObject::FindObjectFast<SDK::UEnum>("Steel_Type", SDK::EClassCastFlags::Enum);
         return enumPtr;
     }
 
@@ -23,19 +22,21 @@ namespace ArmorGenerationUi {
 
     inline void RenderOptions(EquipmentGenerator::ArmorGenerationOptions& options) {
         ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-        GuiUtils::DebouncedDragFloat("Module Chance", &options.moduleChance, 0.01f, 0.0f, 1.0f, "%.2f");
+        GuiUtils::DebouncedDragFloat("Armor Coverage", &options.moduleChance, 0.01f, 0.0f, 1.0f, "%.2f");
 
-        ImGui::Checkbox("Force Metal Material", &options.forceMetalMaterial);
+        ImGui::Checkbox("All Metal", &options.forceMetalMaterial);
         if (!options.forceMetalMaterial) ImGui::BeginDisabled();
 
         int steel = EquipmentGenerator::SteelTypeIndex(options.steelType);
-        auto steelNames = PropertyBrowser::BuildEnumNames(SteelTypeEnum());
-        if (!steelNames.empty() && GuiUtils::RenderEnumCombo("Steel Type", steel, steelNames))
+        const auto& steelInfo = PropertyBrowser::GetEnumInfo(SteelTypeEnum());
+        if (!steelInfo.names.empty() &&
+            GuiUtils::RenderEnumCombo("Main Metal", steel, steelInfo.names, steelInfo.maxTextWidthEm))
             options.steelType = EquipmentGenerator::SteelTypeFromIndex(steel);
 
         int secondary = EquipmentGenerator::SecondaryMetalTypeIndex(options.metalPiecesType);
-        auto secondaryNames = PropertyBrowser::BuildEnumNames(SecondaryMetalTypeEnum());
-        if (!secondaryNames.empty() && GuiUtils::RenderEnumCombo("Secondary Metal", secondary, secondaryNames))
+        const auto& secondaryInfo = PropertyBrowser::GetEnumInfo(SecondaryMetalTypeEnum());
+        if (!secondaryInfo.names.empty() &&
+            GuiUtils::RenderEnumCombo("Accent Metal", secondary, secondaryInfo.names, secondaryInfo.maxTextWidthEm))
             options.metalPiecesType = EquipmentGenerator::SecondaryMetalTypeFromIndex(secondary);
 
         if (!options.forceMetalMaterial) ImGui::EndDisabled();

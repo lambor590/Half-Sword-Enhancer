@@ -13,9 +13,7 @@ namespace WeaponGenerationUi {
     inline SDK::UEnum* SpecificTypeEnum() {
         static SDK::UEnum* enumPtr = nullptr;
         if (!enumPtr)
-            enumPtr = SDK::UObject::FindObjectFast<SDK::UEnum>(
-                "Enum_WeaponType_Specific", SDK::EClassCastFlags::Enum
-            );
+            enumPtr = SDK::UObject::FindObjectFast<SDK::UEnum>("Enum_WeaponType_Specific", SDK::EClassCastFlags::Enum);
         return enumPtr;
     }
 
@@ -25,11 +23,25 @@ namespace WeaponGenerationUi {
         return static_cast<SDK::Enum_WeaponType_Specific>(value);
     }
 
-    inline bool IsGreatswordIndex(int value) noexcept { return value == GREATSWORD_INDEX; }
+    inline bool IsGreatswordIndex(int value) noexcept {
+        return value == GREATSWORD_INDEX;
+    }
 
     inline bool RenderSpecificTypeCombo(const char* label, int& value, bool includeGreatsword = false) {
-        auto names = PropertyBrowser::BuildEnumNames(SpecificTypeEnum());
-        if (includeGreatsword) names.emplace_back("Greatsword");
-        return GuiUtils::RenderEnumCombo(label, value, names);
+        auto* enumPtr = SpecificTypeEnum();
+        const auto& enumInfo = PropertyBrowser::GetEnumInfo(enumPtr);
+        if (!includeGreatsword) return GuiUtils::RenderEnumCombo(label, value, enumInfo.names, enumInfo.maxTextWidthEm);
+
+        static SDK::UEnum* cachedEnum = nullptr;
+        static std::vector<std::string> namesWithGreatsword;
+        static float maxTextWidthEm = 0.0f;
+        if (cachedEnum != enumPtr || namesWithGreatsword.empty()) {
+            namesWithGreatsword = enumInfo.names;
+            namesWithGreatsword.emplace_back("Greatsword");
+            maxTextWidthEm = (std::max)(enumInfo.maxTextWidthEm,
+                                        ImGui::CalcTextSize("Greatsword").x / (std::max)(1.0f, ImGui::GetFontSize()));
+            cachedEnum = enumPtr;
+        }
+        return GuiUtils::RenderEnumCombo(label, value, namesWithGreatsword, maxTextWidthEm);
     }
 }
