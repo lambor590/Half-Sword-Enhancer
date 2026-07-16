@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <expected>
 #include <chrono>
 #include <filesystem>
@@ -18,7 +19,7 @@ namespace hse {
     };
 
     struct DownloadConfig {
-        std::string url;
+        std::string_view url;
         std::filesystem::path outputPath;
         std::string description;
         std::chrono::milliseconds connectTimeout{5000};
@@ -27,6 +28,6 @@ namespace hse {
     };
 
     [[nodiscard]] std::expected<void, NetworkError> DownloadFile(const DownloadConfig& config);
-    [[nodiscard]] std::expected<std::string, NetworkError> DownloadToString(const std::string& url);
+    [[nodiscard]] std::expected<std::string, NetworkError> DownloadToString(std::string_view url);
 
 }
