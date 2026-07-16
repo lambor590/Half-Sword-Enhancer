@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "Hooks/GameHook.h"
+
 namespace SDK {
     class AActor;
     class ACSBloodSimActor;
@@ -36,6 +38,9 @@ public:
     static AssetOverrideManager& Get();
 
     [[nodiscard]] bool Initialize();
+    // Game-thread only. Releases RootSet texture ownership and transient UObject references.
+    void PrepareForRuntimeShutdown() noexcept;
+    void Shutdown() noexcept;
     void RequestRefresh();
     void RequestApply();
     void RequestActorApply(SDK::AActor* actor);
@@ -66,7 +71,6 @@ private:
 
     static constexpr std::string_view ROOT_FOLDER = "asset_overrides";
     static constexpr size_t TEXTURE_NOT_FOUND = static_cast<size_t>(-1);
-    static constexpr size_t LINEAR_TEXTURE_LOOKUP_LIMIT = 64;
 
     struct FileEntry {
         std::filesystem::path filePath;
@@ -126,6 +130,7 @@ private:
     std::vector<FileEntry> files;
     std::vector<SDK::UTexture2D*> rootedTextures;
     std::vector<TextureOverride> textures;
+    GameHook::SubscriptionGroup hookSubscriptions;
 
     struct MaterialSlot {
         SDK::UPrimitiveComponent* component = nullptr;
@@ -152,7 +157,6 @@ private:
     };
 
     std::unordered_map<MaterialSlot, TrackedMaterial, MaterialSlotHash> trackedMaterials;
-    std::vector<MaterialSlot> trackedMaterialSlots;
 
     mutable Stats stats;
     mutable std::mutex statsMutex;
