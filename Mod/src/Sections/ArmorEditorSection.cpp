@@ -9,7 +9,6 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/PresetApplication.h"
-#include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
@@ -121,14 +120,14 @@ void ArmorEditorSection::QueueGeneration(
                 update.data = std::move(*snapshot);
                 PublishDraftUpdate(std::move(update));
             } else {
-                PublishStatus("Could not create an armor design for the selected slot and tier", true, revision);
+                PublishError("Could not create an armor design for the selected slot and tier", revision);
             }
             if (draftRevision.load(std::memory_order_acquire) == revision)
                 armorGenerationPending.store(false, std::memory_order_release);
         });
     if (!queued) {
         armorGenerationPending.store(false, std::memory_order_release);
-        presets.status.Set("Could not create armor design", true);
+        PublishStatus(StatusOrigin::Generation, revision, "Could not create armor design");
     }
 }
 
@@ -149,6 +148,8 @@ void ArmorEditorSection::RandomizeArmorPassport() {
 
 void ArmorEditorSection::SpawnPreview() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
+        lastPreviewedPassport = armorPassport;
+        lastPreviewedProps = runtimeProps;
         preview.Destroy();
         return;
     }
@@ -158,22 +159,22 @@ void ArmorEditorSection::SpawnPreview() {
         return;
     }
 
-    lastPreviewedPassport = armorPassport;
-    lastPreviewedProps = runtimeProps;
-
-    bool hasOverrides = CountAllActive() > 0;
-    auto runtimeSnapshot = runtimeProps;
+    const bool hasOverrides = CountAllActive() > 0;
     auto preset = BuildPresetData();
+    SpawnWorkflow::ActorCallback onPreviewReady;
+    if (hasOverrides) {
+        auto runtimeSnapshot = preset.runtimeProps;
+        onPreviewReady = [runtimeSnapshot](SDK::AActor* actor) {
+            (void)PresetApplication::ApplyArmorRuntimeOverrides(actor, runtimeSnapshot);
+        };
+    }
 
-    SpawnWorkflow::QueueArmorPreview(
-        snapshot, preview, cfg.spawn, std::move(preset), [hasOverrides, runtimeSnapshot](SDK::AActor* actor) {
-            if (hasOverrides) (void)PresetApplication::ApplyArmorRuntimeOverrides(actor, runtimeSnapshot);
-        }
-    );
-}
-
-bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b) {
-    return !PresetApplication::ArmorPassportsEqual(a, b);
+    if (SpawnWorkflow::QueueArmorPreview(
+            snapshot, preview, cfg.spawn, std::move(preset), std::move(onPreviewReady)
+        )) {
+        lastPreviewedPassport = armorPassport;
+        lastPreviewedProps = runtimeProps;
+    }
 }
 
 void ArmorEditorSection::RenderArmorTierCombo() {
@@ -199,21 +200,32 @@ void ArmorEditorSection::SpawnArmor() {
 
     if (cfg.preview.livePreview) preview.Disable();
 
-    SpawnArmor(snapshot, BuildSpawnDraftSnapshot());
-}
-
-ArmorEditorSection::SpawnDraftSnapshot ArmorEditorSection::BuildSpawnDraftSnapshot() const {
-    return {
-        .spawn = cfg.spawn,
-        .preset = BuildPresetData(),
-    };
+    SpawnArmor(snapshot, {.spawn = cfg.spawn, .preset = BuildPresetData()});
 }
 
 void ArmorEditorSection::PublishSpawnDraftSnapshot() {
-    auto snapshot = BuildSpawnDraftSnapshot();
     std::scoped_lock lock(spawnDraftMutex);
     if (renderDraftRevision < publishedSpawnDraftRevision) return;
-    publishedSpawnDraft = snapshot;
+
+    const auto& publishedPreset = publishedSpawnDraft.preset;
+    const auto& publishedSpawn = publishedSpawnDraft.spawn;
+    const bool sameSpawn = publishedSpawn.distanceForward == cfg.spawn.distanceForward &&
+                           publishedSpawn.distanceUp == cfg.spawn.distanceUp &&
+                           publishedSpawn.scale == cfg.spawn.scale &&
+                           publishedSpawn.snapToGround == cfg.spawn.snapToGround;
+    const auto* armorCore = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
+    bool samePath = publishedPreset.armorCorePath == armorCorePath;
+    if (!armorCore)
+        samePath = publishedPreset.armorCorePath.empty();
+    else if (armorCorePath.empty())
+        samePath = publishedPreset.armorCorePath == PresetUtils::ObjectToAbsolutePath(armorCore);
+    if (renderDraftRevision == publishedSpawnDraftRevision && sameSpawn && samePath &&
+        PresetApplication::ArmorPassportsEqual(publishedPreset.passport, armorPassport) &&
+        publishedPreset.runtimeProps == runtimeProps)
+        return;
+
+    publishedSpawnDraft.spawn = cfg.spawn;
+    publishedSpawnDraft.preset = BuildPresetData();
     publishedSpawnDraftRevision = renderDraftRevision;
 }
 
@@ -223,15 +235,14 @@ bool ArmorEditorSection::PublishAppliedPresetSpawnSnapshot(const PendingDraftUpd
         update.revision < publishedSpawnDraftRevision)
         return false;
 
-    auto snapshot = publishedSpawnDraft;
-    snapshot.preset = update.data;
-    publishedSpawnDraft = snapshot;
+    publishedSpawnDraft.preset = update.data;
     publishedSpawnDraftRevision = update.revision;
     return true;
 }
 
 void ArmorEditorSection::SpawnArmor(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft) {
     if (draft.preset.armorCorePath.empty() || !runtime.player || !runtime.world) return;
+    const std::uint64_t request = spawnRequest.fetch_add(1, std::memory_order_relaxed) + 1;
     ItemSpawnPresetData data;
     data.source = ItemSpawnPresetSource::ArmorPreset;
     data.spawn = {
@@ -241,7 +252,18 @@ void ArmorEditorSection::SpawnArmor(const RuntimeContextSnapshot& runtime, Spawn
         .snapToGround = draft.spawn.snapToGround,
     };
     data.armorPreset = MakePresetCopyLink(std::move(draft.preset));
-    (void)SpawnWorkflow::QueueItemPresetSpawn(runtime, data);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(
+        runtime, data, [this, request](SpawnWorkflow::SpawnResult result) {
+            if (result.success) {
+                PublishStatus(StatusOrigin::Spawn, request);
+                return;
+            }
+            PublishStatus(
+                StatusOrigin::Spawn, request,
+                result.error.empty() ? "Could not spawn armor" : "Could not spawn armor: " + std::move(result.error)
+            );
+        }
+    );
 }
 
 void ArmorEditorSection::RenderGenerationControls() {
@@ -402,68 +424,82 @@ PresetApplyDisposition ArmorEditorSection::ApplyPresetData(const ArmorPresetData
         pendingRenderUpdates.draft.reset();
     }
 
-    auto queuedData = preset;
-    const bool queued =
-        GameHook::QueueAction([this, data = std::move(queuedData), revision](const RuntimeContextSnapshot&) mutable {
-            if (draftRevision.load(std::memory_order_acquire) != revision) {
-                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
-                return;
-            }
+    const bool queued = GameHook::QueueAction([this, data = preset, revision](const RuntimeContextSnapshot&) mutable {
+        if (draftRevision.load(std::memory_order_acquire) != revision) {
+            PublishError("Preset could not be loaded; your current edits were kept", revision, true);
+            return;
+        }
 
-            std::string error;
-            auto materialized = data;
-            if (!PresetApplication::MaterializeArmorPreset(materialized, &error)) {
-                PublishStatus("Could not load preset: " + error, true, revision, true);
-                return;
-            }
-            auto flattened = PresetApplication::SnapshotArmorPassport(materialized.passport);
-            if (!flattened) {
-                PublishStatus("This armor preset is invalid", true, revision, true);
-                return;
-            }
-            data.passport = flattened->passport;
-            data.armorCorePath = std::move(flattened->armorCorePath);
+        std::string error;
+        if (!PresetApplication::MaterializeArmorPreset(data, &error)) {
+            PublishError("Could not load preset: " + error, revision, true);
+            return;
+        }
+        data.passport.SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51 = {};
 
-            PendingDraftUpdate update;
-            update.revision = revision;
-            update.data = std::move(data);
-            update.replaceAll = true;
-            update.completesPresetApply = true;
-            if (!PublishAppliedPresetSpawnSnapshot(update)) {
-                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
-                return;
-            }
-            PublishDraftUpdate(std::move(update));
-        });
+        PendingDraftUpdate update;
+        update.revision = revision;
+        update.data = std::move(data);
+        update.replaceAll = true;
+        update.presetApply = true;
+        if (!PublishAppliedPresetSpawnSnapshot(update)) {
+            PublishError("Preset could not be loaded; your current edits were kept", revision, true);
+            return;
+        }
+        PublishDraftUpdate(std::move(update));
+    });
     if (!queued) {
         pendingPresetApplyRevision = 0;
-        presets.status.Set("Could not load preset", true);
+        presets.status.SetError("Could not load preset");
         return PresetApplyDisposition::Rejected;
     }
     return PresetApplyDisposition::Pending;
 }
 
 void ArmorEditorSection::PublishDraftUpdate(PendingDraftUpdate update) {
+    const std::uint64_t statusRevision =
+        update.presetApply ? 0 : statusSequence.fetch_add(1, std::memory_order_relaxed) + 1;
     {
         std::scoped_lock lock(pendingRenderMutex);
         if (draftRevision.load(std::memory_order_acquire) != update.revision) {
-            if (!update.completesPresetApply) return;
-            pendingRenderUpdates.statuses.push_back(
-                {"Preset could not be loaded; your current edits were kept", true, update.revision, true}
-            );
+            if (!update.presetApply) return;
+            auto& error = pendingRenderUpdates.presetError;
+            if (!error || update.revision >= error->revision)
+                error = PendingError{"Preset could not be loaded; your current edits were kept", update.revision};
         } else {
+            if (!update.presetApply) {
+                auto& status = pendingRenderUpdates.statuses[static_cast<std::size_t>(StatusOrigin::Generation)];
+                if (!status || statusRevision > status->sequence)
+                    status = PendingStatus{statusRevision, update.revision, StatusOrigin::Generation, {}};
+            }
             pendingRenderUpdates.draft = std::move(update);
         }
     }
     pendingRenderReady.store(true, std::memory_order_release);
 }
 
-void ArmorEditorSection::PublishStatus(
-    std::string message, bool isError, std::uint64_t revision, bool completesPresetApply
-) {
+void ArmorEditorSection::PublishError(std::string message, std::uint64_t revision, bool presetApply) {
+    if (!presetApply) {
+        PublishStatus(StatusOrigin::Generation, revision, std::move(message));
+        return;
+    }
     {
         std::scoped_lock lock(pendingRenderMutex);
-        pendingRenderUpdates.statuses.push_back({std::move(message), isError, revision, completesPresetApply});
+        auto& error = pendingRenderUpdates.presetError;
+        if (!error || revision >= error->revision) error = PendingError{std::move(message), revision};
+    }
+    pendingRenderReady.store(true, std::memory_order_release);
+}
+
+void ArmorEditorSection::PublishStatus(StatusOrigin origin, std::uint64_t request, std::string error) {
+    const std::uint64_t sequence = statusSequence.fetch_add(1, std::memory_order_relaxed) + 1;
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        auto& pending = pendingRenderUpdates.statuses[static_cast<std::size_t>(origin)];
+        if (pending &&
+            (request < pending->request || (request == pending->request && sequence <= pending->sequence)))
+            return;
+        pending = PendingStatus{sequence, request, origin, std::move(error)};
     }
     pendingRenderReady.store(true, std::memory_order_release);
 }
@@ -477,7 +513,9 @@ void ArmorEditorSection::ApplyDraftUpdate(PendingDraftUpdate update) {
 }
 
 void ArmorEditorSection::DrainPendingRenderUpdates() {
-    if (!pendingRenderReady.exchange(false, std::memory_order_acq_rel)) return;
+    if (!pendingRenderReady.load(std::memory_order_acquire) ||
+        !pendingRenderReady.exchange(false, std::memory_order_acq_rel))
+        return;
 
     PendingRenderUpdates updates;
     {
@@ -489,27 +527,45 @@ void ArmorEditorSection::DrainPendingRenderUpdates() {
     const std::uint64_t currentRevision = draftRevision.load(std::memory_order_acquire);
     if (updates.draft) {
         const std::uint64_t updateRevision = updates.draft->revision;
-        const bool completesPresetApply = updates.draft->completesPresetApply;
+        const bool presetApply = updates.draft->presetApply;
         if (updateRevision == currentRevision) {
             ApplyDraftUpdate(std::move(*updates.draft));
-            if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+            if (presetApply && updateRevision == pendingPresetApplyRevision) {
                 presets.CompletePendingApply(true);
                 pendingPresetApplyRevision = 0;
             }
-        } else if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+        } else if (presetApply && updateRevision == pendingPresetApplyRevision) {
             presets.CompletePendingApply(false, "Preset could not be loaded; your current edits were kept");
             pendingPresetApplyRevision = 0;
         }
     }
+    std::array<PendingStatus*, static_cast<std::size_t>(StatusOrigin::Count)> currentStatuses{};
+    std::size_t statusCount = 0;
     for (auto& status : updates.statuses) {
-        if (status.completesPresetApply) {
-            if (status.revision != pendingPresetApplyRevision) continue;
-            presets.CompletePendingApply(false, std::move(status.message));
-            pendingPresetApplyRevision = 0;
-            continue;
+        if (!status) continue;
+        const std::uint64_t currentRequest = status->origin == StatusOrigin::Generation
+                                                 ? currentRevision
+                                                 : spawnRequest.load(std::memory_order_relaxed);
+        if (status->request == currentRequest) currentStatuses[statusCount++] = &*status;
+    }
+    std::sort(
+        currentStatuses.begin(), currentStatuses.begin() + static_cast<std::ptrdiff_t>(statusCount),
+        [](const auto* lhs, const auto* rhs) { return lhs->sequence < rhs->sequence; }
+    );
+    for (std::size_t i = 0; i < statusCount; ++i) {
+        auto& status = *currentStatuses[i];
+        auto& token = status.origin == StatusOrigin::Generation ? generationStatusToken : spawnStatusToken;
+        if (status.error.empty()) {
+            presets.status.ClearText(token);
+            token = 0;
+        } else {
+            presets.status.SetError(std::move(status.error));
+            token = presets.status.revision;
         }
-        if (status.revision != 0 && status.revision != currentRevision) continue;
-        presets.status.Set(status.message, status.isError);
+    }
+    if (updates.presetError && updates.presetError->revision == pendingPresetApplyRevision) {
+        presets.CompletePendingApply(false, std::move(updates.presetError->message));
+        pendingPresetApplyRevision = 0;
     }
 }
 
@@ -518,10 +574,6 @@ ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, SECTION) 
     BuildDescriptors();
     PublishSpawnDraftSnapshot();
     InitKeybinds();
-}
-
-void ArmorEditorSection::OnOpen() {
-    DrainPendingRenderUpdates();
 }
 
 void ArmorEditorSection::InitKeybinds() {
@@ -537,7 +589,7 @@ void ArmorEditorSection::InitKeybinds() {
                     std::scoped_lock lock(spawnDraftMutex);
                     draft = publishedSpawnDraft;
                 }
-                SpawnArmor(runtime, draft);
+                SpawnArmor(runtime, std::move(draft));
             },
         .params =
             {KeybindParam(
@@ -583,7 +635,9 @@ void ArmorEditorSection::Render() {
         case 2: RenderStatsTab(); break;
         case 3:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); },
+                [this](const char*, bool) {
+                    return PresetBuildResult<ArmorPresetData>::Success(BuildPresetData());
+                },
                 [this](const ArmorPresetData& data) { return ApplyPresetData(data); }
             );
             break;
@@ -599,8 +653,9 @@ void ArmorEditorSection::Render() {
 
     if (presetApplyPending) ImGui::EndDisabled();
 
-    if (!presetApplyPending && cfg.preview.livePreview) {
-        bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) || runtimeProps != lastPreviewedProps;
+    if (!presetApplyPending && cfg.preview.livePreview && player && world) {
+        const bool needsUpdate = !PresetApplication::ArmorPassportsEqual(armorPassport, lastPreviewedPassport) ||
+                                 runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }
