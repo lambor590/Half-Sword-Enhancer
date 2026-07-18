@@ -68,6 +68,7 @@ namespace {
     constexpr float ACTION_KEYCAP_WIDTH = 64.0f;
     constexpr float ACTION_GROUP_ROUNDING = 4.0f;
     constexpr float ACTION_GROUP_BACKGROUND_ALPHA = 0.52f;
+    constexpr ImVec4 ACTION_TEXT_HOVERED{0.85f, 0.72f, 0.45f, 1.0f};
     constexpr char PRESS_KEY_TEXT[] = "Press a key...";
     constexpr char ADD_SHORTCUT_TEXT[] = "+ Key";
     constexpr char CHANGE_KEYBIND_TEXT[] = "Choose a shortcut";
@@ -485,7 +486,7 @@ namespace {
         const ImVec4 text = !available ? DefaultStyle::TEXT_DISABLED
                             : entry.destructive
                                 ? ImVec4(0.95f, segment.hovered ? 0.72f : 0.64f, 0.56f, 1.0f)
-                                : (!active && segment.hovered ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::PARCHMENT);
+                                : (!active && segment.hovered ? ACTION_TEXT_HOVERED : DefaultStyle::PARCHMENT);
         segment.textClipped = DrawSegmentText(segment, entry.name.c_str(), text, true);
         return segment;
     }
