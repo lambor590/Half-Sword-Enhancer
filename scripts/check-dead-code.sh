@@ -46,16 +46,8 @@ if [ "$CPPCHECK_EXIT" -ne 0 ]; then
     exit "$CPPCHECK_EXIT"
 fi
 
-FALSE_POSITIVES=(
-    'Mod/src/Override\.cpp:[0-9]+: .*SerializeAll.*\[unusedFunction\]$'
-    'Mod/src/Override\.cpp:[0-9]+: .*DeserializeAll.*\[unusedFunction\]$'
-    'Mod/src/Preset\.cpp:[0-9]+: .*SerializePresetFields.*\[unusedFunction\]$'
-    'Mod/src/Preset\.cpp:[0-9]+: .*DeserializePresetFields.*\[unusedFunction\]$'
-)
-
-for pattern in "${FALSE_POSITIVES[@]}"; do
-    OUTPUT=$(grep -vE "$pattern" <<< "$OUTPUT")
-done
+FALSE_POSITIVE_PATTERN='Mod/src/Override\.cpp:[0-9]+: .*(SerializeAll|DeserializeAll).*\[unusedFunction\]$|Mod/src/Preset\.cpp:[0-9]+: .*(SerializePresetFields|DeserializePresetFields).*\[unusedFunction\]$'
+OUTPUT=$(grep -vE "$FALSE_POSITIVE_PATTERN" <<< "$OUTPUT")
 
 if [ -n "$OUTPUT" ]; then
     echo "$OUTPUT"
