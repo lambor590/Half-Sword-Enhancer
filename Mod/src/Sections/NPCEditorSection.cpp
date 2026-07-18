@@ -628,13 +628,12 @@ void NPCEditorSection::Render() {
             }
             if (loadoutPresetLink.HasLink() && !loadoutPresetLink.IsBroken())
                 ImGui::TextColored(
-                    ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Selected weapons will be used instead of random equipment"
+                    ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Selected loadout will be used instead of random equipment"
                 );
             else if (loadoutPresetLink.HasLink())
                 ImGui::TextDisabled("Choose an available loadout before spawning");
             else
                 ImGui::TextDisabled("No preset selected - NPC will use random equipment");
-            ImGui::TextDisabled("Only weapons from this loadout can be used for NPCs");
             ImGui::PopID();
             break;
         }
