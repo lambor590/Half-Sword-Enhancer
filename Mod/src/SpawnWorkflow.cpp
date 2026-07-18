@@ -68,7 +68,7 @@ namespace SpawnWorkflow {
                     }
                     spawnFn(runtime, transform, spawn.snapToGround);
                 });
-            if (!queued) CompleteSpawn(rejectedCompletion, FailedSpawn("The item couldn't be spawned right now"));
+            if (!queued) CompleteSpawn(rejectedCompletion, FailedSpawn("The spawn couldn't be started right now"));
             return queued;
         }
 
