@@ -29,6 +29,8 @@ private:
     std::string infoText;
     std::string selectedActorLabel;
     GuiUtils::StatusMessage status;
+    GuiUtils::StatusMessage copyStatus;
+    ImGuiID copyResultSource = 0;
     float actorComboWidth = 0;
     bool needsScan = true;
     bool liveMode = true;

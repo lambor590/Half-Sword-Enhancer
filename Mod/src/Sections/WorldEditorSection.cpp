@@ -16,7 +16,7 @@
 namespace {
     constexpr double PICK_TRACE_DISTANCE = 20000.0;
 
-    const char* CollisionLabel(SDK::ECollisionEnabled mode) noexcept {
+    constexpr const char* CollisionLabel(SDK::ECollisionEnabled mode) noexcept {
         switch (mode) {
             case SDK::ECollisionEnabled::NoCollision: return "Off";
             case SDK::ECollisionEnabled::QueryOnly: return "Detection Only";
@@ -48,45 +48,46 @@ namespace {
         const size_t dotPos = path.rfind('.');
         if (dotPos == std::string::npos) return path;
 
-        const size_t leafStart = path.find_last_of("/.", dotPos - 1);
+        const size_t leafStart = dotPos == 0 ? std::string::npos : path.find_last_of("/.", dotPos - 1);
         const size_t packageLeafStart = leafStart == std::string::npos ? 0 : leafStart + 1;
-        const std::string packageLeaf = path.substr(packageLeafStart, dotPos - packageLeafStart);
-        const std::string objectName = path.substr(dotPos + 1);
+        const std::string_view packageLeaf{path.data() + packageLeafStart, dotPos - packageLeafStart};
+        const std::string_view objectName{path.data() + dotPos + 1, path.size() - dotPos - 1};
         if (objectName == packageLeaf) path.erase(dotPos);
         return path;
     }
 
-    void RenderCopyableObjectRow(
-        const char* label, const SDK::UObject* object, GuiUtils::StatusMessage& status, const char* successMessage
+    template <std::size_t N> void RenderCopyableObjectRow(
+        const char* label, const SDK::UObject* object, GuiUtils::StatusMessage& resultStatus, ImGuiID& resultSource,
+        const char (&successMessage)[N]
     ) {
         if (!IsLiveObject(object)) object = nullptr;
 
-        std::string value = object ? PresetUtils::ObjectToAbsolutePath(object) : std::string{};
-        if (object && value.empty()) {
-            value = object->GetFullName();
-            if (value.empty()) value = object->GetName();
-        }
-        if (object) value = StripDuplicateAssetObjectSuffix(std::move(value));
         const std::string displayName = object ? FriendlyObjectName(object->GetName()) : "None";
-        const bool canCopy = !value.empty();
+        const bool canCopy = object != nullptr;
 
         ImGui::PushID(label);
+        ImGui::TextWrapped("%s: %s", label, displayName.c_str());
+        (void)GuiUtils::SameLineIfFitsButton("Copy");
         if (!canCopy) ImGui::BeginDisabled();
         const bool clicked = ImGui::SmallButton("Copy");
+        const ImGuiID rowId = ImGui::GetItemID();
+        const bool hovered = ImGui::IsItemHovered();
         if (!canCopy) ImGui::EndDisabled();
 
-        if (ImGui::IsItemHovered()) {
+        std::string value;
+        if ((clicked || hovered) && object)
+            value = StripDuplicateAssetObjectSuffix(PresetUtils::ObjectToAbsolutePath(object));
+        if (clicked && !value.empty()) {
+            ImGui::SetClipboardText(value.c_str());
+            resultSource = rowId;
+            resultStatus.Notify(successMessage);
+        }
+        if (resultSource == rowId) resultStatus.RenderResult();
+        if (hovered) {
             GuiUtils::BeginStyledTooltip();
             ImGui::TextUnformatted(value.empty() ? "No value" : value.c_str());
             GuiUtils::EndStyledTooltip();
         }
-        if (clicked && canCopy) {
-            ImGui::SetClipboardText(value.c_str());
-            status.Set(successMessage);
-        }
-
-        ImGui::SameLine();
-        ImGui::TextWrapped("%s: %s", label, displayName.c_str());
         ImGui::PopID();
     }
 
@@ -128,7 +129,7 @@ void WorldEditorSection::ResetState() {
     cachedWorld = nullptr;
     ClearBrowseTarget();
     actorComboWidth = 0;
-    status = {};
+    status.Clear();
     needsScan = true;
     clickPickActive = false;
     pickPending = false;
@@ -143,6 +144,8 @@ void WorldEditorSection::ClearBrowseTarget() {
     propertyPanel.Clear();
     pendingApply = false;
     infoText.clear();
+    copyStatus.Clear();
+    copyResultSource = 0;
 }
 
 void WorldEditorSection::ClearUnavailableActorSelection() {
@@ -153,7 +156,7 @@ void WorldEditorSection::ClearUnavailableActorSelection() {
     highlightMarker = {};
     ClearBrowseTarget();
     needsScan = true;
-    status.Set("The selected object is no longer available", true);
+    status.SetError("The selected object is no longer available");
 }
 
 void WorldEditorSection::ValidateSelection() {
@@ -168,7 +171,7 @@ void WorldEditorSection::ValidateSelection() {
     if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
-        status.Set("The selected part is no longer available", true);
+        status.SetError("The selected part is no longer available");
     }
 }
 
@@ -178,7 +181,7 @@ void WorldEditorSection::ScanAllActors() {
     auto* world = playerWorld.world;
 
     if (!world) {
-        status.Set("Enter a map before selecting objects", true);
+        status.SetError("Enter a map before selecting objects");
         return;
     }
 
@@ -210,7 +213,7 @@ void WorldEditorSection::ApplyFilter() {
     }
 
     if (filteredActors.empty()) {
-        status.Set(nearbyMode ? "No nearby objects match the filter" : "No objects match the filter", true);
+        status.SetError(nearbyMode ? "No nearby objects match the filter" : "No objects match the filter");
         return;
     }
 
@@ -308,7 +311,7 @@ void WorldEditorSection::SelectTarget(int index) {
     if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
-        status.Set("The selected part is no longer available.", true);
+        status.SetError("The selected part is no longer available.");
         return;
     }
 
@@ -316,6 +319,8 @@ void WorldEditorSection::SelectTarget(int index) {
     browseTarget = target.object;
     browseTargetIsActor = target.isActor;
     browseTargetIsComponent = target.isComponent;
+    copyStatus.Clear();
+    copyResultSource = 0;
 
     propertyPanel.SetType(browseTarget->Class);
     const int supported = propertyPanel.EditableCount();
@@ -399,21 +404,22 @@ void WorldEditorSection::DrainSelectionResults(SDK::UWorld* world) {
             findPending = false;
 
         if (!result.error.empty() || result.world != world || !IsLiveActor(result.actor)) {
-            status.Set(result.error.empty() ? "The selected object is no longer available" : result.error, true);
+            if (result.error.empty())
+                status.SetError("The selected object is no longer available");
+            else
+                status.SetError(std::move(result.error));
             continue;
         }
 
         SelectActorDirect(result.actor, result.className, result.preferredTarget);
-        status.Set(
-            std::string(result.operation == SelectionOperation::Pick ? "Selected: " : "Found: ") + selectedActorLabel
-        );
+        status.Clear();
     }
 }
 
 void WorldEditorSection::PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, ImVec2 viewportSize) {
     if (pickPending || findPending) return;
     pickPending = true;
-    status.Set("Choose an object in the world");
+    status.SetInfo("Choose an object in the world");
     const auto generation = ++selectionGeneration;
 
     const bool queued = GameHook::QueueAction([this, screenPos, viewportPos, viewportSize,
@@ -480,7 +486,7 @@ void WorldEditorSection::PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, 
     });
     if (!queued) {
         pickPending = false;
-        status.Set("Could not start world selection", true);
+        status.SetError("Could not start world selection");
     }
 }
 
@@ -505,7 +511,7 @@ void WorldEditorSection::RenderClickPickOverlay() {
 
         if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
             clickPickActive = false;
-            status.Set("Selection cancelled");
+            status.Clear();
         } else if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
             clickPickActive = false;
             PickClickedActor(ImGui::GetIO().MousePos, viewport->Pos, viewport->Size);
@@ -524,12 +530,12 @@ void WorldEditorSection::HighlightSelected() {
     if (!actor && component) actor = component->GetOwner();
     if (!actor) actor = selectedActor;
     if (!IsLiveActor(actor)) {
-        status.Set("No object selected", true);
+        status.SetError("No object selected");
         return;
     }
 
     highlightMarker = {actor, component, ImGui::GetTime() + 3.0};
-    status.Set("Showing the selected object...");
+    status.Clear();
 }
 
 void WorldEditorSection::RenderHighlightMarker() {
@@ -576,11 +582,11 @@ void WorldEditorSection::FindByClassName(const char* className) {
     if (findPending || pickPending) return;
     auto* cls = SDK::UObject::FindClassFast(std::string(className));
     if (!cls) {
-        status.Set("This type of object is unavailable in the current map.", true);
+        status.SetError("This type of object is unavailable in the current map.");
         return;
     }
     findPending = true;
-    status.Set("Finding object...");
+    status.SetInfo("Finding object...");
     const auto generation = ++selectionGeneration;
     std::string searchName = className;
     const bool queued =
@@ -606,7 +612,7 @@ void WorldEditorSection::FindByClassName(const char* className) {
         });
     if (!queued) {
         findPending = false;
-        status.Set("Could not find objects", true);
+        status.SetError("Could not find objects");
     }
 }
 
@@ -684,7 +690,7 @@ void WorldEditorSection::RenderActorSelector() {
     if (wasPickPending) ImGui::BeginDisabled();
     if (ImGui::SmallButton("Select from World")) {
         clickPickActive = true;
-        status.Set("Click an object in the world");
+        status.SetInfo("Click an object in the world");
     }
     if (wasPickPending) ImGui::EndDisabled();
     (void)GuiUtils::SameLineIfFitsButton("Show Selection");
@@ -719,7 +725,7 @@ void WorldEditorSection::RenderActorSelector() {
     const auto& style = ImGui::GetStyle();
     const float refreshWidth = GuiUtils::ButtonNaturalWidth("Find Objects");
     const float searchWidth = (std::max)(1.0f, ImGui::GetContentRegionAvail().x - refreshWidth - style.ItemSpacing.x);
-    ImGui::SetNextItemWidth(searchWidth);
+    GuiUtils::SetNextInputWidth(searchWidth);
     bool enterPressed = ImGui::InputTextWithHint(
         "##ActorSearch", "Search objects...", actorSearchBuf, sizeof(actorSearchBuf),
         ImGuiInputTextFlags_EnterReturnsTrue
@@ -731,7 +737,6 @@ void WorldEditorSection::RenderActorSelector() {
         else
             ScanAllActors();
     }
-
     if (!filteredActors.empty()) {
         const char* preview = (selectedActorIndex >= 0)
                                   ? filteredActors[selectedActorIndex].displayLabel.c_str()
@@ -758,11 +763,7 @@ void WorldEditorSection::RenderActorSelector() {
         }
     }
 
-    if (!infoText.empty()) {
-        ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-        ImGui::TextWrapped("%s", infoText.c_str());
-        ImGui::PopStyleColor();
-    }
+    if (!infoText.empty()) GuiUtils::TextDisabledWrapped(infoText);
     status.Render();
 }
 
@@ -814,7 +815,9 @@ void WorldEditorSection::RenderMaterialEntry(int index, SDK::UMaterialInterface*
         return;
     }
 
-    RenderCopyableObjectRow("Material", material, status, "Material location copied.");
+    RenderCopyableObjectRow(
+        "Material", material, copyStatus, copyResultSource, "Material location copied."
+    );
 
     auto* instance =
         material->IsA(SDK::UMaterialInstance::StaticClass()) ? static_cast<SDK::UMaterialInstance*>(material) : nullptr;
@@ -826,7 +829,9 @@ void WorldEditorSection::RenderMaterialEntry(int index, SDK::UMaterialInterface*
     }
 
     if (instance->Parent)
-        RenderCopyableObjectRow("Base Material", instance->Parent, status, "Base material location copied.");
+        RenderCopyableObjectRow(
+            "Base Material", instance->Parent, copyStatus, copyResultSource, "Base material location copied."
+        );
 
     auto renderTextureParams = [this](auto& params, const char* fallbackName) {
         int rows = 0;
@@ -834,7 +839,11 @@ void WorldEditorSection::RenderMaterialEntry(int index, SDK::UMaterialInterface*
             auto& param = params[i];
             std::string paramName = param.ParameterInfo.Name.ToString();
             if (paramName.empty()) paramName = fallbackName;
-            RenderCopyableObjectRow(paramName.c_str(), param.ParameterValue, status, "Texture location copied.");
+            ImGui::PushID(static_cast<const void*>(&param));
+            RenderCopyableObjectRow(
+                paramName.c_str(), param.ParameterValue, copyStatus, copyResultSource, "Texture location copied."
+            );
+            ImGui::PopID();
             ++rows;
         }
         return rows;
