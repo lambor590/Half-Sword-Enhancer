@@ -1,10 +1,26 @@
 #include "Menu/Sections/Player/PlayerEditorSection.h"
+
+#include <bit>
+#include <cstdint>
+#include <utility>
+
 #include "Hooks/GameHook.h"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Utils/GuiUtils.h"
 #include "Utils/GameClass.h"
 #include "Utils/PresetApplication.h"
 #include "Utils/Spawner.h"
+
+namespace {
+    std::uint64_t OverrideValueBits(const OverrideDescriptor& field) noexcept {
+        switch (field.type) {
+            case OverrideFieldType::Double: return std::bit_cast<std::uint64_t>(GetDouble(field));
+            case OverrideFieldType::Int: return static_cast<std::uint64_t>(static_cast<std::int64_t>(GetInt(field)));
+            case OverrideFieldType::Bool: return GetBool(field) ? 1 : 0;
+        }
+        return 0;
+    }
+} // namespace
 
 void PlayerEditorSection::BuildDescriptors() {
     auto& o = overrides;
@@ -86,6 +102,18 @@ int PlayerEditorSection::CountAllActive() const {
            CountActive(stateFields);
 }
 
+void PlayerEditorSection::RenderTrackedField(const OverrideDescriptor& field) {
+    const bool wasEnabled = *field.enabled;
+    const std::uint64_t previousValue = OverrideValueBits(field);
+    RenderOverrideField(field);
+    overridesDirty = overridesDirty || wasEnabled != *field.enabled || previousValue != OverrideValueBits(field);
+}
+
+void PlayerEditorSection::RenderTrackedGroup(std::span<const OverrideDescriptor> fields) {
+    for (const auto& field : fields)
+        RenderTrackedField(field);
+}
+
 void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
     PlayerEditorOverrides snapshot;
     {
@@ -98,6 +126,7 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
 void PlayerEditorSection::PublishOverrides() {
     std::scoped_lock lock(publishedOverridesMutex);
     publishedOverrides = overrides;
+    overridesDirty = false;
 }
 
 void PlayerEditorSection::ReadFromPlayer() {
@@ -168,7 +197,8 @@ void PlayerEditorSection::ReadFromPlayer() {
     overrides.fear.value = player->Fear;
     overrides.invulnerable.value = player->Invulnerable;
 
-    presets.status.Set("Player stats copied");
+    overridesDirty = true;
+    presets.status.Clear();
 }
 
 PlayerPresetData PlayerEditorSection::BuildPresetData() const {
@@ -179,6 +209,7 @@ PlayerPresetData PlayerEditorSection::BuildPresetData() const {
 
 void PlayerEditorSection::ApplyPresetData(const PlayerPresetData& d) {
     overrides = d.overrides;
+    overridesDirty = true;
 }
 
 void PlayerEditorSection::ClonePlayer() {
@@ -213,7 +244,7 @@ void PlayerEditorSection::ClonePlayer() {
 void PlayerEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
     ImGui::SeparatorText("Body");
-    RenderOverrideGroup(physicalFields);
+    RenderTrackedGroup(physicalFields);
     ImGui::PopID();
 }
 
@@ -221,35 +252,35 @@ void PlayerEditorSection::RenderHealthTab() {
     ImGui::PushID("health");
 
     ImGui::SeparatorText("General");
-    RenderOverrideField(healthFields[0]);
-    RenderOverrideField(healthFields[10]);
-    RenderOverrideField(healthFields[11]);
+    RenderTrackedField(healthFields[0]);
+    RenderTrackedField(healthFields[10]);
+    RenderTrackedField(healthFields[11]);
 
     ImGui::SeparatorText("Per-Limb Health");
     if (ImGui::BeginTable("##healthparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[1]); // Head
+        RenderTrackedField(healthFields[1]); // Head
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[2]); // Neck
+        RenderTrackedField(healthFields[2]); // Neck
 
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[3]); // Right Arm
+        RenderTrackedField(healthFields[3]); // Right Arm
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[4]); // Left Arm
+        RenderTrackedField(healthFields[4]); // Left Arm
 
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[5]); // Upper Body
+        RenderTrackedField(healthFields[5]); // Upper Body
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[6]); // Lower Body
+        RenderTrackedField(healthFields[6]); // Lower Body
 
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[7]); // Right Leg
+        RenderTrackedField(healthFields[7]); // Right Leg
         ImGui::TableNextColumn();
-        RenderOverrideField(healthFields[8]); // Left Leg
+        RenderTrackedField(healthFields[8]); // Left Leg
         ImGui::EndTable();
     }
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetStyle().CellPadding.y);
-    RenderOverrideField(healthFields[9]);
+    RenderTrackedField(healthFields[9]);
 
     ImGui::PopID();
 }
@@ -258,32 +289,32 @@ void PlayerEditorSection::RenderPhysicsTab() {
     ImGui::PushID("physics");
 
     ImGui::SeparatorText("Body Stability");
-    RenderOverrideField(physicsFields[0]); // All Body Tonus
+    RenderTrackedField(physicsFields[0]); // All Body Tonus
 
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetStyle().CellPadding.y);
     if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        RenderOverrideField(physicsFields[1]); // Head
+        RenderTrackedField(physicsFields[1]); // Head
         ImGui::TableNextColumn();
         ImGui::Dummy(ImVec2(0, 0));
 
         ImGui::TableNextColumn();
-        RenderOverrideField(physicsFields[2]); // Right Arm
+        RenderTrackedField(physicsFields[2]); // Right Arm
         ImGui::TableNextColumn();
-        RenderOverrideField(physicsFields[3]); // Left Arm
+        RenderTrackedField(physicsFields[3]); // Left Arm
 
         ImGui::TableNextColumn();
-        RenderOverrideField(physicsFields[4]); // Right Leg
+        RenderTrackedField(physicsFields[4]); // Right Leg
         ImGui::TableNextColumn();
-        RenderOverrideField(physicsFields[5]); // Left Leg
+        RenderTrackedField(physicsFields[5]); // Left Leg
         ImGui::EndTable();
     }
 
     ImGui::SeparatorText("Strength");
-    RenderOverrideField(physicsFields[6]); // Muscle Power
-    RenderOverrideField(physicsFields[7]); // Orientation Strength
-    RenderOverrideField(physicsFields[8]); // Angular Strength
-    RenderOverrideField(physicsFields[9]); // Hit Rigidity
+    RenderTrackedField(physicsFields[6]); // Muscle Power
+    RenderTrackedField(physicsFields[7]); // Orientation Strength
+    RenderTrackedField(physicsFields[8]); // Angular Strength
+    RenderTrackedField(physicsFields[9]); // Hit Rigidity
 
     ImGui::PopID();
 }
@@ -292,10 +323,10 @@ void PlayerEditorSection::RenderMovementTab() {
     ImGui::PushID("movement");
 
     ImGui::SeparatorText("Speed");
-    RenderOverrideGroup({movementFields.data(), 2});
+    RenderTrackedGroup({movementFields.data(), 2});
 
     ImGui::SeparatorText("Actions");
-    RenderOverrideGroup({movementFields.data() + 2, 5});
+    RenderTrackedGroup({movementFields.data() + 2, 5});
 
     ImGui::PopID();
 }
@@ -304,13 +335,13 @@ void PlayerEditorSection::RenderCombatTab() {
     ImGui::PushID("combat");
 
     ImGui::SeparatorText("Damage");
-    RenderOverrideGroup({combatFields.data(), 3});
+    RenderTrackedGroup({combatFields.data(), 3});
 
     ImGui::SeparatorText("Stamina");
-    RenderOverrideGroup({combatFields.data() + 3, 4});
+    RenderTrackedGroup({combatFields.data() + 3, 4});
 
     ImGui::SeparatorText("Grip & Combat Skill");
-    RenderOverrideGroup({combatFields.data() + 7, 5});
+    RenderTrackedGroup({combatFields.data() + 7, 5});
 
     ImGui::PopID();
 }
@@ -321,17 +352,17 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::SeparatorText("Weapon Skills");
     if (ImGui::BeginTable("##weaponskills", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[0]); // Thrust
+        RenderTrackedField(skillFields[0]); // Thrust
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[1]); // Parry
+        RenderTrackedField(skillFields[1]); // Parry
 
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[2]); // Alt Grip
+        RenderTrackedField(skillFields[2]); // Alt Grip
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[3]); // Alt Stance
+        RenderTrackedField(skillFields[3]); // Alt Stance
 
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[4]); // Rotate
+        RenderTrackedField(skillFields[4]); // Rotate
         ImGui::TableNextColumn();
         ImGui::Dummy(ImVec2(0, 0));
         ImGui::EndTable();
@@ -340,19 +371,19 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::SeparatorText("Body Skills");
     if (ImGui::BeginTable("##bodyskills", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[5]); // Crouch
+        RenderTrackedField(skillFields[5]); // Crouch
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[6]); // Dodge
+        RenderTrackedField(skillFields[6]); // Dodge
 
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[7]); // Kick
+        RenderTrackedField(skillFields[7]); // Kick
         ImGui::TableNextColumn();
-        RenderOverrideField(skillFields[8]); // Slow Motion
+        RenderTrackedField(skillFields[8]); // Slow Motion
         ImGui::EndTable();
     }
 
     ImGui::SeparatorText("State");
-    RenderOverrideGroup(stateFields);
+    RenderTrackedGroup(stateFields);
 
     ImGui::PopID();
 }
@@ -392,13 +423,17 @@ void PlayerEditorSection::Render() {
     if (!player) ImGui::EndDisabled();
     GuiUtils::HelpTooltip("Copy the current player values without enabling them");
     (void)GuiUtils::SameLineIfFitsButton("Clear Custom Stats");
-    if (GuiUtils::Button("Clear Custom Stats", GuiUtils::ButtonTone::Danger)) overrides = {};
+    if (GuiUtils::Button("Clear Custom Stats", GuiUtils::ButtonTone::Danger)) {
+        overrides = {};
+        overridesDirty = true;
+        presets.status.Clear();
+    }
     GuiUtils::HelpTooltip("Disable every custom player value");
     (void)GuiUtils::SameLineIfFitsButton("Spawn Player Clone");
     if (!player || !world) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Player Clone", GuiUtils::ButtonTone::Primary)) {
+        presets.status.Clear();
         ClonePlayer();
-        presets.status.Set("Player cloned");
     }
     if (!player || !world) ImGui::EndDisabled();
     GuiUtils::HelpTooltip("Spawn a clone with the current body settings");
@@ -422,12 +457,18 @@ void PlayerEditorSection::Render() {
         case 5: RenderSkillsStateTab(); break;
         case 6:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](const PlayerPresetData& d) { ApplyPresetData(d); }
+                [this](const char*, bool) {
+                    return PresetBuildResult<PlayerPresetData>::Success(BuildPresetData());
+                },
+                [this](const PlayerPresetData& data) {
+                    ApplyPresetData(data);
+                    return PresetApplyDisposition::Applied;
+                }
             );
             break;
         default: break;
     }
 
     ImGui::EndChild();
-    PublishOverrides();
+    if (overridesDirty) PublishOverrides();
 }

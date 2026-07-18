@@ -1,7 +1,8 @@
 #pragma once
 
+#include <array>
 #include <mutex>
-#include <vector>
+#include <span>
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
@@ -20,22 +21,25 @@ private:
     PlayerEditorOverrides overrides{};
     std::mutex publishedOverridesMutex;
     PlayerEditorOverrides publishedOverrides{};
+    bool overridesDirty = true;
     KeybindList keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;
 
-    std::vector<OverrideDescriptor> physicalFields;
-    std::vector<OverrideDescriptor> healthFields;
-    std::vector<OverrideDescriptor> physicsFields;
-    std::vector<OverrideDescriptor> movementFields;
-    std::vector<OverrideDescriptor> combatFields;
-    std::vector<OverrideDescriptor> skillFields;
-    std::vector<OverrideDescriptor> stateFields;
+    std::array<OverrideDescriptor, 3> physicalFields;
+    std::array<OverrideDescriptor, 12> healthFields;
+    std::array<OverrideDescriptor, 10> physicsFields;
+    std::array<OverrideDescriptor, 7> movementFields;
+    std::array<OverrideDescriptor, 12> combatFields;
+    std::array<OverrideDescriptor, 9> skillFields;
+    std::array<OverrideDescriptor, 4> stateFields;
 
     void InitKeybinds();
     void BuildDescriptors();
     int CountAllActive() const;
+    void RenderTrackedField(const OverrideDescriptor& field);
+    void RenderTrackedGroup(std::span<const OverrideDescriptor> fields);
     void ApplyToPlayer(SDK::AWillie_BP_C* p);
     void PublishOverrides();
     void ReadFromPlayer();
