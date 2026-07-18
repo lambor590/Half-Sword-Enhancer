@@ -228,7 +228,7 @@ void WorldActionsSection::InitKeybinds() {
                 bool computed = false;
                 ActorUtils::ForEachWillieInRadius(
                     world, player, cfg.toggleEnemyAIRadius, [&](SDK::AWillie_BP_C* willie) {
-                        if (auto* ctrl = static_cast<SDK::AAIController*>(willie->GetController())) {
+                        if (auto* ctrl = static_cast<SDK::AAIController*>(willie->Controller)) {
                             if (!computed) {
                                 newTickEnabled = !ctrl->IsActorTickEnabled();
                                 computed = true;
