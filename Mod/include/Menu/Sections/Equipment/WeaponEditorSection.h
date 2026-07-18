@@ -1,13 +1,12 @@
 #pragma once
 
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 #include "Menu/Section.h"
@@ -74,11 +73,11 @@ private:
     PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
 
-    std::vector<OverrideDescriptor> combatFields;
-    std::vector<OverrideDescriptor> physicsFields;
-    std::vector<OverrideDescriptor> dismemberFields;
-    std::vector<OverrideDescriptor> toggleFields;
-    std::vector<OverrideDescriptor> staminaFields;
+    std::array<OverrideDescriptor, 10> combatFields;
+    std::array<OverrideDescriptor, 1> physicsFields;
+    std::array<OverrideDescriptor, 2> dismemberFields;
+    std::array<OverrideDescriptor, 3> toggleFields;
+    std::array<OverrideDescriptor, 4> staminaFields;
 
     void BuildDescriptors();
     int CountAllActive() const;
@@ -90,9 +89,7 @@ private:
     struct MeshPoolEntry {
         SDK::UObject* mesh;
         std::string name;
-        std::string path;
         std::string display;
-        const char* category;
         MeshType type;
     };
 
@@ -102,9 +99,11 @@ private:
         std::string path;
     };
 
-    struct MeshSnapshot {
-        MeshOverride slots[MODULE_SLOT_COUNT];
+    struct MeshSnapshotSlot : MeshOverrideSettings {
+        SDK::UObject* mesh = nullptr;
     };
+
+    using MeshSnapshot = std::array<MeshSnapshotSlot, MODULE_SLOT_COUNT>;
 
     struct SpawnDraftSnapshot {
         SpawnConfig spawn;
@@ -113,22 +112,15 @@ private:
         std::string deferredName;
         WeaponRuntimeProps runtime;
         MeshSnapshot meshes;
-        bool hasRuntimeOverrides = false;
-        bool hasMeshOverrides = false;
     };
 
     std::mutex spawnDraftMutex;
-    SpawnDraftSnapshot publishedSpawnDraft;
+    SpawnDraftSnapshot publishedSpawnDraft{};
     std::uint64_t publishedSpawnDraftRevision = 0;
 
     std::vector<MeshPoolEntry> meshPool;
-    std::unordered_map<std::string, int> meshPathIndex;
-    std::unordered_map<SDK::UObject*, int> meshObjectIndex;
-    std::unordered_set<SDK::UObject*> meshSeen;
     bool meshScanQueued = false;
     float meshComboWidth = 0.0f;
-    int staticMeshCount = 0;
-    int skeletalMeshCount = 0;
 
     struct PendingMeshBatch {
         std::vector<MeshPoolEntry> entries;
@@ -140,25 +132,38 @@ private:
         WeaponPresetData data;
         SDK::UObject* loadedMeshes[MODULE_SLOT_COUNT] = {};
         bool replaceAll = false;
-        bool completesPresetApply = false;
+        bool presetApply = false;
     };
 
-    struct PendingStatus {
+    struct PendingPresetError {
         std::string message;
-        bool isError = false;
         std::uint64_t revision = 0;
-        bool completesPresetApply = false;
+    };
+
+    enum class FeedbackOrigin : std::uint8_t { Generation, Spawn, AddModel, Count };
+    static constexpr std::size_t FEEDBACK_ORIGIN_COUNT = static_cast<std::size_t>(FeedbackOrigin::Count);
+
+    struct PendingFeedback {
+        FeedbackOrigin origin;
+        std::uint64_t sequence = 0;
+        std::uint64_t request = 0;
+        std::uint64_t revision = 0;
+        std::string error;
     };
 
     struct PendingRenderUpdates {
         std::optional<PendingDraftUpdate> draft;
         std::vector<PendingMeshBatch> meshBatches;
-        std::vector<PendingStatus> statuses;
+        std::array<std::optional<PendingFeedback>, FEEDBACK_ORIGIN_COUNT> feedback;
+        std::optional<PendingPresetError> presetError;
     };
 
     std::mutex pendingRenderMutex;
     PendingRenderUpdates pendingRenderUpdates;
     std::atomic<bool> pendingRenderReady{false};
+    std::uint64_t feedbackSequence = 0;
+    std::array<std::atomic<std::uint64_t>, FEEDBACK_ORIGIN_COUNT> feedbackRequests{};
+    std::array<GuiUtils::StatusMessage::Token, FEEDBACK_ORIGIN_COUNT> feedbackStatusTokens{};
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     std::vector<int> filteredMeshIndices;
     uint32_t meshPoolVersion = 0;
@@ -188,6 +193,7 @@ private:
     );
     MeshSnapshot BuildMeshSnapshot() const;
     SpawnDraftSnapshot BuildSpawnDraftSnapshot() const;
+    bool SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& snapshot) const;
     void PublishSpawnDraftSnapshot();
     bool PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update);
     void ApplyMeshToPreview(const MeshSnapshot& snapshot);
@@ -211,19 +217,19 @@ private:
     void RenderMeshCombo(int slotIdx);
     void PublishMeshEntries(std::vector<MeshPoolEntry> entries, bool fullReplace);
     void PublishDraftUpdate(PendingDraftUpdate update);
-    void PublishStatus(
-        std::string message, bool isError = false, std::uint64_t revision = 0, bool completesPresetApply = false
+    std::uint64_t BeginFeedbackRequest(FeedbackOrigin origin) noexcept;
+    void PublishFeedback(
+        FeedbackOrigin origin, std::string error, std::uint64_t request = 0, std::uint64_t revision = 0
     );
+    void PublishPresetError(std::string message, std::uint64_t revision);
     void DrainPendingRenderUpdates();
     void ApplyDraftUpdate(PendingDraftUpdate update);
-    void RebuildMeshDisplayCache();
     int FindMeshPoolIndexByObject(SDK::UObject* mesh) const;
     void ResolveMeshOverrideIndices();
     void RenderMeshTab();
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;
     PresetApplyDisposition ApplyPresetData(const WeaponPresetData& data);
-    void SetStatus(const std::string& msg, bool isError = false);
     void RenderSpawnFooter();
     void InitKeybinds();
 

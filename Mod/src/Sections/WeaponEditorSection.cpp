@@ -5,7 +5,6 @@
 #include <expected>
 #include <tuple>
 #include <algorithm>
-#include <span>
 #include <utility>
 
 #include "Hooks/GameHook.h"
@@ -17,7 +16,6 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetApplication.h"
 #include "Utils/PresetUtils.h"
-#include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/ModularWeaponBP_classes.hpp"
@@ -75,29 +73,26 @@ const char* WeaponEditorSection::ExtractCategory(const std::string& fullName) {
 }
 
 bool WeaponEditorSection::HasExcludedPath(const std::string& fullName) {
-    static constexpr const char* PATTERNS[] = {"/Engine/",          "/Effects/",
-                                               "/UltraDynamicSky/", "/MetaHumans/",
-                                               "/Tests/",           "/Character/Material",
-                                               "/Collisions/",      "/Niagara/",
-                                               "/Debug/",           "/Editor",
-                                               "/NavMesh/",         "/Plugins/",
-                                               "/Developer/",       "/BasicShapes/",
-                                               "/EditorMeshes/",    "/Geometry/",
-                                               "/MaterialEditor/",  "/PCG/",
-                                               "/FieldSystem/",     "/GeometryCollection/",
-                                               "/ChaosFlesh/",      "/ChaosVehicles/"};
-    for (auto* p : PATTERNS)
+    static constexpr std::string_view PATTERNS[] = {
+        "/Engine/",          "/Effects/",        "/UltraDynamicSky/", "/MetaHumans/",
+        "/Tests/",           "/Character/Material", "/Collisions/",   "/Niagara/",
+        "/Debug/",           "/Editor",          "/NavMesh/",         "/Plugins/",
+        "/Developer/",       "/BasicShapes/",     "/EditorMeshes/",   "/Geometry/",
+        "/MaterialEditor/",  "/PCG/",            "/FieldSystem/",     "/GeometryCollection/",
+        "/ChaosFlesh/",      "/ChaosVehicles/",
+    };
+    for (const auto p : PATTERNS)
         if (fullName.find(p) != std::string::npos) return true;
     return false;
 }
 
 bool WeaponEditorSection::HasExcludedName(std::string_view name) {
-    static constexpr const char* PREFIXES[] = {"UCX_", "UBX_", "USP_", "UCP_", "SM_Preview", "SM_Template"};
-    for (auto* prefix : PREFIXES)
-        if (name.compare(0, std::strlen(prefix), prefix) == 0) return true;
+    static constexpr std::string_view PREFIXES[] = {"UCX_", "UBX_", "USP_", "UCP_", "SM_Preview", "SM_Template"};
+    for (const auto prefix : PREFIXES)
+        if (name.starts_with(prefix)) return true;
 
-    static constexpr const char* SUBSTRINGS[] = {"_Collision", "Proxy", "Placeholder", "NavMesh"};
-    for (auto* sub : SUBSTRINGS)
+    static constexpr std::string_view SUBSTRINGS[] = {"_Collision", "Proxy", "Placeholder", "NavMesh"};
+    for (const auto sub : SUBSTRINGS)
         if (name.find(sub) != std::string_view::npos) return true;
 
     return false;
@@ -138,18 +133,15 @@ namespace {
 void WeaponEditorSection::CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon) {
     SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
     std::vector<MeshPoolEntry> entries;
-    std::unordered_set<SDK::UObject*> seen;
+    entries.reserve(MODULE_SLOT_COUNT);
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         if (!comps[i]) continue;
         auto* mesh = comps[i]->StaticMesh;
-        if (!mesh || !seen.insert(mesh).second) continue;
+        if (!mesh) continue;
         std::string fullName = mesh->GetFullName();
         std::string meshName = BlueprintRegistry::CleanDisplayName(mesh->GetName());
         const char* category = ExtractCategory(fullName);
-        entries.push_back(
-            {mesh, meshName, PresetUtils::ObjectToAbsolutePath(mesh),
-             MeshDisplayLabel(meshName, category, MeshType::Static), category, MeshType::Static}
-        );
+        entries.push_back({mesh, meshName, MeshDisplayLabel(meshName, category, MeshType::Static), MeshType::Static});
     }
     PublishMeshEntries(std::move(entries), false);
 }
@@ -189,10 +181,7 @@ SDK::UObject* WeaponEditorSection::LoadAssetByPath(const char* pathStr) {
     std::string meshName = BlueprintRegistry::CleanDisplayName(loaded->GetName());
     const char* category = ExtractCategory(fullName);
     std::vector<MeshPoolEntry> entries;
-    entries.push_back(
-        {loaded, meshName, PresetUtils::ObjectToAbsolutePath(loaded), MeshDisplayLabel(meshName, category, type),
-         category, type}
-    );
+    entries.push_back({loaded, meshName, MeshDisplayLabel(meshName, category, type), type});
     PublishMeshEntries(std::move(entries), false);
     return loaded;
 }
@@ -203,9 +192,7 @@ void WeaponEditorSection::ScanAllMeshes() {
     int count = SDK::UObject::GObjects->Num();
 
     std::vector<MeshPoolEntry> scanned;
-    std::unordered_set<SDK::UObject*> seen;
     scanned.reserve(2048);
-    seen.reserve(4096);
 
     for (int i = 0; i < count; ++i) {
         auto* obj = SDK::UObject::GObjects->GetByIndex(i);
@@ -220,7 +207,6 @@ void WeaponEditorSection::ScanAllMeshes() {
             continue;
 
         if (obj->IsDefaultObject()) continue;
-        if (!seen.insert(obj).second) continue;
 
         std::string fullName = obj->GetFullName();
         if (HasExcludedPath(fullName)) continue;
@@ -238,10 +224,7 @@ void WeaponEditorSection::ScanAllMeshes() {
 
         std::string meshName = BlueprintRegistry::CleanDisplayName(meshNameView);
         const char* category = ExtractCategory(fullName);
-        scanned.push_back(
-            {obj, meshName, PresetUtils::ObjectToAbsolutePath(obj), MeshDisplayLabel(meshName, category, type),
-             category, type}
-        );
+        scanned.push_back({obj, meshName, MeshDisplayLabel(meshName, category, type), type});
     }
 
     PublishMeshEntries(std::move(scanned), true);
@@ -266,7 +249,7 @@ void WeaponEditorSection::ApplyMeshOverrides(
     SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         if (!comps[i]) continue;
-        const auto& slot = snap.slots[i];
+        const auto& slot = snap[i];
 
         if (!slot.enabled || !slot.mesh) {
             comps[i]->SetVisibility(true, true);
@@ -323,9 +306,14 @@ void WeaponEditorSection::ApplyMeshOverrides(
 }
 
 WeaponEditorSection::MeshSnapshot WeaponEditorSection::BuildMeshSnapshot() const {
-    MeshSnapshot snap;
-    std::copy(std::begin(meshOverrides), std::end(meshOverrides), snap.slots);
-    return snap;
+    MeshSnapshot snapshot;
+    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+        const auto& source = meshOverrides[i];
+        auto& target = snapshot[i];
+        static_cast<MeshOverrideSettings&>(target) = source;
+        if (source.enabled) target.mesh = source.mesh;
+    }
+    return snapshot;
 }
 
 WeaponEditorSection::SpawnDraftSnapshot WeaponEditorSection::BuildSpawnDraftSnapshot() const {
@@ -336,16 +324,41 @@ WeaponEditorSection::SpawnDraftSnapshot WeaponEditorSection::BuildSpawnDraftSnap
     snapshot.deferredName = deferredWeaponName;
     snapshot.runtime = runtimeProps;
     snapshot.meshes = BuildMeshSnapshot();
-    snapshot.hasRuntimeOverrides = CountAllActive() > 0;
-    snapshot.hasMeshOverrides = HasAnyMeshOverride();
     return snapshot;
 }
 
+bool WeaponEditorSection::SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& snapshot) const {
+    if (!WeaponPassportEquals(snapshot.passport, weaponPassport) ||
+        std::tie(
+            snapshot.spawn.distanceForward, snapshot.spawn.distanceUp, snapshot.spawn.scale,
+            snapshot.spawn.snapToGround, snapshot.classPaths, snapshot.deferredName, snapshot.runtime
+        ) != std::tie(
+            cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale, cfg.spawn.snapToGround, weaponPaths,
+            deferredWeaponName, runtimeProps
+        ))
+        return false;
+
+    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+        const auto& source = meshOverrides[i];
+        const auto& target = snapshot.meshes[i];
+        auto* mesh = source.enabled ? source.mesh : nullptr;
+        if (target.mesh != mesh) return false;
+        if (!mesh) continue;
+        if (target.meshType != source.meshType || target.scale != source.scale || target.rotation != source.rotation ||
+            target.offset != source.offset)
+            return false;
+    }
+    return true;
+}
+
 void WeaponEditorSection::PublishSpawnDraftSnapshot() {
-    auto snapshot = BuildSpawnDraftSnapshot();
     std::scoped_lock lock(spawnDraftMutex);
     if (renderDraftRevision < publishedSpawnDraftRevision) return;
-    publishedSpawnDraft = std::move(snapshot);
+    if (SpawnDraftMatchesCurrent(publishedSpawnDraft)) {
+        publishedSpawnDraftRevision = renderDraftRevision;
+        return;
+    }
+    publishedSpawnDraft = BuildSpawnDraftSnapshot();
     publishedSpawnDraftRevision = renderDraftRevision;
 }
 
@@ -355,35 +368,18 @@ bool WeaponEditorSection::PublishAppliedPresetSpawnSnapshot(const PendingDraftUp
         update.revision < publishedSpawnDraftRevision)
         return false;
 
-    auto snapshot = publishedSpawnDraft;
-    snapshot.passport = update.data.passport;
-    snapshot.classPaths = update.data.classPaths;
-    snapshot.deferredName = update.data.deferredWeaponName;
-    snapshot.runtime = update.data.runtimeProps;
-    snapshot.hasRuntimeOverrides = HasAnyEnabledOverride(
-        snapshot.runtime.rigidity, snapshot.runtime.edgeSharpness, snapshot.runtime.rawDamage,
-        snapshot.runtime.cuttingRate, snapshot.runtime.stabRate, snapshot.runtime.defRating, snapshot.runtime.gripRate,
-        snapshot.runtime.drawCutRate, snapshot.runtime.tipSharpness, snapshot.runtime.kickPower,
-        snapshot.runtime.matDensity, snapshot.runtime.dismemberSharp, snapshot.runtime.dismemberBlunt,
-        snapshot.runtime.doubleEdged, snapshot.runtime.piercing, snapshot.runtime.noStab, snapshot.runtime.staminaBurnR,
-        snapshot.runtime.staminaBurnL, snapshot.runtime.staminaBurn2H, snapshot.runtime.staminaBurn2HAlt
-    );
-    snapshot.hasMeshOverrides = false;
+    publishedSpawnDraft.passport = update.data.passport;
+    publishedSpawnDraft.classPaths = update.data.classPaths;
+    publishedSpawnDraft.deferredName = update.data.deferredWeaponName;
+    publishedSpawnDraft.runtime = update.data.runtimeProps;
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         const auto& source = update.data.meshPresets[i];
-        auto& target = snapshot.meshes.slots[i];
+        auto& target = publishedSpawnDraft.meshes[i];
         target = {};
-        target.enabled = source.enabled;
-        target.meshType = source.meshType;
-        target.scale = source.scale;
-        target.rotation = source.rotation;
-        target.offset = source.offset;
-        target.mesh = update.loadedMeshes[i];
-        target.path = source.meshPath;
-        snapshot.hasMeshOverrides = snapshot.hasMeshOverrides || (target.enabled && target.mesh);
+        static_cast<MeshOverrideSettings&>(target) = source;
+        if (source.enabled) target.mesh = update.loadedMeshes[i];
     }
 
-    publishedSpawnDraft = std::move(snapshot);
     publishedSpawnDraftRevision = update.revision;
     return true;
 }
@@ -432,7 +428,10 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
         auto generated = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
         PresetApplication::NormalizeWeaponPassport(generated);
         if (!EquipmentGenerator::IsPassportValid(generated)) {
-            PublishStatus("Could not create a weapon design for the selected type and tier", true, revision);
+            PublishFeedback(
+                FeedbackOrigin::Generation, "Could not create a weapon design for the selected type and tier", 0,
+                revision
+            );
         } else {
             auto path = [](SDK::UObject* obj) {
                 return PresetUtils::ObjectToAbsolutePath(obj);
@@ -450,6 +449,7 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
                 path(generated.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9),
             };
             PublishDraftUpdate(std::move(update));
+            PublishFeedback(FeedbackOrigin::Generation, {}, 0, revision);
         }
         globalModules.Populate();
         if (draftRevision.load(std::memory_order_acquire) == revision)
@@ -457,7 +457,7 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
     });
     if (!queued) {
         weaponGenerationPending.store(false, std::memory_order_release);
-        presets.status.Set("Could not create weapon design", true);
+        PublishFeedback(FeedbackOrigin::Generation, "Could not create weapon design", 0, revision);
     }
 }
 
@@ -471,7 +471,7 @@ void WeaponEditorSection::RandomizeWeaponPassport() {
     for (int i = 1; i <= WEAPON_TYPE_COUNT; ++i)
         if (TierValidation::VALID_TIER_MASKS[i] != 0) validTypes[count++] = i;
     if (count == 0) {
-        SetStatus("Weapon types are still loading", true);
+        PublishFeedback(FeedbackOrigin::Generation, "Weapon types are still loading");
         return;
     }
     cfg.weaponType = validTypes[GameConstants::RandomInt(0, count - 1)];
@@ -543,32 +543,38 @@ void WeaponEditorSection::SpawnPreview() {
         return;
     }
 
-    lastPreviewedPassport = weaponPassport;
-    PresetApplication::NormalizeWeaponPassport(lastPreviewedPassport);
-    lastPreviewedPaths = weaponPaths;
-    lastPreviewedProps = runtimeProps;
-
-    bool hasOverrides = CountAllActive() > 0;
-    bool hasMesh = HasAnyMeshOverride();
-    auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
+    const bool hasOverrides = CountAllActive() > 0;
+    const bool hasMesh = HasAnyMeshOverride();
+    auto meshSnapshot = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
     auto runtimeSnapshot = runtimeProps;
+    SpawnWorkflow::ActorCallback onPreviewReady;
+    if (hasOverrides || hasMesh) {
+        onPreviewReady =
+            [this, hasOverrides, hasMesh, meshSnapshot = std::move(meshSnapshot),
+             runtimeSnapshot](SDK::AActor* actor) {
+                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+                if (hasOverrides) (void)PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeSnapshot);
+                if (hasMesh) {
+                    std::scoped_lock lock(skeletalPreviewMutex);
+                    ApplyMeshOverrides(weapon, meshSnapshot, skeletalPreviewComps);
+                }
+            };
+    }
 
-    SpawnWorkflow::QueueWeaponPreview(
+    if (SpawnWorkflow::QueueWeaponPreview(
         snapshot, preview, cfg.spawn, weaponPassport, weaponPaths,
         [this](SDK::AActor* actor) {
             auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
             CollectMeshesFromWeapon(weapon);
         },
-        [this, hasOverrides, hasMesh, meshSnap, runtimeSnapshot](SDK::AActor* actor) {
-            auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-            if (hasOverrides) (void)PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeSnapshot);
-            if (hasMesh) {
-                std::scoped_lock lock(skeletalPreviewMutex);
-                ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
-            }
-        },
+        std::move(onPreviewReady),
         deferredWeaponName
-    );
+    )) {
+        lastPreviewedPassport = weaponPassport;
+        PresetApplication::NormalizeWeaponPassport(lastPreviewedPassport);
+        lastPreviewedPaths = weaponPaths;
+        lastPreviewedProps = runtimeProps;
+    }
 }
 
 void WeaponEditorSection::SpawnWeapon() {
@@ -583,19 +589,40 @@ void WeaponEditorSection::SpawnWeapon() {
 void WeaponEditorSection::SpawnWeapon(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft) {
     if (!runtime.player || !runtime.world) return;
 
-    auto callback = [this, draft](SDK::AActor* actor) -> std::expected<void, std::string> {
+    const std::uint64_t request = BeginFeedbackRequest(FeedbackOrigin::Spawn);
+    const auto& props = draft.runtime;
+    const bool hasRuntimeOverrides = HasAnyEnabledOverride(
+        props.rigidity, props.edgeSharpness, props.rawDamage, props.cuttingRate, props.stabRate, props.defRating,
+        props.gripRate, props.drawCutRate, props.tipSharpness, props.kickPower, props.matDensity, props.dismemberSharp,
+        props.dismemberBlunt, props.doubleEdged, props.piercing, props.noStab, props.staminaBurnR, props.staminaBurnL,
+        props.staminaBurn2H, props.staminaBurn2HAlt
+    );
+    auto callback = [this, runtimeProps = draft.runtime, meshes = std::move(draft.meshes),
+                     hasRuntimeOverrides](SDK::AActor* actor) -> std::expected<void, std::string> {
         if (!actor) return std::unexpected("Weapon could not be created");
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
         CollectMeshesFromWeapon(weapon);
-        if (draft.hasRuntimeOverrides && !PresetApplication::ApplyWeaponRuntimeOverrides(actor, draft.runtime))
+        if (hasRuntimeOverrides && !PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeProps))
             return std::unexpected("Custom weapon stats could not be applied");
-        if (draft.hasMeshOverrides) ApplyMeshOverrides(weapon, draft.meshes, nullptr, true);
+        if (std::any_of(meshes.begin(), meshes.end(), [](const auto& slot) { return slot.mesh != nullptr; }))
+            ApplyMeshOverrides(weapon, meshes, nullptr, true);
         return {};
     };
 
     SpawnWorkflow::QueueWeaponSpawn(
         runtime, draft.spawn, draft.passport, std::move(draft.classPaths), std::move(callback),
-        std::move(draft.deferredName)
+        std::move(draft.deferredName), [this, request](SpawnWorkflow::SpawnResult result) {
+            if (result.success) {
+                PublishFeedback(FeedbackOrigin::Spawn, {}, request);
+                return;
+            }
+            PublishFeedback(
+                FeedbackOrigin::Spawn,
+                result.error.empty() ? "Could not spawn weapon"
+                                     : "Could not spawn weapon: " + std::move(result.error),
+                request
+            );
+        }
     );
 }
 
@@ -1008,7 +1035,7 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
                 ovr.poolIndex = i;
                 ovr.mesh = meshPool[i].mesh;
                 ovr.meshType = meshPool[i].type;
-                ovr.path = meshPool[i].path;
+                ovr.path = PresetUtils::ObjectToAbsolutePath(ovr.mesh);
                 if (preview.GetPreviewActor()) {
                     auto snapshot = BuildMeshSnapshot();
                     GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) {
@@ -1050,10 +1077,10 @@ void WeaponEditorSection::PublishDraftUpdate(PendingDraftUpdate update) {
     {
         std::scoped_lock lock(pendingRenderMutex);
         if (draftRevision.load(std::memory_order_acquire) != update.revision) {
-            if (!update.completesPresetApply) return;
-            pendingRenderUpdates.statuses.push_back(
-                {"Preset could not be loaded; your current edits were kept", true, update.revision, true}
-            );
+            if (!update.presetApply) return;
+            auto& error = pendingRenderUpdates.presetError;
+            if (!error || update.revision >= error->revision)
+                error = PendingPresetError{"Preset could not be loaded; your current edits were kept", update.revision};
         } else {
             pendingRenderUpdates.draft = std::move(update);
         }
@@ -1061,12 +1088,35 @@ void WeaponEditorSection::PublishDraftUpdate(PendingDraftUpdate update) {
     pendingRenderReady.store(true, std::memory_order_release);
 }
 
-void WeaponEditorSection::PublishStatus(
-    std::string message, bool isError, std::uint64_t revision, bool completesPresetApply
+std::uint64_t WeaponEditorSection::BeginFeedbackRequest(FeedbackOrigin origin) noexcept {
+    return feedbackRequests[static_cast<std::size_t>(origin)].fetch_add(1, std::memory_order_relaxed) + 1;
+}
+
+void WeaponEditorSection::PublishFeedback(
+    FeedbackOrigin origin, std::string error, std::uint64_t request, std::uint64_t revision
 ) {
+    const auto index = static_cast<std::size_t>(origin);
     {
         std::scoped_lock lock(pendingRenderMutex);
-        pendingRenderUpdates.statuses.push_back({std::move(message), isError, revision, completesPresetApply});
+        if ((request != 0 && request != feedbackRequests[index].load(std::memory_order_relaxed)) ||
+            (revision != 0 && revision != draftRevision.load(std::memory_order_acquire)))
+            return;
+        pendingRenderUpdates.feedback[index] = PendingFeedback{
+            .origin = origin,
+            .sequence = ++feedbackSequence,
+            .request = request,
+            .revision = revision,
+            .error = std::move(error),
+        };
+    }
+    pendingRenderReady.store(true, std::memory_order_release);
+}
+
+void WeaponEditorSection::PublishPresetError(std::string message, std::uint64_t revision) {
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        auto& error = pendingRenderUpdates.presetError;
+        if (!error || revision >= error->revision) error = PendingPresetError{std::move(message), revision};
     }
     pendingRenderReady.store(true, std::memory_order_release);
 }
@@ -1097,7 +1147,9 @@ void WeaponEditorSection::ApplyDraftUpdate(PendingDraftUpdate update) {
 }
 
 void WeaponEditorSection::DrainPendingRenderUpdates() {
-    if (!pendingRenderReady.exchange(false, std::memory_order_acq_rel)) return;
+    if (!pendingRenderReady.load(std::memory_order_acquire) ||
+        !pendingRenderReady.exchange(false, std::memory_order_acq_rel))
+        return;
 
     PendingRenderUpdates updates;
     {
@@ -1109,77 +1161,77 @@ void WeaponEditorSection::DrainPendingRenderUpdates() {
     bool meshPoolChanged = false;
     for (auto& batch : updates.meshBatches) {
         if (batch.fullReplace) {
-            meshPool.clear();
-            meshSeen.clear();
-            meshSeen.reserve(batch.entries.size());
+            meshPool = std::move(batch.entries);
             meshScanQueued = false;
+            meshPoolChanged = true;
+            continue;
         }
         for (auto& entry : batch.entries) {
-            if (!entry.mesh || !meshSeen.insert(entry.mesh).second) continue;
+            if (!entry.mesh || FindMeshPoolIndexByObject(entry.mesh) >= 0) continue;
             meshPool.push_back(std::move(entry));
+            meshPoolChanged = true;
         }
-        meshPoolChanged = true;
     }
     if (meshPoolChanged) {
         meshComboWidth = 0.0f;
         filteredMeshIndices.clear();
         filteredMeshFilter.clear();
         ++meshPoolVersion;
-        RebuildMeshDisplayCache();
+        ResolveMeshOverrideIndices();
     }
 
     const std::uint64_t currentRevision = draftRevision.load(std::memory_order_acquire);
     if (updates.draft) {
         const std::uint64_t updateRevision = updates.draft->revision;
-        const bool completesPresetApply = updates.draft->completesPresetApply;
+        const bool presetApply = updates.draft->presetApply;
         if (updateRevision == currentRevision) {
             ApplyDraftUpdate(std::move(*updates.draft));
-            if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+            if (presetApply && updateRevision == pendingPresetApplyRevision) {
                 presets.CompletePendingApply(true);
                 pendingPresetApplyRevision = 0;
             }
-        } else if (completesPresetApply && updateRevision == pendingPresetApplyRevision) {
+        } else if (presetApply && updateRevision == pendingPresetApplyRevision) {
             presets.CompletePendingApply(false, "Preset could not be loaded; your current edits were kept");
             pendingPresetApplyRevision = 0;
         }
     }
-    for (auto& status : updates.statuses) {
-        if (status.completesPresetApply) {
-            if (status.revision != pendingPresetApplyRevision) continue;
-            presets.CompletePendingApply(false, std::move(status.message));
-            pendingPresetApplyRevision = 0;
+    std::array<PendingFeedback*, FEEDBACK_ORIGIN_COUNT> validFeedback{};
+    std::size_t feedbackCount = 0;
+    for (auto& pending : updates.feedback) {
+        if (!pending) continue;
+        const auto index = static_cast<std::size_t>(pending->origin);
+        if ((pending->request != 0 &&
+             pending->request != feedbackRequests[index].load(std::memory_order_relaxed)) ||
+            (pending->revision != 0 && pending->revision != currentRevision))
             continue;
+        validFeedback[feedbackCount++] = &*pending;
+    }
+    std::sort(
+        validFeedback.begin(), validFeedback.begin() + static_cast<std::ptrdiff_t>(feedbackCount),
+        [](const auto* a, const auto* b) { return a->sequence < b->sequence; }
+    );
+    for (std::size_t i = 0; i < feedbackCount; ++i) {
+        auto& feedback = *validFeedback[i];
+        auto& statusToken = feedbackStatusTokens[static_cast<std::size_t>(feedback.origin)];
+        if (feedback.error.empty()) {
+            presets.status.ClearText(statusToken);
+            statusToken = 0;
+        } else {
+            presets.status.SetError(std::move(feedback.error));
+            statusToken = presets.status.revision;
         }
-        if (status.revision != 0 && status.revision != currentRevision) continue;
-        presets.status.Set(status.message, status.isError);
     }
-}
-
-void WeaponEditorSection::RebuildMeshDisplayCache() {
-    staticMeshCount = 0;
-    skeletalMeshCount = 0;
-    meshPathIndex.clear();
-    meshObjectIndex.clear();
-    meshPathIndex.reserve(meshPool.size());
-    meshObjectIndex.reserve(meshPool.size());
-
-    for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
-        auto& entry = meshPool[static_cast<size_t>(i)];
-        if (entry.display.empty()) entry.display = MeshDisplayLabel(entry.name, entry.category, entry.type);
-        if (!entry.path.empty()) meshPathIndex.emplace(entry.path, i);
-        if (entry.mesh) meshObjectIndex.emplace(entry.mesh, i);
-        if (entry.type == MeshType::Skeletal)
-            ++skeletalMeshCount;
-        else
-            ++staticMeshCount;
+    if (updates.presetError && updates.presetError->revision == pendingPresetApplyRevision) {
+        presets.CompletePendingApply(false, std::move(updates.presetError->message));
+        pendingPresetApplyRevision = 0;
     }
-    ResolveMeshOverrideIndices();
 }
 
 int WeaponEditorSection::FindMeshPoolIndexByObject(SDK::UObject* mesh) const {
     if (!mesh) return -1;
-    const auto it = meshObjectIndex.find(mesh);
-    return it == meshObjectIndex.end() ? -1 : it->second;
+    for (int i = 0; i < static_cast<int>(meshPool.size()); ++i)
+        if (meshPool[static_cast<size_t>(i)].mesh == mesh) return i;
+    return -1;
 }
 
 void WeaponEditorSection::ResolveMeshOverrideIndices() {
@@ -1191,8 +1243,9 @@ void WeaponEditorSection::ResolveMeshOverrideIndices() {
 
         meshOverride.poolIndex = FindMeshPoolIndexByObject(meshOverride.mesh);
         if (meshOverride.poolIndex >= 0) {
-            meshOverride.meshType = meshPool[static_cast<size_t>(meshOverride.poolIndex)].type;
-            meshOverride.path = meshPool[static_cast<size_t>(meshOverride.poolIndex)].path;
+            const auto& entry = meshPool[static_cast<size_t>(meshOverride.poolIndex)];
+            meshOverride.meshType = entry.type;
+            meshOverride.path = PresetUtils::ObjectToAbsolutePath(entry.mesh);
         }
     }
 }
@@ -1213,7 +1266,7 @@ void WeaponEditorSection::RenderMeshTab() {
     }
     GuiUtils::HelpTooltip("Update the list of available models");
     char meshStatus[64];
-    std::snprintf(meshStatus, sizeof(meshStatus), "(%d models)", staticMeshCount + skeletalMeshCount);
+    std::snprintf(meshStatus, sizeof(meshStatus), "(%zu models)", meshPool.size());
     (void)GuiUtils::SameLineIfFits(ImGui::CalcTextSize(meshStatus).x);
     ImGui::TextDisabled("%s", meshStatus);
     (void)GuiUtils::SameLineIfFitsButton("Restore Original Models");
@@ -1224,7 +1277,7 @@ void WeaponEditorSection::RenderMeshTab() {
     }
     GuiUtils::HelpTooltip("Use the weapon's original models");
 
-    ImGui::SetNextItemWidth(
+    GuiUtils::SetNextInputWidth(
         ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize("Add Model").x - ImGui::GetStyle().FramePadding.x * 2 -
         ImGui::GetStyle().ItemSpacing.x
     );
@@ -1235,14 +1288,15 @@ void WeaponEditorSection::RenderMeshTab() {
     GuiUtils::HelpTooltip("Use a full or partial model address");
     ImGui::SameLine();
     if (ImGui::Button("Add Model") && assetPathBuf[0]) {
+        const std::uint64_t request = BeginFeedbackRequest(FeedbackOrigin::AddModel);
         auto pathCopy = std::string(assetPathBuf);
-        GameHook::QueueAction([this, pathCopy](const RuntimeContextSnapshot&) {
-            auto* result = LoadAssetByPath(pathCopy.c_str());
-            if (result)
-                SetStatus("Model added");
-            else
-                SetStatus("Model could not be added", true);
-        });
+        if (!GameHook::QueueAction([this, pathCopy = std::move(pathCopy), request](const RuntimeContextSnapshot&) {
+                PublishFeedback(
+                    FeedbackOrigin::AddModel, LoadAssetByPath(pathCopy.c_str()) ? "" : "Model could not be added",
+                    request
+                );
+            }))
+            PublishFeedback(FeedbackOrigin::AddModel, "Model could not be added", request);
     }
     GuiUtils::HelpTooltip("Add this model to the list");
 
@@ -1334,65 +1388,60 @@ PresetApplyDisposition WeaponEditorSection::ApplyPresetData(const WeaponPresetDa
         pendingRenderUpdates.draft.reset();
     }
 
-    auto queuedData = data;
-    const bool queued =
-        GameHook::QueueAction([this, data = std::move(queuedData), revision](const RuntimeContextSnapshot&) mutable {
-            if (draftRevision.load(std::memory_order_acquire) != revision) {
-                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
+    auto applyPreset = [this, data = WeaponPresetData(data), revision](const RuntimeContextSnapshot&) mutable {
+        if (draftRevision.load(std::memory_order_acquire) != revision) {
+            PublishPresetError("Preset could not be loaded; your current edits were kept", revision);
+            return;
+        }
+
+        PresetApplication::NormalizeWeaponPassport(data.passport);
+        std::string error;
+        if (!PresetApplication::MaterializeWeaponPreset(data, &error)) {
+            PublishPresetError("Could not load preset: " + error, revision);
+            return;
+        }
+        PendingDraftUpdate update;
+        update.revision = revision;
+        update.data = std::move(data);
+        update.replaceAll = true;
+        update.presetApply = true;
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            const auto& preset = update.data.meshPresets[i];
+            if (preset.meshPath.empty()) {
+                if (!preset.enabled) continue;
+                PublishPresetError("Preset contains a custom model without a model address", revision);
                 return;
             }
 
-            PresetApplication::NormalizeWeaponPassport(data.passport);
-            std::string error;
-            if (!PresetApplication::MaterializeWeaponPreset(data, &error)) {
-                PublishStatus("Could not load preset: " + error, true, revision, true);
+            auto* loaded = LoadAssetByPath(preset.meshPath.c_str());
+            if (!loaded) {
+                if (!preset.enabled) continue;
+                PublishPresetError("A custom model from this preset is unavailable", revision);
                 return;
             }
-            PendingDraftUpdate update;
-            update.revision = revision;
-            update.data = std::move(data);
-            update.replaceAll = true;
-            update.completesPresetApply = true;
-            for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-                const auto& preset = update.data.meshPresets[i];
-                if (preset.meshPath.empty()) {
-                    if (!preset.enabled) continue;
-                    PublishStatus("Preset contains a custom model without a model address", true, revision, true);
-                    return;
-                }
 
-                auto* loaded = LoadAssetByPath(preset.meshPath.c_str());
-                if (!loaded) {
-                    if (!preset.enabled) continue;
-                    PublishStatus("A custom model from this preset is unavailable", true, revision, true);
-                    return;
-                }
-
-                auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()
-                                                                            : SDK::UStaticMesh::StaticClass();
-                if (!loaded->IsA(expectedClass)) {
-                    if (!preset.enabled) continue;
-                    PublishStatus("A custom model from this preset is not compatible", true, revision, true);
-                    return;
-                }
-                update.loadedMeshes[i] = loaded;
-            }
-            if (!PublishAppliedPresetSpawnSnapshot(update)) {
-                PublishStatus("Preset could not be loaded; your current edits were kept", true, revision, true);
+            auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()
+                                                                        : SDK::UStaticMesh::StaticClass();
+            if (!loaded->IsA(expectedClass)) {
+                if (!preset.enabled) continue;
+                PublishPresetError("A custom model from this preset is not compatible", revision);
                 return;
             }
-            PublishDraftUpdate(std::move(update));
-        });
+            update.loadedMeshes[i] = loaded;
+        }
+        if (!PublishAppliedPresetSpawnSnapshot(update)) {
+            PublishPresetError("Preset could not be loaded; your current edits were kept", revision);
+            return;
+        }
+        PublishDraftUpdate(std::move(update));
+    };
+    const bool queued = GameHook::QueueAction(std::move(applyPreset));
     if (!queued) {
         pendingPresetApplyRevision = 0;
-        presets.status.Set("Could not load preset", true);
+        presets.status.SetError("Could not load preset");
         return PresetApplyDisposition::Rejected;
     }
     return PresetApplyDisposition::Pending;
-}
-
-void WeaponEditorSection::SetStatus(const std::string& msg, bool isError) {
-    PublishStatus(msg, isError);
 }
 
 void WeaponEditorSection::RenderSpawnFooter() {
@@ -1491,7 +1540,9 @@ void WeaponEditorSection::Render() {
         case 4: RenderStatsTab(); break;
         case 5:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); },
+                [this](const char*, bool) {
+                    return PresetBuildResult<WeaponPresetData>::Success(BuildPresetData());
+                },
                 [this](const WeaponPresetData& data) { return ApplyPresetData(data); }
             );
             break;
@@ -1504,7 +1555,7 @@ void WeaponEditorSection::Render() {
 
     if (presetApplyPending) ImGui::EndDisabled();
 
-    if (!presetApplyPending && cfg.preview.livePreview) {
+    if (!presetApplyPending && cfg.preview.livePreview && player && world) {
         bool needsUpdate = weaponPaths != lastPreviewedPaths ||
                            !WeaponPassportEquals(weaponPassport, lastPreviewedPassport) ||
                            runtimeProps != lastPreviewedProps;
