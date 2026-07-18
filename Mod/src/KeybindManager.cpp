@@ -4,7 +4,6 @@
 
 #include "KeybindManager.h"
 #include "ConfigManager.h"
-#include "NotificationManager.h"
 #include "Gui.h"
 
 bool KeybindManager::s_initialized = false;
@@ -15,6 +14,11 @@ KeybindManager::ColdData KeybindManager::s_coldData;
 namespace {
     constexpr bool IsIndexedKey(int key) noexcept {
         return key >= 0 && key < 256;
+    }
+
+    constexpr bool IsRepeatedKeyDown(UINT msg, LPARAM lParam) noexcept {
+        return (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) &&
+               (static_cast<std::uintptr_t>(lParam) & (std::uintptr_t{1} << 30)) != 0;
     }
 }
 
@@ -36,7 +40,7 @@ void KeybindManager::Initialize() noexcept {
 }
 
 void KeybindManager::RegisterKeybind(
-    int* keyPtr, Callback callback, std::string name, bool isToggle, Callback onUnbound
+    int* keyPtr, Callback callback, std::string name, Callback onUnbound
 ) {
     const std::scoped_lock lock(s_hotData.bindingsMutex);
     UnregisterKeybindLocked(keyPtr);
@@ -47,7 +51,7 @@ void KeybindManager::RegisterKeybind(
         bindings
             .emplace(
                 keyPtr,
-                Binding{std::move(callback), keyPtr, std::move(name), isToggle, currentKey, std::move(onUnbound)}
+                Binding{std::move(callback), keyPtr, std::move(name), currentKey, std::move(onUnbound)}
             )
             .first;
 
@@ -95,16 +99,17 @@ int KeybindManager::ExtractKeyCode(UINT msg, WPARAM wParam) noexcept {
     }
 }
 
-bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) {
+bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
     if (!IsRelevantMessage(msg)) [[likely]] {
         return false;
     }
 
     int keyCode = ExtractKeyCode(msg, wParam);
     if (keyCode == -1) return false;
+    const bool repeated = IsRepeatedKeyDown(msg, lParam);
 
     if (keyCode == GetToggleGuiKey()) [[unlikely]] {
-        Gui::ToggleVisibility();
+        if (!repeated) Gui::ToggleVisibility();
         return true;
     }
 
@@ -112,13 +117,10 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) {
     const auto* bindings = FindBindings(keyCode);
     if (!bindings) [[likely]]
         return false;
+    if (repeated) return true;
 
     for (const Binding* binding : *bindings) {
         binding->callback();
-
-        if (!binding->name.empty() && !binding->isToggle) [[likely]] {
-            NotificationManager::NotifyOneTimeAction(binding->name);
-        }
     }
 
     return true;
@@ -260,12 +262,13 @@ bool KeybindManager::IsValidKey(int key) noexcept {
     return s_validKeys[key];
 }
 
-bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
+bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
     const std::scoped_lock lock(s_coldData.rebindMutex);
     if (s_coldData.rebindPhase != RebindPhase::Waiting) return false;
 
     int keyCode = ExtractKeyCode(msg, wParam);
     if (keyCode == -1) return false;
+    if (IsRepeatedKeyDown(msg, lParam)) return true;
 
     if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
         if (keyCode == VK_ESCAPE) {
@@ -283,9 +286,9 @@ bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
     return true;
 }
 
-bool KeybindManager::ProcessToggleGuiEvent(UINT msg, WPARAM wParam) noexcept {
+bool KeybindManager::ProcessToggleGuiEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
     if (!IsRelevantMessage(msg)) return false;
     if (ExtractKeyCode(msg, wParam) != GetToggleGuiKey()) return false;
-    Gui::ToggleVisibility();
+    if (!IsRepeatedKeyDown(msg, lParam)) Gui::ToggleVisibility();
     return true;
 }

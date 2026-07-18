@@ -185,7 +185,7 @@ Spawn weapons, armor, and props with a searchable interface.
 |---------|-------------|
 | Toggle GUI Key | Customize menu key (default: INSERT) |
 | Unbind Key | Key to unbind features (default: DELETE) |
-| Enable Notifications | Show on-screen notifications for actions |
+| Shortcut Notifications | Show on-screen feedback for actions run with shortcuts |
 | Enable Tooltips | Show helpful tooltips on hover |
 | Unlock UE Console | Enable Unreal Engine console (F2) |
 
@@ -211,7 +211,7 @@ Control individual graphics settings (useful since the game lacks this option).
 - **Dynamic keybinds** — Customize or unbind any feature
 - **Macros** — Bind multiple features to the same key
 - **Persistent settings** — All preferences auto-saved
-- **Notifications** — Visual feedback for actions
+- **Notifications** — Visual feedback when shortcuts run actions or change their state
 - **Tooltips** — Hover for feature explanations
 - **Crash prevention** — Built-in stability measures
 - **DirectX 11 & 12** — Full support for both

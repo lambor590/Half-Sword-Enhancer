@@ -68,7 +68,6 @@ namespace {
     constexpr float ACTION_KEYCAP_WIDTH = 64.0f;
     constexpr float ACTION_GROUP_ROUNDING = 4.0f;
     constexpr float ACTION_GROUP_BACKGROUND_ALPHA = 0.52f;
-
     constexpr char PRESS_KEY_TEXT[] = "Press a key...";
     constexpr char ADD_SHORTCUT_TEXT[] = "+ Key";
     constexpr char CHANGE_KEYBIND_TEXT[] = "Choose a shortcut";
@@ -454,6 +453,16 @@ namespace {
         return true;
     }
 
+    void InvokeEntry(KeybindEntry* entry, bool fromShortcut) {
+        if (entry->IsState()) {
+            const bool nextState = !entry->CurrentState();
+            if (SetEntryState(entry, nextState) && fromShortcut && !entry->name.empty())
+                NotificationManager::NotifyStateChange(entry->name, nextState);
+        } else if (QueueEntryCallback(entry, true) && fromShortcut && !entry->name.empty()) {
+            NotificationManager::NotifyAction(entry->name);
+        }
+    }
+
     [[nodiscard]] SegmentInteraction RenderActionSegment(
         KeybindEntry& entry, bool available, bool active, float width
     ) {
@@ -513,17 +522,8 @@ namespace {
     void RegisterEntry(KeybindEntry& entry) {
         auto* entryPtr = &entry;
         KeybindManager::RegisterKeybind(
-            entry.keyPtr,
-            [entryPtr]() {
-                if (entryPtr->IsState()) {
-                    const bool nextState = !entryPtr->CurrentState();
-                    if (SetEntryState(entryPtr, nextState) && !entryPtr->name.empty())
-                        NotificationManager::NotifyHookToggle(entryPtr->name, nextState);
-                } else {
-                    (void)QueueEntryCallback(entryPtr, true);
-                }
-            },
-            entry.name, entry.IsState(), [entryPtr]() { KeybindConfig::SaveKeybind(*entryPtr); }
+            entry.keyPtr, [entryPtr]() { InvokeEntry(entryPtr, true); },
+            entry.name, [entryPtr]() { KeybindConfig::SaveKeybind(*entryPtr); }
         );
     }
 
@@ -658,14 +658,7 @@ void KeybindEntry::Render(bool highlight, bool scrollIntoView, float cellWidth) 
     const SegmentInteraction actionSegment = RenderActionSegment(*this, actionAvailable, active, actionWidth);
     if (actionSegment.pressed) {
         KeybindManager::CancelRebind();
-        if (IsState()) {
-            const bool nextState = !active;
-            if (SetEntryState(this, nextState) && !name.empty()) {
-                NotificationManager::NotifyHookToggle(name, nextState);
-            }
-        } else if (QueueEntryCallback(this, true) && !name.empty()) {
-            NotificationManager::NotifyOneTimeAction(name);
-        }
+        InvokeEntry(this, false);
     }
     if (!actionAvailable) ImGui::EndDisabled();
     RenderSegmentTooltip(name.c_str(), actionSegment.textClipped, tooltip);

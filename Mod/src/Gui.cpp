@@ -223,24 +223,25 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                         : DefWindowProc(hWnd, msg, wParam, lParam);
     }
 
-    if (KeybindManager::ProcessRebindEvent(msg, wParam)) return true;
+    if (KeybindManager::ProcessRebindEvent(msg, wParam, lParam)) return true;
 
     if (!isVisible) [[likely]] {
-        if (KeybindManager::ProcessKeyEvent(msg, wParam)) return true;
+        if (KeybindManager::ProcessKeyEvent(msg, wParam, lParam)) return true;
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
 
     if (msg == WM_INPUT) [[likely]]
         return true;
 
-    if (KeybindManager::ProcessToggleGuiEvent(msg, wParam)) return true;
+    if (KeybindManager::ProcessToggleGuiEvent(msg, wParam, lParam)) return true;
 
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplWin32_WndProcHandlerEx(hWnd, msg, wParam, lParam, io);
 
     const bool keyboardPress = msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN;
     const bool searchShortcut = keyboardPress && wParam == 'K' && (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-    if ((!keyboardPress || (!io.WantTextInput && !searchShortcut)) && KeybindManager::ProcessKeyEvent(msg, wParam))
+    if ((!keyboardPress || (!io.WantTextInput && !searchShortcut)) &&
+        KeybindManager::ProcessKeyEvent(msg, wParam, lParam))
         return true;
 
     if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST))) return true;
@@ -318,13 +319,8 @@ bool Gui::NeedsRendering() noexcept {
 
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
 
-    if (isVisible.load(std::memory_order_relaxed)) [[unlikely]] {
-        (void)NotificationManager::Update();
-        return true;
-    }
-
-    if (NotificationManager::HasNotifications() && NotificationManager::Update()) [[unlikely]]
-        return true;
+    const bool hasNotifications = NotificationManager::Update();
+    if (isVisible.load(std::memory_order_relaxed) || hasNotifications) [[unlikely]] return true;
 
     if (s_showMismatchPopup) [[unlikely]]
         return true;

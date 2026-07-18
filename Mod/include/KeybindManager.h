@@ -23,7 +23,6 @@ private:
         Callback callback;
         int* keyPtr = nullptr;
         std::string name;
-        bool isToggle = false;
         int currentKey = -1;
         Callback onUnbound;
     };
@@ -68,15 +67,13 @@ private:
 
 public:
     static void Initialize() noexcept;
-    static void RegisterKeybind(
-        int* keyPtr, Callback callback, std::string name = "", bool isToggle = false, Callback onUnbound = {}
-    );
+    static void RegisterKeybind(int* keyPtr, Callback callback, std::string name, Callback onUnbound);
     static void UnregisterKeybind(int* keyPtr);
     static void BeginRebind(const void* owner) noexcept;
     static void CancelRebind() noexcept;
     static RebindResult PollRebind(const void* owner, int& key) noexcept;
     static bool IsRebinding(const void* owner) noexcept;
-    static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
+    static bool ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
     static bool IsValidKey(int key) noexcept;
 
     static constexpr std::string_view GetKeyNameConstexpr(unsigned char index) noexcept {
@@ -143,8 +140,8 @@ public:
         return GetKeyNameConstexpr(static_cast<unsigned char>(vKey)).data();
     }
 
-    static bool ProcessKeyEvent(UINT msg, WPARAM wParam);
-    static bool ProcessToggleGuiEvent(UINT msg, WPARAM wParam) noexcept;
+    static bool ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam);
+    static bool ProcessToggleGuiEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
     static int GetToggleGuiKey() noexcept { return s_hotData.toggleGuiKey.load(std::memory_order_acquire); }
     static int GetUnbindKey() noexcept { return s_coldData.unbindKey.load(std::memory_order_acquire); }

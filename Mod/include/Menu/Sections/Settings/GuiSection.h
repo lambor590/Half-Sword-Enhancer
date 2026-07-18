@@ -18,8 +18,9 @@ private:
         "Choose the shortcut that opens and closes this menu. This shortcut cannot be removed.";
     static constexpr const char* UNBIND_TOOLTIP =
         "Choose the key that removes an assigned shortcut. This shortcut cannot be removed.";
-    static constexpr const char* NOTIFICATIONS_LABEL = "Show Action Results";
-    static constexpr const char* NOTIFICATIONS_TOOLTIP = "Show a brief message after using an action or shortcut.";
+    static constexpr const char* NOTIFICATIONS_LABEL = "Shortcut Notifications";
+    static constexpr const char* NOTIFICATIONS_TOOLTIP =
+        "Show a brief message when a shortcut runs an action or turns it on or off.";
     static constexpr const char* TOOLTIPS_LABEL = "Help Tooltips";
     static constexpr const char* TOOLTIPS_TOOLTIP = "Show helpful explanations when hovering over controls.";
     static constexpr const char* UE_CONSOLE_LABEL = "Game Console";
