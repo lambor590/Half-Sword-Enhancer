@@ -173,6 +173,7 @@
     <ClCompile Include="src\Override.cpp" />
     <ClCompile Include="src\Preset.cpp" />
     <ClCompile Include="src\PresetApplication.cpp" />
+    <ClCompile Include="src\SaveEditorModel.cpp" />
     <ClCompile Include="src\ComplexPreset.cpp" />
     <ClCompile Include="src\LoadoutPresetResolver.cpp" />
     <ClCompile Include="src\NPCPresetResolver.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\FreeCameraManager.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />
+    <ClInclude Include="include\Utils\SaveEditorModel.h" />
     <ClInclude Include="include\Utils\PresetDataBase.h" />
     <ClInclude Include="include\Utils\PresetSectionState.h" />
     <ClInclude Include="include\Utils\PresetPickerState.h" />
