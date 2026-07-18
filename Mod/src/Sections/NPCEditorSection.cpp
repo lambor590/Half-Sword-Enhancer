@@ -60,12 +60,6 @@ namespace {
             return false;
         }
 
-        const auto validation = LoadoutPresetResolver::ValidateForNPC(*resolution.value);
-        if (!validation) {
-            error = validation.error;
-            return false;
-        }
-
         resolved = std::move(*resolution.value);
         return true;
     }

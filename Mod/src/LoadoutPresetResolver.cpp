@@ -1,6 +1,5 @@
 #include "Utils/LoadoutPresetResolver.h"
 
-#include <ranges>
 #include <string>
 #include <utility>
 
@@ -14,13 +13,6 @@ LoadoutPresetResolver::LoadoutPresetResolver(std::filesystem::path appDataRoot)
 
 PresetOperationResult LoadoutPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
     return PresetLinkResolution::ValidateForSave<LoadoutPresetSerializer>(*this, appDataRoot);
-}
-
-PresetOperationResult LoadoutPresetResolver::ValidateForNPC(const ResolvedLoadoutPresetData& loadout) {
-    if (std::ranges::any_of(loadout.armor, [](const auto& slot) { return slot.has_value(); })) {
-        return {.error = "NPC presets can reuse saved weapons, but not saved armor."};
-    }
-    return {.success = true};
 }
 
 PresetResolveResult<ResolvedLoadoutPresetData> LoadoutPresetResolver::Resolve(

@@ -496,10 +496,6 @@ namespace SpawnWorkflow {
         if (auto validation = preset.ValidateForSave(); !validation)
             return std::unexpected(std::move(validation.error));
         const auto& type = NPCPresetData::K_TYPES[static_cast<std::size_t>(preset.npcTypeIndex)];
-        if (loadout) {
-            auto validation = LoadoutPresetResolver::ValidateForNPC(*loadout);
-            if (!validation) return std::unexpected(std::move(validation.error));
-        }
 
         return NPCSpawnParams{
             .classPath = type.classPath,

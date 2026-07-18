@@ -22,13 +22,6 @@ PresetResolveResult<ResolvedNPCPresetData> NPCPresetResolver::Resolve(
         if (!loadout.success || !loadout.value)
             return PresetResolveFailure<ResolvedNPCPresetData>("Loadout", std::move(loadout));
 
-        const auto validation = LoadoutPresetResolver::ValidateForNPC(*loadout.value);
-        if (!validation) {
-            PresetResolveResult<ResolvedNPCPresetData> result;
-            result.path = std::move(loadout.path);
-            result.error = "Loadout: " + validation.error;
-            return result;
-        }
         resolved.loadout = std::move(*loadout.value);
     }
 
