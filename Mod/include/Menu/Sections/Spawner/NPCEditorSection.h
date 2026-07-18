@@ -59,11 +59,19 @@ private:
     std::vector<std::shared_ptr<SpawnBinding>> spawnBindings;
     int nextBindingId = 1;
     int pendingDeleteBindingId = -1;
-    struct SpawnFeedbackState {
-        std::mutex feedbackMutex;
-        std::optional<std::pair<std::string, bool>> feedback;
+    enum class SpawnTarget : uint8_t {
+        Main,
+        Shortcuts,
+        Count,
     };
-    std::shared_ptr<SpawnFeedbackState> spawnFeedbackState = std::make_shared<SpawnFeedbackState>();
+    struct PendingSpawnResult {
+        GuiUtils::StatusMessage::Token token = 0;
+        std::string error;
+    };
+    static constexpr std::size_t SPAWN_ROUTE_COUNT = static_cast<std::size_t>(SpawnTarget::Count);
+    std::array<GuiUtils::StatusMessage, SPAWN_ROUTE_COUNT> spawnStatuses;
+    mutable std::array<std::optional<PendingSpawnResult>, SPAWN_ROUTE_COUNT> pendingSpawnResults;
+    mutable std::mutex spawnFeedbackMutex;
     std::array<std::uint64_t, 3> spawnBindingCatalogRevisions{};
 
     PresetSectionState<NPCPresetSerializer> presets;
@@ -81,9 +89,13 @@ private:
     void SpawnNPC();
     void SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const;
     void ConsumeSpawnFeedback();
-    [[nodiscard]] SpawnWorkflow::SpawnCompletion MakeSpawnCompletion(std::string action) const;
-    static void StoreSpawnFeedback(const std::shared_ptr<SpawnFeedbackState>& state, std::string message, bool error);
-    void PublishSpawnFeedback(std::string message, bool error) const;
+    GuiUtils::StatusMessage& SpawnStatus(SpawnTarget target) noexcept {
+        return spawnStatuses[static_cast<std::size_t>(target)];
+    }
+    [[nodiscard]] SpawnWorkflow::SpawnCompletion MakeSpawnCompletion(
+        SpawnTarget target, GuiUtils::StatusMessage::Token token
+    ) const;
+    void StoreSpawnResult(SpawnTarget target, PendingSpawnResult result) const;
     NPCPresetData BuildPresetData() const;
     void ApplyPresetData(const NPCPresetData& d);
     void RenderPhysicalTab();

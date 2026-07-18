@@ -1,6 +1,7 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
 
 #include <algorithm>
+#include <string_view>
 #include <utility>
 
 #include "Menu/Sections/Spawner/SpawnBindings.h"
@@ -126,33 +127,29 @@ int NPCEditorSection::CountAllActive() const {
            CountActive(bodyConditionFields);
 }
 
-SpawnWorkflow::SpawnCompletion NPCEditorSection::MakeSpawnCompletion(std::string action) const {
-    const std::weak_ptr<SpawnFeedbackState> weakState = spawnFeedbackState;
-    return [weakState, action = std::move(action)](const SpawnWorkflow::SpawnResult& result) {
-        const auto state = weakState.lock();
-        if (!state) return;
+SpawnWorkflow::SpawnCompletion NPCEditorSection::MakeSpawnCompletion(
+    SpawnTarget target, GuiUtils::StatusMessage::Token token
+) const {
+    return [this, target, token](const SpawnWorkflow::SpawnResult& result) {
         if (result.success) {
-            StoreSpawnFeedback(state, action + " spawned", false);
+            StoreSpawnResult(target, {.token = token});
             return;
         }
-        StoreSpawnFeedback(
-            state,
-            action +
-                " failed: " + (result.error.empty() ? std::string("the setup could not be completed") : result.error),
-            true
-        );
+
+        const std::string_view prefix =
+            target == SpawnTarget::Shortcuts ? "NPC shortcut failed: " : "NPC failed: ";
+        std::string error;
+        error.reserve(prefix.size() + result.error.size());
+        error.append(prefix).append(result.error);
+        StoreSpawnResult(target, {.token = token, .error = std::move(error)});
     };
 }
 
-void NPCEditorSection::StoreSpawnFeedback(
-    const std::shared_ptr<SpawnFeedbackState>& state, std::string message, bool error
-) {
-    std::lock_guard lock(state->feedbackMutex);
-    state->feedback = std::pair{std::move(message), error};
-}
-
-void NPCEditorSection::PublishSpawnFeedback(std::string message, bool error) const {
-    StoreSpawnFeedback(spawnFeedbackState, std::move(message), error);
+void NPCEditorSection::StoreSpawnResult(SpawnTarget target, PendingSpawnResult result) const {
+    std::lock_guard lock(spawnFeedbackMutex);
+    auto& pending = pendingSpawnResults[static_cast<std::size_t>(target)];
+    if (pending && result.token < pending->token) return;
+    pending = std::move(result);
 }
 
 bool NPCEditorSection::ResolveNPCLoadout(std::optional<ResolvedLoadoutPresetData>& resolved, std::string& error) {
@@ -171,9 +168,10 @@ bool NPCEditorSection::ResolveNPCLoadout(std::optional<ResolvedLoadoutPresetData
 }
 
 void NPCEditorSection::SpawnNPC() {
+    constexpr SpawnTarget TARGET = SpawnTarget::Main;
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) {
-        presets.status.Set("Open a map before spawning an NPC", true);
+        SpawnStatus(TARGET).SetError("Open a map before spawning an NPC");
         return;
     }
 
@@ -181,7 +179,7 @@ void NPCEditorSection::SpawnNPC() {
     if (loadoutPresetLink.HasLink()) {
         std::string validationError;
         if (!ResolveNPCLoadout(resolved, validationError) || !resolved) {
-            presets.status.Set("Loadout preset: " + validationError, true);
+            SpawnStatus(TARGET).SetError("Loadout preset: " + validationError);
             return;
         }
     }
@@ -189,45 +187,61 @@ void NPCEditorSection::SpawnNPC() {
     const auto preset = BuildPresetData();
     auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(preset, std::move(resolved));
     if (!requestResult) {
-        presets.status.Set("NPC preset: " + requestResult.error(), true);
+        SpawnStatus(TARGET).SetError("NPC preset: " + requestResult.error());
         return;
     }
     auto request = std::move(*requestResult);
-    request.onComplete = MakeSpawnCompletion("NPC");
-    const bool queued = SpawnWorkflow::QueueNPCSpawn(snapshot, NPCSpawnConfig(preset), std::move(request));
-    presets.status.Set(queued ? "Spawning NPC..." : "Could not spawn NPC", !queued);
+    const auto token = SpawnStatus(TARGET).SetInfo("Spawning NPC...");
+    request.onComplete = MakeSpawnCompletion(TARGET, token);
+    (void)SpawnWorkflow::QueueNPCSpawn(snapshot, NPCSpawnConfig(preset), std::move(request));
 }
 
 void NPCEditorSection::SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const {
+    constexpr SpawnTarget TARGET = SpawnTarget::Shortcuts;
     if (!runtime.world || !runtime.player) {
-        PublishSpawnFeedback("NPC shortcut failed: open a map first", true);
+        StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: open a map first"});
         return;
     }
 
     std::optional<ResolvedLoadoutPresetData> loadout;
     std::string resolutionError;
     if (!ResolveLoadoutLink(binding.npc.loadout, loadout, resolutionError)) {
-        PublishSpawnFeedback("NPC shortcut failed: " + resolutionError, true);
+        StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: " + resolutionError});
         return;
     }
     auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(binding.npc, std::move(loadout));
     if (!requestResult) {
-        PublishSpawnFeedback("NPC shortcut failed: " + requestResult.error(), true);
+        StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: " + requestResult.error()});
         return;
     }
     auto request = std::move(*requestResult);
-    request.onComplete = MakeSpawnCompletion("NPC");
+    request.onComplete = MakeSpawnCompletion(TARGET, 0);
     (void)SpawnWorkflow::SpawnNPC(runtime, NPCSpawnConfig(binding.npc), request);
 }
 
 void NPCEditorSection::ConsumeSpawnFeedback() {
-    std::optional<std::pair<std::string, bool>> feedback;
+    std::array<std::optional<PendingSpawnResult>, SPAWN_ROUTE_COUNT> results;
     {
-        std::lock_guard lock(spawnFeedbackState->feedbackMutex);
-        feedback = std::move(spawnFeedbackState->feedback);
-        spawnFeedbackState->feedback.reset();
+        std::lock_guard lock(spawnFeedbackMutex);
+        results.swap(pendingSpawnResults);
     }
-    if (feedback) presets.status.Set(feedback->first, feedback->second);
+
+    for (std::size_t index = 0; index < results.size(); ++index) {
+        auto& result = results[index];
+        if (!result) continue;
+
+        auto& status = spawnStatuses[index];
+        if (result->token != 0 && result->token != status.revision) continue;
+        if (!result->error.empty()) {
+            status.SetError(std::move(result->error));
+            continue;
+        }
+
+        if (result->token == 0)
+            status.ClearText();
+        else
+            status.ClearText(result->token);
+    }
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {
@@ -263,7 +277,7 @@ void NPCEditorSection::ApplyPresetData(const NPCPresetData& d) {
     std::optional<ResolvedLoadoutPresetData> resolved;
     std::string loadoutError;
     if (!ResolveNPCLoadout(resolved, loadoutError))
-        presets.status.Set("This NPC preset uses an unavailable loadout: " + loadoutError, true);
+        presets.status.SetError("This NPC preset uses an unavailable loadout: " + loadoutError);
 }
 
 void NPCEditorSection::RenderPhysicalTab() {
@@ -398,7 +412,7 @@ struct NPCEditorSection::BindingOps {
         candidate.npc.name = "NPC shortcut";
         candidate.npc.id = "npc-binding-" + std::to_string(binding.id);
         if (!Refresh(candidate)) {
-            owner.presets.status.Set("Cannot create NPC shortcut: " + candidate.resolutionError, true);
+            owner.presets.status.SetError("Cannot create NPC shortcut: " + candidate.resolutionError);
             return false;
         }
 
@@ -483,10 +497,11 @@ void NPCEditorSection::RenderSpawnBindings() {
                 return binding && !IsEmptyPresetLink(binding->npc.loadout) && !binding->resolutionError.empty();
             });
             if (brokenCount == 0)
-                presets.status.Set("All NPC shortcuts are ready");
+                presets.status.Notify("All NPC shortcuts are ready");
             else
-                presets.status.Set("Unavailable NPC shortcuts: " + std::to_string(brokenCount), true);
+                presets.status.SetError("Unavailable NPC shortcuts: " + std::to_string(brokenCount));
         }
+        presets.status.RenderResult();
     }
 
     bindings.Render();
@@ -581,7 +596,9 @@ void NPCEditorSection::Render() {
     if (!canSpawn) ImGui::EndDisabled();
     if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
         ImGui::SetItemTooltip("Open a map before spawning an NPC");
+    SpawnStatus(SpawnTarget::Main).Render();
 
+    SpawnStatus(SpawnTarget::Shortcuts).Render();
     if (ImGui::TreeNode("Spawn Shortcuts")) {
         RenderSpawnBindings();
         ImGui::TreePop();
@@ -613,7 +630,7 @@ void NPCEditorSection::Render() {
             if (loadoutPresetLink.HasLink() && (refreshed || changed)) {
                 std::optional<ResolvedLoadoutPresetData> resolved;
                 std::string error;
-                if (!ResolveNPCLoadout(resolved, error)) presets.status.Set("NPC loadout: " + error, true);
+                if (!ResolveNPCLoadout(resolved, error)) presets.status.SetError("NPC loadout: " + error);
             }
             if (loadoutPresetLink.HasLink() && !loadoutPresetLink.IsBroken())
                 ImGui::TextColored(
@@ -631,7 +648,7 @@ void NPCEditorSection::Render() {
             if (loadoutPresetLink.RefreshIfCatalogChanged() && loadoutPresetLink.HasLink()) {
                 std::optional<ResolvedLoadoutPresetData> resolved;
                 std::string error;
-                if (!ResolveNPCLoadout(resolved, error)) presets.status.Set("NPC loadout: " + error, true);
+                if (!ResolveNPCLoadout(resolved, error)) presets.status.SetError("NPC loadout: " + error);
             }
             if (loadoutPresetLink.IsBroken()) {
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
@@ -639,11 +656,14 @@ void NPCEditorSection::Render() {
                 ImGui::PopStyleColor();
             }
             presets.RenderPresetsTab(
-                [this]() {
+                [this](const char*, bool) {
                     auto data = BuildPresetData();
                     return PresetBuildResult<NPCPresetData>::Success(std::move(data));
                 },
-                [this](const NPCPresetData& d) { ApplyPresetData(d); }
+                [this](const NPCPresetData& d) {
+                    ApplyPresetData(d);
+                    return PresetApplyDisposition::Applied;
+                }
             );
             break;
         default: break;
