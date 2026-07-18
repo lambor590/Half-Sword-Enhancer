@@ -13,7 +13,7 @@
 namespace ActorUtils {
     inline SDK::AAI_BP_C* GetAIController(SDK::AWillie_BP_C* willie) {
         if (!willie) return nullptr;
-        auto* controller = willie->GetController();
+        auto* controller = willie->Controller;
         return controller && controller->IsA(SDK::AAI_BP_C::StaticClass()) ? static_cast<SDK::AAI_BP_C*>(controller)
                                                                            : nullptr;
     }
