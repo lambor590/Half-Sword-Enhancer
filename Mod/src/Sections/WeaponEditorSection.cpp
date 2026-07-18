@@ -772,6 +772,10 @@ void WeaponEditorSection::RenderModulesTab() {
         return;
     }
 
+    ImGui::Checkbox("Show All Weapon Parts", &cfg.showAllWeaponParts);
+    GuiUtils::HelpTooltip("Show parts from every weapon type and allow combinations that may be incompatible");
+    ImGui::Spacing();
+
     auto modulePathFits = [](const std::string& path, const auto& options) {
         return path.empty() || FindModulePath(path, options);
     };
@@ -784,7 +788,7 @@ void WeaponEditorSection::RenderModulesTab() {
                modulePathFits(weaponPaths.subModule2, set.subMods2);
     };
     int moduleType = cfg.weaponType;
-    if (!pathsFit(globalModules.ForType(moduleType))) {
+    if (!cfg.showAllWeaponParts && !pathsFit(globalModules.ForType(moduleType))) {
         for (int type = 1; type <= GameConstants::WEAPON_TYPE_COUNT; ++type) {
             if (pathsFit(globalModules.ForType(type))) {
                 moduleType = type;
@@ -793,7 +797,7 @@ void WeaponEditorSection::RenderModulesTab() {
         }
     }
 
-    auto& modules = globalModules.ForType(moduleType);
+    auto& modules = cfg.showAllWeaponParts ? globalModules.all : globalModules.ForType(moduleType);
     auto syncPath = [](SDK::UClass*& current, std::string& path, const auto& options) {
         if (const auto* entry = FindModulePath(path, options)) {
             current = entry->cls;
