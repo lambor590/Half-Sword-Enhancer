@@ -1379,6 +1379,38 @@ WeaponPresetData WeaponEditorSection::BuildPresetData() const {
     return d;
 }
 
+bool WeaponEditorSection::PrepareDraftUpdate(PendingDraftUpdate& update, std::string& error) {
+    PresetApplication::NormalizeWeaponPassport(update.data.passport);
+    if (!PresetApplication::MaterializeWeaponPreset(update.data, &error)) return false;
+
+    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+        const auto& preset = update.data.meshPresets[i];
+        if (preset.meshPath.empty()) {
+            if (!preset.enabled) continue;
+            error = "A custom model does not have a model address";
+            return false;
+        }
+
+        auto* loaded = LoadAssetByPath(preset.meshPath.c_str());
+        if (!loaded) {
+            if (!preset.enabled) continue;
+            error = "A custom model is unavailable";
+            return false;
+        }
+
+        auto* expectedClass =
+            preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass() : SDK::UStaticMesh::StaticClass();
+        if (!loaded->IsA(expectedClass)) {
+            if (!preset.enabled) continue;
+            error = "A custom model is not compatible";
+            return false;
+        }
+        update.loadedMeshes[i] = loaded;
+    }
+    error.clear();
+    return true;
+}
+
 PresetApplyDisposition WeaponEditorSection::ApplyPresetData(const WeaponPresetData& data) {
     const std::uint64_t revision = draftRevision.fetch_add(1, std::memory_order_acq_rel) + 1;
     pendingPresetApplyRevision = revision;
@@ -1394,40 +1426,15 @@ PresetApplyDisposition WeaponEditorSection::ApplyPresetData(const WeaponPresetDa
             return;
         }
 
-        PresetApplication::NormalizeWeaponPassport(data.passport);
-        std::string error;
-        if (!PresetApplication::MaterializeWeaponPreset(data, &error)) {
-            PublishPresetError("Could not load preset: " + error, revision);
-            return;
-        }
         PendingDraftUpdate update;
         update.revision = revision;
         update.data = std::move(data);
         update.replaceAll = true;
         update.presetApply = true;
-        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-            const auto& preset = update.data.meshPresets[i];
-            if (preset.meshPath.empty()) {
-                if (!preset.enabled) continue;
-                PublishPresetError("Preset contains a custom model without a model address", revision);
-                return;
-            }
-
-            auto* loaded = LoadAssetByPath(preset.meshPath.c_str());
-            if (!loaded) {
-                if (!preset.enabled) continue;
-                PublishPresetError("A custom model from this preset is unavailable", revision);
-                return;
-            }
-
-            auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()
-                                                                        : SDK::UStaticMesh::StaticClass();
-            if (!loaded->IsA(expectedClass)) {
-                if (!preset.enabled) continue;
-                PublishPresetError("A custom model from this preset is not compatible", revision);
-                return;
-            }
-            update.loadedMeshes[i] = loaded;
+        std::string error;
+        if (!PrepareDraftUpdate(update, error)) {
+            PublishPresetError("Could not load preset: " + error, revision);
+            return;
         }
         if (!PublishAppliedPresetSpawnSnapshot(update)) {
             PublishPresetError("Preset could not be loaded; your current edits were kept", revision);

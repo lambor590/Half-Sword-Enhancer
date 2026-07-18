@@ -215,6 +215,7 @@ private:
     void RenderAppearanceTab();
     void RenderMeshTransformControls(MeshOverride& ovr);
     void RenderMeshCombo(int slotIdx);
+    bool PrepareDraftUpdate(PendingDraftUpdate& update, std::string& error);
     void PublishMeshEntries(std::vector<MeshPoolEntry> entries, bool fullReplace);
     void PublishDraftUpdate(PendingDraftUpdate update);
     std::uint64_t BeginFeedbackRequest(FeedbackOrigin origin) noexcept;
