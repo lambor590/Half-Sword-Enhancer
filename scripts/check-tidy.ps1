@@ -7,7 +7,10 @@ param(
 
     [string[]]$Files = @(),
 
-    [switch]$StrictNaming
+    [switch]$StrictNaming,
+
+    [ValidateRange(1, 64)]
+    [int]$Jobs = [Math]::Min([Environment]::ProcessorCount, 8)
 )
 
 $ErrorActionPreference = "Stop"
@@ -221,28 +224,33 @@ function Invoke-TidyForProject {
         "--extra-arg-before=--driver-mode=cl"
     ) + ($compileArgs | ForEach-Object { "--extra-arg=$_" })
 
-    $issues = 0
-    foreach ($source in $sources) {
-        $previousErrorActionPreference = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        try {
-            $output = @(& $ClangTidy $source @tidyArgs 2>&1 | ForEach-Object { $_.ToString() })
-        } finally {
-            $ErrorActionPreference = $previousErrorActionPreference
-        }
+    $indexedSources = for ($index = 0; $index -lt $sources.Count; $index++) {
+        [pscustomobject]@{ Index = $index; Path = $sources[$index] }
+    }
+    $results = @($indexedSources | ForEach-Object -ThrottleLimit $Jobs -Parallel {
+        $item = $_
+        $clangTidy = $using:ClangTidy
+        $arguments = $using:tidyArgs
+        $ignorePattern = $using:ignoredOutputPattern
+        $output = @(& $clangTidy $item.Path @arguments 2>&1 | ForEach-Object { $_.ToString() })
         $exitCode = $LASTEXITCODE
+        $filtered = @($output | Where-Object { $_ -and $_ -notmatch $ignorePattern })
+        [pscustomobject]@{
+            Index = $item.Index
+            Path = $item.Path
+            ExitCode = $exitCode
+            Output = $filtered
+        }
+    })
 
-        $filteredOutput = @($output | Where-Object {
-            $line = $_.ToString()
-            $line -and $line -notmatch $ignoredOutputPattern
-        })
-
-        if ($filteredOutput.Count -gt 0) {
-            $issues += $filteredOutput.Count
-            $filteredOutput | ForEach-Object { Write-Host $_ }
-        } elseif ($exitCode -ne 0) {
+    $issues = 0
+    foreach ($result in ($results | Sort-Object Index)) {
+        if ($result.Output.Count -gt 0) {
+            $issues += $result.Output.Count
+            $result.Output | ForEach-Object { Write-Host $_ }
+        } elseif ($result.ExitCode -ne 0) {
             $issues += 1
-            Write-Host "$source`: clang-tidy exited with code $exitCode without diagnostics."
+            Write-Host "$($result.Path): clang-tidy exited with code $($result.ExitCode) without diagnostics."
         }
     }
 
