@@ -3,10 +3,7 @@
 #include <cstring>
 #include <cstdint>
 #include <filesystem>
-#include <functional>
-#include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <variant>
 
@@ -41,10 +38,8 @@ public:
 
     [[nodiscard]] bool IsPending() const noexcept { return std::holds_alternative<PendingState>(state); }
     [[nodiscard]] T* GetValue() noexcept { return std::get_if<T>(&state); }
-    [[nodiscard]] const std::string& GetError() const noexcept {
-        static const std::string empty;
-        const auto* failure = std::get_if<FailureState>(&state);
-        return failure ? failure->error : empty;
+    [[nodiscard]] std::string TakeError() {
+        return std::move(std::get<FailureState>(state).error);
     }
 };
 
@@ -58,7 +53,7 @@ template <typename Serializer> struct PresetSectionState {
     std::string pendingOverwriteName;
     std::filesystem::path pendingApplyPath;
     std::string pendingApplyEditingName;
-    std::string pendingApplyLoadedName;
+    GuiUtils::StatusMessage::Token pendingProgressToken = 0;
     bool applyPending = false;
     bool savePending = false;
     bool presetListDirty = true;
@@ -77,11 +72,12 @@ template <typename Serializer> struct PresetSectionState {
 
         if (result.success) {
             editingPath = std::move(result.path);
-            status.Set("Saved: " + GuiUtils::PresetDisplayPath(editingPath, Serializer::GetPresetsDirectory()));
             presetListDirty = true;
+            status.ClearText(pendingProgressToken);
         } else {
-            status.Set("Couldn't save preset: " + result.error, true);
+            status.SetError("Couldn't save preset: " + result.error);
         }
+        pendingProgressToken = 0;
         savePending = false;
     }
 
@@ -91,14 +87,14 @@ template <typename Serializer> struct PresetSectionState {
         if (success) {
             editingPath = std::move(pendingApplyPath);
             strncpy_s(presetNameBuf, pendingApplyEditingName.c_str(), _TRUNCATE);
-            status.Set("Loaded: " + pendingApplyLoadedName);
+            status.ClearText(pendingProgressToken);
         } else {
-            status.Set(error.empty() ? "Couldn't use this preset" : std::move(error), true);
+            status.SetError(error.empty() ? "Couldn't use this preset" : std::move(error));
         }
 
         pendingApplyPath.clear();
         pendingApplyEditingName.clear();
-        pendingApplyLoadedName.clear();
+        pendingProgressToken = 0;
         applyPending = false;
     }
 
@@ -138,101 +134,62 @@ template <typename Serializer> struct PresetSectionState {
             panelState, Serializer::GetPresetsDirectory(), [this]() { RefreshPresetTree(); },
             [this, &buildData](const char* name, bool overwrite) {
                 using Data = typename Serializer::Data;
-                auto built = [&]() {
-                    if constexpr (std::is_invocable_v<BuildFn&, const char*, bool>)
-                        return std::invoke(buildData, name, overwrite);
-                    else if constexpr (std::is_invocable_v<BuildFn&, const char*>)
-                        return std::invoke(buildData, name);
-                    else
-                        return std::invoke(buildData);
-                }();
-                using BuildResult = std::remove_cvref_t<decltype(built)>;
-                Data data;
-                if constexpr (std::is_same_v<BuildResult, Data>) {
-                    data = std::move(built);
-                } else {
-                    static_assert(
-                        std::is_same_v<BuildResult, PresetBuildResult<Data>>,
-                        "Preset build callbacks must return their data type or PresetBuildResult<data type>"
-                    );
-                    if (built.IsPending()) {
-                        savePending = true;
-                        status.Set("Saving " + std::string(name) + "...");
-                        return;
-                    }
-                    auto* value = built.GetValue();
-                    if (!value) {
-                        const auto& error = built.GetError();
-                        status.Set(error.empty() ? std::string("Nothing is ready to save") : error, true);
-                        return;
-                    }
-                    data = std::move(*value);
+                PresetBuildResult<Data> built = buildData(name, overwrite);
+                if (built.IsPending()) {
+                    savePending = true;
+                    pendingProgressToken = status.SetInfo("Saving " + std::string(name) + "...");
+                    return;
                 }
-                data.name = name;
-                data.id.clear();
-                auto save = Serializer::SavePresetByNameResult(name, data, overwrite);
+                auto* data = built.GetValue();
+                if (!data) {
+                    auto error = built.TakeError();
+                    status.SetError(error.empty() ? std::string("Nothing is ready to save") : std::move(error));
+                    return;
+                }
+                data->name = name;
+                data->id.clear();
+                auto save = Serializer::SavePresetByNameResult(name, *data, overwrite);
                 if (save.success) {
                     editingPath = save.path;
-                    status.Set("Saved: " + GuiUtils::PresetDisplayPath(editingPath, Serializer::GetPresetsDirectory()));
                     presetListDirty = true;
+                    status.Clear();
                 } else {
-                    status.Set("Couldn't save preset: " + save.error, true);
+                    status.SetError("Couldn't save preset: " + save.error);
                 }
             },
             [this, &applyData](const std::filesystem::path& path) {
                 auto load = Serializer::LoadFromFileResult(path);
                 if (load.success) {
+                    status.Clear();
                     auto result = std::move(load.value);
-                    auto editingName = GuiUtils::PresetDisplayPath(path, Serializer::GetPresetsDirectory());
-                    if (editingName.empty()) editingName = result.name;
-                    const std::string loadedName = result.name;
-                    const std::string statusBeforeApply = status.text;
-                    using ApplyResult = std::invoke_result_t<ApplyFn&, decltype(result)&&>;
-                    PresetApplyDisposition disposition = PresetApplyDisposition::Applied;
-                    if constexpr (std::is_void_v<ApplyResult>) {
-                        std::invoke(applyData, std::move(result));
-                    } else {
-                        using Result = std::remove_cvref_t<ApplyResult>;
-                        static_assert(
-                            std::is_same_v<Result, bool> || std::is_same_v<Result, PresetApplyDisposition>,
-                            "Preset apply callbacks must return void, bool, or PresetApplyDisposition"
-                        );
-                        if constexpr (std::is_same_v<Result, bool>) {
-                            disposition = std::invoke(applyData, std::move(result)) ? PresetApplyDisposition::Applied
-                                                                                    : PresetApplyDisposition::Rejected;
-                        } else {
-                            disposition = std::invoke(applyData, std::move(result));
-                        }
-                    }
+                    const auto disposition = applyData(std::move(result));
                     if (disposition == PresetApplyDisposition::Rejected) return;
+                    auto editingName = GuiUtils::PresetDisplayPath(path, Serializer::GetPresetsDirectory());
                     if (disposition == PresetApplyDisposition::Pending) {
                         pendingApplyPath = path;
                         pendingApplyEditingName = std::move(editingName);
-                        pendingApplyLoadedName = loadedName;
                         applyPending = true;
-                        status.Set("Loading " + loadedName + "...");
+                        pendingProgressToken = status.SetInfo("Loading " + pendingApplyEditingName + "...");
                         return;
                     }
 
                     editingPath = path;
                     strncpy_s(presetNameBuf, editingName.c_str(), _TRUNCATE);
-                    if (status.text == statusBeforeApply) status.Set("Loaded: " + loadedName);
                 } else {
-                    status.Set("Couldn't open preset: " + load.error, true);
+                    status.SetError("Couldn't open preset: " + load.error);
                 }
             },
             [this](const std::filesystem::path& path) {
-                const auto presetName = PresetUtils::PathToUtf8(path.stem());
                 auto deletion = Serializer::DeletePresetResult(path);
                 if (deletion.success) {
                     PresetUtils::CleanEmptyDirectories(Serializer::GetPresetsDirectory());
                     presetListDirty = true;
+                    status.Clear();
                     if (!editingPath.empty() && GuiUtils::PresetPathsEqual(editingPath, path)) {
                         ClearEditing();
                     }
-                    status.Set("Deleted: " + presetName);
                 } else {
-                    status.Set("Couldn't delete preset: " + deletion.error, true);
+                    status.SetError("Couldn't delete preset: " + deletion.error);
                 }
             }
         );

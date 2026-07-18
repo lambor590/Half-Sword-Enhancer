@@ -591,13 +591,6 @@ namespace GuiUtils {
             return ++revision;
         }
 
-        void Set(std::string msg, bool error = false) {
-            if (error)
-                SetError(std::move(msg));
-            else
-                (void)SetInfo(std::move(msg));
-        }
-
         template <std::size_t N> void Notify(const char (&msg)[N]) noexcept {
             static_assert(N > 1);
             text.clear();
