@@ -26,9 +26,7 @@ GuiSection::GuiSection(ModContext& ctx)
 
 void GuiSection::Render() {
     ImGui::SeparatorText("Shortcuts");
-    ImGui::PushTextWrapPos(0.0f);
-    ImGui::TextDisabled("Select a shortcut, then press a key. Escape cancels.");
-    ImGui::PopTextWrapPos();
+    GuiUtils::TextDisabledWrapped("Select a shortcut, then press a key. Escape cancels.");
     ImGui::Spacing();
 
     const bool toggleChanged = RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, toggleGuiKey, true);

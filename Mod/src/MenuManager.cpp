@@ -209,7 +209,7 @@ void MenuManager::SelectSection(Section* section) {
 void MenuManager::RenderSearchBar() {
     const float availableWidth = ImGui::GetContentRegionAvail().x;
 
-    ImGui::SetNextItemWidth(availableWidth);
+    GuiUtils::SetNextInputWidth(availableWidth);
     if (focusSearch) {
         ImGui::SetKeyboardFocusHere();
         focusSearch = false;

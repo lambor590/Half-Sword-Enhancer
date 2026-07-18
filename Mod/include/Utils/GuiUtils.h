@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cfloat>
+#include <chrono>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -13,6 +14,7 @@
 #include <vector>
 
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include "DefaultStyle.h"
 #include "Utils/PresetUtils.h"
 #include "Menu/SectionConfig.h"
@@ -26,10 +28,12 @@ namespace GuiUtils {
     inline constexpr ImVec2 K_POPUP_PADDING{10.0f, 8.0f};
     inline constexpr float K_DRAG_WIDTH = 120.0f;
     inline constexpr float K_COMBO_MIN_WIDTH = 90.0f;
+    inline constexpr float K_COMBO_MAX_WIDTH = 320.0f;
     inline constexpr float K_COMBO_SEARCH_MIN_WIDTH = 140.0f;
     inline constexpr float K_COLOR_FIELD_MIN_WIDTH = 220.0f;
     inline constexpr float K_COLOR_FIELD_MAX_WIDTH = 480.0f;
     inline constexpr float K_COLOR_FIELD_WIDTH_RATIO = 0.7f;
+    inline constexpr float K_INPUT_MAX_WIDTH = 360.0f;
     inline bool g_helpTooltipsEnabled = true;
 
     struct WidthSpec {
@@ -46,8 +50,22 @@ namespace GuiUtils {
         return (std::clamp)(preferred > 0.0f ? preferred : minimum, minimum, maximum);
     }
 
+    [[nodiscard]] inline float ResolveInputWidth(float preferred = FLT_MAX) noexcept {
+        return ResolveControlWidth({0.0f, preferred, K_INPUT_MAX_WIDTH});
+    }
+
+    inline void SetNextInputWidth(float preferred = FLT_MAX) noexcept {
+        ImGui::SetNextItemWidth(ResolveInputWidth(preferred));
+    }
+
     inline void SetNextFieldWidth(WidthSpec spec) noexcept {
         ImGui::SetNextItemWidth(ResolveControlWidth(spec, spec.preferred));
+    }
+
+    inline void TextDisabledWrapped(std::string_view text) {
+        ImGui::PushTextWrapPos(0.0f);
+        ImGui::TextDisabled("%.*s", static_cast<int>(text.size()), text.empty() ? "" : text.data());
+        ImGui::PopTextWrapPos();
     }
 
     inline void SetNextColorFieldWidth(const char* label) noexcept {
@@ -162,10 +180,7 @@ namespace GuiUtils {
         return maxTextWidth + ImGui::GetFrameHeight() + style.FramePadding.x * 2.0f + style.ItemInnerSpacing.x;
     }
 
-    inline void PrepareNextCombo(float width, ImGuiComboFlags flags = 0) noexcept {
-        const float popupWidth = width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH;
-        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, FLT_MAX}, width);
-
+    inline void PrepareNextCombo(float controlWidth, float popupWidth, ImGuiComboFlags flags = 0) noexcept {
         float popupMaxHeight = FLT_MAX;
         if ((flags & ImGuiComboFlags_HeightLargest) == 0) {
             int maxItems = 8;
@@ -179,8 +194,19 @@ namespace GuiUtils {
                              style.WindowPadding.y * 2.0f;
         }
 
+        constexpr float VIEWPORT_MARGIN = 32.0f;
+        const float popupLimit =
+            (std::max)(controlWidth, ImGui::GetMainViewport()->WorkSize.x - VIEWPORT_MARGIN);
+        const float resolvedPopupWidth = (std::min)((std::max)(controlWidth, popupWidth), popupLimit);
         ImGui::SetNextItemWidth(controlWidth);
-        ImGui::SetNextWindowSizeConstraints(ImVec2(popupWidth, 0.0f), ImVec2(FLT_MAX, popupMaxHeight));
+        ImGui::SetNextWindowSizeConstraints(
+            ImVec2(resolvedPopupWidth, 0.0f), ImVec2(popupLimit, popupMaxHeight)
+        );
+    }
+
+    inline void PrepareNextCombo(float width, ImGuiComboFlags flags = 0) noexcept {
+        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, K_COMBO_MAX_WIDTH}, width);
+        PrepareNextCombo(controlWidth, width, flags);
     }
 
     inline void ShowClippedComboPreviewTooltip(
@@ -196,8 +222,8 @@ namespace GuiUtils {
     [[nodiscard]] inline bool BeginSizedCombo(
         const char* label, const char* preview, float width, ImGuiComboFlags flags = 0
     ) noexcept {
-        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, FLT_MAX}, width);
-        PrepareNextCombo(width, flags);
+        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, K_COMBO_MAX_WIDTH}, width);
+        PrepareNextCombo(controlWidth, width, flags);
         const bool open = ImGui::BeginCombo(label, preview, flags);
         ShowClippedComboPreviewTooltip(preview, controlWidth, flags, open);
         return open;
@@ -209,8 +235,7 @@ namespace GuiUtils {
         const float intrinsicWidth = preview ? ComboWidthFromText(ImGui::CalcTextSize(preview).x) : K_COMBO_MIN_WIDTH;
         const float controlWidth = ResolveControlWidth(width, intrinsicWidth);
         const float popupWidth = width.preferred > 0.0f ? width.preferred : intrinsicWidth;
-        PrepareNextCombo((std::max)(controlWidth, popupWidth), flags);
-        ImGui::SetNextItemWidth(controlWidth);
+        PrepareNextCombo(controlWidth, popupWidth, flags);
         const bool open = ImGui::BeginCombo(label, preview, flags);
         ShowClippedComboPreviewTooltip(preview, controlWidth, flags, open);
         return open;
@@ -218,7 +243,9 @@ namespace GuiUtils {
 
     inline void SetComboSearchWidth(float width) noexcept {
         const float searchWidth = width - ImGui::GetStyle().WindowPadding.x * 2.0f;
-        ImGui::SetNextItemWidth(ResolveControlWidth({K_COMBO_SEARCH_MIN_WIDTH, searchWidth, FLT_MAX}, searchWidth));
+        ImGui::SetNextItemWidth(
+            ResolveControlWidth({K_COMBO_SEARCH_MIN_WIDTH, searchWidth, K_INPUT_MAX_WIDTH}, searchWidth)
+        );
     }
 
     [[nodiscard]] inline float CalcComboWidth(const char* widestItem) {
@@ -378,13 +405,23 @@ namespace GuiUtils {
         int pushedColors = 0;
         switch (tone) {
             case ButtonTone::Default: break;
-            case ButtonTone::Primary:
-                ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::OLD_BRASS);
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::BRIGHT_BRASS);
-                ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::PARCHMENT_DARK);
-                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::DARK_INK);
+            case ButtonTone::Primary: {
+                const bool disabled = (GImGui->CurrentItemFlags & ImGuiItemFlags_Disabled) != 0;
+                ImGui::PushStyleColor(
+                    ImGuiCol_Button, disabled ? DefaultStyle::LIGHT_WOOD : DefaultStyle::OLD_BRASS
+                );
+                ImGui::PushStyleColor(
+                    ImGuiCol_ButtonHovered, disabled ? DefaultStyle::LIGHT_WOOD : DefaultStyle::BRIGHT_BRASS
+                );
+                ImGui::PushStyleColor(
+                    ImGuiCol_ButtonActive, disabled ? DefaultStyle::LIGHT_WOOD : DefaultStyle::PARCHMENT_DARK
+                );
+                ImGui::PushStyleColor(
+                    ImGuiCol_Text, disabled ? DefaultStyle::PARCHMENT_DARK : DefaultStyle::DARK_INK
+                );
                 pushedColors = 4;
                 break;
+            }
             case ButtonTone::Danger:
                 ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.55f, 0.16f, 0.13f, 1.0f));
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74f, 0.23f, 0.18f, 1.0f));
@@ -414,6 +451,13 @@ namespace GuiUtils {
 
     enum class CalloutTone : uint8_t { Info, Success, Warning, Error };
 
+    inline constexpr std::array CALLOUT_BACKGROUNDS = {
+        ImVec4{0.12f, 0.24f, 0.32f, 0.72f},
+        ImVec4{0.12f, 0.28f, 0.16f, 0.72f},
+        ImVec4{0.32f, 0.23f, 0.08f, 0.72f},
+        ImVec4{0.32f, 0.10f, 0.08f, 0.72f},
+    };
+
     struct CalloutResult {
         bool actionClicked = false;
         bool dismissed = false;
@@ -423,13 +467,7 @@ namespace GuiUtils {
         const char* id, std::string_view message, CalloutTone tone, bool dismissible = false,
         const char* actionLabel = nullptr
     ) {
-        static constexpr std::array BACKGROUNDS = {
-            ImVec4{0.12f, 0.24f, 0.32f, 0.72f},
-            ImVec4{0.12f, 0.28f, 0.16f, 0.72f},
-            ImVec4{0.32f, 0.23f, 0.08f, 0.72f},
-            ImVec4{0.32f, 0.10f, 0.08f, 0.72f},
-        };
-        const ImVec4 background = BACKGROUNDS[static_cast<size_t>(tone)];
+        const ImVec4 background = CALLOUT_BACKGROUNDS[static_cast<size_t>(tone)];
 
         const auto& style = ImGui::GetStyle();
         const float messageWidth =
@@ -439,11 +477,9 @@ namespace GuiUtils {
             if (actionLabel) actionWidth += style.ItemSpacing.x;
             actionWidth += ButtonNaturalWidth("Dismiss");
         }
-        constexpr float CALLOUT_MIN_WIDTH = 140.0f;
         constexpr float CALLOUT_MAX_WIDTH = 560.0f;
         const float preferredWidth = (std::max)(messageWidth, actionWidth) + K_TOOLTIP_PADDING.x * 2.0f;
-        const float calloutWidth =
-            ResolveControlWidth({CALLOUT_MIN_WIDTH, preferredWidth, CALLOUT_MAX_WIDTH}, preferredWidth);
+        const float calloutWidth = ResolveControlWidth({0.0f, preferredWidth, CALLOUT_MAX_WIDTH}, preferredWidth);
 
         CalloutResult result;
         ImGui::PushID(id);
@@ -478,6 +514,44 @@ namespace GuiUtils {
         return result;
     }
 
+    inline void RenderInlineCallout(std::string_view message, CalloutTone tone) {
+        if (message.empty()) return;
+
+        const auto& style = ImGui::GetStyle();
+        const ImVec2 anchorMinimum = ImGui::GetItemRectMin();
+        const ImVec2 anchorMaximum = ImGui::GetItemRectMax();
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        const float contentRight = (std::min)(
+            ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x, drawList->GetClipRectMax().x
+        );
+        const float availableWidth = contentRight - anchorMaximum.x - style.ItemSpacing.x;
+        if (availableWidth <= 1.0f) return;
+
+        const ImVec2 textSize = ImGui::CalcTextSize(message.data(), message.data() + message.size());
+        const float intrinsicWidth = textSize.x + K_TOOLTIP_PADDING.x * 2.0f;
+        const float width = (std::min)(intrinsicWidth, availableWidth);
+        const float height = (std::max)(1.0f, anchorMaximum.y - anchorMinimum.y);
+        const ImVec2 minimum{anchorMaximum.x + style.ItemSpacing.x, anchorMinimum.y};
+        const ImVec2 maximum{minimum.x + width, minimum.y + height};
+        const float horizontalPadding = (std::min)(K_TOOLTIP_PADDING.x, width * 0.25f);
+        const ImVec2 textPosition{minimum.x + horizontalPadding, minimum.y + (height - textSize.y) * 0.5f};
+        const ImVec4 clipRect{
+            minimum.x + horizontalPadding, minimum.y, maximum.x - horizontalPadding, maximum.y
+        };
+
+        drawList->AddRectFilled(
+            minimum, maximum, ImGui::GetColorU32(CALLOUT_BACKGROUNDS[static_cast<size_t>(tone)]), 4.0f
+        );
+        drawList->AddText(
+            ImGui::GetFont(), ImGui::GetFontSize(), textPosition, ImGui::GetColorU32(ImGuiCol_Text), message.data(),
+            message.data() + message.size(), 0.0f, &clipRect
+        );
+
+        if (intrinsicWidth > width + 0.5f && ImGui::IsWindowHovered() && ImGui::IsMouseHoveringRect(minimum, maximum)) {
+            ImGui::SetTooltip("%.*s", static_cast<int>(message.size()), message.data());
+        }
+    }
+
     inline void RenderUnderlineTabs(const char* id, int& activeTab, const char* const* labels, int count) {
         if (!labels || count <= 0) return;
         activeTab = std::clamp(activeTab, 0, count - 1);
@@ -495,26 +569,72 @@ namespace GuiUtils {
     }
 
     struct StatusMessage {
+        using Token = std::uint64_t;
+
         std::string text;
-        double time = 0.0;
-        bool isError = false;
+        const char* resultText = nullptr;
+        std::chrono::steady_clock::time_point resultDeadline{};
+        Token revision = 0;
+        CalloutTone tone = CalloutTone::Info;
+
+        void SetError(std::string msg) {
+            resultText = nullptr;
+            text = std::move(msg);
+            tone = CalloutTone::Error;
+            ++revision;
+        }
+
+        Token SetInfo(std::string msg) {
+            resultText = nullptr;
+            text = std::move(msg);
+            tone = CalloutTone::Info;
+            return ++revision;
+        }
 
         void Set(std::string msg, bool error = false) {
-            text = std::move(msg);
-            time = ImGui::GetTime();
-            isError = error;
+            if (error)
+                SetError(std::move(msg));
+            else
+                (void)SetInfo(std::move(msg));
+        }
+
+        template <std::size_t N> void Notify(const char (&msg)[N]) noexcept {
+            static_assert(N > 1);
+            text.clear();
+            ++revision;
+            resultText = msg;
+            resultDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+        }
+
+        void Clear() noexcept {
+            text.clear();
+            resultText = nullptr;
+            ++revision;
+        }
+
+        void ClearText() noexcept {
+            text.clear();
+            ++revision;
+        }
+
+        void ClearText(Token token) noexcept {
+            if (token != 0 && token == revision) ClearText();
+        }
+
+        void RenderResult() {
+            if (!resultText) return;
+            if (std::chrono::steady_clock::now() > resultDeadline) {
+                resultText = nullptr;
+                return;
+            }
+            RenderInlineCallout(resultText, CalloutTone::Success);
         }
 
         void Render() {
             if (text.empty()) return;
-            if (!isError && ImGui::GetTime() - time > 3.0) {
-                text.clear();
-                return;
-            }
 
             ImGui::PushID(this);
-            const auto tone = isError ? CalloutTone::Error : CalloutTone::Success;
-            if (RenderCallout("##status", text, tone, isError).dismissed) text.clear();
+            if (RenderCallout("##status", text, tone, tone == CalloutTone::Error).dismissed) ClearText();
             ImGui::PopID();
         }
     };
@@ -739,7 +859,7 @@ namespace GuiUtils {
         if (ImGui::Button("New Preset")) {
             state.nameBuf[0] = '\0';
             state.editingPath.clear();
-            state.status.Set("Ready for a new preset");
+            state.status.Clear();
         }
         if (!hasDraft || !state.canInteract) ImGui::EndDisabled();
         ImGui::SameLine();
@@ -766,7 +886,7 @@ namespace GuiUtils {
         const auto& style = ImGui::GetStyle();
         const float saveWidth = ImGui::CalcTextSize(saveLabel).x + style.FramePadding.x * 2.0f;
         const float inputWidth = (std::max)(1.0f, ImGui::GetContentRegionAvail().x - saveWidth - style.ItemSpacing.x);
-        ImGui::SetNextItemWidth(inputWidth);
+        SetNextInputWidth(inputWidth);
         if (!state.canInteract) ImGui::BeginDisabled();
         const bool saveFromEnter = ImGui::InputTextWithHint(
             "##PresetName", "name or folder/name...", state.nameBuf, state.nameBufSize,
@@ -787,12 +907,12 @@ namespace GuiUtils {
                 const bool existsNow =
                     overwriting || std::filesystem::is_regular_file(targetPath, targetFilesystemError);
                 if (targetFilesystemError) {
-                    state.status.Set("Couldn't check that preset name", true);
+                    state.status.SetError("Couldn't check that preset name");
                 } else if (existsNow) {
                     if (!targetExists) refreshTree();
                     const auto* currentTarget = FindPresetTreeEntryByPath(state.tree, targetPath);
                     if (!currentTarget || !currentTarget->valid) {
-                        state.status.Set("This preset is damaged. Delete it before reusing this name.", true);
+                        state.status.SetError("This preset is damaged. Delete it before reusing this name.");
                     } else {
                         state.pendingOverwriteName = state.nameBuf;
                         ImGui::OpenPopup("##overwrite_preset_confirm");
@@ -855,7 +975,7 @@ namespace GuiUtils {
         const float refreshWidth = ImGui::CalcTextSize("Refresh List").x + style.FramePadding.x * 2.0f;
         const float searchWidth =
             (std::max)(1.0f, ImGui::GetContentRegionAvail().x - refreshWidth - style.ItemSpacing.x);
-        ImGui::SetNextItemWidth(searchWidth);
+        SetNextInputWidth(searchWidth);
         ImGui::InputTextWithHint("##PresetSearch", "Search presets...", state.searchBuf, state.searchBufSize);
         ImGui::SameLine();
         if (ImGui::Button("Refresh List")) refreshTree();
@@ -929,7 +1049,7 @@ namespace GuiUtils {
         }
 
         ImGui::Spacing();
-        if (Button("Open Presets Folder")) PresetUtils::OpenInExplorer(presetsDir);
+        if (Button("Open Presets Folder")) (void)PresetUtils::OpenInExplorer(presetsDir);
     }
 
     inline void RenderOverrideCount(int count) {
@@ -955,11 +1075,12 @@ namespace GuiUtils {
     }
 
     /// Caller must call ImGui::EndChild() after content.
-    inline void BeginScrollWithFooter(const char* id) {
-        float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
-        float scrollH = ImGui::GetContentRegionAvail().y - footerH;
-        if (scrollH < 100.0f) scrollH = 100.0f;
-        ImGui::BeginChild(id, ImVec2(0, scrollH));
+    inline void BeginScrollWithFooter(const char* id, int footerRows = 1) {
+        const auto& style = ImGui::GetStyle();
+        const float rowCount = static_cast<float>(footerRows);
+        const float footerHeight = ImGui::GetFrameHeight() * rowCount + style.ItemSpacing.y * (rowCount + 1.0f);
+        const float scrollHeight = (std::max)(1.0f, ImGui::GetContentRegionAvail().y - footerHeight);
+        ImGui::BeginChild(id, ImVec2(0.0f, scrollHeight));
     }
 
     template <typename RenderFn> inline void RenderClippedList(int itemCount, int includeIndex, RenderFn&& renderItem) {

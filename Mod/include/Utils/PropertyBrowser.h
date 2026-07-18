@@ -701,7 +701,9 @@ namespace PropertyBrowser {
         ImGui::SeparatorText("Detailed Settings");
         const float buttonWidth = ImGui::CalcTextSize("+").x + ImGui::GetStyle().FramePadding.x * 2;
         const float buttonsWidth = buttonWidth * 2 + ImGui::GetStyle().ItemSpacing.x;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - buttonsWidth - ImGui::GetStyle().ItemSpacing.x);
+        GuiUtils::SetNextInputWidth(
+            ImGui::GetContentRegionAvail().x - buttonsWidth - ImGui::GetStyle().ItemSpacing.x
+        );
         if (ImGui::InputTextWithHint(filterId, "Search settings...", state.filterBuffer, sizeof(state.filterBuffer)))
             state.visiblePropertiesReady = false;
         ImGui::SameLine();
