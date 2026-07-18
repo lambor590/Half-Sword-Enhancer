@@ -5,8 +5,6 @@
 #include <chrono>
 #include <functional>
 #include <iterator>
-#include <string>
-#include <utility>
 
 #include "Hooks/GameHook.h"
 #include "Menu/GameEvent.h"
@@ -76,10 +74,10 @@ namespace {
         return std::less<SDK::AWillie_BP_C*>{}(lhs, rhs);
     }
 
-    bool TargetsPlayer(SDK::AWillie_BP_C* willie, SDK::AWillie_BP_C* player) {
+    bool TargetsPlayer(SDK::AWillie_BP_C* willie, SDK::AWillie_BP_C* player, SDK::AAI_BP_C* ai) {
         if (!willie || !player) return false;
 
-        if (auto* ai = ActorUtils::GetAIController(willie); ai && ai->Target == player) return true;
+        if (ai && ai->Target == player) return true;
         for (auto* actor : willie->Targeted_By_AI) {
             if (actor == player) return true;
         }
@@ -95,7 +93,7 @@ namespace {
         if (query.scope == AIDirector::Scope::NearestNpc) {
             auto* nearest = ActorUtils::FindNearestWillie(world, player, player, GameConstants::MAX_DISTANCE);
             if (!nearest) return 0;
-            func(nearest);
+            func(nearest, ActorUtils::GetAIController(nearest));
             return 1;
         }
 
@@ -105,7 +103,7 @@ namespace {
         ActorUtils::ForEachWillieInRadius(world, player, targetRadius, [&](SDK::AWillie_BP_C* willie) {
             auto* ai = ActorUtils::GetAIController(willie);
             if (query.scope == AIDirector::Scope::Team && willie->Team_Int != query.team) return;
-            if (query.scope == AIDirector::Scope::TargetingPlayer && !TargetsPlayer(willie, player)) return;
+            if (query.scope == AIDirector::Scope::TargetingPlayer && !TargetsPlayer(willie, player, ai)) return;
             if (query.scope == AIDirector::Scope::HasAI && !ai) return;
             if (query.scope == AIDirector::Scope::TickEnabled && (!ai || !ai->IsActorTickEnabled())) return;
             if (query.scope == AIDirector::Scope::HasTarget && (!ai || !ai->Target)) return;
@@ -113,7 +111,7 @@ namespace {
             if (query.scope == AIDirector::Scope::PlayerTeam && willie->Team_Int != player->Team_Int) return;
             if (query.scope == AIDirector::Scope::NotPlayerTeam && willie->Team_Int == player->Team_Int) return;
 
-            func(willie);
+            func(willie, ai);
             ++count;
         });
         return count;
@@ -130,8 +128,9 @@ namespace {
         if (target && provoke) ai->Get_Insulted(target);
     }
 
-    void SetAggression(SDK::AWillie_BP_C* willie, double attack, double defend, double retreat, double strafe) {
-        auto* ai = ActorUtils::GetAIController(willie);
+    void SetAggression(
+        SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai, double attack, double defend, double retreat, double strafe
+    ) {
         if (!ai) return;
 
         ai->Attack_Intent = attack;
@@ -146,10 +145,11 @@ namespace {
         if (willie) willie->AI_Immediate_Threat = ai->Being_Threatened;
     }
 
-    void ApplyProfileToWillie(SDK::AWillie_BP_C* willie, AIDirector::Profile profile, int playerTeam) {
+    void ApplyProfileToWillie(
+        SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai, AIDirector::Profile profile, int playerTeam
+    ) {
         if (!willie) return;
 
-        auto* ai = ActorUtils::GetAIController(willie);
         if (ai) ai->SetActorTickEnabled(true);
 
         const auto& settings = PROFILE_SETTINGS[static_cast<size_t>(profile)];
@@ -162,7 +162,7 @@ namespace {
         if (HasOption(settings, UsePlayerTeam)) willie->Team_Int = playerTeam;
         if (HasOption(settings, Duelist)) willie->NPC_Dualist = true;
         SetAggression(
-            willie, settings.aggression.attack, settings.aggression.defend, settings.aggression.retreat,
+            willie, ai, settings.aggression.attack, settings.aggression.defend, settings.aggression.retreat,
             settings.aggression.strafe
         );
 
@@ -327,64 +327,40 @@ void AIDirector::OnRuntimeShutdown() noexcept {
 
 AIDirector::Snapshot AIDirector::GetSnapshot() const {
     std::lock_guard lock(snapshotMutex);
-    auto current = snapshot;
-    current.activeDirective = ActiveDirective();
-    return current;
+    return snapshot;
 }
 
 bool AIDirector::PublishUnavailable(const RuntimeContextSnapshot& runtime) {
     if (runtime.world && runtime.player) return false;
-
-    CommandResult result;
-    result.message = runtime.world ? "Enter a map with an active player" : "Enter a map first";
-    result.isError = true;
-
-    std::lock_guard lock(snapshotMutex);
-    result.sequence = ++nextResultSequence;
-    snapshot.lastResult = std::move(result);
+    PublishCommandResult(runtime.world ? "Enter a map with an active player" : "Enter a map first");
     return true;
 }
 
-void AIDirector::PublishStatus(StatusSummary summary, CommandResult result) {
+void AIDirector::PublishStatus(StatusSummary summary) {
     std::lock_guard lock(snapshotMutex);
-    result.sequence = ++nextResultSequence;
     snapshot.summary = summary;
-    snapshot.lastResult = std::move(result);
+    ++snapshot.resultSequence;
+    snapshot.lastError = nullptr;
 }
 
-void AIDirector::PublishResult(MutationResult result, const char* successMessage, bool aiOnly) {
-    CommandResult published;
+void AIDirector::PublishMutationResult(MutationResult result, bool aiOnly) {
+    const char* error = nullptr;
     if (result.matched == 0) {
-        published.message = "No NPCs match the current selection";
+        error = "No NPCs match the current selection";
     } else if (aiOnly && result.affected == 0) {
-        published.message = "None of those NPCs can be controlled";
-    } else {
-        published.message = successMessage;
-        if (result.skippedNoAI > 0) {
-            published.message += " (";
-            published.message += std::to_string(result.skippedNoAI);
-            published.message += " unchanged)";
-        }
+        error = "None of those NPCs can be controlled";
     }
-    published.isError = result.matched == 0 || (aiOnly && result.affected == 0);
-
-    std::lock_guard lock(snapshotMutex);
-    published.sequence = ++nextResultSequence;
-    snapshot.lastResult = std::move(published);
+    PublishCommandResult(error);
 }
 
-void AIDirector::PublishMessage(const char* message, bool isError) {
-    CommandResult published;
-    published.message = message ? message : "";
-    published.isError = isError;
-
+void AIDirector::PublishCommandResult(const char* error) {
     std::lock_guard lock(snapshotMutex);
-    published.sequence = ++nextResultSequence;
-    snapshot.lastResult = std::move(published);
+    ++snapshot.resultSequence;
+    snapshot.lastError = error;
 }
 
-void AIDirector::PublishDirectiveResult(int changed, const char* successMessage) {
-    PublishMessage(changed > 0 ? successMessage : "No NPCs match the current selection", changed == 0);
+void AIDirector::PublishDirectiveResult(int changed) {
+    PublishCommandResult(changed > 0 ? nullptr : "No NPCs match the current selection");
 }
 
 void AIDirector::EnsureDirectiveTickSubscription() {
@@ -411,7 +387,7 @@ void AIDirector::StartDirective(
     if (ActiveDirective() != directive) return;
 
     directiveQuery = query;
-    if ((switchingDirective || pendingDirectiveRestore) && !RestoreDirectiveState(runtime, nullptr)) {
+    if ((switchingDirective || pendingDirectiveRestore) && !RestoreDirectiveState(runtime)) {
         pendingDirectiveInitialTrigger = true;
         nextDirectiveApplyTime = ElapsedSeconds() + DIRECTIVE_INTERVAL_SECONDS;
         return;
@@ -429,7 +405,8 @@ void AIDirector::ClearDirective(const RuntimeContextSnapshot& runtime) {
     pendingDirectiveRestore = pendingDirectiveRestore || !originalStates.empty();
     pendingDirectiveInitialTrigger = false;
 
-    if (RestoreDirectiveState(runtime, "Normal behavior restored")) {
+    if (RestoreDirectiveState(runtime)) {
+        PublishCommandResult();
         UnsubscribeDirectiveTickIfIdle();
     } else {
         nextDirectiveApplyTime = ElapsedSeconds() + DIRECTIVE_INTERVAL_SECONDS;
@@ -445,10 +422,10 @@ void AIDirector::OnDirectiveTick(const RuntimeContextSnapshot& runtime) {
     bool triggerInitialApply = false;
     if (pendingDirectiveRestore) {
         nextDirectiveApplyTime = now + DIRECTIVE_INTERVAL_SECONDS;
-        if (!RestoreDirectiveState(runtime, nullptr)) return;
+        if (!RestoreDirectiveState(runtime)) return;
 
         if (ActiveDirective() == Directive::None) {
-            PublishMessage("Normal behavior restored");
+            PublishCommandResult();
             UnsubscribeDirectiveTickIfIdle();
             return;
         }
@@ -465,10 +442,9 @@ void AIDirector::OnDirectiveTick(const RuntimeContextSnapshot& runtime) {
     ApplyDirective(runtime, triggerInitialApply);
 }
 
-bool AIDirector::RestoreDirectiveState(const RuntimeContextSnapshot& runtime, const char* successMessage) {
+bool AIDirector::RestoreDirectiveState(const RuntimeContextSnapshot& runtime) {
     if (originalStates.empty()) {
         pendingDirectiveRestore = false;
-        if (successMessage) PublishMessage(successMessage);
         return true;
     }
 
@@ -529,7 +505,6 @@ bool AIDirector::RestoreDirectiveState(const RuntimeContextSnapshot& runtime, co
     }
 
     pendingDirectiveRestore = false;
-    if (successMessage) PublishMessage(successMessage);
     return true;
 }
 
@@ -542,7 +517,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
     targetsBuffer.clear();
     enemiesBuffer.clear();
 
-    auto saveState = [this](SDK::AWillie_BP_C* willie) {
+    auto saveState = [this](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
         if (!willie) return;
 
         if (originalStates.contains(willie)) return;
@@ -557,7 +532,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
         state.willieFearless = willie->Fearless;
         state.willieImmediateThreat = willie->AI_Immediate_Threat;
         state.willieDualist = willie->NPC_Dualist;
-        if (auto* ai = ActorUtils::GetAIController(willie)) {
+        if (ai) {
             state.aiTeam = ai->Team_Int;
             state.target = ai->Target;
             state.attackIntent = ai->Attack_Intent;
@@ -581,12 +556,12 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
         originalStates.emplace(willie, state);
     };
 
-    auto setTeam = [&](SDK::AWillie_BP_C* willie, int newTeam) {
+    auto setTeam = [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai, int newTeam) {
         if (!willie) return;
 
-        saveState(willie);
+        saveState(willie, ai);
         willie->Team_Int = newTeam;
-        if (auto* ai = ActorUtils::GetAIController(willie)) ai->Team_Int = newTeam;
+        if (ai) ai->Team_Int = newTeam;
     };
 
     originalStates.erase(runtime.player);
@@ -606,22 +581,24 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
     switch (ActiveDirective()) {
         case Directive::AttackPlayer: {
             auto* player = runtime.player;
-            int changed = ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) {
-                auto* ai = ActorUtils::GetAIController(willie);
+            int changed = ForEachTarget(
+                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
-                setTeam(willie, DIRECTIVE_HOSTILE_TEAM);
+                setTeam(willie, ai, DIRECTIVE_HOSTILE_TEAM);
                 WakeAI(ai, willie, player, triggerAttack);
-                SetAggression(willie, 3.0, 0.5, 0.0, 0.4);
+                SetAggression(willie, ai, 3.0, 0.5, 0.0, 0.4);
                 if (triggerAttack) ai->Attack();
             });
-            if (publishResult) PublishDirectiveResult(changed, "NPCs now attack the player");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::FightEachOther: {
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) { targetsBuffer.push_back(willie); });
+            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
+                targetsBuffer.push_back(willie);
+            });
             if (targetsBuffer.size() < 2) {
-                if (publishResult) PublishMessage("Choose at least 2 NPCs", true);
+                if (publishResult) PublishCommandResult("Choose at least 2 NPCs");
                 return;
             }
 
@@ -632,24 +609,26 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai || enemy == willie) continue;
 
-                setTeam(willie, (i & 1) ? DIRECTIVE_HOSTILE_ALT_TEAM : DIRECTIVE_HOSTILE_TEAM);
+                setTeam(willie, ai, (i & 1) ? DIRECTIVE_HOSTILE_ALT_TEAM : DIRECTIVE_HOSTILE_TEAM);
                 WakeAI(ai, willie, enemy, triggerAttack);
-                SetAggression(willie, 3.0, 0.3, 0.0, 0.8);
+                SetAggression(willie, ai, 3.0, 0.3, 0.0, 0.8);
                 if (triggerAttack) ai->Attack();
                 ++changed;
             }
-            if (publishResult) PublishDirectiveResult(changed, "NPCs fighting each other");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::ProtectPlayer: {
             auto* player = runtime.player;
             if (!player) {
-                if (publishResult) PublishMessage("Enter a map with an active player", true);
+                if (publishResult) PublishCommandResult("Enter a map with an active player");
                 return;
             }
 
             const int playerTeam = player->Team_Int;
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) { targetsBuffer.push_back(willie); });
+            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
+                targetsBuffer.push_back(willie);
+            });
             std::sort(targetsBuffer.begin(), targetsBuffer.end(), PointerLess);
 
             ActorUtils::ForEachWillieInRadius(
@@ -657,7 +636,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                     const bool selected =
                         std::binary_search(targetsBuffer.begin(), targetsBuffer.end(), candidate, PointerLess);
                     if (selected) return;
-                    setTeam(candidate, DIRECTIVE_HOSTILE_TEAM);
+                    setTeam(candidate, ActorUtils::GetAIController(candidate), DIRECTIVE_HOSTILE_TEAM);
                     enemiesBuffer.push_back(candidate);
                 }
             );
@@ -678,62 +657,64 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                     }
                 }
 
-                setTeam(willie, playerTeam);
-                ApplyProfileToWillie(willie, Profile::Bodyguard, playerTeam);
+                setTeam(willie, ai, playerTeam);
+                ApplyProfileToWillie(willie, ai, Profile::Bodyguard, playerTeam);
                 WakeAI(ai, willie, nearestEnemy, triggerAttack);
                 if (triggerAttack && nearestEnemy) ai->Attack();
                 ++changed;
             }
-            if (publishResult) PublishDirectiveResult(changed, "Bodyguards assigned");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::IgnorePlayer: {
-            int changed = ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) {
-                auto* ai = ActorUtils::GetAIController(willie);
+            int changed = ForEachTarget(
+                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
-                saveState(willie);
+                saveState(willie, ai);
                 if (ai->Target == runtime.player) {
                     ai->Target = nullptr;
                     ai->Target_Found = false;
                 }
-                SetAggression(willie, 0.0, 0.0, 0.4, 0.0);
+                SetAggression(willie, ai, 0.0, 0.0, 0.4, 0.0);
             });
-            if (publishResult) PublishDirectiveResult(changed, "NPCs now ignore the player");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::PanicFlee: {
-            int changed = ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) {
-                auto* ai = ActorUtils::GetAIController(willie);
+            int changed = ForEachTarget(
+                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
-                saveState(willie);
+                saveState(willie, ai);
                 WakeAI(ai, willie, runtime.player, false);
-                SetAggression(willie, 0.0, 0.2, 4.0, 0.0);
+                SetAggression(willie, ai, 0.0, 0.2, 4.0, 0.0);
                 ai->Fearless = false;
                 willie->Fearless = false;
             });
-            if (publishResult) PublishDirectiveResult(changed, "NPCs panicking");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::FreezeAI: {
-            int changed = ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) {
-                auto* ai = ActorUtils::GetAIController(willie);
+            int changed = ForEachTarget(
+                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
-                saveState(willie);
+                saveState(willie, ai);
                 ai->Target = nullptr;
                 ai->Target_Found = false;
                 ai->SetActorTickEnabled(false);
-                SetAggression(willie, 0.0, 0.0, 0.0, 0.0);
+                SetAggression(willie, ai, 0.0, 0.0, 0.0, 0.0);
             });
-            if (publishResult) PublishDirectiveResult(changed, "NPCs frozen");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::DuelMode: {
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie) { targetsBuffer.push_back(willie); });
+            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
+                targetsBuffer.push_back(willie);
+            });
             if (targetsBuffer.size() < 2) {
-                if (publishResult) PublishMessage("Choose at least 2 NPCs", true);
+                if (publishResult) PublishCommandResult("Choose at least 2 NPCs");
                 return;
             }
 
@@ -745,13 +726,13 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai) continue;
 
-                saveState(willie);
-                ApplyProfileToWillie(willie, Profile::Duelist, 0);
+                saveState(willie, ai);
+                ApplyProfileToWillie(willie, ai, Profile::Duelist, 0);
                 if (i == 0) {
-                    setTeam(willie, DIRECTIVE_HOSTILE_TEAM);
+                    setTeam(willie, ai, DIRECTIVE_HOSTILE_TEAM);
                     WakeAI(ai, willie, second, triggerAttack);
                 } else if (i == 1) {
-                    setTeam(willie, DIRECTIVE_HOSTILE_ALT_TEAM);
+                    setTeam(willie, ai, DIRECTIVE_HOSTILE_ALT_TEAM);
                     WakeAI(ai, willie, first, triggerAttack);
                 } else {
                     ai->Target = nullptr;
@@ -760,7 +741,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 }
                 ++changed;
             }
-            if (publishResult) PublishDirectiveResult(changed, "Duel started");
+            if (publishResult) PublishDirectiveResult(changed);
             break;
         }
         case Directive::None:
@@ -773,7 +754,7 @@ void AIDirector::RefreshStatus(const RuntimeContextSnapshot& runtime, TargetFilt
 
     StatusSummary next;
     bool hasTeam = false;
-    next.targets = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
+    next.targets = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
         if (!hasTeam) {
             next.teamMin = willie->Team_Int;
             next.teamMax = willie->Team_Int;
@@ -783,8 +764,7 @@ void AIDirector::RefreshStatus(const RuntimeContextSnapshot& runtime, TargetFilt
             if (willie->Team_Int > next.teamMax) next.teamMax = willie->Team_Int;
         }
 
-        if (TargetsPlayer(willie, runtime.player)) ++next.targetingPlayer;
-        auto* ai = ActorUtils::GetAIController(willie);
+        if (TargetsPlayer(willie, runtime.player, ai)) ++next.targetingPlayer;
         if (!ai) return;
 
         ++next.aiControllers;
@@ -807,43 +787,35 @@ void AIDirector::RefreshStatus(const RuntimeContextSnapshot& runtime, TargetFilt
         next.strafeIntent /= next.aiControllers;
     }
 
-    CommandResult result;
-    result.message = "Status updated";
-    PublishStatus(next, std::move(result));
+    PublishStatus(next);
 }
 
 void AIDirector::SetAITick(const RuntimeContextSnapshot& runtime, TargetFilter query, bool enabled) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
-        if (auto* ai = ActorUtils::GetAIController(willie)) {
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C*, SDK::AAI_BP_C* ai) {
+        if (ai) {
             ai->SetActorTickEnabled(enabled);
             ++result.affected;
-        } else {
-            ++result.skippedNoAI;
         }
     });
-    PublishResult(result, enabled ? "NPCs resumed" : "NPCs frozen", true);
+    PublishMutationResult(result, true);
 }
 
 void AIDirector::StopAI(const RuntimeContextSnapshot& runtime, TargetFilter query) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
-        auto* ai = ActorUtils::GetAIController(willie);
-        if (!ai) {
-            ++result.skippedNoAI;
-            return;
-        }
-        SetAggression(willie, 0.0, 0.0, 0.0, 0.0);
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+        if (!ai) return;
+        SetAggression(willie, ai, 0.0, 0.0, 0.0, 0.0);
         ai->Target = nullptr;
         ai->Target_Found = false;
         ai->SetActorTickEnabled(false);
         ++result.affected;
     });
-    PublishResult(result, "Combat ended", true);
+    PublishMutationResult(result, true);
 }
 
 void AIDirector::ApplyBehavior(
@@ -852,7 +824,7 @@ void AIDirector::ApplyBehavior(
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
         willie->Drunk = settings.drunkLevel;
         willie->Body_Skill__Temp_ = settings.bodySkill;
         willie->Weapon_Skill__Temp_ = settings.weaponSkill;
@@ -861,7 +833,7 @@ void AIDirector::ApplyBehavior(
         willie->AI_Invincibility_Rate = settings.aiInvincibility;
         willie->AI_Armor_Invincibility_Rate = settings.aiArmorInvincibility;
         SetAggression(
-            willie, settings.attackIntent, settings.defendIntent, settings.retreatIntent, settings.strafeIntent
+            willie, ai, settings.attackIntent, settings.defendIntent, settings.retreatIntent, settings.strafeIntent
         );
         ActorUtils::SetFearlessReinforced(willie, settings.fearless);
         if (settings.fearless) {
@@ -870,7 +842,7 @@ void AIDirector::ApplyBehavior(
             willie->Fearless = false;
         }
 
-        if (auto* ai = ActorUtils::GetAIController(willie)) {
+        if (ai) {
             ai->Drunkness = settings.drunkLevel;
             ai->Berserk_Rate = settings.berserkRate;
             ai->Parry_Rate = settings.parryRate;
@@ -882,31 +854,25 @@ void AIDirector::ApplyBehavior(
             ai->Strafe_Enum = static_cast<SDK::EAI_Strafe_Enum>(settings.strafeMode);
             ai->Team_Int = willie->Team_Int;
             if (!settings.fearless) ai->Fearless = false;
-        } else {
-            ++result.skippedNoAI;
         }
         ++result.affected;
     });
     ActorUtils::SetFearlessReinforcementHooksEnabled(
         ActorUtils::PruneFearlessReinforcementTargets(runtime.world, runtime.player)
     );
-    PublishResult(result, "Combat behavior changed", false);
+    PublishMutationResult(result, false);
 }
 
 void AIDirector::ApplyTeam(const RuntimeContextSnapshot& runtime, TargetFilter query, int newTeam) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
         willie->Team_Int = newTeam;
-        if (auto* ai = ActorUtils::GetAIController(willie)) {
-            ai->Team_Int = newTeam;
-        } else {
-            ++result.skippedNoAI;
-        }
+        if (ai) ai->Team_Int = newTeam;
         ++result.affected;
     });
-    PublishResult(result, "Alliance changed", false);
+    PublishMutationResult(result, false);
 }
 
 void AIDirector::ApplyProfile(const RuntimeContextSnapshot& runtime, TargetFilter query, Profile profile) {
@@ -914,12 +880,11 @@ void AIDirector::ApplyProfile(const RuntimeContextSnapshot& runtime, TargetFilte
 
     const int playerTeam = runtime.player ? runtime.player->Team_Int : 0;
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
-        if (!ActorUtils::GetAIController(willie)) ++result.skippedNoAI;
-        ApplyProfileToWillie(willie, profile, playerTeam);
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+        ApplyProfileToWillie(willie, ai, profile, playerTeam);
         ++result.affected;
     });
-    PublishResult(result, "Combat personality changed", false);
+    PublishMutationResult(result, false);
 }
 
 void AIDirector::SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter query, TargetMode mode) {
@@ -935,12 +900,8 @@ void AIDirector::SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter q
     }
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
-        auto* ai = ActorUtils::GetAIController(willie);
-        if (!ai) {
-            ++result.skippedNoAI;
-            return;
-        }
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+        if (!ai) return;
 
         if (mode == TargetMode::Clear) {
             ai->Target = nullptr;
@@ -969,30 +930,20 @@ void AIDirector::SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter q
         ++result.affected;
     });
 
-    const char* message = "Opponents forgotten";
-    if (mode == TargetMode::Player) message = "NPCs now focus on the player";
-    if (mode == TargetMode::NearestNpc) message = "NPCs now focus on the nearest NPC";
-    PublishResult(result, message, true);
+    PublishMutationResult(result, true);
 }
 
 void AIDirector::TriggerImpulse(const RuntimeContextSnapshot& runtime, TargetFilter query, Impulse impulse) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
-    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C* willie) {
-        auto* ai = ActorUtils::GetAIController(willie);
-        if (!ai) {
-            ++result.skippedNoAI;
-            return;
-        }
+    result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C*, SDK::AAI_BP_C* ai) {
+        if (!ai) return;
         if (impulse == Impulse::Attack) ai->Attack();
         if (impulse == Impulse::Dash) ai->Dash_Event();
         if (impulse == Impulse::StopBlade) ai->Stop_That_Blade();
         ++result.affected;
     });
 
-    const char* message = "NPCs attacked";
-    if (impulse == Impulse::Dash) message = "NPCs dashed";
-    if (impulse == Impulse::StopBlade) message = "Weapon swings stopped";
-    PublishResult(result, message, true);
+    PublishMutationResult(result, true);
 }

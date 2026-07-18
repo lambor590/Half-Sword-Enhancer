@@ -24,7 +24,7 @@ namespace {
         "Alternate",
     };
 
-    const char* DirectiveLabel(AIDirectorSection::Directive directive) {
+    constexpr const char* DirectiveLabel(AIDirectorSection::Directive directive) noexcept {
         switch (directive) {
             case AIDirectorSection::Directive::AttackPlayer: return "Attack Player";
             case AIDirectorSection::Directive::FightEachOther: return "Fight Each Other";
@@ -75,13 +75,17 @@ AIDirector::BehaviorSettings AIDirectorSection::SelectedBehavior() const noexcep
 }
 
 void AIDirectorSection::SyncDirectorSnapshot() {
-    auto next = AIDirector::Get().GetSnapshot();
-    summary = next.summary;
-    activeDirective = next.activeDirective;
-    if (next.lastResult.sequence == 0 || next.lastResult.sequence == lastDirectorResultSequence) return;
+    auto& director = AIDirector::Get();
+    auto next = director.GetSnapshot();
+    activeDirective = director.ActiveDirective();
+    if (next.resultSequence == 0 || next.resultSequence == lastDirectorResultSequence) return;
 
-    lastDirectorResultSequence = next.lastResult.sequence;
-    status.Set(next.lastResult.message, next.lastResult.isError);
+    summary = next.summary;
+    lastDirectorResultSequence = next.resultSequence;
+    if (next.lastError)
+        status.SetError(next.lastError);
+    else
+        status.Clear();
 }
 
 void AIDirectorSection::RefreshStatus() {

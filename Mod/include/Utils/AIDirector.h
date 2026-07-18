@@ -3,7 +3,6 @@
 #include <atomic>
 #include <cstdint>
 #include <mutex>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -103,16 +102,10 @@ public:
         double strafeIntent = 0.0;
     };
 
-    struct CommandResult {
-        std::uint64_t sequence = 0;
-        std::string message;
-        bool isError = false;
-    };
-
     struct Snapshot {
         StatusSummary summary;
-        CommandResult lastResult;
-        Directive activeDirective = Directive::None;
+        std::uint64_t resultSequence = 0;
+        const char* lastError = nullptr;
     };
 
     void RefreshStatus(TargetFilter query);
@@ -140,7 +133,6 @@ private:
     struct MutationResult {
         int matched = 0;
         int affected = 0;
-        int skippedNoAI = 0;
     };
 
     struct ActorState {
@@ -188,20 +180,19 @@ private:
     void ClearDirective(const RuntimeContextSnapshot& runtime);
     void ApplyDirective(const RuntimeContextSnapshot& runtime, bool triggerAttack);
     void OnDirectiveTick(const RuntimeContextSnapshot& runtime);
-    bool RestoreDirectiveState(const RuntimeContextSnapshot& runtime, const char* successMessage);
+    bool RestoreDirectiveState(const RuntimeContextSnapshot& runtime);
     void EnsureDirectiveTickSubscription();
     void UnsubscribeDirectiveTickIfIdle();
 
     bool PublishUnavailable(const RuntimeContextSnapshot& runtime);
-    void PublishStatus(StatusSummary summary, CommandResult result);
-    void PublishResult(MutationResult result, const char* successMessage, bool aiOnly);
-    void PublishMessage(const char* message, bool isError = false);
-    void PublishDirectiveResult(int changed, const char* successMessage);
+    void PublishStatus(StatusSummary summary);
+    void PublishMutationResult(MutationResult result, bool aiOnly);
+    void PublishCommandResult(const char* error = nullptr);
+    void PublishDirectiveResult(int changed);
 
     mutable std::mutex snapshotMutex;
     mutable std::mutex directiveMutex;
     Snapshot snapshot;
-    std::uint64_t nextResultSequence = 0;
     std::atomic<Directive> activeDirective{Directive::None};
     TargetFilter directiveQuery;
     bool pendingDirectiveRestore = false;
