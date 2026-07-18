@@ -27,6 +27,8 @@
 #include "Version.h"
 #include "Utils/GameBuildInfo.h"
 
+#include <imgui/imgui_internal.h>
+
 #include <algorithm>
 #include <bit>
 
@@ -382,6 +384,7 @@ void Gui::Render() {
         ImGui::PopStyleVar();
         if (!showWindow) ToggleVisibility();
     } else {
+        ImGui::ClosePopupsExceptModals();
         io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
     }
 
