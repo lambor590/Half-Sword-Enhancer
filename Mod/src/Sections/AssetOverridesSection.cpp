@@ -21,7 +21,7 @@ void AssetOverridesSection::Render() {
 
     if (GuiUtils::Button("Refresh Textures", GuiUtils::ButtonTone::Primary)) manager.RequestRefresh();
     (void)GuiUtils::SameLineIfFitsButton("Open Texture Folder");
-    if (GuiUtils::Button("Open Texture Folder")) PresetUtils::OpenInExplorer(manager.GetRootPath());
+    if (GuiUtils::Button("Open Texture Folder")) (void)PresetUtils::OpenInExplorer(manager.GetRootPath());
 
     if (stats.files == 0) {
         GuiUtils::RenderCallout(

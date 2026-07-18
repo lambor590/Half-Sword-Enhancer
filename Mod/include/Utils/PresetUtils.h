@@ -49,10 +49,15 @@ namespace PresetUtils {
         return {reinterpret_cast<const char*>(encoded.data()), encoded.size()};
     }
 
-    inline void OpenInExplorer(const std::filesystem::path& dir) {
+    [[nodiscard]] inline bool OpenInExplorer(const std::filesystem::path& dir) {
+        if (dir.empty()) return false;
         std::error_code ec;
         std::filesystem::create_directories(dir, ec);
-        ShellExecuteW(nullptr, L"open", dir.wstring().c_str(), nullptr, nullptr, SW_SHOWDEFAULT);
+        if (ec) return false;
+        const std::wstring parameters = L"\"" + dir.wstring() + L"\"";
+        const auto result =
+            ShellExecuteW(nullptr, nullptr, L"explorer.exe", parameters.c_str(), nullptr, SW_SHOWNORMAL);
+        return reinterpret_cast<INT_PTR>(result) > 32;
     }
 
     [[nodiscard]] inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
