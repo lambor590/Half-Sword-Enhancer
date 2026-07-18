@@ -351,6 +351,23 @@ bool WeaponEditorSection::SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& sna
     return true;
 }
 
+bool WeaponEditorSection::PresetDraftMatchesCurrent(const WeaponPresetData& draft) const {
+    if (!WeaponPassportEquals(draft.passport, weaponPassport) || draft.runtimeProps != runtimeProps ||
+        draft.classPaths != weaponPaths || draft.gripMeshPath != gripMeshPath || draft.coaInt != coaInt ||
+        draft.deferredWeaponName != deferredWeaponName)
+        return false;
+
+    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+        const auto& current = meshOverrides[i];
+        const auto& previous = draft.meshPresets[i];
+        if (previous.enabled != current.enabled || previous.meshType != current.meshType ||
+            previous.meshPath != current.path || previous.scale != current.scale ||
+            previous.rotation != current.rotation || previous.offset != current.offset)
+            return false;
+    }
+    return true;
+}
+
 void WeaponEditorSection::PublishSpawnDraftSnapshot() {
     std::scoped_lock lock(spawnDraftMutex);
     if (renderDraftRevision < publishedSpawnDraftRevision) return;
@@ -1092,6 +1109,10 @@ std::uint64_t WeaponEditorSection::BeginFeedbackRequest(FeedbackOrigin origin) n
     return feedbackRequests[static_cast<std::size_t>(origin)].fetch_add(1, std::memory_order_relaxed) + 1;
 }
 
+bool WeaponEditorSection::IsFeedbackRequestCurrent(FeedbackOrigin origin, std::uint64_t request) const noexcept {
+    return request == feedbackRequests[static_cast<std::size_t>(origin)].load(std::memory_order_relaxed);
+}
+
 void WeaponEditorSection::PublishFeedback(
     FeedbackOrigin origin, std::string error, std::uint64_t request, std::uint64_t revision
 ) {
@@ -1184,15 +1205,30 @@ void WeaponEditorSection::DrainPendingRenderUpdates() {
     if (updates.draft) {
         const std::uint64_t updateRevision = updates.draft->revision;
         const bool presetApply = updates.draft->presetApply;
+        const auto equippedBinding = updates.draft->equippedBinding;
         if (updateRevision == currentRevision) {
             ApplyDraftUpdate(std::move(*updates.draft));
+            if (equippedBinding && IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, equippedBinding->request)) {
+                equippedEdit.owner = equippedBinding->owner;
+                equippedEdit.world = equippedBinding->world;
+                equippedEdit.handIndex = equippedBinding->handIndex;
+                equippedEdit.active = true;
+                equippedEdit.loading.store(false, std::memory_order_release);
+                equippedEdit.lastDraft = BuildPresetData();
+            }
             if (presetApply && updateRevision == pendingPresetApplyRevision) {
                 presets.CompletePendingApply(true);
                 pendingPresetApplyRevision = 0;
             }
-        } else if (presetApply && updateRevision == pendingPresetApplyRevision) {
-            presets.CompletePendingApply(false, "Preset could not be loaded; your current edits were kept");
-            pendingPresetApplyRevision = 0;
+        } else {
+            if (equippedBinding && IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, equippedBinding->request)) {
+                equippedEdit.loading.store(false, std::memory_order_release);
+                presets.status.SetError("The equipped weapon changed before it could be loaded");
+            }
+            if (presetApply && updateRevision == pendingPresetApplyRevision) {
+                presets.CompletePendingApply(false, "Preset could not be loaded; your current edits were kept");
+                pendingPresetApplyRevision = 0;
+            }
         }
     }
     std::array<PendingFeedback*, FEEDBACK_ORIGIN_COUNT> validFeedback{};
@@ -1451,6 +1487,158 @@ PresetApplyDisposition WeaponEditorSection::ApplyPresetData(const WeaponPresetDa
     return PresetApplyDisposition::Pending;
 }
 
+void WeaponEditorSection::QueueEquippedWeaponCapture(SDK::AWillie_BP_C* owner, SDK::UWorld* world) {
+    if (!owner || !world) {
+        presets.status.SetError("An equipped weapon is not available in the current game");
+        return;
+    }
+
+    StopEquippedWeaponEdit();
+    preview.Disable();
+    const int handIndex = equippedEdit.handIndex;
+    const std::uint64_t updateRevision = draftRevision.fetch_add(1, std::memory_order_acq_rel) + 1;
+    const std::uint64_t request = BeginFeedbackRequest(FeedbackOrigin::EquippedEdit);
+    equippedEdit.loading.store(true, std::memory_order_release);
+    equippedEdit.owner = owner;
+    equippedEdit.world = world;
+    weaponGenerationPending.store(false, std::memory_order_release);
+    {
+        std::scoped_lock lock(pendingRenderMutex);
+        pendingRenderUpdates.draft.reset();
+    }
+
+    const bool queued = GameHook::QueueAction([this, owner, world, handIndex, updateRevision,
+                                               request](const RuntimeContextSnapshot& runtime) {
+        const auto fail = [this, request](std::string error) {
+            if (!IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, request)) return;
+            equippedEdit.loading.store(false, std::memory_order_release);
+            PublishFeedback(FeedbackOrigin::EquippedEdit, std::move(error), request);
+        };
+
+        if (!IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, request)) return;
+        if (runtime.player != owner || runtime.world != world) {
+            fail("The selected player is no longer available");
+            return;
+        }
+
+        WeaponPresetData data;
+        if (!EquipmentApplication::CaptureEquippedWeaponPreset(owner, handIndex, data)) {
+            fail("The selected hand does not hold an editable weapon");
+            return;
+        }
+
+        // Native weapon parts use static meshes. Keep their model selections available in the Models tab, but
+        // disable those snapshots so part and size edits rebuild the native geometry instead of masking it.
+        for (auto& mesh : data.meshPresets)
+            if (mesh.meshType == MeshType::Static) mesh.enabled = false;
+
+        PendingDraftUpdate update;
+        update.revision = updateRevision;
+        update.data = std::move(data);
+        update.replaceAll = true;
+        update.equippedBinding = PendingDraftUpdate::EquippedBinding{
+            .owner = owner,
+            .world = world,
+            .request = request,
+            .handIndex = handIndex,
+        };
+        std::string error;
+        if (!PrepareDraftUpdate(update, error)) {
+            fail("Could not load the equipped weapon: " + error);
+            return;
+        }
+        if (!PublishAppliedPresetSpawnSnapshot(update)) {
+            fail("The equipped weapon changed before it could be loaded");
+            return;
+        }
+        PublishFeedback(FeedbackOrigin::EquippedEdit, {}, request);
+        PublishDraftUpdate(std::move(update));
+    });
+    if (queued) return;
+
+    equippedEdit.loading.store(false, std::memory_order_release);
+    PublishFeedback(FeedbackOrigin::EquippedEdit, "Could not load the equipped weapon", request);
+}
+
+void WeaponEditorSection::QueueEquippedWeaponUpdate() {
+    if (!equippedEdit.active || !equippedEdit.owner || !equippedEdit.world) return;
+
+    auto draft = BuildPresetData();
+    equippedEdit.lastDraft = draft;
+    auto* owner = equippedEdit.owner;
+    auto* world = equippedEdit.world;
+    const int handIndex = equippedEdit.handIndex;
+    const std::uint64_t request = BeginFeedbackRequest(FeedbackOrigin::EquippedEdit);
+
+    const bool queued =
+        GameHook::QueueAction([this, owner, world, handIndex, request,
+                               draft = std::move(draft)](const RuntimeContextSnapshot& runtime) mutable {
+            if (!IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, request)) return;
+            if (runtime.player != owner || runtime.world != world) {
+                PublishFeedback(
+                    FeedbackOrigin::EquippedEdit, "Live weapon editing stopped because the player changed", request
+                );
+                return;
+            }
+
+            std::string error;
+            if (!EquipmentApplication::SynchronizeConfiguredWeaponActors(
+                    runtime.world, runtime.player, handIndex, &draft, &error
+                )) {
+                PublishFeedback(
+                    FeedbackOrigin::EquippedEdit,
+                    error.empty() ? "The equipped weapon could not be updated"
+                                  : "The equipped weapon could not be updated: " + std::move(error),
+                    request
+                );
+                return;
+            }
+            PublishFeedback(FeedbackOrigin::EquippedEdit, {}, request);
+        });
+    if (queued) return;
+
+    if (IsFeedbackRequestCurrent(FeedbackOrigin::EquippedEdit, request)) equippedEdit.lastDraft.reset();
+    PublishFeedback(FeedbackOrigin::EquippedEdit, "The equipped weapon update could not be queued", request);
+}
+
+void WeaponEditorSection::StopEquippedWeaponEdit() {
+    (void)BeginFeedbackRequest(FeedbackOrigin::EquippedEdit);
+    equippedEdit.loading.store(false, std::memory_order_release);
+    equippedEdit.owner = nullptr;
+    equippedEdit.world = nullptr;
+    equippedEdit.active = false;
+    equippedEdit.lastDraft.reset();
+    auto& statusToken = feedbackStatusTokens[static_cast<std::size_t>(FeedbackOrigin::EquippedEdit)];
+    presets.status.ClearText(statusToken);
+    statusToken = 0;
+}
+
+void WeaponEditorSection::RenderEquippedWeaponControls(SDK::AWillie_BP_C* player, SDK::UWorld* world) {
+    static constexpr const char* HAND_NAMES[] = {"Right Hand", "Left Hand"};
+    static const float HAND_COMBO_WIDTH = GuiUtils::CalcComboWidth(HAND_NAMES, 2);
+
+    ImGui::SeparatorText("Equipped Weapon");
+    if (equippedEdit.active) {
+        ImGui::TextColored(ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Editing %s live", HAND_NAMES[equippedEdit.handIndex]);
+        (void)GuiUtils::SameLineIfFitsButton("Stop Editing");
+        if (ImGui::SmallButton("Stop Editing")) StopEquippedWeaponEdit();
+        GuiUtils::HelpTooltip("Stop applying editor changes to the equipped weapon");
+        return;
+    }
+
+    GuiUtils::PrepareNextCombo(HAND_COMBO_WIDTH);
+    (void)ImGui::Combo("Hand", &equippedEdit.handIndex, HAND_NAMES, 2);
+
+    const bool loading = equippedEdit.loading.load(std::memory_order_acquire);
+    if (!player || !world || loading) ImGui::BeginDisabled();
+    if (GuiUtils::Button(
+            loading ? "Loading Equipped Weapon..." : "Edit Equipped Weapon", GuiUtils::ButtonTone::Primary
+        ))
+        QueueEquippedWeaponCapture(player, world);
+    GuiUtils::HelpTooltip("Load the weapon in this hand and apply each completed editor change back to it");
+    if (!player || !world || loading) ImGui::EndDisabled();
+}
+
 void WeaponEditorSection::RenderSpawnFooter() {
     auto [world, player] = RenderPlayerWorld();
 
@@ -1515,8 +1703,14 @@ void WeaponEditorSection::Render() {
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
     DrainPendingRenderUpdates();
+    const bool equippedLoadPending = equippedEdit.loading.load(std::memory_order_acquire);
+    if ((equippedEdit.active || equippedLoadPending) && (player != equippedEdit.owner || world != equippedEdit.world)) {
+        StopEquippedWeaponEdit();
+        presets.status.SetError("Live weapon editing stopped because the player changed");
+    }
     const bool presetApplyPending = presets.IsApplyPending();
-    if (presetApplyPending) ImGui::BeginDisabled();
+    const bool editorBusy = presetApplyPending || equippedEdit.loading.load(std::memory_order_acquire);
+    if (editorBusy) ImGui::BeginDisabled();
 
     keybinds.Render();
     ImGui::Spacing();
@@ -1528,6 +1722,7 @@ void WeaponEditorSection::Render() {
         GameHook::QueueAction([this](const RuntimeContextSnapshot&) { globalModules.Populate(); });
     }
 
+    RenderEquippedWeaponControls(player, world);
     GuiUtils::RenderPreviewControls(cfg.preview, "preview weapon");
 
     presets.status.Render();
@@ -1560,14 +1755,17 @@ void WeaponEditorSection::Render() {
 
     RenderSpawnFooter();
 
-    if (presetApplyPending) ImGui::EndDisabled();
+    if (editorBusy) ImGui::EndDisabled();
 
-    if (!presetApplyPending && cfg.preview.livePreview && player && world) {
+    if (!editorBusy && cfg.preview.livePreview && player && world) {
         bool needsUpdate = weaponPaths != lastPreviewedPaths ||
                            !WeaponPassportEquals(weaponPassport, lastPreviewedPassport) ||
                            runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }
+    if (!editorBusy && equippedEdit.active && !ImGui::IsAnyItemActive() &&
+        (!equippedEdit.lastDraft || !PresetDraftMatchesCurrent(*equippedEdit.lastDraft)))
+        QueueEquippedWeaponUpdate();
     PublishSpawnDraftSnapshot();
 }

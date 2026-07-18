@@ -21,7 +21,9 @@
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
 namespace SDK {
+    class AWillie_BP_C;
     class AModularWeaponBP_C;
+    class UWorld;
 }
 
 class WeaponEditorSection : public Section {
@@ -72,6 +74,15 @@ private:
 
     PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
+
+    struct EquippedEditState {
+        std::atomic<bool> loading{false};
+        SDK::AWillie_BP_C* owner = nullptr;
+        SDK::UWorld* world = nullptr;
+        std::optional<WeaponPresetData> lastDraft;
+        int handIndex = 0;
+        bool active = false;
+    } equippedEdit;
 
     std::array<OverrideDescriptor, 10> combatFields;
     std::array<OverrideDescriptor, 1> physicsFields;
@@ -128,11 +139,19 @@ private:
     };
 
     struct PendingDraftUpdate {
+        struct EquippedBinding {
+            SDK::AWillie_BP_C* owner = nullptr;
+            SDK::UWorld* world = nullptr;
+            std::uint64_t request = 0;
+            int handIndex = 0;
+        };
+
         std::uint64_t revision = 0;
         WeaponPresetData data;
         SDK::UObject* loadedMeshes[MODULE_SLOT_COUNT] = {};
         bool replaceAll = false;
         bool presetApply = false;
+        std::optional<EquippedBinding> equippedBinding;
     };
 
     struct PendingPresetError {
@@ -140,7 +159,7 @@ private:
         std::uint64_t revision = 0;
     };
 
-    enum class FeedbackOrigin : std::uint8_t { Generation, Spawn, AddModel, Count };
+    enum class FeedbackOrigin : std::uint8_t { Generation, Spawn, AddModel, EquippedEdit, Count };
     static constexpr std::size_t FEEDBACK_ORIGIN_COUNT = static_cast<std::size_t>(FeedbackOrigin::Count);
 
     struct PendingFeedback {
@@ -194,6 +213,7 @@ private:
     MeshSnapshot BuildMeshSnapshot() const;
     SpawnDraftSnapshot BuildSpawnDraftSnapshot() const;
     bool SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& snapshot) const;
+    bool PresetDraftMatchesCurrent(const WeaponPresetData& draft) const;
     void PublishSpawnDraftSnapshot();
     bool PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update);
     void ApplyMeshToPreview(const MeshSnapshot& snapshot);
@@ -219,6 +239,7 @@ private:
     void PublishMeshEntries(std::vector<MeshPoolEntry> entries, bool fullReplace);
     void PublishDraftUpdate(PendingDraftUpdate update);
     std::uint64_t BeginFeedbackRequest(FeedbackOrigin origin) noexcept;
+    bool IsFeedbackRequestCurrent(FeedbackOrigin origin, std::uint64_t request) const noexcept;
     void PublishFeedback(
         FeedbackOrigin origin, std::string error, std::uint64_t request = 0, std::uint64_t revision = 0
     );
@@ -231,6 +252,10 @@ private:
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;
     PresetApplyDisposition ApplyPresetData(const WeaponPresetData& data);
+    void QueueEquippedWeaponCapture(SDK::AWillie_BP_C* owner, SDK::UWorld* world);
+    void QueueEquippedWeaponUpdate();
+    void StopEquippedWeaponEdit();
+    void RenderEquippedWeaponControls(SDK::AWillie_BP_C* player, SDK::UWorld* world);
     void RenderSpawnFooter();
     void InitKeybinds();
 
