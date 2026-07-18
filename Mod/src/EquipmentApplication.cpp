@@ -81,6 +81,13 @@ namespace EquipmentApplication {
             return armorClass && !IsIntrinsicArmorClass(armorClass);
         }
 
+        template <typename Value>
+        Value* FindArmorSlot(SDK::TMap<SDK::EArmorSlots_Enum, Value>& map, SDK::EArmorSlots_Enum slot) {
+            for (auto it = begin(map); it != end(map); ++it)
+                if (it->Key() == slot) return &it->Value();
+            return nullptr;
+        }
+
         bool ResolveStaticMeshPath(const std::string& path, SDK::UStaticMesh*& result) {
             result = nullptr;
             if (path.empty()) return true;
@@ -713,6 +720,55 @@ namespace EquipmentApplication {
             return true;
         }
 
+        bool ApplyNPCResolvedLoadout(
+            SDK::UWorld* world, SDK::AWillie_BP_C* npc, const ResolvedLoadoutPresetData& source, std::string& error
+        ) {
+            ResolvedLoadout target;
+            if (!ResolveLoadout(source, target, error)) return false;
+            if (!RemoveAllArmor(*npc)) {
+                error = "The NPC's current armor could not be removed";
+                return false;
+            }
+
+            ResetLoadEquipmentArmor(*npc, target);
+            if (!target.armor.empty()) {
+                auto& passportArmor = npc->Character_Passport.Equipment_26_741A2FC641801842FE691295645C604F
+                                            .ArmorinSlots_5_BD7AC6CB43FBB2FDB943E7864486F358;
+                for (auto it = begin(passportArmor); it != end(passportArmor); ++it) {
+                    it->Value() = {};
+                    it->Value().Slot_30_7561CB484566A4512003EA96ED44F88D = it->Key();
+                }
+                for (const auto& armor : target.armor) {
+                    const auto slot = armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
+                    auto* entry = FindArmorSlot(passportArmor, slot);
+                    if (!entry) {
+                        error = "The NPC does not support a saved armor slot";
+                        return false;
+                    }
+                    *entry = armor.passport;
+                }
+                npc->Spawn_in_Pants = false;
+                npc->Set_Up_Armor(true, false);
+            }
+
+            for (const auto& armor : target.armor) {
+                const auto slot = armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
+                const auto* equipped = FindArmorSlot(npc->Currently_Equipped_Armor, slot);
+                if (!equipped || !PresetApplication::ArmorPassportsEqual(*equipped, armor.passport)) {
+                    error = "The NPC's saved armor could not be equipped";
+                    return false;
+                }
+            }
+
+            if (!RebuildWeaponActors(world, *npc, target)) {
+                error = "The NPC's saved weapons could not be equipped";
+                return false;
+            }
+            PublishArmorRuntimeState(npc, target);
+            error.clear();
+            return true;
+        }
+
         struct PendingNPCInitialization {
             SDK::UWorld* world = nullptr;
             SDK::AWillie_BP_C* npc = nullptr;
@@ -735,13 +791,11 @@ namespace EquipmentApplication {
                     if (state->onComplete) state->onComplete(true);
                     return;
                 }
-
                 std::string error;
                 auto completion = std::move(state->onComplete);
-                if (!ApplyPlayerLoadout(state->world, state->npc, *state->loadout, &error, completion)) {
-                    g_logger.Log("linked NPC loadout could not start: %s", error.c_str());
-                    if (completion) completion(false);
-                }
+                const bool success = ApplyNPCResolvedLoadout(state->world, state->npc, *state->loadout, error);
+                if (!success) g_logger.Log("linked NPC loadout failed: %s", error.c_str());
+                if (completion) completion(success);
             });
             if (!queued) {
                 auto completion = std::move(state->onComplete);
