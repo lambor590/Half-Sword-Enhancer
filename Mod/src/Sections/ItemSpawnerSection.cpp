@@ -66,33 +66,57 @@ namespace {
 
 }
 
-SpawnWorkflow::SpawnCompletion ItemSpawnerSection::MakeSpawnCompletion(std::string action) const {
-    return [this, action = std::move(action)](const SpawnWorkflow::SpawnResult& result) {
+SpawnWorkflow::SpawnCompletion ItemSpawnerSection::MakeSpawnCompletion(
+    SpawnTarget target, GuiUtils::StatusMessage::Token token
+) const {
+    return [this, target, token](const SpawnWorkflow::SpawnResult& result) {
         if (result.success) {
-            PublishSpawnFeedback(action + " spawned", false);
+            StoreSpawnResult(target, {.token = token});
             return;
         }
-        PublishSpawnFeedback(
-            action +
-                " failed: " + (result.error.empty() ? std::string("the setup could not be completed") : result.error),
-            true
-        );
+
+        static constexpr std::array<std::string_view, SPAWN_ROUTE_COUNT> FAILURE_PREFIXES{
+            "Item failed: ",        "Custom item failed: ", "Item failed: ",
+            "Weapon preset failed: ", "Armor preset failed: ", "Item shortcut failed: ",
+        };
+        const std::string_view prefix = FAILURE_PREFIXES[static_cast<std::size_t>(target)];
+        std::string error;
+        error.reserve(prefix.size() + result.error.size());
+        error.append(prefix).append(result.error);
+        StoreSpawnResult(target, {.token = token, .error = std::move(error)});
     };
 }
 
-void ItemSpawnerSection::PublishSpawnFeedback(std::string message, bool error) const {
+void ItemSpawnerSection::StoreSpawnResult(SpawnTarget target, PendingSpawnResult result) const {
     std::lock_guard lock(spawnFeedbackMutex);
-    pendingSpawnFeedback = std::pair{std::move(message), error};
+    auto& pending = pendingSpawnResults[static_cast<std::size_t>(target)];
+    if (pending && result.token < pending->token) return;
+    pending = std::move(result);
 }
 
 void ItemSpawnerSection::ConsumeSpawnFeedback() {
-    std::optional<std::pair<std::string, bool>> feedback;
+    std::array<std::optional<PendingSpawnResult>, SPAWN_ROUTE_COUNT> results;
     {
         std::lock_guard lock(spawnFeedbackMutex);
-        feedback = std::move(pendingSpawnFeedback);
-        pendingSpawnFeedback.reset();
+        results.swap(pendingSpawnResults);
     }
-    if (feedback) presetStatus.Set(feedback->first, feedback->second);
+
+    for (std::size_t index = 0; index < results.size(); ++index) {
+        auto& result = results[index];
+        if (!result) continue;
+
+        auto& status = spawnStatuses[index];
+        if (result->token != 0 && result->token != status.revision) continue;
+        if (!result->error.empty()) {
+            status.SetError(std::move(result->error));
+            continue;
+        }
+
+        if (result->token == 0)
+            status.ClearText();
+        else
+            status.ClearText(result->token);
+    }
 }
 
 void ItemSpawnerSection::QueueModulesForCore(std::string classPath) {
@@ -131,7 +155,7 @@ void ItemSpawnerSection::QueueModulesForCore(std::string classPath) {
     if (!queued) {
         armorModules.loadQueued = false;
         armorModules.requestedFor.clear();
-        PublishSpawnFeedback("Could not load compatible armor parts", true);
+        SpawnStatus(SpawnTarget::SelectedItem).SetError("Could not load compatible armor parts");
     }
 }
 
@@ -327,31 +351,35 @@ bool ItemSpawnerSection::TryBuildCurrentSelection(ItemSpawnPresetData& data, std
     return true;
 }
 
-void ItemSpawnerSection::SpawnSelectedItem() const {
+void ItemSpawnerSection::SpawnSelectedItem() {
+    constexpr SpawnTarget TARGET = SpawnTarget::SelectedItem;
     ItemSpawnPresetData data;
     std::string error;
     if (!TryBuildCurrentSelection(data, error)) {
-        PublishSpawnFeedback("Could not spawn item: " + error, true);
+        SpawnStatus(TARGET).SetError("Could not spawn item: " + error);
         return;
     }
-    (void)QueueItemSpawnPreset(data, "Item", error);
+    const auto token = SpawnStatus(TARGET).SetInfo({});
+    QueueItemSpawnPreset(data, TARGET, token);
 }
 
-void ItemSpawnerSection::SpawnCustomPath() const {
+void ItemSpawnerSection::SpawnCustomPath() {
     if (customPathBuffer[0] == '\0') return;
+    constexpr SpawnTarget TARGET = SpawnTarget::CustomItem;
     ItemSpawnPresetData data;
     CaptureSpawnOptions(data);
     data.source = ItemSpawnPresetSource::ClassPath;
     data.classPath = customPathBuffer;
-    std::string error;
-    (void)QueueItemSpawnPreset(data, "Custom item", error);
+    const auto token = SpawnStatus(TARGET).SetInfo({});
+    QueueItemSpawnPreset(data, TARGET, token);
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
     if (!weaponPicker.HasSelection()) return;
+    constexpr SpawnTarget TARGET = SpawnTarget::WeaponPreset;
     auto loaded = WeaponPresetSerializer::LoadFromFileResult(weaponPicker.SelectedPath());
     if (!loaded.success) {
-        presetStatus.Set("Weapon preset: " + loaded.error, true);
+        SpawnStatus(TARGET).SetError("Weapon preset: " + loaded.error);
         return;
     }
 
@@ -359,16 +387,16 @@ void ItemSpawnerSection::SpawnWeaponFromPreset() {
     CaptureSpawnOptions(data);
     data.source = ItemSpawnPresetSource::WeaponPreset;
     data.weaponPreset = MakePresetCopyLink(std::move(loaded.value));
-    std::string error;
-    const bool queued = QueueItemSpawnPreset(data, "Weapon preset", error);
-    presetStatus.Set(queued ? "Spawning weapon..." : error, !queued);
+    const auto token = SpawnStatus(TARGET).SetInfo("Spawning weapon...");
+    QueueItemSpawnPreset(data, TARGET, token);
 }
 
 void ItemSpawnerSection::SpawnArmorFromPreset() {
     if (!armorPicker.HasSelection()) return;
+    constexpr SpawnTarget TARGET = SpawnTarget::ArmorPreset;
     auto loaded = ArmorPresetSerializer::LoadFromFileResult(armorPicker.SelectedPath());
     if (!loaded.success) {
-        presetStatus.Set("Armor preset: " + loaded.error, true);
+        SpawnStatus(TARGET).SetError("Armor preset: " + loaded.error);
         return;
     }
 
@@ -376,9 +404,8 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     CaptureSpawnOptions(data);
     data.source = ItemSpawnPresetSource::ArmorPreset;
     data.armorPreset = MakePresetCopyLink(std::move(loaded.value));
-    std::string error;
-    const bool queued = QueueItemSpawnPreset(data, "Armor preset", error);
-    presetStatus.Set(queued ? "Spawning armor..." : error, !queued);
+    const auto token = SpawnStatus(TARGET).SetInfo("Spawning armor...");
+    QueueItemSpawnPreset(data, TARGET, token);
 }
 
 bool ItemSpawnerSection::TryBuildItemSpawnPreset(ItemSpawnPresetData& data, std::string& error, bool validate) const {
@@ -530,23 +557,24 @@ void ItemSpawnerSection::ApplyItemSpawnPreset(const ItemSpawnPresetData& data) {
     }
 }
 
-bool ItemSpawnerSection::QueueItemSpawnPreset(
-    const ItemSpawnPresetData& data, std::string_view action, std::string& error
+void ItemSpawnerSection::QueueItemSpawnPreset(
+    const ItemSpawnPresetData& data, SpawnTarget target, GuiUtils::StatusMessage::Token token
 ) const {
-    error.clear();
-    return SpawnWorkflow::QueueItemPresetSpawn(
-        RenderSnapshot(), data, MakeSpawnCompletion(std::string(action)), &error
+    (void)SpawnWorkflow::QueueItemPresetSpawn(
+        RenderSnapshot(), data, MakeSpawnCompletion(target, token)
     );
 }
 
 void ItemSpawnerSection::SpawnItemSpawnPreset() {
+    constexpr SpawnTarget TARGET = SpawnTarget::ItemPreset;
     ItemSpawnPresetData data;
     std::string error;
-    if (!TryBuildItemSpawnPreset(data, error) || !QueueItemSpawnPreset(data, "Item", error)) {
-        itemSpawnPresets.status.Set(error.empty() ? "Could not spawn item" : error, true);
+    if (!TryBuildItemSpawnPreset(data, error)) {
+        SpawnStatus(TARGET).SetError(error.empty() ? "Could not spawn item" : std::move(error));
         return;
     }
-    itemSpawnPresets.status.Set("Spawning item...");
+    const auto token = SpawnStatus(TARGET).SetInfo("Spawning item...");
+    QueueItemSpawnPreset(data, TARGET, token);
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) {
@@ -624,7 +652,9 @@ struct ItemSpawnerSection::BindingOps {
     }
 
     void Spawn(const SpawnSnapshot& snapshot, const RuntimeContextSnapshot& runtime) const {
-        (void)SpawnWorkflow::SpawnItemPreset(runtime, snapshot.data, owner.MakeSpawnCompletion("Item"));
+        (void)SpawnWorkflow::SpawnItemPreset(
+            runtime, snapshot.data, owner.MakeSpawnCompletion(SpawnTarget::Shortcuts, 0)
+        );
     }
 
     void AppendParams(
@@ -637,11 +667,11 @@ struct ItemSpawnerSection::BindingOps {
     }
 };
 
-bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
+bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) {
     ItemSpawnPresetData data;
     std::string error;
     if (!TryBuildItemSpawnPreset(data, error)) {
-        PublishSpawnFeedback("Could not create item shortcut: " + error, true);
+        SpawnStatus(SpawnTarget::Shortcuts).SetError("Could not create item shortcut: " + error);
         return false;
     }
     data.name = data.name.empty() ? ItemSpawnSourceName(data.source) : data.name;
@@ -855,7 +885,7 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
     auto [world, player] = RenderPlayerWorld();
 
     ImGui::Text("Custom Item Address");
-    ImGui::SetNextItemWidth(-1.0f);
+    GuiUtils::SetNextInputWidth();
     ImGui::InputText("##CustomPath", customPathBuffer, sizeof(customPathBuffer));
 
     const bool hasPath = customPathBuffer[0] != '\0';
@@ -863,9 +893,9 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
     if (!canSpawn) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Custom Item", GuiUtils::ButtonTone::Primary)) SpawnCustomPath();
     if (!canSpawn) ImGui::EndDisabled();
-    (void)GuiUtils::SameLineIfFitsButton("Save Address");
     if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
         ImGui::SetItemTooltip(hasPath ? "Open a map before spawning" : "Enter an item address first");
+    SpawnStatus(SpawnTarget::CustomItem).Render();
 
     if (!hasPath) ImGui::BeginDisabled();
     if (GuiUtils::Button("Save Address")) reg.AddCustomPath(customPathBuffer);
@@ -896,7 +926,6 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
 void ItemSpawnerSection::RenderItemSpawnProfiles(bool canSpawn) {
     if (!ImGui::TreeNodeEx("Item Presets", ImGuiTreeNodeFlags_DefaultOpen)) return;
 
-    itemSpawnPresets.status.Render();
     ImGui::SeparatorText("What to Spawn");
 
     const char* sourcePreview = "Current item";
@@ -935,7 +964,7 @@ void ItemSpawnerSection::RenderItemSpawnProfiles(bool canSpawn) {
             ImGui::TextDisabled("Uses the item and options selected above.");
             break;
         case ProfileDraftSource::CustomPath:
-            ImGui::SetNextItemWidth(-1.0f);
+            GuiUtils::SetNextInputWidth();
             ImGui::InputTextWithHint(
                 "##ItemProfileCustomPath", "/Game/.../Blueprint.Blueprint_C", customPathBuffer, sizeof(customPathBuffer)
             );
@@ -985,16 +1014,21 @@ void ItemSpawnerSection::RenderItemSpawnProfiles(bool canSpawn) {
         else
             ImGui::SetItemTooltip("Spawn one item from this preset");
     }
+    SpawnStatus(SpawnTarget::ItemPreset).Render();
 
     itemSpawnPresets.RenderPresetsTab(
-        [draft]() { return PresetBuildResult<ItemSpawnPresetData>::Success(draft); },
-        [this](const ItemSpawnPresetData& loaded) { ApplyItemSpawnPreset(loaded); }, draftValid
+        [draft](const char*, bool) { return PresetBuildResult<ItemSpawnPresetData>::Success(draft); },
+        [this](const ItemSpawnPresetData& loaded) {
+            ApplyItemSpawnPreset(loaded);
+            return PresetApplyDisposition::Applied;
+        },
+        draftValid
     );
+    itemSpawnPresets.status.Render();
     ImGui::TreePop();
 }
 
 void ItemSpawnerSection::RenderPresetSection() {
-    presetStatus.Render();
     auto [world, player] = RenderPlayerWorld();
 
     ImGui::Separator();
@@ -1011,6 +1045,7 @@ void ItemSpawnerSection::RenderPresetSection() {
             if (!canSpawn) ImGui::EndDisabled();
             if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
                 ImGui::SetItemTooltip("Open a map before spawning");
+            SpawnStatus(SpawnTarget::WeaponPreset).Render();
         }
 
         armorPicker.Render("Armor Preset");
@@ -1020,6 +1055,7 @@ void ItemSpawnerSection::RenderPresetSection() {
             if (!canSpawn) ImGui::EndDisabled();
             if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
                 ImGui::SetItemTooltip("Open a map before spawning");
+            SpawnStatus(SpawnTarget::ArmorPreset).Render();
         }
 
         ImGui::TreePop();
@@ -1086,9 +1122,11 @@ void ItemSpawnerSection::Render() {
     if (!canSpawn) ImGui::EndDisabled();
     if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
         ImGui::SetItemTooltip("Open a map before spawning an item");
+    SpawnStatus(SpawnTarget::SelectedItem).Render();
 
     RenderPresetSection();
 
+    SpawnStatus(SpawnTarget::Shortcuts).Render();
     if (ImGui::TreeNode("Spawn Shortcuts")) {
         RenderSpawnBindings();
         ImGui::TreePop();

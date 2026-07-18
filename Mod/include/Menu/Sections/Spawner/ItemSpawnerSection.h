@@ -85,9 +85,26 @@ private:
     std::string pendingArmorModuleClassPath;
     bool hasPendingArmorModuleSelection = false;
     std::string profileDraftError;
-    GuiUtils::StatusMessage presetStatus;
+
+    enum class SpawnTarget : uint8_t {
+        SelectedItem,
+        CustomItem,
+        ItemPreset,
+        WeaponPreset,
+        ArmorPreset,
+        Shortcuts,
+        Count,
+    };
+
+    struct PendingSpawnResult {
+        GuiUtils::StatusMessage::Token token = 0;
+        std::string error;
+    };
+
+    static constexpr std::size_t SPAWN_ROUTE_COUNT = static_cast<std::size_t>(SpawnTarget::Count);
+    std::array<GuiUtils::StatusMessage, SPAWN_ROUTE_COUNT> spawnStatuses;
+    mutable std::array<std::optional<PendingSpawnResult>, SPAWN_ROUTE_COUNT> pendingSpawnResults;
     mutable std::mutex spawnFeedbackMutex;
-    mutable std::optional<std::pair<std::string, bool>> pendingSpawnFeedback;
 
     struct ArmorModuleBatch {
         std::string classPath;
@@ -124,25 +141,32 @@ private:
     void RenderMaskedTierCombo(const char* comboLabel, uint16_t mask);
     void UpdateItemNamesCache();
     void UpdateFilteredItems();
-    void SpawnSelectedItem() const;
-    void SpawnCustomPath() const;
+    void SpawnSelectedItem();
+    void SpawnCustomPath();
     void SpawnWeaponFromPreset();
     void SpawnArmorFromPreset();
     void CaptureSpawnOptions(ItemSpawnPresetData& data) const;
     bool TryBuildCurrentSelection(ItemSpawnPresetData& data, std::string& error) const;
     bool TryBuildItemSpawnPreset(ItemSpawnPresetData& data, std::string& error, bool validate = true) const;
     void ApplyItemSpawnPreset(const ItemSpawnPresetData& data);
-    bool QueueItemSpawnPreset(const ItemSpawnPresetData& data, std::string_view action, std::string& error) const;
+    void QueueItemSpawnPreset(
+        const ItemSpawnPresetData& data, SpawnTarget target, GuiUtils::StatusMessage::Token token
+    ) const;
     void SpawnItemSpawnPreset();
     bool SelectRegistryIndex(std::size_t index);
     bool SelectRegistryItemByClassPath(std::string_view classPath);
     bool SelectRegistryCustomizable(int customizable);
     void RenderItemSpawnProfiles(bool canSpawn);
-    bool CaptureCurrentSelection(SpawnBinding& binding) const;
+    bool CaptureCurrentSelection(SpawnBinding& binding);
     void LoadSpawnBindings();
     void RenderSpawnBindings();
-    [[nodiscard]] SpawnWorkflow::SpawnCompletion MakeSpawnCompletion(std::string action) const;
-    void PublishSpawnFeedback(std::string message, bool error) const;
+    [[nodiscard]] SpawnWorkflow::SpawnCompletion MakeSpawnCompletion(
+        SpawnTarget target, GuiUtils::StatusMessage::Token token
+    ) const;
+    void StoreSpawnResult(SpawnTarget target, PendingSpawnResult result) const;
+    GuiUtils::StatusMessage& SpawnStatus(SpawnTarget target) noexcept {
+        return spawnStatuses[static_cast<std::size_t>(target)];
+    }
     void ConsumeSpawnFeedback();
 
 public:
