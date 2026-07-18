@@ -513,7 +513,7 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         if (!nearest) [[unlikely]]
             return;
 
-        PossessState::prevController = static_cast<SDK::AAIController*>(nearest->GetController());
+        PossessState::prevController = static_cast<SDK::AAIController*>(nearest->Controller);
         if (PossessState::prevController) [[likely]] {
             PossessState::prevController->SetActorTickEnabled(false);
         }
