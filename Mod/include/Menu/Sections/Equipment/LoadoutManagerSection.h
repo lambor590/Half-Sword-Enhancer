@@ -13,7 +13,6 @@
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
 #include "Utils/ArmorGenerationOptions.h"
-#include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
 #include "Utils/LoadoutPresetSerializer.h"
 #include "Utils/PresetSectionState.h"
@@ -41,15 +40,6 @@ public:
 private:
     Config cfg;
 
-    static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
-    static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
-
-    inline static constexpr std::array<const char*, LoadoutPresetData::K_WEAPON_SLOT_COUNT> WEAPON_SLOT_NAMES = {
-        "Right Hand", "Left Hand", "Slot R1", "Slot R2", "Slot L1", "Slot L2", "Back",
-    };
-
-    static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
-
     struct ClassNameCache {
         SDK::UClass* ptr = nullptr;
         std::string name;
@@ -67,14 +57,16 @@ private:
     SDK::EArmorSlots_Enum pendingSlot{};
     bool pendingSlotApply = false;
 
-    using ArmorTransactionBuilder = std::function<bool(
-        const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>&, std::vector<ArmorPresetData>&, std::string&
-    )>;
+    using ArmorTransactionBuilder =
+        std::function<bool(const RuntimeContextSnapshot&, std::vector<ArmorPresetData>&, std::string&)>;
     using ArmorTransactionSuccess = std::function<void(SDK::AWillie_BP_C*)>;
     std::atomic<bool> armorOperationInProgress{false};
     std::mutex equipmentOperationMutex;
+    struct KeybindArmorConfig {
+        int tier = 4;
+        EquipmentGenerator::ArmorGenerationOptions options;
+    } keybindConfigSnapshot;
     std::mutex keybindConfigMutex;
-    Config keybindConfigSnapshot;
 
     PresetSectionState<LoadoutPresetSerializer> presets;
     PresetLinkPickerState<WeaponPresetSerializer> weaponPresetComposer;
@@ -84,27 +76,28 @@ private:
     SDK::AWillie_BP_C* draftOwner = nullptr;
     struct PendingDraftUpdates {
         std::optional<LoadoutPresetData> loadout;
-        std::vector<std::pair<int, PresetLink<WeaponPresetData>>> weapons;
-        std::vector<std::pair<int, PresetLink<ArmorPresetData>>> armor;
-        std::vector<std::pair<std::string, bool>> feedback;
+        std::array<std::optional<PresetLink<WeaponPresetData>>, LoadoutPresetData::K_WEAPON_SLOT_COUNT> weapons;
+        std::array<std::optional<PresetLink<ArmorPresetData>>, LoadoutPresetData::K_ARMOR_SLOT_COUNT> armor;
+        std::optional<std::string> result;
+        bool clearArmorLinks = false;
     } pendingDraftUpdates;
     std::mutex pendingDraftMutex;
+    std::atomic<bool> pendingDraftReady{false};
+    GuiUtils::StatusMessage::Token draftStatusToken = 0;
     bool draftDetachedFromRuntime = false;
+    enum class LoadoutApplyResult : std::uint8_t { None, Success, Failure, PlayerChanged };
     std::atomic<std::uint64_t> loadoutApplyGeneration{0};
-    std::atomic<int> loadoutApplyStatus{0};
+    std::atomic<LoadoutApplyResult> loadoutApplyResult{LoadoutApplyResult::None};
     std::atomic<bool> loadoutApplyInProgress{false};
     struct PresetSaveState {
-        struct CapturedSave {
-            std::string name;
-            LoadoutPresetData data;
-            bool overwrite = false;
-        };
         struct Completion {
-            std::optional<CapturedSave> captured;
+            std::optional<LoadoutPresetData> data;
             PresetOperationResult operation;
+            bool overwrite = false;
         };
 
         std::atomic<bool> inProgress{false};
+        std::atomic<bool> completionReady{false};
         std::mutex completionMutex;
         std::optional<Completion> completion;
 
@@ -114,7 +107,8 @@ private:
     std::shared_ptr<PresetSaveState> presetSaveState = std::make_shared<PresetSaveState>();
     int activeTab = 0;
 
-    static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot);
+    static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) noexcept;
+    static const char* GetWeaponSlotDisplayName(int slot) noexcept;
     void ScheduleSlotApply(SDK::EArmorSlots_Enum slot);
     void EnsureModulePool();
     static bool RenderVectorDrag(const char* label, SDK::FVector& vec);
@@ -132,19 +126,22 @@ private:
     void RandomizeAllArmor(const RuntimeContextSnapshot* immediateRuntime = nullptr);
     void GenerateWeaponForSlot(int slotIndex);
     void ImportWeaponPreset(int slotIndex);
-    void ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum);
+    void ImportArmorPreset(std::optional<SDK::EArmorSlots_Enum> expectedSlot = std::nullopt);
     [[nodiscard]] PresetApplyDisposition ApplyLoadoutPreset(const LoadoutPresetData& data);
-    void QueueDraftFeedback(std::string message, bool error = false);
+    void SetDraftError(std::string error);
+    void QueueDraftResult(std::string error = {});
     void QueueWeaponDraftUpdate(SDK::AWillie_BP_C* owner, int slotIndex, PresetLink<WeaponPresetData> link);
     void QueueArmorDraftUpdate(SDK::AWillie_BP_C* owner, int slotIndex, PresetLink<ArmorPresetData> link);
+    void QueueClearArmorDraftLinks(SDK::AWillie_BP_C* owner);
     void FinishLoadoutApply(
         SDK::AWillie_BP_C* owner, std::uint64_t generation, std::optional<LoadoutPresetData> loadout,
-        int failureStatus = 3
+        LoadoutApplyResult failureResult = LoadoutApplyResult::Failure
     );
     void AdoptLoadoutDraft(LoadoutPresetData loadout, bool detachedFromRuntime);
     void ResetDraftOwner(SDK::AWillie_BP_C* owner);
     void ConsumePendingDraftUpdates(SDK::AWillie_BP_C* owner);
     void CheckDraftLinks();
+    [[nodiscard]] bool HasBrokenDraft() const noexcept;
     [[nodiscard]] std::optional<std::string> GetBrokenDraftDiagnostic() const;
     [[nodiscard]] bool IsEquipmentBusy() const noexcept;
     PresetBuildResult<LoadoutPresetData> QueuePresetSave(std::string name, bool overwrite);

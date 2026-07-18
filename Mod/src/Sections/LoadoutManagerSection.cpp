@@ -18,7 +18,6 @@
 
 #include <array>
 #include <cstdint>
-#include <memory>
 
 namespace {
     constexpr const char* LOADOUT_CONFIG_SECTION = "LoadoutManager";
@@ -141,14 +140,18 @@ const char* LoadoutManagerSection::ClassNameCache::Get(SDK::UClass* cls) {
     return name.c_str();
 }
 
-const char* LoadoutManagerSection::GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) {
-    int val = static_cast<int>(slot);
-    for (int i = 0; i < ARMOR_SLOT_COUNT; ++i) {
-        if (ARMOR_SLOTS[i].slotEnum == val) return ARMOR_SLOTS[i].name;
-    }
-    if (val == 2) return "Unused Slot 2";
-    if (val == 3) return "Unused Slot 3";
-    return "Other";
+const char* LoadoutManagerSection::GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) noexcept {
+    const auto index = static_cast<std::size_t>(slot);
+    return index < LoadoutPresetData::K_ARMOR_SLOT_LABELS.size()
+               ? LoadoutPresetData::K_ARMOR_SLOT_LABELS[index].data()
+               : "Other";
+}
+
+const char* LoadoutManagerSection::GetWeaponSlotDisplayName(int slot) noexcept {
+    const auto index = static_cast<std::size_t>(slot);
+    return index < LoadoutPresetData::K_WEAPON_SLOT_LABELS.size()
+               ? LoadoutPresetData::K_WEAPON_SLOT_LABELS[index].data()
+               : "Other";
 }
 
 void LoadoutManagerSection::ScheduleSlotApply(SDK::EArmorSlots_Enum slot) {
@@ -183,16 +186,16 @@ void LoadoutManagerSection::QueueArmorTransaction(
     {
         std::lock_guard operationLock(equipmentOperationMutex);
         if (presetSaveState->inProgress.load(std::memory_order_acquire)) {
-            QueueDraftFeedback("Wait for the loadout to finish saving", true);
+            QueueDraftResult("Wait for the loadout to finish saving");
             return;
         }
         if (loadoutApplyInProgress.load(std::memory_order_acquire)) {
-            QueueDraftFeedback("Wait for the current loadout change to finish", true);
+            QueueDraftResult("Wait for the current loadout change to finish");
             return;
         }
         bool expected = false;
         if (!armorOperationInProgress.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
-            QueueDraftFeedback("Wait for the current armor change to finish", true);
+            QueueDraftResult("Wait for the current armor change to finish");
             return;
         }
     }
@@ -200,28 +203,28 @@ void LoadoutManagerSection::QueueArmorTransaction(
     auto start = [this, label = std::move(label), buildTarget = std::move(buildTarget),
                   onSuccess = std::move(onSuccess)](const RuntimeContextSnapshot& runtime) mutable {
         if (!runtime.world || !runtime.player) {
-            QueueDraftFeedback(label + " failed: no player is active", true);
+            QueueDraftResult(label + " failed: no player is active");
             armorOperationInProgress.store(false, std::memory_order_release);
             return;
         }
 
-        std::vector<ArmorPresetData> previous;
+        std::vector<ArmorPresetData> armor;
+        armor.reserve(runtime.player->Currently_Equipped_Armor.Num());
         for (auto it = begin(runtime.player->Currently_Equipped_Armor);
              it != end(runtime.player->Currently_Equipped_Armor); ++it) {
             if (!IsArmorRemovable(it->Value())) continue;
             ArmorPresetData snapshot;
             if (!EquipmentApplication::CaptureEquippedArmorPreset(runtime.player, it->Key(), snapshot)) {
-                QueueDraftFeedback(label + " failed: equipped armor is unavailable", true);
+                QueueDraftResult(label + " failed: equipped armor is unavailable");
                 armorOperationInProgress.store(false, std::memory_order_release);
                 return;
             }
-            previous.push_back(std::move(snapshot));
+            armor.push_back(std::move(snapshot));
         }
 
-        std::vector<ArmorPresetData> target;
         std::string error;
-        if (!buildTarget(runtime, previous, target, error)) {
-            QueueDraftFeedback(label + " failed: " + error, true);
+        if (!buildTarget(runtime, armor, error)) {
+            QueueDraftResult(label + " failed: " + error);
             armorOperationInProgress.store(false, std::memory_order_release);
             return;
         }
@@ -229,18 +232,15 @@ void LoadoutManagerSection::QueueArmorTransaction(
         auto* player = runtime.player;
         auto completionLabel = label;
         const bool started = EquipmentApplication::ApplyPlayerArmorSet(
-            runtime.world, player, target, &error,
+            runtime.world, player, armor, &error,
             [this, player, label = std::move(completionLabel), onSuccess = std::move(onSuccess)](bool success) mutable {
                 if (success && onSuccess) onSuccess(player);
-                if (success)
-                    QueueDraftFeedback(label + " complete");
-                else
-                    QueueDraftFeedback(label + " failed", true);
+                QueueDraftResult(success ? std::string{} : label + " failed");
                 armorOperationInProgress.store(false, std::memory_order_release);
             }
         );
         if (!started) {
-            QueueDraftFeedback(label + " failed: " + error, true);
+            QueueDraftResult(label + " failed: " + error);
             armorOperationInProgress.store(false, std::memory_order_release);
         }
     };
@@ -248,17 +248,14 @@ void LoadoutManagerSection::QueueArmorTransaction(
     if (immediateRuntime)
         start(*immediateRuntime);
     else if (!GameHook::QueueAction(std::move(start))) {
-        QueueDraftFeedback("Could not change armor", true);
+        QueueDraftResult("Could not change armor");
         armorOperationInProgress.store(false, std::memory_order_release);
     }
 }
 
 void LoadoutManagerSection::ApplyArmorToPlayer(const RuntimeContextSnapshot* immediateRuntime) {
     QueueArmorTransaction(
-        "Refresh equipped armor",
-        [](const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>& previous,
-           std::vector<ArmorPresetData>& target, std::string&) {
-            target = previous;
+        "Refresh equipped armor", [](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>&, std::string&) {
             return true;
         },
         nullptr, immediateRuntime
@@ -267,18 +264,15 @@ void LoadoutManagerSection::ApplyArmorToPlayer(const RuntimeContextSnapshot* imm
 
 void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
     QueueArmorTransaction(
-        "Update armor slot", [slot](
-                                 const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>& previous,
-                                 std::vector<ArmorPresetData>& target, std::string& error
-                             ) {
-            const bool found = std::any_of(previous.begin(), previous.end(), [slot](const auto& preset) {
+        "Update armor slot", [slot](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor,
+                                    std::string& error) {
+            const bool found = std::any_of(armor.begin(), armor.end(), [slot](const auto& preset) {
                 return preset.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == slot;
             });
             if (!found) {
                 error = "that armor is no longer equipped";
                 return false;
             }
-            target = previous;
             return true;
         }
     );
@@ -288,16 +282,12 @@ void LoadoutManagerSection::RemoveArmorForSlot(SDK::EArmorSlots_Enum slot) {
     const int slotIndex = static_cast<int>(slot);
     QueueArmorTransaction(
         "Remove armor from " + std::string(GetArmorSlotDisplayName(slot)),
-        [slot](
-            const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>& previous,
-            std::vector<ArmorPresetData>& target, std::string& error
-        ) {
-            target = previous;
-            const auto oldSize = target.size();
-            std::erase_if(target, [slot](const auto& preset) {
+        [slot](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor, std::string& error) {
+            const auto oldSize = armor.size();
+            std::erase_if(armor, [slot](const auto& preset) {
                 return preset.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == slot;
             });
-            if (target.size() == oldSize) {
+            if (armor.size() == oldSize) {
                 error = "that armor is no longer equipped";
                 return false;
             }
@@ -320,10 +310,9 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
         const WeaponPresetData* overridePreset = nullptr;
         if (slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066) {
             if (!EquipmentApplication::CaptureConfiguredWeaponPreset(player, slotIndex, configuredPreset)) {
-                QueueDraftFeedback(
-                    "Could not update " + std::string(WEAPON_SLOT_NAMES[slotIndex]) +
-                        ": equipped weapon is unavailable",
-                    true
+                QueueDraftResult(
+                    "Could not update " + std::string(GetWeaponSlotDisplayName(slotIndex)) +
+                    ": equipped weapon is unavailable"
                 );
                 return;
             }
@@ -333,25 +322,20 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
         if (!EquipmentApplication::SynchronizeConfiguredWeaponActors(
                 runtime.world, player, slotIndex, overridePreset, &error
             )) {
-            QueueDraftFeedback("Could not update " + std::string(WEAPON_SLOT_NAMES[slotIndex]) + ": " + error, true);
+            QueueDraftResult("Could not update " + std::string(GetWeaponSlotDisplayName(slotIndex)) + ": " + error);
             return;
         }
-        QueueDraftFeedback("Equipped weapon updated in " + std::string(WEAPON_SLOT_NAMES[slotIndex]));
+        QueueDraftResult();
     });
 }
 
 void LoadoutManagerSection::StripAllArmor() {
     QueueArmorTransaction(
-        "Remove removable armor",
-        [](const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>&, std::vector<ArmorPresetData>& target,
-           std::string&) {
-            target.clear();
+        "Remove removable armor", [](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor, std::string&) {
+            armor.clear();
             return true;
         },
-        [this](SDK::AWillie_BP_C* player) {
-            for (int slot = 0; slot < static_cast<int>(LoadoutPresetData::K_ARMOR_SLOT_COUNT); ++slot)
-                QueueArmorDraftUpdate(player, slot, {});
-        }
+        [this](SDK::AWillie_BP_C* player) { QueueClearArmorDraftLinks(player); }
     );
 }
 
@@ -379,24 +363,21 @@ void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum)
 
     QueueArmorTransaction(
         "Create armor for " + std::string(GetArmorSlotDisplayName(slotEnum)),
-        [slotEnum, tier, options](
-            const RuntimeContextSnapshot& runtime, const std::vector<ArmorPresetData>& previous,
-            std::vector<ArmorPresetData>& target, std::string& error
-        ) {
+        [slotEnum, tier, options](const RuntimeContextSnapshot& runtime, std::vector<ArmorPresetData>& armor,
+                                 std::string& error) {
             const auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slotEnum, options);
             auto generated = PresetApplication::SnapshotArmorPassport(passport);
             if (!generated) {
                 error = "could not create valid armor";
                 return false;
             }
-            target = previous;
-            const auto existing = std::find_if(target.begin(), target.end(), [slotEnum](const auto& preset) {
+            const auto existing = std::find_if(armor.begin(), armor.end(), [slotEnum](const auto& preset) {
                 return preset.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == slotEnum;
             });
-            if (existing != target.end())
+            if (existing != armor.end())
                 *existing = std::move(*generated);
             else
-                target.push_back(std::move(*generated));
+                armor.push_back(std::move(*generated));
             return true;
         },
         [this, slotIndex](SDK::AWillie_BP_C* player) { QueueArmorDraftUpdate(player, slotIndex, {}); }
@@ -404,25 +385,21 @@ void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum)
 }
 
 void LoadoutManagerSection::RandomizeAllArmor(const RuntimeContextSnapshot* immediateRuntime) {
-    Config snapshot;
+    KeybindArmorConfig snapshot;
     if (immediateRuntime) {
         std::lock_guard lock(keybindConfigMutex);
         snapshot = keybindConfigSnapshot;
     } else {
-        snapshot = cfg;
+        snapshot = {.tier = cfg.generateTier, .options = cfg.armorOptions};
     }
-    const auto tier = static_cast<SDK::Enum_Ranks>(snapshot.generateTier);
-    const auto options = snapshot.armorOptions;
+    const auto tier = static_cast<SDK::Enum_Ranks>(snapshot.tier);
+    const auto options = snapshot.options;
 
     QueueArmorTransaction(
         "Randomize all armor",
-        [tier, options](
-            const RuntimeContextSnapshot& runtime, const std::vector<ArmorPresetData>& previous,
-            std::vector<ArmorPresetData>& target, std::string& error
-        ) {
-            target.clear();
-            target.reserve(previous.size());
-            for (const auto& current : previous) {
+        [tier, options](const RuntimeContextSnapshot& runtime, std::vector<ArmorPresetData>& armor,
+                        std::string& error) {
+            for (auto& current : armor) {
                 const auto slot = current.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
                 const auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, options);
                 auto generated = PresetApplication::SnapshotArmorPassport(passport);
@@ -431,14 +408,11 @@ void LoadoutManagerSection::RandomizeAllArmor(const RuntimeContextSnapshot* imme
                             std::string(LoadoutManagerSection::GetArmorSlotDisplayName(slot));
                     return false;
                 }
-                target.push_back(std::move(*generated));
+                current = std::move(*generated);
             }
             return true;
         },
-        [this](SDK::AWillie_BP_C* player) {
-            for (int slot = 0; slot < static_cast<int>(LoadoutPresetData::K_ARMOR_SLOT_COUNT); ++slot)
-                QueueArmorDraftUpdate(player, slot, {});
-        },
+        [this](SDK::AWillie_BP_C* player) { QueueClearArmorDraftLinks(player); },
         immediateRuntime
     );
 }
@@ -457,12 +431,12 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
         if (!runtime.player || !runtime.world) return;
         auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier, specificType, generateGreatsword);
         if (!EquipmentGenerator::IsPassportValid(passport)) {
-            QueueDraftFeedback("Could not create a valid weapon", true);
+            QueueDraftResult("Could not create a valid weapon");
             return;
         }
         auto generatedPreset = PresetApplication::SnapshotWeaponPassport(passport);
         if (!generatedPreset) {
-            QueueDraftFeedback("Could not use the new weapon", true);
+            QueueDraftResult("Could not use the new weapon");
             return;
         }
 
@@ -470,13 +444,13 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
         if (!EquipmentApplication::SynchronizeConfiguredWeaponActors(
                 runtime.world, runtime.player, slotIndex, &*generatedPreset, &applyError
             )) {
-            QueueDraftFeedback(
-                "Could not create a weapon for " + std::string(WEAPON_SLOT_NAMES[slotIndex]) + ": " + applyError, true
+            QueueDraftResult(
+                "Could not create a weapon for " + std::string(GetWeaponSlotDisplayName(slotIndex)) + ": " + applyError
             );
             return;
         }
         QueueWeaponDraftUpdate(runtime.player, slotIndex, {});
-        QueueDraftFeedback("New weapon equipped in " + std::string(WEAPON_SLOT_NAMES[slotIndex]));
+        QueueDraftResult();
     });
 }
 
@@ -486,76 +460,86 @@ void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
     if (!weaponPresetComposer.HasLink()) return;
     auto resolved = weaponPresetComposer.Resolve();
     if (!resolved.success || !resolved.value) {
-        presets.status.Set("Weapon preset: " + resolved.error, true);
+        SetDraftError("Weapon preset: " + resolved.error);
         return;
     }
     auto data = std::move(*resolved.value);
     auto presetLink = weaponPresetComposer.GetLink();
 
-    GameHook::QueueAction([this, slotIndex, data = std::move(data),
-                           presetLink = std::move(presetLink)](const RuntimeContextSnapshot& runtime) mutable {
-        const std::string slotName = WEAPON_SLOT_NAMES[slotIndex];
+    const bool queued = GameHook::QueueAction([this, slotIndex, data = std::move(data),
+                                               presetLink = std::move(presetLink)](const RuntimeContextSnapshot& runtime) mutable {
+        const char* slotName = GetWeaponSlotDisplayName(slotIndex);
         if (!runtime.player) {
-            QueueDraftFeedback("Could not equip weapon preset in " + slotName + ": no player is active", true);
+            QueueDraftResult("Could not equip weapon preset in " + std::string(slotName) + ": no player is active");
             return;
         }
         std::string applyError;
         if (!EquipmentApplication::SynchronizeConfiguredWeaponActors(
                 runtime.world, runtime.player, slotIndex, &data, &applyError
             )) {
-            QueueDraftFeedback("Could not equip weapon preset in " + slotName + ": " + applyError, true);
+            QueueDraftResult("Could not equip weapon preset in " + std::string(slotName) + ": " + applyError);
             return;
         }
 
         QueueWeaponDraftUpdate(runtime.player, slotIndex, std::move(presetLink));
-        QueueDraftFeedback("Weapon preset equipped in " + slotName);
+        QueueDraftResult();
     });
-
-    presets.status.Set("Equipping weapon preset in " + std::string(WEAPON_SLOT_NAMES[slotIndex]) + "...");
+    if (!queued) {
+        SetDraftError("Could not start the weapon preset change");
+    }
 }
 
-void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
+void LoadoutManagerSection::ImportArmorPreset(std::optional<SDK::EArmorSlots_Enum> expectedSlot) {
     if (IsEquipmentBusy()) return;
     if (!armorPresetComposer.HasLink()) return;
     auto resolved = armorPresetComposer.Resolve();
     if (!resolved.success || !resolved.value) {
-        presets.status.Set("Armor preset: " + resolved.error, true);
+        SetDraftError("Armor preset: " + resolved.error);
         return;
     }
+    const auto slotEnum = resolved.value->passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
     const int slotIndex = static_cast<int>(slotEnum);
-    if (slotIndex < 0 || slotIndex >= static_cast<int>(armorSlotLinkStates.size())) return;
-    const auto presetSlot = resolved.value->passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
-    if (presetSlot != slotEnum) {
-        presets.status.Set(
-            "Armor preset belongs to " + std::string(GetArmorSlotDisplayName(presetSlot)) + "; choose a preset for " +
-                GetArmorSlotDisplayName(slotEnum),
-            true
+    if (slotIndex < 0 || slotIndex >= static_cast<int>(armorSlotLinkStates.size())) {
+        SetDraftError("Armor preset uses an unsupported slot");
+        return;
+    }
+    if (expectedSlot && slotEnum != *expectedSlot) {
+        SetDraftError(
+            "Armor preset belongs to " + std::string(GetArmorSlotDisplayName(slotEnum)) +
+            "; choose a preset for " + GetArmorSlotDisplayName(*expectedSlot)
         );
         return;
     }
-    auto data = std::make_shared<ArmorPresetData>(std::move(*resolved.value));
+    if (auto* player = RenderPlayer()) {
+        for (auto current = begin(player->Currently_Equipped_Armor);
+             current != end(player->Currently_Equipped_Armor); ++current) {
+            if (current->Key() != slotEnum) continue;
+            if (!IsArmorRemovable(current->Value())) {
+                SetDraftError("This armor is part of the character and cannot be replaced");
+                return;
+            }
+            break;
+        }
+    }
+    auto data = std::move(*resolved.value);
     auto presetLink = armorPresetComposer.GetLink();
     QueueArmorTransaction(
         "Equip armor preset in " + std::string(GetArmorSlotDisplayName(slotEnum)),
-        [slotEnum, data](
-            const RuntimeContextSnapshot&, const std::vector<ArmorPresetData>& previous,
-            std::vector<ArmorPresetData>& target, std::string&
-        ) {
-            target = previous;
-            const auto existing = std::find_if(target.begin(), target.end(), [slotEnum](const auto& preset) {
+        [slotEnum, data = std::move(data)](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor,
+                                          std::string&) mutable {
+            const auto existing = std::find_if(armor.begin(), armor.end(), [slotEnum](const auto& preset) {
                 return preset.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == slotEnum;
             });
-            if (existing != target.end())
-                *existing = *data;
+            if (existing != armor.end())
+                *existing = std::move(data);
             else
-                target.push_back(*data);
+                armor.push_back(std::move(data));
             return true;
         },
-        [this, slotIndex, data, presetLink = std::move(presetLink)](SDK::AWillie_BP_C* player) mutable {
+        [this, slotIndex, presetLink = std::move(presetLink)](SDK::AWillie_BP_C* player) mutable {
             QueueArmorDraftUpdate(player, slotIndex, std::move(presetLink));
         }
     );
-    presets.status.Set("Equipping armor preset in " + std::string(GetArmorSlotDisplayName(slotEnum)) + "...");
 }
 
 PresetApplyDisposition LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
@@ -563,12 +547,12 @@ PresetApplyDisposition LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPr
     auto resolution = LoadoutPresetResolver().Resolve(data);
     if (!resolution.success || !resolution.value) {
         AdoptLoadoutDraft(data, true);
-        presets.status.Set("Loaded with unavailable presets: " + resolution.error, true);
+        presets.status.SetError("Loaded with unavailable presets: " + resolution.error);
         return PresetApplyDisposition::Applied;
     }
     if (!player) {
         AdoptLoadoutDraft(data, true);
-        presets.status.Set("Loadout ready - open a map to equip it");
+        presets.status.SetInfo("Open a map to equip this loadout.");
         return PresetApplyDisposition::Applied;
     }
     {
@@ -576,27 +560,31 @@ PresetApplyDisposition LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPr
         if (presetSaveState->inProgress.load(std::memory_order_acquire) ||
             loadoutApplyInProgress.load(std::memory_order_acquire) ||
             armorOperationInProgress.load(std::memory_order_acquire)) {
-            presets.status.Set("Wait for the current equipment change to finish", true);
+            SetDraftError("Wait for the current equipment change to finish");
             return PresetApplyDisposition::Rejected;
         }
         loadoutApplyInProgress.store(true, std::memory_order_release);
     }
     pendingSlotApply = false;
     const auto generation = loadoutApplyGeneration.fetch_add(1, std::memory_order_relaxed) + 1;
-    loadoutApplyStatus.store(1, std::memory_order_release);
-    auto preset = std::make_shared<const ResolvedLoadoutPresetData>(std::move(*resolution.value));
-    auto source = std::make_shared<const LoadoutPresetData>(data);
-    const bool queued = GameHook::QueueAction([this, preset, source, generation,
-                                               expectedPlayer = player](const RuntimeContextSnapshot& runtime) {
+    auto preset = std::move(*resolution.value);
+    auto source = data;
+    const bool queued = GameHook::QueueAction([this, preset = std::move(preset), source = std::move(source), generation,
+                                               expectedPlayer = player](const RuntimeContextSnapshot& runtime) mutable {
         if (runtime.player != expectedPlayer || !runtime.world) {
-            FinishLoadoutApply(expectedPlayer, generation, std::nullopt, runtime.player != expectedPlayer ? 4 : 3);
+            FinishLoadoutApply(
+                expectedPlayer, generation, std::nullopt,
+                runtime.player != expectedPlayer ? LoadoutApplyResult::PlayerChanged : LoadoutApplyResult::Failure
+            );
             return;
         }
         std::string error;
         const bool started = EquipmentApplication::ApplyPlayerLoadout(
-            runtime.world, expectedPlayer, *preset, &error, [this, source, generation, expectedPlayer](bool success) {
+            runtime.world, expectedPlayer, preset, &error,
+            [this, source = std::move(source), generation, expectedPlayer](bool success) mutable {
                 FinishLoadoutApply(
-                    expectedPlayer, generation, success ? std::optional<LoadoutPresetData>(*source) : std::nullopt
+                    expectedPlayer, generation,
+                    success ? std::optional<LoadoutPresetData>(std::move(source)) : std::nullopt
                 );
             }
         );
@@ -606,38 +594,58 @@ PresetApplyDisposition LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPr
     return PresetApplyDisposition::Pending;
 }
 
-void LoadoutManagerSection::QueueDraftFeedback(std::string message, bool error) {
+void LoadoutManagerSection::SetDraftError(std::string error) {
+    presets.status.SetError(std::move(error));
+    draftStatusToken = presets.status.revision;
+}
+
+void LoadoutManagerSection::QueueDraftResult(std::string error) {
     std::lock_guard lock(pendingDraftMutex);
-    pendingDraftUpdates.feedback.emplace_back(std::move(message), error);
+    pendingDraftUpdates.result = std::move(error);
+    pendingDraftReady.store(true, std::memory_order_release);
 }
 
 void LoadoutManagerSection::QueueWeaponDraftUpdate(
     SDK::AWillie_BP_C* owner, int slotIndex, PresetLink<WeaponPresetData> link
 ) {
     std::lock_guard lock(pendingDraftMutex);
-    if (draftOwner == owner) pendingDraftUpdates.weapons.emplace_back(slotIndex, std::move(link));
+    if (draftOwner != owner || slotIndex < 0 || slotIndex >= static_cast<int>(pendingDraftUpdates.weapons.size())) return;
+    pendingDraftUpdates.weapons[static_cast<std::size_t>(slotIndex)] = std::move(link);
+    pendingDraftReady.store(true, std::memory_order_release);
 }
 
 void LoadoutManagerSection::QueueArmorDraftUpdate(
     SDK::AWillie_BP_C* owner, int slotIndex, PresetLink<ArmorPresetData> link
 ) {
     std::lock_guard lock(pendingDraftMutex);
-    if (draftOwner == owner) pendingDraftUpdates.armor.emplace_back(slotIndex, std::move(link));
+    if (draftOwner != owner || slotIndex < 0 || slotIndex >= static_cast<int>(pendingDraftUpdates.armor.size())) return;
+    pendingDraftUpdates.armor[static_cast<std::size_t>(slotIndex)] = std::move(link);
+    pendingDraftReady.store(true, std::memory_order_release);
+}
+
+void LoadoutManagerSection::QueueClearArmorDraftLinks(SDK::AWillie_BP_C* owner) {
+    std::lock_guard lock(pendingDraftMutex);
+    if (draftOwner != owner) return;
+    pendingDraftUpdates.armor = {};
+    pendingDraftUpdates.clearArmorLinks = true;
+    pendingDraftReady.store(true, std::memory_order_release);
 }
 
 void LoadoutManagerSection::FinishLoadoutApply(
-    SDK::AWillie_BP_C* owner, std::uint64_t generation, std::optional<LoadoutPresetData> loadout, int failureStatus
+    SDK::AWillie_BP_C* owner, std::uint64_t generation, std::optional<LoadoutPresetData> loadout,
+    LoadoutApplyResult failureResult
 ) {
     std::lock_guard lock(pendingDraftMutex);
     if (loadoutApplyGeneration.load(std::memory_order_relaxed) != generation) return;
 
     if (draftOwner != owner) {
-        loadoutApplyStatus.store(4, std::memory_order_release);
+        loadoutApplyResult.store(LoadoutApplyResult::PlayerChanged, std::memory_order_release);
     } else if (loadout) {
         pendingDraftUpdates.loadout = std::move(*loadout);
-        loadoutApplyStatus.store(2, std::memory_order_release);
+        pendingDraftReady.store(true, std::memory_order_release);
+        loadoutApplyResult.store(LoadoutApplyResult::Success, std::memory_order_release);
     } else {
-        loadoutApplyStatus.store(failureStatus, std::memory_order_release);
+        loadoutApplyResult.store(failureResult, std::memory_order_release);
     }
     loadoutApplyInProgress.store(false, std::memory_order_release);
 }
@@ -658,15 +666,17 @@ void LoadoutManagerSection::AdoptLoadoutDraft(LoadoutPresetData loadout, bool de
 }
 
 void LoadoutManagerSection::ResetDraftOwner(SDK::AWillie_BP_C* owner) {
+    if (draftOwner == owner) return;
     {
         std::lock_guard lock(pendingDraftMutex);
         if (draftOwner == owner) return;
         draftOwner = owner;
         pendingDraftUpdates = {};
-        const int status = loadoutApplyStatus.load(std::memory_order_relaxed);
-        if (loadoutApplyInProgress.load(std::memory_order_relaxed) || status == 1 || status == 2) {
+        pendingDraftReady.store(false, std::memory_order_relaxed);
+        const auto result = loadoutApplyResult.load(std::memory_order_relaxed);
+        if (loadoutApplyInProgress.load(std::memory_order_relaxed) || result == LoadoutApplyResult::Success) {
             loadoutApplyGeneration.fetch_add(1, std::memory_order_relaxed);
-            loadoutApplyStatus.store(4, std::memory_order_release);
+            loadoutApplyResult.store(LoadoutApplyResult::PlayerChanged, std::memory_order_release);
             loadoutApplyInProgress.store(false, std::memory_order_release);
         }
     }
@@ -679,6 +689,9 @@ void LoadoutManagerSection::ResetDraftOwner(SDK::AWillie_BP_C* owner) {
 }
 
 void LoadoutManagerSection::ConsumePendingDraftUpdates(SDK::AWillie_BP_C* owner) {
+    if (!pendingDraftReady.load(std::memory_order_acquire) ||
+        !pendingDraftReady.exchange(false, std::memory_order_acq_rel))
+        return;
     PendingDraftUpdates updates;
     {
         std::lock_guard lock(pendingDraftMutex);
@@ -696,18 +709,23 @@ void LoadoutManagerSection::ConsumePendingDraftUpdates(SDK::AWillie_BP_C* owner)
                 state.MarkBroken("Selected armor belongs to a different slot");
         };
         if (updates.loadout) AdoptLoadoutDraft(std::move(*updates.loadout), false);
-        for (auto& [slot, link] : updates.weapons) {
-            if (slot >= 0 && slot < static_cast<int>(weaponSlotLinkStates.size()))
-                (void)weaponSlotLinkStates[static_cast<std::size_t>(slot)]
-                    .AssignAndResolve(std::move(link), appDataRoot);
-        }
-        for (auto& [slot, link] : updates.armor) {
-            if (slot >= 0 && slot < static_cast<int>(armorSlotLinkStates.size()))
-                assignArmor(static_cast<std::size_t>(slot), std::move(link));
+        for (std::size_t slot = 0; slot < updates.weapons.size(); ++slot)
+            if (updates.weapons[slot])
+                (void)weaponSlotLinkStates[slot].AssignAndResolve(std::move(*updates.weapons[slot]), appDataRoot);
+        if (updates.clearArmorLinks)
+            for (auto& state : armorSlotLinkStates)
+                state.Clear();
+        for (std::size_t slot = 0; slot < updates.armor.size(); ++slot)
+            if (updates.armor[slot]) assignArmor(slot, std::move(*updates.armor[slot]));
+    }
+    if (updates.result) {
+        if (updates.result->empty()) {
+            presets.status.ClearText(draftStatusToken);
+            draftStatusToken = 0;
+        } else {
+            SetDraftError(std::move(*updates.result));
         }
     }
-    for (auto& [message, error] : updates.feedback)
-        presets.status.Set(message, error);
 }
 
 void LoadoutManagerSection::CheckDraftLinks() {
@@ -727,7 +745,9 @@ void LoadoutManagerSection::CheckDraftLinks() {
 std::optional<std::string> LoadoutManagerSection::GetBrokenDraftDiagnostic() const {
     for (std::size_t slot = 0; slot < weaponSlotLinkStates.size(); ++slot) {
         const auto& state = weaponSlotLinkStates[slot];
-        if (state.IsBroken()) return "Weapon " + std::string(WEAPON_SLOT_NAMES[slot]) + ": " + state.GetDiagnostic();
+        if (state.IsBroken())
+            return "Weapon " + std::string(GetWeaponSlotDisplayName(static_cast<int>(slot))) + ": " +
+                   state.GetDiagnostic();
     }
     for (std::size_t slot = 0; slot < armorSlotLinkStates.size(); ++slot) {
         const auto& state = armorSlotLinkStates[slot];
@@ -738,16 +758,28 @@ std::optional<std::string> LoadoutManagerSection::GetBrokenDraftDiagnostic() con
     return std::nullopt;
 }
 
+bool LoadoutManagerSection::HasBrokenDraft() const noexcept {
+    for (const auto& state : weaponSlotLinkStates)
+        if (state.IsBroken()) return true;
+    for (const auto& state : armorSlotLinkStates)
+        if (state.IsBroken()) return true;
+    return false;
+}
+
 void LoadoutManagerSection::PresetSaveState::Publish(Completion result) {
     {
         std::lock_guard lock(completionMutex);
         completion = std::move(result);
     }
+    completionReady.store(true, std::memory_order_release);
     inProgress.store(false, std::memory_order_release);
 }
 
 std::optional<LoadoutManagerSection::PresetSaveState::Completion>
 LoadoutManagerSection::PresetSaveState::TakeCompletion() {
+    if (!completionReady.load(std::memory_order_acquire) ||
+        !completionReady.exchange(false, std::memory_order_acq_rel))
+        return std::nullopt;
     std::lock_guard lock(completionMutex);
     auto result = std::move(completion);
     completion.reset();
@@ -776,11 +808,7 @@ PresetBuildResult<LoadoutPresetData> LoadoutManagerSection::QueuePresetSave(std:
         return PresetBuildResult<LoadoutPresetData>::Success(std::move(data));
     }
 
-    SDK::AWillie_BP_C* expectedPlayer = nullptr;
-    {
-        std::lock_guard lock(pendingDraftMutex);
-        expectedPlayer = draftOwner;
-    }
+    auto* expectedPlayer = draftOwner;
     if (!expectedPlayer) return PresetBuildResult<LoadoutPresetData>::Failure("A player is required to save a loadout");
 
     {
@@ -808,7 +836,7 @@ PresetBuildResult<LoadoutPresetData> LoadoutManagerSection::QueuePresetSave(std:
         auto* player = expectedPlayer;
 
         LoadoutPresetData data;
-        data.name = name;
+        data.name = std::move(name);
         data.armorSlots = std::move(armorLinks);
         data.weaponSlots = std::move(weaponLinks);
 
@@ -849,20 +877,14 @@ PresetBuildResult<LoadoutPresetData> LoadoutManagerSection::QueuePresetSave(std:
             if (!EquipmentApplication::CaptureConfiguredWeaponPreset(player, slotIndex, snapshot)) {
                 fail(
                     "Could not save all weapon details for " +
-                    std::string(LoadoutManagerSection::WEAPON_SLOT_NAMES[slotIndex])
+                    std::string(LoadoutManagerSection::GetWeaponSlotDisplayName(slotIndex))
                 );
                 return;
             }
             link = MakePresetCopyLink(std::move(snapshot));
         }
 
-        saveState->Publish(
-            {.captured = PresetSaveState::CapturedSave{
-                 .name = std::move(name),
-                 .data = std::move(data),
-                 .overwrite = overwrite,
-             }}
-        );
+        saveState->Publish({.data = std::move(data), .overwrite = overwrite});
     });
     if (!queued) saveState->Publish({.operation = {.error = "Could not start the loadout save"}});
     return PresetBuildResult<LoadoutPresetData>::Pending();
@@ -873,9 +895,9 @@ void LoadoutManagerSection::ConsumePresetSaveCompletion() {
     if (!completion) return;
 
     auto result = std::move(completion->operation);
-    if (completion->captured) {
-        auto& captured = *completion->captured;
-        result = LoadoutPresetSerializer::SavePresetByNameResult(captured.name, captured.data, captured.overwrite);
+    if (completion->data) {
+        auto& data = *completion->data;
+        result = LoadoutPresetSerializer::SavePresetByNameResult(data.name, data, completion->overwrite);
     }
     presets.CompletePendingSave(std::move(result));
 }
@@ -915,25 +937,7 @@ void LoadoutManagerSection::RenderArmorTab() {
 
     (void)armorPresetComposer.Render("Armor Preset##ap");
     if (armorPresetComposer.HasLink()) {
-        if (GuiUtils::Button("Add Selected Armor")) {
-            auto selected = armorPresetComposer.Resolve();
-            if (!selected.success || !selected.value) {
-                presets.status.Set("Armor preset: " + selected.error, true);
-            } else {
-                const auto targetSlot = selected.value->passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
-                bool targetRemovable = true;
-                for (auto current = begin(player->Currently_Equipped_Armor);
-                     current != end(player->Currently_Equipped_Armor); ++current) {
-                    if (current->Key() != targetSlot) continue;
-                    targetRemovable = IsArmorRemovable(current->Value());
-                    break;
-                }
-                if (targetRemovable)
-                    ImportArmorPreset(targetSlot);
-                else
-                    presets.status.Set("This armor is part of the character and cannot be replaced", true);
-            }
-        }
+        if (GuiUtils::Button("Add Selected Armor")) ImportArmorPreset();
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))
             ImGui::SetItemTooltip("Use the selected armor in its saved slot");
     }
@@ -952,19 +956,26 @@ void LoadoutManagerSection::RenderArmorTab() {
         auto slotEnum = it->Key();
         auto& passport = it->Value();
         const char* slotName = GetArmorSlotDisplayName(slotEnum);
+        const int slotIndex = static_cast<int>(slotEnum);
 
-        ImGui::PushID(static_cast<int>(slotEnum));
+        ImGui::PushID(slotIndex);
+        if (slotIndex < 0 || slotIndex >= static_cast<int>(armorSlotLinkStates.size())) {
+            ImGui::TextDisabled("%s - unsupported slot", slotName);
+            ImGui::PopID();
+            continue;
+        }
 
         bool hasArmor = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
         const bool removable = !hasArmor || IsArmorRemovable(passport);
         const char* className =
-            armorNameCache[static_cast<int>(slotEnum)].Get(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+            armorNameCache[static_cast<std::size_t>(slotIndex)].Get(
+                passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43
+            );
         bool open = ImGui::TreeNodeEx(slotName, ImGuiTreeNodeFlags_DefaultOpen, "%s - %s", slotName, className);
 
         if (open) {
             if (!removable) ImGui::TextDisabled("This armor is part of the character and cannot be removed");
-            const auto slotIndex = static_cast<std::size_t>(static_cast<int>(slotEnum));
-            auto& linkState = armorSlotLinkStates[slotIndex];
+            auto& linkState = armorSlotLinkStates[static_cast<std::size_t>(slotIndex)];
             const bool linked = linkState.HasLink();
             if (linked) {
                 const bool copied = GetPresetCopy(linkState.GetLink()) != nullptr;
@@ -1212,7 +1223,8 @@ void LoadoutManagerSection::RenderWeaponsTab() {
 
         ImGui::PushID(i);
 
-        bool open = ImGui::TreeNodeEx(WEAPON_SLOT_NAMES[i], 0, "%s - %s", WEAPON_SLOT_NAMES[i], className);
+        const char* slotName = GetWeaponSlotDisplayName(i);
+        bool open = ImGui::TreeNodeEx(slotName, 0, "%s - %s", slotName, className);
 
         if (open) {
             auto& linkState = weaponSlotLinkStates[static_cast<std::size_t>(i)];
@@ -1262,14 +1274,15 @@ void LoadoutManagerSection::RenderWeaponsTab() {
                                 runtime.world, runtime.player, slotIndex, nullptr, &applyError
                             )) {
                             previousSlot.Restore(current);
-                            QueueDraftFeedback(
-                                "Could not remove weapon from " + std::string(WEAPON_SLOT_NAMES[slotIndex]) + ": " +
-                                    applyError,
-                                true
+                            QueueDraftResult(
+                                "Could not remove weapon from " +
+                                    std::string(GetWeaponSlotDisplayName(slotIndex)) + ": " +
+                                    applyError
                             );
                             return;
                         }
                         QueueWeaponDraftUpdate(runtime.player, slotIndex, {});
+                        QueueDraftResult();
                     });
                 }
             } else {
@@ -1301,8 +1314,7 @@ LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, SEC
     cfg.weaponSpecificType = ConfigManager::Get().GetInt(
         LOADOUT_CONFIG_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
     );
-    std::lock_guard lock(keybindConfigMutex);
-    keybindConfigSnapshot = cfg;
+    keybindConfigSnapshot = {.tier = cfg.generateTier, .options = cfg.armorOptions};
 }
 
 void LoadoutManagerSection::InitKeybinds() {
@@ -1331,36 +1343,38 @@ void LoadoutManagerSection::InitKeybinds() {
 
 void LoadoutManagerSection::Render() {
     ConsumePresetSaveCompletion();
-    {
+    const auto& options = cfg.armorOptions;
+    const auto& publishedOptions = keybindConfigSnapshot.options;
+    if (keybindConfigSnapshot.tier != cfg.generateTier || publishedOptions.moduleChance != options.moduleChance ||
+        publishedOptions.forceMetalMaterial != options.forceMetalMaterial ||
+        publishedOptions.steelType != options.steelType || publishedOptions.metalPiecesType != options.metalPiecesType) {
         std::lock_guard lock(keybindConfigMutex);
-        keybindConfigSnapshot = cfg;
+        keybindConfigSnapshot = {.tier = cfg.generateTier, .options = options};
     }
     auto* player = RenderPlayer();
     ResetDraftOwner(player);
-    const int applyStatus = loadoutApplyStatus.exchange(0, std::memory_order_acq_rel);
+    auto applyResult = loadoutApplyResult.load(std::memory_order_acquire);
+    if (applyResult != LoadoutApplyResult::None)
+        applyResult = loadoutApplyResult.exchange(LoadoutApplyResult::None, std::memory_order_acq_rel);
     ConsumePendingDraftUpdates(player);
 
-    switch (applyStatus) {
-        case 1: presets.status.Set("Equipping loadout..."); break;
-        case 2:
-            if (presets.IsApplyPending())
-                presets.CompletePendingApply(true);
-            else
-                presets.status.Set("Loadout equipped");
+    switch (applyResult) {
+        case LoadoutApplyResult::Success:
+            if (presets.IsApplyPending()) presets.CompletePendingApply(true);
             break;
-        case 3:
+        case LoadoutApplyResult::Failure:
             if (presets.IsApplyPending())
                 presets.CompletePendingApply(false, "Loadout could not be equipped");
             else
-                presets.status.Set("Loadout could not be equipped", true);
+                presets.status.SetError("Loadout could not be equipped");
             break;
-        case 4:
+        case LoadoutApplyResult::PlayerChanged:
             if (presets.IsApplyPending())
                 presets.CompletePendingApply(false, "The player changed before the loadout could be equipped");
             else
-                presets.status.Set("The player changed before the loadout could be equipped", true);
+                presets.status.SetError("The player changed before the loadout could be equipped");
             break;
-        default: break;
+        case LoadoutApplyResult::None: break;
     }
     const bool equipmentBusy = IsEquipmentBusy();
 
@@ -1379,21 +1393,21 @@ void LoadoutManagerSection::Render() {
         if (ImGui::Button("Check Preset Availability")) {
             CheckDraftLinks();
             if (const auto broken = GetBrokenDraftDiagnostic())
-                presets.status.Set("Unavailable loadout preset: " + *broken, true);
+                presets.status.SetError("Unavailable loadout preset: " + *broken);
             else
-                presets.status.Set("All loadout presets are available");
+                presets.status.Notify("All loadout presets are available");
         }
-        (void)GuiUtils::SameLineIfFits(ImGui::CalcTextSize("Unavailable presets must be fixed before saving").x);
+        presets.status.RenderResult();
         ImGui::TextDisabled("Unavailable presets must be fixed before saving");
     }
-    const auto brokenDraft = GetBrokenDraftDiagnostic();
+    const bool brokenDraft = HasBrokenDraft();
     if (draftDetachedFromRuntime) {
         ImGui::Spacing();
         ImGui::TextWrapped("This preset is being edited independently. Empty slots stay empty when saved.");
         if (!player) ImGui::BeginDisabled();
         if (ImGui::Button("Use Current Equipment")) {
             draftDetachedFromRuntime = false;
-            presets.status.Set("Current equipment will fill empty slots");
+            presets.status.Clear();
         }
         if (!player) ImGui::EndDisabled();
     }
@@ -1404,10 +1418,7 @@ void LoadoutManagerSection::Render() {
                 if (state.IsBroken()) state.Clear();
             for (auto& state : armorSlotLinkStates)
                 if (state.IsBroken()) state.Clear();
-            presets.status.Set(
-                draftDetachedFromRuntime ? "Unavailable presets removed; empty slots remain empty"
-                                         : "Unavailable presets removed; empty slots will use current equipment"
-            );
+            presets.status.Clear();
         }
     }
 
