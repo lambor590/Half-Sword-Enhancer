@@ -104,7 +104,6 @@ private:
     static const std::filesystem::path& SaveGameDirectory();
     static const std::filesystem::path& BackupRootDirectory();
     static std::string FriendlyClassName(std::string_view classPath);
-    static bool NodeMatchesFilterText(const SaveEditorModel::ValueNode& node, std::string_view filter);
 
     void RefreshSlots();
     void QueueLoad(std::string slotName);
@@ -119,7 +118,6 @@ private:
     void OpenPanel(Panel nextPanel);
     void ClosePanel();
     void ResetPanel();
-    void RequestPreset(const SaveEditorModel::ValueNode& node);
     void QueueWeaponPreset(SaveEditorModel::NodeId nodeId, SaveEditorModel::PresetTargetKind kind);
     void QueueArmorPreset(SaveEditorModel::NodeId nodeId, SaveEditorModel::PresetTargetKind kind);
     static bool TrySaveFileExists(std::string_view slotName, bool& exists, std::string& error);

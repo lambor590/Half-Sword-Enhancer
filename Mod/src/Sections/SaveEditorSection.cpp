@@ -115,16 +115,6 @@ namespace {
         return result;
     }
 
-    std::string FriendlyBackupTimestamp(std::string value) {
-        if (value.size() >= 19 && value[10] == '_' && value[13] == '-' && value[16] == '-') {
-            value[10] = ' ';
-            value[13] = ':';
-            value[16] = ':';
-            value.resize(19);
-        }
-        return value;
-    }
-
     void AppendSentence(std::string& text, std::string_view sentence) {
         if (!text.empty() && text.back() != '.' && text.back() != '!' && text.back() != '?') text.push_back('.');
         if (!text.empty()) text.push_back(' ');
@@ -156,10 +146,6 @@ namespace {
         auto filename = Utf8Path(slotName);
         if (!filename.empty()) filename += L".sav";
         return filename;
-    }
-
-    std::filesystem::path BackupRootFor(const std::filesystem::path& saveDirectory) {
-        return saveDirectory.empty() ? std::filesystem::path{} : saveDirectory.parent_path() / BACKUP_ROOT_NAME;
     }
 
     std::filesystem::path BackupDirectoryFor(
@@ -378,7 +364,8 @@ const std::filesystem::path& SaveEditorSection::SaveGameDirectory() {
 }
 
 const std::filesystem::path& SaveEditorSection::BackupRootDirectory() {
-    static const std::filesystem::path DIRECTORY = BackupRootFor(SaveGameDirectory());
+    static const std::filesystem::path DIRECTORY =
+        SaveGameDirectory().empty() ? std::filesystem::path{} : SaveGameDirectory().parent_path() / BACKUP_ROOT_NAME;
     return DIRECTORY;
 }
 
@@ -406,14 +393,6 @@ std::string SaveEditorSection::FriendlyClassName(std::string_view classPath) {
         result.push_back(static_cast<char>(current));
     }
     return result.empty() ? "Unknown save type" : result;
-}
-
-bool SaveEditorSection::NodeMatchesFilterText(const SaveEditorModel::ValueNode& node, std::string_view filter) {
-    return (!node.displayName.empty() && GuiUtils::MatchesFilter(
-                                             node.displayName.data(), node.displayName.size(), filter.data(), filter.size()
-                                         )) ||
-           (!node.rawName.empty() &&
-            GuiUtils::MatchesFilter(node.rawName.data(), node.rawName.size(), filter.data(), filter.size()));
 }
 
 void SaveEditorSection::RefreshSlots() {
@@ -692,7 +671,13 @@ void SaveEditorSection::RebuildFilterMatches() {
 bool SaveEditorSection::CollectFilterMatches(
     SaveEditorModel::ValueNode& node, std::string_view filter, bool ancestorMatches
 ) {
-    const bool textMatches = filter.empty() || ancestorMatches || NodeMatchesFilterText(node, filter);
+    const bool textMatches =
+        filter.empty() || ancestorMatches ||
+        (!node.displayName.empty() && GuiUtils::MatchesFilter(
+                                          node.displayName.data(), node.displayName.size(), filter.data(), filter.size()
+                                      )) ||
+        (!node.rawName.empty() &&
+         GuiUtils::MatchesFilter(node.rawName.data(), node.rawName.size(), filter.data(), filter.size()));
     bool matches = textMatches && (!showChangedOnly || (node.children.empty() && SaveEditorModel::IsDirty(node)));
     for (auto& child : node.children)
         matches = CollectFilterMatches(child, filter, textMatches) || matches;
@@ -703,9 +688,16 @@ bool SaveEditorSection::CollectFilterMatches(
 void SaveEditorSection::RefreshBackups() {
     backupsNeedRefresh = false;
     if (!ListBackups(document->sourceSlot, backups, backupCatalogError)) backups.clear();
-    latestBackupTimestamp = backups.empty()
-                                ? std::string{}
-                                : FriendlyBackupTimestamp(PresetUtils::PathToUtf8(backups.back().path.stem()));
+    latestBackupTimestamp.clear();
+    if (!backups.empty()) {
+        latestBackupTimestamp = PresetUtils::PathToUtf8(backups.back().path.stem());
+        if (latestBackupTimestamp.size() >= 19 && latestBackupTimestamp[10] == '_' &&
+            latestBackupTimestamp[13] == '-' && latestBackupTimestamp[16] == '-') {
+            latestBackupTimestamp[10] = ' ';
+            latestBackupTimestamp[13] = latestBackupTimestamp[16] = ':';
+            latestBackupTimestamp.resize(19);
+        }
+    }
     backupsToDelete = backups.empty() ? 1 : (std::min)(backupsToDelete, static_cast<int>(backups.size()));
 }
 
@@ -771,11 +763,6 @@ void SaveEditorSection::ResetPanel() {
     panelError.clear();
     pendingRestorePath.clear();
     pendingPresetNode = nullptr;
-}
-
-void SaveEditorSection::RequestPreset(const SaveEditorModel::ValueNode& node) {
-    pendingPresetNode = &node;
-    OpenPanel(Panel::Preset);
 }
 
 void SaveEditorSection::QueueWeaponPreset(SaveEditorModel::NodeId nodeId, SaveEditorModel::PresetTargetKind kind) {
@@ -1256,7 +1243,10 @@ std::ptrdiff_t SaveEditorSection::RenderNode(SaveEditorModel::ValueNode& node) {
         const bool showContainerTooltip = ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip);
         if (hasPresetAction) {
             (void)GuiUtils::SameLineIfFitsButton("Apply preset...");
-            if (GuiUtils::Button("Apply preset...", GuiUtils::ButtonTone::Quiet)) RequestPreset(node);
+            if (GuiUtils::Button("Apply preset...", GuiUtils::ButtonTone::Quiet)) {
+                pendingPresetNode = &node;
+                OpenPanel(Panel::Preset);
+            }
             GuiUtils::HelpTooltip("Choose a saved preset for this item.");
         }
         if (showContainerTooltip) {
