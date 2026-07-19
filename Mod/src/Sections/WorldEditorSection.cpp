@@ -658,7 +658,6 @@ void WorldEditorSection::QueueApply() {
 }
 
 void WorldEditorSection::QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled) {
-    if (!IsLiveActor(actor)) return;
     GameHook::QueueAction([actor, hidden, collision, tickEnabled](const RuntimeContextSnapshot&) {
         if (!IsLiveActor(actor)) return;
         actor->SetActorHiddenInGame(hidden);
@@ -670,7 +669,6 @@ void WorldEditorSection::QueueActorState(SDK::AActor* actor, bool hidden, bool c
 void WorldEditorSection::QueueActorTransform(
     SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
 ) {
-    if (!IsLiveActor(actor)) return;
     GameHook::QueueAction([actor, location, rotation, scale](const RuntimeContextSnapshot&) {
         if (!IsLiveActor(actor)) return;
         actor->SetActorScale3D(scale);
@@ -775,13 +773,8 @@ void WorldEditorSection::RenderTargetSelector() {
     const char* preview = (selectedTargetIndex >= 0 && selectedTargetIndex < static_cast<int>(browseTargets.size()))
                               ? browseTargets[selectedTargetIndex].label.c_str()
                               : "Select...";
-    float targetComboWidth = GuiUtils::K_COMBO_MIN_WIDTH;
-    for (const auto& target : browseTargets) {
-        targetComboWidth =
-            (std::max)(targetComboWidth, GuiUtils::ComboWidthFromText(ImGui::CalcTextSize(target.label.c_str()).x));
-    }
     if (GuiUtils::BeginSizedCombo(
-            "##TargetSelector", preview, {GuiUtils::K_COMBO_MIN_WIDTH, targetComboWidth, SectionStyle::FIELD_MAX_WIDTH}
+            "##TargetSelector", preview, {GuiUtils::K_COMBO_MIN_WIDTH, 0.0f, SectionStyle::FIELD_MAX_WIDTH}
         )) {
         for (int i = 0; i < static_cast<int>(browseTargets.size()); ++i) {
             ImGui::PushID(i);
@@ -881,20 +874,9 @@ void WorldEditorSection::RenderMaterialInspector() {
         RenderMaterialEntry(i, primitive->GetMaterial(i));
 }
 
-void WorldEditorSection::RenderTargetControls() {
-    ImGui::SeparatorText("Object Controls");
-
-    if (browseTargetIsActor) {
-        RenderActorControls();
-        return;
-    }
-
-    if (browseTargetIsComponent) RenderComponentControls();
-}
-
 void WorldEditorSection::RenderActorControls() {
     auto* actor = SelectedTargetActor();
-    if (!IsLiveActor(actor)) return;
+    if (!actor) return;
 
     SDK::FVector location = actor->K2_GetActorLocation();
     SDK::FRotator rotation = actor->K2_GetActorRotation();
@@ -937,7 +919,6 @@ void WorldEditorSection::RenderActorControls() {
 }
 
 void WorldEditorSection::RenderComponentControls() {
-    if (!browseTarget->IsA(SDK::USceneComponent::StaticClass())) return;
     auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
     if (PropertyBrowser::DragDouble3("Position Within Object", &comp->RelativeLocation.X, 1.0f, "%.1f"))
         pendingApply = true;
@@ -1003,7 +984,11 @@ void WorldEditorSection::Render() {
 
     if (browseTarget) {
         RenderTargetSelector();
-        RenderTargetControls();
+        ImGui::SeparatorText("Object Controls");
+        if (browseTargetIsActor)
+            RenderActorControls();
+        else if (browseTargetIsComponent)
+            RenderComponentControls();
         RenderMaterialInspector();
         PropertyBrowser::RenderPanel(
             propertyPanel, reinterpret_cast<std::byte*>(browseTarget), "##PropFilter", "##PropertyList",

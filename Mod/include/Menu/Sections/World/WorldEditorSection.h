@@ -118,7 +118,6 @@ private:
     );
     void RenderActorSelector();
     void RenderTargetSelector();
-    void RenderTargetControls();
     void RenderActorControls();
     void RenderComponentControls();
     void RenderMaterialInspector();

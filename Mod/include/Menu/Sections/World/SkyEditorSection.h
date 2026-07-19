@@ -72,10 +72,6 @@ private:
     void ReadInitialValues();
     void FindComponents();
     void QueueApplySunState();
-    void ApplyAtmosphere();
-    void ApplySkyLight();
-    void ApplyFog();
-    void ApplyClouds();
     void ApplyPreset(int presetIndex);
     void RenderSunTab();
     void RenderAtmoTab();

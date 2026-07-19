@@ -222,12 +222,6 @@ namespace {
         return nullptr;
     }
 
-    void PrepareSunComponent(SDK::UDirectionalLightComponent* component) {
-        static_cast<SDK::ULightComponentBase*>(component)->bAffectsWorld = true;
-        static_cast<SDK::ULightComponentBase*>(component)->SetAffectGlobalIllumination(true);
-        static_cast<SDK::ULightComponentBase*>(component)->SetAffectReflection(true);
-        static_cast<SDK::ULightComponentBase*>(component)->SetCastShadows(true);
-    }
 }
 
 SkyEditorSection::SkyEditorSection(ModContext& ctx) : Section(ctx, SECTION) {}
@@ -395,7 +389,11 @@ void SkyEditorSection::QueueApplySunState() {
         for (auto* targetComp : targets) {
             if (!IsLiveObject(targetComp)) continue;
 
-            PrepareSunComponent(targetComp);
+            auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
+            lightBase->bAffectsWorld = true;
+            lightBase->SetAffectGlobalIllumination(true);
+            lightBase->SetAffectReflection(true);
+            lightBase->SetCastShadows(true);
             static_cast<SDK::USceneComponent*>(targetComp)
                 ->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
 
@@ -421,63 +419,7 @@ void SkyEditorSection::QueueApplySunState() {
     });
 }
 
-void SkyEditorSection::ApplyAtmosphere() {
-    auto* comp = atmoComp;
-    float rs = rayleighScale, ms = mieScale, ma = mieAnisotropy, msc = multiScatter, ah = atmoHeight;
-    SDK::FLinearColor rc{rayleighColor[0], rayleighColor[1], rayleighColor[2], 1.f};
-    SDK::FLinearColor sl{skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
-    GameHook::QueueAction([comp, rs, rc, ms, ma, msc, sl, ah](const RuntimeContextSnapshot&) {
-        comp->SetRayleighScatteringScale(rs);
-        comp->SetRayleighScattering(rc);
-        comp->SetMieScatteringScale(ms);
-        comp->SetMieAnisotropy(ma);
-        comp->SetMultiScatteringFactor(msc);
-        comp->SetSkyLuminanceFactor(sl);
-        comp->SetAtmosphereHeight(ah);
-    });
-}
-
-void SkyEditorSection::ApplySkyLight() {
-    auto* comp = skyLightComp;
-    float intensity = skyLightIntensity;
-    SDK::FLinearColor color{skyLightColor[0], skyLightColor[1], skyLightColor[2], 1.f};
-    SDK::FLinearColor lh{lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
-    GameHook::QueueAction([comp, intensity, color, lh](const RuntimeContextSnapshot&) {
-        comp->SetIntensity(intensity);
-        comp->SetLightColor(color);
-        comp->SetLowerHemisphereColor(lh);
-    });
-}
-
-void SkyEditorSection::ApplyFog() {
-    auto* comp = fogComp;
-    float d = fogDensity, f = fogFalloff, s = fogStartDist, m = fogMaxOpacity;
-    SDK::FLinearColor c{fogColor[0], fogColor[1], fogColor[2], 1.f};
-    GameHook::QueueAction([comp, d, f, c, s, m](const RuntimeContextSnapshot&) {
-        comp->SetFogDensity(d);
-        comp->SetFogHeightFalloff(f);
-        comp->SetFogInscatteringColor(c);
-        comp->SetStartDistance(s);
-        comp->SetFogMaxOpacity(m);
-    });
-}
-
-void SkyEditorSection::ApplyClouds() {
-    auto* comp = cloudComp;
-    float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
-    float ss = cloudShadowSamples, sd = cloudShadowDist;
-    GameHook::QueueAction([comp, ba, h, vs, ss, sd](const RuntimeContextSnapshot&) {
-        comp->SetLayerBottomAltitude(ba);
-        comp->SetLayerHeight(h);
-        comp->SetViewSampleCountScale(vs);
-        comp->SetShadowViewSampleCountScale(ss);
-        comp->SetShadowTracingDistance(sd);
-    });
-}
-
 void SkyEditorSection::ApplyPreset(int presetIndex) {
-    if (presetIndex < 0 || presetIndex >= K_TIME_PRESET_COUNT) return;
-
     const auto preset = K_TIME_PRESETS[presetIndex];
     sunPitch = preset.sunPitch;
     sunYaw = preset.sunYaw;
@@ -555,7 +497,21 @@ void SkyEditorSection::RenderAtmoTab() {
         skyLuminance[3] = sl[3];
         changed = true;
     }
-    if (changed) ApplyAtmosphere();
+    if (changed) {
+        auto* comp = atmoComp;
+        float rs = rayleighScale, ms = mieScale, ma = mieAnisotropy, msc = multiScatter, ah = atmoHeight;
+        SDK::FLinearColor rayleigh{rayleighColor[0], rayleighColor[1], rayleighColor[2], 1.f};
+        SDK::FLinearColor luminance{skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
+        GameHook::QueueAction([comp, rs, rayleigh, ms, ma, msc, luminance, ah](const RuntimeContextSnapshot&) {
+            comp->SetRayleighScatteringScale(rs);
+            comp->SetRayleighScattering(rayleigh);
+            comp->SetMieScatteringScale(ms);
+            comp->SetMieAnisotropy(ma);
+            comp->SetMultiScatteringFactor(msc);
+            comp->SetSkyLuminanceFactor(luminance);
+            comp->SetAtmosphereHeight(ah);
+        });
+    }
 }
 
 void SkyEditorSection::RenderSkyLightTab() {
@@ -582,7 +538,17 @@ void SkyEditorSection::RenderSkyLightTab() {
         lowerHemiColor[3] = lh[3];
         changed = true;
     }
-    if (changed) ApplySkyLight();
+    if (changed) {
+        auto* comp = skyLightComp;
+        float intensity = skyLightIntensity;
+        SDK::FLinearColor color{skyLightColor[0], skyLightColor[1], skyLightColor[2], 1.f};
+        SDK::FLinearColor lowerHemi{lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
+        GameHook::QueueAction([comp, intensity, color, lowerHemi](const RuntimeContextSnapshot&) {
+            comp->SetIntensity(intensity);
+            comp->SetLightColor(color);
+            comp->SetLowerHemisphereColor(lowerHemi);
+        });
+    }
 }
 
 void SkyEditorSection::RenderFogTab() {
@@ -603,7 +569,18 @@ void SkyEditorSection::RenderFogTab() {
         fogColor[2] = col[2];
         changed = true;
     }
-    if (changed) ApplyFog();
+    if (changed) {
+        auto* comp = fogComp;
+        float d = fogDensity, f = fogFalloff, s = fogStartDist, m = fogMaxOpacity;
+        SDK::FLinearColor c{fogColor[0], fogColor[1], fogColor[2], 1.f};
+        GameHook::QueueAction([comp, d, f, c, s, m](const RuntimeContextSnapshot&) {
+            comp->SetFogDensity(d);
+            comp->SetFogHeightFalloff(f);
+            comp->SetFogInscatteringColor(c);
+            comp->SetStartDistance(s);
+            comp->SetFogMaxOpacity(m);
+        });
+    }
 }
 
 void SkyEditorSection::RenderCloudsTab() {
@@ -617,7 +594,18 @@ void SkyEditorSection::RenderCloudsTab() {
     changed |= GuiUtils::DebouncedDragFloat("Visual Quality", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
     changed |= GuiUtils::DebouncedDragFloat("Shadow Quality", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
     changed |= GuiUtils::DebouncedDragFloat("Shadow Range", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
-    if (changed) ApplyClouds();
+    if (changed) {
+        auto* comp = cloudComp;
+        float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
+        float ss = cloudShadowSamples, sd = cloudShadowDist;
+        GameHook::QueueAction([comp, ba, h, vs, ss, sd](const RuntimeContextSnapshot&) {
+            comp->SetLayerBottomAltitude(ba);
+            comp->SetLayerHeight(h);
+            comp->SetViewSampleCountScale(vs);
+            comp->SetShadowViewSampleCountScale(ss);
+            comp->SetShadowTracingDistance(sd);
+        });
+    }
 }
 
 bool SkyEditorSection::UpdateComponentScan() {
