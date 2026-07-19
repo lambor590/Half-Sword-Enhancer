@@ -101,6 +101,23 @@ namespace {
 
     std::vector<PunchKnockbackContact> g_punchKnockbackContacts;
 
+    void ActivatePossessionCamera(SDK::APlayerController* controller, SDK::AWillie_BP_C* willie) {
+        if (!controller || !willie) return;
+
+        willie->Initialize_Camera_Settings();
+        controller->SetViewTargetWithBlend(
+            willie, 0.0f, SDK::EViewTargetBlendFunction::VTBlend_Linear, 0.0f, false
+        );
+        if (controller->PlayerCameraManager) controller->PlayerCameraManager->SetGameCameraCutThisFrame();
+    }
+
+    void QueuePossessionCamera(SDK::APlayerController* controller, SDK::AWillie_BP_C* willie) {
+        GameHook::QueueAction([controller, willie](const RuntimeContextSnapshot& runtime) {
+            if (runtime.controller != controller || controller->K2_GetPawn() != willie) return;
+            ActivatePossessionCamera(controller, willie);
+        });
+    }
+
     SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
         auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
         return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
@@ -517,8 +534,9 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         if (PossessState::prevController) [[likely]] {
             PossessState::prevController->SetActorTickEnabled(false);
         }
-        controller->Possess(nearest);
         nearest->Player = true;
+        controller->Possess(nearest);
+        QueuePossessionCamera(controller, nearest);
         PossessState::possessed = nearest;
         return;
     }
@@ -529,6 +547,9 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
     if (PossessState::prevController) [[likely]] {
         PossessState::prevController->Possess(williePawn);
         PossessState::prevController->SetActorTickEnabled(true);
+    }
+    if (PossessState::originalPawn && PossessState::originalPawn->IsA(SDK::AWillie_BP_C::StaticClass())) {
+        QueuePossessionCamera(controller, static_cast<SDK::AWillie_BP_C*>(PossessState::originalPawn));
     }
     PossessState::Reset();
 }
