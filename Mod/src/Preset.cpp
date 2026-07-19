@@ -24,16 +24,16 @@ namespace {
     }
 
     int ReadInt(
-        std::string& error, const CSimpleIniA& ini, std::string_view section, const char* key, int defaultValue
+        std::string& error, const CSimpleIniA& ini, const std::string& section, const char* key, int defaultValue
     ) {
-        const char* raw = ini.GetValue(std::string(section).c_str(), key, nullptr);
+        const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         int result = defaultValue;
         if (!PresetUtils::TryParseInt(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
         return result;
     }
 
     int ReadRangedInt(
-        std::string& error, const CSimpleIniA& ini, std::string_view section, const char* key, int defaultValue,
+        std::string& error, const CSimpleIniA& ini, const std::string& section, const char* key, int defaultValue,
         int minimum, int maximum
     ) {
         const int result = ReadInt(error, ini, section, key, defaultValue);
@@ -45,28 +45,28 @@ namespace {
     }
 
     double ReadDouble(
-        std::string& error, const CSimpleIniA& ini, std::string_view section, const char* key, double defaultValue
+        std::string& error, const CSimpleIniA& ini, const std::string& section, const char* key, double defaultValue
     ) {
-        const char* raw = ini.GetValue(std::string(section).c_str(), key, nullptr);
+        const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         double result = defaultValue;
         if (!PresetUtils::TryParseDouble(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
         return result;
     }
 
     bool ReadBool(
-        std::string& error, const CSimpleIniA& ini, std::string_view section, const char* key, bool defaultValue
+        std::string& error, const CSimpleIniA& ini, const std::string& section, const char* key, bool defaultValue
     ) {
-        const char* raw = ini.GetValue(std::string(section).c_str(), key, nullptr);
+        const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         bool result = defaultValue;
         if (!PresetUtils::TryParseBool(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
         return result;
     }
 
     SDK::FLinearColor ReadColor(
-        std::string& error, const CSimpleIniA& ini, std::string_view section, const char* key,
+        std::string& error, const CSimpleIniA& ini, const std::string& section, const char* key,
         SDK::FLinearColor defaultValue
     ) {
-        const char* raw = ini.GetValue(std::string(section).c_str(), key, nullptr);
+        const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         if (!raw || !raw[0]) {
             AddInvalidValue(error, section, key, raw);
             return defaultValue;
@@ -229,14 +229,14 @@ bool DeserializePresetFields(
 
         switch (f.type) {
             case PresetFieldType::String:
-                if (raw && PresetUtils::IsSafeIniValue(raw))
+                if (PresetUtils::IsSafeIniValue(raw))
                     *static_cast<std::string*>(f.value) = raw;
                 else
                     return invalid(f, section, raw);
                 break;
             case PresetFieldType::Int: {
                 int parsed = 0;
-                if (PresetUtils::TryParseInt(raw ? raw : "", parsed))
+                if (PresetUtils::TryParseInt(raw, parsed))
                     *static_cast<int*>(f.value) = parsed;
                 else
                     return invalid(f, section, raw);
@@ -244,7 +244,7 @@ bool DeserializePresetFields(
             }
             case PresetFieldType::Double: {
                 double parsed = 0.0;
-                if (PresetUtils::TryParseDouble(raw ? raw : "", parsed))
+                if (PresetUtils::TryParseDouble(raw, parsed))
                     *static_cast<double*>(f.value) = parsed;
                 else
                     return invalid(f, section, raw);
@@ -252,7 +252,7 @@ bool DeserializePresetFields(
             }
             case PresetFieldType::Bool: {
                 bool parsed = false;
-                if (PresetUtils::TryParseBool(raw ? raw : "", parsed))
+                if (PresetUtils::TryParseBool(raw, parsed))
                     *static_cast<bool*>(f.value) = parsed;
                 else
                     return invalid(f, section, raw);
@@ -324,12 +324,6 @@ bool DeserializePresetOverrides(
         const auto& field = descriptor.field;
         const char* raw = ini.GetValue(section.c_str(), field.name, nullptr);
         if (!raw || !raw[0]) {
-            *field.enabled = false;
-            switch (field.type) {
-                case OverrideFieldType::Double: *static_cast<double*>(field.value) = 0.0; break;
-                case OverrideFieldType::Int: *static_cast<int*>(field.value) = 0; break;
-                case OverrideFieldType::Bool: *static_cast<bool*>(field.value) = false; break;
-            }
             if (error) *error = "This preset contains an invalid setting";
             return false;
         }
@@ -356,7 +350,6 @@ bool DeserializePresetOverrides(
         if (valid) {
             *field.enabled = enabled;
         } else {
-            *field.enabled = false;
             if (error) *error = "This preset contains an invalid setting";
             return false;
         }

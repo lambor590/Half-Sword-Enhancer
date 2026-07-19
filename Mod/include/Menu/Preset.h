@@ -261,16 +261,6 @@ public:
         return deleted;
     }
 
-    static PresetOperationResult SaveToFileResult(const std::filesystem::path& path, const DataType& data) {
-        return SaveToFileResult(path, data, ConfigManager::GetAppDataPath(), false);
-    }
-
-    static PresetOperationResult SaveToFileResult(
-        const std::filesystem::path& path, const DataType& data, bool overwrite
-    ) {
-        return SaveToFileResult(path, data, ConfigManager::GetAppDataPath(), overwrite);
-    }
-
     static PresetOperationResult SaveToFileResult(
         const std::filesystem::path& path, const DataType& data, const std::filesystem::path& appDataRoot,
         bool overwrite = false
@@ -340,10 +330,6 @@ public:
             saved.id = persisted.id;
         }
         return saved;
-    }
-
-    static PresetOperationResult SavePresetByNameResult(const std::string& name, const DataType& data) {
-        return SavePresetByNameResult(name, data, ConfigManager::GetAppDataPath(), false);
     }
 
     static PresetOperationResult SavePresetByNameResult(const std::string& name, const DataType& data, bool overwrite) {
@@ -512,10 +498,6 @@ public:
             result.value = value;
             return result;
         });
-    }
-
-    static PresetResolveResult<DataType> ResolveLink(const PresetLink<DataType>& link, PresetResolveContext& context) {
-        return ResolveLink(link, ConfigManager::GetAppDataPath(), context);
     }
 
 private:

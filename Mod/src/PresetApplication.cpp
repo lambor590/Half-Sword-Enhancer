@@ -113,9 +113,6 @@ namespace PresetApplication {
     std::optional<WeaponPresetData> SnapshotWeaponPassport(const SDK::FStr_Passport_Weapon1& passport) {
         if (!passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC) return std::nullopt;
 
-        const auto objectPath = [](SDK::UObject* object) {
-            return PresetUtils::ObjectToAbsolutePath(object);
-        };
         WeaponPresetData snapshot;
         snapshot.name = "Current weapon";
         snapshot.id = "runtime-weapon-snapshot";
@@ -123,13 +120,13 @@ namespace PresetApplication {
         NormalizeWeaponPassport(snapshot.passport);
         snapshot.deferredWeaponName = snapshot.passport.Name_57_3729B51148E846FE8DD336B9419BCEE1.GetRawString();
         snapshot.classPaths = {
-            objectPath(snapshot.passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC),
-            objectPath(snapshot.passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139),
-            objectPath(snapshot.passport.GuardModule_13_6DD2B06245505E53B529D090333012F0),
-            objectPath(snapshot.passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4),
-            objectPath(snapshot.passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6),
-            objectPath(snapshot.passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D),
-            objectPath(snapshot.passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.GuardModule_13_6DD2B06245505E53B529D090333012F0),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D),
+            PresetUtils::ObjectToAbsolutePath(snapshot.passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9),
         };
 
         return snapshot;
