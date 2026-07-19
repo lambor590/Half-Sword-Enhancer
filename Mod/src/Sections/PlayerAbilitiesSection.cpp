@@ -112,6 +112,14 @@ namespace {
         bool inheritPitch = false;
         bool inheritYaw = false;
         bool inheritRoll = false;
+        bool enableCameraLag = false;
+        bool enableCameraRotationLag = false;
+        bool useCameraLagSubstepping = false;
+        bool clampToMaxPhysicsDeltaTime = false;
+        float cameraLagSpeed = 0.0f;
+        float cameraRotationLagSpeed = 0.0f;
+        float cameraLagMaxTimeStep = 0.0f;
+        float cameraLagMaxDistance = 0.0f;
         bool valid = false;
     };
 
@@ -143,6 +151,14 @@ namespace {
             .inheritPitch = springArm->bInheritPitch != 0,
             .inheritYaw = springArm->bInheritYaw != 0,
             .inheritRoll = springArm->bInheritRoll != 0,
+            .enableCameraLag = springArm->bEnableCameraLag != 0,
+            .enableCameraRotationLag = springArm->bEnableCameraRotationLag != 0,
+            .useCameraLagSubstepping = springArm->bUseCameraLagSubstepping != 0,
+            .clampToMaxPhysicsDeltaTime = springArm->bClampToMaxPhysicsDeltaTime != 0,
+            .cameraLagSpeed = springArm->CameraLagSpeed,
+            .cameraRotationLagSpeed = springArm->CameraRotationLagSpeed,
+            .cameraLagMaxTimeStep = springArm->CameraLagMaxTimeStep,
+            .cameraLagMaxDistance = springArm->CameraLagMaxDistance,
             .valid = true,
         };
     }
@@ -181,6 +197,14 @@ namespace {
         springArm->bInheritPitch = state.inheritPitch;
         springArm->bInheritYaw = state.inheritYaw;
         springArm->bInheritRoll = state.inheritRoll;
+        springArm->bEnableCameraLag = state.enableCameraLag;
+        springArm->bEnableCameraRotationLag = state.enableCameraRotationLag;
+        springArm->bUseCameraLagSubstepping = state.useCameraLagSubstepping;
+        springArm->bClampToMaxPhysicsDeltaTime = state.clampToMaxPhysicsDeltaTime;
+        springArm->CameraLagSpeed = state.cameraLagSpeed;
+        springArm->CameraRotationLagSpeed = state.cameraRotationLagSpeed;
+        springArm->CameraLagMaxTimeStep = state.cameraLagMaxTimeStep;
+        springArm->CameraLagMaxDistance = state.cameraLagMaxDistance;
     }
 
     SDK::UCameraComponent* ResolvePossessionCamera(
