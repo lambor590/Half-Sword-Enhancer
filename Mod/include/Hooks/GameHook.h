@@ -2,7 +2,6 @@
 
 #include <atomic>
 #include <chrono>
-#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <mutex>
@@ -15,10 +14,6 @@
 namespace SDK {
     class UObject;
     class UFunction;
-}
-
-namespace GameHookDetail {
-    struct ProcessEventCacheSlot;
 }
 
 using ProcessEvent = void(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
@@ -36,7 +31,6 @@ public:
     using QueuedAction = std::function<void(const RuntimeContextSnapshot&)>;
 
     static bool QueueAction(QueuedAction action);
-    static void ProcessGameThreadQueue();
     [[nodiscard]] bool ExecuteOnGameThreadAndWait(
         QueuedAction action, std::chrono::milliseconds timeout = std::chrono::seconds(5)
     );
@@ -49,7 +43,6 @@ public:
     static constexpr HookHandle INVALID_HOOK_HANDLE = 0;
 
     struct ProcessEventContext {
-        ProcessEventContext() = default;
         ProcessEventContext(SDK::UObject* object, SDK::UFunction* function, void* params) noexcept
             : object(object), function(function), params(params) {}
 
@@ -77,7 +70,6 @@ public:
         [[nodiscard]] HookHandle Subscribe(std::string_view functionName, HookPhase phase, HookCallback callback);
         void Reset() noexcept;
         [[nodiscard]] bool IsSubscribed() const noexcept;
-        [[nodiscard]] bool Empty() const noexcept { return handles.empty(); }
 
         SubscriptionGroup() = default;
         SubscriptionGroup(const SubscriptionGroup&) = delete;
@@ -140,14 +132,8 @@ private:
     void SetDispatchMode(DispatchMode mode) noexcept;
     void WaitForDispatches() noexcept;
     [[nodiscard]] bool CanAccessRegistry() const noexcept;
-    [[nodiscard]] bool IsSubscribedUnsafe(HookHandle handle) const noexcept;
     [[nodiscard]] HookEntry* FindHookEntry(std::uint64_t nameHash) noexcept;
-    [[nodiscard]] HookEntry* EnsureHookEntry(std::uint64_t nameHash);
-    [[nodiscard]] static ListenerList& ListenersFor(HookEntry& entry, HookPhase phase) noexcept;
     static void DispatchListeners(const ListenerList& listeners, ProcessEventContext& context);
-    void ResolveAndCache(
-        SDK::UFunction* function, GameHookDetail::ProcessEventCacheSlot& cacheSlot
-    ) noexcept;
 
     Logger logger{"GameHook"};
     uintptr_t oProcessEvent = 0;

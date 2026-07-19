@@ -142,7 +142,7 @@ void MapLoaderSection::LoadMap(std::string_view packageName, ResultTarget target
             if (!IsActionCurrent(target, generation)) return;
 
             std::string error;
-            if (RunScenarioImpl(runtime, scenario, target, generation, &error)) return;
+            if (RunScenarioImpl(runtime, scenario, target, generation, error)) return;
             FinishAutoSpawnAttempt(
                 generation, error.empty() ? "The scenario could not be started." : std::move(error)
             );
@@ -153,31 +153,31 @@ void MapLoaderSection::LoadMap(std::string_view packageName, ResultTarget target
 
 bool MapLoaderSection::RunScenarioImpl(
     const RuntimeContextSnapshot& runtime, const MapScenarioPresetData& scenario, ResultTarget target,
-    std::uint64_t generation, std::string* error
+    std::uint64_t generation, std::string& error
 ) {
     if (!runtime.world) {
-        if (error) *error = "The current map is no longer available.";
+        error = "The current map is no longer available.";
         return false;
     }
     if (auto validation = scenario.ValidateForSave(); !validation) {
-        if (error) *error = "This scenario is incomplete: " + validation.error;
+        error = "This scenario is incomplete: " + validation.error;
         return false;
     }
 
     std::wstring wideName;
     if (!PresetUtils::TryUtf8ToWide(scenario.packageName, wideName)) {
-        if (error) *error = "The destination path is not valid.";
+        error = "The destination path is not valid.";
         return false;
     }
     if (!runtime.controller || !runtime.controller->Class->GetFunction("PlayerController", "ClientTravel")) {
-        if (error) *error = "The game is not ready to open another map.";
+        error = "The game is not ready to open another map.";
         return false;
     }
 
     const auto& options = scenario.preLoad;
     auto* gameInstance = runtime.world->OwningGameInstance;
     if (!GameClass::IsGameSettings(gameInstance)) {
-        if (error) *error = "A new session cannot be started from this map.";
+        error = "A new session cannot be started from this map.";
         return false;
     }
     auto* gi = static_cast<SDK::UGI_Settings_C*>(gameInstance);
@@ -187,7 +187,7 @@ bool MapLoaderSection::RunScenarioImpl(
         std::string prepareError;
         prepared = PrepareAutoSpawn(scenario.autoSpawn, prepareError);
         if (!prepared) {
-            if (error) *error = std::move(prepareError);
+            error = std::move(prepareError);
             return false;
         }
     }
@@ -226,7 +226,7 @@ bool MapLoaderSection::RunScenarioImpl(
 
     runtime.controller
         ->ClientTravel(SDK::FString(wideName.c_str()), SDK::ETravelType::TRAVEL_Absolute, false, SDK::FGuid{});
-    if (error) error->clear();
+    error.clear();
     return true;
 }
 
@@ -241,7 +241,7 @@ std::shared_ptr<const MapLoaderSection::PreparedAutoSpawn> MapLoaderSection::Pre
         return std::shared_ptr<const PreparedAutoSpawn>{};
     };
 
-    if (MapScenarioRequiresNpcPreset(options.enabled, options.npcCount) && IsEmptyPresetLink(options.npcPreset)) {
+    if (options.enabled && options.npcCount > 0 && IsEmptyPresetLink(options.npcPreset)) {
         error = "Choose an NPC setup before adding NPCs.";
         return {};
     }
@@ -685,7 +685,7 @@ std::string_view MapLoaderSection::CurrentPackageName(const MapRegistry& reg) co
 
 bool MapLoaderSection::AutoSpawnLinksHealthy() const noexcept {
     if (!optAutoSpawn) return true;
-    const bool npcLinkHealthy = !MapScenarioRequiresNpcPreset(optAutoSpawn, optAutoNPCCount) ||
+    const bool npcLinkHealthy = !(optAutoSpawn && optAutoNPCCount > 0) ||
                                 (npcPresetLink.HasLink() && !npcPresetLink.IsBroken());
     return !playerPresetLink.IsBroken() && !loadoutPresetLink.IsBroken() && npcLinkHealthy;
 }
@@ -711,10 +711,6 @@ MapScenarioPresetData MapLoaderSection::BuildScenarioPreset(std::string packageN
         .npcPreset = npcPresetLink.GetLink(),
     };
     return data;
-}
-
-MapScenarioPresetData MapLoaderSection::BuildScenarioPreset(const MapRegistry& reg) const {
-    return BuildScenarioPreset(std::string(CurrentPackageName(reg)));
 }
 
 PresetApplyDisposition MapLoaderSection::ApplyScenarioPreset(MapScenarioPresetData data) {
@@ -757,7 +753,7 @@ void MapLoaderSection::RenderScenarioPresets(MapRegistry& reg) {
     }
     scenarioPresets.RenderPresetsTab(
         [this, &reg](const char*, bool) {
-            auto data = BuildScenarioPreset(reg);
+            auto data = BuildScenarioPreset(std::string(CurrentPackageName(reg)));
             return PresetBuildResult<MapScenarioPresetData>::Success(std::move(data));
         },
         [this](MapScenarioPresetData data) { return ApplyScenarioPreset(std::move(data)); },
@@ -772,8 +768,8 @@ void MapLoaderSection::StartAutoSpawnSubscription() {
     std::lock_guard lock(autoSpawnMutex);
     autoSpawnSubscriptions.Clear();
     if (!pendingAutoSpawn || pendingAutoSpawn->generation != autoSpawnGeneration) return;
-    (void)autoSpawnSubscriptions.Subscribe(GameEvent::OnTick, [this](EventBus::EventContext& event) {
-        AdvancePendingAutoSpawn(event.Runtime());
+    (void)autoSpawnSubscriptions.Subscribe(GameEvent::OnTick, [this](const RuntimeContextSnapshot& runtime) {
+        AdvancePendingAutoSpawn(runtime);
     });
 }
 

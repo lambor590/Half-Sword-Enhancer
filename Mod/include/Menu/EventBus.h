@@ -17,42 +17,7 @@ public:
     using SubscriptionHandle = uint64_t;
     static constexpr SubscriptionHandle INVALID_SUBSCRIPTION = 0;
 
-    class EventContext {
-    public:
-        EventContext(
-            GameEvent event,
-            const RuntimeContextSnapshot& runtime,
-            GameHook::ProcessEventContext& processEvent,
-            bool cancellable
-        ) noexcept
-            : event(event), runtime(runtime), processEvent(processEvent), cancellable(cancellable) {}
-
-        [[nodiscard]] GameEvent Event() const noexcept { return event; }
-        [[nodiscard]] const RuntimeContextSnapshot& Runtime() const noexcept { return runtime; }
-        [[nodiscard]] const GameHook::ProcessEventContext& ProcessEvent() const noexcept { return processEvent; }
-        [[nodiscard]] bool CanCancel() const noexcept { return cancellable; }
-        [[nodiscard]] bool IsCancelled() const noexcept { return processEvent.IsCancelled(); }
-
-        bool Cancel() const noexcept {
-            if (!cancellable) return false;
-
-            processEvent.Cancel();
-            return true;
-        }
-
-        template <typename T>
-        [[nodiscard]] T* Params() const noexcept {
-            return processEvent.Params<T>();
-        }
-
-    private:
-        GameEvent event;
-        const RuntimeContextSnapshot& runtime;
-        GameHook::ProcessEventContext& processEvent;
-        bool cancellable = false;
-    };
-
-    using EventCallback = std::function<void(EventContext&)>;
+    using EventCallback = std::function<void(const RuntimeContextSnapshot&)>;
 
     [[nodiscard]] SubscriptionHandle Subscribe(GameEvent event, EventCallback callback);
     void Unsubscribe(SubscriptionHandle handle);
@@ -64,8 +29,6 @@ public:
 
         SubscriptionGroup(const SubscriptionGroup&) = delete;
         SubscriptionGroup& operator=(const SubscriptionGroup&) = delete;
-        SubscriptionGroup(SubscriptionGroup&& other) noexcept;
-        SubscriptionGroup& operator=(SubscriptionGroup&& other) noexcept;
 
         [[nodiscard]] SubscriptionHandle Subscribe(GameEvent event, EventCallback callback);
         void Clear();
@@ -74,11 +37,7 @@ public:
         std::vector<SubscriptionHandle> handles;
     };
 
-    void Dispatch(GameEvent event, GameHook::ProcessEventContext& processEvent);
-
-    static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        return EVENT_NAMES[static_cast<size_t>(event)];
-    }
+    void Dispatch(GameEvent event);
 
     static constexpr std::array EVENT_NAMES{"OnWalkingOffLedge", "ReceiveTick"};
     static constexpr size_t EVENT_COUNT = EVENT_NAMES.size();

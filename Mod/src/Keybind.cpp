@@ -3,7 +3,6 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
-#include <ranges>
 #include <string>
 #include <utility>
 
@@ -79,14 +78,6 @@ namespace {
         return key <= 0 || key == 255;
     }
 
-    struct SliderStyleRAII {
-        SliderStyleRAII() {
-            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::OLD_BRASS);
-            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::BRIGHT_BRASS);
-        }
-        ~SliderStyleRAII() { ImGui::PopStyleColor(2); }
-    };
-
     struct KeycapStyleRAII {
         KeycapStyleRAII() {
             ImVec4 border = DefaultStyle::OLD_BRASS;
@@ -103,15 +94,6 @@ namespace {
             ImGui::PopStyleColor(5);
         }
     };
-
-    [[nodiscard]] bool RenderCompactButton(
-        const char* id, const char* label, float width, GuiUtils::ButtonTone tone = GuiUtils::ButtonTone::Default
-    ) {
-        ImGui::PushID(id);
-        const bool pressed = GuiUtils::Button(label, tone, ImVec2((std::max)(1.0f, width), 0.0f));
-        ImGui::PopID();
-        return pressed;
-    }
 
     struct SegmentInteraction {
         bool pressed = false;
@@ -323,12 +305,13 @@ namespace {
         GuiUtils::HelpTooltip(param.tooltip);
         ImGui::SameLine();
         ImGui::PushItemWidth(PARAM_CONTROL_WIDTH);
+        ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::OLD_BRASS);
+        ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::BRIGHT_BRASS);
         switch (param.type) {
             case KeybindParam::Type::Int: {
                 auto* valuePtr = static_cast<int*>(param.valuePtr);
                 const int minValue = static_cast<int>(param.minValue);
                 const int maxValue = static_cast<int>(param.maxValue);
-                const SliderStyleRAII sliderStyle;
                 result.committed = GuiUtils::DebouncedDragInt("##value", valuePtr, 1.0f, minValue, maxValue);
                 break;
             }
@@ -336,7 +319,6 @@ namespace {
                 auto* valuePtr = static_cast<float*>(param.valuePtr);
                 const auto minValue = static_cast<float>(param.minValue);
                 const auto maxValue = static_cast<float>(param.maxValue);
-                const SliderStyleRAII sliderStyle;
                 result.committed = GuiUtils::DebouncedDragFloat("##value", valuePtr, 0.01f, minValue, maxValue, "%.2f");
                 break;
             }
@@ -344,7 +326,6 @@ namespace {
                 auto* valuePtr = static_cast<double*>(param.valuePtr);
                 const double minValue = param.minValue;
                 const double maxValue = param.maxValue;
-                const SliderStyleRAII sliderStyle;
                 result.committed = GuiUtils::DebouncedDragScalar(
                     "##value", ImGuiDataType_Double, valuePtr, 0.01f, &minValue, &maxValue, "%.2f"
                 );
@@ -352,6 +333,7 @@ namespace {
             }
             case KeybindParam::Type::Bool: break;
         }
+        ImGui::PopStyleColor(2);
         result.edited = ImGui::IsItemEdited();
         ImGui::PopItemWidth();
         GuiUtils::HelpTooltip(param.tooltip);
@@ -406,9 +388,9 @@ namespace {
         entry->eventSubscriptions.Clear();
         if (enabled) {
             for (auto evt : entry->events) {
-                (void)entry->eventSubscriptions.Subscribe(evt, [entry](EventBus::EventContext& context) {
-                    if (!entry->isActive.load(std::memory_order_acquire) || !entry->callback) return;
-                    entry->callback(true, context.Runtime());
+                (void)entry->eventSubscriptions.Subscribe(evt, [entry](const RuntimeContextSnapshot& runtime) {
+                    if (!entry->isActive.load(std::memory_order_acquire)) return;
+                    entry->callback(true, runtime);
                 });
             }
         }
@@ -572,7 +554,7 @@ namespace {
                     KeybindManager::GetKeyName(entry.pendingConflictKey)
                 );
             } else if (count == 1) {
-                const char* conflictName = names.empty() ? "another action" : names[0].c_str();
+                const char* conflictName = names[0].c_str();
                 ImGui::Text(KEY_CONFLICT_FORMAT, KeybindManager::GetKeyName(entry.pendingConflictKey), conflictName);
             } else {
                 ImGui::Text(KEY_MULTI_CONFLICT_FORMAT, KeybindManager::GetKeyName(entry.pendingConflictKey), count);
@@ -588,7 +570,7 @@ namespace {
             ImGui::Spacing();
 
             if (!reservedForMenu) {
-                const std::string replaceText = !names.empty() ? "Replace " + names.front() : "Replace";
+                const std::string replaceText = "Replace " + names.front();
                 if (ImGui::Button(replaceText.c_str())) {
                     KeybindManager::RemoveBinding(entry.pendingConflictKey, entry.keyPtr);
                     *entry.keyPtr = entry.pendingConflictKey;
@@ -630,7 +612,10 @@ float KeybindUi::CalculateKeycapWidth(const char* label, float maximumWidth) {
 
 bool KeybindUi::RenderKeycap(const char* id, const char* label, float width) {
     const KeycapStyleRAII keycapStyle;
-    return RenderCompactButton(id, label, width);
+    ImGui::PushID(id);
+    const bool pressed = GuiUtils::Button(label, GuiUtils::ButtonTone::Default, ImVec2((std::max)(1.0f, width), 0.0f));
+    ImGui::PopID();
+    return pressed;
 }
 
 
@@ -844,14 +829,10 @@ void KeybindEntry::AdoptDefinition(KeybindEntry& source) noexcept {
 }
 
 void KeybindEntry::Init() {
-    if (initialized || !keyPtr) return;
-    initialized = true;
-
     std::erase(configSection, ' ');
     KeybindConfig::LoadKeybind(*this);
 
-    auto& registeredEntries = RuntimeEntries();
-    if (std::ranges::find(registeredEntries, this) == registeredEntries.end()) registeredEntries.push_back(this);
+    RuntimeEntries().push_back(this);
 
     if (!IsKeyUnbound(*keyPtr)) RegisterEntry(*this);
 
@@ -865,7 +846,7 @@ void KeybindEntry::Init() {
 void KeybindRuntime::FlushPendingParamChanges() noexcept {
     try {
         for (auto* entry : RuntimeEntries()) {
-            if (!entry || !entry->configDirty) continue;
+            if (!entry->configDirty) continue;
             CommitParamChanges(*entry);
             entry->configDirty = false;
             entry->configPopupOpenLastFrame = false;
@@ -877,7 +858,7 @@ void KeybindRuntime::FlushPendingParamChanges() noexcept {
 
 void KeybindRuntime::OnRuntimeStart() {
     for (auto* entry : RuntimeEntries()) {
-        if (!entry || !entry->isActive.load(std::memory_order_acquire)) continue;
+        if (!entry->isActive.load(std::memory_order_acquire)) continue;
         SetEventsEnabled(entry, true);
         for (auto& functionHook : entry->functionHooks) {
             if (!GameHook::Get().IsSubscribed(functionHook.handle)) {
@@ -893,7 +874,6 @@ void KeybindRuntime::OnRuntimeShutdown() noexcept {
     try {
         auto& hook = GameHook::Get();
         for (auto* entry : RuntimeEntries()) {
-            if (!entry) continue;
             entry->eventSubscriptions.Clear();
             for (auto& functionHook : entry->functionHooks) {
                 hook.Unsubscribe(functionHook.handle);

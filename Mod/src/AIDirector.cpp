@@ -367,8 +367,8 @@ void AIDirector::EnsureDirectiveTickSubscription() {
     std::lock_guard lock(directiveMutex);
     if (directiveTickSubscription != EventBus::INVALID_SUBSCRIPTION) return;
 
-    directiveTickSubscription = EventBus::Get().Subscribe(GameEvent::OnTick, [](EventBus::EventContext& event) {
-        AIDirector::Get().OnDirectiveTick(event.Runtime());
+    directiveTickSubscription = EventBus::Get().Subscribe(GameEvent::OnTick, [](const RuntimeContextSnapshot& runtime) {
+        AIDirector::Get().OnDirectiveTick(runtime);
     });
 }
 

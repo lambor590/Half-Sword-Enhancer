@@ -12,10 +12,7 @@ EventBus& EventBus::Get() {
 }
 
 EventBus::SubscriptionHandle EventBus::Subscribe(GameEvent event, EventCallback callback) {
-    if (!callback) return INVALID_SUBSCRIPTION;
-
     const auto handle = nextHandle.fetch_add(1, std::memory_order_relaxed);
-    if (handle == INVALID_SUBSCRIPTION) return INVALID_SUBSCRIPTION;
 
     return GameHook::QueueAction([this, event, handle,
                                   cb = std::move(callback)](const RuntimeContextSnapshot&) mutable {
@@ -35,19 +32,6 @@ EventBus::SubscriptionGroup::~SubscriptionGroup() {
     Clear();
 }
 
-EventBus::SubscriptionGroup::SubscriptionGroup(SubscriptionGroup&& other) noexcept : handles(std::move(other.handles)) {
-    other.handles.clear();
-}
-
-EventBus::SubscriptionGroup& EventBus::SubscriptionGroup::operator=(SubscriptionGroup&& other) noexcept {
-    if (this == &other) return *this;
-
-    Clear();
-    handles = std::move(other.handles);
-    other.handles.clear();
-    return *this;
-}
-
 EventBus::SubscriptionHandle EventBus::SubscriptionGroup::Subscribe(GameEvent event, EventCallback callback) {
     const auto handle = EventBus::Get().Subscribe(event, std::move(callback));
     if (handle != INVALID_SUBSCRIPTION) handles.push_back(handle);
@@ -61,12 +45,11 @@ void EventBus::SubscriptionGroup::Clear() {
     handles.clear();
 }
 
-void EventBus::Dispatch(GameEvent event, GameHook::ProcessEventContext& processEvent) {
+void EventBus::Dispatch(GameEvent event) {
     const auto runtime = ModContext::Get().RefreshGameThreadCache();
-    EventContext context{event, runtime, processEvent, event == GameEvent::OffLedge};
     auto& list = subscribers[static_cast<size_t>(event)];
     for (auto& subscriber : list) {
-        subscriber.callback(context);
+        subscriber.callback(runtime);
     }
 }
 
@@ -93,15 +76,13 @@ void EventBus::AddSubscriber(GameEvent event, SubscriptionHandle handle, EventCa
 
     if (wasEmpty) {
         eventHookHandles[idx] = GameHook::Get().Subscribe(
-            GetEventFunctionName(event), GameHook::HookPhase::Before,
-            [this, event](GameHook::ProcessEventContext& context) { Dispatch(event, context); }
+            EVENT_NAMES[idx], GameHook::HookPhase::Before,
+            [this, event](GameHook::ProcessEventContext&) { Dispatch(event); }
         );
     }
 }
 
 void EventBus::RemoveSubscriber(SubscriptionHandle handle) {
-    if (handle == INVALID_SUBSCRIPTION) return;
-
     for (size_t eventIndex = 0; eventIndex < subscribers.size(); ++eventIndex) {
         auto& list = subscribers[eventIndex];
         const auto subscriber = std::ranges::find(list, handle, &Subscriber::handle);

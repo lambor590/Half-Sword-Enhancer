@@ -112,7 +112,7 @@ private:
     void LoadMap(std::string_view packageName, ResultTarget target);
     [[nodiscard]] bool RunScenarioImpl(
         const RuntimeContextSnapshot& runtime, const MapScenarioPresetData& scenario, ResultTarget target,
-        std::uint64_t generation, std::string* error
+        std::uint64_t generation, std::string& error
     );
     [[nodiscard]] std::shared_ptr<const PreparedAutoSpawn> PrepareAutoSpawn(
         const MapScenarioPresetData::AutoSpawnOptions& options, std::string& error
@@ -140,7 +140,6 @@ private:
     [[nodiscard]] std::string_view CurrentPackageName(const MapRegistry& reg) const;
     [[nodiscard]] bool AutoSpawnLinksHealthy() const noexcept;
     [[nodiscard]] MapScenarioPresetData BuildScenarioPreset(std::string packageName) const;
-    [[nodiscard]] MapScenarioPresetData BuildScenarioPreset(const MapRegistry& reg) const;
     [[nodiscard]] PresetApplyDisposition ApplyScenarioPreset(MapScenarioPresetData data);
     void RenderScenarioPresets(MapRegistry& reg);
 

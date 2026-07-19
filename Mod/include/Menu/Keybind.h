@@ -83,8 +83,6 @@ struct KeybindEntry {
     bool configDirty = false;
     float naturalWidth = 0.0f;
 
-    bool initialized = false;
-
     bool IsState() const noexcept { return kind == KeybindKind::State; }
     bool CurrentState() const { return stateGetter ? stateGetter() : isActive.load(std::memory_order_acquire); }
     bool IsAvailable() const { return !available || available(); }
