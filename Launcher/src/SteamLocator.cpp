@@ -26,8 +26,6 @@ namespace hse {
             const std::filesystem::path& libraryPath, GameEdition edition
         );
         [[nodiscard]] GameEdition DetectEditionFromPath(const std::filesystem::path& path);
-        [[nodiscard]] std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath);
-
         struct QuotedKeyValue {
             std::string_view key;
             std::string_view value;
@@ -100,14 +98,7 @@ namespace hse {
     std::expected<GameLocation, SteamError> LocateGameAt(
         const std::filesystem::path& manualPath, std::optional<GameEdition> knownEdition
     ) {
-        auto win64Dir = FindWin64Directory(manualPath);
-        std::error_code ec;
-        if (!std::filesystem::is_directory(win64Dir, ec)) {
-            if (ec) {
-                Logger::error("Could not access the selected game folder: %s", ec.message().c_str());
-            }
-            return std::unexpected(SteamError::PathDoesNotExist);
-        }
+        auto win64Dir = manualPath.filename() == "Win64" ? manualPath : manualPath / BINARIES_SUBPATH;
 
         const auto edition = knownEdition.value_or(DetectEditionFromPath(win64Dir));
         if (!ContainsGameExecutable(win64Dir, edition)) {
@@ -254,10 +245,6 @@ namespace hse {
                     return GameEdition::Demo;
             }
             return GameEdition::FullGame;
-        }
-
-        std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath) {
-            return basePath.filename() == "Win64" ? basePath : basePath / BINARIES_SUBPATH;
         }
 
     } // namespace

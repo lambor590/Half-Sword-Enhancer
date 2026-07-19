@@ -123,9 +123,6 @@ namespace hse {
         const std::filesystem::path& gameBinPath
     ) {
         const auto dllPath = gameBinPath / MOD_FILENAME;
-        if (!std::filesystem::exists(dllPath)) {
-            return std::unexpected(UpdateError::FileSystemError);
-        }
         return ExtractVersionFromFile(dllPath);
     }
 
@@ -196,12 +193,6 @@ namespace hse {
         }
 
         std::error_code ec;
-        std::filesystem::remove(outputPath, ec);
-        if (ec) {
-            removeTemp();
-            return std::unexpected(UpdateError::FileSystemError);
-        }
-
         std::filesystem::rename(tempPath, outputPath, ec);
         if (ec) {
             removeTemp();
