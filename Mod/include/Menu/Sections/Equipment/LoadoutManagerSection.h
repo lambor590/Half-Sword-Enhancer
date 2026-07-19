@@ -109,14 +109,12 @@ private:
 
     static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) noexcept;
     static const char* GetWeaponSlotDisplayName(int slot) noexcept;
-    void ScheduleSlotApply(SDK::EArmorSlots_Enum slot);
     void EnsureModulePool();
     static bool RenderVectorDrag(const char* label, SDK::FVector& vec);
     void QueueArmorTransaction(
         std::string label, ArmorTransactionBuilder buildTarget, ArmorTransactionSuccess onSuccess = nullptr,
         const RuntimeContextSnapshot* immediateRuntime = nullptr
     );
-    void ApplyArmorToPlayer(const RuntimeContextSnapshot* immediateRuntime = nullptr);
     void ReapplyArmorSlot(SDK::EArmorSlots_Enum slot);
     void RemoveArmorForSlot(SDK::EArmorSlots_Enum slot);
     void ApplyWeaponToPlayer(int slotIndex);
@@ -143,8 +141,8 @@ private:
     void CheckDraftLinks();
     [[nodiscard]] bool HasBrokenDraft() const noexcept;
     [[nodiscard]] std::optional<std::string> GetBrokenDraftDiagnostic() const;
-    [[nodiscard]] bool IsEquipmentBusy() const noexcept;
     PresetBuildResult<LoadoutPresetData> QueuePresetSave(std::string name, bool overwrite);
+    [[nodiscard]] bool IsEquipmentBusy() const noexcept;
     void ConsumePresetSaveCompletion();
     void RenderArmorTab();
     void RenderWeaponSlotModules(int slotIndex, const SDK::FStr_WeaponParts& slot);

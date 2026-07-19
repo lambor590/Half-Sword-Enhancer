@@ -478,10 +478,6 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
     }
 }
 
-void WeaponEditorSection::GenerateWeaponPassport() {
-    QueueGeneration(static_cast<CustomizableWeapon>(cfg.weaponType), static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
-}
-
 void WeaponEditorSection::RandomizeWeaponPassport() {
     int validTypes[WEAPON_TYPE_COUNT];
     int count = 0;
@@ -494,7 +490,7 @@ void WeaponEditorSection::RandomizeWeaponPassport() {
     cfg.weaponType = validTypes[GameConstants::RandomInt(0, count - 1)];
     uint16_t mask = TierValidation::VALID_TIER_MASKS[cfg.weaponType];
     cfg.weaponTier = TierValidation::RandomValidTier(mask);
-    GenerateWeaponPassport();
+    QueueGeneration(static_cast<CustomizableWeapon>(cfg.weaponType), static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
 }
 
 void WeaponEditorSection::BuildDescriptors() {
@@ -594,15 +590,6 @@ void WeaponEditorSection::SpawnPreview() {
     }
 }
 
-void WeaponEditorSection::SpawnWeapon() {
-    auto snapshot = RenderSnapshot();
-    if (!snapshot.player || !snapshot.world) return;
-
-    if (cfg.preview.livePreview) preview.Disable();
-
-    SpawnWeapon(snapshot, BuildSpawnDraftSnapshot());
-}
-
 void WeaponEditorSection::SpawnWeapon(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft) {
     if (!runtime.player || !runtime.world) return;
 
@@ -641,18 +628,6 @@ void WeaponEditorSection::SpawnWeapon(const RuntimeContextSnapshot& runtime, Spa
             );
         }
     );
-}
-
-void WeaponEditorSection::RenderVectorDrag(const char* label, SDK::FVector& vec, float speed) {
-    float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
-    GuiUtils::DebouncedDragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f");
-    GuiUtils::StoreEdited(vec, v);
-}
-
-void WeaponEditorSection::RenderMassDrag(const char* label, double& mass, float speed) {
-    auto val = static_cast<float>(mass);
-    GuiUtils::DebouncedDragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f");
-    GuiUtils::StoreEdited(mass, val);
 }
 
 void WeaponEditorSection::RenderWeaponTypeCombo() {
@@ -716,18 +691,20 @@ void WeaponEditorSection::RenderSizeMassRow(const char* label, SDK::FVector& siz
     ImGui::SetNextItemWidth(-1.0f);
     char sizeId[32];
     std::snprintf(sizeId, sizeof(sizeId), "##size_%s", label);
-    RenderVectorDrag(sizeId, size);
+    float sizeValues[3] = {static_cast<float>(size.X), static_cast<float>(size.Y), static_cast<float>(size.Z)};
+    GuiUtils::DebouncedDragFloat3(sizeId, sizeValues, 0.01f, 0.0f, 0.0f, "%.3f");
+    GuiUtils::StoreEdited(size, sizeValues);
 
     ImGui::TableNextColumn();
     ImGui::SetNextItemWidth(-1.0f);
     char massId[32];
     std::snprintf(massId, sizeof(massId), "##mass_%s", label);
-    RenderMassDrag(massId, mass);
+    auto massValue = static_cast<float>(mass);
+    GuiUtils::DebouncedDragFloat(massId, &massValue, 0.01f, 0.0f, 0.0f, "%.3f");
+    GuiUtils::StoreEdited(mass, massValue);
 }
 
-void WeaponEditorSection::RenderGenerationControls() {
-    auto [world, player] = RenderPlayerWorld();
-
+void WeaponEditorSection::RenderGenerationControls(bool canGenerate) {
     BlueprintRegistry::Get().EnsureTiersScanned();
     ImGui::PushID("gen");
 
@@ -740,16 +717,17 @@ void WeaponEditorSection::RenderGenerationControls() {
     GuiUtils::HelpTooltip("Choose the overall weapon quality");
 
     ImGui::Spacing();
-    if (!player || !world || weaponMask == 0) ImGui::BeginDisabled();
-    if (ImGui::Button("Create Weapon Design")) GenerateWeaponPassport();
+    if (!canGenerate || weaponMask == 0) ImGui::BeginDisabled();
+    if (ImGui::Button("Create Weapon Design"))
+        QueueGeneration(static_cast<CustomizableWeapon>(cfg.weaponType), static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
     GuiUtils::HelpTooltip("Create a weapon design with the selected type and tier");
-    if (!player || !world || weaponMask == 0) ImGui::EndDisabled();
+    if (!canGenerate || weaponMask == 0) ImGui::EndDisabled();
 
     (void)GuiUtils::SameLineIfFitsButton("Random Weapon Design");
-    if (!player || !world) ImGui::BeginDisabled();
+    if (!canGenerate) ImGui::BeginDisabled();
     if (ImGui::Button("Random Weapon Design")) RandomizeWeaponPassport();
     GuiUtils::HelpTooltip("Create a random weapon design");
-    if (!player || !world) ImGui::EndDisabled();
+    if (!canGenerate) ImGui::EndDisabled();
 
     (void)GuiUtils::SameLineIfFitsButton("Clear Weapon Design");
     if (ImGui::Button("Clear Weapon Design")) ResetWeaponPassport();
@@ -959,40 +937,29 @@ void WeaponEditorSection::RenderAppearanceTab() {
 
 void WeaponEditorSection::RenderMeshTransformControls(MeshOverride& ovr) {
     float s[3] = {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
-    bool scaleCommitted = GuiUtils::DebouncedDragFloat3("Size", s, 0.01f, 0.0f, 0.0f, "%.2f");
+    bool updatePreview = GuiUtils::DebouncedDragFloat3("Size", s, 0.01f, 0.0f, 0.0f, "%.2f");
     GuiUtils::StoreEdited(ovr.scale, s);
-    if (scaleCommitted && preview.GetPreviewActor()) {
-        auto snapshot = BuildMeshSnapshot();
-        GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
-    }
 
     float r[3] =
         {static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw),
          static_cast<float>(ovr.rotation.Roll)};
-    bool rotationCommitted = GuiUtils::DebouncedDragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f");
+    updatePreview |= GuiUtils::DebouncedDragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f");
     GuiUtils::StoreEdited(ovr.rotation, r);
-    if (rotationCommitted && preview.GetPreviewActor()) {
-        auto snapshot = BuildMeshSnapshot();
-        GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
-    }
 
     float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
-    bool offsetCommitted = GuiUtils::DebouncedDragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f");
+    updatePreview |= GuiUtils::DebouncedDragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f");
     GuiUtils::StoreEdited(ovr.offset, o);
-    if (offsetCommitted && preview.GetPreviewActor()) {
-        auto snapshot = BuildMeshSnapshot();
-        GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
-    }
 
     (void)GuiUtils::SameLineIfFitsButton("Restore Model Adjustments");
     if (ImGui::SmallButton("Restore Model Adjustments")) {
         ovr.scale = {1.0, 1.0, 1.0};
         ovr.rotation = {0.0, 0.0, 0.0};
         ovr.offset = {0.0, 0.0, 0.0};
-        if (preview.GetPreviewActor()) {
-            auto snapshot = BuildMeshSnapshot();
-            GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
-        }
+        updatePreview = true;
+    }
+    if (updatePreview && preview.GetPreviewActor()) {
+        auto snapshot = BuildMeshSnapshot();
+        GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
     }
 }
 
@@ -1643,15 +1610,6 @@ void WeaponEditorSection::RenderEquippedWeaponControls(SDK::AWillie_BP_C* player
     if (!player || !world || loading) ImGui::EndDisabled();
 }
 
-void WeaponEditorSection::RenderSpawnFooter() {
-    auto [world, player] = RenderPlayerWorld();
-
-    if (!player || !world) ImGui::BeginDisabled();
-    if (GuiUtils::Button("Spawn Weapon", GuiUtils::ButtonTone::Primary)) SpawnWeapon();
-    GuiUtils::HelpTooltip("Place the weapon shown in the editor in front of you");
-    if (!player || !world) ImGui::EndDisabled();
-}
-
 WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     ResetWeaponPassport();
     BuildDescriptors();
@@ -1719,7 +1677,7 @@ void WeaponEditorSection::Render() {
     keybinds.Render();
     ImGui::Spacing();
 
-    RenderGenerationControls();
+    RenderGenerationControls(player && world);
 
     if (!globalModules.populated.load(std::memory_order_acquire) && !modulePoolQueued) {
         modulePoolQueued = true;
@@ -1757,7 +1715,16 @@ void WeaponEditorSection::Render() {
 
     ImGui::EndChild();
 
-    RenderSpawnFooter();
+    if (!player || !world) ImGui::BeginDisabled();
+    if (GuiUtils::Button("Spawn Weapon", GuiUtils::ButtonTone::Primary)) {
+        auto snapshot = RenderSnapshot();
+        if (snapshot.player && snapshot.world) {
+            if (cfg.preview.livePreview) preview.Disable();
+            SpawnWeapon(snapshot, BuildSpawnDraftSnapshot());
+        }
+    }
+    GuiUtils::HelpTooltip("Place the weapon shown in the editor in front of you");
+    if (!player || !world) ImGui::EndDisabled();
 
     if (editorBusy) ImGui::EndDisabled();
 

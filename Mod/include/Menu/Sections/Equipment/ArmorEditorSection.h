@@ -121,7 +121,6 @@ private:
     void BuildDescriptors();
     int CountAllActive() const;
 
-    bool IsModularCore() const;
     void PopulateModulePoolForCurrentCore();
     void ResetArmorPassport();
     void QueueGeneration(
@@ -131,11 +130,10 @@ private:
     void RandomizeArmorPassport();
     void SpawnPreview();
     void RenderArmorTierCombo();
-    void SpawnArmor();
     void PublishSpawnDraftSnapshot();
     bool PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update);
     void SpawnArmor(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft);
-    void RenderGenerationControls();
+    void RenderGenerationControls(bool canGenerate);
     void RenderModulesTab();
     void RenderColorsTab();
     void RenderStatsTab();

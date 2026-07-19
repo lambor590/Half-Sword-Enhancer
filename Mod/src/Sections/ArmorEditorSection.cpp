@@ -14,12 +14,6 @@
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
-namespace {
-    template <typename... OverrideTypes> bool HasAnyEnabledOverride(const OverrideTypes&... overrides) {
-        return (... || overrides.enabled);
-    }
-}
-
 void ArmorEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
@@ -50,20 +44,13 @@ int ArmorEditorSection::CountAllActive() const {
     return CountActive(protectionFields) + CountActive(physicsFields) + CountActive(behaviorFields);
 }
 
-bool ArmorEditorSection::IsModularCore() const {
-    SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
-    if (!coreClass || !coreClass->ClassDefaultObject) return false;
-    return GameClass::IsModularArmor(coreClass->ClassDefaultObject);
-}
-
 void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
     SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
-    if (!coreClass || coreClass == armorModules.populatedForCore) return;
+    if (coreClass == armorModules.populatedForCore) return;
 
     armorModules = {};
+    if (!coreClass || !coreClass->ClassDefaultObject) return;
     armorModules.populatedForCore = coreClass;
-
-    if (!coreClass->ClassDefaultObject) return;
     if (!GameClass::IsModularArmor(coreClass->ClassDefaultObject)) return;
 
     auto* cdo = static_cast<SDK::ABP_Armor_Modular_Core_Master_C*>(coreClass->ClassDefaultObject);
@@ -193,16 +180,6 @@ void ArmorEditorSection::RenderArmorTierCombo() {
     }
 }
 
-void ArmorEditorSection::SpawnArmor() {
-    if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-    auto snapshot = RenderSnapshot();
-    if (!snapshot.player || !snapshot.world) return;
-
-    if (cfg.preview.livePreview) preview.Disable();
-
-    SpawnArmor(snapshot, {.spawn = cfg.spawn, .preset = BuildPresetData()});
-}
-
 void ArmorEditorSection::PublishSpawnDraftSnapshot() {
     std::scoped_lock lock(spawnDraftMutex);
     if (renderDraftRevision < publishedSpawnDraftRevision) return;
@@ -266,9 +243,7 @@ void ArmorEditorSection::SpawnArmor(const RuntimeContextSnapshot& runtime, Spawn
     );
 }
 
-void ArmorEditorSection::RenderGenerationControls() {
-    auto [world, player] = RenderPlayerWorld();
-
+void ArmorEditorSection::RenderGenerationControls(bool canGenerate) {
     ImGui::PushID("gen");
 
     static float slotComboW = 0;
@@ -296,12 +271,12 @@ void ArmorEditorSection::RenderGenerationControls() {
 
     ImGui::Spacing();
     if (GuiUtils::Button("Create Armor Design")) {
-        if (player && world) GenerateArmorPassport();
+        if (canGenerate) GenerateArmorPassport();
     }
     GuiUtils::HelpTooltip("Create an armor design for the selected slot and tier");
     (void)GuiUtils::SameLineIfFitsButton("Random Armor Design");
     if (GuiUtils::Button("Random Armor Design")) {
-        if (player && world) RandomizeArmorPassport();
+        if (canGenerate) RandomizeArmorPassport();
     }
     GuiUtils::HelpTooltip("Create a random armor design");
     (void)GuiUtils::SameLineIfFitsButton("Clear Armor Design");
@@ -319,16 +294,9 @@ void ArmorEditorSection::RenderGenerationControls() {
 void ArmorEditorSection::RenderModulesTab() {
     ImGui::PushID("modules");
 
-    if (!IsModularCore()) {
-        ImGui::TextDisabled("This armor does not support custom parts");
-        ImGui::PopID();
-        return;
-    }
-
     PopulateModulePoolForCurrentCore();
-
     if (!armorModules.populated) {
-        ImGui::TextDisabled("Armor parts are unavailable");
+        ImGui::TextDisabled("This armor does not support custom parts");
         ImGui::PopID();
         return;
     }
@@ -619,7 +587,7 @@ void ArmorEditorSection::Render() {
     keybinds.Render();
     ImGui::Spacing();
 
-    RenderGenerationControls();
+    RenderGenerationControls(player && world);
 
     GuiUtils::RenderPreviewControls(cfg.preview, "preview armor");
 
@@ -648,7 +616,13 @@ void ArmorEditorSection::Render() {
 
     const bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr && player && world;
     if (!canSpawn) ImGui::BeginDisabled();
-    if (GuiUtils::Button("Spawn Armor", GuiUtils::ButtonTone::Primary)) SpawnArmor();
+    if (GuiUtils::Button("Spawn Armor", GuiUtils::ButtonTone::Primary)) {
+        auto snapshot = RenderSnapshot();
+        if (snapshot.player && snapshot.world) {
+            if (cfg.preview.livePreview) preview.Disable();
+            SpawnArmor(snapshot, {.spawn = cfg.spawn, .preset = BuildPresetData()});
+        }
+    }
     if (!canSpawn) ImGui::EndDisabled();
 
     if (presetApplyPending) ImGui::EndDisabled();

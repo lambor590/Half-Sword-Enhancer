@@ -4,7 +4,6 @@
 #include "ConfigManager.h"
 #include "Hooks/GameHook.h"
 #include "Utils/ArmorGenerationUi.h"
-#include "Utils/ArmorPresetSerializer.h"
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/EquipmentApplication.h"
 #include "Utils/EquipmentGenerator.h"
@@ -12,12 +11,8 @@
 #include "Utils/LoadoutPresetResolver.h"
 #include "Utils/PresetApplication.h"
 #include "Utils/WeaponGenerationUi.h"
-#include "Utils/WeaponPresetSerializer.h"
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
-
-#include <array>
-#include <cstdint>
 
 namespace {
     constexpr const char* LOADOUT_CONFIG_SECTION = "LoadoutManager";
@@ -36,24 +31,6 @@ namespace {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
         ImGui::TextWrapped("%s", diagnostic.c_str());
         ImGui::PopStyleColor();
-    }
-
-    const char* GetWeaponMaterialLabel(SDK::Enum_Weapon_Material_Type type) {
-        switch (type) {
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator0: return "Steel##mat";
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator1: return "Colored Metal##mat";
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: return "Wood##mat";
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: return "Leather##mat";
-            default: return nullptr;
-        }
-    }
-
-    const char* GetWeaponColorLabel(SDK::Enum_Weapon_Material_Type type) {
-        switch (type) {
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: return "Wood Color##col";
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: return "Leather Color##col";
-            default: return nullptr;
-        }
     }
 
     bool IsArmorRemovable(const SDK::FStr_Passport_Armor1& passport) {
@@ -154,12 +131,6 @@ const char* LoadoutManagerSection::GetWeaponSlotDisplayName(int slot) noexcept {
                : "Other";
 }
 
-void LoadoutManagerSection::ScheduleSlotApply(SDK::EArmorSlots_Enum slot) {
-    if (IsEquipmentBusy()) return;
-    pendingSlot = slot;
-    pendingSlotApply = true;
-}
-
 void LoadoutManagerSection::EnsureModulePool() {
     if (modulePool.populated.load(std::memory_order_acquire)) return;
     bool expected = false;
@@ -253,15 +224,6 @@ void LoadoutManagerSection::QueueArmorTransaction(
     }
 }
 
-void LoadoutManagerSection::ApplyArmorToPlayer(const RuntimeContextSnapshot* immediateRuntime) {
-    QueueArmorTransaction(
-        "Refresh equipped armor", [](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>&, std::string&) {
-            return true;
-        },
-        nullptr, immediateRuntime
-    );
-}
-
 void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
     QueueArmorTransaction(
         "Update armor slot", [slot](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor,
@@ -299,8 +261,6 @@ void LoadoutManagerSection::RemoveArmorForSlot(SDK::EArmorSlots_Enum slot) {
 
 void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
     if (IsEquipmentBusy()) return;
-    if (slotIndex < 0 || slotIndex >= static_cast<int>(LoadoutPresetData::K_WEAPON_SLOT_COUNT)) return;
-
     GameHook::QueueAction([this, slotIndex](const RuntimeContextSnapshot& runtime) {
         auto* player = runtime.player;
         if (!player || !runtime.world) return;
@@ -357,7 +317,6 @@ void LoadoutManagerSection::ClearAllWeapons() {
 
 void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum) {
     const int slotIndex = static_cast<int>(slotEnum);
-    if (slotIndex < 0 || slotIndex >= static_cast<int>(armorSlotLinkStates.size())) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto options = cfg.armorOptions;
 
@@ -419,7 +378,6 @@ void LoadoutManagerSection::RandomizeAllArmor(const RuntimeContextSnapshot* imme
 
 void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
     if (IsEquipmentBusy()) return;
-    if (slotIndex < 0 || slotIndex >= static_cast<int>(weaponSlotLinkStates.size())) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto type = static_cast<SDK::Enum_WeaponType>(0);
     const bool generateGreatsword = WeaponGenerationUi::IsGreatswordIndex(cfg.weaponSpecificType);
@@ -456,7 +414,6 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
 
 void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
     if (IsEquipmentBusy()) return;
-    if (slotIndex < 0 || slotIndex >= static_cast<int>(weaponSlotLinkStates.size())) return;
     if (!weaponPresetComposer.HasLink()) return;
     auto resolved = weaponPresetComposer.Resolve();
     if (!resolved.success || !resolved.value) {
@@ -490,7 +447,6 @@ void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
 }
 
 void LoadoutManagerSection::ImportArmorPreset(std::optional<SDK::EArmorSlots_Enum> expectedSlot) {
-    if (IsEquipmentBusy()) return;
     if (!armorPresetComposer.HasLink()) return;
     auto resolved = armorPresetComposer.Resolve();
     if (!resolved.success || !resolved.value) {
@@ -510,23 +466,19 @@ void LoadoutManagerSection::ImportArmorPreset(std::optional<SDK::EArmorSlots_Enu
         );
         return;
     }
-    if (auto* player = RenderPlayer()) {
-        for (auto current = begin(player->Currently_Equipped_Armor);
-             current != end(player->Currently_Equipped_Armor); ++current) {
-            if (current->Key() != slotEnum) continue;
-            if (!IsArmorRemovable(current->Value())) {
-                SetDraftError("This armor is part of the character and cannot be replaced");
-                return;
-            }
-            break;
-        }
-    }
     auto data = std::move(*resolved.value);
     auto presetLink = armorPresetComposer.GetLink();
     QueueArmorTransaction(
         "Equip armor preset in " + std::string(GetArmorSlotDisplayName(slotEnum)),
-        [slotEnum, data = std::move(data)](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>& armor,
-                                          std::string&) mutable {
+        [slotEnum, data = std::move(data)](const RuntimeContextSnapshot& runtime, std::vector<ArmorPresetData>& armor,
+                                          std::string& error) mutable {
+            for (auto current = begin(runtime.player->Currently_Equipped_Armor);
+                 current != end(runtime.player->Currently_Equipped_Armor); ++current) {
+                if (current->Key() == slotEnum && !IsArmorRemovable(current->Value())) {
+                    error = "this armor is part of the character and cannot be replaced";
+                    return false;
+                }
+            }
             const auto existing = std::find_if(armor.begin(), armor.end(), [slotEnum](const auto& preset) {
                 return preset.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == slotEnum;
             });
@@ -669,7 +621,6 @@ void LoadoutManagerSection::ResetDraftOwner(SDK::AWillie_BP_C* owner) {
     if (draftOwner == owner) return;
     {
         std::lock_guard lock(pendingDraftMutex);
-        if (draftOwner == owner) return;
         draftOwner = owner;
         pendingDraftUpdates = {};
         pendingDraftReady.store(false, std::memory_order_relaxed);
@@ -1022,7 +973,10 @@ void LoadoutManagerSection::RenderArmorTab() {
                             break;
                         }
                     });
-                    if (cfg.livePreview && removable) ScheduleSlotApply(slotEnum);
+                    if (cfg.livePreview && removable) {
+                        pendingSlot = slotEnum;
+                        pendingSlotApply = true;
+                    }
                 }
 
                 if (!removable) ImGui::BeginDisabled();
@@ -1128,8 +1082,14 @@ void LoadoutManagerSection::RenderWeaponSlotMaterials(int slotIndex, const SDK::
 
     ImGui::TextDisabled("Materials");
     for (auto it = begin(matMap); it != end(matMap); ++it) {
-        const char* label = GetWeaponMaterialLabel(it->Key());
-        if (!label) continue;
+        const char* label;
+        switch (it->Key()) {
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator0: label = "Steel##mat"; break;
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator1: label = "Colored Metal##mat"; break;
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: label = "Wood##mat"; break;
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: label = "Leather##mat"; break;
+            default: continue;
+        }
         const auto key = it->Key();
         auto material = it->Value();
         GuiUtils::RenderMaterialCombo(label, material);
@@ -1151,8 +1111,12 @@ void LoadoutManagerSection::RenderWeaponSlotMaterials(int slotIndex, const SDK::
 
     const auto& colorMap = slot.MemberVar_44_45_FF627FBE4FE882E7D295BFA0BB6716C0;
     for (auto it = begin(colorMap); it != end(colorMap); ++it) {
-        const char* label = GetWeaponColorLabel(it->Key());
-        if (!label) continue;
+        const char* label;
+        switch (it->Key()) {
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: label = "Wood Color##col"; break;
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: label = "Leather Color##col"; break;
+            default: continue;
+        }
         float col[4] = {it->Value().R, it->Value().G, it->Value().B, it->Value().A};
         GuiUtils::SetNextColorFieldWidth(label);
         if (ImGui::ColorEdit4(label, col, ImGuiColorEditFlags_AlphaBar)) {
@@ -1324,7 +1288,11 @@ void LoadoutManagerSection::InitKeybinds() {
         .configSection = "ApplyLoadout",
         .keyPtr = &cfg.applyKey,
         .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-            ApplyArmorToPlayer(&runtime);
+            QueueArmorTransaction(
+                "Refresh equipped armor",
+                [](const RuntimeContextSnapshot&, std::vector<ArmorPresetData>&, std::string&) { return true; },
+                nullptr, &runtime
+            );
         },
     });
 

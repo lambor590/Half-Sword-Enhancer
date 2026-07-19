@@ -47,8 +47,6 @@ private:
     static constexpr auto& WEAPON_TYPE_NAMES = GameConstants::WEAPON_TYPE_NAMES;
     static constexpr int WEAPON_TYPE_COUNT = GameConstants::WEAPON_TYPE_COUNT;
 
-    static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
-
     KeybindList keybinds;
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     WeaponClassPaths weaponPaths{};
@@ -220,17 +218,13 @@ private:
     void ApplyMeshToPreview(const MeshSnapshot& snapshot);
     void ResetWeaponPassport();
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
-    void GenerateWeaponPassport();
     void RandomizeWeaponPassport();
     void SpawnPreview();
-    void SpawnWeapon();
     void SpawnWeapon(const RuntimeContextSnapshot& runtime, SpawnDraftSnapshot draft);
-    static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f);
-    static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f);
     void RenderWeaponTypeCombo();
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask);
     static void RenderSizeMassRow(const char* label, SDK::FVector& size, double& mass);
-    void RenderGenerationControls();
+    void RenderGenerationControls(bool canGenerate);
     void RenderModulesTab();
     void RenderGeometryTab();
     void RenderAppearanceTab();
@@ -257,7 +251,6 @@ private:
     void QueueEquippedWeaponUpdate();
     void StopEquippedWeaponEdit();
     void RenderEquippedWeaponControls(SDK::AWillie_BP_C* player, SDK::UWorld* world);
-    void RenderSpawnFooter();
     void InitKeybinds();
 
 public:
