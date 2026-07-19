@@ -47,7 +47,6 @@ namespace {
     class ScopedPageProtection {
     public:
         ScopedPageProtection(uintptr_t address, size_t size) noexcept : address(address), size(size) {
-            if (!address || !size) return;
             active = VirtualProtect(Ptr<void>(address), size, PAGE_EXECUTE_READWRITE, &oldProtection) != 0;
         }
 
@@ -313,8 +312,7 @@ namespace {
                 return false;
             }
 
-            if (!instr.twoByteOpcode && (instr.opcode == 0xE9 || instr.opcode == 0xE8) &&
-                instrLen >= instr.opcodeOffset + REL_JUMP_SIZE) {
+            if (!instr.twoByteOpcode && (instr.opcode == 0xE9 || instr.opcode == 0xE8)) {
                 auto* rel = reinterpret_cast<int32_t*>(code + pos + instr.opcodeOffset + 1);
                 uintptr_t target = (originalAddr + pos + instrLen) + static_cast<int64_t>(*rel);
                 int64_t newRel = static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
@@ -350,8 +348,8 @@ namespace MemoryUtils {
             return false;
         }
 
-        *returnAddress = 0;
         auto& hooks = Hooks();
+        *returnAddress = 0;
         if (hooks.contains(addressToHook)) {
             logger.Log("Hook already installed at {:#x}", addressToHook);
             return false;
@@ -375,11 +373,6 @@ namespace MemoryUtils {
         std::memcpy(Ptr<void>(originalInstructions), Ptr<const void>(addressToHook), clearance);
 
         HookRecord hookInfo;
-        if (clearance > hookInfo.originalBytes.size()) {
-            VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
-            return false;
-        }
-
         hookInfo.originalBytesSize = clearance;
         hookInfo.trampolineBase = trampoline;
         std::memcpy(hookInfo.originalBytes.data(), Ptr<const void>(originalInstructions), clearance);
@@ -448,9 +441,7 @@ namespace MemoryUtils {
         }
 
         const uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
-        const uintptr_t trampBase = hookInfo.trampolineBase;
-        const bool isOurHook = trampBase != 0 && jumpTarget == trampBase;
-        if (!isOurHook) return;
+        if (jumpTarget != hookInfo.trampolineBase) return;
 
         {
             ScopedPageProtection protection(hookedAddress, hookInfo.originalBytesSize);
@@ -460,9 +451,7 @@ namespace MemoryUtils {
             FlushCode(hookedAddress, hookInfo.originalBytesSize);
         }
 
-        if (hookInfo.trampolineBase) {
-            VirtualFree(Ptr<void>(hookInfo.trampolineBase), 0, MEM_RELEASE);
-        }
+        VirtualFree(Ptr<void>(hookInfo.trampolineBase), 0, MEM_RELEASE);
 
         hooks.erase(it);
     }
