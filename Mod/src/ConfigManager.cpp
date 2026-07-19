@@ -28,11 +28,16 @@ ConfigManager& ConfigManager::Get() {
     return manager;
 }
 
-ConfigManager::ConfigManager() {
-    configPath = GetAppDataPath() / "config.ini";
-
+ConfigManager::ConfigManager() : configPath(GetAppDataPath() / "config.ini") {
     ini.SetUnicode();
-    LoadConfig();
+    std::error_code error;
+    if (std::filesystem::is_regular_file(configPath, error) && !error) {
+        if (ini.LoadFile(configPath.string().c_str()) >= 0) return;
+        ini.Reset();
+        ini.SetUnicode();
+    }
+    needsSave = true;
+    (void)SaveConfigLocked();
 }
 
 bool ConfigManager::SaveConfigLocked() noexcept {
@@ -111,18 +116,6 @@ void ConfigManager::EndBatch() {
     const std::lock_guard lock(mutex);
     --batchDepth;
     if (batchDepth == 0 && needsSave) (void)SaveConfigLocked();
-}
-
-void ConfigManager::LoadConfig() {
-    const std::lock_guard lock(mutex);
-    std::error_code error;
-    if (std::filesystem::is_regular_file(configPath, error) && !error) {
-        if (ini.LoadFile(configPath.string().c_str()) >= 0) return;
-        ini.Reset();
-        ini.SetUnicode();
-    }
-    needsSave = true;
-    (void)SaveConfigLocked();
 }
 
 int ConfigManager::GetInt(const char* section, const char* key, int defaultValue) {

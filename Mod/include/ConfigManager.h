@@ -46,8 +46,6 @@ public:
     void SaveConfig();
     void FlushIfDue() noexcept;
     [[nodiscard]] bool Flush() noexcept;
-    void LoadConfig();
-
     template <typename Updates> void BatchSave(Updates&& updates) {
         const BatchGuard batch(*this);
         std::invoke(std::forward<Updates>(updates));
