@@ -30,19 +30,15 @@ namespace {
     std::mutex workerMutex;
     std::thread startupWorker;
 
-    [[nodiscard]] bool StartedAtLeast(StartedStep step) noexcept {
-        return startedStep >= step;
-    }
-
     void ShutdownStarted() noexcept {
-        if (StartedAtLeast(StartedStep::Renderer)) renderer.Cleanup();
+        if (startedStep >= StartedStep::Renderer) renderer.Cleanup();
         if (!ConfigManager::Get().Flush()) logger.Log("Deferred configuration could not be flushed during shutdown");
 
-        if (StartedAtLeast(StartedStep::RuntimeSubsystems)) AIDirector::Get().PrepareForRuntimeShutdown();
+        if (startedStep >= StartedStep::RuntimeSubsystems) AIDirector::Get().PrepareForRuntimeShutdown();
 
-        if (StartedAtLeast(StartedStep::AssetOverrides) &&
+        if (startedStep >= StartedStep::AssetOverrides &&
             !GameHook::Get().ExecuteOnGameThreadAndWait([](const RuntimeContextSnapshot& runtime) {
-                if (StartedAtLeast(StartedStep::RuntimeSubsystems)) {
+                if (startedStep >= StartedStep::RuntimeSubsystems) {
                     FreeCameraManager::Get().PrepareForRuntimeShutdown(runtime);
                     EquipmentApplication::AbortRuntimeTransactionsForShutdown();
                 }
@@ -51,19 +47,17 @@ namespace {
             logger.Log("Game-thread runtime cleanup could not be completed");
         }
 
-        if (StartedAtLeast(StartedStep::GameHook)) {
-            GameHook::Get().Quiesce();
-            if (StartedAtLeast(StartedStep::Renderer)) MapLoaderSection::OnRuntimeShutdown();
-            if (StartedAtLeast(StartedStep::RuntimeSubsystems)) {
-                FreeCameraManager::Get().OnRuntimeShutdown();
-                EquipmentApplication::OnRuntimeShutdown();
-                AIDirector::Get().OnRuntimeShutdown();
-                ActorUtils::OnRuntimeShutdown();
-            }
-            if (StartedAtLeast(StartedStep::Renderer)) KeybindRuntime::OnRuntimeShutdown();
-            if (StartedAtLeast(StartedStep::AssetOverrides)) AssetOverrideManager::Get().Shutdown();
-            GameHook::Get().Unhook();
+        GameHook::Get().Quiesce();
+        if (startedStep >= StartedStep::Renderer) MapLoaderSection::OnRuntimeShutdown();
+        if (startedStep >= StartedStep::RuntimeSubsystems) {
+            FreeCameraManager::Get().OnRuntimeShutdown();
+            EquipmentApplication::OnRuntimeShutdown();
+            AIDirector::Get().OnRuntimeShutdown();
+            ActorUtils::OnRuntimeShutdown();
         }
+        if (startedStep >= StartedStep::Renderer) KeybindRuntime::OnRuntimeShutdown();
+        if (startedStep >= StartedStep::AssetOverrides) AssetOverrideManager::Get().Shutdown();
+        GameHook::Get().Unhook();
         startedStep = StartedStep::None;
         active.store(false, std::memory_order_release);
     }
@@ -121,7 +115,6 @@ void ModRuntimeLifecycle::StartAsync() noexcept {
     if (startupWorker.joinable()) startupWorker.join();
 
     stopRequested.store(false, std::memory_order_release);
-    startedStep = StartedStep::None;
     active.store(true, std::memory_order_release);
     try {
         startupWorker = std::thread(StartWorker);

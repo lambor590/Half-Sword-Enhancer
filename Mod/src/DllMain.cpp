@@ -9,14 +9,6 @@
 static Logger logger{"DllMain"};
 static std::atomic<bool> lifecycleStarted{false};
 
-#ifdef EXPERIMENTAL_VERSION
-static void OpenDebugTerminal() noexcept {
-    AllocConsole();
-    freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-    SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Experimental Build");
-}
-#endif
-
 extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
     if (lifecycleStarted.exchange(true, std::memory_order_acq_rel)) return;
     KeybindManager::Initialize();
@@ -32,7 +24,9 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID /*reserved*/) noexcept 
     if (reason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(module);
 #ifdef EXPERIMENTAL_VERSION
-        OpenDebugTerminal();
+        AllocConsole();
+        freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+        SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Experimental Build");
         logger.Log("Half Sword Enhancer - Experimental Build initializing...");
         logger.Log("This is a public experimental build for testing purposes.");
 #else
