@@ -31,23 +31,21 @@ namespace hse {
     }
 
     bool LauncherConfig::GetCheckForUpdates() const {
-        return GetBool(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, true);
+        return ini_.GetBoolValue(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, true);
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetCheckForUpdates(bool enabled) {
-        return SetBool(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, enabled);
+        if (ini_.SetBoolValue(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, enabled) < 0)
+            return std::unexpected(ConfigError::InvalidValue);
+        return SaveConfig();
     }
 
     bool LauncherConfig::HasCheckForUpdatesSetting() const {
-        return HasKey(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY);
+        return ini_.KeyExists(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY);
     }
 
     std::filesystem::path LauncherConfig::GetGamePath() const {
         return GetString(INSTALL_SECTION, GAME_PATH_KEY, "");
-    }
-
-    bool LauncherConfig::HasGamePath() const {
-        return HasKey(INSTALL_SECTION, GAME_PATH_KEY);
     }
 
     GameEdition LauncherConfig::GetGameEdition() const {
@@ -111,21 +109,8 @@ namespace hse {
         return {};
     }
 
-    bool LauncherConfig::HasKey(const char* section, const char* key) const {
-        return ini_.KeyExists(section, key);
-    }
-
-    bool LauncherConfig::GetBool(const char* section, const char* key, bool defaultValue) const {
-        return ini_.GetBoolValue(section, key, defaultValue);
-    }
-
     std::string LauncherConfig::GetString(const char* section, const char* key, const char* defaultValue) const {
         return std::string(ini_.GetValue(section, key, defaultValue));
-    }
-
-    std::expected<void, ConfigError> LauncherConfig::SetBool(const char* section, const char* key, bool value) {
-        if (ini_.SetBoolValue(section, key, value) < 0) return std::unexpected(ConfigError::InvalidValue);
-        return SaveConfig();
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetString(

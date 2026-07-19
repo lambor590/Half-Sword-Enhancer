@@ -223,14 +223,14 @@ bool HSELauncher::PerformSelfUpdate() {
 }
 
 bool HSELauncher::LocateGame() {
-    if (config.HasGamePath()) {
-        auto savedPath = config.GetGamePath();
+    if (auto savedPath = config.GetGamePath(); !savedPath.empty()) {
         auto savedLocation = hse::LocateGameAt(savedPath, config.GetGameEdition());
         if (savedLocation) {
             gameBinPath_ = std::move(savedLocation->binariesPath);
             gameEdition_ = savedLocation->edition;
             hse::Logger::info(
-                "Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+                "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
+                hse::DescribeGameEdition(gameEdition_).displayName.data()
             );
             return true;
         }
@@ -245,7 +245,8 @@ bool HSELauncher::LocateGame() {
         if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
             hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
         hse::Logger::info(
-            "Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+            "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
+            hse::DescribeGameEdition(gameEdition_).displayName.data()
         );
         return true;
     }
@@ -268,7 +269,10 @@ bool HSELauncher::LocateGame() {
     gameEdition_ = manualResult->edition;
     if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
         hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
-    hse::Logger::info("Half Sword found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
+    hse::Logger::info(
+        "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
+        hse::DescribeGameEdition(gameEdition_).displayName.data()
+    );
     return true;
 }
 
@@ -479,10 +483,7 @@ bool HSELauncher::CheckAndInstallMod() {
         return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
-    if (installedVersion)
-        hse::Logger::info("Half Sword Enhancer is up to date (v%s)", installedVersion->ToString().c_str());
-    else
-        hse::Logger::info("Half Sword Enhancer is installed, but its version could not be identified");
+    hse::Logger::info("Half Sword Enhancer is up to date (v%s)", installedVersion->ToString().c_str());
     return true;
 #endif
 }
@@ -508,8 +509,9 @@ void HSELauncher::OfferGameLaunch() {
     std::getline(std::cin, input);
 
     if (input.empty() || input[0] == 'Y' || input[0] == 'y') {
-        const auto* steamUrl = hse::SteamUrl(gameEdition_);
-        hse::Logger::info("Launching %s via Steam...", hse::GameEditionName(gameEdition_));
+        const auto& edition = hse::DescribeGameEdition(gameEdition_);
+        const auto* steamUrl = edition.steamUrl.data();
+        hse::Logger::info("Launching %s via Steam...", edition.displayName.data());
         ShellExecuteA(nullptr, "open", steamUrl, nullptr, nullptr, SW_SHOWNORMAL);
     }
 }
@@ -536,7 +538,7 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
             return 1;
         }
 
-        if (hse::IsGameRunning()) {
+        if (FindWindowA("UnrealWindow", nullptr) != nullptr) {
             hse::Logger::warn("Half Sword is currently running.");
             hse::Logger::warn("Please close the game before installing or updating the mod.");
             ShowExitMessage(false);

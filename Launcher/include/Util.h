@@ -14,14 +14,6 @@
 
 namespace hse {
 
-    constexpr const char* GameEditionName(GameEdition edition) noexcept {
-        return DescribeGameEdition(edition).displayName.data();
-    }
-
-    constexpr const char* SteamUrl(GameEdition edition) noexcept {
-        return DescribeGameEdition(edition).steamUrl.data();
-    }
-
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
     constexpr const char* MOD_FILENAME = "HSEnhancer.dll";
     constexpr const char* PROXY_FILENAME = "winmm.dll";
@@ -64,10 +56,6 @@ namespace hse {
         HANDLE handle = nullptr;
         bool locked = false;
     };
-
-    [[nodiscard]] inline bool IsGameRunning() noexcept {
-        return FindWindowA("UnrealWindow", nullptr) != nullptr;
-    }
 
     [[noreturn]] inline void fail(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
