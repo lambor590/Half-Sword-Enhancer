@@ -139,7 +139,59 @@ namespace {
         bool initialized = false;
     };
 
+    struct PossessionWillieFlags {
+        int objectIndex = -1;
+        std::uint8_t actorBitPad = 0;
+        bool invulnerable = false;
+        bool skillThrust = false;
+        bool skillParry = false;
+        bool skillAltGrip = false;
+        bool skillAltStance = false;
+        bool skillRotate = false;
+        bool skillCrouch = false;
+        bool skillDodge = false;
+        bool skillKick = false;
+        bool skillSlomo = false;
+    };
+
+    PossessionWillieFlags g_possessedWillieFlags;
+
     constexpr auto POSSESSION_CAMERA_STABILIZATION = std::chrono::seconds(1);
+
+    PossessionWillieFlags CapturePossessionWillieFlags(SDK::AWillie_BP_C* willie) {
+        if (!willie) return {};
+        return {
+            .objectIndex = willie->Index,
+            .actorBitPad = static_cast<std::uint8_t>(willie->BitPad_5C_0),
+            .invulnerable = willie->Invulnerable,
+            .skillThrust = willie->Skill_Unlock_Weapon_Thrust,
+            .skillParry = willie->Skill_Unlock_Weapon_Parry,
+            .skillAltGrip = willie->Skill_Unlock_Weapon_Alt_Grip,
+            .skillAltStance = willie->Skill_Unlock_Weapon_Alt_Stance,
+            .skillRotate = willie->Skill_Unlock_Weapon_Rotate,
+            .skillCrouch = willie->Skill_Unlock_Body_Crouch,
+            .skillDodge = willie->Skill_Unlock_Body_Dodge,
+            .skillKick = willie->Skill_Unlock_Body_Kick,
+            .skillSlomo = willie->Skill_Unlock_Body_Slomo,
+        };
+    }
+
+    void RestorePossessionWillieFlags(SDK::AWillie_BP_C* willie, const PossessionWillieFlags& flags) {
+        if (!willie || flags.objectIndex < 0 || SDK::UObject::GObjects->GetByIndex(flags.objectIndex) != willie ||
+            willie->IsActorBeingDestroyed())
+            return;
+        willie->BitPad_5C_0 = flags.actorBitPad;
+        willie->Invulnerable = flags.invulnerable;
+        willie->Skill_Unlock_Weapon_Thrust = flags.skillThrust;
+        willie->Skill_Unlock_Weapon_Parry = flags.skillParry;
+        willie->Skill_Unlock_Weapon_Alt_Grip = flags.skillAltGrip;
+        willie->Skill_Unlock_Weapon_Alt_Stance = flags.skillAltStance;
+        willie->Skill_Unlock_Weapon_Rotate = flags.skillRotate;
+        willie->Skill_Unlock_Body_Crouch = flags.skillCrouch;
+        willie->Skill_Unlock_Body_Dodge = flags.skillDodge;
+        willie->Skill_Unlock_Body_Kick = flags.skillKick;
+        willie->Skill_Unlock_Body_Slomo = flags.skillSlomo;
+    }
 
     PossessionSpringArmState CaptureSpringArmState(SDK::USpringArmComponent* springArm) {
         if (!springArm) return {};
@@ -684,12 +736,15 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
 
     if (PossessState::lastWorld != world) {
         PossessState::Reset();
+        g_possessedWillieFlags = {};
         PossessState::lastWorld = world;
     }
 
     auto* currentPawn = controller->K2_GetPawn();
     if (PossessState::possessed && currentPawn != PossessState::possessed) [[unlikely]] {
+        RestorePossessionWillieFlags(PossessState::possessed, g_possessedWillieFlags);
         PossessState::Reset();
+        g_possessedWillieFlags = {};
     }
 
     if (!PossessState::possessed) [[likely]] {
@@ -704,6 +759,7 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         const auto cameraState = CapturePossessionCamera(controller, originalWillie);
 
         PossessState::prevController = static_cast<SDK::AAIController*>(nearest->Controller);
+        g_possessedWillieFlags = CapturePossessionWillieFlags(nearest);
         if (PossessState::prevController) [[likely]] {
             PossessState::prevController->SetActorTickEnabled(false);
         }
@@ -722,12 +778,14 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         PossessState::prevController->Possess(williePawn);
         PossessState::prevController->SetActorTickEnabled(true);
     }
+    RestorePossessionWillieFlags(williePawn, g_possessedWillieFlags);
     if (PossessState::originalPawn && PossessState::originalPawn->IsA(SDK::AWillie_BP_C::StaticClass())) {
         QueuePossessionCamera(
             controller, static_cast<SDK::AWillie_BP_C*>(PossessState::originalPawn), cameraState
         );
     }
     PossessState::Reset();
+    g_possessedWillieFlags = {};
 }
 
 void PlayerAbilitiesSection::InitKeybinds() {
