@@ -37,15 +37,12 @@ private:
 
     void InitKeybinds();
     void BuildDescriptors();
-    int CountAllActive() const;
     void RenderTrackedField(const OverrideDescriptor& field);
     void RenderTrackedGroup(std::span<const OverrideDescriptor> fields);
     void ApplyToPlayer(SDK::AWillie_BP_C* p);
     void PublishOverrides();
     void ReadFromPlayer();
-    PlayerPresetData BuildPresetData() const;
-    void ApplyPresetData(const PlayerPresetData& d);
-    void ClonePlayer();
+    void ClonePlayer(SDK::AWillie_BP_C* player);
     void RenderPhysicalTab();
     void RenderHealthTab();
     void RenderPhysicsTab();

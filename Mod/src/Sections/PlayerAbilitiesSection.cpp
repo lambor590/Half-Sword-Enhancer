@@ -334,8 +334,6 @@ namespace {
     }
 
     void BoostWeaponKnockback(SDK::AModularWeaponBP_C* weapon, float configuredMultiplier) noexcept {
-        if (!weapon || configuredMultiplier <= 1.0f) return;
-
         const auto multiplier = static_cast<double>(configuredMultiplier);
         if (weapon->Kick_Power < multiplier) {
             weapon->Kick_Power = multiplier;
@@ -366,8 +364,6 @@ namespace {
     }
 
     double BoneMass(SDK::USkeletalMeshComponent* mesh, const SDK::TArray<SDK::FName>& bones) {
-        if (!mesh) return 0.0;
-
         double mass = 0.0;
         for (const auto& bone : bones) {
             if (!bone.IsNone()) mass += static_cast<double>(mesh->GetBoneMass(bone, true));
@@ -376,7 +372,7 @@ namespace {
     }
 
     double PunchLimbMass(SDK::AWillie_BP_C* attacker, SDK::AWeapon_Fists_C* fist) {
-        if (!attacker || !attacker->Mesh || !fist) return 0.0;
+        if (!attacker->Mesh) return 0.0;
 
         if (fist == attacker->Weapon_L || fist == attacker->Weapon_L_0) {
             return BoneMass(attacker->Mesh, attacker->L_Arm_Bones);
@@ -392,7 +388,7 @@ namespace {
         const SDK::FVector& weaponVelocity, const SDK::FVector& impactPoint, const SDK::FName& targetBone,
         double attackerMass, double multiplier, SDK::FVector& impulse
     ) {
-        if (!attacker || !target || attacker == target || !hitComponent || multiplier <= 1.0) return false;
+        if (multiplier <= 1.0) return false;
 
         const double weaponSpeedSq = weaponVelocity.Dot(weaponVelocity);
         if (weaponSpeedSq <= KNOCKBACK_MIN_SPEED_SQ) return false;
@@ -427,7 +423,7 @@ namespace {
     PunchKnockbackContact* TouchPunchKnockbackContact(
         SDK::AWeapon_Fists_C* fist, SDK::AWillie_BP_C* target, const SDK::FName& targetBone
     ) {
-        if (!fist || !target || targetBone.IsNone()) return nullptr;
+        if (targetBone.IsNone()) return nullptr;
 
         const auto now = std::chrono::steady_clock::now();
         const auto staleBefore = now - PUNCH_KNOCKBACK_CONTACT_GAP;
@@ -647,7 +643,7 @@ void PlayerAbilitiesSection::HandleKickHit(GameHook::ProcessEventContext& contex
                      ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
                      : nullptr;
     auto* attacker = foot ? foot->Parent_Actor : nullptr;
-    if (!foot || !target || !attacker || attacker == target ||
+    if (!target || !attacker || attacker == target ||
         (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies))
         return;
 
@@ -685,7 +681,7 @@ void PlayerAbilitiesSection::HandlePunchHit(GameHook::ProcessEventContext& conte
                      ? static_cast<SDK::AWeapon_Fists_C*>(params->OtherActor)
                      : nullptr;
     auto* attacker = fist ? fist->Parent_Actor : nullptr;
-    if (!fist || !target || !attacker || attacker == target ||
+    if (!target || !attacker || attacker == target ||
         (!BoneControl::MatchesScope(attacker, true) && !cfg.knockbackAffectsEnemies))
         return;
 
@@ -700,18 +696,16 @@ void PlayerAbilitiesSection::HandlePunchHit(GameHook::ProcessEventContext& conte
         return;
     }
 
-    if (contact) {
-        const double contactImpulse = impulse.Magnitude();
-        if (contact->appliedImpulse > KNOCKBACK_EPSILON &&
-            contactImpulse < contact->appliedImpulse * PUNCH_KNOCKBACK_RESET_RATIO) {
-            contact->appliedImpulse = contactImpulse;
-        }
-
-        const double remainingImpulse = contactImpulse - contact->appliedImpulse;
-        if (remainingImpulse <= KNOCKBACK_EPSILON) return;
-        if (remainingImpulse < contactImpulse) impulse *= remainingImpulse / contactImpulse;
+    const double contactImpulse = impulse.Magnitude();
+    if (contact->appliedImpulse > KNOCKBACK_EPSILON &&
+        contactImpulse < contact->appliedImpulse * PUNCH_KNOCKBACK_RESET_RATIO) {
         contact->appliedImpulse = contactImpulse;
     }
+
+    const double remainingImpulse = contactImpulse - contact->appliedImpulse;
+    if (remainingImpulse <= KNOCKBACK_EPSILON) return;
+    if (remainingImpulse < contactImpulse) impulse *= remainingImpulse / contactImpulse;
+    contact->appliedImpulse = contactImpulse;
 
     BoostWeaponKnockback(fist, cfg.knockbackMultiplier);
     params->HitComponent->AddImpulseAtLocation(impulse, params->Hit.ImpactPoint, targetBone);

@@ -14,9 +14,11 @@
 namespace {
     std::uint64_t OverrideValueBits(const OverrideDescriptor& field) noexcept {
         switch (field.type) {
-            case OverrideFieldType::Double: return std::bit_cast<std::uint64_t>(GetDouble(field));
-            case OverrideFieldType::Int: return static_cast<std::uint64_t>(static_cast<std::int64_t>(GetInt(field)));
-            case OverrideFieldType::Bool: return GetBool(field) ? 1 : 0;
+            case OverrideFieldType::Double:
+                return std::bit_cast<std::uint64_t>(*static_cast<const double*>(field.value));
+            case OverrideFieldType::Int:
+                return static_cast<std::uint64_t>(static_cast<std::int64_t>(*static_cast<const int*>(field.value)));
+            case OverrideFieldType::Bool: return *static_cast<const bool*>(field.value) ? 1 : 0;
         }
         return 0;
     }
@@ -94,12 +96,6 @@ void PlayerEditorSection::BuildDescriptors() {
         OverrideField("Fear", o.fear, 0.1f, "Fear level"),
         OverrideField("Invulnerable", o.invulnerable, "Immune to all damage"),
     };
-}
-
-int PlayerEditorSection::CountAllActive() const {
-    return CountActive(physicalFields) + CountActive(healthFields) + CountActive(physicsFields) +
-           CountActive(movementFields) + CountActive(combatFields) + CountActive(skillFields) +
-           CountActive(stateFields);
 }
 
 void PlayerEditorSection::RenderTrackedField(const OverrideDescriptor& field) {
@@ -201,20 +197,7 @@ void PlayerEditorSection::ReadFromPlayer() {
     presets.status.Clear();
 }
 
-PlayerPresetData PlayerEditorSection::BuildPresetData() const {
-    PlayerPresetData d;
-    d.overrides = overrides;
-    return d;
-}
-
-void PlayerEditorSection::ApplyPresetData(const PlayerPresetData& d) {
-    overrides = d.overrides;
-    overridesDirty = true;
-}
-
-void PlayerEditorSection::ClonePlayer() {
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+void PlayerEditorSection::ClonePlayer(SDK::AWillie_BP_C* player) {
     auto passport = player->Character_Passport;
     if (overrides.heightRate.enabled) passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = overrides.heightRate.value;
     if (overrides.muscleRate.enabled) passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = overrides.muscleRate.value;
@@ -433,12 +416,15 @@ void PlayerEditorSection::Render() {
     if (!player || !world) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Player Clone", GuiUtils::ButtonTone::Primary)) {
         presets.status.Clear();
-        ClonePlayer();
+        ClonePlayer(player);
     }
     if (!player || !world) ImGui::EndDisabled();
     GuiUtils::HelpTooltip("Spawn a clone with the current body settings");
 
-    GuiUtils::RenderOverrideCount(CountAllActive());
+    GuiUtils::RenderOverrideCount(
+        CountActive(physicalFields) + CountActive(healthFields) + CountActive(physicsFields) +
+        CountActive(movementFields) + CountActive(combatFields) + CountActive(skillFields) + CountActive(stateFields)
+    );
     presets.status.Render();
 
     ImGui::Spacing();
@@ -458,10 +444,13 @@ void PlayerEditorSection::Render() {
         case 6:
             presets.RenderPresetsTab(
                 [this](const char*, bool) {
-                    return PresetBuildResult<PlayerPresetData>::Success(BuildPresetData());
+                    PlayerPresetData data;
+                    data.overrides = overrides;
+                    return PresetBuildResult<PlayerPresetData>::Success(std::move(data));
                 },
                 [this](const PlayerPresetData& data) {
-                    ApplyPresetData(data);
+                    overrides = data.overrides;
+                    overridesDirty = true;
                     return PresetApplyDisposition::Applied;
                 }
             );
