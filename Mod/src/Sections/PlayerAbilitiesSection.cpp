@@ -1,6 +1,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <memory>
 #include <vector>
 
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
@@ -101,21 +102,164 @@ namespace {
 
     std::vector<PunchKnockbackContact> g_punchKnockbackContacts;
 
-    void ActivatePossessionCamera(SDK::APlayerController* controller, SDK::AWillie_BP_C* willie) {
+    enum class PossessionCameraSlot : std::uint8_t { Unknown, FollowCamera1, FollowCamera, FirstPerson };
+
+    struct PossessionSpringArmState {
+        float targetArmLength = 0.0f;
+        SDK::FVector socketOffset{};
+        SDK::FVector targetOffset{};
+        bool usePawnControlRotation = false;
+        bool inheritPitch = false;
+        bool inheritYaw = false;
+        bool inheritRoll = false;
+        bool valid = false;
+    };
+
+    struct PossessionCameraState {
+        PossessionCameraSlot slot = PossessionCameraSlot::Unknown;
+        SDK::FVector relativeLocation{};
+        SDK::FRotator relativeRotation{};
+        SDK::FRotator controlRotation{};
+        PossessionSpringArmState springArm;
+    };
+
+    struct PossessionCameraActivation {
+        SDK::APlayerController* controller = nullptr;
+        SDK::AWillie_BP_C* willie = nullptr;
+        PossessionCameraState state;
+        std::chrono::steady_clock::time_point started;
+        bool initialized = false;
+    };
+
+    constexpr auto POSSESSION_CAMERA_STABILIZATION = std::chrono::seconds(1);
+
+    PossessionSpringArmState CaptureSpringArmState(SDK::USpringArmComponent* springArm) {
+        if (!springArm) return {};
+        return {
+            .targetArmLength = springArm->TargetArmLength,
+            .socketOffset = springArm->SocketOffset,
+            .targetOffset = springArm->TargetOffset,
+            .usePawnControlRotation = springArm->bUsePawnControlRotation != 0,
+            .inheritPitch = springArm->bInheritPitch != 0,
+            .inheritYaw = springArm->bInheritYaw != 0,
+            .inheritRoll = springArm->bInheritRoll != 0,
+            .valid = true,
+        };
+    }
+
+    PossessionCameraState CapturePossessionCamera(
+        SDK::APlayerController* controller, SDK::AWillie_BP_C* willie
+    ) {
+        PossessionCameraState state{};
+        if (!controller || !willie || !willie->Active_Camera) return state;
+
+        auto* activeCamera = willie->Active_Camera;
+        if (activeCamera == willie->FollowCamera1) {
+            state.slot = PossessionCameraSlot::FollowCamera1;
+        } else if (activeCamera == willie->FollowCamera) {
+            state.slot = PossessionCameraSlot::FollowCamera;
+            state.springArm = CaptureSpringArmState(willie->CameraBoom_Shoulder_);
+        } else if (activeCamera == willie->First_Person_Camera) {
+            state.slot = PossessionCameraSlot::FirstPerson;
+            state.springArm = CaptureSpringArmState(willie->CameraBoomFP);
+        } else {
+            return state;
+        }
+
+        state.relativeLocation = activeCamera->RelativeLocation;
+        state.relativeRotation = activeCamera->RelativeRotation;
+        state.controlRotation = controller->GetControlRotation();
+        return state;
+    }
+
+    void ApplySpringArmState(SDK::USpringArmComponent* springArm, const PossessionSpringArmState& state) {
+        if (!springArm || !state.valid) return;
+        springArm->TargetArmLength = state.targetArmLength;
+        springArm->SocketOffset = state.socketOffset;
+        springArm->TargetOffset = state.targetOffset;
+        springArm->bUsePawnControlRotation = state.usePawnControlRotation;
+        springArm->bInheritPitch = state.inheritPitch;
+        springArm->bInheritYaw = state.inheritYaw;
+        springArm->bInheritRoll = state.inheritRoll;
+    }
+
+    SDK::UCameraComponent* ResolvePossessionCamera(
+        SDK::AWillie_BP_C* willie, const PossessionCameraState& state
+    ) {
+        if (!willie) return nullptr;
+        switch (state.slot) {
+            case PossessionCameraSlot::FollowCamera1:
+                return willie->FollowCamera1;
+            case PossessionCameraSlot::FollowCamera:
+                ApplySpringArmState(willie->CameraBoom_Shoulder_, state.springArm);
+                return willie->FollowCamera;
+            case PossessionCameraSlot::FirstPerson:
+                ApplySpringArmState(willie->CameraBoomFP, state.springArm);
+                return willie->First_Person_Camera;
+            case PossessionCameraSlot::Unknown:
+                return nullptr;
+        }
+        return nullptr;
+    }
+
+    void ActivatePossessionCamera(
+        SDK::APlayerController* controller, SDK::AWillie_BP_C* willie, const PossessionCameraState& state,
+        bool initialize
+    ) {
         if (!controller || !willie) return;
 
-        willie->Initialize_Camera_Settings();
+        if (initialize) willie->Initialize_Camera_Settings();
+        auto* activeCamera = ResolvePossessionCamera(willie, state);
+        if (activeCamera) {
+            if (willie->FollowCamera1) willie->FollowCamera1->SetActive(false, true);
+            if (willie->FollowCamera) willie->FollowCamera->SetActive(false, true);
+            if (willie->First_Person_Camera) willie->First_Person_Camera->SetActive(false, true);
+            activeCamera->K2_SetRelativeLocationAndRotation(
+                state.relativeLocation, state.relativeRotation, false, nullptr, true
+            );
+            activeCamera->SetActive(true, true);
+            willie->Active_Camera = activeCamera;
+            willie->First_Person = state.slot == PossessionCameraSlot::FirstPerson;
+            if (initialize) controller->SetControlRotation(state.controlRotation);
+        }
         controller->SetViewTargetWithBlend(
             willie, 0.0f, SDK::EViewTargetBlendFunction::VTBlend_Linear, 0.0f, false
         );
-        if (controller->PlayerCameraManager) controller->PlayerCameraManager->SetGameCameraCutThisFrame();
+        if (initialize && controller->PlayerCameraManager)
+            controller->PlayerCameraManager->SetGameCameraCutThisFrame();
     }
 
-    void QueuePossessionCamera(SDK::APlayerController* controller, SDK::AWillie_BP_C* willie) {
-        GameHook::QueueAction([controller, willie](const RuntimeContextSnapshot& runtime) {
-            if (runtime.controller != controller || controller->K2_GetPawn() != willie) return;
-            ActivatePossessionCamera(controller, willie);
+    void QueuePossessionCameraActivation(const std::shared_ptr<PossessionCameraActivation>& activation) {
+        GameHook::QueueAction([activation](const RuntimeContextSnapshot& runtime) {
+            if (!activation || !activation->controller || runtime.controller != activation->controller ||
+                !activation->willie || activation->willie->IsActorBeingDestroyed() ||
+                activation->controller->K2_GetPawn() != activation->willie)
+                return;
+
+            const bool firstActivation = !activation->initialized;
+            if (firstActivation) {
+                ActivatePossessionCamera(activation->controller, activation->willie, activation->state, true);
+                activation->initialized = true;
+            }
+            if (std::chrono::steady_clock::now() - activation->started < POSSESSION_CAMERA_STABILIZATION) {
+                QueuePossessionCameraActivation(activation);
+                return;
+            }
+            if (!firstActivation)
+                ActivatePossessionCamera(activation->controller, activation->willie, activation->state, false);
         });
+    }
+
+    void QueuePossessionCamera(
+        SDK::APlayerController* controller, SDK::AWillie_BP_C* willie, const PossessionCameraState& state
+    ) {
+        auto activation = std::make_shared<PossessionCameraActivation>(PossessionCameraActivation{
+            .controller = controller,
+            .willie = willie,
+            .state = state,
+            .started = std::chrono::steady_clock::now(),
+        });
+        QueuePossessionCameraActivation(activation);
     }
 
     SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
@@ -530,18 +674,24 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         if (!nearest) [[unlikely]]
             return;
 
+        auto* originalWillie = currentPawn && currentPawn->IsA(SDK::AWillie_BP_C::StaticClass())
+                                   ? static_cast<SDK::AWillie_BP_C*>(currentPawn)
+                                   : nullptr;
+        const auto cameraState = CapturePossessionCamera(controller, originalWillie);
+
         PossessState::prevController = static_cast<SDK::AAIController*>(nearest->Controller);
         if (PossessState::prevController) [[likely]] {
             PossessState::prevController->SetActorTickEnabled(false);
         }
         nearest->Player = true;
         controller->Possess(nearest);
-        QueuePossessionCamera(controller, nearest);
+        QueuePossessionCamera(controller, nearest, cameraState);
         PossessState::possessed = nearest;
         return;
     }
 
     auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
+    const auto cameraState = CapturePossessionCamera(controller, williePawn);
     controller->Possess(PossessState::originalPawn);
     williePawn->Player = false;
     if (PossessState::prevController) [[likely]] {
@@ -549,7 +699,9 @@ void PlayerAbilitiesSection::TogglePossession(const RuntimeContextSnapshot& runt
         PossessState::prevController->SetActorTickEnabled(true);
     }
     if (PossessState::originalPawn && PossessState::originalPawn->IsA(SDK::AWillie_BP_C::StaticClass())) {
-        QueuePossessionCamera(controller, static_cast<SDK::AWillie_BP_C*>(PossessState::originalPawn));
+        QueuePossessionCamera(
+            controller, static_cast<SDK::AWillie_BP_C*>(PossessState::originalPawn), cameraState
+        );
     }
     PossessState::Reset();
 }
