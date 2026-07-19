@@ -13,15 +13,11 @@ namespace hse {
 
         static inline HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        static void SetConsoleColor(LogColor color) noexcept {
-            SetConsoleTextAttribute(hConsole, static_cast<WORD>(color));
-        }
-
         static void Log(const char* level, LogColor color, std::string_view message) noexcept {
             std::cout << '[';
-            SetConsoleColor(color);
+            SetConsoleTextAttribute(hConsole, static_cast<WORD>(color));
             std::cout << level;
-            SetConsoleColor(LogColor::WHITE);
+            SetConsoleTextAttribute(hConsole, static_cast<WORD>(LogColor::WHITE));
             std::cout << "] " << message << '\n';
         }
 

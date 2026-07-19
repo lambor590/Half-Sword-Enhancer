@@ -32,7 +32,6 @@ namespace hse {
         SelfUpdateStaging(SelfUpdateStaging&& other) noexcept;
         SelfUpdateStaging& operator=(SelfUpdateStaging&&) = delete;
 
-        [[nodiscard]] const std::filesystem::path& Directory() const noexcept { return directory_; }
         [[nodiscard]] const std::filesystem::path& PayloadPath() const noexcept { return payloadPath_; }
         [[nodiscard]] const std::filesystem::path& TargetPath() const noexcept { return targetPath_; }
         [[nodiscard]] const std::string& Token() const noexcept { return token_; }

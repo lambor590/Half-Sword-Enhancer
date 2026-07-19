@@ -132,10 +132,6 @@ namespace hse {
             return file && FlushFileBuffers(file.Get());
         }
 
-        [[nodiscard]] DWORD WaitMilliseconds(std::chrono::milliseconds timeout) noexcept {
-            return timeout.count() > 0 ? static_cast<DWORD>(timeout.count()) : 0;
-        }
-
         [[nodiscard]] std::optional<unsigned long> ParseUnsigned(std::wstring_view value) noexcept {
             if (value.empty()) return std::nullopt;
             unsigned long result = 0;
@@ -228,7 +224,8 @@ namespace hse {
             if (!confirmationProcess) return ConfirmationResult::Failed;
             const std::array waits{confirmationEvent.Get(), confirmationProcess->Get()};
             const DWORD wait = WaitForMultipleObjects(
-                static_cast<DWORD>(waits.size()), waits.data(), FALSE, WaitMilliseconds(timeout)
+                static_cast<DWORD>(waits.size()), waits.data(), FALSE,
+                timeout.count() > 0 ? static_cast<DWORD>(timeout.count()) : 0
             );
             if (wait == WAIT_OBJECT_0) return ConfirmationResult::Success;
             if (wait == WAIT_TIMEOUT) {

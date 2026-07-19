@@ -47,10 +47,6 @@ namespace hse {
         [[nodiscard]] std::string ToString() const;
         [[nodiscard]] constexpr bool IsValid() const noexcept { return major_ > 0 || minor_ > 0 || patch_ > 0; }
 
-        [[nodiscard]] constexpr std::uint16_t major() const noexcept { return major_; }
-        [[nodiscard]] constexpr std::uint16_t minor() const noexcept { return minor_; }
-        [[nodiscard]] constexpr std::uint16_t patch() const noexcept { return patch_; }
-
     private:
         std::uint16_t major_ = 0;
         std::uint16_t minor_ = 0;
