@@ -6,8 +6,6 @@
 #include "ConfigManager.h"
 #include "Gui.h"
 
-bool KeybindManager::s_initialized = false;
-
 KeybindManager::HotData KeybindManager::s_hotData;
 KeybindManager::ColdData KeybindManager::s_coldData;
 
@@ -28,22 +26,17 @@ std::map<int*, KeybindManager::Binding>& KeybindManager::Bindings() {
 }
 
 void KeybindManager::Initialize() noexcept {
-    if (!s_initialized) {
-        int loadedToggleKey = ConfigManager::Get().GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
-        int loadedUnbindKey = ConfigManager::Get().GetInt("Keybinds", "unbind_key", VK_DELETE);
+    int loadedToggleKey = ConfigManager::Get().GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
+    int loadedUnbindKey = ConfigManager::Get().GetInt("Keybinds", "unbind_key", VK_DELETE);
 
-        SetToggleGuiKey(IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT);
-        SetUnbindKey(IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE);
-
-        s_initialized = true;
-    }
+    SetToggleGuiKey(IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT);
+    SetUnbindKey(IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE);
 }
 
 void KeybindManager::RegisterKeybind(
     int* keyPtr, Callback callback, std::string name, Callback onUnbound
 ) {
     const std::scoped_lock lock(s_hotData.bindingsMutex);
-    UnregisterKeybindLocked(keyPtr);
 
     int currentKey = *keyPtr;
     auto& bindings = Bindings();
@@ -105,7 +98,6 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
     }
 
     int keyCode = ExtractKeyCode(msg, wParam);
-    if (keyCode == -1) return false;
     const bool repeated = IsRepeatedKeyDown(msg, lParam);
 
     if (keyCode == GetToggleGuiKey()) [[unlikely]] {
@@ -127,8 +119,6 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 void KeybindManager::BeginRebind(const void* owner) noexcept {
-    if (!owner) return;
-
     const std::scoped_lock lock(s_coldData.rebindMutex);
     s_coldData.rebindOwner = owner;
     s_coldData.rebindPhase = RebindPhase::Waiting;
@@ -144,7 +134,7 @@ void KeybindManager::CancelRebind() noexcept {
 
 KeybindManager::RebindResult KeybindManager::PollRebind(const void* owner, int& key) noexcept {
     const std::scoped_lock lock(s_coldData.rebindMutex);
-    if (!owner || s_coldData.rebindOwner != owner) return RebindResult::None;
+    if (s_coldData.rebindOwner != owner) return RebindResult::None;
 
     RebindResult result = RebindResult::None;
     if (s_coldData.rebindPhase == RebindPhase::Assigned) {
@@ -164,7 +154,7 @@ KeybindManager::RebindResult KeybindManager::PollRebind(const void* owner, int& 
 
 bool KeybindManager::IsRebinding(const void* owner) noexcept {
     const std::scoped_lock lock(s_coldData.rebindMutex);
-    return owner && s_coldData.rebindOwner == owner && s_coldData.rebindPhase == RebindPhase::Waiting;
+    return s_coldData.rebindOwner == owner && s_coldData.rebindPhase == RebindPhase::Waiting;
 }
 
 void KeybindManager::SaveKeybinds() {

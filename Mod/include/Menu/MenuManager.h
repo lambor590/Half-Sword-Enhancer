@@ -66,13 +66,11 @@ private:
     std::vector<SearchResult> searchResults;
 
     static constexpr const char* GetTabLabel(MenuTab tab) noexcept { return TAB_LABELS[static_cast<size_t>(tab)]; }
-    void ClearSearch() noexcept;
     void UpdateSearchResults();
     void ActivateSearchResult(SearchResult result);
     void SelectSection(Section* section);
 
     void RenderContent();
-    void RenderSectionDescription();
     void RenderSidebar();
     void RenderSearchBar();
     void RenderSearchResults();

@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cstring>
 #include <string>
-#include <string_view>
 
 #include "ConfigManager.h"
 #include "KeybindManager.h"
@@ -61,9 +60,6 @@ namespace {
         return text && text[0] != '\0' && GuiUtils::MatchesFilter(text, std::strlen(text), filter, filterLength);
     }
 
-    bool MatchesSearch(std::string_view text, const char* filter, size_t filterLength) {
-        return !text.empty() && GuiUtils::MatchesFilter(text.data(), text.size(), filter, filterLength);
-    }
 } // namespace
 
 MenuManager& MenuManager::Get() {
@@ -123,7 +119,8 @@ void MenuManager::RenderContent() {
     if (selectedSection) {
         ImGui::PushID(selectedSection);
         ImGui::BeginChild("section_content", ImVec2(0, 0));
-        RenderSectionDescription();
+        const char* description = selectedSection->GetDescription();
+        if (description && description[0] != '\0') ImGui::TextWrapped("%s", description);
         {
             const SectionStyle::StyleRAII style;
             selectedSection->Render();
@@ -136,18 +133,6 @@ void MenuManager::RenderContent() {
 
     ImGui::EndChild();
     ImGui::PopStyleVar();
-}
-
-void MenuManager::RenderSectionDescription() {
-    const char* description = selectedSection->GetDescription();
-    if (description && description[0] != '\0') ImGui::TextWrapped("%s", description);
-}
-
-void MenuManager::ClearSearch() noexcept {
-    searchBuffer[0] = '\0';
-    searchResults.clear();
-    activeSearchResult = 0;
-    scrollToActiveSearchResult = false;
 }
 
 void MenuManager::UpdateSearchResults() {
@@ -195,7 +180,10 @@ void MenuManager::ActivateSearchResult(SearchResult result) {
     if (result.type == SearchResultType::Action && result.entry) {
         if (auto* keybinds = result.section->GetSearchKeybinds()) keybinds->RequestHighlight(result.entry);
     }
-    ClearSearch();
+    searchBuffer[0] = '\0';
+    searchResults.clear();
+    activeSearchResult = 0;
+    scrollToActiveSearchResult = false;
 }
 
 void MenuManager::SelectSection(Section* section) {
@@ -248,13 +236,10 @@ void MenuManager::RenderSearchBar() {
 
 void MenuManager::RenderSearchResults() {
     if (searchResults.empty()) {
-        activeSearchResult = 0;
-        scrollToActiveSearchResult = false;
         ImGui::TextDisabled("No results");
         return;
     }
 
-    activeSearchResult = (std::min)(activeSearchResult, searchResults.size() - 1);
     bool activate = false;
     SearchResult activatedResult{SearchResultType::Section, nullptr};
 

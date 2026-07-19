@@ -42,8 +42,6 @@ private:
     };
 
     static std::map<int*, Binding>& Bindings();
-    static bool s_initialized;
-
     static HotData s_hotData;
     static ColdData s_coldData;
 

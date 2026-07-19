@@ -13,22 +13,16 @@ namespace SectionStyle {
     constexpr float FIELD_MAX_WIDTH = 280.0f;
     constexpr float FIELD_WIDTH_RATIO = 0.4f;
 
-    [[nodiscard]] inline float ResolveFieldWidth(float available) noexcept {
-        const float safeAvailable = (std::max)(1.0f, available);
-        return (std::min)(
-            safeAvailable,
-            (std::clamp)(safeAvailable * FIELD_WIDTH_RATIO, FIELD_MIN_WIDTH, FIELD_MAX_WIDTH)
-        );
-    }
-
     struct StyleRAII {
         StyleRAII() noexcept {
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, FRAME_PADDING);
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ITEM_SPACING);
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, CELL_PADDING);
             ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, INDENT_SPACING);
-            const float available = ImGui::GetContentRegionAvail().x;
-            ImGui::PushItemWidth(ResolveFieldWidth(available));
+            const float available = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+            ImGui::PushItemWidth(
+                (std::min)(available, (std::clamp)(available * FIELD_WIDTH_RATIO, FIELD_MIN_WIDTH, FIELD_MAX_WIDTH))
+            );
         }
         ~StyleRAII() noexcept {
             ImGui::PopItemWidth();

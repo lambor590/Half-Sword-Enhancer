@@ -116,7 +116,6 @@ void NotificationManager::Render() {
             const float alpha = CalculateAlpha(s_currentTime - notification.startTime, notification.duration);
             if (alpha <= 0.0f) continue;
 
-            CacheLayout(notification, maxNotificationWidth);
             const auto withAlpha = [alpha](const ImVec4& color) noexcept {
                 return ImVec4(color.x, color.y, color.z, color.w * alpha);
             };
