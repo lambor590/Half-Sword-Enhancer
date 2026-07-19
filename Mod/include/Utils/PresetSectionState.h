@@ -182,7 +182,6 @@ template <typename Serializer> struct PresetSectionState {
             [this](const std::filesystem::path& path) {
                 auto deletion = Serializer::DeletePresetResult(path);
                 if (deletion.success) {
-                    PresetUtils::CleanEmptyDirectories(Serializer::GetPresetsDirectory());
                     presetListDirty = true;
                     status.Clear();
                     if (!editingPath.empty() && GuiUtils::PresetPathsEqual(editingPath, path)) {

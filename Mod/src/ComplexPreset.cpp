@@ -57,7 +57,7 @@ PresetOperationResult MapScenarioPresetData::ValidateForSave() const {
     if (auto validation = ValidateRange(preLoad.opponentTier, 0, 8, "Ally tier"); !validation) return validation;
     if (auto validation = ValidateRange(autoSpawn.npcCount, 0, 10, "Starting NPC count"); !validation)
         return validation;
-    if (MapScenarioRequiresNpcPreset(autoSpawn.enabled, autoSpawn.npcCount) && IsEmptyPresetLink(autoSpawn.npcPreset))
+    if (autoSpawn.enabled && autoSpawn.npcCount > 0 && IsEmptyPresetLink(autoSpawn.npcPreset))
         return {.error = "Choose an NPC preset when starting with NPCs"};
     return {.success = true};
 }
@@ -114,7 +114,7 @@ PresetOperationResult MapScenarioPresetData::DeserializeCustom(
 PresetOperationResult ItemSpawnPresetData::ValidateForSave() const {
     const int sourceValue = static_cast<int>(source);
     constexpr int LAST_SOURCE = static_cast<int>(ItemSpawnPresetSource::ArmorPreset);
-    if (sourceValue < 0 || sourceValue > LAST_SOURCE) return {.error = "Choose a valid item type"};
+    if (sourceValue > LAST_SOURCE) return {.error = "Choose a valid item type"};
 
     if (auto validation = ValidateFiniteRange(spawn.distanceForward, 50.0, 300.0, "Forward distance"); !validation)
         return validation;

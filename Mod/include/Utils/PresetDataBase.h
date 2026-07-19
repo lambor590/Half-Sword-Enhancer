@@ -55,10 +55,6 @@ template <typename T> [[nodiscard]] const T* GetPresetCopy(const PresetLink<T>& 
     return copy ? copy->get() : nullptr;
 }
 
-template <typename T> [[nodiscard]] PresetReference* GetPresetReference(PresetLink<T>& link) noexcept {
-    return std::get_if<PresetReference>(&link);
-}
-
 template <typename T> [[nodiscard]] const PresetReference* GetPresetReference(const PresetLink<T>& link) noexcept {
     return std::get_if<PresetReference>(&link);
 }

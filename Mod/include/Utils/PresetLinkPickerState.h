@@ -24,12 +24,7 @@ template <typename Serializer> struct PresetLinkPickerState {
     explicit PresetLinkPickerState(Link initialLink) { SetLink(std::move(initialLink)); }
 
     [[nodiscard]] bool Render(const char* label, const char* noneLabel = "None") {
-        return Render(label, ConfigManager::GetAppDataPath(), noneLabel);
-    }
-
-    [[nodiscard]] bool Render(
-        const char* label, const std::filesystem::path& appDataRoot, const char* noneLabel = "None"
-    ) {
+        const auto& appDataRoot = ConfigManager::GetAppDataPath();
         RefreshIfCatalogChanged(appDataRoot);
 
         ImGui::PushID(this);
@@ -83,7 +78,7 @@ template <typename Serializer> struct PresetLinkPickerState {
         PresetOperationResult result;
         if (!picker.HasSelection()) {
             result.error = "Select a preset first";
-            SetOperationError(result.error);
+            operationError = result.error;
             return result;
         }
 
@@ -94,7 +89,7 @@ template <typename Serializer> struct PresetLinkPickerState {
             if (!loaded.success) {
                 result.path = loaded.path;
                 result.error = std::move(loaded.error);
-                SetOperationError(result.error);
+                operationError = result.error;
                 return result;
             }
             next = MakePresetCopyLink(std::move(loaded.value));
@@ -107,7 +102,7 @@ template <typename Serializer> struct PresetLinkPickerState {
         result.path = verification.path.empty() ? selected.path : std::move(verification.path);
         if (!verification.success) {
             result.error = PresetLinkResolution::FormatDiagnostic(verification);
-            SetOperationError(result.error);
+            operationError = result.error;
             return result;
         }
 
@@ -167,8 +162,6 @@ private:
     State state;
     uint64_t lastPresetCatalogRevision = 0;
     std::string operationError;
-
-    void SetOperationError(std::string message) { operationError = std::move(message); }
 
     void RestorePickerSelection(const std::filesystem::path& appDataRoot) {
         picker.selectedIndex = -1;

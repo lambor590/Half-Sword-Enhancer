@@ -27,9 +27,7 @@ PresetResolveResult<ResolvedLoadoutPresetData> LoadoutPresetResolver::Resolve(
                 "Weapon - " + std::string(LoadoutPresetData::K_WEAPON_SLOT_LABELS[slotIndex]), std::move(snapshot)
             );
         }
-        if (snapshot.value) {
-            resolved.weapons[slotIndex] = std::move(snapshot.value);
-        }
+        resolved.weapons[slotIndex] = std::move(snapshot.value);
     }
 
     for (std::size_t slotIndex = 0; slotIndex < data.armorSlots.size(); ++slotIndex) {

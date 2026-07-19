@@ -31,8 +31,6 @@ template <typename Serializer> struct PresetPickerState {
         PresetUtils::FlattenPresetTree(Serializer::ListPresetsTree(), entries);
         const auto& presetsDir = Serializer::GetPresetsDirectory();
         std::sort(entries.begin(), entries.end(), [](const auto& lhs, const auto& rhs) {
-            if (GuiUtils::PresetPathsEqual(lhs.path, rhs.path))
-                return PresetUtils::PathToUtf8(lhs.path) < PresetUtils::PathToUtf8(rhs.path);
             return PresetUtils::PathLess(lhs.path, rhs.path);
         });
 

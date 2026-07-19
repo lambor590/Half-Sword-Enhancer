@@ -11,7 +11,8 @@ namespace {
 
 PresetOperationResult NPCPresetData::ValidateForSave() const {
     const auto& data = *this;
-    if (!TryGetType(data.npcTypeIndex)) return {.error = "Choose a valid NPC type"};
+    if (data.npcTypeIndex < 0 || data.npcTypeIndex >= static_cast<int>(K_TYPES.size()))
+        return {.error = "Choose a valid NPC type"};
     if (data.nationality < 0 || data.nationality >= static_cast<int>(K_NATIONALITY_NAMES.size()))
         return {.error = "Choose a valid nationality"};
     if (data.tier < K_MIN_TIER || data.tier > K_MAX_TIER) return {.error = "Choose a tier from 0 to 8"};

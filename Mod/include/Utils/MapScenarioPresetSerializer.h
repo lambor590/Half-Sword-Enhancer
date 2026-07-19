@@ -9,10 +9,6 @@
 #include "Utils/NPCPresetSerializer.h"
 #include "Utils/PlayerPresetSerializer.h"
 
-[[nodiscard]] constexpr bool MapScenarioRequiresNpcPreset(bool autoSpawnEnabled, int npcCount) noexcept {
-    return autoSpawnEnabled && npcCount > 0;
-}
-
 struct MapScenarioPresetData : PresetDataBase {
     static constexpr const char* K_PRESETS_SUBDIR = "map_scenario_presets";
     static constexpr const char* K_PRESET_KIND = "map_scenario";

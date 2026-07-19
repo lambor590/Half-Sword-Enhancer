@@ -10,7 +10,6 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
-#include <iterator>
 #include <limits>
 #include <string>
 #include <string_view>
@@ -232,7 +231,7 @@ namespace PresetUtils {
 
         std::string normalized(input);
         std::replace(normalized.begin(), normalized.end(), '\\', '/');
-        if (normalized.empty() || normalized.front() == '/' || normalized.back() == '/') {
+        if (normalized.front() == '/' || normalized.back() == '/') {
             error = "Enter a name, optionally inside a folder";
             return false;
         }
@@ -540,30 +539,6 @@ namespace PresetUtils {
         if (!std::filesystem::remove(path, error) || error)
             return {.success = false, .path = path, .error = "Couldn't delete the preset"};
         return {.success = true, .path = path};
-    }
-
-    inline void CleanEmptyDirectories(const std::filesystem::path& root) {
-        std::error_code error;
-        if (!std::filesystem::is_directory(root, error)) return;
-
-        auto clean = [&](auto&& self, const std::filesystem::path& dir) -> void {
-            std::filesystem::directory_iterator it(
-                dir, std::filesystem::directory_options::skip_permission_denied, error
-            );
-            const std::filesystem::directory_iterator end;
-            while (!error && it != end) {
-                const auto entry = *it;
-                it.increment(error);
-                std::error_code entryError;
-                if (entry.is_directory(entryError) && !entry.is_symlink(entryError)) {
-                    self(self, entry.path());
-                    if (std::filesystem::is_empty(entry.path(), entryError))
-                        std::filesystem::remove(entry.path(), entryError);
-                }
-            }
-            error.clear();
-        };
-        clean(clean, root);
     }
 
     struct PresetTreeNode {

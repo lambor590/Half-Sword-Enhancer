@@ -17,7 +17,6 @@ public:
     LoadoutPresetResolver();
     explicit LoadoutPresetResolver(std::filesystem::path appDataRoot);
 
-    [[nodiscard]] const std::filesystem::path& GetAppDataRoot() const noexcept { return appDataRoot_; }
     [[nodiscard]] PresetResolveResult<ResolvedLoadoutPresetData> Resolve(
         const LoadoutPresetData& data, PresetResolveContext& context
     ) const;

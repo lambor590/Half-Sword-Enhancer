@@ -2,10 +2,7 @@
 
 #include <utility>
 
-#include "ConfigManager.h"
 #include "Utils/PresetLinkResolution.h"
-
-NPCPresetResolver::NPCPresetResolver() : appDataRoot_(ConfigManager::GetAppDataPath()) {}
 
 NPCPresetResolver::NPCPresetResolver(std::filesystem::path appDataRoot) : appDataRoot_(std::move(appDataRoot)) {}
 

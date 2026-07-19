@@ -13,7 +13,6 @@ struct ResolvedNPCPresetData {
 
 class NPCPresetResolver final {
 public:
-    NPCPresetResolver();
     explicit NPCPresetResolver(std::filesystem::path appDataRoot);
 
     [[nodiscard]] PresetResolveResult<ResolvedNPCPresetData> Resolve(

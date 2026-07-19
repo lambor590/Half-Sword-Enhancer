@@ -56,11 +56,6 @@ struct NPCPresetData : PresetDataBase {
     static constexpr double K_MIN_SPAWN_SCALE = 0.1;
     static constexpr double K_MAX_SPAWN_SCALE = 4.0;
 
-    [[nodiscard]] static constexpr const TypeInfo* TryGetType(int index) noexcept {
-        return index >= 0 && index < static_cast<int>(K_TYPES.size()) ? &K_TYPES[static_cast<std::size_t>(index)]
-                                                                      : nullptr;
-    }
-
     int npcTypeIndex = 0;
     int nationality = 0;
     int tier = 4;
