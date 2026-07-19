@@ -7,8 +7,6 @@ param(
 
     [string[]]$Files = @(),
 
-    [switch]$StrictNaming,
-
     [ValidateRange(1, 64)]
     [int]$Jobs = [Math]::Min([Environment]::ProcessorCount, 8)
 )
@@ -32,7 +30,7 @@ $ProjectSpecs = @{
     }
     Proxy = @{
         Name = "Proxy"
-        IncludeDirs = @("Proxy/include", "Proxy/bin/intermediate/tidy/generated", "ext")
+        IncludeDirs = @("Proxy/bin/intermediate/tidy/generated")
         Defines = @("NOMINMAX", "WIN32_LEAN_AND_MEAN", "_WINDOWS", "_USRDLL")
     }
 }
@@ -61,22 +59,6 @@ $ignoredOutputPattern = @(
     '^Running without flags\.$'
 ) -join '|'
 
-function Initialize-GeneratedSources {
-    param([hashtable]$Spec)
-
-    if ($Spec.Name -ne "Proxy") {
-        return
-    }
-
-    $generatedDir = Join-Path $repoRoot "Proxy/bin/intermediate/tidy/generated"
-    & (Join-Path $repoRoot "Proxy/tools/GenerateWinmmExports.ps1") `
-        -DefinitionFile (Join-Path $repoRoot "Proxy/src/winmm.def") `
-        -CppOutput (Join-Path $generatedDir "winmm_exports.generated.h") `
-        -AsmOutput (Join-Path $generatedDir "winmm_exports.generated.inc") `
-        -ModuleDefinitionOutput (Join-Path $generatedDir "winmm.generated.def") `
-        -ExpectedCount 180 | Out-Null
-}
-
 function Resolve-Executable {
     param([string]$Name)
 
@@ -91,7 +73,7 @@ function Resolve-Executable {
     )
 
     foreach ($candidate in $candidates) {
-        if ($candidate -and (Test-Path $candidate)) {
+        if (Test-Path $candidate) {
             return $candidate
         }
     }
@@ -172,19 +154,21 @@ function Get-SourceFiles {
         ForEach-Object { $_.FullName }
 }
 
-function Get-HeaderFilter {
-    param([hashtable]$Spec)
-
-    return "^$headerRoot/$($Spec.Name)/"
-}
-
 function Invoke-TidyForProject {
     param(
         [hashtable]$Spec,
         [string]$ClangTidy
     )
 
-    Initialize-GeneratedSources $Spec
+    if ($Spec.Name -eq "Proxy") {
+        $generatedDir = Join-Path $repoRoot "Proxy/bin/intermediate/tidy/generated"
+        & (Join-Path $repoRoot "Proxy/tools/GenerateWinmmExports.ps1") `
+            -DefinitionFile (Join-Path $repoRoot "Proxy/src/winmm.def") `
+            -CppOutput (Join-Path $generatedDir "winmm_exports.generated.h") `
+            -AsmOutput (Join-Path $generatedDir "winmm_exports.generated.inc") `
+            -ModuleDefinitionOutput (Join-Path $generatedDir "winmm.generated.def") | Out-Null
+    }
+
     $sources = @(Get-SourceFiles $Spec)
     if ($sources.Count -eq 0) {
         return 0
@@ -200,9 +184,7 @@ function Invoke-TidyForProject {
     }
     if ($Configuration -eq "Release Experimental") { $defines += "/DEXPERIMENTAL_VERSION" }
 
-    $includes = @($Spec.IncludeDirs | ForEach-Object {
-        if ($resolved = Resolve-Path $_ -ErrorAction SilentlyContinue) { "/I$($resolved.Path)" }
-    })
+    $includes = @($Spec.IncludeDirs | ForEach-Object { "/I$clangRepoRoot/$_" })
 
     $compileArgs = @(
         "/nologo",
@@ -218,7 +200,7 @@ function Invoke-TidyForProject {
         "--quiet",
         "--checks=$tidyChecks",
         "--warnings-as-errors=*",
-        "--header-filter=$(Get-HeaderFilter $Spec)",
+        "--header-filter=^$headerRoot/$($Spec.Name)/(?!SDK[\\/]|ext[\\/]|bin[\\/]intermediate[\\/])",
         "--system-headers=false",
         "--use-color=false",
         "--extra-arg-before=--driver-mode=cl"
@@ -285,4 +267,3 @@ if ($totalIssues -gt 0) {
 }
 
 Write-Host "No clang-tidy issues detected."
-exit 0

@@ -20,7 +20,6 @@ is_excluded() {
 
 # --- Check: large files (>500KB), using one batch Git query ---
 while IFS=' ' read -r size file; do
-    [ -z "$file" ] && continue
     if [ "$size" -gt 512000 ]; then
         echo "[FAIL] Large file detected ($(( size / 1024 ))KB): $file"
         FAILED=1
@@ -58,9 +57,7 @@ fi
 
 # --- Check: clang-format (if available) ---
 if command -v clang-format &>/dev/null; then
-    FORMAT_FILES=$(for file in "${STAGED_FILES[@]}"; do
-        [ -z "$file" ] && continue
-        is_excluded "$file" && continue
+    FORMAT_FILES=$(for file in "${CHECK_FILES[@]}"; do
         case "$file" in
             *.cpp|*.h|*.hpp|*.c)
                 if ! git show ":$file" | clang-format --style=file:"$REPO_ROOT/.clang-format" --dry-run --Werror 2>/dev/null; then

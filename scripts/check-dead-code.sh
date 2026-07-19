@@ -10,25 +10,15 @@ if ! command -v cppcheck &>/dev/null; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-
-SOURCES=(
-    "$PROJECT_ROOT/Mod/src/"
-    "$PROJECT_ROOT/Mod/include/"
-    "$PROJECT_ROOT/Launcher/src/"
-    "$PROJECT_ROOT/Launcher/include/"
-    "$PROJECT_ROOT/Proxy/src/"
-    "$PROJECT_ROOT/UE4SSBridge/src/"
-)
+cd "$SCRIPT_DIR/.."
 
 echo "Running dead code analysis with cppcheck..."
 echo ""
 
 OUTPUT=$(cppcheck \
-    "${SOURCES[@]}" \
+    Mod/src/ Mod/include/ Launcher/src/ Launcher/include/ Proxy/src/ UE4SSBridge/src/ \
     --enable=unusedFunction \
     --suppress=unusedFunction:*DllMain.cpp \
-    --suppress=unusedFunction:*trampolines.asm \
     --suppress='*:*SimpleIni.h' \
     --suppress='*:*/ext/*' \
     --suppress=unknownMacro \
@@ -57,5 +47,4 @@ if [ -n "$OUTPUT" ]; then
     exit 1
 fi
 
-echo ""
 echo "No dead code issues detected."

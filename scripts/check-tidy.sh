@@ -2,9 +2,8 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-UNAME="$(uname -s 2>/dev/null || echo unknown)"
 
-case "$UNAME" in
+case "$(uname -s 2>/dev/null || echo unknown)" in
     MINGW*|MSYS*|CYGWIN*)
         if command -v pwsh &>/dev/null; then
             exec pwsh -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/check-tidy.ps1" "$@"

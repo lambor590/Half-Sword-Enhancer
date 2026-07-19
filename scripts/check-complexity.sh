@@ -24,23 +24,20 @@ if [ -z "$WARNINGS" ]; then
 fi
 
 FILTERED="$WARNINGS"
-if [ -f "$SUPPRESSIONS" ]; then
-    SUPPRESSION_PATTERN=$(awk '
-        {
-            sub(/#.*/, "")
-            gsub(/^[[:space:]]+|[[:space:]]+$/, "")
-            if ($0 != "") print
-        }
-    ' "$SUPPRESSIONS" | paste -sd '|' -)
+SUPPRESSION_PATTERN=$(awk '
+    {
+        sub(/#.*/, "")
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+        if ($0 != "") print
+    }
+' "$SUPPRESSIONS" | paste -sd '|' -)
 
-    if [ -n "$SUPPRESSION_PATTERN" ]; then
-        FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS")
-    fi
+if [ -n "$SUPPRESSION_PATTERN" ]; then
+    FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS")
 fi
 
 if [ -z "$FILTERED" ]; then
-    SUPPRESSED=$(echo "$WARNINGS" | wc -l)
-    echo "All warnings are suppressed ($SUPPRESSED known exceptions in complexity-suppressions.txt)."
+    echo "All warnings are suppressed ($(wc -l <<< "$WARNINGS") known exceptions in complexity-suppressions.txt)."
     exit 0
 fi
 
@@ -49,12 +46,9 @@ REMAINING=$(echo "$FILTERED" | wc -l)
 echo ""
 echo "WARNING: $REMAINING function(s) exceed complexity thresholds (CCN>15, length>100, args>10)"
 
-if [ -f "$SUPPRESSIONS" ]; then
-    TOTAL=$(echo "$WARNINGS" | wc -l)
-    SUPPRESSED=$((TOTAL - REMAINING))
-    if [ "$SUPPRESSED" -gt 0 ]; then
-        echo "  ($SUPPRESSED additional warnings suppressed via complexity-suppressions.txt)"
-    fi
+SUPPRESSED=$(($(wc -l <<< "$WARNINGS") - REMAINING))
+if [ "$SUPPRESSED" -gt 0 ]; then
+    echo "  ($SUPPRESSED additional warnings suppressed via complexity-suppressions.txt)"
 fi
 
 exit 1

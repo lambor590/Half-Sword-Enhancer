@@ -11,7 +11,6 @@ CHECKS=(
 RESULT_DIR="$(mktemp -d)"
 trap 'rm -rf "$RESULT_DIR"' EXIT
 
-echo ""
 echo "Running all code quality checks..."
 echo ""
 
@@ -29,11 +28,8 @@ RESULTS=()
 for index in "${!CHECKS[@]}"; do
     check="${CHECKS[$index]}"
     name="${check%%:*}"
-    if wait "${PIDS[$index]}"; then
-        exit_code=0
-    else
-        exit_code=$?
-    fi
+    exit_code=0
+    wait "${PIDS[$index]}" || exit_code=$?
 
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo " $name"
@@ -63,6 +59,4 @@ echo ""
 echo "  Passed: $PASSED | Failed: $FAILED | Skipped: $SKIPPED"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-if [ "$FAILED" -gt 0 ]; then
-    exit 1
-fi
+[ "$FAILED" -eq 0 ]
