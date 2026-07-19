@@ -116,11 +116,6 @@ void NPCEditorSection::BuildDescriptors() {
     };
 }
 
-int NPCEditorSection::CountAllActive() const {
-    return CountActive(physicalFields) + CountActive(combatFields) + CountActive(behaviorFields) +
-           CountActive(bodyConditionFields);
-}
-
 SpawnWorkflow::SpawnCompletion NPCEditorSection::MakeSpawnCompletion(
     SpawnTarget target, GuiUtils::StatusMessage::Token token
 ) const {
@@ -190,7 +185,7 @@ void NPCEditorSection::SpawnNPC() {
     (void)SpawnWorkflow::QueueNPCSpawn(snapshot, NPCSpawnConfig(preset), std::move(request));
 }
 
-void NPCEditorSection::SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const {
+void NPCEditorSection::SpawnBindingNPC(const NPCPresetData& npc, const RuntimeContextSnapshot& runtime) const {
     constexpr SpawnTarget TARGET = SpawnTarget::Shortcuts;
     if (!runtime.world || !runtime.player) {
         StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: open a map first"});
@@ -199,18 +194,18 @@ void NPCEditorSection::SpawnBindingNPC(const SpawnSnapshot& binding, const Runti
 
     std::optional<ResolvedLoadoutPresetData> loadout;
     std::string resolutionError;
-    if (!ResolveLoadoutLink(binding.npc.loadout, loadout, resolutionError)) {
+    if (!ResolveLoadoutLink(npc.loadout, loadout, resolutionError)) {
         StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: " + resolutionError});
         return;
     }
-    auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(binding.npc, std::move(loadout));
+    auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(npc, std::move(loadout));
     if (!requestResult) {
         StoreSpawnResult(TARGET, {.error = "NPC shortcut failed: " + requestResult.error()});
         return;
     }
     auto request = std::move(*requestResult);
     request.onComplete = MakeSpawnCompletion(TARGET, 0);
-    (void)SpawnWorkflow::SpawnNPC(runtime, NPCSpawnConfig(binding.npc), request);
+    (void)SpawnWorkflow::SpawnNPC(runtime, NPCSpawnConfig(npc), request);
 }
 
 void NPCEditorSection::ConsumeSpawnFeedback() {
@@ -439,12 +434,12 @@ struct NPCEditorSection::BindingOps {
         config.SetString(section, "data_hex", encoded.c_str());
     }
 
-    std::shared_ptr<const SpawnSnapshot> MakeSnapshot(const SpawnBinding& binding) const {
-        return std::make_shared<const SpawnSnapshot>(SpawnSnapshot{.npc = binding.npc});
+    std::shared_ptr<const NPCPresetData> MakeSnapshot(const SpawnBinding& binding) const {
+        return std::make_shared<const NPCPresetData>(binding.npc);
     }
 
-    void Spawn(const SpawnSnapshot& snapshot, const RuntimeContextSnapshot& runtime) const {
-        owner.SpawnBindingNPC(snapshot, runtime);
+    void Spawn(const NPCPresetData& npc, const RuntimeContextSnapshot& runtime) const {
+        owner.SpawnBindingNPC(npc, runtime);
     }
 
     void AppendParams(
@@ -603,7 +598,10 @@ void NPCEditorSection::Render() {
         overrides = {};
     }
     GuiUtils::HelpTooltip("Disable every custom NPC value");
-    GuiUtils::RenderOverrideCount(CountAllActive());
+    GuiUtils::RenderOverrideCount(
+        CountActive(physicalFields) + CountActive(combatFields) + CountActive(behaviorFields) +
+        CountActive(bodyConditionFields)
+    );
     presets.status.Render();
 
     ImGui::Spacing();

@@ -206,12 +206,6 @@ void ItemSpawnerSection::RenderModuleCombo(const char* label, int slot) {
     ImGui::EndCombo();
 }
 
-bool ItemSpawnerSection::IsCurrentItemModularArmor(const BlueprintEntry& item) const {
-    if (item.classPath.empty()) return false;
-    return Spawner::GetActorType(item.classPath) == Spawner::ActorType::Armor &&
-           item.classPath.find("Modular_Core") != std::string::npos;
-}
-
 bool ItemSpawnerSection::IsRandomArmorCategory() const {
     auto& reg = BlueprintRegistry::Get();
     return cfg.currentCategoryIndex == static_cast<uint8_t>(reg.GetCategoryCount());
@@ -243,8 +237,6 @@ void ItemSpawnerSection::RenderMaskedTierCombo(const char* comboLabel, uint16_t 
 
 void ItemSpawnerSection::UpdateItemNamesCache() {
     auto& reg = BlueprintRegistry::Get();
-    if (cfg.currentCategoryIndex >= reg.GetCategoryCount()) return;
-
     uint8_t subIdx = cfg.currentSubcategoryIndex;
     auto& cat = reg.GetCategory(cfg.currentCategoryIndex);
     if (cat.subcategories.size() == 1) subIdx = 0;
@@ -268,15 +260,7 @@ void ItemSpawnerSection::UpdateItemNamesCache() {
 }
 
 void ItemSpawnerSection::UpdateFilteredItems() {
-    filteredIndices.clear();
-    cachedFilteredWidth = 0;
-
-    if (searchBuffer[0] == '\0') {
-        searchActive = false;
-        return;
-    }
-
-    searchActive = true;
+    if (searchBuffer[0] == '\0') return;
 
     auto& reg = BlueprintRegistry::Get();
     reg.SearchItems(searchBuffer, filteredIndices);
@@ -284,7 +268,6 @@ void ItemSpawnerSection::UpdateFilteredItems() {
 
     float maxW = 0;
     for (BlueprintRegistry::ItemIndex i : filteredIndices) {
-        if (i >= allItems.size()) continue;
         float w = ImGui::CalcTextSize(allItems[i].displayName.c_str()).x;
         if (w > maxW) maxW = w;
     }
@@ -335,10 +318,13 @@ bool ItemSpawnerSection::TryBuildCurrentSelection(ItemSpawnPresetData& data, std
     if (item.customizable != CustomizableWeapon::None) {
         data.source = ItemSpawnPresetSource::CustomizableWeapon;
         data.customizableWeapon = static_cast<int>(item.customizable);
-    } else if (IsCurrentItemModularArmor(item)) {
+    } else if (
+        Spawner::GetActorType(item.classPath) == Spawner::ActorType::Armor &&
+        item.classPath.find("Modular_Core") != std::string::npos
+    ) {
         data.source = ItemSpawnPresetSource::ModularArmor;
         data.modularArmorModules =
-            hasPendingArmorModuleSelection && pendingArmorModuleClassPath == data.classPath
+            pendingArmorModuleClassPath == data.classPath
                 ? pendingArmorModuleSelection
                 : std::array<int, 3>{armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]};
     } else {
@@ -360,22 +346,20 @@ void ItemSpawnerSection::SpawnSelectedItem() {
         return;
     }
     const auto token = SpawnStatus(TARGET).SetInfo({});
-    QueueItemSpawnPreset(data, TARGET, token);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(RenderSnapshot(), data, MakeSpawnCompletion(TARGET, token));
 }
 
 void ItemSpawnerSection::SpawnCustomPath() {
-    if (customPathBuffer[0] == '\0') return;
     constexpr SpawnTarget TARGET = SpawnTarget::CustomItem;
     ItemSpawnPresetData data;
     CaptureSpawnOptions(data);
     data.source = ItemSpawnPresetSource::ClassPath;
     data.classPath = customPathBuffer;
     const auto token = SpawnStatus(TARGET).SetInfo({});
-    QueueItemSpawnPreset(data, TARGET, token);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(RenderSnapshot(), data, MakeSpawnCompletion(TARGET, token));
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
-    if (!weaponPicker.HasSelection()) return;
     constexpr SpawnTarget TARGET = SpawnTarget::WeaponPreset;
     auto loaded = WeaponPresetSerializer::LoadFromFileResult(weaponPicker.SelectedPath());
     if (!loaded.success) {
@@ -388,11 +372,10 @@ void ItemSpawnerSection::SpawnWeaponFromPreset() {
     data.source = ItemSpawnPresetSource::WeaponPreset;
     data.weaponPreset = MakePresetCopyLink(std::move(loaded.value));
     const auto token = SpawnStatus(TARGET).SetInfo("Spawning weapon...");
-    QueueItemSpawnPreset(data, TARGET, token);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(RenderSnapshot(), data, MakeSpawnCompletion(TARGET, token));
 }
 
 void ItemSpawnerSection::SpawnArmorFromPreset() {
-    if (!armorPicker.HasSelection()) return;
     constexpr SpawnTarget TARGET = SpawnTarget::ArmorPreset;
     auto loaded = ArmorPresetSerializer::LoadFromFileResult(armorPicker.SelectedPath());
     if (!loaded.success) {
@@ -405,7 +388,7 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     data.source = ItemSpawnPresetSource::ArmorPreset;
     data.armorPreset = MakePresetCopyLink(std::move(loaded.value));
     const auto token = SpawnStatus(TARGET).SetInfo("Spawning armor...");
-    QueueItemSpawnPreset(data, TARGET, token);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(RenderSnapshot(), data, MakeSpawnCompletion(TARGET, token));
 }
 
 bool ItemSpawnerSection::TryBuildItemSpawnPreset(ItemSpawnPresetData& data, std::string& error, bool validate) const {
@@ -469,8 +452,6 @@ bool ItemSpawnerSection::SelectRegistryIndex(std::size_t index) {
     cfg.currentSubcategoryIndex = location.subcategory;
     cfg.currentItemIndex = location.item;
     searchBuffer[0] = '\0';
-    searchActive = false;
-    filteredIndices.clear();
     lastCategoryIndex = 255;
     lastSubcategoryIndex = 255;
     return true;
@@ -496,7 +477,6 @@ bool ItemSpawnerSection::SelectRegistryCustomizable(int customizable) {
 void ItemSpawnerSection::ApplyItemSpawnPreset(const ItemSpawnPresetData& data) {
     loadedProfileFallback = data;
     profileDraftError.clear();
-    hasPendingArmorModuleSelection = false;
     pendingArmorModuleClassPath.clear();
 
     cfg.spawn = {
@@ -536,8 +516,6 @@ void ItemSpawnerSection::ApplyItemSpawnPreset(const ItemSpawnPresetData& data) {
             cfg.currentSubcategoryIndex = 0;
             cfg.currentItemIndex = static_cast<BlueprintRegistry::ItemIndex>(data.armorSlotIndex);
             searchBuffer[0] = '\0';
-            searchActive = false;
-            filteredIndices.clear();
             lastCategoryIndex = 255;
             lastSubcategoryIndex = 255;
             profileDraftSource = ProfileDraftSource::CurrentSelection;
@@ -546,7 +524,6 @@ void ItemSpawnerSection::ApplyItemSpawnPreset(const ItemSpawnPresetData& data) {
             if (SelectRegistryItemByClassPath(data.classPath)) {
                 pendingArmorModuleSelection = data.modularArmorModules;
                 pendingArmorModuleClassPath = data.classPath;
-                hasPendingArmorModuleSelection = true;
                 profileDraftSource = ProfileDraftSource::CurrentSelection;
             } else {
                 profileDraftSource = ProfileDraftSource::LoadedFallback;
@@ -555,14 +532,6 @@ void ItemSpawnerSection::ApplyItemSpawnPreset(const ItemSpawnPresetData& data) {
         case ItemSpawnPresetSource::WeaponPreset: profileDraftSource = ProfileDraftSource::WeaponPreset; break;
         case ItemSpawnPresetSource::ArmorPreset: profileDraftSource = ProfileDraftSource::ArmorPreset; break;
     }
-}
-
-void ItemSpawnerSection::QueueItemSpawnPreset(
-    const ItemSpawnPresetData& data, SpawnTarget target, GuiUtils::StatusMessage::Token token
-) const {
-    (void)SpawnWorkflow::QueueItemPresetSpawn(
-        RenderSnapshot(), data, MakeSpawnCompletion(target, token)
-    );
 }
 
 void ItemSpawnerSection::SpawnItemSpawnPreset() {
@@ -574,7 +543,7 @@ void ItemSpawnerSection::SpawnItemSpawnPreset() {
         return;
     }
     const auto token = SpawnStatus(TARGET).SetInfo("Spawning item...");
-    QueueItemSpawnPreset(data, TARGET, token);
+    (void)SpawnWorkflow::QueueItemPresetSpawn(RenderSnapshot(), data, MakeSpawnCompletion(TARGET, token));
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) {
@@ -647,13 +616,13 @@ struct ItemSpawnerSection::BindingOps {
         if (!binding.resolutionError.empty()) binding.summary += " + Unavailable";
     }
 
-    std::shared_ptr<const SpawnSnapshot> MakeSnapshot(const SpawnBinding& binding) const {
-        return std::make_shared<const SpawnSnapshot>(SpawnSnapshot{.data = binding.data});
+    std::shared_ptr<const ItemSpawnPresetData> MakeSnapshot(const SpawnBinding& binding) const {
+        return std::make_shared<const ItemSpawnPresetData>(binding.data);
     }
 
-    void Spawn(const SpawnSnapshot& snapshot, const RuntimeContextSnapshot& runtime) const {
+    void Spawn(const ItemSpawnPresetData& data, const RuntimeContextSnapshot& runtime) const {
         (void)SpawnWorkflow::SpawnItemPreset(
-            runtime, snapshot.data, owner.MakeSpawnCompletion(SpawnTarget::Shortcuts, 0)
+            runtime, data, owner.MakeSpawnCompletion(SpawnTarget::Shortcuts, 0)
         );
     }
 
@@ -711,7 +680,6 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
         if (GuiUtils::BeginSizedCombo("##FilteredItems", "Select item...", cachedFilteredWidth)) {
             GuiUtils::RenderClippedList(static_cast<int>(filteredIndices.size()), -1, [&](int row) {
                 const auto itemIdx = filteredIndices[static_cast<size_t>(row)];
-                if (itemIdx >= allItems.size()) return;
                 auto& item = allItems[itemIdx];
                 if (ImGui::Selectable(item.displayName.c_str(), false)) {
                     const auto& location = reg.GetItemLocation(itemIdx);
@@ -719,7 +687,6 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
                     cfg.currentSubcategoryIndex = location.subcategory;
                     cfg.currentItemIndex = location.item;
                     searchBuffer[0] = '\0';
-                    searchActive = false;
                 }
             });
             ImGui::EndCombo();
@@ -744,7 +711,7 @@ void ItemSpawnerSection::RenderCategoryBrowser(BlueprintRegistry& reg) {
     };
 
     int catIndex = static_cast<int>(cfg.currentCategoryIndex);
-    if (catIndex < 0 || catIndex >= static_cast<int>(totalCatCount)) {
+    if (catIndex >= static_cast<int>(totalCatCount)) {
         catIndex = 0;
         cfg.currentCategoryIndex = 0;
         cfg.currentSubcategoryIndex = 0;
@@ -847,12 +814,13 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
     auto* sub = GetCurrentSubcategory();
     if (sub && cfg.currentItemIndex < sub->itemIndices.size()) {
         auto& currentItem = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
+        const auto actorType = Spawner::GetActorType(currentItem.classPath);
         if (currentItem.customizable != CustomizableWeapon::None) {
             reg.EnsureTiersScanned();
             RenderMaskedTierCombo(
                 "##TierCombo", TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)]
             );
-        } else if (Spawner::GetActorType(currentItem.classPath) == Spawner::ActorType::Weapon) {
+        } else if (actorType == Spawner::ActorType::Weapon) {
             GuiUtils::RenderFreeTierCombo("Tier", cfg.spawnTier);
             if (WeaponGenerationUi::RenderSpecificTypeCombo("Weapon Type", cfg.weaponSpecificType)) {
                 ConfigManager::Get()
@@ -861,13 +829,13 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
             GuiUtils::HelpTooltip("Choose the kind of random weapon you want");
         }
 
-        if (IsCurrentItemModularArmor(currentItem)) {
+        if (actorType == Spawner::ActorType::Armor &&
+            currentItem.classPath.find("Modular_Core") != std::string::npos) {
             QueueModulesForCore(currentItem.classPath);
             if (armorModules.populatedFor == currentItem.classPath && armorModules.loadSucceeded) {
-                if (hasPendingArmorModuleSelection && pendingArmorModuleClassPath == currentItem.classPath) {
+                if (pendingArmorModuleClassPath == currentItem.classPath) {
                     for (int slot = 0; slot < 3; ++slot)
                         armorModules.selected[slot] = pendingArmorModuleSelection[slot];
-                    hasPendingArmorModuleSelection = false;
                     pendingArmorModuleClassPath.clear();
                 }
                 RenderModuleCombo("Armor Part 1##m1", 0);
@@ -881,20 +849,18 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
     }
 }
 
-void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
-    auto [world, player] = RenderPlayerWorld();
-
+void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg, bool canSpawn) {
     ImGui::Text("Custom Item Address");
     GuiUtils::SetNextInputWidth();
     ImGui::InputText("##CustomPath", customPathBuffer, sizeof(customPathBuffer));
 
     const bool hasPath = customPathBuffer[0] != '\0';
-    const bool canSpawn = hasPath && player && world;
-    if (!canSpawn) ImGui::BeginDisabled();
+    if (!hasPath || !canSpawn) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Custom Item", GuiUtils::ButtonTone::Primary)) SpawnCustomPath();
-    if (!canSpawn) ImGui::EndDisabled();
-    if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
-        ImGui::SetItemTooltip(hasPath ? "Open a map before spawning" : "Enter an item address first");
+    if (!hasPath || !canSpawn) ImGui::EndDisabled();
+    if ((!hasPath || !canSpawn) &&
+        ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
+        ImGui::SetItemTooltip(!hasPath ? "Enter an item address first" : "Open a map before spawning");
     SpawnStatus(SpawnTarget::CustomItem).Render();
 
     if (!hasPath) ImGui::BeginDisabled();
@@ -1028,16 +994,12 @@ void ItemSpawnerSection::RenderItemSpawnProfiles(bool canSpawn) {
     ImGui::TreePop();
 }
 
-void ItemSpawnerSection::RenderPresetSection() {
-    auto [world, player] = RenderPlayerWorld();
-
+void ItemSpawnerSection::RenderPresetSection(bool canSpawn) {
     ImGui::Separator();
 
-    RenderItemSpawnProfiles(player && world);
+    RenderItemSpawnProfiles(canSpawn);
 
     if (ImGui::TreeNode("Weapon & Armor Presets")) {
-        bool canSpawn = player && world;
-
         weaponPicker.Render("Weapon Preset");
         if (weaponPicker.HasSelection()) {
             if (!canSpawn) ImGui::BeginDisabled();
@@ -1066,14 +1028,13 @@ void ItemSpawnerSection::Render() {
     ConsumeSpawnFeedback();
     DrainPendingArmorModules();
     auto [world, player] = RenderPlayerWorld();
+    const bool canSpawn = player && world;
 
     auto& reg = BlueprintRegistry::Get();
     auto scanState = reg.GetState();
     const auto requestRescan = [&]() {
         reg.RequestRescan();
         searchBuffer[0] = '\0';
-        searchActive = false;
-        filteredIndices.clear();
         cfg.currentCategoryIndex = 0;
         cfg.currentSubcategoryIndex = 0;
         cfg.currentItemIndex = 0;
@@ -1109,14 +1070,13 @@ void ItemSpawnerSection::Render() {
         ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
     if (searchChanged) UpdateFilteredItems();
 
-    if (searchActive) {
+    if (searchBuffer[0] != '\0') {
         RenderSearchResults(reg);
     } else {
         RenderCategoryBrowser(reg);
     }
 
     ImGui::Spacing();
-    const bool canSpawn = player && world;
     if (!canSpawn) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Selected Item", GuiUtils::ButtonTone::Primary)) SpawnSelectedItem();
     if (!canSpawn) ImGui::EndDisabled();
@@ -1124,7 +1084,7 @@ void ItemSpawnerSection::Render() {
         ImGui::SetItemTooltip("Open a map before spawning an item");
     SpawnStatus(SpawnTarget::SelectedItem).Render();
 
-    RenderPresetSection();
+    RenderPresetSection(canSpawn);
 
     SpawnStatus(SpawnTarget::Shortcuts).Render();
     if (ImGui::TreeNode("Spawn Shortcuts")) {
@@ -1133,7 +1093,7 @@ void ItemSpawnerSection::Render() {
     }
 
     if (ImGui::TreeNode("Advanced")) {
-        RenderCustomPathSection(reg);
+        RenderCustomPathSection(reg, canSpawn);
         ImGui::Spacing();
         if (ImGui::Button("Refresh Item List")) {
             requestRescan();

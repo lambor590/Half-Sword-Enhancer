@@ -37,10 +37,6 @@ public:
     };
 
 private:
-    struct SpawnSnapshot {
-        NPCPresetData npc;
-    };
-
     struct SpawnBinding {
         int id = 0;
         int key = -1;
@@ -49,7 +45,7 @@ private:
         std::string resolutionError;
         std::string summary;
         KeybindEntry keybind;
-        std::atomic<std::shared_ptr<const SpawnSnapshot>> spawnSnapshot;
+        std::atomic<std::shared_ptr<const NPCPresetData>> spawnSnapshot;
     };
     struct BindingOps;
 
@@ -84,10 +80,9 @@ private:
     std::vector<OverrideDescriptor> bodyConditionFields;
 
     void BuildDescriptors();
-    int CountAllActive() const;
     bool ResolveNPCLoadout(std::optional<ResolvedLoadoutPresetData>& resolved, std::string& error);
     void SpawnNPC();
-    void SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const;
+    void SpawnBindingNPC(const NPCPresetData& npc, const RuntimeContextSnapshot& runtime) const;
     void ConsumeSpawnFeedback();
     GuiUtils::StatusMessage& SpawnStatus(SpawnTarget target) noexcept {
         return spawnStatuses[static_cast<std::size_t>(target)];

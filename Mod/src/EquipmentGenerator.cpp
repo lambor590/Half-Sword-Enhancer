@@ -193,13 +193,6 @@ namespace EquipmentGenerator {
 
     }
 
-    void ClearCache() {
-        weaponGenerator = nullptr;
-        armorGenerator = nullptr;
-        characterGenerator = nullptr;
-        cachedWorld = nullptr;
-    }
-
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier,
         SDK::Enum_WeaponType_Specific specificType, bool generateGreatsword

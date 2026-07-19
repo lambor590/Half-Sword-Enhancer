@@ -20,8 +20,6 @@ namespace Spawner {
     inline constexpr SDK::Enum_Ranks DEFAULT_SPAWN_TIER = SDK::Enum_Ranks::NewEnumerator4;
 
     ActorType GetActorType(std::string_view classPath);
-    float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale = {1.0f, 1.0f, 1.0f});
-    void ClearCache();
 
     /// Deferred spawn helper: begins deferred actor spawn -> runs optional pre-finish callback -> finishes spawning.
     /// All spawn functions use this internally. Exposed publicly so callers outside Spawner (e.g. MapLoaderSection)

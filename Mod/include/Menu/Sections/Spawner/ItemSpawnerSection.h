@@ -45,10 +45,6 @@ public:
 private:
     enum class ProfileDraftSource : int { CurrentSelection, CustomPath, WeaponPreset, ArmorPreset, LoadedFallback };
 
-    struct SpawnSnapshot {
-        ItemSpawnPresetData data;
-    };
-
     struct SpawnBinding {
         int id = 0;
         int key = -1;
@@ -57,7 +53,7 @@ private:
         ItemSpawnPresetData data;
         std::string resolutionError;
         KeybindEntry keybind;
-        std::atomic<std::shared_ptr<const SpawnSnapshot>> spawnSnapshot;
+        std::atomic<std::shared_ptr<const ItemSpawnPresetData>> spawnSnapshot;
     };
     struct BindingOps;
 
@@ -66,7 +62,6 @@ private:
     static inline char searchBuffer[128] = "";
     static inline std::vector<BlueprintRegistry::ItemIndex> filteredIndices;
     static inline float cachedFilteredWidth = 0;
-    static inline bool searchActive = false;
 
     static inline char customPathBuffer[256] = "";
 
@@ -83,7 +78,6 @@ private:
     ItemSpawnPresetData loadedProfileFallback;
     std::array<int, 3> pendingArmorModuleSelection{};
     std::string pendingArmorModuleClassPath;
-    bool hasPendingArmorModuleSelection = false;
     std::string profileDraftError;
 
     enum class SpawnTarget : uint8_t {
@@ -129,8 +123,6 @@ private:
     void QueueModulesForCore(std::string classPath);
     void DrainPendingArmorModules();
     void RenderModuleCombo(const char* label, int slot);
-    bool IsCurrentItemModularArmor(const BlueprintEntry& item) const;
-
     static inline std::vector<const char*> cachedItemNames;
     static inline float cachedItemNamesWidth = 0;
     static inline uint8_t lastCategoryIndex = 255;
@@ -149,9 +141,6 @@ private:
     bool TryBuildCurrentSelection(ItemSpawnPresetData& data, std::string& error) const;
     bool TryBuildItemSpawnPreset(ItemSpawnPresetData& data, std::string& error, bool validate = true) const;
     void ApplyItemSpawnPreset(const ItemSpawnPresetData& data);
-    void QueueItemSpawnPreset(
-        const ItemSpawnPresetData& data, SpawnTarget target, GuiUtils::StatusMessage::Token token
-    ) const;
     void SpawnItemSpawnPreset();
     bool SelectRegistryIndex(std::size_t index);
     bool SelectRegistryItemByClassPath(std::string_view classPath);
@@ -175,7 +164,7 @@ public:
     void RenderCategoryBrowser(BlueprintRegistry& reg);
     void RenderRandomArmorUI();
     void RenderBlueprintItemUI(BlueprintRegistry& reg);
-    void RenderCustomPathSection(BlueprintRegistry& reg);
-    void RenderPresetSection();
+    void RenderCustomPathSection(BlueprintRegistry& reg, bool canSpawn);
+    void RenderPresetSection(bool canSpawn);
     void Render() override;
 };

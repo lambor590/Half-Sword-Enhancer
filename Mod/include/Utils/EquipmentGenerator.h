@@ -11,8 +11,6 @@
 
 namespace EquipmentGenerator {
 
-    void ClearCache();
-
     inline bool IsPassportValid(const SDK::FStr_Passport_Weapon1& passport) {
         return passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC != nullptr &&
                passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr &&

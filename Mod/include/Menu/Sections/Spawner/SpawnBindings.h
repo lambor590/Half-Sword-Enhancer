@@ -92,18 +92,6 @@ namespace SpawnBindings {
         return true;
     }
 
-    template <class Binding>
-    void LoadCommon(ConfigManager& config, Binding& binding, const char* section, const BindingConfig& bindingConfig) {
-        std::snprintf(
-            binding.name, sizeof(binding.name), "%s",
-            config.GetString(section, "name", bindingConfig.defaultName).c_str()
-        );
-    }
-
-    template <class Binding> void SaveCommon(ConfigManager& config, const Binding& binding, const char* section) {
-        config.SetString(section, "name", binding.name);
-    }
-
     template <class Binding, class Adapter>
     void PersistBinding(Binding& binding, const BindingConfig& config, const Adapter& adapter) {
         (void)adapter.Refresh(binding);
@@ -113,7 +101,7 @@ namespace SpawnBindings {
         auto& configManager = ConfigManager::Get();
         const auto section = BindingSection(config, binding.id);
         configManager.BatchSave([&] {
-            SaveCommon(configManager, binding, section.c_str());
+            configManager.SetString(section.c_str(), "name", binding.name);
             adapter.SaveFields(binding, configManager, section.c_str());
         });
     }
@@ -144,7 +132,10 @@ namespace SpawnBindings {
                 auto binding = std::make_shared<Binding>();
                 binding->id = id;
                 const auto section = BindingSection(config, id);
-                LoadCommon(configManager, *binding, section.c_str(), config);
+                std::snprintf(
+                    binding->name, sizeof(binding->name), "%s",
+                    configManager.GetString(section.c_str(), "name", config.defaultName).c_str()
+                );
                 adapter.LoadFields(*binding, configManager, section.c_str());
                 InitKeybind(binding, section);
                 nextBindingId = (std::max)(nextBindingId, id + 1);
@@ -152,7 +143,7 @@ namespace SpawnBindings {
             }
         }
 
-        void Save(bool publishSpawnSnapshots = true) {
+        void Save() {
             auto& configManager = ConfigManager::Get();
             configManager.BatchSave([&] {
                 configManager.DeleteSection(config.indexSection);
@@ -166,11 +157,10 @@ namespace SpawnBindings {
                     configManager.SetInt(config.indexSection, idKey, binding.id);
 
                     const auto section = BindingSection(config, binding.id);
-                    SaveCommon(configManager, binding, section.c_str());
+                    configManager.SetString(section.c_str(), "name", binding.name);
                     adapter.SaveFields(binding, configManager, section.c_str());
                 }
             });
-            if (publishSpawnSnapshots) PublishAllSpawnSnapshots();
         }
 
         void AddFromCurrentSelection() {
@@ -180,7 +170,7 @@ namespace SpawnBindings {
             std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
             const auto section = BindingSection(config, binding->id);
             bindings.push_back(binding);
-            Save(false);
+            Save();
             InitKeybind(binding, section);
         }
 
@@ -215,7 +205,7 @@ namespace SpawnBindings {
                 if (GuiUtils::Button("Use Current Setup")) {
                     if (adapter.Capture(binding)) {
                         binding.keybind.tooltip = binding.summary;
-                        SaveBinding(binding);
+                        PersistBinding(binding, config, adapter);
                     }
                 }
                 GuiUtils::HelpTooltip(config.updateTooltip);
@@ -232,7 +222,10 @@ namespace SpawnBindings {
             RenderDeletePopup();
         }
 
-        void PublishSnapshots() const { PublishAllSpawnSnapshots(); }
+        void PublishSnapshots() const {
+            for (auto& binding : bindings)
+                PublishSpawnSnapshot(*binding);
+        }
 
     private:
         void SaveName(const Binding& binding) const {
@@ -242,17 +235,10 @@ namespace SpawnBindings {
             configManager.SaveConfig();
         }
 
-        void SaveBinding(Binding& binding) const { PersistBinding(binding, config, adapter); }
-
         void PublishSpawnSnapshot(Binding& binding) const {
             adapter.Refresh(binding);
             binding.keybind.tooltip = binding.summary;
             binding.spawnSnapshot.store(adapter.MakeSnapshot(binding), std::memory_order_release);
-        }
-
-        void PublishAllSpawnSnapshots() const {
-            for (auto& binding : bindings)
-                PublishSpawnSnapshot(*binding);
         }
 
         void InitKeybind(const std::shared_ptr<Binding>& binding, const std::string& section) {
@@ -304,7 +290,7 @@ namespace SpawnBindings {
                         const auto section = BindingSection(config, (*it)->id);
                         ConfigManager::Get().DeleteSection(section.c_str());
                         bindings.erase(it);
-                        Save(false);
+                        Save();
                     }
                     pendingDeleteBindingId = -1;
                     ImGui::CloseCurrentPopup();

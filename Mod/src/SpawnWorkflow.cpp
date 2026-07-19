@@ -38,8 +38,8 @@ namespace SpawnWorkflow {
             return {.error = std::move(error)};
         }
 
-        SpawnResult SpawnedActor(SDK::AActor* actor, std::string failure) {
-            if (!IsUsableActor(actor)) return FailedSpawn(std::move(failure));
+        SpawnResult SpawnedActor(SDK::AActor* actor, std::string_view failure) {
+            if (!IsUsableActor(actor)) return FailedSpawn(std::string(failure));
             return {.success = true, .actor = actor};
         }
 
@@ -70,13 +70,6 @@ namespace SpawnWorkflow {
                 });
             if (!queued) CompleteSpawn(rejectedCompletion, FailedSpawn("The spawn couldn't be started right now"));
             return queued;
-        }
-
-        SDK::AActor* SpawnArmorPassportAt(
-            SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
-            bool snapToGround, const ActorCallback& onSpawned
-        ) {
-            return Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround, onSpawned);
         }
 
         SpawnConfig ItemSpawnConfig(const ItemSpawnPresetData& data) {
@@ -120,8 +113,6 @@ namespace SpawnWorkflow {
             SDK::UWorld* world, const ItemSpawnPresetData& data, const SDK::FTransform& transform, bool snapToGround,
             const ActorCallback& onSpawned = nullptr
         ) {
-            if (!world) return FailedSpawn("Enter a map first");
-
             const auto tier = static_cast<SDK::Enum_Ranks>(data.tier);
             switch (data.source) {
                 case ItemSpawnPresetSource::ClassPath: {
@@ -154,7 +145,8 @@ namespace SpawnWorkflow {
                     auto passport = EquipmentGenerator::GenerateArmor(world, tier, slot, options);
                     if (!EquipmentGenerator::IsArmorPassportValid(passport))
                         return FailedSpawn("The game couldn't create this armor");
-                    auto* actor = SpawnArmorPassportAt(world, passport, transform, snapToGround, onSpawned);
+                    auto* actor =
+                        Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround, onSpawned);
                     return SpawnedActor(actor, "The armor could not be placed in the world");
                 }
                 case ItemSpawnPresetSource::ModularArmor: {
@@ -175,7 +167,8 @@ namespace SpawnWorkflow {
                         !EquipmentGenerator::IsArmorPassportValid(preset.passport))
                         return FailedSpawn(error.empty() ? "The selected armor is unavailable" : std::move(error));
 
-                    auto* actor = SpawnArmorPassportAt(world, preset.passport, transform, snapToGround, onSpawned);
+                    auto* actor =
+                        Spawner::SpawnArmorFromPassport(world, preset.passport, transform, snapToGround, onSpawned);
                     return SpawnedActor(actor, "The armor could not be placed in the world");
                 }
                 case ItemSpawnPresetSource::WeaponPreset:
@@ -191,7 +184,7 @@ namespace SpawnWorkflow {
                             error.empty() ? "The selected armor preset is unavailable" : std::move(error)
                         );
 
-                    auto* actor = SpawnArmorPassportAt(world, preset.passport, transform, snapToGround, nullptr);
+                    auto* actor = Spawner::SpawnArmorFromPassport(world, preset.passport, transform, snapToGround);
                     if (actor && !PresetApplication::ApplyArmorRuntimeOverrides(actor, preset.runtimeProps)) {
                         actor->K2_DestroyActor();
                         return FailedSpawn("Some saved armor settings could not be restored");
@@ -352,10 +345,6 @@ namespace SpawnWorkflow {
             const SDK::FTransform& transform, bool snapToGround, ActorCallbackFn&& onSpawned,
             std::string_view deferredWeaponName = {}, std::string* error = nullptr
         ) {
-            if (!world) {
-                if (error) *error = "Enter a map first";
-                return nullptr;
-            }
             WeaponPresetData preset;
             preset.passport = passport;
             preset.classPaths = classPaths;
@@ -477,7 +466,6 @@ namespace SpawnWorkflow {
                 const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
             ) mutable {
                 auto* world = runtime.world;
-                if (!world) return;
                 if (!PresetApplication::MaterializeArmorPreset(preset)) return;
                 Spawner::SpawnArmorFromPassport(
                     world, preset.passport, transform, snapToGround,
@@ -566,7 +554,7 @@ namespace SpawnWorkflow {
 
     bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnParams& request) {
         SDK::FTransform transform{};
-        if (!TryBuildSpawnTransform(runtime, spawn, transform) || !runtime.player) {
+        if (!TryBuildSpawnTransform(runtime, spawn, transform)) {
             CompleteSpawn(request.onComplete, FailedSpawn("The player is no longer available"));
             return false;
         }
@@ -581,10 +569,6 @@ namespace SpawnWorkflow {
             [request = std::move(
                  request
              )](const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround) {
-                if (!runtime.player) {
-                    CompleteSpawn(request.onComplete, FailedSpawn("The player is no longer available"));
-                    return;
-                }
                 SpawnNPCAt(runtime.world, runtime.player->Team_Int, transform, snapToGround, request);
             }
         );

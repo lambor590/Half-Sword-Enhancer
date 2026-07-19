@@ -25,13 +25,6 @@ static Logger g_logger("Spawner");
 namespace Spawner {
 
     namespace {
-        const SDK::UWorld* cachedWorld = nullptr;
-
-        std::unordered_map<std::string, SDK::UClass*>& ClassCache() {
-            static std::unordered_map<std::string, SDK::UClass*> classCache;
-            return classCache;
-        }
-
         void InitializeArmorFromPassport(
             SDK::AActor* actor, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform
         ) {
@@ -77,7 +70,7 @@ namespace Spawner {
         }};
 
         SDK::UClass* LoadActorClass(const std::string& classPath) {
-            auto& classCache = ClassCache();
+            static std::unordered_map<std::string, SDK::UClass*> classCache;
             if (const auto cached = classCache.find(classPath); cached != classCache.end()) return cached->second;
 
             std::wstring wideClassPath;
@@ -90,7 +83,8 @@ namespace Spawner {
         }
 
         void ApplySnapToGround(const SDK::UWorld* world, SDK::FTransform& transform, ActorType type) {
-            float groundOffset = GetGroundOffsetForType(type, transform.Scale3D);
+            const float groundOffset = GROUND_OFFSETS[static_cast<size_t>(type)] *
+                                       (static_cast<float>(transform.Scale3D.Z) * 1.2f);
             transform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
         }
     }
@@ -102,11 +96,6 @@ namespace Spawner {
             }
         }
         return ActorType::Unknown;
-    }
-
-    float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale) {
-        float baseOffset = GROUND_OFFSETS[static_cast<size_t>(type)];
-        return baseOffset * (static_cast<float>(scale.Z) * 1.2f);
     }
 
     SDK::AActor* DeferredSpawn(
@@ -163,23 +152,12 @@ namespace Spawner {
         return groundLevel;
     }
 
-    void ClearCache() {
-        ClassCache().clear();
-        cachedWorld = nullptr;
-        EquipmentGenerator::ClearCache();
-    }
-
     SDK::AActor* SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& callback, bool snapToGround, SDK::Enum_Ranks tier,
         const std::function<void(SDK::AActor*)>& postSpawnCallback, SDK::Enum_WeaponType_Specific weaponSpecificType
     ) {
         ActorType actorType = GetActorType(className);
-        if (world && cachedWorld != world) {
-            EquipmentGenerator::ClearCache();
-            cachedWorld = world;
-        }
-
         SDK::UClass* actorClass = LoadActorClass(className);
         if (!actorClass) {
             g_logger.Log("Failed to load class: %s", className.c_str());
@@ -301,7 +279,7 @@ namespace Spawner {
         }
 
         AssetOverrideManager::Get().RequestActorApply(willie);
-        return pickedUp;
+        return true;
     }
 
     SDK::FTransform BuildSpawnTransform(
