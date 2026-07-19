@@ -102,7 +102,37 @@ namespace {
 
     std::vector<PunchKnockbackContact> g_punchKnockbackContacts;
 
-    enum class PossessionCameraSlot : std::uint8_t { Unknown, FollowCamera1, FollowCamera, FirstPerson };
+    using WillieCameraMember = SDK::UCameraComponent* SDK::AWillie_BP_C::*;
+    using WillieSpringArmMember = SDK::USpringArmComponent* SDK::AWillie_BP_C::*;
+
+    struct PossessionCameraBinding {
+        WillieCameraMember camera;
+        WillieSpringArmMember springArm;
+        bool firstPerson;
+    };
+
+    constexpr std::array POSSESSION_CAMERA_BINDINGS{
+        PossessionCameraBinding{&SDK::AWillie_BP_C::FollowCamera1, nullptr, false},
+        PossessionCameraBinding{
+            &SDK::AWillie_BP_C::FollowCamera, &SDK::AWillie_BP_C::CameraBoom_Shoulder_, false
+        },
+        PossessionCameraBinding{
+            &SDK::AWillie_BP_C::First_Person_Camera, &SDK::AWillie_BP_C::CameraBoomFP, true
+        },
+    };
+
+    constexpr std::array POSSESSION_WILLIE_FLAG_MEMBERS{
+        &SDK::AWillie_BP_C::Invulnerable,
+        &SDK::AWillie_BP_C::Skill_Unlock_Weapon_Thrust,
+        &SDK::AWillie_BP_C::Skill_Unlock_Weapon_Parry,
+        &SDK::AWillie_BP_C::Skill_Unlock_Weapon_Alt_Grip,
+        &SDK::AWillie_BP_C::Skill_Unlock_Weapon_Alt_Stance,
+        &SDK::AWillie_BP_C::Skill_Unlock_Weapon_Rotate,
+        &SDK::AWillie_BP_C::Skill_Unlock_Body_Crouch,
+        &SDK::AWillie_BP_C::Skill_Unlock_Body_Dodge,
+        &SDK::AWillie_BP_C::Skill_Unlock_Body_Kick,
+        &SDK::AWillie_BP_C::Skill_Unlock_Body_Slomo,
+    };
 
     struct PossessionSpringArmState {
         float targetArmLength = 0.0f;
@@ -124,7 +154,7 @@ namespace {
     };
 
     struct PossessionCameraState {
-        PossessionCameraSlot slot = PossessionCameraSlot::Unknown;
+        const PossessionCameraBinding* binding = nullptr;
         SDK::FVector relativeLocation{};
         SDK::FRotator relativeRotation{};
         SDK::FRotator controlRotation{};
@@ -142,16 +172,7 @@ namespace {
     struct PossessionWillieFlags {
         int objectIndex = -1;
         std::uint8_t actorBitPad = 0;
-        bool invulnerable = false;
-        bool skillThrust = false;
-        bool skillParry = false;
-        bool skillAltGrip = false;
-        bool skillAltStance = false;
-        bool skillRotate = false;
-        bool skillCrouch = false;
-        bool skillDodge = false;
-        bool skillKick = false;
-        bool skillSlomo = false;
+        std::array<bool, POSSESSION_WILLIE_FLAG_MEMBERS.size()> values{};
     };
 
     PossessionWillieFlags g_possessedWillieFlags;
@@ -160,20 +181,13 @@ namespace {
 
     PossessionWillieFlags CapturePossessionWillieFlags(SDK::AWillie_BP_C* willie) {
         if (!willie) return {};
-        return {
+        PossessionWillieFlags flags{
             .objectIndex = willie->Index,
             .actorBitPad = static_cast<std::uint8_t>(willie->BitPad_5C_0),
-            .invulnerable = willie->Invulnerable,
-            .skillThrust = willie->Skill_Unlock_Weapon_Thrust,
-            .skillParry = willie->Skill_Unlock_Weapon_Parry,
-            .skillAltGrip = willie->Skill_Unlock_Weapon_Alt_Grip,
-            .skillAltStance = willie->Skill_Unlock_Weapon_Alt_Stance,
-            .skillRotate = willie->Skill_Unlock_Weapon_Rotate,
-            .skillCrouch = willie->Skill_Unlock_Body_Crouch,
-            .skillDodge = willie->Skill_Unlock_Body_Dodge,
-            .skillKick = willie->Skill_Unlock_Body_Kick,
-            .skillSlomo = willie->Skill_Unlock_Body_Slomo,
         };
+        for (std::size_t i = 0; i < POSSESSION_WILLIE_FLAG_MEMBERS.size(); ++i)
+            flags.values[i] = willie->*POSSESSION_WILLIE_FLAG_MEMBERS[i];
+        return flags;
     }
 
     void RestorePossessionWillieFlags(SDK::AWillie_BP_C* willie, const PossessionWillieFlags& flags) {
@@ -181,16 +195,8 @@ namespace {
             willie->IsActorBeingDestroyed())
             return;
         willie->BitPad_5C_0 = flags.actorBitPad;
-        willie->Invulnerable = flags.invulnerable;
-        willie->Skill_Unlock_Weapon_Thrust = flags.skillThrust;
-        willie->Skill_Unlock_Weapon_Parry = flags.skillParry;
-        willie->Skill_Unlock_Weapon_Alt_Grip = flags.skillAltGrip;
-        willie->Skill_Unlock_Weapon_Alt_Stance = flags.skillAltStance;
-        willie->Skill_Unlock_Weapon_Rotate = flags.skillRotate;
-        willie->Skill_Unlock_Body_Crouch = flags.skillCrouch;
-        willie->Skill_Unlock_Body_Dodge = flags.skillDodge;
-        willie->Skill_Unlock_Body_Kick = flags.skillKick;
-        willie->Skill_Unlock_Body_Slomo = flags.skillSlomo;
+        for (std::size_t i = 0; i < POSSESSION_WILLIE_FLAG_MEMBERS.size(); ++i)
+            willie->*POSSESSION_WILLIE_FLAG_MEMBERS[i] = flags.values[i];
     }
 
     PossessionSpringArmState CaptureSpringArmState(SDK::USpringArmComponent* springArm) {
@@ -221,21 +227,16 @@ namespace {
         PossessionCameraState state{};
         if (!controller || !willie || !willie->Active_Camera) return state;
 
-        auto* activeCamera = willie->Active_Camera;
-        if (activeCamera == willie->FollowCamera1) {
-            state.slot = PossessionCameraSlot::FollowCamera1;
-        } else if (activeCamera == willie->FollowCamera) {
-            state.slot = PossessionCameraSlot::FollowCamera;
-            state.springArm = CaptureSpringArmState(willie->CameraBoom_Shoulder_);
-        } else if (activeCamera == willie->First_Person_Camera) {
-            state.slot = PossessionCameraSlot::FirstPerson;
-            state.springArm = CaptureSpringArmState(willie->CameraBoomFP);
-        } else {
-            return state;
+        for (const auto& binding : POSSESSION_CAMERA_BINDINGS) {
+            if (willie->Active_Camera != willie->*binding.camera) continue;
+            state.binding = &binding;
+            if (binding.springArm) state.springArm = CaptureSpringArmState(willie->*binding.springArm);
+            break;
         }
+        if (!state.binding) return state;
 
-        state.relativeLocation = activeCamera->RelativeLocation;
-        state.relativeRotation = activeCamera->RelativeRotation;
+        state.relativeLocation = willie->Active_Camera->RelativeLocation;
+        state.relativeRotation = willie->Active_Camera->RelativeRotation;
         state.controlRotation = controller->GetControlRotation();
         return state;
     }
@@ -262,20 +263,9 @@ namespace {
     SDK::UCameraComponent* ResolvePossessionCamera(
         SDK::AWillie_BP_C* willie, const PossessionCameraState& state
     ) {
-        if (!willie) return nullptr;
-        switch (state.slot) {
-            case PossessionCameraSlot::FollowCamera1:
-                return willie->FollowCamera1;
-            case PossessionCameraSlot::FollowCamera:
-                ApplySpringArmState(willie->CameraBoom_Shoulder_, state.springArm);
-                return willie->FollowCamera;
-            case PossessionCameraSlot::FirstPerson:
-                ApplySpringArmState(willie->CameraBoomFP, state.springArm);
-                return willie->First_Person_Camera;
-            case PossessionCameraSlot::Unknown:
-                return nullptr;
-        }
-        return nullptr;
+        if (!willie || !state.binding) return nullptr;
+        if (state.binding->springArm) ApplySpringArmState(willie->*state.binding->springArm, state.springArm);
+        return willie->*state.binding->camera;
     }
 
     void ActivatePossessionCamera(
@@ -287,15 +277,14 @@ namespace {
         if (initialize) willie->Initialize_Camera_Settings();
         auto* activeCamera = ResolvePossessionCamera(willie, state);
         if (activeCamera) {
-            if (willie->FollowCamera1) willie->FollowCamera1->SetActive(false, true);
-            if (willie->FollowCamera) willie->FollowCamera->SetActive(false, true);
-            if (willie->First_Person_Camera) willie->First_Person_Camera->SetActive(false, true);
+            for (const auto& binding : POSSESSION_CAMERA_BINDINGS)
+                if (auto* camera = willie->*binding.camera) camera->SetActive(false, true);
             activeCamera->K2_SetRelativeLocationAndRotation(
                 state.relativeLocation, state.relativeRotation, false, nullptr, true
             );
             activeCamera->SetActive(true, true);
             willie->Active_Camera = activeCamera;
-            willie->First_Person = state.slot == PossessionCameraSlot::FirstPerson;
+            willie->First_Person = state.binding->firstPerson;
             if (initialize) controller->SetControlRotation(state.controlRotation);
         }
         controller->SetViewTargetWithBlend(
