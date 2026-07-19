@@ -40,7 +40,7 @@ PROXY MACRO funcName, waitName, notReadyResult
         movdqu xmm2, XMMWORD PTR [rsp + 60h]
         movdqu xmm3, XMMWORD PTR [rsp + 70h]
         add rsp, 88h
-        jmp QWORD PTR [originalFuncs + curIndex * 8]
+        jmp rax
     notReady:
         mov eax, notReadyResult
         add rsp, 88h

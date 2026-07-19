@@ -46,7 +46,7 @@ namespace {
 
     [[nodiscard]] std::vector<wchar_t> BuildModPath(HMODULE module) {
         std::vector<wchar_t> path(MAX_PATH);
-        while (path.size() <= MAX_PATH_CHARACTERS) {
+        while (true) {
             const DWORD length = GetModuleFileNameW(module, path.data(), static_cast<DWORD>(path.size()));
             if (length == 0) return {};
             if (length < path.size()) {
@@ -61,10 +61,9 @@ namespace {
             if (path.size() == MAX_PATH_CHARACTERS) return {};
             path.resize((std::min)(path.size() * 2, MAX_PATH_CHARACTERS));
         }
-        return {};
     }
 
-    [[nodiscard]] bool LoadModDll(HMODULE proxyModule) {
+    void LoadModDll(HMODULE proxyModule) {
         const auto modPath = BuildModPath(proxyModule);
         HMODULE modDll = modPath.empty() ? nullptr : LoadLibraryW(modPath.data());
         if (modDll) {
@@ -72,14 +71,14 @@ namespace {
             auto init = reinterpret_cast<InitFn>(GetProcAddress(modDll, "HSE_Initialize"));
             if (init) {
                 init();
-                return true;
+                return;
             }
             FreeLibrary(modDll);
             MessageBoxA(
                 nullptr, "'HSEnhancer.dll' does not export HSE_Initialize and cannot be started.",
                 "Half Sword Enhancer", MB_OK | MB_ICONERROR
             );
-            return false;
+            return;
         }
 
         MessageBoxA(
@@ -88,7 +87,6 @@ namespace {
             "\n\nPlease make sure the file is named 'HSEnhancer.dll' and is in the same folder as the game.",
             "Half Sword Enhancer", MB_OK | MB_ICONINFORMATION
         );
-        return false;
     }
 
     DWORD WINAPI BootstrapMod(LPVOID context) {
@@ -104,14 +102,12 @@ namespace {
         }
         PublishProxyState(PROXY_READY);
 
-        (void)LoadModDll(static_cast<HMODULE>(context));
+        LoadModDll(static_cast<HMODULE>(context));
         return 0;
     }
 }
 
 extern "C" FARPROC WaitForOriginalFunction(std::size_t index) noexcept {
-    if (index >= winmm_exports::kCount) return nullptr;
-
     LONG state = InterlockedCompareExchange(&proxyState, 0, 0);
     if (state == PROXY_READY) return originalFuncs[index];
     if (state == PROXY_FAILED || !proxyReadyEvent) return nullptr;

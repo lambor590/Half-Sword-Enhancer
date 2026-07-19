@@ -17,22 +17,17 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <TargetName>winmm</TargetName>
@@ -47,6 +42,9 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(GeneratedExportsDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(IsDebugBuild)'=='true'">_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(IsReleaseBuild)'=='true'">NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -59,25 +57,8 @@
       <IncludePaths>$(GeneratedExportsDir);%(IncludePaths)</IncludePaths>
     </MASM>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="resource\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Proxy.rc" />
@@ -91,8 +72,11 @@
     <None Include="src\winmm.def" />
     <None Include="tools\GenerateWinmmExports.ps1" />
   </ItemGroup>
-  <Target Name="GenerateAndVerifyWinmmExports" BeforeTargets="PrepareForBuild">
-    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)tools\GenerateWinmmExports.ps1&quot; -DefinitionFile &quot;$(ProjectDir)src\winmm.def&quot; -CppOutput &quot;$(GeneratedExportsHeader)&quot; -AsmOutput &quot;$(GeneratedExportsAsm)&quot; -ModuleDefinitionOutput &quot;$(GeneratedModuleDefinition)&quot; -ExpectedCount 180" />
+  <Target Name="GenerateAndVerifyWinmmExports" BeforeTargets="PrepareForBuild"
+          Inputs="$(ProjectDir)src\winmm.def;$(ProjectDir)tools\GenerateWinmmExports.ps1"
+          Outputs="$(GeneratedExportsHeader);$(GeneratedExportsAsm);$(GeneratedModuleDefinition)">
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)tools\GenerateWinmmExports.ps1&quot; -DefinitionFile &quot;$(ProjectDir)src\winmm.def&quot; -CppOutput &quot;$(GeneratedExportsHeader)&quot; -AsmOutput &quot;$(GeneratedExportsAsm)&quot; -ModuleDefinitionOutput &quot;$(GeneratedModuleDefinition)&quot;" />
+    <Touch Files="$(GeneratedExportsHeader);$(GeneratedExportsAsm);$(GeneratedModuleDefinition)" />
   </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

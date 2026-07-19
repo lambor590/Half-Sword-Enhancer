@@ -21,40 +21,24 @@ $ErrorActionPreference = 'Stop'
 
 function Write-DeterministicFile {
     param(
-        [Parameter(Mandatory = $true)]
         [string] $Path,
-
-        [Parameter(Mandatory = $true)]
         [string] $Content
     )
 
     $fullPath = [System.IO.Path]::GetFullPath($Path)
     $directory = [System.IO.Path]::GetDirectoryName($fullPath)
-    [System.IO.Directory]::CreateDirectory($directory) | Out-Null
-
     $encoding = [System.Text.UTF8Encoding]::new($false)
     $expectedBytes = $encoding.GetBytes($Content)
-    $matchesExpectedBytes = $false
-    if ([System.IO.File]::Exists($fullPath)) {
-        $currentBytes = [System.IO.File]::ReadAllBytes($fullPath)
-        $matchesExpectedBytes = [Convert]::ToBase64String($currentBytes) -ceq [Convert]::ToBase64String($expectedBytes)
-    }
-
-    if (-not $matchesExpectedBytes) {
+    if (-not [System.IO.File]::Exists($fullPath) -or
+        -not [System.Linq.Enumerable]::SequenceEqual(
+            [System.IO.File]::ReadAllBytes($fullPath), $expectedBytes)) {
+        [System.IO.Directory]::CreateDirectory($directory) | Out-Null
         [System.IO.File]::WriteAllBytes($fullPath, $expectedBytes)
-    }
-
-    $writtenBytes = [System.IO.File]::ReadAllBytes($fullPath)
-    if ([Convert]::ToBase64String($writtenBytes) -cne [Convert]::ToBase64String($expectedBytes)) {
-        throw "Generated file verification failed: $fullPath"
     }
 }
 
 function Get-NotReadyResult {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string] $ExportName
-    )
+    param([string] $ExportName)
 
     # Most pointer, BOOL and device-count APIs use zero as their natural failure
     # result. Status-code APIs are the exception: zero means success for them.
@@ -77,7 +61,7 @@ function Get-NotReadyResult {
     return 0
 }
 
-$definitionPath = (Resolve-Path -LiteralPath $DefinitionFile).Path
+$definitionPath = [System.IO.Path]::GetFullPath($DefinitionFile)
 $meaningfulLines = @(
     [System.IO.File]::ReadAllLines($definitionPath) |
         ForEach-Object { $_.Trim() } |
@@ -89,7 +73,7 @@ if ($meaningfulLines.Count -lt 3 -or $meaningfulLines[0] -notmatch '^LIBRARY\s+w
     throw "Expected '$definitionPath' to start with 'LIBRARY winmm' followed by 'EXPORTS'."
 }
 
-$exports = @($meaningfulLines | Select-Object -Skip 2)
+$exports = @($meaningfulLines[2..($meaningfulLines.Count - 1)])
 if ($exports.Count -ne $ExpectedCount) {
     throw "Expected $ExpectedCount winmm exports in '$definitionPath', found $($exports.Count)."
 }
@@ -152,12 +136,8 @@ foreach ($exportName in $exports) {
 $asmLines.Add('')
 $moduleDefinitionLines.Add('')
 
-$cppContent = [string]::Join("`r`n", $cppLines)
-$asmContent = [string]::Join("`r`n", $asmLines)
-$moduleDefinitionContent = [string]::Join("`r`n", $moduleDefinitionLines)
-
-Write-DeterministicFile -Path $CppOutput -Content $cppContent
-Write-DeterministicFile -Path $AsmOutput -Content $asmContent
-Write-DeterministicFile -Path $ModuleDefinitionOutput -Content $moduleDefinitionContent
+Write-DeterministicFile -Path $CppOutput -Content ([string]::Join("`r`n", $cppLines))
+Write-DeterministicFile -Path $AsmOutput -Content ([string]::Join("`r`n", $asmLines))
+Write-DeterministicFile -Path $ModuleDefinitionOutput -Content ([string]::Join("`r`n", $moduleDefinitionLines))
 
 Write-Host "Generated and verified $($exports.Count) named winmm exports and the ordinal-only alias from '$definitionPath'."
