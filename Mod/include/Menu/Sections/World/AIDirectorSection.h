@@ -49,23 +49,7 @@ private:
     GuiUtils::StatusMessage status;
 
     AIDirector::TargetFilter SelectedTargets() const noexcept;
-    AIDirector::BehaviorSettings SelectedBehavior() const noexcept;
     void SyncDirectorSnapshot();
-
-    void RefreshStatus();
-    void SetAITick(bool enabled);
-    void StopAI();
-    void ApplyBehavior();
-    void ApplyTeam();
-    void ApplyProfile();
-    void ToggleDirective(Directive directive);
-    void ForceTargetPlayer();
-    void ForceTargetNearest();
-    void ClearTargets();
-    void ForceAttack();
-    void ForceDash();
-    void StopBlades();
-    void SetDirective(Directive directive);
 
     void RenderScope();
     void RenderStatus();

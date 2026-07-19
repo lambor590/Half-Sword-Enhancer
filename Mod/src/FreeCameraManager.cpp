@@ -26,17 +26,10 @@ namespace {
         bool enabled = true;
     };
 
-    std::vector<SavedWidgetState>& SavedOverlayStates() {
-        static std::vector<SavedWidgetState> states;
-        return states;
-    }
+    std::vector<SavedWidgetState> savedOverlayStates;
 
     [[nodiscard]] float CustomFov(const FreeCameraSettings& settings) noexcept {
         return settings.fov <= 0.0f ? 0.0f : std::clamp(settings.fov, 5.0f, 170.0f);
-    }
-
-    [[nodiscard]] SDK::AActor* PawnActor(SDK::APlayerController* controller) noexcept {
-        return controller && controller->Pawn ? static_cast<SDK::AActor*>(controller->Pawn) : nullptr;
     }
 
     [[nodiscard]] SDK::ADebugCameraController* AsDebugCameraController(SDK::APlayerController* controller) {
@@ -57,22 +50,21 @@ namespace {
     bool SetScreenOverlayHidden(SDK::UWidget* widget, bool hidden) {
         if (!widget) return false;
 
-        auto& saved = SavedOverlayStates();
-        const auto existing = std::ranges::find(saved, widget, &SavedWidgetState::widget);
+        const auto existing = std::ranges::find(savedOverlayStates, widget, &SavedWidgetState::widget);
         if (hidden) {
-            const bool changed = existing == saved.end();
+            const bool changed = existing == savedOverlayStates.end();
             if (changed) {
-                saved.push_back({widget, widget->GetVisibility(), widget->GetIsEnabled()});
+                savedOverlayStates.push_back({widget, widget->GetVisibility(), widget->GetIsEnabled()});
             }
             widget->SetIsEnabled(false);
             widget->SetVisibility(SDK::ESlateVisibility::Collapsed);
             return changed;
         }
 
-        if (existing == saved.end()) return false;
+        if (existing == savedOverlayStates.end()) return false;
         widget->SetIsEnabled(existing->enabled);
         widget->SetVisibility(existing->visibility);
-        saved.erase(existing);
+        savedOverlayStates.erase(existing);
         return true;
     }
 
@@ -220,7 +212,7 @@ void FreeCameraManager::PrepareForRuntimeShutdown(const RuntimeContextSnapshot& 
 
 void FreeCameraManager::OnRuntimeShutdown() noexcept {
     screenOverlaySubscriptions.Reset();
-    SavedOverlayStates().clear();
+    savedOverlayStates.clear();
     ClearState();
 }
 
@@ -349,18 +341,10 @@ bool FreeCameraManager::EnableDebugCamera(const RuntimeContextSnapshot& runtime,
     cheatManager->EnableDebugCamera();
     debugController = cheatManager->DebugCameraControllerRef;
 
-    if (!debugController && runtime.controller && runtime.controller->IsA(SDK::ADebugCameraController::StaticClass())) {
-        debugController = static_cast<SDK::ADebugCameraController*>(runtime.controller);
-    }
-    if (debugController) {
-        originalController =
-            UnwrapOriginalController(originalController ? originalController : debugController->OriginalControllerRef);
-        originalPlayer = originalPlayer ? originalPlayer : debugController->OriginalPlayer;
-    }
-
-    if (!debugController) {
-        return false;
-    }
+    if (!debugController) debugController = AsDebugCameraController(runtime.controller);
+    if (!debugController) return false;
+    originalController = UnwrapOriginalController(originalController);
+    if (!originalPlayer) originalPlayer = debugController->OriginalPlayer;
 
     if (debugController->PlayerCameraManager) {
         debugController->PlayerCameraManager->SetGameCameraCutThisFrame();
@@ -460,11 +444,6 @@ bool FreeCameraManager::SpawnFrozenCamera(
         )) {
         actor = finished;
     }
-    if (!actor->IsA(SDK::ACameraActor::StaticClass())) {
-        actor->K2_DestroyActor();
-        return false;
-    }
-
     frozenCameraActor = static_cast<SDK::ACameraActor*>(actor);
     frozenCameraActor->K2_SetActorLocationAndRotation(viewInfo.Location, viewInfo.Rotation, false, nullptr, true);
     if (auto* cameraComponent = frozenCameraActor->CameraComponent) {
@@ -503,7 +482,8 @@ void FreeCameraManager::RestoreOriginalViewTarget() {
         return;
     }
 
-    auto* viewTarget = originalViewTarget ? originalViewTarget : PawnActor(originalController);
+    auto* viewTarget = originalViewTarget ? originalViewTarget
+                                          : static_cast<SDK::AActor*>(originalController->Pawn);
     if (!viewTarget) {
         return;
     }
@@ -565,7 +545,7 @@ bool FreeCameraManager::ShouldHideScreenOverlays() noexcept {
 }
 
 void FreeCameraManager::ApplyConstructedScreenOverlay(SDK::UObject* object) {
-    if (!ShouldHideScreenOverlays() || !object) return;
+    if (!object || !ShouldHideScreenOverlays()) return;
     if (screenOverlays.visualEffects && object->IsA(SDK::UUI_HUD_C::StaticClass())) {
         SetHudEffectWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(object), true);
         return;
@@ -590,7 +570,7 @@ void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapsho
                                 ApplyScreenOverlayClass<SDK::UUI_WIN_C>(runtime.world, hideResultMenus) +
                                 ApplyScreenOverlayClass<SDK::UUI_WinScreen_C>(runtime.world, hideResultMenus);
     hiddenResultMenuCount += resultMenuDelta;
-    if (hiddenResultMenuCount < 0) hiddenResultMenuCount = 0;
+    hiddenResultMenuCount = (std::max)(hiddenResultMenuCount, 0);
     if (hideResultMenus && resultMenuDelta > 0) {
         RestoreGameplayInput(runtime.world);
     }
@@ -605,12 +585,8 @@ void FreeCameraManager::RestoreGameplayInput(const SDK::UObject* worldContext) {
     }
 
     auto* controller = SDK::UGameplayStatics::GetPlayerController(worldContext, 0);
-    if (!controller && debugController) {
-        controller = static_cast<SDK::APlayerController*>(debugController);
-    }
-    if (!controller) {
-        controller = originalController;
-    }
+    if (!controller) controller = debugController ? static_cast<SDK::APlayerController*>(debugController)
+                                                  : originalController;
     if (!controller) return;
 
     SDK::UWidgetBlueprintLibrary::SetInputMode_GameOnly(controller, false);

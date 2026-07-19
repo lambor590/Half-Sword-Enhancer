@@ -43,35 +43,11 @@ namespace {
 AIDirectorSection::AIDirectorSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
 void AIDirectorSection::OnOpen() {
-    RefreshStatus();
+    AIDirector::Get().RefreshStatus(SelectedTargets());
 }
 
 AIDirector::TargetFilter AIDirectorSection::SelectedTargets() const noexcept {
     return {.scope = scope, .radius = radius, .team = team};
-}
-
-AIDirector::BehaviorSettings AIDirectorSection::SelectedBehavior() const noexcept {
-    return {
-        .bodySkill = bodySkill,
-        .weaponSkill = weaponSkill,
-        .dodgeRate = dodgeRate,
-        .runningSpeed = runningSpeed,
-        .drunkLevel = drunkLevel,
-        .attackIntent = attackIntent,
-        .defendIntent = defendIntent,
-        .retreatIntent = retreatIntent,
-        .strafeIntent = strafeIntent,
-        .berserkRate = berserkRate,
-        .parryRate = parryRate,
-        .swingSpeed = swingSpeed,
-        .changeAttackRate = changeAttackRate,
-        .approachDistance = approachDistance,
-        .aiInvincibility = aiInvincibility,
-        .aiArmorInvincibility = aiArmorInvincibility,
-        .combatBehavior = combatBehavior,
-        .strafeMode = strafeMode,
-        .fearless = fearless,
-    };
 }
 
 void AIDirectorSection::SyncDirectorSnapshot() {
@@ -88,62 +64,6 @@ void AIDirectorSection::SyncDirectorSnapshot() {
         status.Clear();
 }
 
-void AIDirectorSection::RefreshStatus() {
-    AIDirector::Get().RefreshStatus(SelectedTargets());
-}
-
-void AIDirectorSection::SetAITick(bool enabled) {
-    AIDirector::Get().SetAITick(SelectedTargets(), enabled);
-}
-
-void AIDirectorSection::StopAI() {
-    AIDirector::Get().StopAI(SelectedTargets());
-}
-
-void AIDirectorSection::ApplyBehavior() {
-    AIDirector::Get().ApplyBehavior(SelectedTargets(), SelectedBehavior());
-}
-
-void AIDirectorSection::ApplyTeam() {
-    AIDirector::Get().ApplyTeam(SelectedTargets(), newTeam);
-}
-
-void AIDirectorSection::ApplyProfile() {
-    AIDirector::Get().ApplyProfile(SelectedTargets(), profile);
-}
-
-void AIDirectorSection::ToggleDirective(Directive directive) {
-    AIDirector::Get().ToggleDirective(SelectedTargets(), directive);
-}
-
-void AIDirectorSection::ForceTargetPlayer() {
-    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Player);
-}
-
-void AIDirectorSection::ForceTargetNearest() {
-    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::NearestNpc);
-}
-
-void AIDirectorSection::ClearTargets() {
-    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Clear);
-}
-
-void AIDirectorSection::ForceAttack() {
-    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Attack);
-}
-
-void AIDirectorSection::ForceDash() {
-    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Dash);
-}
-
-void AIDirectorSection::StopBlades() {
-    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::StopBlade);
-}
-
-void AIDirectorSection::SetDirective(Directive directive) {
-    AIDirector::Get().SetDirective(SelectedTargets(), directive);
-}
-
 void AIDirectorSection::RenderScope() {
     ImGui::SeparatorText("Affected NPCs");
 
@@ -158,7 +78,7 @@ void AIDirectorSection::RenderScope() {
 
     if (scope == Scope::Radius) GuiUtils::DebouncedDragFloat("Distance", &radius, 10.0f, 50.0f, 5000.0f, "%.0f");
     if (scope == Scope::Team) GuiUtils::DebouncedDragInt("Alliance", &team, 0.2f, 0, 32);
-    if (ImGui::Button("Update Overview")) RefreshStatus();
+    if (ImGui::Button("Update Overview")) AIDirector::Get().RefreshStatus(SelectedTargets());
     status.Render();
 }
 
@@ -196,23 +116,27 @@ void AIDirectorSection::RenderStatus() {
 void AIDirectorSection::RenderAI() {
     ImGui::SeparatorText("NPC Actions");
 
-    if (GuiUtils::Button("Resume NPCs")) SetAITick(true);
+    if (GuiUtils::Button("Resume NPCs")) AIDirector::Get().SetAITick(SelectedTargets(), true);
     (void)GuiUtils::SameLineIfFitsButton("Freeze NPCs");
-    if (GuiUtils::Button("Freeze NPCs")) SetAITick(false);
+    if (GuiUtils::Button("Freeze NPCs")) AIDirector::Get().SetAITick(SelectedTargets(), false);
     (void)GuiUtils::SameLineIfFitsButton("End Combat");
-    if (GuiUtils::Button("End Combat")) StopAI();
+    if (GuiUtils::Button("End Combat")) AIDirector::Get().StopAI(SelectedTargets());
 
-    if (GuiUtils::Button("Focus on Player")) ForceTargetPlayer();
+    if (GuiUtils::Button("Focus on Player"))
+        AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Player);
     (void)GuiUtils::SameLineIfFitsButton("Focus on Nearest NPC");
-    if (GuiUtils::Button("Focus on Nearest NPC")) ForceTargetNearest();
+    if (GuiUtils::Button("Focus on Nearest NPC"))
+        AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::NearestNpc);
     (void)GuiUtils::SameLineIfFitsButton("Forget Opponents");
-    if (GuiUtils::Button("Forget Opponents")) ClearTargets();
+    if (GuiUtils::Button("Forget Opponents"))
+        AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Clear);
 
-    if (GuiUtils::Button("Attack")) ForceAttack();
+    if (GuiUtils::Button("Attack")) AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Attack);
     (void)GuiUtils::SameLineIfFitsButton("Dash");
-    if (GuiUtils::Button("Dash")) ForceDash();
+    if (GuiUtils::Button("Dash")) AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Dash);
     (void)GuiUtils::SameLineIfFitsButton("Stop Weapon Swing");
-    if (GuiUtils::Button("Stop Weapon Swing")) StopBlades();
+    if (GuiUtils::Button("Stop Weapon Swing"))
+        AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::StopBlade);
 }
 
 void AIDirectorSection::RenderBehavior() {
@@ -226,7 +150,7 @@ void AIDirectorSection::RenderBehavior() {
         }
         ImGui::EndCombo();
     }
-    if (ImGui::Button("Use Personality")) ApplyProfile();
+    if (ImGui::Button("Use Personality")) AIDirector::Get().ApplyProfile(SelectedTargets(), profile);
 
     ImGui::SeparatorText("Custom Behavior");
     ImGui::Checkbox("Fearless", &fearless);
@@ -274,11 +198,36 @@ void AIDirectorSection::RenderAdvanced() {
     if (GuiUtils::DebouncedDragFloat("Armor Resistance", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
         aiArmorInvincibility = armorInvincibility;
 
-    if (ImGui::Button("Use Custom Behavior")) ApplyBehavior();
+    if (ImGui::Button("Use Custom Behavior")) {
+        AIDirector::Get().ApplyBehavior(
+            SelectedTargets(),
+            {
+                .bodySkill = bodySkill,
+                .weaponSkill = weaponSkill,
+                .dodgeRate = dodgeRate,
+                .runningSpeed = runningSpeed,
+                .drunkLevel = drunkLevel,
+                .attackIntent = attackIntent,
+                .defendIntent = defendIntent,
+                .retreatIntent = retreatIntent,
+                .strafeIntent = strafeIntent,
+                .berserkRate = berserkRate,
+                .parryRate = parryRate,
+                .swingSpeed = swingSpeed,
+                .changeAttackRate = changeAttackRate,
+                .approachDistance = approachDistance,
+                .aiInvincibility = aiInvincibility,
+                .aiArmorInvincibility = aiArmorInvincibility,
+                .combatBehavior = combatBehavior,
+                .strafeMode = strafeMode,
+                .fearless = fearless,
+            }
+        );
+    }
 
     ImGui::SeparatorText("Alliances");
     GuiUtils::DebouncedDragInt("Alliance", &newTeam, 0.2f, 0, 32);
-    if (ImGui::Button("Change Alliance")) ApplyTeam();
+    if (ImGui::Button("Change Alliance")) AIDirector::Get().ApplyTeam(SelectedTargets(), newTeam);
 }
 
 void AIDirectorSection::RenderTactics() {
@@ -305,11 +254,13 @@ void AIDirectorSection::RenderTactics() {
         if (i > 0) (void)GuiUtils::SameLineIfFitsButton(tactic.label);
         const auto tone =
             tactic.directive == currentDirective ? GuiUtils::ButtonTone::Primary : GuiUtils::ButtonTone::Default;
-        if (GuiUtils::Button(tactic.label, tone)) ToggleDirective(tactic.directive);
+        if (GuiUtils::Button(tactic.label, tone))
+            AIDirector::Get().ToggleDirective(SelectedTargets(), tactic.directive);
     }
 
     if (currentDirective != Directive::None) {
-        if (GuiUtils::Button("Restore Normal Behavior", GuiUtils::ButtonTone::Quiet)) SetDirective(Directive::None);
+        if (GuiUtils::Button("Restore Normal Behavior", GuiUtils::ButtonTone::Quiet))
+            AIDirector::Get().SetDirective(SelectedTargets(), Directive::None);
     }
 }
 

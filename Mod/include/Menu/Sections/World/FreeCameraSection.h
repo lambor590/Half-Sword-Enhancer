@@ -28,6 +28,4 @@ private:
     KeybindList keybinds;
 
     void InitKeybinds();
-    void SetFreeCameraEnabled(bool enabled);
-    void SetInputLocked(bool locked);
 };

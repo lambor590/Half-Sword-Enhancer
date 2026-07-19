@@ -27,7 +27,9 @@ void FreeCameraSection::InitKeybinds() {
         .configSection = "FreeCamera",
         .keyPtr = &cfg.toggleKey,
         .callback =
-            [this](bool active, [[maybe_unused]] const RuntimeContextSnapshot&) { SetFreeCameraEnabled(active); },
+            [this](bool active, [[maybe_unused]] const RuntimeContextSnapshot&) {
+                FreeCameraManager::Get().Apply(active, active && cfg.startWithCameraControl, cfg.camera);
+            },
         .kind = KeybindKind::State,
         .stateGetter =
             [this]() {
@@ -57,7 +59,10 @@ void FreeCameraSection::InitKeybinds() {
         .tooltip = INPUT_LOCK_TOOLTIP,
         .configSection = "FreeCameraInput",
         .keyPtr = &cfg.inputLockKey,
-        .callback = [this](bool active, [[maybe_unused]] const RuntimeContextSnapshot&) { SetInputLocked(active); },
+        .callback =
+            [this](bool active, [[maybe_unused]] const RuntimeContextSnapshot&) {
+                FreeCameraManager::Get().Apply(true, active, cfg.camera);
+            },
         .kind = KeybindKind::State,
         .stateGetter =
             [this]() {
@@ -71,15 +76,6 @@ void FreeCameraSection::InitKeybinds() {
             },
         .applyOnToggle = true,
     });
-}
-
-void FreeCameraSection::SetFreeCameraEnabled(bool enabled) {
-    const bool lockInput = enabled && cfg.startWithCameraControl;
-    FreeCameraManager::Get().Apply(enabled, lockInput, cfg.camera);
-}
-
-void FreeCameraSection::SetInputLocked(bool locked) {
-    FreeCameraManager::Get().Apply(true, locked, cfg.camera);
 }
 
 void FreeCameraSection::Render() {
