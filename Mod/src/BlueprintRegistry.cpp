@@ -123,13 +123,10 @@ void BlueprintRegistry::RequestScan() {
 }
 
 void BlueprintRegistry::RequestRescan() {
-    ScanState previous = ScanState::Complete;
-    ScanState expected = ScanState::Complete;
-    if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        expected = ScanState::Failed;
-        if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) return;
-        previous = ScanState::Failed;
-    }
+    auto previous = state.load(std::memory_order_acquire);
+    if ((previous != ScanState::Complete && previous != ScanState::Failed) ||
+        !state.compare_exchange_strong(previous, ScanState::Scanning, std::memory_order_acq_rel))
+        return;
     tierScanDone = false;
     if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
         state.store(previous, std::memory_order_release);
@@ -160,11 +157,11 @@ void BlueprintRegistry::PerformScan() {
                 if (!IsBlueprintAsset(asset)) continue;
 
                 std::string packagePath = asset.PackagePath.GetRawString();
-                if (packagePath.find("/Game/") != 0) continue;
+                if (!packagePath.starts_with("/Game/")) continue;
 
-                if (packagePath.find("/Game/Maps") == 0 || packagePath.find("/Game/UI") == 0 ||
-                    packagePath.find("/Game/FX") == 0 || packagePath.find("/Game/Audio") == 0 ||
-                    packagePath.find("/Game/Characters") == 0 || packagePath.find("/Game/Cinematics") == 0) {
+                if (packagePath.starts_with("/Game/Maps") || packagePath.starts_with("/Game/UI") ||
+                    packagePath.starts_with("/Game/FX") || packagePath.starts_with("/Game/Audio") ||
+                    packagePath.starts_with("/Game/Characters") || packagePath.starts_with("/Game/Cinematics")) {
                     continue;
                 }
 
@@ -175,7 +172,7 @@ void BlueprintRegistry::PerformScan() {
                 std::string assetName = asset.AssetName.ToString();
                 if (assetName.ends_with("_C")) assetName.resize(assetName.size() - 2);
 
-                if (assetName.find("BP_GameWeapon_Customizable_") == 0) continue;
+                if (assetName.starts_with("BP_GameWeapon_Customizable_")) continue;
 
                 if (assetName.find("_Master") != std::string::npos) continue;
                 if (packagePath == "/Game/Assets/Weapons/Blueprints/Built_Weapons" &&
@@ -185,7 +182,7 @@ void BlueprintRegistry::PerformScan() {
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
                 if (category.empty()) continue;
 
-                if ((packagePath.find("/Game/Assets/") == 0 || packagePath.find("/Game/Blueprints/") == 0) &&
+                if ((packagePath.starts_with("/Game/Assets/") || packagePath.starts_with("/Game/Blueprints/")) &&
                     category == "Other" && !HasValidAssetPrefix(assetName)) {
                     continue;
                 }
@@ -217,34 +214,23 @@ void BlueprintRegistry::PerformScan() {
     state.store(scanSuccess ? ScanState::Complete : ScanState::Failed, std::memory_order_release);
 }
 
-size_t BlueprintRegistry::FindOrCreateCategory(std::string_view name) {
-    const auto existing = std::ranges::find(categories, name, &CategoryData::name);
-    if (existing != categories.end()) return static_cast<size_t>(existing - categories.begin());
-
-    const size_t index = categories.size();
-    categories.push_back({std::string(name), {}});
-    return index;
-}
-
-size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_view name) {
-    auto& subs = categories[catIdx].subcategories;
-    const auto existing = std::ranges::find(subs, name, &SubcategoryData::name);
-    if (existing != subs.end()) return static_cast<size_t>(existing - subs.begin());
-
-    const size_t index = subs.size();
-    subs.push_back({std::string(name), {}});
-    return index;
-}
-
-BlueprintRegistry::ItemIndex BlueprintRegistry::AddItem(
+void BlueprintRegistry::AddItem(
     BlueprintEntry&& entry, std::string_view category, std::string_view subcategory
 ) {
     const ItemIndex idx = items.size();
     items.push_back(std::move(entry));
-    size_t catIdx = FindOrCreateCategory(category);
-    size_t subIdx = FindOrCreateSubcategory(catIdx, subcategory);
-    categories[catIdx].subcategories[subIdx].itemIndices.push_back(idx);
-    return idx;
+    auto categoryIt = std::ranges::find(categories, category, &CategoryData::name);
+    if (categoryIt == categories.end()) {
+        categories.push_back({std::string(category), {}});
+        categoryIt = categories.end() - 1;
+    }
+    auto& subcategories = categoryIt->subcategories;
+    auto subcategoryIt = std::ranges::find(subcategories, subcategory, &SubcategoryData::name);
+    if (subcategoryIt == subcategories.end()) {
+        subcategories.push_back({std::string(subcategory), {}});
+        subcategoryIt = subcategories.end() - 1;
+    }
+    subcategoryIt->itemIndices.push_back(idx);
 }
 
 std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPath(
@@ -491,7 +477,6 @@ void BlueprintRegistry::RebuildItemLocations() {
             auto& sub = cat.subcategories[si];
             for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
                 const ItemIndex itemIdx = sub.itemIndices[ii];
-                if (itemIdx >= itemLocations.size()) continue;
                 itemLocations[itemIdx] =
                     {static_cast<uint8_t>(ci), static_cast<uint8_t>(si), static_cast<ItemIndex>(ii)};
             }
@@ -564,8 +549,6 @@ void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemInd
             bestEnd = last;
         }
     }
-    if (bestBegin == searchIndex.end()) return;
-
     out.reserve(static_cast<size_t>(bestEnd - bestBegin));
     for (auto entry = bestBegin; entry != bestEnd; ++entry) {
         const ItemIndex idx = entry->item;
@@ -575,9 +558,7 @@ void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemInd
 
 void BlueprintRegistry::AddCustomPath(const std::string& path) {
     if (path.empty()) return;
-    for (const auto& p : customPaths) {
-        if (p == path) return;
-    }
+    if (std::ranges::find(customPaths, path) != customPaths.end()) return;
     customPaths.push_back(path);
     SaveCustomPaths();
 

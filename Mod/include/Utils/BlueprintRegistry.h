@@ -64,10 +64,7 @@ private:
         const std::string& packagePath, const std::string& assetName
     );
 
-    size_t FindOrCreateCategory(std::string_view name);
-    size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
-
-    ItemIndex AddItem(BlueprintEntry&& entry, std::string_view category, std::string_view subcategory);
+    void AddItem(BlueprintEntry&& entry, std::string_view category, std::string_view subcategory);
 
 public:
     static BlueprintRegistry& Get() {

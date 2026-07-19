@@ -97,13 +97,6 @@ namespace {
     }
 }
 
-void MapRegistry::BuildCategories() {
-    categories.clear();
-    for (const auto& m : maps) {
-        if (categories.empty() || categories.back() != m.category) categories.emplace_back(m.category);
-    }
-}
-
 void MapRegistry::PerformScan() {
     maps.clear();
     categories.clear();
@@ -172,17 +165,19 @@ void MapRegistry::PerformScan() {
 
         const int32_t count = params.OutAssetData.Num();
 
-        std::unordered_set<std::string> seenPackages;
+        std::unordered_set<uint64_t> seenPackages;
         seenPackages.reserve(count);
         maps.reserve(count);
 
         for (int32_t i = 0; i < count; ++i) {
             const auto& asset = params.OutAssetData[i];
 
+            const uint64_t packageId = (static_cast<uint64_t>(asset.PackageName.ComparisonIndex) << 32) |
+                                       static_cast<uint64_t>(asset.PackageName.Number);
+            if (!seenPackages.insert(packageId).second) continue;
+
             std::string packageName = asset.PackageName.GetRawString();
             std::string packagePath = asset.PackagePath.GetRawString();
-            if (!seenPackages.insert(packageName).second) continue;
-
             if (IsInternalMapAsset(packageName, packagePath)) continue;
 
             std::string displayName = CleanMapName(packageName);
@@ -193,16 +188,13 @@ void MapRegistry::PerformScan() {
         }
 
         std::ranges::sort(maps, [](const MapEntry& a, const MapEntry& b) {
-            if (a.category != b.category) {
-                bool aBase = (a.category == BASE_GAME_CATEGORY);
-                bool bBase = (b.category == BASE_GAME_CATEGORY);
-                if (aBase != bBase) return aBase;
-                return a.category < b.category;
-            }
+            if (a.category != b.category) return a.category == BASE_GAME_CATEGORY;
             return a.displayName < b.displayName;
         });
 
-        BuildCategories();
+        for (const auto& map : maps) {
+            if (categories.empty() || categories.back() != map.category) categories.emplace_back(map.category);
+        }
         displayWidthDirty = true;
     } catch (...) {
         g_logger.Log("Map scan failed with exception");
@@ -231,8 +223,7 @@ float MapRegistry::GetMaxDisplayNameWidth() {
     if (displayWidthDirty) {
         maxDisplayNameWidth = 0.0f;
         for (const auto& m : maps) {
-            float w = ImGui::CalcTextSize(m.displayName.c_str()).x;
-            if (w > maxDisplayNameWidth) maxDisplayNameWidth = w;
+            maxDisplayNameWidth = (std::max)(maxDisplayNameWidth, ImGui::CalcTextSize(m.displayName.c_str()).x);
         }
         displayWidthDirty = false;
     }
