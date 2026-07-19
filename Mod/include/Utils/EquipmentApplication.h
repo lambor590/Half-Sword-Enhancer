@@ -21,10 +21,7 @@ struct WeaponPresetData;
 namespace EquipmentApplication {
     SDK::FStr_Passport_Weapon1 DefaultWeaponPassport();
 
-    void WriteWeaponPassportToSlot(const SDK::FStr_Passport_Weapon1& passport, SDK::FStr_WeaponParts& slot);
-    bool WriteWeaponPresetToSlot(WeaponPresetData& preset, SDK::FStr_WeaponParts& slot, std::string* error = nullptr);
     void ClearWeaponSlot(SDK::FStr_WeaponParts& slot);
-    bool EquipWeaponSlot(SDK::AWillie_BP_C* willie, int slotIndex, const SDK::FStr_WeaponParts& slot);
 
     // Game-thread snapshots used when a loadout slot has no explicit Copy/Reference draft link.
     bool CaptureEquippedWeaponPreset(SDK::AWillie_BP_C* willie, int handIndex, WeaponPresetData& result);

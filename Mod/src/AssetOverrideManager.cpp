@@ -480,7 +480,6 @@ bool AssetOverrideManager::Initialize() {
 void AssetOverrideManager::Shutdown() noexcept {
     hookSubscriptions.Reset();
     initialized = false;
-    applyQueued.store(false, std::memory_order_release);
     trackedMaterials.clear();
     needsScan = true;
     needsLoad = true;
@@ -508,19 +507,6 @@ void AssetOverrideManager::RequestRefresh() {
         needsApply = true;
         if (runtime.world) ApplyNow(runtime.world);
     });
-}
-
-void AssetOverrideManager::RequestApply() {
-    bool expected = false;
-    if (!applyQueued.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return;
-
-    if (!GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
-            applyQueued.store(false, std::memory_order_release);
-            needsApply = true;
-            if (runtime.world) ApplyNow(runtime.world);
-        })) {
-        applyQueued.store(false, std::memory_order_release);
-    }
 }
 
 void AssetOverrideManager::RequestActorApply(SDK::AActor* actor) {

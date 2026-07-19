@@ -51,13 +51,6 @@ namespace BoneControl {
             return g_baselines.emplace_back(willie, WillieBaseline{}).second;
         }
 
-        bool IsPlayer(SDK::AWillie_BP_C* willie) noexcept {
-            if (!willie) return false;
-
-            const auto& snapshot = ModContext::Get().GetRenderSnapshot();
-            return willie == snapshot.player || willie->Player;
-        }
-
         template <typename Fn>
         void ForEachEnemy(const RuntimeContextSnapshot& runtime, Fn&& fn) {
             if (!runtime.world || !runtime.player) return;
@@ -94,14 +87,6 @@ namespace BoneControl {
             std::erase_if(g_pendingSpawnMass, [willie, objectIndex](const PendingSpawnMass& pending) {
                 return pending.willie == willie && pending.objectIndex == objectIndex;
             });
-        }
-
-        bool IsDislocationConstraint(SDK::AWillie_BP_C* willie, SDK::UPhysicsConstraintComponent* component) {
-            bool matched = false;
-            ForEachDislocationConstraint(willie, [&](SDK::UPhysicsConstraintComponent* candidate) {
-                matched |= candidate == component;
-            });
-            return matched;
         }
 
         double BaselineValueFor(const ThresholdBaseline& baseline, const SDK::FName& bone, double fallback) noexcept {
@@ -164,37 +149,6 @@ namespace BoneControl {
             });
         }
 
-        void ApplyConstraintBreakableToMesh(
-            SDK::USkeletalMeshComponent* mesh, const SDK::FName& bone, bool linear, double threshold, bool breakable
-        ) {
-            if (!mesh || bone.IsNone()) return;
-
-            SDK::TArray<SDK::FConstraintInstanceAccessor> constraints;
-            mesh->GetConstraintsFromBody(bone, true, true, false, &constraints);
-            const auto clampedThreshold =
-                static_cast<float>(std::clamp(threshold, 0.0, static_cast<double>((std::numeric_limits<float>::max)())));
-
-            for (auto& constraint : constraints) {
-                if (linear) {
-                    SDK::UConstraintInstanceBlueprintLibrary::SetLinearBreakable(
-                        constraint, breakable, clampedThreshold
-                    );
-                } else {
-                    SDK::UConstraintInstanceBlueprintLibrary::SetAngularBreakable(
-                        constraint, breakable, clampedThreshold
-                    );
-                }
-            }
-        }
-
-        void ApplyConstraintBreakable(
-            SDK::AWillie_BP_C* willie, const SDK::FName& bone, bool linear, double threshold, bool breakable
-        ) {
-            ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
-                ApplyConstraintBreakableToMesh(mesh, bone, linear, threshold, breakable);
-            });
-        }
-
         void ApplyThresholds(
             SDK::AWillie_BP_C* willie, SDK::TMap<SDK::FName, double>& map, const ThresholdBaseline& baseline,
             double multiplier, bool linear, bool breakable
@@ -202,15 +156,26 @@ namespace BoneControl {
             for (auto& entry : map) {
                 const double scaled = BaselineValueFor(baseline, entry.Key(), entry.Value()) * multiplier;
                 entry.Value() = scaled;
-                ApplyConstraintBreakable(willie, entry.Key(), linear, scaled, breakable);
-            }
-        }
+                if (entry.Key().IsNone()) continue;
 
-        void ApplyMassScaleToThresholdBones(
-            SDK::USkeletalMeshComponent* mesh, SDK::TMap<SDK::FName, double>& map, float multiplier
-        ) {
-            for (auto& entry : map) {
-                if (!entry.Key().IsNone()) mesh->SetMassScale(entry.Key(), multiplier);
+                const auto threshold = static_cast<float>(
+                    std::clamp(scaled, 0.0, static_cast<double>((std::numeric_limits<float>::max)()))
+                );
+                ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
+                    SDK::TArray<SDK::FConstraintInstanceAccessor> constraints;
+                    mesh->GetConstraintsFromBody(entry.Key(), true, true, false, &constraints);
+                    for (auto& constraint : constraints) {
+                        if (linear) {
+                            SDK::UConstraintInstanceBlueprintLibrary::SetLinearBreakable(
+                                constraint, breakable, threshold
+                            );
+                        } else {
+                            SDK::UConstraintInstanceBlueprintLibrary::SetAngularBreakable(
+                                constraint, breakable, threshold
+                            );
+                        }
+                    }
+                });
             }
         }
 
@@ -226,19 +191,16 @@ namespace BoneControl {
             }
         }
 
-        void ApplyMassScaleToMesh(SDK::AWillie_BP_C* willie, SDK::USkeletalMeshComponent* mesh, float multiplier) {
-            mesh->SetAllMassScale(multiplier);
-
-            ForEachMassScaleBone(willie, [&](const SDK::FName& bone) {
-                mesh->SetMassScale(bone, multiplier);
-            });
-            ApplyMassScaleToThresholdBones(mesh, willie->Bones_Linear_Breakable_Limits, multiplier);
-            ApplyMassScaleToThresholdBones(mesh, willie->Bones_Angular_Breakable_Limits, multiplier);
-        }
-
         void ApplyMassScale(SDK::AWillie_BP_C* willie, float multiplier) {
             ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
-                ApplyMassScaleToMesh(willie, mesh, multiplier);
+                mesh->SetAllMassScale(multiplier);
+                ForEachMassScaleBone(willie, [&](const SDK::FName& bone) { mesh->SetMassScale(bone, multiplier); });
+                for (auto* limits :
+                     {&willie->Bones_Linear_Breakable_Limits, &willie->Bones_Angular_Breakable_Limits}) {
+                    for (auto& entry : *limits) {
+                        if (!entry.Key().IsNone()) mesh->SetMassScale(entry.Key(), multiplier);
+                    }
+                }
             });
         }
 
@@ -268,16 +230,22 @@ namespace BoneControl {
     }
 
     bool MatchesScope(SDK::AWillie_BP_C* willie, bool playerScope) noexcept {
-        const bool isPlayer = IsPlayer(willie);
-        if (playerScope) return isPlayer;
-        return willie && !isPlayer && willie != PossessState::GetOriginalPawn();
+        if (!willie) return false;
+        const auto& snapshot = ModContext::Get().GetRenderSnapshot();
+        const bool isPlayer = willie == snapshot.player || willie->Player;
+        return playerScope ? isPlayer : !isPlayer && willie != PossessState::GetOriginalPawn();
     }
 
     bool ShouldCancelBreak(GameHook::ProcessEventContext& context, SDK::AWillie_BP_C* willie) {
-        if (context.object->IsA(SDK::UPhysicsConstraintComponent::StaticClass())) {
-            return IsDislocationConstraint(willie, static_cast<SDK::UPhysicsConstraintComponent*>(context.object));
-        }
-        return true;
+        if (!context.object->IsA(SDK::UPhysicsConstraintComponent::StaticClass())) return true;
+
+        const auto* component = static_cast<SDK::UPhysicsConstraintComponent*>(context.object);
+        return component == willie->Dislocated_Bone_Constraint_Arm_R ||
+               component == willie->Dislocated_Bone_Constraint_Arm_L ||
+               component == willie->Dislocated_Bone_Constraint_Leg_R ||
+               component == willie->Dislocated_Bone_Constraint_Leg_L ||
+               component == willie->Dislocated_Bone_Constraint_Neck ||
+               component == willie->Dislocated_Bone_Constraint_Back;
     }
 
     void MarkSpawnedWillie(SDK::AWillie_BP_C* willie) {
