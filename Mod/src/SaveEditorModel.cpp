@@ -127,12 +127,6 @@ namespace SaveEditorModel {
             return (field->ClassPrivate->CastFlags & mask) == mask;
         }
 
-        [[nodiscard]] bool HasPropertyFlag(const SDK::FProperty* property, SDK::EPropertyFlags flag) {
-            if (!property) return false;
-            const auto mask = static_cast<std::uint64_t>(flag);
-            return (property->PropertyFlags & mask) == mask;
-        }
-
         [[nodiscard]] bool ScalarEqual(const ScalarValue& left, const ScalarValue& right) {
             if (left.index() != right.index()) return false;
             if (const auto* leftDouble = std::get_if<double>(&left)) {
@@ -150,22 +144,20 @@ namespace SaveEditorModel {
             return kind == ValueKind::Map || kind == ValueKind::Set;
         }
 
-        [[nodiscard]] std::string_view StripUserDefinedSuffix(std::string_view rawName) {
-            const auto hashSeparator = rawName.rfind('_');
-            if (hashSeparator == std::string_view::npos || rawName.size() - hashSeparator - 1 != 32) return rawName;
-            const auto hash = rawName.substr(hashSeparator + 1);
-            if (!std::ranges::all_of(hash, [](unsigned char value) { return std::isxdigit(value) != 0; }))
-                return rawName;
-            const auto numberSeparator = rawName.rfind('_', hashSeparator - 1);
-            if (numberSeparator == std::string_view::npos || numberSeparator + 1 == hashSeparator) return rawName;
-            const auto number = rawName.substr(numberSeparator + 1, hashSeparator - numberSeparator - 1);
-            if (!std::ranges::all_of(number, [](unsigned char value) { return std::isdigit(value) != 0; }))
-                return rawName;
-            return rawName.substr(0, numberSeparator);
-        }
-
         [[nodiscard]] std::string DisplayName(std::string_view rawName) {
-            rawName = StripUserDefinedSuffix(rawName);
+            const auto hashSeparator = rawName.rfind('_');
+            if (hashSeparator != std::string_view::npos && rawName.size() - hashSeparator - 1 == 32) {
+                const auto hash = rawName.substr(hashSeparator + 1);
+                if (std::ranges::all_of(hash, [](unsigned char value) { return std::isxdigit(value) != 0; })) {
+                    const auto numberSeparator = rawName.rfind('_', hashSeparator - 1);
+                    if (numberSeparator != std::string_view::npos && numberSeparator + 1 != hashSeparator) {
+                        const auto number =
+                            rawName.substr(numberSeparator + 1, hashSeparator - numberSeparator - 1);
+                        if (std::ranges::all_of(number, [](unsigned char value) { return std::isdigit(value) != 0; }))
+                            rawName = rawName.substr(0, numberSeparator);
+                    }
+                }
+            }
             std::string result;
             result.reserve(rawName.size() + 8);
             char previous = 0;
@@ -198,16 +190,6 @@ namespace SaveEditorModel {
             return {current, buffer.end()};
         }
 
-        [[nodiscard]] NodeId MakePropertyId(
-            NodeId parentId, std::string_view rawName, std::int32_t offset
-        ) noexcept {
-            auto hash = HashValue(K_FNV_OFFSET, parentId);
-            hash = HashValue(hash, NodeIdSegment::Property);
-            hash = HashValue(hash, static_cast<std::uint64_t>(rawName.size()));
-            hash = HashBytes(hash, rawName.data(), rawName.size());
-            return HashValue(hash, offset);
-        }
-
         [[nodiscard]] std::string ObjectPath(const SDK::UObject* object) {
             if (!object) return {};
             std::vector<std::string> components;
@@ -226,21 +208,6 @@ namespace SaveEditorModel {
                 result.append(*component);
             }
             return result;
-        }
-
-        [[nodiscard]] std::string FieldTypeName(const SDK::FProperty* property) {
-            return property && property->ClassPrivate ? property->ClassPrivate->Name.GetRawString() : "UnknownProperty";
-        }
-
-        [[nodiscard]] ReadOnlyReason PropertyReadOnlyReason(const SDK::FProperty* property) {
-            if (HasPropertyFlag(property, SDK::EPropertyFlags::Deprecated)) return ReadOnlyReason::Deprecated;
-            if (HasPropertyFlag(property, SDK::EPropertyFlags::Transient) ||
-                HasPropertyFlag(property, SDK::EPropertyFlags::DuplicateTransient) ||
-                HasPropertyFlag(property, SDK::EPropertyFlags::NonPIEDuplicateTransient) ||
-                HasPropertyFlag(property, SDK::EPropertyFlags::SkipSerialization)) {
-                return ReadOnlyReason::NotSaved;
-            }
-            return ReadOnlyReason::None;
         }
 
         [[nodiscard]] bool TryUtf8ToWide(std::string_view value, std::wstring& wide, std::string& error) {
@@ -274,6 +241,13 @@ namespace SaveEditorModel {
             return true;
         }
 
+        [[nodiscard]] bool AsciiIEquals(std::string_view left, std::string_view right) {
+            return left.size() == right.size() &&
+                   std::ranges::equal(left, right, [](unsigned char first, unsigned char second) {
+                       return std::tolower(first) == std::tolower(second);
+                   });
+        }
+
         [[nodiscard]] bool IsValidSlot(std::string_view slot, std::wstring& wide, std::string& error) {
             if (slot.empty() || slot.size() > 220 || slot == "." || slot == "..") {
                 error = "Enter a name between 1 and 220 characters";
@@ -290,27 +264,18 @@ namespace SaveEditorModel {
                     return false;
                 }
             }
-            auto deviceBase = slot.substr(0, slot.find('.'));
-            std::string upperDevice(deviceBase);
-            std::ranges::transform(upperDevice, upperDevice.begin(), [](unsigned char value) {
-                return static_cast<char>(std::toupper(value));
-            });
-            const bool numberedDevice = upperDevice.size() == 4 &&
-                                        (upperDevice.starts_with("COM") || upperDevice.starts_with("LPT")) &&
-                                        upperDevice.back() >= '1' && upperDevice.back() <= '9';
-            if (upperDevice == "CON" || upperDevice == "PRN" || upperDevice == "AUX" || upperDevice == "NUL" ||
+            const auto deviceBase = slot.substr(0, slot.find('.'));
+            const bool numberedDevice = deviceBase.size() == 4 &&
+                                        (AsciiIEquals(deviceBase.substr(0, 3), "COM") ||
+                                         AsciiIEquals(deviceBase.substr(0, 3), "LPT")) &&
+                                        deviceBase.back() >= '1' && deviceBase.back() <= '9';
+            if (AsciiIEquals(deviceBase, "CON") || AsciiIEquals(deviceBase, "PRN") ||
+                AsciiIEquals(deviceBase, "AUX") || AsciiIEquals(deviceBase, "NUL") ||
                 numberedDevice) {
                 error = "Choose a different name; Windows reserves this one";
                 return false;
             }
             return TryUtf8ToWide(slot, wide, error);
-        }
-
-        [[nodiscard]] bool AsciiIEquals(std::string_view left, std::string_view right) {
-            return left.size() == right.size() &&
-                   std::ranges::equal(left, right, [](unsigned char first, unsigned char second) {
-                       return std::tolower(first) == std::tolower(second);
-                   });
         }
 
         [[nodiscard]] std::string_view ObjectBaseName(std::string_view objectPath) {
@@ -330,24 +295,6 @@ namespace SaveEditorModel {
                 return PresetTargetKind::ArmorPassport;
             }
             return PresetTargetKind::None;
-        }
-
-        [[nodiscard]] std::string_view ProtectedSlotClass(std::string_view slot) {
-            struct ProtectedSlot {
-                std::string_view slot;
-                std::string_view className;
-            };
-            constexpr std::array<ProtectedSlot, 5> PROTECTED_SLOTS{{
-                {"GameProgress", "SG_GameProgress_C"},
-                {"PhotosData", "SG_PhotosDataSaveGame_C"},
-                {"Settings", "SG_Settings_C"},
-                {"SG Gauntlet Progress", "SG_PlayerProgression_C"},
-                {"SG Player Equipment", "SG_Equipment_C"},
-            }};
-            const auto match = std::ranges::find_if(PROTECTED_SLOTS, [slot](const ProtectedSlot& candidate) {
-                return AsciiIEquals(slot, candidate.slot);
-            });
-            return match == PROTECTED_SLOTS.end() ? std::string_view{} : match->className;
         }
 
         [[nodiscard]] bool IsReadableRange(const void* address, std::size_t size) {
@@ -387,7 +334,7 @@ namespace SaveEditorModel {
         ) {
             metaClass = nullptr;
             if (!property || !HasCastFlag(property, SDK::EClassCastFlags::SoftClassProperty) ||
-                FieldTypeName(property) != "SoftClassProperty" ||
+                property->ClassPrivate->Name.GetRawString() != "SoftClassProperty" ||
                 !IsReadableRange(property, sizeof(SoftClassPropertyLayout))) {
                 error = "Soft-class property metadata layout cannot be verified";
                 return false;
@@ -457,12 +404,6 @@ namespace SaveEditorModel {
                    size % alignment == 0;
         }
 
-        [[nodiscard]] bool CheckedMultiply(std::size_t left, std::size_t right, std::size_t& result) {
-            if (left != 0 && right > (std::numeric_limits<std::size_t>::max)() / left) return false;
-            result = left * right;
-            return true;
-        }
-
         template <typename ValueType> [[nodiscard]] ValueType ReadUnaligned(const void* address) {
             ValueType value{};
             std::memcpy(&value, address, sizeof(value));
@@ -509,13 +450,6 @@ namespace SaveEditorModel {
             return true;
         }
 
-        [[nodiscard]] std::string EnumFallbackDisplay(std::string_view shortName) {
-            constexpr std::string_view GENERATED_PREFIX = "NewEnumerator";
-            if (shortName.starts_with(GENERATED_PREFIX))
-                return "Option " + std::string(shortName.substr(GENERATED_PREFIX.size()));
-            return DisplayName(shortName);
-        }
-
         [[nodiscard]] std::string UserDefinedEnumDisplay(
             SDK::UUserDefinedEnum* userDefinedEnum, const SDK::FName& valueName, std::string_view fullName,
             std::string_view shortName
@@ -525,8 +459,10 @@ namespace SaveEditorModel {
             for (SDK::int32 index = 0; index < displayMap.NumAllocated(); ++index) {
                 if (!displayMap.IsValidIndex(index)) continue;
                 const auto& pair = displayMap[index];
-                const auto key = pair.Key().GetRawString();
-                if (pair.Key() != valueName && key != fullName && key != shortName) continue;
+                if (pair.Key() != valueName) {
+                    const auto key = pair.Key().GetRawString();
+                    if (key != fullName && key != shortName) continue;
+                }
                 const auto& text = pair.Value();
                 if (!text.TextData) continue;
                 auto display = text.ToString();
@@ -542,13 +478,18 @@ namespace SaveEditorModel {
             if (enumObject->IsA(SDK::UUserDefinedEnum::StaticClass()))
                 userDefinedEnum = static_cast<SDK::UUserDefinedEnum*>(enumObject);
             for (const auto& item : enumObject->Names) {
-                std::string name = item.Key().GetRawString();
-                std::string shortName = name;
-                if (const auto separator = shortName.rfind("::"); separator != std::string::npos)
-                    shortName.erase(0, separator + 2);
+                const std::string name = item.Key().GetRawString();
+                std::string_view shortName = name;
+                if (const auto separator = shortName.rfind("::"); separator != std::string_view::npos)
+                    shortName.remove_prefix(separator + 2);
                 if (shortName == "MAX" || shortName.ends_with("_MAX")) continue;
                 auto displayName = UserDefinedEnumDisplay(userDefinedEnum, item.Key(), name, shortName);
-                if (displayName.empty()) displayName = EnumFallbackDisplay(shortName);
+                if (displayName.empty()) {
+                    constexpr std::string_view GENERATED_PREFIX = "NewEnumerator";
+                    displayName = shortName.starts_with(GENERATED_PREFIX)
+                                      ? "Option " + std::string(shortName.substr(GENERATED_PREFIX.size()))
+                                      : DisplayName(shortName);
+                }
                 node.enumOptions.push_back(
                     EnumOption{
                         .value = item.Value(),
@@ -789,13 +730,7 @@ namespace SaveEditorModel {
             }
             const auto elementCount = static_cast<std::size_t>(header.num);
             const auto elementSize = static_cast<std::size_t>(arrayProperty->InnerProperty->ElementSize);
-            std::size_t totalSize = 0;
-            if (!CheckedMultiply(elementCount, elementSize, totalSize)) {
-                context.error = "An array size overflowed";
-                node.kind = ValueKind::Unsupported;
-                node.readOnlyReason = ReadOnlyReason::Unverified;
-                return node;
-            }
+            const auto totalSize = elementCount * elementSize;
             if (!IsReadableRange(header.data, totalSize)) {
                 context.error = "An array allocation is not readable";
                 node.kind = ValueKind::Unsupported;
@@ -860,11 +795,7 @@ namespace SaveEditorModel {
             const auto sparseStride =
                 AlignUp((std::max)(pairSize + 2 * sizeof(std::int32_t), 2 * sizeof(std::int32_t)), setElementAlignment);
 
-            std::size_t allocationBytes = 0;
-            if (!CheckedMultiply(static_cast<std::size_t>(header.numAllocated), sparseStride, allocationBytes)) {
-                DegradeContainer(node, context, ReadOnlyReason::UnsafeContainer);
-                return node;
-            }
+            const auto allocationBytes = static_cast<std::size_t>(header.numAllocated) * sparseStride;
             if (!IsReadableRange(header.data, allocationBytes)) {
                 DegradeContainer(node, context, ReadOnlyReason::UnsafeContainer);
                 return node;
@@ -952,11 +883,7 @@ namespace SaveEditorModel {
             const auto elementAlignment = (std::max)(propertyAlignment, alignof(std::int32_t));
             const auto sparseStride =
                 AlignUp((std::max)(elementSize + 2 * sizeof(std::int32_t), 2 * sizeof(std::int32_t)), elementAlignment);
-            std::size_t allocationBytes = 0;
-            if (!CheckedMultiply(static_cast<std::size_t>(header.numAllocated), sparseStride, allocationBytes)) {
-                DegradeContainer(node, context, ReadOnlyReason::UnsafeContainer);
-                return node;
-            }
+            const auto allocationBytes = static_cast<std::size_t>(header.numAllocated) * sparseStride;
             if (!IsReadableRange(header.data, allocationBytes)) {
                 DegradeContainer(node, context, ReadOnlyReason::UnsafeContainer);
                 return node;
@@ -1210,23 +1137,32 @@ namespace SaveEditorModel {
                     context.error = "Property '" + rawName + "' has invalid reflection metadata";
                     break;
                 }
-                std::size_t propertyBytes = 0;
-                if (!CheckedMultiply(
-                        static_cast<std::size_t>(property->ElementSize), static_cast<std::size_t>(property->ArrayDim),
-                        propertyBytes
-                    ) ||
-                    static_cast<std::size_t>(property->Offset) >
-                        static_cast<std::size_t>((std::max)(structure->Size, 0)) ||
-                    propertyBytes > static_cast<std::size_t>((std::max)(structure->Size, 0)) -
-                                        static_cast<std::size_t>(property->Offset)) {
+                const auto structureSize = static_cast<std::size_t>((std::max)(structure->Size, 0));
+                const auto propertyBytes =
+                    static_cast<std::size_t>(property->ElementSize) * static_cast<std::size_t>(property->ArrayDim);
+                if (static_cast<std::size_t>(property->Offset) > structureSize ||
+                    propertyBytes > structureSize - static_cast<std::size_t>(property->Offset)) {
                     context.error = "Property '" + rawName + "' lies outside its reflected structure";
                     break;
                 }
 
                 auto displayName = DisplayName(rawName);
-                const auto propertyId = MakePropertyId(parent.id, rawName, property->Offset);
+                auto propertyId = HashValue(K_FNV_OFFSET, parent.id);
+                propertyId = HashValue(propertyId, NodeIdSegment::Property);
+                propertyId = HashValue(propertyId, static_cast<std::uint64_t>(rawName.size()));
+                propertyId = HashBytes(propertyId, rawName.data(), rawName.size());
+                propertyId = HashValue(propertyId, property->Offset);
                 auto* propertyAddress = static_cast<std::byte*>(baseAddress) + property->Offset;
-                const auto ownReason = PropertyReadOnlyReason(property);
+                constexpr auto UNSAVED_FLAGS = static_cast<std::uint64_t>(SDK::EPropertyFlags::Transient) |
+                                               static_cast<std::uint64_t>(SDK::EPropertyFlags::DuplicateTransient) |
+                                               static_cast<std::uint64_t>(SDK::EPropertyFlags::NonPIEDuplicateTransient) |
+                                               static_cast<std::uint64_t>(SDK::EPropertyFlags::SkipSerialization);
+                const auto flags = property->PropertyFlags;
+                auto ownReason = ReadOnlyReason::None;
+                if ((flags & static_cast<std::uint64_t>(SDK::EPropertyFlags::Deprecated)) != 0)
+                    ownReason = ReadOnlyReason::Deprecated;
+                else if ((flags & UNSAVED_FLAGS) != 0)
+                    ownReason = ReadOnlyReason::NotSaved;
                 const auto reason = inheritedReason == ReadOnlyReason::None ? ownReason : inheritedReason;
                 const bool propertyEditable = editableAllowed && reason == ReadOnlyReason::None;
                 const bool propertyPersisted = inheritedPersisted && ownReason == ReadOnlyReason::None;
@@ -1663,7 +1599,6 @@ namespace SaveEditorModel {
 
         [[nodiscard]] bool SameContainerIdentities(const ValueNode& edited, const ValueNode& current) {
             if (edited.children.size() != current.children.size()) return false;
-            if (!IsUnorderedContainerKind(edited.kind)) return true;
             std::unordered_set<NodeId> currentIds;
             currentIds.reserve(current.children.size());
             for (const auto& child : current.children)
@@ -1682,12 +1617,13 @@ namespace SaveEditorModel {
             if (!edited.persisted) return true;
 
             if (IsContainerKind(edited.kind) && edited.children.size() != current.children.size()) return false;
-
-            const auto editedChildCount =
-                std::ranges::count_if(edited.children, [](const ValueNode& child) { return child.persisted; });
-            const auto currentChildCount =
-                std::ranges::count_if(current.children, [](const ValueNode& child) { return child.persisted; });
-            if (editedChildCount != currentChildCount) return false;
+            if (!IsContainerKind(edited.kind)) {
+                const auto editedChildCount =
+                    std::ranges::count_if(edited.children, [](const ValueNode& child) { return child.persisted; });
+                const auto currentChildCount =
+                    std::ranges::count_if(current.children, [](const ValueNode& child) { return child.persisted; });
+                if (editedChildCount != currentChildCount) return false;
+            }
 
             for (const auto& editedChild : edited.children) {
                 if (!editedChild.persisted) continue;
@@ -1701,8 +1637,8 @@ namespace SaveEditorModel {
         }
 
         [[nodiscard]] bool ValidateEditedNode(
-            const ValueNode& edited, const ConstNodeMap& currentNodes, const LocationMap& locations, bool& subtreeDirty,
-            std::string& error
+            const ValueNode& edited, const ConstNodeMap& currentNodes, const LocationMap& locations,
+            std::vector<const ValueNode*>& dirtyLeaves, std::string& error
         ) {
             const bool scalarChanged = !ScalarEqual(edited.value, edited.originalValue);
             if (!edited.children.empty() && scalarChanged) {
@@ -1711,17 +1647,13 @@ namespace SaveEditorModel {
             }
 
             if (!edited.children.empty()) {
-                subtreeDirty = false;
+                const auto dirtyLeafCount = dirtyLeaves.size();
                 for (const auto& child : edited.children) {
-                    bool childDirty = false;
-                    if (!ValidateEditedNode(child, currentNodes, locations, childDirty, error)) return false;
-                    subtreeDirty = subtreeDirty || childDirty;
+                    if (!ValidateEditedNode(child, currentNodes, locations, dirtyLeaves, error)) return false;
                 }
-                if (!subtreeDirty) return true;
-            } else {
-                subtreeDirty = edited.editable && scalarChanged;
-                if (!subtreeDirty) return true;
-            }
+                if (dirtyLeaves.size() == dirtyLeafCount) return true;
+            } else if (!edited.editable || !scalarChanged)
+                return true;
 
             const auto currentIterator = currentNodes.find(edited.id);
             if (currentIterator == currentNodes.end()) {
@@ -1758,28 +1690,7 @@ namespace SaveEditorModel {
                 error = "Value '" + edited.displayName + "' no longer has a writable location";
                 return false;
             }
-            return true;
-        }
-
-        [[nodiscard]] bool ApplyEditedNode(
-            const ValueNode& edited, LocationMap& locations, SDK::UObject* owner, std::string& error
-        ) {
-            if (!edited.children.empty()) {
-                for (const auto& child : edited.children) {
-                    if (!ApplyEditedNode(child, locations, owner, error)) return false;
-                }
-                return true;
-            }
-            if (!edited.editable || ScalarEqual(edited.value, edited.originalValue)) return true;
-            auto location = locations.extract(edited.id);
-            if (location.empty()) {
-                error = "Edited value '" + edited.displayName + "' has no writable location";
-                return false;
-            }
-            if (!ApplyScalar(location.mapped(), edited, owner, error)) {
-                error = "Could not apply '" + edited.displayName + "': " + error;
-                return false;
-            }
+            dirtyLeaves.push_back(&edited);
             return true;
         }
 
@@ -1792,30 +1703,9 @@ namespace SaveEditorModel {
             return (*actualValue == normalizedExpected) || (std::isnan(*actualValue) && std::isnan(normalizedExpected));
         }
 
-        [[nodiscard]] bool ValidatePersistedValues(
-            const ValueNode& edited, const ConstNodeMap& persistedNodes, std::string& error
-        ) {
-            if (!edited.children.empty()) {
-                for (const auto& child : edited.children) {
-                    if (!ValidatePersistedValues(child, persistedNodes, error)) return false;
-                }
-                return true;
-            }
-            if (!edited.editable || ScalarEqual(edited.value, edited.originalValue)) return true;
-            const auto iterator = persistedNodes.find(edited.id);
-            if (iterator == persistedNodes.end() || iterator->second->kind != edited.kind) {
-                error = "Saved value '" + edited.displayName + "' could not be found after reloading";
-                return false;
-            }
-            if (!PersistedScalarEqual(*iterator->second, edited)) {
-                error = "Saved value '" + edited.displayName + "' did not survive reloading";
-                return false;
-            }
-            return true;
-        }
-
         [[nodiscard]] bool ValidatePersistedDocument(
-            const Document& persisted, const Document& edited, std::string& error
+            const Document& persisted, const Document& edited, const std::vector<const ValueNode*>& dirtyLeaves,
+            std::string& error
         ) {
             if (persisted.classPath != edited.classPath) {
                 error = "The reloaded save has a different class";
@@ -1823,11 +1713,18 @@ namespace SaveEditorModel {
             }
             ConstNodeMap persistedNodes;
             if (!BuildNodeMap(persisted.root, persistedNodes, error)) return false;
-            return ValidatePersistedValues(edited.root, persistedNodes, error);
-        }
-
-        [[nodiscard]] bool HasPersistentUnsupported(const ValueNode& node) {
-            return node.hasPersistentUnsupported;
+            for (const auto* editedNode : dirtyLeaves) {
+                const auto iterator = persistedNodes.find(editedNode->id);
+                if (iterator == persistedNodes.end() || iterator->second->kind != editedNode->kind) {
+                    error = "Saved value '" + editedNode->displayName + "' could not be found after reloading";
+                    return false;
+                }
+                if (!PersistedScalarEqual(*iterator->second, *editedNode)) {
+                    error = "Saved value '" + editedNode->displayName + "' did not survive reloading";
+                    return false;
+                }
+            }
+            return true;
         }
 
         [[nodiscard]] bool ValidateEquivalentNode(
@@ -1853,14 +1750,15 @@ namespace SaveEditorModel {
                 error = "Persisted container size changed at '" + expected.displayName + "'";
                 return false;
             }
-
-            const auto expectedChildCount =
-                std::ranges::count_if(expected.children, [](const ValueNode& child) { return child.persisted; });
-            const auto actualChildCount =
-                std::ranges::count_if(actual.children, [](const ValueNode& child) { return child.persisted; });
-            if (actualChildCount != expectedChildCount) {
-                error = "Persisted child structure changed at '" + expected.displayName + "'";
-                return false;
+            if (!IsContainerKind(expected.kind)) {
+                const auto expectedChildCount =
+                    std::ranges::count_if(expected.children, [](const ValueNode& child) { return child.persisted; });
+                const auto actualChildCount =
+                    std::ranges::count_if(actual.children, [](const ValueNode& child) { return child.persisted; });
+                if (actualChildCount != expectedChildCount) {
+                    error = "Persisted child structure changed at '" + expected.displayName + "'";
+                    return false;
+                }
             }
 
             for (const auto& expectedChild : expected.children) {
@@ -1970,7 +1868,21 @@ namespace SaveEditorModel {
     } // namespace
 
     std::string_view ExpectedClassForSlot(std::string_view slot) {
-        return ProtectedSlotClass(slot);
+        struct ProtectedSlot {
+            std::string_view slot;
+            std::string_view className;
+        };
+        constexpr std::array<ProtectedSlot, 5> PROTECTED_SLOTS{{
+            {"GameProgress", "SG_GameProgress_C"},
+            {"PhotosData", "SG_PhotosDataSaveGame_C"},
+            {"Settings", "SG_Settings_C"},
+            {"SG Gauntlet Progress", "SG_PlayerProgression_C"},
+            {"SG Player Equipment", "SG_Equipment_C"},
+        }};
+        const auto match = std::ranges::find_if(PROTECTED_SLOTS, [slot](const ProtectedSlot& candidate) {
+            return AsciiIEquals(slot, candidate.slot);
+        });
+        return match == PROTECTED_SLOTS.end() ? std::string_view{} : match->className;
     }
 
     bool ClassPathMatches(std::string_view classPath, std::string_view expectedClass) {
@@ -2117,20 +2029,16 @@ namespace SaveEditorModel {
             bool active = true;
         };
 
-        [[nodiscard]] bool WideIEquals(std::wstring_view left, std::wstring_view right) {
-            if (left.size() != right.size() ||
-                left.size() > static_cast<std::size_t>((std::numeric_limits<int>::max)()))
-                return false;
-            return CompareStringOrdinal(
-                       left.data(), static_cast<int>(left.size()), right.data(), static_cast<int>(right.size()), TRUE
-                   ) == CSTR_EQUAL;
-        }
-
         [[nodiscard]] std::wstring MakeTempSlot(int userIndex, std::wstring_view targetSlot) {
             static std::uint64_t sequence = 0;
             for (std::uint32_t attempt = 0; attempt < 128; ++attempt) {
                 auto candidate = std::wstring(L"__HSE_SaveEditor_") + std::to_wstring(++sequence);
-                if (WideIEquals(candidate, targetSlot)) continue;
+                if (candidate.size() == targetSlot.size() &&
+                    CompareStringOrdinal(
+                        candidate.data(), static_cast<int>(candidate.size()), targetSlot.data(),
+                        static_cast<int>(targetSlot.size()), TRUE
+                    ) == CSTR_EQUAL)
+                    continue;
                 if (!SDK::UGameplayStatics::DoesSaveGameExist(SDK::FString(candidate.c_str()), userIndex))
                     return candidate;
             }
@@ -2362,33 +2270,40 @@ namespace SaveEditorModel {
         if (mode == CommitMode::CompleteDocument) {
             auto backupOnDisk = SnapshotSave(freshSource, document.sourceSlot, document.userIndex, nullptr, error);
             if (!error.empty()) return SaveFailure("Could not inspect the backup save: " + error);
-            if (HasPersistentUnsupported(backupOnDisk.root))
+            if (backupOnDisk.root.hasPersistentUnsupported)
                 return SaveFailure("The backup contains fields that cannot be restored safely");
             if (!ValidateEquivalentDocument(backupOnDisk, document, error))
                 return SaveFailure("The backup changed before it could be restored: " + error);
         } else {
             LocationMap locations;
+            std::vector<const ValueNode*> dirtyLeaves;
             {
                 auto currentDocument =
                     SnapshotSave(freshSource, document.sourceSlot, document.userIndex, &locations, error);
                 if (!error.empty()) return SaveFailure("Could not inspect the current source save: " + error);
-                if (HasPersistentUnsupported(currentDocument.root))
+                if (currentDocument.root.hasPersistentUnsupported)
                     return SaveFailure("The source save contains persisted fields that cannot be validated safely");
 
                 ConstNodeMap currentNodes;
                 if (!BuildNodeMap(currentDocument.root, currentNodes, error)) return SaveFailure(std::move(error));
-                bool documentDirty = false;
-                if (!ValidateEditedNode(document.root, currentNodes, locations, documentDirty, error))
+                if (!ValidateEditedNode(document.root, currentNodes, locations, dirtyLeaves, error))
                     return SaveFailure(std::move(error));
             }
 
-            if (!ApplyEditedNode(document.root, locations, freshSource, error)) return SaveFailure(std::move(error));
+            for (const auto* editedNode : dirtyLeaves) {
+                auto location = locations.extract(editedNode->id);
+                if (location.empty())
+                    return SaveFailure("Edited value '" + editedNode->displayName + "' has no writable location");
+                if (!ApplyScalar(location.mapped(), *editedNode, freshSource, error)) {
+                    return SaveFailure("Could not apply '" + editedNode->displayName + "': " + error);
+                }
+            }
             LocationMap{}.swap(locations);
             editedDocument = SnapshotSave(freshSource, document.sourceSlot, document.userIndex, nullptr, error);
             if (!error.empty()) return SaveFailure("Could not inspect the edited save in memory: " + error);
-            if (!ValidatePersistedDocument(editedDocument, document, error))
+            if (!ValidatePersistedDocument(editedDocument, document, dirtyLeaves, error))
                 return SaveFailure("Edited save validation failed: " + error);
-            if (HasPersistentUnsupported(editedDocument.root))
+            if (editedDocument.root.hasPersistentUnsupported)
                 return SaveFailure("The edited save contains persisted fields that cannot be validated safely");
             expectedDocument = &editedDocument;
         }
@@ -2408,7 +2323,7 @@ namespace SaveEditorModel {
                 return SaveFailure("The target slot belongs to a different save class");
             targetBackupDocument = SnapshotSave(targetBackup, targetSlot, userIndex, nullptr, error);
             if (!error.empty()) return SaveFailure("Could not inspect the existing target save: " + error);
-            if (HasPersistentUnsupported(targetBackupDocument.root))
+            if (targetBackupDocument.root.hasPersistentUnsupported)
                 return SaveFailure("The existing target contains persisted fields that cannot be restored safely");
         }
 
@@ -2544,7 +2459,7 @@ namespace SaveEditorModel {
         }
         std::string validationError;
         auto backupDocument = SnapshotSave(diskBackup, "GameProgress", document.userIndex, nullptr, validationError);
-        if (!validationError.empty() || HasPersistentUnsupported(backupDocument.root)) {
+        if (!validationError.empty() || backupDocument.root.hasPersistentUnsupported) {
             result.success = false;
             result.error = validationError.empty()
                                ? "The active progression save cannot be rolled back safely"
@@ -2582,7 +2497,7 @@ namespace SaveEditorModel {
 
         // The native flush is now the newest authoritative progression state. Never roll back past it: doing so
         // could discard progress that existed only in GI_Settings before this transaction began.
-        if (HasPersistentUnsupported(flushed.document.root)) {
+        if (flushed.document.root.hasPersistentUnsupported) {
             result.success = false;
             result.error = "The active progression state was saved, but it cannot be validated completely";
             return result;
