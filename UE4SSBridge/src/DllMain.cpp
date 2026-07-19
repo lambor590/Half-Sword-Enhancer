@@ -4,38 +4,26 @@ namespace {
     using HseFn = void (*)();
 
     HMODULE hseModule = nullptr;
-    bool loadedByBridge = false;
 
-    HMODULE LoadHse() noexcept {
-        if (hseModule) return hseModule;
-
-        hseModule = LoadLibraryA("HSEnhancer.dll");
-        loadedByBridge = hseModule != nullptr;
-        return hseModule;
-    }
-
-    void CallHseExport(const char* name) noexcept {
-        if (!hseModule) return;
-
-        auto fn = reinterpret_cast<HseFn>(GetProcAddress(hseModule, name));
+    void CallHseExport(HMODULE module, const char* name) noexcept {
+        auto fn = reinterpret_cast<HseFn>(GetProcAddress(module, name));
         if (fn) fn();
     }
 }
 
 extern "C" __declspec(dllexport) void start_mod() noexcept {
-    if (!LoadHse()) return;
-    CallHseExport("HSE_Initialize");
+    if (!hseModule) hseModule = LoadLibraryA("HSEnhancer.dll");
+    if (hseModule) CallHseExport(hseModule, "HSE_Initialize");
 }
 
 extern "C" __declspec(dllexport) void uninstall_mod() noexcept {
-    if (!hseModule) hseModule = GetModuleHandleA("HSEnhancer.dll");
-    if (!hseModule) return;
+    HMODULE module = hseModule ? hseModule : GetModuleHandleA("HSEnhancer.dll");
+    if (!module) return;
 
-    CallHseExport("HSE_Shutdown");
+    CallHseExport(module, "HSE_Shutdown");
 
-    if (loadedByBridge) FreeLibrary(hseModule);
+    if (hseModule) FreeLibrary(hseModule);
     hseModule = nullptr;
-    loadedByBridge = false;
 }
 
 BOOL APIENTRY DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
