@@ -72,7 +72,6 @@ private:
     enum class RenderBackend : std::uint8_t { Unknown, D3D11, D3D12 };
 
     struct RenderState {
-        void (Renderer::*renderFunc)() noexcept = nullptr;
         bool needsInit = true;
         bool imguiContextReady = false;
         bool imguiRendererReady = false;
@@ -109,12 +108,7 @@ private:
 
     RenderState state;
 
-    struct {
-        HWND handle = nullptr;
-        D3D11_VIEWPORT viewport = {};
-        int width = 0, height = 0;
-        bool viewportDirty = true;
-    } window;
+    HWND windowHandle = nullptr;
 
     Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
@@ -150,16 +144,12 @@ private:
 
     void RenderFrameD3D11() noexcept;
     void RenderFrameD3D12() noexcept;
-    void RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept;
 
     bool InitD3DResources(IDXGISwapChain* sc);
     bool InitD3D11();
     bool InitD3D12();
     bool InitOrReinitImGui() noexcept;
-    bool CreateRenderTargets();
-    bool CreateD3D11RenderTarget() noexcept;
     bool CreateD3D12RenderTargets();
-    bool CreateD3D12RtvHeap() noexcept;
     bool CreateD3D12SrvHeap() noexcept;
     void ReleaseRenderTargets() noexcept;
 
@@ -177,18 +167,10 @@ private:
     static void FreeD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
     );
-    void BeforeResizeBuffers(
-        IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
-    ) noexcept;
-    void AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept;
+    void BeforeResizeBuffers() noexcept;
+    void AfterResizeBuffers(HRESULT result) noexcept;
     bool CaptureCommandQueue(IUnknown* queueCandidate) noexcept;
     bool CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
-    inline void SetViewportIfDirty() noexcept {
-        if (window.viewportDirty) [[unlikely]] {
-            d3d11Context->RSSetViewports(1, &window.viewport);
-            window.viewportDirty = false;
-        }
-    }
 
     friend HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept;
     friend HRESULT __fastcall HookOnResizeBuffers(

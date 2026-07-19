@@ -42,10 +42,6 @@ void Gui::Init(HWND newWindow) noexcept {
     window = newWindow;
 }
 
-bool Gui::IsInitialized() const noexcept {
-    return window != nullptr;
-}
-
 namespace {
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;
@@ -110,11 +106,6 @@ void Gui::ToggleVisibility() noexcept {
 bool Gui::BeginWndProc() noexcept {
     auto callback = wndProcState.load(std::memory_order_acquire);
     for (;;) {
-        if ((callback & WNDPROC_COUNT_MASK) == WNDPROC_COUNT_MASK) {
-            wndProcState.wait(callback, std::memory_order_acquire);
-            callback = wndProcState.load(std::memory_order_acquire);
-            continue;
-        }
         if (wndProcState
                 .compare_exchange_weak(callback, callback + 1, std::memory_order_acq_rel, std::memory_order_acquire)) {
             callback += 1;
@@ -130,8 +121,9 @@ bool Gui::BeginWndProc() noexcept {
 }
 
 void Gui::EndWndProc() noexcept {
-    wndProcState.fetch_sub(1, std::memory_order_acq_rel);
-    wndProcState.notify_all();
+    const auto previous = wndProcState.fetch_sub(1, std::memory_order_acq_rel);
+    if ((previous & WNDPROC_COUNT_MASK) == 1 && WndProcPhaseOf(previous) != WndProcPhase::Running)
+        wndProcState.notify_all();
 }
 
 void Gui::TransitionWndProcPhase(WndProcPhase phase) noexcept {
@@ -158,10 +150,6 @@ void Gui::BeginWndProcInstall() noexcept {
         wndProcState.wait(callback, std::memory_order_acquire);
         callback = wndProcState.load(std::memory_order_acquire);
     }
-}
-
-void Gui::CompleteWndProcInstall() noexcept {
-    TransitionWndProcPhase(WndProcPhase::Running);
 }
 
 void Gui::QuiesceWndProc() noexcept {
@@ -227,7 +215,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (KeybindManager::ProcessRebindEvent(msg, wParam, lParam)) return true;
 
-    if (!isVisible) [[likely]] {
+    if (!isVisible.load(std::memory_order_relaxed)) [[likely]] {
         if (KeybindManager::ProcessKeyEvent(msg, wParam, lParam)) return true;
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
@@ -253,7 +241,6 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void Gui::Setup() {
-    if (setupComplete) return;
     const bool rehydratingRuntime = menuBuilt;
 
     IMGUI_CHECKVERSION();
@@ -297,15 +284,14 @@ void Gui::Setup() {
 
     BeginWndProcInstall();
     const auto wndProc = static_cast<WNDPROC>(WndProc);
-    originalWndProc = std::bit_cast<WNDPROC>(GetWindowLongPtr(window, GWLP_WNDPROC));
-    SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(wndProc));
-    CompleteWndProcInstall();
-    setupComplete = true;
+    originalWndProc =
+        std::bit_cast<WNDPROC>(SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(wndProc)));
+    TransitionWndProcPhase(WndProcPhase::Running);
 }
 
 void Gui::Shutdown() noexcept {
     QuiesceWndProc();
-    if (setupComplete && window && originalWndProc) {
+    if (window && originalWndProc) {
         const auto installedWndProc = std::bit_cast<WNDPROC>(GetWindowLongPtr(window, GWLP_WNDPROC));
         if (installedWndProc == static_cast<WNDPROC>(WndProc)) {
             SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(originalWndProc));
@@ -313,7 +299,6 @@ void Gui::Shutdown() noexcept {
     }
     CompleteWndProcUnhook();
     window = nullptr;
-    setupComplete = false;
 }
 
 bool Gui::NeedsRendering() noexcept {

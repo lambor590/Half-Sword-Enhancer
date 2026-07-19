@@ -7,7 +7,6 @@
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_win32.h"
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern IMGUI_IMPL_API LRESULT
 ImGui_ImplWin32_WndProcHandlerEx(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, ImGuiIO& io);
 
@@ -25,7 +24,6 @@ public:
     }
 
     void Init(HWND newWindow) noexcept;
-    bool IsInitialized() const noexcept;
     void Setup();
     void Shutdown() noexcept;
     void Render();
@@ -62,12 +60,10 @@ private:
     static void EndWndProc() noexcept;
     static void TransitionWndProcPhase(WndProcPhase phase) noexcept;
     static void BeginWndProcInstall() noexcept;
-    static void CompleteWndProcInstall() noexcept;
     static void QuiesceWndProc() noexcept;
     static void CompleteWndProcUnhook() noexcept;
 
     HWND window = nullptr;
-    bool setupComplete = false;
     bool menuBuilt = false;
 
     static WNDPROC originalWndProc;
