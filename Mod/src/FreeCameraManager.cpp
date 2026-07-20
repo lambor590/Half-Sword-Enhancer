@@ -1,6 +1,7 @@
 #include "Utils/FreeCameraManager.h"
 
 #include <algorithm>
+#include <array>
 #include <utility>
 #include <vector>
 
@@ -11,6 +12,7 @@
 #include "SDK/Engine_structs.hpp"
 #include "SDK/UI_DED_classes.hpp"
 #include "SDK/UI_DeathDoor_classes.hpp"
+#include "SDK/UI_GC_MP_Win_Lose_classes.hpp"
 #include "SDK/UI_GiveUp_classes.hpp"
 #include "SDK/UI_HUD_classes.hpp"
 #include "SDK/UI_Lose_classes.hpp"
@@ -20,6 +22,18 @@
 #include "SDK/UMG_parameters.hpp"
 
 namespace {
+    using WidgetClassGetter = SDK::UClass* (*)();
+
+    constexpr std::array<WidgetClassGetter, 7> RESULT_MENU_CLASS_GETTERS = {
+        &SDK::UUI_Lose_C::StaticClass,
+        &SDK::UUI_DeathDoor_C::StaticClass,
+        &SDK::UUI_DED_C::StaticClass,
+        &SDK::UUI_GiveUp_C::StaticClass,
+        &SDK::UUI_GC_MP_Win_Lose_C::StaticClass,
+        &SDK::UUI_WIN_C::StaticClass,
+        &SDK::UUI_WinScreen_C::StaticClass,
+    };
+
     struct SavedWidgetState {
         SDK::UWidget* widget = nullptr;
         SDK::ESlateVisibility visibility = SDK::ESlateVisibility::Visible;
@@ -88,9 +102,11 @@ namespace {
     }
 
     [[nodiscard]] bool IsResultMenu(SDK::UObject* object) {
-        return object->IsA(SDK::UUI_Lose_C::StaticClass()) || object->IsA(SDK::UUI_DeathDoor_C::StaticClass()) ||
-               object->IsA(SDK::UUI_DED_C::StaticClass()) || object->IsA(SDK::UUI_GiveUp_C::StaticClass()) ||
-               object->IsA(SDK::UUI_WIN_C::StaticClass()) || object->IsA(SDK::UUI_WinScreen_C::StaticClass());
+        for (const auto getWidgetClass : RESULT_MENU_CLASS_GETTERS) {
+            auto* widgetClass = getWidgetClass();
+            if (widgetClass && object->IsA(widgetClass)) return true;
+        }
+        return false;
     }
 
     bool FindWidgets(SDK::UObject* worldContext, SDK::UClass* widgetClass, SDK::TArray<SDK::UUserWidget*>& out) {
@@ -113,9 +129,9 @@ namespace {
         return true;
     }
 
-    template <typename Widget> int ApplyScreenOverlayClass(SDK::UObject* worldContext, bool hidden) {
+    int ApplyScreenOverlayClass(SDK::UObject* worldContext, SDK::UClass* widgetClass, bool hidden) {
         SDK::TArray<SDK::UUserWidget*> widgets;
-        if (!FindWidgets(worldContext, Widget::StaticClass(), widgets)) return 0;
+        if (!FindWidgets(worldContext, widgetClass, widgets)) return 0;
         int delta = 0;
         for (int i = 0; i < widgets.Num(); ++i) {
             if (SetScreenOverlayHidden(widgets[i], hidden)) {
@@ -563,12 +579,12 @@ void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapsho
     const bool hidden = ShouldHideScreenOverlays();
     const bool hideResultMenus = hidden && screenOverlays.resultMenus;
     ApplyHudEffectWidgets(runtime.world, hidden && screenOverlays.visualEffects);
-    const int resultMenuDelta = ApplyScreenOverlayClass<SDK::UUI_Lose_C>(runtime.world, hideResultMenus) +
-                                ApplyScreenOverlayClass<SDK::UUI_DeathDoor_C>(runtime.world, hideResultMenus) +
-                                ApplyScreenOverlayClass<SDK::UUI_DED_C>(runtime.world, hideResultMenus) +
-                                ApplyScreenOverlayClass<SDK::UUI_GiveUp_C>(runtime.world, hideResultMenus) +
-                                ApplyScreenOverlayClass<SDK::UUI_WIN_C>(runtime.world, hideResultMenus) +
-                                ApplyScreenOverlayClass<SDK::UUI_WinScreen_C>(runtime.world, hideResultMenus);
+    int resultMenuDelta = 0;
+    for (const auto getWidgetClass : RESULT_MENU_CLASS_GETTERS) {
+        if (auto* widgetClass = getWidgetClass()) {
+            resultMenuDelta += ApplyScreenOverlayClass(runtime.world, widgetClass, hideResultMenus);
+        }
+    }
     hiddenResultMenuCount += resultMenuDelta;
     hiddenResultMenuCount = (std::max)(hiddenResultMenuCount, 0);
     if (hideResultMenus && resultMenuDelta > 0) {
