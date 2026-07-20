@@ -1,11 +1,13 @@
 #pragma once
 
 #include <algorithm>
+#include <atomic>
 #include <cstddef>
 #include <cctype>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <mutex>
 #include <ranges>
 #include <string>
 #include <string_view>
@@ -13,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "Hooks/GameHook.h"
 #include "imgui/imgui.h"
 #include "SDK/Basic.hpp"
 #include "SDK/CoreUObject_classes.hpp"
@@ -50,14 +53,15 @@ namespace PropertyBrowser {
         Unsupported
     };
 
+    struct EnumInfo;
+
     struct PropertyInfo {
         std::string displayName;
         std::string rawName;
         std::string category;
-        const std::vector<std::string>* enumNames = nullptr;
+        EnumInfo* enumInfo = nullptr;
         int32_t offset = 0;
         int32_t elementSize = 0;
-        float enumMaxTextWidthEm = 0.0f;
         PropType type = PropType::Unsupported;
         SDK::UStruct* structType = nullptr;
         std::string typeName;
@@ -78,6 +82,9 @@ namespace PropertyBrowser {
 
     struct EnumInfo {
         std::vector<std::string> names;
+        std::vector<std::string> pendingNames;
+        std::mutex pendingNamesMutex;
+        std::atomic_bool hasPendingNames{false};
         float maxTextWidthEm = 0.0f;
     };
 
@@ -200,6 +207,12 @@ namespace PropertyBrowser {
         return CleanPropertyName(shortName);
     }
 
+    [[nodiscard]] inline bool IsEnumSentinel(std::string_view fullName) {
+        if (const auto separator = fullName.rfind("::"); separator != std::string_view::npos)
+            fullName.remove_prefix(separator + 2);
+        return fullName == "MAX" || fullName.ends_with("_MAX");
+    }
+
     [[nodiscard]] inline std::string FindUserDefinedEnumDisplayName(
         SDK::UUserDefinedEnum* udEnum, const SDK::FName& valueName, const std::string& fullName,
         const std::string& shortName
@@ -316,42 +329,75 @@ namespace PropertyBrowser {
         return PropType::Unsupported;
     }
 
-    [[nodiscard]] inline const EnumInfo& GetEnumInfo(SDK::UEnum* enumPtr) {
+    inline void UpdateEnumTextWidth(EnumInfo& info) {
+        float maxWidth = ImGui::CalcTextSize("Unknown").x;
+        for (const auto& name : info.names)
+            maxWidth = (std::max)(maxWidth, ImGui::CalcTextSize(name.c_str()).x);
+        info.maxTextWidthEm = maxWidth / (std::max)(1.0f, ImGui::GetFontSize());
+    }
+
+    [[nodiscard]] inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr, bool queryNative) {
+        std::vector<std::string> names;
+        if (!enumPtr) return names;
+
+        names.reserve(static_cast<size_t>(enumPtr->Names.Num()));
+        auto* userDefined = enumPtr->IsA(SDK::UUserDefinedEnum::StaticClass())
+                                ? static_cast<SDK::UUserDefinedEnum*>(enumPtr)
+                                : nullptr;
+        for (const auto& enumValue : enumPtr->Names) {
+            const std::string fullName = enumValue.Key().GetRawString();
+            if (IsEnumSentinel(fullName)) continue;
+
+            std::string displayName;
+            const auto numericValue = enumValue.Value();
+            if (queryNative && numericValue >= 0 && numericValue <= 255) {
+                displayName = SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(
+                                  enumPtr, static_cast<SDK::uint8>(numericValue)
+                ).ToString();
+            }
+
+            if (displayName.empty()) {
+                const std::string shortName = ShortEnumValueName(fullName);
+                displayName = FindUserDefinedEnumDisplayName(userDefined, enumValue.Key(), fullName, shortName);
+                if (displayName.empty()) displayName = shortName;
+            }
+            names.push_back(std::move(displayName));
+        }
+        return names;
+    }
+
+    [[nodiscard]] inline std::vector<std::string> ResolveEnumNamesOnGameThread(SDK::UEnum* enumPtr) {
+        return BuildEnumNames(enumPtr, true);
+    }
+
+    inline void ApplyPendingEnumNames(EnumInfo& info) {
+        if (!info.hasPendingNames.load(std::memory_order_acquire)) return;
+        {
+            std::lock_guard lock(info.pendingNamesMutex);
+            info.names = std::move(info.pendingNames);
+            info.hasPendingNames.store(false, std::memory_order_release);
+        }
+        UpdateEnumTextWidth(info);
+    }
+
+    [[nodiscard]] inline EnumInfo& GetEnumInfo(SDK::UEnum* enumPtr) {
         static std::unordered_map<SDK::UEnum*, EnumInfo> cache;
-        static const EnumInfo empty;
+        static EnumInfo empty;
         if (!enumPtr) return empty;
         auto [cacheIt, inserted] = cache.try_emplace(enumPtr);
         if (!inserted) return cacheIt->second;
         auto& info = cacheIt->second;
-        auto& names = info.names;
-        names.reserve(static_cast<size_t>(enumPtr->Names.Num()));
+        info.names = BuildEnumNames(enumPtr, false);
+        UpdateEnumTextWidth(info);
+        (void)GameHook::QueueAction([enumPtr, info = &info](const RuntimeContextSnapshot&) {
+            if (!IsLiveObject(enumPtr)) return;
+            auto names = ResolveEnumNamesOnGameThread(enumPtr);
+            if (names.empty()) return;
 
-        SDK::UUserDefinedEnum* udEnum =
-            enumPtr->IsA(SDK::UUserDefinedEnum::StaticClass()) ? static_cast<SDK::UUserDefinedEnum*>(enumPtr) : nullptr;
-
-        auto& enumNames = enumPtr->Names;
-        for (int32_t i = 0; i < enumNames.Num(); ++i) {
-            auto& valueName = enumNames[i].Key();
-
-            std::string fullName = valueName.ToString();
-            if (fullName.size() >= 4 && fullName.compare(fullName.size() - 4, 4, "_MAX") == 0) continue;
-            std::string shortName = ShortEnumValueName(fullName);
-
-            if (udEnum) {
-                std::string displayName = FindUserDefinedEnumDisplayName(udEnum, valueName, fullName, shortName);
-                if (!displayName.empty()) {
-                    names.push_back(std::move(displayName));
-                    continue;
-                }
-            }
-
-            names.push_back(std::move(shortName));
-        }
-
-        float maxWidth = ImGui::CalcTextSize("Unknown").x;
-        for (const auto& name : names)
-            maxWidth = (std::max)(maxWidth, ImGui::CalcTextSize(name.c_str()).x);
-        info.maxTextWidthEm = maxWidth / (std::max)(1.0f, ImGui::GetFontSize());
+            std::lock_guard lock(info->pendingNamesMutex);
+            info->pendingNames = std::move(names);
+            info->hasPendingNames.store(true, std::memory_order_release);
+        });
         return info;
     }
 
@@ -396,9 +442,8 @@ namespace PropertyBrowser {
                 }
 
                 if (type == PropType::Enum) {
-                    const auto& enumInfo = GetEnumInfo(enumPtr);
-                    info.enumNames = &enumInfo.names;
-                    info.enumMaxTextWidthEm = enumInfo.maxTextWidthEm;
+                    auto& enumInfo = GetEnumInfo(enumPtr);
+                    info.enumInfo = &enumInfo;
                 }
 
                 schema.properties.push_back(std::move(info));
@@ -552,14 +597,15 @@ namespace PropertyBrowser {
                 int intVal =
                     (prop.elementSize <= 1) ? static_cast<int>(*valuePtr) : *reinterpret_cast<int32_t*>(valuePtr);
 
-                if (prop.enumNames && !prop.enumNames->empty()) {
-                    const auto& names = *prop.enumNames;
+                if (prop.enumInfo) ApplyPendingEnumNames(*prop.enumInfo);
+                if (prop.enumInfo && !prop.enumInfo->names.empty()) {
+                    const auto& names = prop.enumInfo->names;
                     const char* preview = (intVal >= 0 && intVal < static_cast<int>(names.size()))
                                               ? names[static_cast<size_t>(intVal)].c_str()
                                               : "Unknown";
                     const float comboWidth =
                         (std::max)(K_ENUM_WIDTH,
-                                   GuiUtils::ComboWidthFromText(prop.enumMaxTextWidthEm * ImGui::GetFontSize()));
+                                   GuiUtils::ComboWidthFromText(prop.enumInfo->maxTextWidthEm * ImGui::GetFontSize()));
                     if (GuiUtils::BeginSizedCombo(prop.displayName.c_str(), preview, comboWidth)) {
                         for (int i = 0; i < static_cast<int>(names.size()); ++i) {
                             if (ImGui::Selectable(names[static_cast<size_t>(i)].c_str(), i == intVal)) {
