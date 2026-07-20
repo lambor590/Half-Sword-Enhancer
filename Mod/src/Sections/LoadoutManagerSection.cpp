@@ -1283,7 +1283,7 @@ LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, SEC
 
 void LoadoutManagerSection::InitKeybinds() {
     keybinds.Add({
-        .name = "Refresh Equipped Armor",
+        .name = "Apply Loadout",
         .tooltip = "Refresh the appearance and fit of your equipped armor",
         .configSection = "ApplyLoadout",
         .keyPtr = &cfg.applyKey,
@@ -1297,7 +1297,7 @@ void LoadoutManagerSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Random Armor Loadout",
+        .name = "Randomize Equipment",
         .tooltip = "Equip a new random armor set",
         .configSection = "RandomizeEquipment",
         .keyPtr = &cfg.randomizeKey,

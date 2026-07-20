@@ -119,7 +119,7 @@ bool WorldActionsSection::CurrentWorldState(const std::atomic_bool& state) const
 
 void WorldActionsSection::InitKeybinds() {
     keybinds.Add({
-        .name = "Slow Motion",
+        .name = "Toggle Slow Motion",
         .configSection = "ToggleSlowMotion",
         .keyPtr = &cfg.sloMoKey,
         .callback =
@@ -142,7 +142,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Custom Gravity",
+        .name = "Toggle Custom Gravity",
         .configSection = "ToggleCustomGravity",
         .keyPtr = &cfg.customGravityKey,
         .callback =
@@ -166,7 +166,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Pause Game",
+        .name = "Toggle Game Paused",
         .tooltip = "Everything in the game stops moving while this is active",
         .configSection = "ToggleGamePaused",
         .keyPtr = &cfg.setGamePausedKey,
@@ -187,7 +187,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Kill NPCs",
+        .name = "Kill All Enemies",
         .tooltip = "Kills NPCs within the selected distance",
         .configSection = "KillAllEnemies",
         .keyPtr = &cfg.killAllEnemiesKey,
@@ -215,7 +215,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Freeze / Resume NPCs",
+        .name = "Toggle Enemy AI",
         .tooltip = "Freezes moving NPCs or lets frozen NPCs move again",
         .configSection = "ToggleEnemyAI",
         .keyPtr = &cfg.toggleEnemyAIKey,
@@ -243,7 +243,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Remove NPCs",
+        .name = "Destroy All Willies",
         .tooltip = "Makes NPCs except the player disappear; Bodies Only leaves living NPCs untouched",
         .configSection = "DestroyAllWillies",
         .keyPtr = &cfg.destroyWilliesKey,
@@ -287,7 +287,7 @@ void WorldActionsSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Remove Dropped Equipment",
+        .name = "Clear Objects",
         .tooltip = "Removes uncarried weapons and armor within the selected distance",
         .configSection = "ClearObjects",
         .keyPtr = &cfg.clearObjectsKey,

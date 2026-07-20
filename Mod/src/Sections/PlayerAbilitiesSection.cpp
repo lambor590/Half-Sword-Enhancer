@@ -44,7 +44,7 @@ namespace {
 
     constexpr std::array BONE_CONTROL_DEFINITIONS{
         BoneControlDefinition{
-            "Bone Durability",
+            "Bone Control",
             "Make your bones harder or easier to break, prevent dislocations, and change your weight",
             "BoneControl",
             &PlayerAbilitiesSection::Config::boneControlKey,
@@ -56,7 +56,7 @@ namespace {
             "Controls how heavy you feel during movement, falls, and impacts",
         },
         BoneControlDefinition{
-            "Enemy Bone Durability",
+            "Enemy Bone Control",
             "Make enemy bones harder or easier to break, prevent dislocations, and change their weight",
             "EnemyBoneControl",
             &PlayerAbilitiesSection::Config::enemyBoneControlKey,
@@ -808,7 +808,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Knockout Immunity",
+        .name = "Infinite Consciousness",
         .tooltip = "Keeps you conscious",
         .configSection = "InfiniteConsciousness",
         .keyPtr = &cfg.infiniteConsciousnessKey,
@@ -824,7 +824,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Enemy Knockout Immunity",
+        .name = "Enemy Infinite Consciousness",
         .tooltip = "Keeps enemies conscious",
         .configSection = "EnemyInfiniteConsciousness",
         .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
@@ -841,7 +841,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Knockout Resistance",
+        .name = "Consciousness Multiplier",
         .tooltip = "Makes you harder to knock out",
         .configSection = "ConsciousnessMultiplier",
         .keyPtr = &cfg.consciousnessMultiplierKey,
@@ -863,7 +863,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Enemy Knockout Resistance",
+        .name = "Enemy Consciousness Multiplier",
         .tooltip = "Makes enemies harder to knock out",
         .configSection = "EnemyConsciousnessMultiplier",
         .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
@@ -903,7 +903,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Movement Speed",
+        .name = "Speed Multiplier",
         .tooltip = "Move faster while walking and running",
         .configSection = "SpeedMultiplier",
         .keyPtr = &cfg.playerSpeedKey,
@@ -932,7 +932,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Strength",
+        .name = "Strength Multiplier",
         .tooltip = "Become stronger, hold objects more firmly, and hit harder",
         .configSection = "StrengthMultiplier",
         .keyPtr = &cfg.playerStrengthKey,
@@ -970,7 +970,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Body Stability",
+        .name = "Custom Body Tonus",
         .tooltip = "Stay upright and resist weakened or limp limbs",
         .configSection = "CustomBodyTonus",
         .keyPtr = &cfg.bodyTonusKey,
@@ -1033,7 +1033,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Ragdoll Enemies",
+        .name = "Enemy Ragdoll",
         .tooltip = "Makes enemies collapse",
         .configSection = "EnemyRagdoll",
         .keyPtr = &cfg.enemyRagdollKey,
@@ -1074,7 +1074,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Unlimited Kicks",
+        .name = "No Kick Cooldown",
         .tooltip = "Kick repeatedly without waiting",
         .configSection = "NoKickCooldown",
         .keyPtr = &cfg.noKickCooldownKey,
@@ -1090,7 +1090,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Kick Power",
+        .name = "Kick Multiplier",
         .tooltip = "Send targets farther with your kicks",
         .configSection = "KickMultiplier",
         .keyPtr = &cfg.kickMultiplierKey,
@@ -1136,7 +1136,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Punch Power",
+        .name = "Knockback Multiplier",
         .tooltip = "Send targets farther with your punches",
         .configSection = "KnockbackMultiplier",
         .keyPtr = &cfg.knockbackMultiplierKey,
@@ -1180,7 +1180,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Full Recovery",
+        .name = "No Pain",
         .tooltip = "Keeps you healthy, conscious, and free of pain",
         .configSection = "NoPain",
         .keyPtr = &cfg.noPainKey,
@@ -1196,7 +1196,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Enemy Full Recovery",
+        .name = "Enemy No Pain",
         .tooltip = "Keeps enemies healthy, conscious, and free of pain",
         .configSection = "EnemyNoPain",
         .keyPtr = &cfg.enemyNoPainKey,
@@ -1213,7 +1213,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Stand Up",
+        .name = "Get Up",
         .tooltip = "Stand up immediately",
         .configSection = "GetUp",
         .keyPtr = &cfg.getUpKey,
@@ -1243,7 +1243,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Bite",
+        .name = "Bite Attack",
         .tooltip = "Bite nearby targets",
         .configSection = "BiteAttack",
         .keyPtr = &cfg.biteAttackKey,
@@ -1256,7 +1256,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Nearest Enemy Bites",
+        .name = "Enemy Bite",
         .tooltip = "Makes the nearest enemy bite",
         .configSection = "EnemyBite",
         .keyPtr = &cfg.enemyBiteKey,
@@ -1284,7 +1284,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Nearby Enemies Bite",
+        .name = "Enemy Bite All",
         .tooltip = "Makes nearby enemies bite",
         .configSection = "EnemyBiteAll",
         .keyPtr = &cfg.enemyBiteAllKey,
@@ -1306,7 +1306,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
     });
 
     keybinds.Add({
-        .name = "Control Nearest NPC",
+        .name = "Possess Nearest Willie",
         .tooltip = "Take control of the nearest NPC; use it again to return",
         .configSection = "PossessNearestWillie",
         .keyPtr = &cfg.possessWillieKey,

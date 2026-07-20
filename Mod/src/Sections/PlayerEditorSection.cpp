@@ -379,7 +379,7 @@ PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, SECTION
 
 void PlayerEditorSection::InitKeybinds() {
     keybinds.Add({
-        .name = "Custom Player Stats",
+        .name = "Enforce Overrides",
         .tooltip = "Use the enabled player values",
         .configSection = "EnforceOverrides",
         .keyPtr = &enforceKey,
