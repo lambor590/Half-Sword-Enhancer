@@ -34,7 +34,6 @@ namespace {
     constexpr GuiUtils::WidthSpec BACKUP_COUNT_WIDTH{72.0f, 96.0f, 120.0f};
     constexpr float SAVE_SEARCH_WIDTH = 320.0f;
     constexpr char BACKUP_CONFIG_SECTION[] = "SaveEditor";
-    constexpr std::string_view BACKUP_ROOT_NAME = "HSE Save Backups";
     constexpr char SAVE_EDITOR_PANEL[] = "##SaveEditorPanel";
     constexpr float SAVE_EDITOR_PANEL_VIEWPORT_MARGIN = 32.0f;
     constexpr ImGuiWindowFlags PANEL_FLAGS = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar |
@@ -164,11 +163,8 @@ namespace {
                PresetUtils::PathComponentEquals(resolvedCandidate.filename(), candidate.filename());
     }
 
-    bool IsBackupRootPath(
-        const std::filesystem::path& saveDirectory, const std::filesystem::path& backupRoot
-    ) {
-        return !saveDirectory.empty() && !backupRoot.empty() &&
-               IsDirectChildPath(saveDirectory.parent_path(), backupRoot);
+    bool IsBackupRootPath(const std::filesystem::path& backupRoot) {
+        return IsDirectChildPath(ConfigManager::GetAppDataPath(), backupRoot);
     }
 
     bool IsBackupTimestamp(std::wstring_view stem) {
@@ -364,8 +360,7 @@ const std::filesystem::path& SaveEditorSection::SaveGameDirectory() {
 }
 
 const std::filesystem::path& SaveEditorSection::BackupRootDirectory() {
-    static const std::filesystem::path DIRECTORY =
-        SaveGameDirectory().empty() ? std::filesystem::path{} : SaveGameDirectory().parent_path() / BACKUP_ROOT_NAME;
+    static const std::filesystem::path DIRECTORY = ConfigManager::GetAppDataPath() / "save_backups";
     return DIRECTORY;
 }
 
@@ -881,7 +876,7 @@ bool SaveEditorSection::CreateBackup(std::string_view slotName, std::string& err
     }
 
     const auto& backupRoot = BackupRootDirectory();
-    if (!IsBackupRootPath(directory, backupRoot)) {
+    if (!IsBackupRootPath(backupRoot)) {
         error = "HSE could not access the backup folder, so no changes were made.";
         return false;
     }
@@ -891,7 +886,7 @@ bool SaveEditorSection::CreateBackup(std::string_view slotName, std::string& err
         return false;
     }
     std::filesystem::create_directories(backupDirectory, fileError);
-    if (fileError || !IsBackupRootPath(directory, backupRoot) || !IsDirectChildPath(backupRoot, backupDirectory)) {
+    if (fileError || !IsBackupRootPath(backupRoot) || !IsDirectChildPath(backupRoot, backupDirectory)) {
         error = "Could not create the backup folder, so no changes were made.";
         return false;
     }
@@ -941,7 +936,7 @@ bool SaveEditorSection::ListBackups(std::string_view slotName, std::vector<Backu
     error.clear();
     if (!SaveEditorModel::ValidateSlotName(slotName, error)) return false;
     const auto& backupRoot = BackupRootDirectory();
-    if (!IsBackupRootPath(SaveGameDirectory(), backupRoot)) {
+    if (!IsBackupRootPath(backupRoot)) {
         error = "The backup folder could not be opened.";
         return false;
     }
@@ -998,7 +993,7 @@ bool SaveEditorSection::DeleteBackups(
     error.clear();
     if (!SaveEditorModel::ValidateSlotName(slotName, error)) return false;
     const auto& backupRoot = BackupRootDirectory();
-    if (!IsBackupRootPath(SaveGameDirectory(), backupRoot)) {
+    if (!IsBackupRootPath(backupRoot)) {
         error = "A backup was outside the expected folder and was not deleted.";
         return false;
     }
@@ -1051,7 +1046,7 @@ SaveEditorModel::LoadResult SaveEditorSection::LoadBackupDocument(
     const auto& backupRoot = BackupRootDirectory();
     const auto backupDirectory = BackupDirectoryFor(backupRoot, targetSlot);
     std::error_code fileError;
-    if (!IsBackupRootPath(saveDirectory, backupRoot) || !IsDirectChildPath(backupRoot, backupDirectory) ||
+    if (!IsBackupRootPath(backupRoot) || !IsDirectChildPath(backupRoot, backupDirectory) ||
         !IsDirectBackupFile(backupDirectory, backupPath) ||
         !std::filesystem::is_regular_file(backupPath, fileError) || fileError) {
         result.error = "The selected backup is no longer available.";
@@ -1543,7 +1538,7 @@ void SaveEditorSection::RenderBackupPanel() {
     (void)GuiUtils::SameLineIfFitsButton("Open folder");
     if (GuiUtils::Button("Open folder")) {
         const auto& backupRoot = BackupRootDirectory();
-        if (!IsBackupRootPath(SaveGameDirectory(), backupRoot) || !PresetUtils::OpenInExplorer(backupRoot))
+        if (!IsBackupRootPath(backupRoot) || !PresetUtils::OpenInExplorer(backupRoot))
             backupCatalogError = "Windows could not open the backup folder. Try again.";
     }
     ImGui::Spacing();
