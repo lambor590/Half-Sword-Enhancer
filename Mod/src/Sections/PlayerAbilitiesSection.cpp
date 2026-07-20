@@ -1181,7 +1181,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
 
     keybinds.Add({
         .name = "Full Recovery",
-        .tooltip = "Keeps you healthy, conscious, and free of pain and broken bones",
+        .tooltip = "Keeps you healthy, conscious, and free of pain",
         .configSection = "NoPain",
         .keyPtr = &cfg.noPainKey,
         .callback =
@@ -1197,7 +1197,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
 
     keybinds.Add({
         .name = "Enemy Full Recovery",
-        .tooltip = "Keeps enemies healthy, conscious, and free of pain and broken bones",
+        .tooltip = "Keeps enemies healthy, conscious, and free of pain",
         .configSection = "EnemyNoPain",
         .keyPtr = &cfg.enemyNoPainKey,
         .callback =
