@@ -233,6 +233,7 @@ namespace ActorUtils {
         willie->Ball_Pain = GameConstants::DEFAULT_PAIN;
         willie->Liver_Pain = GameConstants::DEFAULT_PAIN;
         willie->Last_Pain = GameConstants::DEFAULT_PAIN;
+        willie->Bleeding = GameConstants::DEFAULT_PAIN;
 
         willie->Voice_Pain = false;
 
