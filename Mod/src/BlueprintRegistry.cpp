@@ -294,20 +294,6 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
 
     std::string cleaned{assetName};
     if (cleaned.ends_with("_C")) cleaned.resize(cleaned.size() - 2);
-    if (cleaned.size() > 9 && cleaned[cleaned.size() - 9] == '_' &&
-        std::ranges::all_of(cleaned.end() - 8, cleaned.end(), [](unsigned char value) {
-            return std::isxdigit(value) != 0;
-        })) {
-        cleaned.resize(cleaned.size() - 9);
-    }
-    const auto numericSuffix = cleaned.find_last_of('_');
-    if (numericSuffix != std::string::npos && cleaned.size() - numericSuffix > 3 &&
-        std::ranges::all_of(
-            cleaned.begin() + static_cast<std::ptrdiff_t>(numericSuffix + 1), cleaned.end(),
-            [](unsigned char value) { return std::isdigit(value) != 0; }
-        )) {
-        cleaned.resize(numericSuffix);
-    }
     assetName = cleaned;
 
     static constexpr std::string_view PREFIXES[] =
