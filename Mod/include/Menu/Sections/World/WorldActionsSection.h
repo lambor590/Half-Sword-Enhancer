@@ -38,6 +38,7 @@ private:
     std::atomic_bool slowMotionActive = false;
     std::atomic_bool customGravityActive = false;
     std::atomic_bool paused = false;
+    std::atomic_bool enemyAIStopped = false;
     KeybindList keybinds;
 
     void InitKeybinds();

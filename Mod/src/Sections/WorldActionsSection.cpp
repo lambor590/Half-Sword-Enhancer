@@ -109,6 +109,7 @@ void WorldActionsSection::SyncStateWorld(SDK::UWorld* world) noexcept {
     slowMotionActive.store(false, std::memory_order_release);
     customGravityActive.store(false, std::memory_order_release);
     paused.store(false, std::memory_order_release);
+    enemyAIStopped.store(false, std::memory_order_release);
     stateWorld.store(world, std::memory_order_release);
 }
 
@@ -220,24 +221,27 @@ void WorldActionsSection::InitKeybinds() {
         .configSection = "ToggleEnemyAI",
         .keyPtr = &cfg.toggleEnemyAIKey,
         .callback =
-            [this](bool, const RuntimeContextSnapshot& runtime) {
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
                 auto* world = runtime.world;
                 auto* player = runtime.player;
                 if (!player || !world) return;
-                bool newTickEnabled = false;
-                bool computed = false;
+                SyncStateWorld(world);
                 ActorUtils::ForEachWillieInRadius(
-                    world, player, cfg.toggleEnemyAIRadius, [&](SDK::AWillie_BP_C* willie) {
+                    world, player, cfg.toggleEnemyAIRadius, [active](SDK::AWillie_BP_C* willie) {
                         if (auto* ctrl = static_cast<SDK::AAIController*>(willie->Controller)) {
-                            if (!computed) {
-                                newTickEnabled = !ctrl->IsActorTickEnabled();
-                                computed = true;
-                            }
-                            ctrl->SetActorTickEnabled(newTickEnabled);
+                            ctrl->SetActorTickEnabled(!active);
                         }
                     }
                 );
+                enemyAIStopped.store(active, std::memory_order_release);
             },
+        .kind = KeybindKind::State,
+        .stateGetter = [this]() { return CurrentWorldState(enemyAIStopped); },
+        .available = [this]() {
+            const auto runtime = RenderSnapshot();
+            return runtime.world && runtime.player;
+        },
+        .applyOnToggle = true,
         .params = {KeybindParam("radius", "Distance", &cfg.toggleEnemyAIRadius, 50.0f, 5000.0f)},
         .group = "NPCs",
     });
