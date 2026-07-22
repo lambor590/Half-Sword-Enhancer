@@ -12,7 +12,12 @@ PROXY MACRO funcName, waitName, notReadyResult
         cmp DWORD PTR [proxyState], 1
         jne waitName
         mov rax, QWORD PTR [originalFuncs + curIndex * 8]
+        test rax, rax
+        jz unavailable
         jmp rax
+    unavailable:
+        mov eax, notReadyResult
+        ret
     funcName ENDP
 
     waitName PROC FRAME

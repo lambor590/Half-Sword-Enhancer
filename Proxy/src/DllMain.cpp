@@ -31,12 +31,12 @@ namespace {
         return LoadLibraryW(path);
     }
 
-    [[nodiscard]] bool ResolveOriginalFunctions(HMODULE originalDll) noexcept {
+    void CacheOriginalFunctions(HMODULE originalDll) noexcept {
+        // Wine omits some legacy Windows exports. Their trampolines return a
+        // function-appropriate failure value instead of blocking mod startup.
         for (std::size_t index = 0; index < winmm_exports::kCount; ++index) {
             originalFuncs[index] = GetProcAddress(originalDll, winmm_exports::kNames[index]);
-            if (!originalFuncs[index]) return false;
         }
-        return true;
     }
 
     void PublishProxyState(LONG state) noexcept {
@@ -91,8 +91,7 @@ namespace {
 
     DWORD WINAPI BootstrapMod(LPVOID context) {
         const HMODULE originalDll = LoadOriginalDll();
-        if (!originalDll || !ResolveOriginalFunctions(originalDll)) {
-            if (originalDll) FreeLibrary(originalDll);
+        if (!originalDll) {
             PublishProxyState(PROXY_FAILED);
             MessageBoxA(
                 nullptr, "Could not load the original System32 'winmm.dll'.", "Half Sword Enhancer",
@@ -100,6 +99,7 @@ namespace {
             );
             return 0;
         }
+        CacheOriginalFunctions(originalDll);
         PublishProxyState(PROXY_READY);
 
         LoadModDll(static_cast<HMODULE>(context));
