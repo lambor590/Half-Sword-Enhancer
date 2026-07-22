@@ -13,7 +13,6 @@ extern "C" volatile LONG proxyState = 0;
 
 namespace {
     constexpr DWORD PROXY_READY_WAIT_MS = 250;
-    constexpr LONG PROXY_FAILED = -1;
     constexpr LONG PROXY_READY = 1;
     constexpr std::size_t MAX_PATH_CHARACTERS = 32'768;
     constexpr std::wstring_view MOD_FILENAME = L"HSEnhancer.dll";
@@ -91,15 +90,10 @@ namespace {
 
     DWORD WINAPI BootstrapMod(LPVOID context) {
         const HMODULE originalDll = LoadOriginalDll();
-        if (!originalDll) {
-            PublishProxyState(PROXY_FAILED);
-            MessageBoxA(
-                nullptr, "Could not load the original System32 'winmm.dll'.", "Half Sword Enhancer",
-                MB_OK | MB_ICONERROR
-            );
-            return 0;
-        }
-        CacheOriginalFunctions(originalDll);
+        // Some Wine prefixes cannot load their built-in winmm while the native
+        // override selects this proxy. Missing functions fail through the safe
+        // trampolines, so they do not need to block HSE startup.
+        if (originalDll) CacheOriginalFunctions(originalDll);
         PublishProxyState(PROXY_READY);
 
         LoadModDll(static_cast<HMODULE>(context));
@@ -110,7 +104,7 @@ namespace {
 extern "C" FARPROC WaitForOriginalFunction(std::size_t index) noexcept {
     LONG state = InterlockedCompareExchange(&proxyState, 0, 0);
     if (state == PROXY_READY) return originalFuncs[index];
-    if (state == PROXY_FAILED || !proxyReadyEvent) return nullptr;
+    if (!proxyReadyEvent) return nullptr;
 
     (void)WaitForSingleObject(proxyReadyEvent, PROXY_READY_WAIT_MS);
     state = InterlockedCompareExchange(&proxyState, 0, 0);
