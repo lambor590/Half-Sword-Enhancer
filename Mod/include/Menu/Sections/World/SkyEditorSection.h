@@ -1,7 +1,6 @@
 #pragma once
 
 #include <atomic>
-#include <vector>
 
 #include "Menu/Section.h"
 #include "SDK/Engine_classes.hpp"
@@ -22,7 +21,6 @@ private:
     SDK::UExponentialHeightFogComponent* fogComp = nullptr;
     SDK::UVolumetricCloudComponent* cloudComp = nullptr;
     SDK::UWorld* cachedWorld = nullptr;
-    std::vector<SDK::UDirectionalLightComponent*> sunTargets;
 
     bool searchPending = false;
     std::atomic<bool> componentsReady{false};

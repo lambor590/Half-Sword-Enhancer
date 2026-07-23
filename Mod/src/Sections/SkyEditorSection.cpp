@@ -6,7 +6,6 @@
 #include "SDK/Ultra_Dynamic_Sky_classes.hpp"
 
 #include <string>
-#include <utility>
 
 namespace {
     struct SkyTimePreset {
@@ -234,7 +233,6 @@ void SkyEditorSection::ResetState() {
     fogComp = nullptr;
     cloudComp = nullptr;
     cachedWorld = nullptr;
-    sunTargets.clear();
     searchPending = false;
     componentsReady.store(false, std::memory_order_release);
     sunOverrideActive = false;
@@ -327,8 +325,6 @@ void SkyEditorSection::FindComponents() {
     const bool queued = GameHook::QueueAction([this, world](const RuntimeContextSnapshot&) {
         if (world != cachedWorld) return;
 
-        sunTargets.clear();
-
         SDK::TArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
 
@@ -337,10 +333,7 @@ void SkyEditorSection::FindComponents() {
 
             if (!sunComp && actor->IsA(SDK::AUltra_Dynamic_Sky_C::StaticClass())) {
                 auto* component = static_cast<SDK::AUltra_Dynamic_Sky_C*>(actor)->Sun_LightComponent;
-                if (IsLiveObject(component)) {
-                    sunTargets.push_back(component);
-                    sunComp = component;
-                }
+                if (IsLiveObject(component)) sunComp = component;
             }
             if (auto* component = static_cast<SDK::USkyAtmosphereComponent*>(
                     FirstComponentOfClass(actor, SDK::USkyAtmosphereComponent::StaticClass())
@@ -379,7 +372,7 @@ void SkyEditorSection::QueueApplySunState() {
     if (sunOverrideQueued.exchange(true, std::memory_order_acq_rel)) return;
 
     auto* queued = &sunOverrideQueued;
-    auto targets = sunTargets;
+    auto* targetComp = sunComp;
     float p = sunPitch, y = sunYaw, intensity = sunIntensity, temperature = sunTemperature;
     bool useTemperature = sunUseTemperature;
     SDK::FLinearColor color{sunColor[0], sunColor[1], sunColor[2], 1.f};
@@ -387,37 +380,34 @@ void SkyEditorSection::QueueApplySunState() {
     float bt = sunBloomThreshold, sha = sunShadowAmount;
     float vs = sunVolumetricScatter, ii = sunIndirectIntensity;
 
-    GameHook::QueueAction([targets = std::move(targets), p, y, intensity, color, temperature, useTemperature, sa, soft,
+    GameHook::QueueAction([targetComp, p, y, intensity, color, temperature, useTemperature, sa, soft,
                            bs, bt, sha, vs, ii, queued](const RuntimeContextSnapshot&) {
-        for (auto* targetComp : targets) {
-            if (!IsLiveObject(targetComp)) continue;
-
-            auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
-            lightBase->bAffectsWorld = true;
-            lightBase->SetAffectGlobalIllumination(true);
-            lightBase->SetAffectReflection(true);
-            lightBase->SetCastShadows(true);
-            static_cast<SDK::USceneComponent*>(targetComp)
-                ->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
-
-            auto* light = static_cast<SDK::ULightComponent*>(targetComp);
-            light->SetIntensity(intensity);
-            light->SetLightColor(color, true);
-            auto* targetActor = ComponentOwner(targetComp);
-            if (IsLiveActor(targetActor) && targetActor->IsA(SDK::ALight::StaticClass())) {
-                static_cast<SDK::ALight*>(targetActor)->SetLightColor(color);
-            }
-            light->SetUseTemperature(useTemperature);
-            if (useTemperature) light->SetTemperature(temperature);
-
-            targetComp->SetLightSourceAngle(sa);
-            targetComp->SetLightSourceSoftAngle(soft);
-            targetComp->SetShadowAmount(sha);
-            light->SetBloomScale(bs);
-            light->SetBloomThreshold(bt);
-            light->SetVolumetricScatteringIntensity(vs);
-            light->SetIndirectLightingIntensity(ii);
+        if (!IsLiveObject(targetComp)) {
+            queued->store(false, std::memory_order_release);
+            return;
         }
+
+        auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
+        lightBase->bAffectsWorld = true;
+        lightBase->SetAffectGlobalIllumination(true);
+        lightBase->SetAffectReflection(true);
+        lightBase->SetCastShadows(true);
+        static_cast<SDK::USceneComponent*>(targetComp)
+            ->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
+
+        auto* light = static_cast<SDK::ULightComponent*>(targetComp);
+        light->SetIntensity(intensity);
+        light->SetLightColor(color, true);
+        light->SetUseTemperature(useTemperature);
+        if (useTemperature) light->SetTemperature(temperature);
+
+        targetComp->SetLightSourceAngle(sa);
+        targetComp->SetLightSourceSoftAngle(soft);
+        targetComp->SetShadowAmount(sha);
+        light->SetBloomScale(bs);
+        light->SetBloomThreshold(bt);
+        light->SetVolumetricScatteringIntensity(vs);
+        light->SetIndirectLightingIntensity(ii);
         queued->store(false, std::memory_order_release);
     });
 }
