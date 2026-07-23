@@ -3,6 +3,7 @@
 #include "Utils/GuiUtils.h"
 #include "SDK/Enum_DayTime_structs.hpp"
 #include "SDK/GI_Settings_classes.hpp"
+#include "SDK/Ultra_Dynamic_Sky_classes.hpp"
 
 #include <string>
 #include <utility>
@@ -244,7 +245,7 @@ void SkyEditorSection::ReadInitialValues() {
     if (sunComp) {
         auto* base = static_cast<SDK::ULightComponentBase*>(sunComp);
         auto* lightComp = static_cast<SDK::ULightComponent*>(sunComp);
-        auto rot = static_cast<SDK::USceneComponent*>(sunComp)->RelativeRotation;
+        auto rot = static_cast<SDK::USceneComponent*>(sunComp)->K2_GetComponentRotation();
         sunPitch = static_cast<float>(rot.Pitch);
         sunYaw = static_cast<float>(rot.Yaw);
         sunIntensity = base->Intensity;
@@ -334,11 +335,12 @@ void SkyEditorSection::FindComponents() {
         for (auto* actor : actors) {
             if (!IsLiveActor(actor)) continue;
 
-            if (auto* component = static_cast<SDK::UDirectionalLightComponent*>(
-                    FirstComponentOfClass(actor, SDK::UDirectionalLightComponent::StaticClass())
-                )) {
-                sunTargets.push_back(component);
-                if (ShouldUseComponent(sunComp, actor, component)) sunComp = component;
+            if (!sunComp && actor->IsA(SDK::AUltra_Dynamic_Sky_C::StaticClass())) {
+                auto* component = static_cast<SDK::AUltra_Dynamic_Sky_C*>(actor)->Sun_LightComponent;
+                if (IsLiveObject(component)) {
+                    sunTargets.push_back(component);
+                    sunComp = component;
+                }
             }
             if (auto* component = static_cast<SDK::USkyAtmosphereComponent*>(
                     FirstComponentOfClass(actor, SDK::USkyAtmosphereComponent::StaticClass())
@@ -362,6 +364,7 @@ void SkyEditorSection::FindComponents() {
             }
         }
 
+        ReadInitialValues();
         componentsReady.store(true, std::memory_order_release);
     });
     if (!queued) searchPending = false;
@@ -613,7 +616,6 @@ bool SkyEditorSection::UpdateComponentScan() {
     if (world != cachedWorld) FindComponents();
 
     if (componentsReady.exchange(false, std::memory_order_acquire)) {
-        ReadInitialValues();
         searchPending = false;
     }
 
