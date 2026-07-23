@@ -236,7 +236,7 @@ namespace SpawnWorkflow {
             };
 
             bool postSpawnCalled = false;
-            auto postCallback = [world, overrides = request.overrides, hasOverrides, loadout = request.loadout,
+            auto postCallback = [world, overrides = request.overrides, loadout = request.loadout,
                                  spawnScale = transform.Scale3D, completion = request.onComplete,
                                  &postSpawnCalled](SDK::AActor* actor) mutable {
                 postSpawnCalled = true;
@@ -247,13 +247,8 @@ namespace SpawnWorkflow {
                 }
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
 
-                if (hasOverrides) {
-                    NPCSpawnHelpers::ApplyPassportOverrides(npc->Character_Passport, overrides);
-                    NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
-                    NPCSpawnHelpers::ApplyHairColor(npc, overrides);
-                }
-                npc->SetActorScale3D(spawnScale);
-                auto finalizeSpawn = [npc, overrides, hasOverrides, spawnScale, hasLoadout = loadout.has_value(),
+                NPCSpawnHelpers::ApplySpawnOverrides(npc, overrides, spawnScale);
+                auto finalizeSpawn = [npc, overrides, spawnScale, hasLoadout = loadout.has_value(),
                                       completion](bool success) {
                     if (!success || !IsUsableActor(npc)) {
                         if (IsUsableActor(npc)) npc->K2_DestroyActor();
@@ -266,12 +261,7 @@ namespace SpawnWorkflow {
                         );
                         return;
                     }
-                    if (hasOverrides) {
-                        NPCSpawnHelpers::ApplyPassportOverrides(npc->Character_Passport, overrides);
-                        NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
-                        NPCSpawnHelpers::ApplyHairColor(npc, overrides);
-                    }
-                    npc->SetActorScale3D(spawnScale);
+                    NPCSpawnHelpers::ApplySpawnOverrides(npc, overrides, spawnScale);
                     CompleteSpawn(completion, {.success = true, .actor = npc});
                 };
 
@@ -291,8 +281,13 @@ namespace SpawnWorkflow {
                 }
             };
 
+            auto spawnTransform = transform;
+            if (request.overrides.heightRate.enabled)
+                spawnTransform.Scale3D *=
+                    PresetApplication::PlayerScaleFromHeight(request.overrides.heightRate.value);
+
             auto* actor = Spawner::SpawnActor(
-                world, request.classPath, transform, preCallback, snapToGround, Spawner::DEFAULT_SPAWN_TIER,
+                world, request.classPath, spawnTransform, preCallback, snapToGround, Spawner::DEFAULT_SPAWN_TIER,
                 postCallback
             );
             if (!postSpawnCalled) {
