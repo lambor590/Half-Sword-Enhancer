@@ -898,7 +898,7 @@ namespace GuiUtils {
             } else {
                 std::error_code targetFilesystemError;
                 const bool existsNow =
-                    overwriting || std::filesystem::is_regular_file(targetPath, targetFilesystemError);
+                    overwriting || std::filesystem::exists(targetPath, targetFilesystemError);
                 if (targetFilesystemError) {
                     state.status.SetError("Couldn't check that preset name");
                 } else if (existsNow) {
