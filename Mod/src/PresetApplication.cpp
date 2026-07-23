@@ -1,13 +1,17 @@
 #include "Utils/PresetApplication.h"
 
 #include <array>
+#include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <memory>
 #include <string>
 #include <string_view>
-#include <utility>
+#include <unordered_map>
 
+#include "Hooks/GameHook.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -100,6 +104,88 @@ namespace PresetApplication {
             auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()
                                                                         : SDK::UStaticMesh::StaticClass();
             return loaded->IsA(expectedClass) ? loaded : nullptr;
+        }
+
+        constexpr double BodyScaleFromHeight(double heightRate) noexcept {
+            return 0.9375 + heightRate * 0.0625;
+        }
+
+        bool ScaleMatches(const SDK::USceneComponent* component, double expected) {
+            if (!component) return false;
+            const auto scale = component->K2_GetComponentScale();
+            return std::fabs(scale.X - expected) <= 0.0001 &&
+                   std::fabs(scale.Y - expected) <= 0.0001 &&
+                   std::fabs(scale.Z - expected) <= 0.0001;
+        }
+
+        struct LiveHeightApplication {
+            SDK::AWillie_BP_C* player = nullptr;
+            double heightRate = 1.0;
+            SDK::FVector finalActorScale = {1.0, 1.0, 1.0};
+            std::optional<PlayerEditorOverrides> finalOverrides;
+            std::chrono::steady_clock::time_point deadline;
+        };
+
+        auto& ActiveLiveHeightApplications() {
+            static std::unordered_map<SDK::AWillie_BP_C*, std::shared_ptr<LiveHeightApplication>> applications;
+            return applications;
+        }
+
+        void QueueLiveHeightNormalization(const std::shared_ptr<LiveHeightApplication>& application) {
+            const bool queued = GameHook::QueueAction([application](const RuntimeContextSnapshot&) {
+                auto& applications = ActiveLiveHeightApplications();
+                const auto current = applications.find(application->player);
+                if (current == applications.end() || current->second != application) return;
+                if (!SDK::UKismetSystemLibrary::IsValid(application->player) ||
+                    application->player->IsActorBeingDestroyed()) {
+                    applications.erase(current);
+                    return;
+                }
+
+                if (!ScaleMatches(application->player->Mesh, BodyScaleFromHeight(application->heightRate)) &&
+                    std::chrono::steady_clock::now() < application->deadline) {
+                    QueueLiveHeightNormalization(application);
+                    return;
+                }
+
+                if (application->finalOverrides)
+                    (void)ApplyPlayerOverrides(application->player, *application->finalOverrides);
+                else
+                    (void)ApplyPlayerHeight(application->player, application->heightRate);
+                application->player->SetActorScale3D(application->finalActorScale);
+                applications.erase(current);
+            });
+            if (!queued) ActiveLiveHeightApplications().erase(application->player);
+        }
+
+        bool ApplyLiveBody(
+            SDK::AWillie_BP_C* player, double heightRate, const SDK::FVector& finalActorScale,
+            std::optional<PlayerEditorOverrides> finalOverrides = std::nullopt, bool forceSetup = false
+        ) {
+            if (!player) return false;
+
+            const double bodyScale = BodyScaleFromHeight(heightRate);
+            const bool requiresSetup =
+                forceSetup || player->Height_Rate != heightRate ||
+                player->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B != heightRate ||
+                !ScaleMatches(player->Mesh, bodyScale);
+            const bool applied = finalOverrides ? ApplyPlayerOverrides(player, *finalOverrides)
+                                                : ApplyPlayerHeight(player, heightRate);
+            if (!applied) return false;
+
+            player->SetActorScale3D(finalActorScale);
+            if (requiresSetup) {
+                auto application = std::make_shared<LiveHeightApplication>();
+                application->player = player;
+                application->heightRate = heightRate;
+                application->finalActorScale = finalActorScale;
+                application->finalOverrides = finalOverrides;
+                application->deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+                ActiveLiveHeightApplications()[player] = application;
+                player->Setup_Character_Event();
+                QueueLiveHeightNormalization(application);
+            }
+            return true;
         }
     }
 
@@ -233,17 +319,62 @@ namespace PresetApplication {
         return true;
     }
 
+    float PlayerScaleFromHeight(double heightRate) noexcept {
+        return static_cast<float>(0.875 + heightRate * 0.125);
+    }
+
+    bool ApplyPlayerHeight(SDK::AWillie_BP_C* player, double heightRate) {
+        if (!player) return false;
+
+        player->Height_Rate = heightRate;
+        player->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = heightRate;
+        const double actorScale = PlayerScaleFromHeight(heightRate);
+        const double bodyScale = BodyScaleFromHeight(heightRate);
+        player->Character_Scale__Set_in_BP_ = {bodyScale, bodyScale, bodyScale};
+        player->Set_Character_Height();
+        player->SetActorScale3D({actorScale, actorScale, actorScale});
+        if (player->SK_Skeleton) player->SK_Skeleton->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
+        if (player->Upper_Body_Mesh) player->Upper_Body_Mesh->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
+        for (auto* armor : player->Worn_Armor)
+            if (armor) armor->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
+        return true;
+    }
+
+    bool ApplyPlayerWeight(SDK::AWillie_BP_C* player, double muscleRate) {
+        if (!player) return false;
+
+        player->Muscle_Rate = muscleRate;
+        player->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = muscleRate;
+        return true;
+    }
+
+    bool ApplyLivePlayerHeight(SDK::AWillie_BP_C* player, double heightRate) {
+        const double actorScale = PlayerScaleFromHeight(heightRate);
+        return ApplyLivePlayerHeight(player, heightRate, {actorScale, actorScale, actorScale});
+    }
+
+    bool ApplyLivePlayerHeight(
+        SDK::AWillie_BP_C* player, double heightRate, const SDK::FVector& finalActorScale
+    ) {
+        return ApplyLiveBody(player, heightRate, finalActorScale);
+    }
+
+    bool ShouldApplyLivePlayerBodyOverrides(
+        bool enforceOverrides, const PlayerEditorOverrides& current, const PlayerEditorOverrides& published
+    ) noexcept {
+        const auto changed = [](const auto& field, const auto& previous) {
+            return field.enabled && (!previous.enabled || field.value != previous.value);
+        };
+        return enforceOverrides &&
+               (changed(current.heightRate, published.heightRate) ||
+                changed(current.muscleRate, published.muscleRate));
+    }
+
     bool ApplyPlayerOverrides(SDK::AWillie_BP_C* player, const PlayerEditorOverrides& o) {
         if (!player) return false;
 
-        if (o.heightRate.enabled) {
-            player->Height_Rate = o.heightRate.value;
-            player->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = o.heightRate.value;
-        }
-        if (o.muscleRate.enabled) {
-            player->Muscle_Rate = o.muscleRate.value;
-            player->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = o.muscleRate.value;
-        }
+        if (o.heightRate.enabled) (void)ApplyPlayerHeight(player, o.heightRate.value);
+        if (o.muscleRate.enabled) (void)ApplyPlayerWeight(player, o.muscleRate.value);
         if (o.scaleMutationInhibitor.enabled) player->Scale_Mutation_Inhibitor = o.scaleMutationInhibitor.value;
 
         if (o.health.enabled) player->Health = o.health.value;
@@ -309,6 +440,17 @@ namespace PresetApplication {
             player->BitPad_5C_0 = o.invulnerable.value;
         }
         return true;
+    }
+
+    bool ApplyLivePlayerOverrides(SDK::AWillie_BP_C* player, const PlayerEditorOverrides& o) {
+        if (!player) return false;
+        if (!o.heightRate.enabled && !o.muscleRate.enabled) return ApplyPlayerOverrides(player, o);
+
+        const double heightRate = o.heightRate.enabled ? o.heightRate.value : player->Height_Rate;
+        const double actorScale = PlayerScaleFromHeight(heightRate);
+        return ApplyLiveBody(
+            player, heightRate, {actorScale, actorScale, actorScale}, o, o.muscleRate.enabled
+        );
     }
 
     bool ApplyWeaponRuntimeOverrides(SDK::AActor* actor, const WeaponPresetData::WeaponRuntimeProps& o) {

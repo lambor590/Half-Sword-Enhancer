@@ -102,7 +102,8 @@ void PlayerEditorSection::RenderTrackedField(const OverrideDescriptor& field) {
     const bool wasEnabled = *field.enabled;
     const std::uint64_t previousValue = OverrideValueBits(field);
     RenderOverrideField(field);
-    overridesDirty = overridesDirty || wasEnabled != *field.enabled || previousValue != OverrideValueBits(field);
+    const bool changed = wasEnabled != *field.enabled || previousValue != OverrideValueBits(field);
+    overridesDirty = overridesDirty || changed;
 }
 
 void PlayerEditorSection::RenderTrackedGroup(std::span<const OverrideDescriptor> fields) {
@@ -116,13 +117,29 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
         std::scoped_lock lock(publishedOverridesMutex);
         snapshot = publishedOverrides;
     }
-    (void)PresetApplication::ApplyPlayerOverrides(p, snapshot);
+    (void)PresetApplication::ApplyLivePlayerOverrides(p, snapshot);
 }
 
 void PlayerEditorSection::PublishOverrides() {
-    std::scoped_lock lock(publishedOverridesMutex);
-    publishedOverrides = overrides;
-    overridesDirty = false;
+    bool applyBody = false;
+    PlayerEditorOverrides snapshot;
+    const bool enforceOverrides =
+        !keybinds.Entries().empty() && keybinds.Entries().front().CurrentState();
+    {
+        std::scoped_lock lock(publishedOverridesMutex);
+        applyBody = PresetApplication::ShouldApplyLivePlayerBodyOverrides(
+            enforceOverrides, overrides, publishedOverrides
+        );
+        snapshot = overrides;
+        publishedOverrides = overrides;
+        overridesDirty = false;
+    }
+
+    if (applyBody) {
+        GameHook::QueueAction([snapshot](const RuntimeContextSnapshot& runtime) {
+            if (runtime.player) (void)PresetApplication::ApplyLivePlayerOverrides(runtime.player, snapshot);
+        });
+    }
 }
 
 void PlayerEditorSection::ReadFromPlayer() {
@@ -204,7 +221,7 @@ void PlayerEditorSection::ClonePlayer(SDK::AWillie_BP_C* player) {
 
     double heightRate = passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;
     double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
-    auto spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
+    const float spawnScale = PresetApplication::PlayerScaleFromHeight(heightRate);
 
     auto transform = Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale);
 
