@@ -65,10 +65,10 @@ private:
     void PublishState() noexcept;
     void ApplyPlayerInputLock(const RuntimeContextSnapshot& runtime, bool locked, const FreeCameraSettings& settings);
     void ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime);
-    void ApplyConstructedScreenOverlay(SDK::UObject* object);
+    void ApplyScreenOverlay(SDK::UObject* object);
     void RestoreGameplayInput(const SDK::UObject* worldContext);
     void EnsureScreenOverlayHooks();
-    [[nodiscard]] bool ShouldHideScreenOverlays() noexcept;
+    [[nodiscard]] bool ShouldHideVisualEffects() noexcept;
 
     bool playerInputLocked = false;
     int hiddenResultMenuCount = 0;

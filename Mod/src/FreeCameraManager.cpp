@@ -70,8 +70,10 @@ namespace {
             if (changed) {
                 savedOverlayStates.push_back({widget, widget->GetVisibility(), widget->GetIsEnabled()});
             }
-            widget->SetIsEnabled(false);
-            widget->SetVisibility(SDK::ESlateVisibility::Collapsed);
+            if (widget->bIsEnabled) widget->SetIsEnabled(false);
+            if (widget->Visibility != SDK::ESlateVisibility::Collapsed) {
+                widget->SetVisibility(SDK::ESlateVisibility::Collapsed);
+            }
             return changed;
         }
 
@@ -82,23 +84,17 @@ namespace {
         return true;
     }
 
-    void SetHudEffectWidgetsHidden(SDK::UUI_HUD_C* hud, bool hidden) {
+    void SetHudWidgetsHidden(SDK::UUI_HUD_C* hud, bool hideVisualEffects, bool hideResultMenus) {
         if (!hud) return;
 
-        SetScreenOverlayHidden(hud->ArmLDmg, hidden);
-        SetScreenOverlayHidden(hud->ArmRDmg, hidden);
-        SetScreenOverlayHidden(hud->Black, hidden);
-        SetScreenOverlayHidden(hud->HeadDmg, hidden);
-        SetScreenOverlayHidden(hud->HPDmg1, hidden);
-        SetScreenOverlayHidden(hud->HPDmg2, hidden);
-        SetScreenOverlayHidden(hud->HPDmg3, hidden);
-        SetScreenOverlayHidden(hud->LegLDmg, hidden);
-        SetScreenOverlayHidden(hud->LegRDmg, hidden);
-        SetScreenOverlayHidden(hud->TextHurt, hidden);
-        SetScreenOverlayHidden(hud->TextWin, hidden);
-        SetScreenOverlayHidden(hud->Vignette, hidden);
-        SetScreenOverlayHidden(hud->Vignette_Pain, hidden);
-        SetScreenOverlayHidden(hud->Vignette_WakeUp, hidden);
+        const std::array<SDK::UWidget*, 13> visualEffectWidgets = {
+            hud->ArmLDmg,  hud->ArmRDmg,       hud->Black,           hud->HeadDmg, hud->HPDmg1,
+            hud->HPDmg2,   hud->HPDmg3,        hud->LegLDmg,         hud->LegRDmg, hud->TextHurt,
+            hud->Vignette, hud->Vignette_Pain, hud->Vignette_WakeUp,
+        };
+        for (auto* widget : visualEffectWidgets)
+            SetScreenOverlayHidden(widget, hideVisualEffects);
+        SetScreenOverlayHidden(hud->TextWin, hideVisualEffects || hideResultMenus);
     }
 
     [[nodiscard]] bool IsResultMenu(SDK::UObject* object) {
@@ -139,14 +135,6 @@ namespace {
             }
         }
         return delta;
-    }
-
-    void ApplyHudEffectWidgets(SDK::UObject* worldContext, bool hidden) {
-        SDK::TArray<SDK::UUserWidget*> widgets;
-        if (!FindWidgets(worldContext, SDK::UUI_HUD_C::StaticClass(), widgets)) return;
-        for (int i = 0; i < widgets.Num(); ++i) {
-            SetHudEffectWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(widgets[i]), hidden);
-        }
     }
 }
 
@@ -236,23 +224,27 @@ void FreeCameraManager::EnsureScreenOverlayHooks() {
     if (screenOverlaySubscriptions.IsSubscribed()) return;
 
     screenOverlaySubscriptions.Reset();
-    const auto constructHook = screenOverlaySubscriptions.Subscribe(
-        "Construct", GameHook::HookPhase::After, [](GameHook::ProcessEventContext& context) {
-            FreeCameraManager::Get().ApplyConstructedScreenOverlay(context.object);
-        }
-    );
+    const auto applyScreenOverlay = [](GameHook::ProcessEventContext& context) {
+        FreeCameraManager::Get().ApplyScreenOverlay(context.object);
+    };
+    bool overlayHooksReady = true;
+    for (const char* functionName : {"Construct", "Tick"}) {
+        overlayHooksReady &=
+            screenOverlaySubscriptions.Subscribe(functionName, GameHook::HookPhase::After, applyScreenOverlay) !=
+            GameHook::INVALID_HOOK_HANDLE;
+    }
     const auto pauseHook = screenOverlaySubscriptions.Subscribe(
         "SetGamePaused", GameHook::HookPhase::After, [](GameHook::ProcessEventContext& context) {
             auto& manager = FreeCameraManager::Get();
             const auto* params = context.Params<SDK::Params::GameplayStatics_SetGamePaused>();
             if (!params || !params->bPaused || !manager.screenOverlays.resultMenus ||
-                !manager.ShouldHideScreenOverlays() || manager.hiddenResultMenuCount <= 0) {
+                manager.hiddenResultMenuCount <= 0) {
                 return;
             }
             manager.RestoreGameplayInput(params->WorldContextObject);
         }
     );
-    if (constructHook == GameHook::INVALID_HOOK_HANDLE || pauseHook == GameHook::INVALID_HOOK_HANDLE) {
+    if (!overlayHooksReady || pauseHook == GameHook::INVALID_HOOK_HANDLE) {
         screenOverlaySubscriptions.Reset();
     }
 }
@@ -554,31 +546,37 @@ void FreeCameraManager::PublishState() noexcept {
     publishedWorld.store(activeWorld, std::memory_order_release);
 }
 
-bool FreeCameraManager::ShouldHideScreenOverlays() noexcept {
+bool FreeCameraManager::ShouldHideVisualEffects() noexcept {
     if (activeWorld && activeWorld != SDK::UWorld::GetWorld()) ClearState();
-    return (screenOverlays.visualEffects || screenOverlays.resultMenus) &&
-           (!screenOverlays.onlyInFreeCamera || activeWorld);
+    return screenOverlays.visualEffects && (!screenOverlays.onlyInFreeCamera || activeWorld);
 }
 
-void FreeCameraManager::ApplyConstructedScreenOverlay(SDK::UObject* object) {
-    if (!object || !ShouldHideScreenOverlays()) return;
-    if (screenOverlays.visualEffects && object->IsA(SDK::UUI_HUD_C::StaticClass())) {
-        SetHudEffectWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(object), true);
+void FreeCameraManager::ApplyScreenOverlay(SDK::UObject* object) {
+    if (!object) return;
+    const bool hideVisualEffects = ShouldHideVisualEffects();
+    if (!hideVisualEffects && !screenOverlays.resultMenus) return;
+    if (object->IsA(SDK::UUI_HUD_C::StaticClass())) {
+        SetHudWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(object), hideVisualEffects, screenOverlays.resultMenus);
         return;
     }
     if (!screenOverlays.resultMenus || !IsResultMenu(object)) return;
     if (SetScreenOverlayHidden(static_cast<SDK::UWidget*>(object), true)) {
         ++hiddenResultMenuCount;
+        RestoreGameplayInput(object);
     }
-    RestoreGameplayInput(object);
 }
 
 void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime) {
     if (!runtime.world) return;
 
-    const bool hidden = ShouldHideScreenOverlays();
-    const bool hideResultMenus = hidden && screenOverlays.resultMenus;
-    ApplyHudEffectWidgets(runtime.world, hidden && screenOverlays.visualEffects);
+    const bool hideVisualEffects = ShouldHideVisualEffects();
+    const bool hideResultMenus = screenOverlays.resultMenus;
+    SDK::TArray<SDK::UUserWidget*> hudWidgets;
+    if (FindWidgets(runtime.world, SDK::UUI_HUD_C::StaticClass(), hudWidgets)) {
+        for (int i = 0; i < hudWidgets.Num(); ++i) {
+            SetHudWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(hudWidgets[i]), hideVisualEffects, hideResultMenus);
+        }
+    }
     int resultMenuDelta = 0;
     for (const auto getWidgetClass : RESULT_MENU_CLASS_GETTERS) {
         if (auto* widgetClass = getWidgetClass()) {
