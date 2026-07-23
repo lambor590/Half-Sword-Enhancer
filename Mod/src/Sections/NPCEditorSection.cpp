@@ -78,7 +78,7 @@ void NPCEditorSection::BuildDescriptors() {
 
     physicalFields = {
         OverrideField("Height", o.heightRate, 0.01f, "Character height (1.0 = normal)"),
-        OverrideField("Body Build", o.muscleRate, 0.01f, "Character muscle and bulk (1.0 = normal)"),
+        OverrideField("Weight", o.muscleRate, 0.01f, "Character weight (1.0 = normal)"),
         OverrideField(
             "Size Consistency", o.scaleMutationInhibitor, 0.01f, "Higher values make body proportions more even"
         ),
