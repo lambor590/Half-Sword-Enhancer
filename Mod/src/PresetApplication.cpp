@@ -12,8 +12,7 @@
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
-#include "SDK/Modular_Weapon_Grip_classes.hpp"
-#include "SDK/Modular_Weapon_Module_classes.hpp"
+#include "SDK/Modular_Weapon_Part_Master_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Utils/GameClass.h"
 #include "Utils/PresetUtils.h"
@@ -39,42 +38,42 @@ namespace PresetApplication {
             },
             {
                 &WeaponClassPaths::headModule,
-                "Modular_Weapon_Module_C",
+                "Modular_Weapon_Part_Master_C",
                 "head",
                 true,
                 &SDK::FStr_Passport_Weapon1::HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
             },
             {
                 &WeaponClassPaths::guardModule,
-                "Modular_Weapon_Module_C",
+                "Modular_Weapon_Part_Master_C",
                 "guard",
                 false,
                 &SDK::FStr_Passport_Weapon1::GuardModule_13_6DD2B06245505E53B529D090333012F0,
             },
             {
                 &WeaponClassPaths::gripModule,
-                "Modular_Weapon_Grip_C",
+                "Modular_Weapon_Part_Master_C",
                 "grip",
                 true,
                 &SDK::FStr_Passport_Weapon1::GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
             },
             {
                 &WeaponClassPaths::pommelModule,
-                "Modular_Weapon_Module_C",
+                "Modular_Weapon_Part_Master_C",
                 "pommel",
                 false,
                 &SDK::FStr_Passport_Weapon1::PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
             },
             {
                 &WeaponClassPaths::subModule1,
-                "Modular_Weapon_Module_C",
+                "Modular_Weapon_Part_Master_C",
                 "extra part 1",
                 false,
                 &SDK::FStr_Passport_Weapon1::HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
             },
             {
                 &WeaponClassPaths::subModule2,
-                "Modular_Weapon_Module_C",
+                "Modular_Weapon_Part_Master_C",
                 "extra part 2",
                 false,
                 &SDK::FStr_Passport_Weapon1::HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
