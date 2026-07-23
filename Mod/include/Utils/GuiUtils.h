@@ -871,9 +871,8 @@ namespace GuiUtils {
         const bool updating =
             targetValid && !state.editingPath.empty() && PresetPathsEqual(targetPath, state.editingPath);
         const auto* targetEntry = targetValid ? FindPresetTreeEntryByPath(state.tree, targetPath) : nullptr;
-        const bool targetExists = targetEntry != nullptr;
         const bool targetCanBeOverwritten = !targetEntry || targetEntry->valid;
-        const bool overwriting = targetExists && !updating;
+        const bool overwriting = targetEntry && !updating;
         const char* saveLabel =
             updating ? "Update" : (overwriting ? "Overwrite" : (state.editingPath.empty() ? "Save" : "Save As"));
         const auto& style = ImGui::GetStyle();
@@ -887,8 +886,7 @@ namespace GuiUtils {
         );
         if (!state.canInteract) ImGui::EndDisabled();
         ImGui::SameLine();
-        const bool canSave =
-            state.nameBuf[0] != '\0' && targetValid && targetCanBeOverwritten && state.canSave && state.canInteract;
+        const bool canSave = targetValid && targetCanBeOverwritten && state.canSave && state.canInteract;
         if (!canSave) ImGui::BeginDisabled();
         const bool saveFromButton = ImGui::Button(saveLabel);
         if (!canSave) ImGui::EndDisabled();
@@ -897,14 +895,15 @@ namespace GuiUtils {
                 onSave(state.nameBuf, true);
             } else {
                 std::error_code targetFilesystemError;
-                const bool existsNow =
-                    overwriting || std::filesystem::exists(targetPath, targetFilesystemError);
+                const bool existsNow = std::filesystem::exists(targetPath, targetFilesystemError);
                 if (targetFilesystemError) {
                     state.status.SetError("Couldn't check that preset name");
                 } else if (existsNow) {
-                    if (!targetExists) refreshTree();
-                    const auto* currentTarget = FindPresetTreeEntryByPath(state.tree, targetPath);
-                    if (!currentTarget || !currentTarget->valid) {
+                    if (!targetEntry) {
+                        refreshTree();
+                        targetEntry = FindPresetTreeEntryByPath(state.tree, targetPath);
+                    }
+                    if (!targetEntry || !targetEntry->valid) {
                         state.status.SetError("This preset is damaged. Delete it before reusing this name.");
                     } else {
                         state.pendingOverwriteName = state.nameBuf;
@@ -915,14 +914,14 @@ namespace GuiUtils {
                 }
             }
         }
-        if (state.nameBuf[0] != '\0' && !targetValid) {
+        const char* inlineError = nullptr;
+        if (state.nameBuf[0] != '\0' && !targetValid)
+            inlineError = targetValidationError.c_str();
+        else if (targetValid && !targetCanBeOverwritten)
+            inlineError = "This preset is damaged. Delete it before reusing this name.";
+        if (inlineError) {
             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
-            ImGui::TextWrapped("%s", targetValidationError.c_str());
-            ImGui::PopStyleColor();
-        }
-        if (targetValid && !targetCanBeOverwritten) {
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
-            ImGui::TextWrapped("This preset is damaged. Delete it before reusing this name.");
+            ImGui::TextWrapped("%s", inlineError);
             ImGui::PopStyleColor();
         }
 
@@ -944,7 +943,7 @@ namespace GuiUtils {
             );
             ImGui::Spacing();
             ImGui::TextUnformatted("Replace it with the current values?");
-            const bool canConfirmOverwrite = pendingTargetValid && pendingTarget && pendingTarget->valid;
+            const bool canConfirmOverwrite = pendingTarget && pendingTarget->valid;
             if (!canConfirmOverwrite) ImGui::BeginDisabled();
             if (ImGui::Button("Overwrite")) {
                 onSave(state.pendingOverwriteName.c_str(), true);
@@ -959,9 +958,7 @@ namespace GuiUtils {
             }
             ImGui::EndPopup();
         }
-        if (!state.pendingOverwriteName.empty() && !ImGui::IsPopupOpen("##overwrite_preset_confirm")) {
-            state.pendingOverwriteName.clear();
-        }
+        if (!ImGui::IsPopupOpen("##overwrite_preset_confirm")) state.pendingOverwriteName.clear();
 
         ImGui::SeparatorText("Saved Presets");
 
