@@ -36,6 +36,7 @@ public:
         int weaponType = 1;
         int weaponTier = 4;
         bool showAllWeaponParts = false;
+        bool allowAnyPartInAnySlot = false;
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnKey = -1;
         PreviewConfig preview;

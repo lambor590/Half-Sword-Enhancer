@@ -21,8 +21,13 @@ struct GlobalModuleEntry {
 };
 
 struct GlobalModuleSet {
-    std::vector<GlobalModuleEntry> heads, guards, grips, pommels, subMods1, subMods2;
+    std::vector<GlobalModuleEntry> heads, guards, grips, pommels, subMods1, subMods2, allParts;
     float cachedWidths[6] = {};
+    float allPartsCachedWidth = 0.0f;
+
+    [[nodiscard]] auto PartsBySlot() const {
+        return std::array{&heads, &guards, &grips, &pommels, &subMods1, &subMods2};
+    }
 };
 
 struct GlobalModulePool {
@@ -69,12 +74,22 @@ struct GlobalModulePool {
             CollectEntries(typeSet.subMods1, typeSeen[4], cdo->Head_Sub_Module_1_Array, typeName);
             CollectEntries(all.subMods2, seen[5], cdo->Head_Sub_Module_2_Array, typeName);
             CollectEntries(typeSet.subMods2, typeSeen[5], cdo->Head_Sub_Module_2_Array, typeName);
+            BuildAllParts(typeSet);
         }
+
+        BuildAllParts(all);
         populated.store(true, std::memory_order_release);
     }
 
 private:
     GlobalModulePool() = default;
+
+    static void BuildAllParts(GlobalModuleSet& set) {
+        std::unordered_set<SDK::UClass*> seen;
+        for (const auto* entries : set.PartsBySlot())
+            for (const auto& entry : *entries)
+                if (seen.insert(entry.cls).second) set.allParts.push_back(entry);
+    }
 
     static void CollectEntries(
         std::vector<GlobalModuleEntry>& out, std::unordered_set<SDK::UClass*>& seen,

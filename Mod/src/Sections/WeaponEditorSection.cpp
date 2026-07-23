@@ -750,95 +750,87 @@ void WeaponEditorSection::RenderModulesTab() {
         return;
     }
 
-    ImGui::Checkbox("Show All Weapon Parts", &cfg.showAllWeaponParts);
+    const bool showAllChanged = ImGui::Checkbox("Show All Weapon Parts", &cfg.showAllWeaponParts);
     GuiUtils::HelpTooltip("Show parts from every weapon type and allow combinations that may be incompatible");
+    const bool allowAnyChanged = ImGui::Checkbox("Allow Any Part in Any Slot", &cfg.allowAnyPartInAnySlot);
+    GuiUtils::HelpTooltip("Use any weapon part type in any component slot; some combinations may be incompatible");
     ImGui::Spacing();
 
-    auto modulePathFits = [](const std::string& path, const auto& options) {
-        return path.empty() || FindModulePath(path, options);
+    const std::array modulePaths{
+        &weaponPaths.headModule,   &weaponPaths.guardModule, &weaponPaths.gripModule,
+        &weaponPaths.pommelModule, &weaponPaths.subModule1,  &weaponPaths.subModule2,
     };
-    auto pathsFit = [&](const GlobalModuleSet& set) {
-        return modulePathFits(weaponPaths.headModule, set.heads) &&
-               modulePathFits(weaponPaths.guardModule, set.guards) &&
-               modulePathFits(weaponPaths.gripModule, set.grips) &&
-               modulePathFits(weaponPaths.pommelModule, set.pommels) &&
-               modulePathFits(weaponPaths.subModule1, set.subMods1) &&
-               modulePathFits(weaponPaths.subModule2, set.subMods2);
+    auto pathsFit = [&](const GlobalModuleSet& set, bool anySlot) {
+        const auto slotOptions = set.PartsBySlot();
+        for (std::size_t slot = 0; slot < modulePaths.size(); ++slot) {
+            const auto& options = anySlot ? set.allParts : *slotOptions[slot];
+            if (!modulePaths[slot]->empty() && !FindModulePath(*modulePaths[slot], options)) return false;
+        }
+        return true;
     };
+    auto findModuleType = [&](bool anySlot) {
+        for (int type = 1; type <= GameConstants::WEAPON_TYPE_COUNT; ++type)
+            if (pathsFit(globalModules.ForType(type), anySlot)) return type;
+        return 0;
+    };
+
     int moduleType = cfg.weaponType;
-    if (!cfg.showAllWeaponParts && !pathsFit(globalModules.ForType(moduleType))) {
-        for (int type = 1; type <= GameConstants::WEAPON_TYPE_COUNT; ++type) {
-            if (pathsFit(globalModules.ForType(type))) {
-                moduleType = type;
-                break;
-            }
+    if (!showAllChanged && !allowAnyChanged && !cfg.showAllWeaponParts &&
+        !pathsFit(globalModules.ForType(moduleType), cfg.allowAnyPartInAnySlot)) {
+        const int matchingType = findModuleType(cfg.allowAnyPartInAnySlot);
+        const int anySlotType = cfg.allowAnyPartInAnySlot ? 0 : findModuleType(true);
+        if (matchingType) {
+            moduleType = matchingType;
+        } else if (anySlotType) {
+            moduleType = anySlotType;
+            cfg.allowAnyPartInAnySlot = true;
+        } else if (pathsFit(globalModules.all, false)) {
+            cfg.showAllWeaponParts = true;
+        } else if (pathsFit(globalModules.all, true)) {
+            cfg.showAllWeaponParts = true;
+            cfg.allowAnyPartInAnySlot = true;
         }
     }
 
     auto& modules = cfg.showAllWeaponParts ? globalModules.all : globalModules.ForType(moduleType);
-    auto syncPath = [](SDK::UClass*& current, std::string& path, const auto& options) {
+    const auto slotOptions = modules.PartsBySlot();
+    const std::array<SDK::UClass**, 6> currentModules{
+        &weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
+        &weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0,
+        &weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
+        &weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
+        &weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
+        &weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
+    };
+    static constexpr std::array MODULE_LABELS{
+        "Head", "Guard", "Grip", "Pommel", "Extra Head Part 1", "Extra Head Part 2",
+    };
+
+    bool hasExtraParts = false;
+    for (std::size_t slot = 0; slot < slotOptions.size(); ++slot) {
+        const auto& options = cfg.allowAnyPartInAnySlot ? modules.allParts : *slotOptions[slot];
+        if (slot >= 4 && options.empty()) continue;
+
+        auto*& current = *currentModules[slot];
+        auto& path = *modulePaths[slot];
         if (const auto* entry = FindModulePath(path, options)) {
             current = entry->cls;
         } else if (!path.empty()) {
             path.clear();
             current = nullptr;
         }
-    };
 
-    syncPath(weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, weaponPaths.headModule, modules.heads);
-    syncPath(weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, weaponPaths.guardModule, modules.guards);
-    syncPath(weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, weaponPaths.gripModule, modules.grips);
-    syncPath(
-        weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, weaponPaths.pommelModule, modules.pommels
-    );
-    syncPath(
-        weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, weaponPaths.subModule1, modules.subMods1
-    );
-    syncPath(
-        weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, weaponPaths.subModule2, modules.subMods2
-    );
-
-    GuiUtils::RenderGlobalModuleCombo(
-        "Head", weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, modules.heads, moduleFilters[0],
-        modules.cachedWidths[0], true, &weaponPaths.headModule
-    );
-    GuiUtils::RenderGlobalModuleCombo(
-        "Guard", weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, modules.guards, moduleFilters[1],
-        modules.cachedWidths[1], true, &weaponPaths.guardModule
-    );
-    GuiUtils::RenderGlobalModuleCombo(
-        "Grip", weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, modules.grips, moduleFilters[2],
-        modules.cachedWidths[2], true, &weaponPaths.gripModule
-    );
-    GuiUtils::RenderGlobalModuleCombo(
-        "Pommel", weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, modules.pommels, moduleFilters[3],
-        modules.cachedWidths[3], true, &weaponPaths.pommelModule
-    );
-    if (!modules.subMods1.empty()) {
+        auto& width = cfg.allowAnyPartInAnySlot ? modules.allPartsCachedWidth : modules.cachedWidths[slot];
         GuiUtils::RenderGlobalModuleCombo(
-            "Extra Head Part 1", weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, modules.subMods1,
-            moduleFilters[4], modules.cachedWidths[4], true, &weaponPaths.subModule1
+            MODULE_LABELS[slot], current, options, moduleFilters[slot], width, true, &path
         );
+        if (slot >= 4) hasExtraParts = true;
     }
-    if (!modules.subMods2.empty()) {
-        GuiUtils::RenderGlobalModuleCombo(
-            "Extra Head Part 2", weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, modules.subMods2,
-            moduleFilters[5], modules.cachedWidths[5], true, &weaponPaths.subModule2
-        );
-    }
-    if (modules.subMods1.empty() && modules.subMods2.empty())
-        ImGui::TextDisabled("No extra head parts are available for this weapon type");
+    if (!hasExtraParts) ImGui::TextDisabled("No extra head parts are available for this weapon type");
 
-    const bool hasModules = !weaponPaths.headModule.empty() || !weaponPaths.guardModule.empty() ||
-                            !weaponPaths.gripModule.empty() || !weaponPaths.pommelModule.empty() ||
-                            !weaponPaths.subModule1.empty() || !weaponPaths.subModule2.empty();
-    if (hasModules) {
-        weaponPaths.weaponClass = GameConstants::MODULAR_WEAPON_BP_PATH;
-        weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = nullptr;
-    } else {
-        weaponPaths.weaponClass.clear();
-        weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = nullptr;
-    }
+    const bool hasModules = std::ranges::any_of(modulePaths, [](const auto* path) { return !path->empty(); });
+    weaponPaths.weaponClass = hasModules ? GameConstants::MODULAR_WEAPON_BP_PATH : "";
+    weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = nullptr;
 
     ImGui::PopID();
 }
