@@ -31,10 +31,10 @@ private:
     static constexpr const char* VISUAL_EFFECTS_TOOLTIP =
         "Hide damage, blood, pain, wake-up, and victory effects shown on the screen.";
     static constexpr const char* RESULT_MENUS_LABEL = "Hide Result Menus";
-    static constexpr const char* RESULT_MENUS_TOOLTIP = "Hide full-screen death, defeat, surrender, and victory menus.";
+    static constexpr const char* RESULT_MENUS_TOOLTIP =
+        "Hide death, defeat, surrender, and victory screens, including the in-game victory banner.";
     static constexpr const char* ONLY_FREE_CAMERA_LABEL = "Keep HUD During Normal Play";
-    static constexpr const char* ONLY_FREE_CAMERA_TOOLTIP =
-        "Keep the selected HUD elements visible while playing normally.";
+    static constexpr const char* ONLY_FREE_CAMERA_TOOLTIP = "Keep visual HUD effects visible while playing normally.";
     static constexpr const char* PRESS_KEY_TEXT = "Press a key...";
 
     bool notificationsEnabled;

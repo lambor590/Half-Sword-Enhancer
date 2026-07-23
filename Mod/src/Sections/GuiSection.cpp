@@ -112,12 +112,11 @@ void GuiSection::RenderScreenOverlaySettings() {
     bool changed =
         GuiUtils::CheckboxWithTooltip(VISUAL_EFFECTS_LABEL, &screenOverlays.visualEffects, VISUAL_EFFECTS_TOOLTIP);
     changed |= GuiUtils::CheckboxWithTooltip(RESULT_MENUS_LABEL, &screenOverlays.resultMenus, RESULT_MENUS_TOOLTIP);
-    const bool hasOverlayRule = screenOverlays.visualEffects || screenOverlays.resultMenus;
-    if (!hasOverlayRule) ImGui::BeginDisabled();
+    if (!screenOverlays.visualEffects) ImGui::BeginDisabled();
     changed |= GuiUtils::CheckboxWithTooltip(
         ONLY_FREE_CAMERA_LABEL, &screenOverlays.onlyInFreeCamera, ONLY_FREE_CAMERA_TOOLTIP
     );
-    if (!hasOverlayRule) ImGui::EndDisabled();
+    if (!screenOverlays.visualEffects) ImGui::EndDisabled();
 
     if (!changed) return;
     auto& config = ConfigManager::Get();
