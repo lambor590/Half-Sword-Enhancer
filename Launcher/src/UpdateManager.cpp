@@ -195,7 +195,8 @@ namespace hse {
         return info;
     }
 
-    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(const std::filesystem::path& gameBinPath
+    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(
+        const std::filesystem::path& gameBinPath
     ) {
         return ExtractVersionFromFile(gameBinPath / MOD_FILENAME);
     }
@@ -350,7 +351,7 @@ namespace hse {
         auto downloadUrl = ParseJsonStringField(*asset, "browser_download_url");
         if (!downloadUrl || downloadUrl->empty()) return std::unexpected(UpdateError::InvalidResponse);
 
-        auto& config = LauncherConfig::Instance();
+        const auto& config = LauncherConfig::Instance();
         ExperimentalUpdateInfo info{
             .packageUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
             .launcherUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, LAUNCHER_BUILD_KEY, ""),

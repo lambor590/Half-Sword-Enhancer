@@ -338,7 +338,7 @@ bool HSELauncher::CheckAndInstallMod() {
         cachedExperimentalInfo_ = *experimentalUpdateResult;
     }
 
-    auto& info = *cachedExperimentalInfo_;
+    const auto& info = *cachedExperimentalInfo_;
     if (!needsInstall) {
         if (!info.packageUpdateAvailable) {
             hse::Logger::info("Half Sword Enhancer is up to date");

@@ -39,8 +39,9 @@ namespace hse {
         void Release() noexcept { ownsStaging_ = false; }
 
     private:
-        friend std::expected<SelfUpdateStaging, SelfUpdateError>
-        CreateSelfUpdateStaging(const std::filesystem::path&, const std::filesystem::path&);
+        friend std::expected<SelfUpdateStaging, SelfUpdateError> CreateSelfUpdateStaging(
+            const std::filesystem::path&, const std::filesystem::path&
+        );
 
         SelfUpdateStaging(std::filesystem::path directory, std::filesystem::path target, std::string token);
 
