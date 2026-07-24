@@ -833,7 +833,9 @@ namespace EquipmentApplication {
         auto snapshot = SnapshotWeaponActor(actor);
         if (!snapshot) return false;
         const auto& weapons = willie->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-        OverlayConfiguredWeaponSlot(*snapshot, LoadoutPresetData::GetWeaponSlot(weapons, handIndex));
+        if (const auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, handIndex);
+            slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066)
+            OverlayConfiguredWeaponSlot(*snapshot, slot);
         result = std::move(*snapshot);
         return true;
     }
