@@ -1,19 +1,22 @@
 HOW TO INSTALL
 
-1. Open the game folder:
+1. Extract all files from HSEnhancer.cab into a temporary folder.
+
+2. Open the game folder:
    Right-click the game in Steam -> Manage -> Browse Local Files
 
-2. Place "winmm.dll" and "HSEnhancer.dll" in:
+3. For a standalone installation, place "winmm.dll" and "HSEnhancer.dll" in:
    <Game Folder>\HalfSwordUE5\Binaries\Win64
 
 UE4SS USERS
 
-If UE4SS is installed, remove or rename any old HSE "winmm.dll" in:
+Do not install "winmm.dll". Place "HSEnhancer.dll" in:
    <Game Folder>\HalfSwordUE5\Binaries\Win64
 
-This avoids loading HSE twice. For manual UE4SS installs, keep "HSEnhancer.dll" in
-the Win64 folder, keep "ue4ss\Mods\HSEnhancer\dlls\main.dll" from the ZIP, and make
-sure ue4ss\Mods\mods.txt contains:
+Place "main.dll" in:
+   <Game Folder>\HalfSwordUE5\Binaries\Win64\ue4ss\Mods\HSEnhancer\dlls
+
+Make sure ue4ss\Mods\mods.txt contains:
    HSEnhancer : 1
 
 The launcher handles these UE4SS steps automatically.
