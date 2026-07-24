@@ -20,7 +20,7 @@ namespace hse {
     namespace {
         constexpr std::uint64_t PACKAGE_FORMAT = 1;
         constexpr std::size_t MAX_CACHED_BUILDS = 3;
-        constexpr std::array<std::string_view, 3> PACKAGE_FILE_NAMES{
+        constexpr std::array PACKAGE_FILE_NAMES{
             MOD_FILENAME,
             PROXY_FILENAME,
             UE4SS_BRIDGE_FILENAME,
@@ -112,7 +112,7 @@ namespace hse {
                 ) < 0)
                 return std::unexpected(PackageCacheError::HashFailed);
 
-            std::array<char, 64 * 1024> buffer{};
+            std::array<char, static_cast<std::size_t>(64) * 1024> buffer{};
             while (input) {
                 input.read(buffer.data(), static_cast<std::streamsize>(buffer.size()));
                 const auto bytes = input.gcount();
@@ -176,7 +176,7 @@ namespace hse {
             if (!IsSha256(result.launcherHash)) return std::unexpected(PackageCacheError::InvalidManifest);
 
             for (std::size_t index = 0; index < PACKAGE_FILE_NAMES.size(); ++index) {
-                result.fileHashes[index] = ini.GetValue("Files", PACKAGE_FILE_NAMES[index].data(), "");
+                result.fileHashes[index] = ini.GetValue("Files", PACKAGE_FILE_NAMES[index], "");
                 if (!IsSha256(result.fileHashes[index])) return std::unexpected(PackageCacheError::InvalidManifest);
             }
             return result;
@@ -238,7 +238,7 @@ namespace hse {
             PWSTR localAppData = nullptr;
             if (FAILED(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, nullptr, &localAppData)))
                 return std::unexpected(PackageCacheError::FileSystemError);
-            const auto root = std::filesystem::path(localAppData) / APP_FOLDER_NAME / "cache";
+            auto root = std::filesystem::path(localAppData) / APP_FOLDER_NAME / "cache";
             CoTaskMemFree(localAppData);
             return root;
         }
