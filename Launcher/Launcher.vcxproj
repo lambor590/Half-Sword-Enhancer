@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
@@ -66,7 +66,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/guard:cf %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -80,6 +80,7 @@
     <ClCompile Include="src\LauncherConfig.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NetworkManager.cpp" />
+    <ClCompile Include="src\PackageCache.cpp" />
     <ClCompile Include="src\UpdateManager.cpp" />
     <ClCompile Include="src\SteamLocator.cpp" />
     <ClCompile Include="src\InstallManager.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="include\Util.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\NetworkManager.h" />
+    <ClInclude Include="include\PackageCache.h" />
     <ClInclude Include="include\UpdateManager.h" />
     <ClInclude Include="include\SteamLocator.h" />
     <ClInclude Include="include\InstallManager.h" />

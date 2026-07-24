@@ -18,7 +18,10 @@ namespace hse {
     constexpr const char* MOD_FILENAME = "HSEnhancer.dll";
     constexpr const char* PROXY_FILENAME = "winmm.dll";
     constexpr const char* UE4SS_BRIDGE_FILENAME = "main.dll";
+    constexpr const char* LAUNCHER_FILENAME = "HSEnhancerLauncher.exe";
     constexpr const char* PACKAGE_FILENAME = "HSEnhancer.zip";
+    constexpr const char* BUNDLE_FILES_DIRECTORY = "Manual Install";
+    constexpr const char* PACKAGE_MANIFEST_FILENAME = "package.ini";
     constexpr const char* UE4SS_MOD_NAME = "HSEnhancer";
 
     class NamedPathMutex {
