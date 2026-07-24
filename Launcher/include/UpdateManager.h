@@ -3,7 +3,6 @@
 #include <string>
 #include <string_view>
 #include <expected>
-#include <optional>
 #include <filesystem>
 #include <cstdint>
 
@@ -30,15 +29,11 @@ namespace hse {
 
 #ifdef EXPERIMENTAL_VERSION
     struct ExperimentalUpdateInfo {
-        std::optional<UpdateInfo> stableRelease;
-
-        bool modUpdateAvailable = false;
+        bool packageUpdateAvailable = false;
         bool launcherUpdateAvailable = false;
-        std::string modTimestamp;
+        std::string packageTimestamp;
         std::string launcherTimestamp;
-        std::string downloadUrlMod;
-        std::string downloadUrlProxy;
-        std::string downloadUrlBridge;
+        std::string downloadUrlPackage;
         std::string downloadUrlLauncher;
     };
 #endif
@@ -52,9 +47,6 @@ namespace hse {
         );
         [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallMod(
             const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
-        );
-        [[nodiscard]] static std::expected<void, UpdateError> DownloadModToPath(
-            std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize = 300000
         );
         [[nodiscard]] static std::expected<void, UpdateError> UpdateLauncher(
             std::string_view downloadUrl, const Version& expectedVersion, std::string_view timestamp = {}
@@ -76,9 +68,8 @@ namespace hse {
 #endif
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
-        [[nodiscard]] static std::expected<void, UpdateError> DownloadToTempAndInstall(
-            std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
-            const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize = 300000
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadPackageAndInstall(
+            std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode
         );
         [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
             const std::filesystem::path& filePath
@@ -90,11 +81,9 @@ namespace hse {
 
 #ifdef EXPERIMENTAL_VERSION
         struct ExperimentalAssets {
-            std::string modTimestamp;
+            std::string packageTimestamp;
             std::string launcherTimestamp;
-            std::string modUrl;
-            std::string proxyUrl;
-            std::string bridgeUrl;
+            std::string packageUrl;
             std::string launcherUrl;
         };
 

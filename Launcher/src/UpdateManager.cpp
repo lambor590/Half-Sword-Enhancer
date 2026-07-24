@@ -1,8 +1,9 @@
-#include <algorithm>
 #include <atomic>
 #include <vector>
 #include <utility>
 #include <Windows.h>
+#include <SetupAPI.h>
+#include <cwchar>
 
 #include "../include/UpdateManager.h"
 #include "../include/NetworkManager.h"
@@ -59,15 +60,62 @@ namespace hse {
             return std::unexpected(UpdateError::FileSystemError);
         }
 
-        [[nodiscard]] std::string_view ArtifactUrl(
-            InstallArtifact artifact, std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl
-        ) noexcept {
-            switch (artifact) {
-                case InstallArtifact::Mod: return modUrl;
-                case InstallArtifact::Proxy: return proxyUrl;
-                case InstallArtifact::Ue4ssBridge: return bridgeUrl;
+        struct CabinetExtractionContext {
+            std::filesystem::path destination;
+            InstallMode installMode;
+            std::uint8_t extractedMask = 0;
+            bool invalidPackage = false;
+        };
+
+        UINT CALLBACK ExtractCabinetFile(
+            PVOID rawContext, UINT notification, UINT_PTR parameter1, UINT_PTR /*parameter2*/
+        ) {
+            auto& context = *static_cast<CabinetExtractionContext*>(rawContext);
+            if (notification == SPFILENOTIFY_NEEDNEWCABINET) return ERROR_INVALID_DATA;
+            if (notification == SPFILENOTIFY_FILEEXTRACTED) {
+                const auto& paths = *reinterpret_cast<const FILEPATHS_W*>(parameter1);
+                return paths.Win32Error;
             }
-            std::unreachable();
+            if (notification != SPFILENOTIFY_FILEINCABINET) return NO_ERROR;
+
+            auto& file = *reinterpret_cast<FILE_IN_CABINET_INFO_W*>(parameter1);
+            const std::filesystem::path name(file.NameInCabinet);
+            const auto plan = GetInstallPlan(context.installMode);
+            for (std::size_t index = 0; index < plan.size(); ++index) {
+                const auto& artifact = plan[index];
+                if (name != std::filesystem::path(artifact.filename)) continue;
+
+                const auto mask = static_cast<std::uint8_t>(1U << index);
+                const auto target = (context.destination / std::filesystem::path(artifact.filename)).native();
+                if ((context.extractedMask & mask) != 0 || file.FileSize < artifact.minimumFileSize ||
+                    target.size() >= _countof(file.FullTargetName) ||
+                    wcscpy_s(file.FullTargetName, _countof(file.FullTargetName), target.c_str()) != 0) {
+                    context.invalidPackage = true;
+                    return FILEOP_ABORT;
+                }
+
+                context.extractedMask |= mask;
+                return FILEOP_DOIT;
+            }
+            return FILEOP_SKIP;
+        }
+
+        [[nodiscard]] std::expected<void, UpdateError> ExtractInstallPackage(
+            const std::filesystem::path& packagePath, const std::filesystem::path& destination, InstallMode installMode
+        ) {
+            std::error_code error;
+            std::filesystem::create_directories(destination, error);
+            if (error) return std::unexpected(UpdateError::FileSystemError);
+
+            CabinetExtractionContext context{.destination = destination, .installMode = installMode};
+            const auto plan = GetInstallPlan(installMode);
+            const auto expectedMask = static_cast<std::uint8_t>((1U << plan.size()) - 1U);
+            if (!SetupIterateCabinetW(packagePath.c_str(), 0, ExtractCabinetFile, &context) || context.invalidPackage ||
+                context.extractedMask != expectedMask) {
+                Logger::error("The downloaded installation package is invalid");
+                return std::unexpected(UpdateError::InvalidResponse);
+            }
+            return {};
         }
     }
 
@@ -119,36 +167,31 @@ namespace hse {
         return info;
     }
 
-    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(
-        const std::filesystem::path& gameBinPath
+    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(const std::filesystem::path& gameBinPath
     ) {
         const auto dllPath = gameBinPath / MOD_FILENAME;
         return ExtractVersionFromFile(dllPath);
     }
 
-    std::expected<void, UpdateError> UpdateManager::DownloadToTempAndInstall(
-        std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
-        const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize
+    std::expected<void, UpdateError> UpdateManager::DownloadPackageAndInstall(
+        std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
         auto staging = CreateUpdateTempDirectory();
         if (!staging) return std::unexpected(staging.error());
 
-        for (const auto& artifact : GetInstallPlan(installMode)) {
-            const auto url = ArtifactUrl(artifact.artifact, modUrl, proxyUrl, bridgeUrl);
-            if (url.empty()) {
-                Logger::error("The selected version does not include a required file: %s", artifact.filename.data());
-                return std::unexpected(UpdateError::InvalidResponse);
-            }
+        const auto packagePath = staging->Path() / PACKAGE_FILENAME;
+        DownloadConfig config{
+            .url = packageUrl,
+            .outputPath = packagePath,
+            .description = "Downloading installation package",
+            .minFileSize = 30'000};
+        if (auto download = DownloadFile(config); !download) return std::unexpected(UpdateError::NetworkError);
 
-            const std::uint32_t minimumSize = artifact.artifact == InstallArtifact::Mod
-                                                  ? (std::max)(artifact.minimumFileSize, modMinSize)
-                                                  : artifact.minimumFileSize;
-            auto download =
-                DownloadModToPath(url, staging->Path() / std::filesystem::path(artifact.filename), minimumSize);
-            if (!download) return download;
-        }
+        const auto filesPath = staging->Path() / "files";
+        if (auto extraction = ExtractInstallPackage(packagePath, filesPath, installMode); !extraction)
+            return extraction;
 
-        auto installResult = InstallFiles(staging->Path(), gameBinPath, installMode);
+        auto installResult = InstallFiles(filesPath, gameBinPath, installMode);
         if (!installResult) {
             return std::unexpected(UpdateError::FileSystemError);
         }
@@ -159,47 +202,12 @@ namespace hse {
         const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
         const auto versionStr = version.ToString();
-        auto result = DownloadToTempAndInstall(
-            BuildReleaseUrl(versionStr, MOD_FILENAME), BuildReleaseUrl(versionStr, PROXY_FILENAME),
-            BuildReleaseUrl(versionStr, UE4SS_BRIDGE_FILENAME), gameBinPath, installMode
-        );
+        auto result =
+            DownloadPackageAndInstall(BuildReleaseUrl(versionStr, PACKAGE_FILENAME), gameBinPath, installMode);
         if (result) {
             Logger::info("Half Sword Enhancer installed successfully (v%s)", versionStr.c_str());
         }
         return result;
-    }
-
-    std::expected<void, UpdateError> UpdateManager::DownloadModToPath(
-        std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize
-    ) {
-        auto tempPath = outputPath;
-        tempPath += L".tmp";
-
-        DownloadConfig config{
-            .url = downloadUrl,
-            .outputPath = tempPath,
-            .description = "Downloading installation files",
-            .minFileSize = minFileSize
-        };
-
-        auto result = DownloadFile(config);
-        auto removeTemp = [&tempPath]() {
-            std::error_code ignored;
-            std::filesystem::remove(tempPath, ignored);
-        };
-        if (!result) {
-            removeTemp();
-            return std::unexpected(UpdateError::NetworkError);
-        }
-
-        std::error_code ec;
-        std::filesystem::rename(tempPath, outputPath, ec);
-        if (ec) {
-            removeTemp();
-            return std::unexpected(UpdateError::FileSystemError);
-        }
-
-        return {};
     }
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
@@ -224,8 +232,7 @@ namespace hse {
             .url = downloadUrl,
             .outputPath = staging.PayloadPath(),
             .description = "Downloading launcher update",
-            .minFileSize = 50000
-        };
+            .minFileSize = 50000};
 
         auto downloadResult = DownloadFile(config);
         if (!downloadResult) {
@@ -299,31 +306,22 @@ namespace hse {
     ) {
         ExperimentalAssets assets;
 
-        const auto storeAsset = [&](std::string_view name, std::string& url, std::string* timestamp,
-                                    bool required) -> std::expected<void, UpdateError> {
+        const auto storeAsset = [&](std::string_view name, std::string& url,
+                                    std::string& timestamp) -> std::expected<void, UpdateError> {
             auto object = FindJsonObjectByStringField(json, "name", name);
-            if (!object) {
-                if (required) return std::unexpected(UpdateError::InvalidResponse);
-                return {};
-            }
+            if (!object) return std::unexpected(UpdateError::InvalidResponse);
             auto parsedUrl = ParseJsonStringField(*object, "browser_download_url");
             if (!parsedUrl || parsedUrl->empty()) return std::unexpected(UpdateError::InvalidResponse);
             url = std::move(*parsedUrl);
-            if (!timestamp) return {};
             auto parsedTimestamp = ParseJsonStringField(*object, "updated_at");
             if (!parsedTimestamp || parsedTimestamp->empty()) return std::unexpected(UpdateError::InvalidResponse);
-            *timestamp = std::move(*parsedTimestamp);
+            timestamp = std::move(*parsedTimestamp);
             return {};
         };
 
-        if (auto result = storeAsset("HSEnhancer.dll", assets.modUrl, &assets.modTimestamp, true); !result)
+        if (auto result = storeAsset(PACKAGE_FILENAME, assets.packageUrl, assets.packageTimestamp); !result)
             return std::unexpected(result.error());
-        if (auto result = storeAsset("winmm.dll", assets.proxyUrl, nullptr, true); !result)
-            return std::unexpected(result.error());
-        if (auto result = storeAsset("HSEnhancerLauncher.exe", assets.launcherUrl, &assets.launcherTimestamp, true);
-            !result)
-            return std::unexpected(result.error());
-        if (auto result = storeAsset(UE4SS_BRIDGE_FILENAME, assets.bridgeUrl, nullptr, false); !result)
+        if (auto result = storeAsset("HSEnhancerLauncher.exe", assets.launcherUrl, assets.launcherTimestamp); !result)
             return std::unexpected(result.error());
 
         return assets;
@@ -332,44 +330,32 @@ namespace hse {
     std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() {
         ExperimentalUpdateInfo info;
 
-        auto stableResult = CheckForUpdates();
-        if (stableResult && stableResult->remoteVersion >= stableResult->currentVersion) {
-            info.stableRelease = *stableResult;
-            info.stableRelease->available = true;
-            Logger::info("Stable version %s is available", stableResult->remoteVersion.ToString().c_str());
-            return info;
-        }
-
         auto jsonResult = DownloadToString(GITHUB_EXPERIMENTAL_API_URL);
-        if (!jsonResult) {
-            Logger::warn("No experimental release found, using stable releases only");
-            return info;
-        }
+        if (!jsonResult) return std::unexpected(UpdateError::NetworkError);
 
         const auto& json = *jsonResult;
 
         auto assets = ParseExperimentalAssets(json);
         if (!assets) return std::unexpected(assets.error());
-        info.modTimestamp = std::move(assets->modTimestamp);
+        info.packageTimestamp = std::move(assets->packageTimestamp);
         info.launcherTimestamp = std::move(assets->launcherTimestamp);
-        info.downloadUrlMod = std::move(assets->modUrl);
-        info.downloadUrlProxy = std::move(assets->proxyUrl);
-        info.downloadUrlBridge = std::move(assets->bridgeUrl);
+        info.downloadUrlPackage = std::move(assets->packageUrl);
         info.downloadUrlLauncher = std::move(assets->launcherUrl);
 
-        const std::string storedModTimestamp =
-            LauncherConfig::Instance().GetString("ExperimentalUpdate", "mod_timestamp", "");
+        const std::string storedPackageTimestamp =
+            LauncherConfig::Instance().GetString("ExperimentalUpdate", "package_timestamp", "");
         const std::string storedLauncherTimestamp =
             LauncherConfig::Instance().GetString("ExperimentalUpdate", "launcher_timestamp", "");
 
-        info.modUpdateAvailable =
-            !info.modTimestamp.empty() && (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);
+        info.packageUpdateAvailable =
+            !info.packageTimestamp.empty() &&
+            (storedPackageTimestamp.empty() || info.packageTimestamp > storedPackageTimestamp);
 
         info.launcherUpdateAvailable =
             !info.launcherTimestamp.empty() &&
             (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
 
-        if (info.modUpdateAvailable) {
+        if (info.packageUpdateAvailable) {
             Logger::info("An experimental Half Sword Enhancer update is available");
         }
 
@@ -383,13 +369,11 @@ namespace hse {
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
         const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
-        auto result = DownloadToTempAndInstall(
-            info.downloadUrlMod, info.downloadUrlProxy, info.downloadUrlBridge, gameBinPath, installMode, 30000
-        );
+        auto result = DownloadPackageAndInstall(info.downloadUrlPackage, gameBinPath, installMode);
         if (!result) return result;
 
         auto configResult =
-            LauncherConfig::Instance().SetString("ExperimentalUpdate", "mod_timestamp", info.modTimestamp);
+            LauncherConfig::Instance().SetString("ExperimentalUpdate", "package_timestamp", info.packageTimestamp);
         if (!configResult) {
             Logger::warn("Could not remember this update. It may be offered again next time.");
         }

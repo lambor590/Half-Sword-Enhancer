@@ -143,28 +143,6 @@ bool HSELauncher::PerformSelfUpdate() {
 
     auto& experimentalInfo = *cachedExperimentalInfo_;
 
-    if (experimentalInfo.stableRelease && experimentalInfo.stableRelease->available) {
-        auto& stable = *experimentalInfo.stableRelease;
-        std::string message = "A stable release is available!\n\n"
-                              "Current experimental version: " +
-                              stable.currentVersion.ToString() +
-                              "\n"
-                              "Stable release: " +
-                              stable.remoteVersion.ToString() +
-                              "\n\n"
-                              "Do you want to update to the stable release?";
-
-        int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
-
-        if (result == IDYES) {
-            hse::Logger::info("Updating launcher to stable release...");
-            auto launcherResult = hse::UpdateManager::UpdateLauncher(stable.downloadUrlLauncher, stable.remoteVersion);
-            return static_cast<bool>(launcherResult);
-        }
-        hse::Logger::info("Stable launcher update skipped");
-        return true;
-    }
-
     if (experimentalInfo.launcherUpdateAvailable && !experimentalInfo.downloadUrlLauncher.empty()) {
         std::string message = "A new experimental launcher build is available!\n\n"
                               "Do you want to update the launcher now?";
@@ -352,19 +330,6 @@ bool HSELauncher::CheckAndInstallMod() {
         }
 
         auto& info = *cachedExperimentalInfo_;
-        if (info.downloadUrlMod.empty()) {
-            hse::Logger::info("No experimental version is available. Installing the latest stable version...");
-            auto stableInfo = hse::UpdateManager::CheckForUpdates();
-            if (!stableInfo || !stableInfo->remoteVersion.IsValid()) {
-                hse::logAndShowError(
-                    "No Half Sword Enhancer version is available",
-                    "No Half Sword Enhancer version could be found. Please check your internet connection."
-                );
-                return false;
-            }
-            return DownloadAndInstall(stableInfo->remoteVersion, installMode);
-        }
-
         auto result = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
         if (!result) {
             hse::logAndShowError(
@@ -387,20 +352,7 @@ bool HSELauncher::CheckAndInstallMod() {
 
     auto& info = *cachedExperimentalInfo_;
 
-    if (info.stableRelease && info.stableRelease->available) {
-        auto& stable = *info.stableRelease;
-        std::string message = "A stable Half Sword Enhancer version is available!\n\n"
-                              "Stable release: " +
-                              stable.remoteVersion.ToString() +
-                              "\n\n"
-                              "Do you want to install the stable version?";
-        int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
-        if (result == IDYES) {
-            return DownloadAndInstall(stable.remoteVersion, installMode);
-        }
-    }
-
-    if (info.modUpdateAvailable && !info.downloadUrlMod.empty()) {
+    if (info.packageUpdateAvailable && !info.downloadUrlPackage.empty()) {
         std::string message = "A new experimental Half Sword Enhancer version is available!\n\n"
                               "Do you want to install the update now?";
         int result = MessageBoxA(nullptr, message.c_str(), "Half Sword Enhancer Update", MB_YESNO | MB_ICONINFORMATION);
