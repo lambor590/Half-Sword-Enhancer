@@ -33,19 +33,35 @@
 
 Choose between the **Launcher** (recommended) or **Manual Install**.
 
+The same download supports Windows launcher users and manual Linux/Steam Deck installs:
+
+```text
+HSEnhancer.zip
+├── HSEnhancerLauncher.exe
+└── Manual Install/
+    ├── HSEnhancer.dll
+    ├── winmm.dll
+    ├── main.dll
+    ├── package.ini
+    └── Manual_Install.txt
+```
+
 ### Launcher
 
-1. Download the launcher: [HSEnhancerLauncher.exe](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancerLauncher.exe)
-2. Run it — the launcher will:
+1. Download [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip).
+2. Extract the complete ZIP, keeping `HSEnhancerLauncher.exe` and the `Manual Install` folder together.
+3. Run `HSEnhancerLauncher.exe` — the launcher will:
    - Check for updates automatically
-   - Launch Half Sword if not already running
-   - Inject the mod into the game
-3. Run the launcher each time you want to use the mod.
+   - Install the included files without downloading them again
+   - Keep the current and two previous builds in its local cache
+   - Offer to launch Half Sword when installation finishes
+
+Existing users of the old standalone launcher must download and extract the ZIP once. New releases no longer publish a separate launcher file.
 
 ### Manual Install
 
 1. Download [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip).
-2. Extract it to a temporary folder.
+2. Open the extracted `Manual Install` folder.
 3. Follow the included `Manual_Install.txt`.
 
 ### UE4SS
@@ -58,7 +74,7 @@ If UE4SS is installed, the launcher uses UE4SS mode and installs HSE through `ue
 |---------|----------|----------------|
 | Setup | One-click | Copy files to game folder |
 | Auto-updates | Yes | No |
-| Internet required | Only for update check | No |
+| Internet required | Only when an update is not already bundled or cached | No |
 | Antivirus alerts | Possible (injection) | Rare |
 
 > **Note:** Both methods provide identical mod functionality. The mod does not modify any game files.
@@ -251,8 +267,7 @@ Antivirus may block injection. Solutions:
 
 #### Auto-updater Not Working
 Download manually from:
-- [GitHub Launcher](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancerLauncher.exe)
-- [GitHub Manual Install](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
+- [GitHub Package](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
 - [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26)
 
 ## Compatibility

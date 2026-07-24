@@ -6,9 +6,9 @@ This guide details installing the Half Sword Enhancer mod on Linux / SteamDeck a
 **Installing the Half Sword Enhancer**
 
 1. **Download the package:** [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
-2. **Extract DLLs:** Open the ZIP with your archive manager and extract these two files:
-* `winmm.dll`
-* `HSEnhancer.dll`
+2. **Extract DLLs:** Open the ZIP with your archive manager and extract these two files from the `Manual Install` folder:
+* `Manual Install/winmm.dll`
+* `Manual Install/HSEnhancer.dll`
 3. **Locate Game Directory:** Navigate to the game's installation folder.
 
 On desktop Linux the default location is: `/home/username/.steam/steam/steamapps/common/Half Sword Demo/HalfSwordUE5/Binaries/Win64`
