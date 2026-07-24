@@ -483,7 +483,14 @@ namespace SaveEditorModel {
                 if (const auto separator = shortName.rfind("::"); separator != std::string_view::npos)
                     shortName.remove_prefix(separator + 2);
                 if (shortName == "MAX" || shortName.ends_with("_MAX")) continue;
-                auto displayName = UserDefinedEnumDisplay(userDefinedEnum, item.Key(), name, shortName);
+                std::string displayName;
+                if (item.Value() >= 0 && item.Value() <= 255) {
+                    displayName = SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(
+                                      enumObject, static_cast<SDK::uint8>(item.Value())
+                    ).ToString();
+                }
+                if (displayName.empty())
+                    displayName = UserDefinedEnumDisplay(userDefinedEnum, item.Key(), name, shortName);
                 if (displayName.empty()) {
                     constexpr std::string_view GENERATED_PREFIX = "NewEnumerator";
                     displayName = shortName.starts_with(GENERATED_PREFIX)
