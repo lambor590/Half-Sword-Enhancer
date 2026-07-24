@@ -26,38 +26,13 @@ namespace hse {
         constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Release;
 #endif
 
-        class ScopedTempDirectory {
-        public:
-            explicit ScopedTempDirectory(std::filesystem::path initialPath) : path_(std::move(initialPath)) {}
-            ~ScopedTempDirectory() {
-                try {
-                    std::error_code ignored;
-                    std::filesystem::remove_all(path_, ignored);
-                } catch (...) {
-                    OutputDebugStringW(L"Half Sword Enhancer: update temporary-directory cleanup failed.\n");
-                }
-            }
-
-            ScopedTempDirectory(const ScopedTempDirectory&) = delete;
-            ScopedTempDirectory& operator=(const ScopedTempDirectory&) = delete;
-            ScopedTempDirectory(ScopedTempDirectory&& other) noexcept : path_(std::move(other.path_)) {
-                other.path_.clear();
-            }
-            ScopedTempDirectory& operator=(ScopedTempDirectory&&) = delete;
-
-            [[nodiscard]] const std::filesystem::path& Path() const noexcept { return path_; }
-
-        private:
-            std::filesystem::path path_;
-        };
-
         [[nodiscard]] UpdateError MapPackageError(PackageCacheError error) noexcept {
             return error == PackageCacheError::InvalidManifest || error == PackageCacheError::InvalidPackage
                        ? UpdateError::InvalidResponse
                        : UpdateError::FileSystemError;
         }
 
-        [[nodiscard]] std::expected<ScopedTempDirectory, UpdateError> CreateUpdateTempDirectory() {
+        [[nodiscard]] std::expected<ScopedDirectory, UpdateError> CreateUpdateTempDirectory() {
             const auto root = getAppDataDirectory() / "updates";
             std::error_code error;
             std::filesystem::create_directories(root, error);
@@ -71,7 +46,7 @@ namespace hse {
                                        std::to_wstring(GetTickCount64()) + L"-" +
                                        std::to_wstring(nextId.fetch_add(1, std::memory_order_relaxed));
             auto candidate = root / directoryName;
-            if (std::filesystem::create_directory(candidate, error)) return ScopedTempDirectory(std::move(candidate));
+            if (std::filesystem::create_directory(candidate, error)) return ScopedDirectory(std::move(candidate));
             Logger::error("Could not prepare the update folder: %s", error.message().c_str());
             return std::unexpected(UpdateError::FileSystemError);
         }

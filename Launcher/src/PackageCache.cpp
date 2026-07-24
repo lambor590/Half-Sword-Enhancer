@@ -52,27 +52,6 @@ namespace hse {
             HashHandle& operator=(const HashHandle&) = delete;
         };
 
-        class ScopedDirectory {
-        public:
-            explicit ScopedDirectory(std::filesystem::path initialPath) : path_(std::move(initialPath)) {}
-            ~ScopedDirectory() {
-                if (owns_) {
-                    std::error_code ignored;
-                    std::filesystem::remove_all(path_, ignored);
-                }
-            }
-
-            ScopedDirectory(const ScopedDirectory&) = delete;
-            ScopedDirectory& operator=(const ScopedDirectory&) = delete;
-
-            [[nodiscard]] const std::filesystem::path& Path() const noexcept { return path_; }
-            void Release() noexcept { owns_ = false; }
-
-        private:
-            std::filesystem::path path_;
-            bool owns_ = true;
-        };
-
         [[nodiscard]] constexpr std::string_view ChannelName(PackageChannel channel) noexcept {
             return channel == PackageChannel::Experimental ? "experimental" : "release";
         }

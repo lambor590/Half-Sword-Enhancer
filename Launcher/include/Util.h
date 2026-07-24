@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 #include "Logger.h"
@@ -23,6 +24,30 @@ namespace hse {
     constexpr const char* BUNDLE_FILES_DIRECTORY = "Manual Install";
     constexpr const char* PACKAGE_MANIFEST_FILENAME = "package.ini";
     constexpr const char* UE4SS_MOD_NAME = "HSEnhancer";
+
+    class ScopedDirectory final {
+    public:
+        explicit ScopedDirectory(std::filesystem::path initialPath) : path(std::move(initialPath)) {}
+        ~ScopedDirectory() {
+            if (!owns) return;
+            std::error_code ignored;
+            std::filesystem::remove_all(path, ignored);
+        }
+
+        ScopedDirectory(const ScopedDirectory&) = delete;
+        ScopedDirectory& operator=(const ScopedDirectory&) = delete;
+        ScopedDirectory(ScopedDirectory&& other) noexcept : path(std::move(other.path)), owns(other.owns) {
+            other.owns = false;
+        }
+        ScopedDirectory& operator=(ScopedDirectory&&) = delete;
+
+        [[nodiscard]] const std::filesystem::path& Path() const noexcept { return path; }
+        void Release() noexcept { owns = false; }
+
+    private:
+        std::filesystem::path path;
+        bool owns = true;
+    };
 
     class NamedPathMutex {
     public:
