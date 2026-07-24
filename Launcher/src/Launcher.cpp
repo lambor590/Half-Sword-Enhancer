@@ -267,7 +267,7 @@ hse::InstallMode HSELauncher::GetInstallMode() {
     }
 
     const auto detectedMode = hse::DetectInstallMode(gameBinPath_);
-    std::string message = "Choose how to install this closed-test build.\n\n"
+    std::string message = "Choose how to install this build.\n\n"
                           "YES: Integrate with your existing UE4SS installation.\n\n"
                           "NO: Install directly into Half Sword.\n\n";
 
