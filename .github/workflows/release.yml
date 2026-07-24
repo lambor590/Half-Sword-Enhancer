@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Prepare
+        run: |
+          $resource = Get-Content "Launcher/resource/Launcher.rc" -Raw
+          if ($resource -notmatch 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+)') {
+            throw "Failed to read the release version"
+          }
+
+          $tag = "v$($Matches[1]).$($Matches[2]).$($Matches[3])"
+          if (git tag --list "$tag") {
+            throw "Release $tag already exists"
+          }
+
+          "VERSION=$tag" >> $env:GITHUB_ENV
+          "### Release $tag" >> $env:GITHUB_STEP_SUMMARY
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Build
+        run: >-
+          msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
+          /p:Configuration=Release /p:Platform=x64 /p:SkipGameInstall=true
+
+      - name: Package
+        run: |
+          New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+          Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
+          Copy-Item "bin/HSEnhancer.dll" "release_files/"
+          Copy-Item "bin/winmm.dll" "release_files/"
+          Copy-Item "bin/main.dll" "release_files/"
+
+          New-Item -ItemType Directory -Force -Path "manual_install/ue4ss/Mods/HSEnhancer/dlls" | Out-Null
+          Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+          Copy-Item "bin/HSEnhancer.dll" "manual_install/"
+          Copy-Item "bin/winmm.dll" "manual_install/"
+          Copy-Item "bin/main.dll" "manual_install/ue4ss/Mods/HSEnhancer/dlls/"
+          Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
+
+      - name: Create draft
+        run: |
+          $assets = (Get-ChildItem "release_files/*").FullName
+
+          gh release create $env:VERSION @assets `
+            --repo "${{ github.repository }}" `
+            --target "${{ github.sha }}" `
+            --title $env:VERSION `
+            --notes "Add the changelog manually before publishing." `
+            --draft
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to create draft release $env:VERSION"
+          }
