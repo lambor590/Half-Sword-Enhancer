@@ -143,7 +143,7 @@ bool HSELauncher::PerformSelfUpdate() {
 
     auto& experimentalInfo = *cachedExperimentalInfo_;
 
-    if (experimentalInfo.launcherUpdateAvailable && !experimentalInfo.downloadUrlLauncher.empty()) {
+    if (experimentalInfo.launcherUpdateAvailable) {
         std::string message = "A new experimental launcher build is available!\n\n"
                               "Do you want to update the launcher now?";
         int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
@@ -173,7 +173,7 @@ bool HSELauncher::PerformSelfUpdate() {
     }
 
     auto& updateInfo = *cachedUpdateInfo_;
-    if (!updateInfo.available || updateInfo.downloadUrlLauncher.empty()) {
+    if (!updateInfo.available) {
         hse::Logger::info("Launcher is up to date");
         return true;
     }
@@ -314,59 +314,47 @@ bool HSELauncher::CheckAndInstallMod() {
     const bool needsInstall = !hse::IsInstallationComplete(gameBinPath_, installMode);
 
 #ifdef EXPERIMENTAL_VERSION
-    if (needsInstall) {
-        hse::Logger::info("Half Sword Enhancer is not ready. Downloading the experimental version...");
-
-        if (!cachedExperimentalInfo_) {
-            auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
-            if (!experimentalUpdateResult) {
+    if (!cachedExperimentalInfo_) {
+        auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
+        if (!experimentalUpdateResult) {
+            if (needsInstall) {
                 hse::logAndShowError(
                     "Could not check available experimental versions",
                     "Could not connect to the update server. Please check your internet connection."
                 );
-                return false;
+            } else {
+                hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
             }
-            cachedExperimentalInfo_ = *experimentalUpdateResult;
-        }
-
-        auto& info = *cachedExperimentalInfo_;
-        auto result = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
-        if (!result) {
-            hse::logAndShowError(
-                "Could not install the experimental version",
-                "Half Sword Enhancer could not be installed. Please check your internet connection and try again."
-            );
-            return false;
-        }
-        return true;
-    }
-
-    if (!cachedExperimentalInfo_) {
-        auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
-        if (!experimentalUpdateResult) {
-            hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
-            return true;
+            return !needsInstall;
         }
         cachedExperimentalInfo_ = *experimentalUpdateResult;
     }
 
     auto& info = *cachedExperimentalInfo_;
+    if (!needsInstall) {
+        if (!info.packageUpdateAvailable) {
+            hse::Logger::info("Half Sword Enhancer is up to date");
+            return true;
+        }
 
-    if (info.packageUpdateAvailable && !info.downloadUrlPackage.empty()) {
         std::string message = "A new experimental Half Sword Enhancer version is available!\n\n"
                               "Do you want to install the update now?";
-        int result = MessageBoxA(nullptr, message.c_str(), "Half Sword Enhancer Update", MB_YESNO | MB_ICONINFORMATION);
-        if (result == IDYES) {
-            auto updateResult = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
-            if (!updateResult) {
-                hse::showError(
-                    "Half Sword Enhancer could not be updated. Please check your internet connection and try again."
-                );
-                return false;
-            }
+        if (MessageBoxA(nullptr, message.c_str(), "Half Sword Enhancer Update", MB_YESNO | MB_ICONINFORMATION) !=
+            IDYES) {
+            hse::Logger::info("Half Sword Enhancer update skipped");
+            return true;
         }
     } else {
-        hse::Logger::info("Half Sword Enhancer is up to date");
+        hse::Logger::info("Half Sword Enhancer is not ready. Downloading the experimental version...");
+    }
+
+    if (auto result = hse::UpdateManager::DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode); !result) {
+        hse::logAndShowError(
+            "Could not install the experimental version",
+            "Half Sword Enhancer could not be installed or updated. Please check your internet connection and try "
+            "again."
+        );
+        return false;
     }
 
     return true;
@@ -387,56 +375,40 @@ bool HSELauncher::CheckAndInstallMod() {
 
     if (needsInstall) {
         hse::Logger::info("Half Sword Enhancer is not ready. Downloading the latest version...");
-
-        if (!updateInfo.remoteVersion.IsValid()) {
-            hse::logAndShowError(
-                "The available version could not be identified", "The update could not be read. Try again later."
-            );
-            return false;
-        }
-
         return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
     auto installedVersion = hse::UpdateManager::GetInstalledModVersion(gameBinPath_);
-    bool needsUpdate = false;
-
-    if (installedVersion) {
-        needsUpdate = updateInfo.remoteVersion > *installedVersion;
-        if (needsUpdate) {
-            std::string message = "A Half Sword Enhancer update is available!\n\n"
-                                  "Installed: " +
-                                  installedVersion->ToString() +
-                                  "\n"
-                                  "Available: " +
-                                  updateInfo.remoteVersion.ToString() +
-                                  "\n\n"
-                                  "Do you want to update now?";
-            int result = MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONINFORMATION);
-            if (result != IDYES) {
-                hse::Logger::info("Half Sword Enhancer update skipped");
-                return true;
-            }
-        }
-    } else {
-        needsUpdate = true;
+    if (!installedVersion) {
         std::string message = "The installed Half Sword Enhancer version could not be identified.\n\n"
                               "Available version: " +
                               updateInfo.remoteVersion.ToString() +
                               "\n\nDo you want to reinstall Half Sword Enhancer to ensure it is current?";
-        int result = MessageBoxA(nullptr, message.c_str(), "Version Unknown", MB_YESNO | MB_ICONQUESTION);
-        if (result != IDYES) {
+        if (MessageBoxA(nullptr, message.c_str(), "Version Unknown", MB_YESNO | MB_ICONQUESTION) != IDYES) {
             hse::Logger::info("Reinstallation skipped");
             return true;
         }
-    }
-
-    if (needsUpdate) {
         return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
-    hse::Logger::info("Half Sword Enhancer is up to date (v%s)", installedVersion->ToString().c_str());
-    return true;
+    if (updateInfo.remoteVersion <= *installedVersion) {
+        hse::Logger::info("Half Sword Enhancer is up to date (v%s)", installedVersion->ToString().c_str());
+        return true;
+    }
+
+    std::string message = "A Half Sword Enhancer update is available!\n\n"
+                          "Installed: " +
+                          installedVersion->ToString() +
+                          "\n"
+                          "Available: " +
+                          updateInfo.remoteVersion.ToString() +
+                          "\n\n"
+                          "Do you want to update now?";
+    if (MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONINFORMATION) != IDYES) {
+        hse::Logger::info("Half Sword Enhancer update skipped");
+        return true;
+    }
+    return DownloadAndInstall(updateInfo.remoteVersion, installMode);
 #endif
 }
 
