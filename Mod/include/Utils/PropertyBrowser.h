@@ -86,6 +86,7 @@ namespace PropertyBrowser {
         std::mutex pendingNamesMutex;
         std::atomic_bool hasPendingNames{false};
         float maxTextWidthEm = 0.0f;
+        std::uint64_t revision = 0;
     };
 
     struct WorldActor {
@@ -378,6 +379,7 @@ namespace PropertyBrowser {
             info.hasPendingNames.store(false, std::memory_order_release);
         }
         UpdateEnumTextWidth(info);
+        ++info.revision;
     }
 
     [[nodiscard]] inline EnumInfo& GetEnumInfo(SDK::UEnum* enumPtr) {
@@ -385,7 +387,10 @@ namespace PropertyBrowser {
         static EnumInfo empty;
         if (!enumPtr) return empty;
         auto [cacheIt, inserted] = cache.try_emplace(enumPtr);
-        if (!inserted) return cacheIt->second;
+        if (!inserted) {
+            ApplyPendingEnumNames(cacheIt->second);
+            return cacheIt->second;
+        }
         auto& info = cacheIt->second;
         info.names = BuildEnumNames(enumPtr, false);
         UpdateEnumTextWidth(info);
@@ -399,6 +404,14 @@ namespace PropertyBrowser {
             info->hasPendingNames.store(true, std::memory_order_release);
         });
         return info;
+    }
+
+    [[nodiscard]] inline EnumInfo& GetEnumInfo(std::string_view enumName) {
+        static std::unordered_map<std::string, SDK::UEnum*> enumCache;
+        auto cacheIt = enumCache.try_emplace(std::string(enumName), nullptr).first;
+        if (!cacheIt->second)
+            cacheIt->second = SDK::UObject::FindObjectFast<SDK::UEnum>(cacheIt->first, SDK::EClassCastFlags::Enum);
+        return GetEnumInfo(cacheIt->second);
     }
 
     [[nodiscard]] inline const PropertySchema& GetPropertySchema(SDK::UStruct* ustruct) {
