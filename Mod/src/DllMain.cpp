@@ -22,11 +22,9 @@ extern "C" __declspec(dllexport) void HSE_Shutdown() noexcept {
 BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID /*reserved*/) noexcept {
     if (reason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(module);
-#ifdef EXPERIMENTAL_VERSION
-        logger.Log("Half Sword Enhancer - Experimental Build initializing...");
-        logger.Log("This is a public experimental build for testing purposes.");
-#else
         logger.Log("Half Sword Enhancer initializing...");
+#ifdef EXPERIMENTAL_VERSION
+        logger.Log("This is a public experimental build for testing purposes.");
 #endif
     }
 
