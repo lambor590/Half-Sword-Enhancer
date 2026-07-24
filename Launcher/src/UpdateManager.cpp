@@ -122,11 +122,12 @@ namespace hse {
             if (auto download = DownloadFile(config); !download) return std::unexpected(UpdateError::NetworkError);
 
             const auto bundlePath = staging->Path() / "bundle";
-            if (auto extraction = ExtractBundle(packagePath, bundlePath); !extraction) return extraction;
+            if (auto extraction = ExtractBundle(packagePath, bundlePath); !extraction)
+                return std::unexpected(extraction.error());
 
             auto cached = CacheBundle(bundlePath, CURRENT_CHANNEL, expectedVersion, expectedBuildId);
             if (!cached) return std::unexpected(MapPackageError(cached.error()));
-            return cached;
+            return std::move(*cached);
         }
 
         [[nodiscard]] std::expected<void, UpdateError> InstallPackage(
