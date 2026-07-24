@@ -3,6 +3,7 @@
 #include <iterator>
 
 #include "Utils/GuiUtils.h"
+#include "Utils/PropertyBrowser.h"
 
 namespace {
     constexpr const char* SCOPE_LABELS[] = {
@@ -13,15 +14,6 @@ namespace {
     constexpr const char* PROFILE_LABELS[] = {
         "Aggressive", "Defensive", "Passive", "Panic",     "Drunk Brawl",    "Bodyguard",
         "Duelist",    "Horde",     "Coward",  "Berserker", "Training Dummy",
-    };
-
-    constexpr const char* COMBAT_BEHAVIOR_LABELS[] = {
-        "Style 1", "Style 2", "Style 3", "Style 4", "Style 5", "Style 6",
-    };
-
-    constexpr const char* STRAFE_LABELS[] = {
-        "Default",
-        "Alternate",
     };
 
     constexpr const char* DirectiveLabel(AIDirectorSection::Directive directive) noexcept {
@@ -174,21 +166,13 @@ void AIDirectorSection::RenderAdvanced() {
     GuiUtils::DebouncedDragFloat("Attack Variety", &changeAttackRate, 0.05f, 0.0f, 10.0f, "%.2f");
     GuiUtils::DebouncedDragFloat("Preferred Distance", &approachDistance, 5.0f, 0.0f, 1000.0f, "%.0f");
 
-    if (GuiUtils::BeginSizedCombo("Fighting Style", COMBAT_BEHAVIOR_LABELS[combatBehavior], 150.0f)) {
-        for (int i = 0; i < static_cast<int>(std::size(COMBAT_BEHAVIOR_LABELS)); ++i) {
-            if (ImGui::Selectable(COMBAT_BEHAVIOR_LABELS[i], i == combatBehavior)) combatBehavior = i;
-            if (i == combatBehavior) ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-    }
+    const auto& combatBehaviorInfo = PropertyBrowser::GetEnumInfo("AI_CombatBehavior_Enum");
+    (void)GuiUtils::RenderEnumCombo(
+        "Fighting Style", combatBehavior, combatBehaviorInfo.names, combatBehaviorInfo.maxTextWidthEm
+    );
 
-    if (GuiUtils::BeginSizedCombo("Footwork Style", STRAFE_LABELS[strafeMode], 150.0f)) {
-        for (int i = 0; i < static_cast<int>(std::size(STRAFE_LABELS)); ++i) {
-            if (ImGui::Selectable(STRAFE_LABELS[i], i == strafeMode)) strafeMode = i;
-            if (i == strafeMode) ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-    }
+    const auto& strafeInfo = PropertyBrowser::GetEnumInfo("AI_Strafe_Enum");
+    (void)GuiUtils::RenderEnumCombo("Footwork Style", strafeMode, strafeInfo.names, strafeInfo.maxTextWidthEm);
 
     auto invincibility = static_cast<float>(aiInvincibility);
     if (GuiUtils::DebouncedDragFloat("Damage Resistance", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
