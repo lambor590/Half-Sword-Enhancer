@@ -256,11 +256,6 @@ namespace hse {
         if (!cached) return std::unexpected(MapPackageError(cached.error()));
 
         const auto sourceLauncher = bundlePath / LAUNCHER_FILENAME;
-        if (auto validation = ValidateLauncherPayload(sourceLauncher, cached->manifest.version); !validation) {
-            Logger::error("The downloaded launcher is not valid for this package");
-            return std::unexpected(UpdateError::InvalidResponse);
-        }
-
         std::error_code error;
         std::filesystem::copy_file(sourceLauncher, staging.PayloadPath(), std::filesystem::copy_options::none, error);
         if (error) return std::unexpected(UpdateError::FileSystemError);
