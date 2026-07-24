@@ -149,13 +149,8 @@ bool HSELauncher::PerformSelfUpdate() {
         int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
             hse::Logger::info("Updating experimental launcher...");
-            auto localVersion = hse::UpdateManager::GetLocalVersion();
-            if (!localVersion) {
-                hse::Logger::error("The launcher update could not be verified");
-                return false;
-            }
             auto launcherResult = hse::UpdateManager::UpdateLauncher(
-                experimentalInfo.downloadUrlLauncher, *localVersion, experimentalInfo.launcherTimestamp
+                experimentalInfo.downloadUrlBundle, std::nullopt, experimentalInfo.buildId
             );
             return static_cast<bool>(launcherResult);
         }
@@ -195,7 +190,7 @@ bool HSELauncher::PerformSelfUpdate() {
 
     hse::Logger::info("Updating launcher...");
     auto launcherUpdateResult =
-        hse::UpdateManager::UpdateLauncher(updateInfo.downloadUrlLauncher, updateInfo.remoteVersion);
+        hse::UpdateManager::UpdateLauncher(updateInfo.downloadUrlBundle, updateInfo.remoteVersion);
     return static_cast<bool>(launcherUpdateResult);
 #endif
 }
@@ -312,12 +307,25 @@ bool HSELauncher::CheckAndInstallMod() {
     const auto installMode = hse::DetectInstallMode(gameBinPath_);
 #endif
     const bool needsInstall = !hse::IsInstallationComplete(gameBinPath_, installMode);
+    if (needsInstall && !config.GetCheckForUpdates()) {
+        auto prepared = hse::UpdateManager::InstallPreparedPackage(gameBinPath_, installMode);
+        if (!prepared) {
+            hse::logAndShowError(
+                "Could not install the prepared Half Sword Enhancer package",
+                "The bundled Half Sword Enhancer files could not be installed."
+            );
+            return false;
+        }
+        if (*prepared) return true;
+    }
 
 #ifdef EXPERIMENTAL_VERSION
     if (!cachedExperimentalInfo_) {
         auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
             if (needsInstall) {
+                auto prepared = hse::UpdateManager::InstallPreparedPackage(gameBinPath_, installMode);
+                if (prepared && *prepared) return true;
                 hse::logAndShowError(
                     "Could not check available experimental versions",
                     "Could not connect to the update server. Please check your internet connection."
@@ -362,6 +370,13 @@ bool HSELauncher::CheckAndInstallMod() {
     if (!cachedUpdateInfo_) {
         auto updateInfoResult = hse::UpdateManager::CheckForUpdates();
         if (!updateInfoResult) {
+            if (needsInstall) {
+                auto prepared = hse::UpdateManager::InstallPreparedPackage(gameBinPath_, installMode);
+                if (prepared && *prepared) return true;
+            } else {
+                hse::Logger::warn("Could not check for updates. The installed version will be kept.");
+                return true;
+            }
             hse::logAndShowError(
                 "Could not check the latest Half Sword Enhancer version",
                 "Could not connect to the update server. Please check your internet connection."
@@ -451,6 +466,15 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
         SetupConsole();
         DisplayBanner();
         if (config.IsFirstRun()) ShowFirstRunInstructions();
+
+        if (auto prepared = hse::UpdateManager::PrepareBundledPackage(); !prepared) {
+            hse::logAndShowError(
+                "Could not prepare the bundled installation files",
+                "The bundled Half Sword Enhancer files could not be prepared."
+            );
+            ShowExitMessage(false);
+            return 1;
+        }
 
         if (!PerformSelfUpdate()) {
             ShowExitMessage(false);

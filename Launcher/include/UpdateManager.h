@@ -4,6 +4,7 @@
 #include <string_view>
 #include <expected>
 #include <filesystem>
+#include <optional>
 #include <cstdint>
 
 #include "Version.h"
@@ -24,22 +25,21 @@ namespace hse {
         bool available = false;
         Version currentVersion;
         Version remoteVersion;
-        std::string downloadUrlLauncher;
+        std::string downloadUrlBundle;
     };
 
 #ifdef EXPERIMENTAL_VERSION
     struct ExperimentalUpdateInfo {
         bool packageUpdateAvailable = false;
         bool launcherUpdateAvailable = false;
-        std::string packageTimestamp;
-        std::string launcherTimestamp;
-        std::string downloadUrlPackage;
-        std::string downloadUrlLauncher;
+        std::string buildId;
+        std::string downloadUrlBundle;
     };
 #endif
 
     class UpdateManager {
     public:
+        [[nodiscard]] static std::expected<void, UpdateError> PrepareBundledPackage();
         [[nodiscard]] static std::expected<Version, UpdateError> GetLocalVersion();
         [[nodiscard]] static std::expected<UpdateInfo, UpdateError> CheckForUpdates();
         [[nodiscard]] static std::expected<Version, UpdateError> GetInstalledModVersion(
@@ -48,8 +48,12 @@ namespace hse {
         [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallMod(
             const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
         );
+        [[nodiscard]] static std::expected<bool, UpdateError> InstallPreparedPackage(
+            const std::filesystem::path& gameBinPath, InstallMode installMode
+        );
         [[nodiscard]] static std::expected<void, UpdateError> UpdateLauncher(
-            std::string_view downloadUrl, const Version& expectedVersion, std::string_view timestamp = {}
+            std::string_view downloadUrl, std::optional<Version> expectedVersion = std::nullopt,
+            std::string_view buildId = {}
         );
 
 #ifdef EXPERIMENTAL_VERSION
@@ -69,7 +73,8 @@ namespace hse {
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
         [[nodiscard]] static std::expected<void, UpdateError> DownloadPackageAndInstall(
-            std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode
+            std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode,
+            std::optional<Version> expectedVersion, std::string_view expectedBuildId = {}
         );
         [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
             const std::filesystem::path& filePath

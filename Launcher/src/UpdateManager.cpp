@@ -1,28 +1,38 @@
 #include <array>
 #include <atomic>
-#include <vector>
 #include <utility>
+#include <vector>
 #include <Windows.h>
 #include <process.h>
 
 #include "../include/UpdateManager.h"
-#include "../include/NetworkManager.h"
 #include "../include/InstallManager.h"
 #include "../include/JsonString.h"
 #include "../include/LauncherConfig.h"
 #include "../include/Logger.h"
+#include "../include/NetworkManager.h"
+#include "../include/PackageCache.h"
 #include "../include/SelfUpdate.h"
 #include "../include/Util.h"
 
 namespace hse {
     namespace {
+#ifdef EXPERIMENTAL_VERSION
+        constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Experimental;
+        constexpr const char* EXPERIMENTAL_SECTION = "ExperimentalUpdate";
+        constexpr const char* PACKAGE_BUILD_KEY = "package_build";
+        constexpr const char* LAUNCHER_BUILD_KEY = "launcher_build";
+#else
+        constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Release;
+#endif
+
         class ScopedTempDirectory {
         public:
-            explicit ScopedTempDirectory(std::filesystem::path initialPath) : path(std::move(initialPath)) {}
+            explicit ScopedTempDirectory(std::filesystem::path initialPath) : path_(std::move(initialPath)) {}
             ~ScopedTempDirectory() {
                 try {
                     std::error_code ignored;
-                    std::filesystem::remove_all(path, ignored);
+                    std::filesystem::remove_all(path_, ignored);
                 } catch (...) {
                     OutputDebugStringW(L"Half Sword Enhancer: update temporary-directory cleanup failed.\n");
                 }
@@ -30,16 +40,22 @@ namespace hse {
 
             ScopedTempDirectory(const ScopedTempDirectory&) = delete;
             ScopedTempDirectory& operator=(const ScopedTempDirectory&) = delete;
-            ScopedTempDirectory(ScopedTempDirectory&& other) noexcept : path(std::move(other.path)) {
-                other.path.clear();
+            ScopedTempDirectory(ScopedTempDirectory&& other) noexcept : path_(std::move(other.path_)) {
+                other.path_.clear();
             }
             ScopedTempDirectory& operator=(ScopedTempDirectory&&) = delete;
 
-            [[nodiscard]] const std::filesystem::path& Path() const noexcept { return path; }
+            [[nodiscard]] const std::filesystem::path& Path() const noexcept { return path_; }
 
         private:
-            std::filesystem::path path;
+            std::filesystem::path path_;
         };
+
+        [[nodiscard]] UpdateError MapPackageError(PackageCacheError error) noexcept {
+            return error == PackageCacheError::InvalidManifest || error == PackageCacheError::InvalidPackage
+                       ? UpdateError::InvalidResponse
+                       : UpdateError::FileSystemError;
+        }
 
         [[nodiscard]] std::expected<ScopedTempDirectory, UpdateError> CreateUpdateTempDirectory() {
             const auto root = getAppDataDirectory() / "updates";
@@ -60,7 +76,7 @@ namespace hse {
             return std::unexpected(UpdateError::FileSystemError);
         }
 
-        [[nodiscard]] std::expected<void, UpdateError> ExtractInstallPackage(
+        [[nodiscard]] std::expected<void, UpdateError> ExtractBundle(
             const std::filesystem::path& packagePath, const std::filesystem::path& destination
         ) {
             std::error_code error;
@@ -73,22 +89,72 @@ namespace hse {
             const auto package = quote(packagePath);
             const auto target = quote(destination);
             std::array<wchar_t, MAX_PATH> systemDirectory{};
-            const auto systemDirectoryCapacity = static_cast<UINT>(systemDirectory.size());
-            const auto systemDirectoryLength = GetSystemDirectoryW(systemDirectory.data(), systemDirectoryCapacity);
-            if (systemDirectoryLength == 0 || systemDirectoryLength >= systemDirectoryCapacity) {
-                return std::unexpected(UpdateError::FileSystemError);
-            }
+            const auto capacity = static_cast<UINT>(systemDirectory.size());
+            const auto length = GetSystemDirectoryW(systemDirectory.data(), capacity);
+            if (length == 0 || length >= capacity) return std::unexpected(UpdateError::FileSystemError);
 
             const auto tarPath = std::filesystem::path(systemDirectory.data()) / L"tar.exe";
             if (_wspawnl(
                     _P_WAIT, tarPath.c_str(), L"tar.exe", L"-xf", package.c_str(), L"-C", target.c_str(),
-                    L"HSEnhancer.dll", L"winmm.dll", L"main.dll", static_cast<const wchar_t*>(nullptr)
+                    L"HSEnhancerLauncher.exe", L"\"Manual Install/HSEnhancer.dll\"", L"\"Manual Install/winmm.dll\"",
+                    L"\"Manual Install/main.dll\"", L"\"Manual Install/package.ini\"",
+                    static_cast<const wchar_t*>(nullptr)
                 ) != 0) {
-                Logger::error("The downloaded installation package is invalid");
+                Logger::error("The downloaded Half Sword Enhancer package is invalid");
                 return std::unexpected(UpdateError::InvalidResponse);
             }
             return {};
         }
+
+        [[nodiscard]] std::expected<CachedPackage, UpdateError> DownloadBundleToCache(
+            std::string_view packageUrl, std::optional<Version> expectedVersion, std::string_view expectedBuildId
+        ) {
+            auto staging = CreateUpdateTempDirectory();
+            if (!staging) return std::unexpected(staging.error());
+
+            const auto packagePath = staging->Path() / PACKAGE_FILENAME;
+            DownloadConfig config{
+                .url = packageUrl,
+                .outputPath = packagePath,
+                .description = "Downloading Half Sword Enhancer",
+                .minFileSize = 30'000,
+            };
+            if (auto download = DownloadFile(config); !download) return std::unexpected(UpdateError::NetworkError);
+
+            const auto bundlePath = staging->Path() / "bundle";
+            if (auto extraction = ExtractBundle(packagePath, bundlePath); !extraction) return extraction;
+
+            auto cached = CacheBundle(bundlePath, CURRENT_CHANNEL, expectedVersion, expectedBuildId);
+            if (!cached) return std::unexpected(MapPackageError(cached.error()));
+            return cached;
+        }
+
+        [[nodiscard]] std::expected<void, UpdateError> InstallPackage(
+            const CachedPackage& package, const std::filesystem::path& gameBinPath, InstallMode installMode
+        ) {
+            if (auto installed = InstallFiles(package.filesPath, gameBinPath, installMode); !installed)
+                return std::unexpected(UpdateError::FileSystemError);
+            return {};
+        }
+    }
+
+    std::expected<void, UpdateError> UpdateManager::PrepareBundledPackage() {
+        std::filesystem::path launcherPath;
+        if (!TryGetCurrentExecutablePath(launcherPath)) return std::unexpected(UpdateError::FileSystemError);
+        auto localVersion = GetLocalVersion();
+        if (!localVersion) return std::unexpected(localVersion.error());
+
+        auto imported = ImportBundledPackage(launcherPath, CURRENT_CHANNEL, *localVersion);
+        if (!imported) return std::unexpected(MapPackageError(imported.error()));
+#ifdef EXPERIMENTAL_VERSION
+        if (*imported) {
+            auto& config = LauncherConfig::Instance();
+            if (!config.SetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, (*imported)->manifest.buildId) ||
+                !config.SetString(EXPERIMENTAL_SECTION, LAUNCHER_BUILD_KEY, (*imported)->manifest.buildId))
+                return std::unexpected(UpdateError::FileSystemError);
+        }
+#endif
+        return {};
     }
 
     std::string UpdateManager::BuildReleaseUrl(std::string_view version, std::string_view filename) {
@@ -110,114 +176,122 @@ namespace hse {
     }
 
     std::expected<UpdateInfo, UpdateError> UpdateManager::CheckForUpdates() {
-        auto localVersionResult = GetLocalVersion();
-        if (!localVersionResult) {
-            return std::unexpected(localVersionResult.error());
-        }
+        auto localVersion = GetLocalVersion();
+        if (!localVersion) return std::unexpected(localVersion.error());
 
-        auto jsonResult = DownloadToString(GITHUB_API_URL);
-        if (!jsonResult) {
-            return std::unexpected(UpdateError::NetworkError);
-        }
+        auto json = DownloadToString(GITHUB_API_URL);
+        if (!json) return std::unexpected(UpdateError::NetworkError);
 
-        auto remoteVersionResult = ParseVersionFromJson(*jsonResult);
-        if (!remoteVersionResult) {
-            return std::unexpected(remoteVersionResult.error());
-        }
+        auto remoteVersion = ParseVersionFromJson(*json);
+        if (!remoteVersion) return std::unexpected(remoteVersion.error());
 
-        UpdateInfo info;
-        info.currentVersion = *localVersionResult;
-        info.remoteVersion = *remoteVersionResult;
-        info.available = info.remoteVersion > info.currentVersion;
-
-        const auto versionStr = info.remoteVersion.ToString();
-        info.downloadUrlLauncher = BuildReleaseUrl(versionStr, "HSEnhancerLauncher.exe");
-        if (info.available) {
-            hse::Logger::info("Update available: %s", versionStr.c_str());
-        }
-
+        UpdateInfo info{
+            .available = *remoteVersion > *localVersion,
+            .currentVersion = *localVersion,
+            .remoteVersion = *remoteVersion,
+            .downloadUrlBundle = BuildReleaseUrl(remoteVersion->ToString(), PACKAGE_FILENAME),
+        };
+        if (info.available) Logger::info("Update available: %s", info.remoteVersion.ToString().c_str());
         return info;
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(const std::filesystem::path& gameBinPath
     ) {
-        const auto dllPath = gameBinPath / MOD_FILENAME;
-        return ExtractVersionFromFile(dllPath);
+        return ExtractVersionFromFile(gameBinPath / MOD_FILENAME);
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadPackageAndInstall(
-        std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode
+        std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode,
+        std::optional<Version> expectedVersion, std::string_view expectedBuildId
     ) {
-        auto staging = CreateUpdateTempDirectory();
-        if (!staging) return std::unexpected(staging.error());
+        auto cached = FindCachedPackage(CURRENT_CHANNEL, expectedVersion, expectedBuildId);
+        if (!cached) return std::unexpected(MapPackageError(cached.error()));
+        if (*cached) return InstallPackage(**cached, gameBinPath, installMode);
 
-        const auto packagePath = staging->Path() / PACKAGE_FILENAME;
-        DownloadConfig config{
-            .url = packageUrl,
-            .outputPath = packagePath,
-            .description = "Downloading installation package",
-            .minFileSize = 30'000};
-        if (auto download = DownloadFile(config); !download) return std::unexpected(UpdateError::NetworkError);
-
-        const auto filesPath = staging->Path() / "files";
-        if (auto extraction = ExtractInstallPackage(packagePath, filesPath); !extraction) return extraction;
-
-        auto installResult = InstallFiles(filesPath, gameBinPath, installMode);
-        if (!installResult) {
-            return std::unexpected(UpdateError::FileSystemError);
-        }
-        return {};
+        auto downloaded = DownloadBundleToCache(packageUrl, expectedVersion, expectedBuildId);
+        if (!downloaded) return std::unexpected(downloaded.error());
+        return InstallPackage(*downloaded, gameBinPath, installMode);
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallMod(
         const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
-        const auto versionStr = version.ToString();
-        auto result =
-            DownloadPackageAndInstall(BuildReleaseUrl(versionStr, PACKAGE_FILENAME), gameBinPath, installMode);
-        if (result) {
-            Logger::info("Half Sword Enhancer installed successfully (v%s)", versionStr.c_str());
-        }
+        const auto versionText = version.ToString();
+        auto result = DownloadPackageAndInstall(
+            BuildReleaseUrl(versionText, PACKAGE_FILENAME), gameBinPath, installMode, version
+        );
+        if (result) Logger::info("Half Sword Enhancer installed successfully (v%s)", versionText.c_str());
         return result;
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
-        std::string_view downloadUrl, const Version& expectedVersion, std::string_view timestamp
+    std::expected<bool, UpdateError> UpdateManager::InstallPreparedPackage(
+        const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
-        std::filesystem::path currentExePath;
-        if (!TryGetCurrentExecutablePath(currentExePath)) {
+#ifdef EXPERIMENTAL_VERSION
+        const auto buildId = LauncherConfig::Instance().GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, "");
+        if (buildId.empty()) return false;
+        auto cached = FindCachedPackage(CURRENT_CHANNEL, std::nullopt, buildId);
+#else
+        auto version = GetLocalVersion();
+        if (!version) return std::unexpected(version.error());
+        auto cached = FindCachedPackage(CURRENT_CHANNEL, *version);
+#endif
+        if (!cached) return std::unexpected(MapPackageError(cached.error()));
+        if (!*cached) return false;
+        if (auto installed = InstallPackage(**cached, gameBinPath, installMode); !installed)
+            return std::unexpected(installed.error());
+        return true;
+    }
+
+    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
+        std::string_view downloadUrl, std::optional<Version> expectedVersion, std::string_view buildId
+    ) {
+        std::filesystem::path currentLauncher;
+        if (!TryGetCurrentExecutablePath(currentLauncher)) {
             Logger::error("Could not find the launcher file");
             return std::unexpected(UpdateError::FileSystemError);
         }
 
-        auto stagingResult = CreateSelfUpdateStaging(getAppDataDirectory(), currentExePath);
+        auto stagingResult = CreateSelfUpdateStaging(getAppDataDirectory(), currentLauncher);
         if (!stagingResult) {
             Logger::error("Could not prepare the launcher update");
             return std::unexpected(UpdateError::FileSystemError);
         }
         auto staging = std::move(*stagingResult);
+        const auto stagingDirectory = staging.PayloadPath().parent_path();
+        const auto packagePath = stagingDirectory / PACKAGE_FILENAME;
+        const auto bundlePath = stagingDirectory / "bundle";
 
         Logger::info("Downloading launcher update...");
-
         DownloadConfig config{
             .url = downloadUrl,
-            .outputPath = staging.PayloadPath(),
-            .description = "Downloading launcher update",
-            .minFileSize = 50000};
-
-        auto downloadResult = DownloadFile(config);
-        if (!downloadResult) {
+            .outputPath = packagePath,
+            .description = "Downloading Half Sword Enhancer",
+            .minFileSize = 30'000,
+        };
+        if (auto download = DownloadFile(config); !download) {
             Logger::error("The launcher update could not be downloaded");
             return std::unexpected(UpdateError::NetworkError);
         }
+        if (auto extraction = ExtractBundle(packagePath, bundlePath); !extraction) return extraction;
 
-        if (auto validation = ValidateLauncherPayload(staging.PayloadPath(), expectedVersion); !validation) {
-            Logger::error("The downloaded launcher update is not valid for this version");
+        auto cached = CacheBundle(bundlePath, CURRENT_CHANNEL, expectedVersion, buildId);
+        if (!cached) return std::unexpected(MapPackageError(cached.error()));
+
+        const auto sourceLauncher = bundlePath / LAUNCHER_FILENAME;
+        if (auto validation = ValidateLauncherPayload(sourceLauncher, cached->manifest.version); !validation) {
+            Logger::error("The downloaded launcher is not valid for this package");
             return std::unexpected(UpdateError::InvalidResponse);
         }
 
+        std::error_code error;
+        std::filesystem::copy_file(sourceLauncher, staging.PayloadPath(), std::filesystem::copy_options::none, error);
+        if (error) return std::unexpected(UpdateError::FileSystemError);
+        if (auto validation = ValidateLauncherPayload(staging.PayloadPath(), cached->manifest.version); !validation)
+            return std::unexpected(UpdateError::InvalidResponse);
+
         Logger::info("Applying the launcher update...");
-        if (auto launched = LaunchSelfUpdateWorker(staging, expectedVersion, timestamp, GetCurrentProcessId());
+        if (auto launched = LaunchSelfUpdateWorker(staging, cached->manifest.version, buildId, GetCurrentProcessId());
             !launched) {
             Logger::error("The launcher update could not be applied");
             return std::unexpected(UpdateError::UpdateFailed);
@@ -225,25 +299,20 @@ namespace hse {
         staging.Release();
 
         Logger::info("Launcher update ready. The launcher will restart automatically.");
-
         ExitProcess(0);
     }
 
     std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(const std::filesystem::path& filePath) {
         const auto& path = filePath.native();
-        const DWORD verSize = GetFileVersionInfoSizeW(path.c_str(), nullptr);
-        if (verSize == 0) {
-            return std::unexpected(UpdateError::VersionParsingFailed);
-        }
+        const DWORD versionBytes = GetFileVersionInfoSizeW(path.c_str(), nullptr);
+        if (versionBytes == 0) return std::unexpected(UpdateError::VersionParsingFailed);
 
-        std::vector<BYTE> verData(verSize);
+        std::vector<BYTE> versionData(versionBytes);
         VS_FIXEDFILEINFO* fileInfo = nullptr;
         UINT size = 0;
-
-        if (!GetFileVersionInfoW(path.c_str(), 0, verSize, verData.data()) ||
-            !VerQueryValueW(verData.data(), L"\\", reinterpret_cast<void**>(&fileInfo), &size)) {
+        if (!GetFileVersionInfoW(path.c_str(), 0, versionBytes, versionData.data()) ||
+            !VerQueryValueW(versionData.data(), L"\\", reinterpret_cast<void**>(&fileInfo), &size))
             return std::unexpected(UpdateError::VersionParsingFailed);
-        }
 
         return Version(
             static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionMS)),
@@ -261,71 +330,50 @@ namespace hse {
     }
 
     std::expected<Version, UpdateError> UpdateManager::ParseVersionFromJson(std::string_view json) {
-        auto versionStr = ParseJsonStringField(json, "tag_name");
-        if (!versionStr) {
-            return std::unexpected(UpdateError::VersionParsingFailed);
-        }
+        auto versionText = ParseJsonStringField(json, "tag_name");
+        if (!versionText) return std::unexpected(UpdateError::VersionParsingFailed);
 
-        Version version(*versionStr);
+        Version version(*versionText);
         if (!version.IsValid()) return std::unexpected(UpdateError::VersionParsingFailed);
         return version;
     }
 
 #ifdef EXPERIMENTAL_VERSION
     std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() {
-        auto jsonResult = DownloadToString(GITHUB_EXPERIMENTAL_API_URL);
-        if (!jsonResult) return std::unexpected(UpdateError::NetworkError);
+        auto json = DownloadToString(GITHUB_EXPERIMENTAL_API_URL);
+        if (!json) return std::unexpected(UpdateError::NetworkError);
 
-        ExperimentalUpdateInfo info;
-        const auto storeAsset = [&](std::string_view name, std::string& url, std::string& timestamp) {
-            auto object = FindJsonObjectByStringField(*jsonResult, "name", name);
-            if (!object) return false;
-
-            auto parsedUrl = ParseJsonStringField(*object, "browser_download_url");
-            auto parsedTimestamp = ParseJsonStringField(*object, "updated_at");
-            if (!parsedUrl || parsedUrl->empty() || !parsedTimestamp || parsedTimestamp->empty()) return false;
-
-            url = std::move(*parsedUrl);
-            timestamp = std::move(*parsedTimestamp);
-            return true;
-        };
-
-        if (!storeAsset(PACKAGE_FILENAME, info.downloadUrlPackage, info.packageTimestamp) ||
-            !storeAsset("HSEnhancerLauncher.exe", info.downloadUrlLauncher, info.launcherTimestamp))
-            return std::unexpected(UpdateError::InvalidResponse);
+        auto buildId = ParseJsonStringField(*json, "target_commitish");
+        if (!buildId || buildId->empty()) return std::unexpected(UpdateError::InvalidResponse);
+        auto asset = FindJsonObjectByStringField(*json, "name", PACKAGE_FILENAME);
+        if (!asset) return std::unexpected(UpdateError::InvalidResponse);
+        auto downloadUrl = ParseJsonStringField(*asset, "browser_download_url");
+        if (!downloadUrl || downloadUrl->empty()) return std::unexpected(UpdateError::InvalidResponse);
 
         auto& config = LauncherConfig::Instance();
-        info.packageUpdateAvailable =
-            info.packageTimestamp > config.GetString("ExperimentalUpdate", "package_timestamp", "");
-        info.launcherUpdateAvailable =
-            info.launcherTimestamp > config.GetString("ExperimentalUpdate", "launcher_timestamp", "");
-
-        if (info.packageUpdateAvailable) {
-            Logger::info("An experimental Half Sword Enhancer update is available");
-        }
-
-        if (info.launcherUpdateAvailable) {
-            Logger::info("An experimental launcher update is available");
-        }
-
+        ExperimentalUpdateInfo info{
+            .packageUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
+            .launcherUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, LAUNCHER_BUILD_KEY, ""),
+            .buildId = std::move(*buildId),
+            .downloadUrlBundle = std::move(*downloadUrl),
+        };
+        if (info.packageUpdateAvailable) Logger::info("An experimental Half Sword Enhancer update is available");
+        if (info.launcherUpdateAvailable) Logger::info("An experimental launcher update is available");
         return info;
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
         const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) {
-        auto result = DownloadPackageAndInstall(info.downloadUrlPackage, gameBinPath, installMode);
+        auto result =
+            DownloadPackageAndInstall(info.downloadUrlBundle, gameBinPath, installMode, std::nullopt, info.buildId);
         if (!result) return result;
 
-        auto configResult =
-            LauncherConfig::Instance().SetString("ExperimentalUpdate", "package_timestamp", info.packageTimestamp);
-        if (!configResult) {
+        if (!LauncherConfig::Instance().SetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, info.buildId))
             Logger::warn("Could not remember this update. It may be offered again next time.");
-        }
 
         Logger::info("Experimental Half Sword Enhancer version installed successfully");
         return {};
     }
 #endif
-
 }

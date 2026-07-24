@@ -39,9 +39,8 @@ namespace hse {
         void Release() noexcept { ownsStaging_ = false; }
 
     private:
-        friend std::expected<SelfUpdateStaging, SelfUpdateError> CreateSelfUpdateStaging(
-            const std::filesystem::path&, const std::filesystem::path&
-        );
+        friend std::expected<SelfUpdateStaging, SelfUpdateError>
+        CreateSelfUpdateStaging(const std::filesystem::path&, const std::filesystem::path&);
 
         SelfUpdateStaging(std::filesystem::path directory, std::filesystem::path target, std::string token);
 
@@ -60,11 +59,11 @@ namespace hse {
     );
     [[nodiscard]] std::expected<void, SelfUpdateError> ApplySelfUpdateWorker(
         const std::filesystem::path& workerExecutable, const std::filesystem::path& target,
-        const Version& expectedVersion, std::string_view timestamp = {},
+        const Version& expectedVersion, std::string_view buildId = {},
         std::chrono::milliseconds confirmationTimeout = std::chrono::seconds(30), std::uint32_t workerProcessId = 0
     );
     [[nodiscard]] std::expected<void, SelfUpdateError> LaunchSelfUpdateWorker(
-        const SelfUpdateStaging& staging, const Version& expectedVersion, std::string_view timestamp,
+        const SelfUpdateStaging& staging, const Version& expectedVersion, std::string_view buildId,
         std::uint32_t launcherProcessId
     );
     [[nodiscard]] std::optional<int> TryRunSelfUpdateCommand();

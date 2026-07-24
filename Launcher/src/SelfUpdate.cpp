@@ -50,10 +50,10 @@ namespace hse {
             });
         }
 
-        [[nodiscard]] bool IsSafeTimestamp(std::string_view timestamp) noexcept {
-            return timestamp.size() <= 64 && std::ranges::all_of(timestamp, [](char value) {
-                       return (value >= '0' && value <= '9') || value == '-' || value == ':' || value == '.' ||
-                              value == '+' || value == 'T' || value == 'Z';
+        [[nodiscard]] bool IsSafeBuildId(std::string_view buildId) noexcept {
+            return buildId.size() <= 64 && std::ranges::all_of(buildId, [](char value) {
+                       return (value >= 'a' && value <= 'z') || (value >= 'A' && value <= 'Z') ||
+                              (value >= '0' && value <= '9') || value == '-' || value == '_' || value == '.';
                    });
         }
 
@@ -75,7 +75,8 @@ namespace hse {
 
         void AppendQuotedAscii(std::wstring& command, std::string_view value) {
             command.push_back(L'"');
-            for (const char character : value) command.push_back(static_cast<unsigned char>(character));
+            for (const char character : value)
+                command.push_back(static_cast<unsigned char>(character));
             command.push_back(L'"');
         }
 
@@ -148,8 +149,8 @@ namespace hse {
             wchar_t* product = nullptr;
             UINT characters = 0;
             return VerQueryValueW(
-                       versionData, L"\\StringFileInfo\\040904b0\\ProductName",
-                       reinterpret_cast<void**>(&product), &characters
+                       versionData, L"\\StringFileInfo\\040904b0\\ProductName", reinterpret_cast<void**>(&product),
+                       &characters
                    ) &&
                    product && characters > 0 && std::wstring_view(product, characters - 1) == EXPECTED_PRODUCT_NAME;
         }
@@ -195,7 +196,7 @@ namespace hse {
         enum class ConfirmationResult : std::uint8_t { Success, Failed, TimedOut };
 
         [[nodiscard]] ConfirmationResult RunConfirmation(
-            const std::filesystem::path& target, const Version& expectedVersion, std::string_view timestamp,
+            const std::filesystem::path& target, const Version& expectedVersion, std::string_view buildId,
             const std::filesystem::path& stagingDirectory, std::uint32_t workerProcessId,
             std::chrono::milliseconds timeout
         ) {
@@ -212,7 +213,7 @@ namespace hse {
             command.append(L" --hse-confirm-update ");
             AppendQuotedAscii(command, version);
             command.push_back(L' ');
-            AppendQuotedAscii(command, timestamp);
+            AppendQuotedAscii(command, buildId);
             command.push_back(L' ');
             AppendQuoted(command, eventName);
             command.push_back(L' ');
@@ -239,16 +240,16 @@ namespace hse {
         [[nodiscard]] std::optional<int> RunApplyCommand(wchar_t** arguments, int argumentCount) {
             if (argumentCount != 7) return 1;
             const auto versionText = NarrowAscii(arguments[3]);
-            const auto timestamp = NarrowAscii(arguments[4]);
+            const auto buildId = NarrowAscii(arguments[4]);
             const auto parentProcessId = ParseUnsigned(arguments[5]);
             std::filesystem::path workerExecutable;
-            if (!versionText || !timestamp || !parentProcessId || !TryGetCurrentExecutablePath(workerExecutable))
+            if (!versionText || !buildId || !parentProcessId || !TryGetCurrentExecutablePath(workerExecutable))
                 return 1;
 
             const Version version(*versionText);
             const auto stagingDirectory = workerExecutable.parent_path();
             const auto token = stagingDirectory.filename().string();
-            if (!version.IsValid() || !IsSafeTimestamp(*timestamp) || !IsOwnedStagingDirectory(stagingDirectory) ||
+            if (!version.IsValid() || !IsSafeBuildId(*buildId) || !IsOwnedStagingDirectory(stagingDirectory) ||
                 std::wstring_view(arguments[6]) != ReadyEventName(*parentProcessId, token))
                 return 1;
 
@@ -257,7 +258,7 @@ namespace hse {
             if (!parent || !ready || !SetEvent(ready.Get())) return 1;
             if (WaitForSingleObject(parent.Get(), PARENT_WAIT_MILLISECONDS) != WAIT_OBJECT_0) return 1;
             return ApplySelfUpdateWorker(
-                       workerExecutable, arguments[2], version, *timestamp, std::chrono::seconds(30),
+                       workerExecutable, arguments[2], version, *buildId, std::chrono::seconds(30),
                        GetCurrentProcessId()
                    )
                        ? 0
@@ -267,24 +268,22 @@ namespace hse {
         [[nodiscard]] std::optional<int> RunConfirmationCommand(wchar_t** arguments, int argumentCount) {
             if (argumentCount != 7) return 1;
             const auto versionText = NarrowAscii(arguments[2]);
-            const auto timestamp = NarrowAscii(arguments[3]);
+            const auto buildId = NarrowAscii(arguments[3]);
             const auto workerProcessId = ParseUnsigned(arguments[6]);
             std::filesystem::path currentExecutable;
-            if (!versionText || !timestamp || !workerProcessId || !TryGetCurrentExecutablePath(currentExecutable))
+            if (!versionText || !buildId || !workerProcessId || !TryGetCurrentExecutablePath(currentExecutable))
                 return 1;
             const Version version(*versionText);
             const std::filesystem::path stagingDirectory(arguments[5]);
-            if (!version.IsValid() || !IsSafeTimestamp(*timestamp) ||
-                !ValidateLauncherPayload(currentExecutable, version))
+            if (!version.IsValid() || !IsSafeBuildId(*buildId) || !ValidateLauncherPayload(currentExecutable, version))
                 return 1;
             if (*workerProcessId != 0 &&
                 (!IsOwnedStagingDirectory(stagingDirectory) ||
                  std::wstring_view(arguments[4]) !=
                      ConfirmationEventName(*workerProcessId, stagingDirectory.filename().string())))
                 return 1;
-            if (!timestamp->empty() && !LauncherConfig::Instance()
-                                            .SetString("ExperimentalUpdate", "launcher_timestamp", *timestamp)
-                                            .has_value())
+            if (!buildId->empty() &&
+                !LauncherConfig::Instance().SetString("ExperimentalUpdate", "launcher_build", *buildId).has_value())
                 return 1;
 
             const ScopedHandle confirmed(OpenEventW(EVENT_MODIFY_STATE, FALSE, arguments[4]));
@@ -375,12 +374,12 @@ namespace hse {
 
     std::expected<void, SelfUpdateError> ApplySelfUpdateWorker(
         const std::filesystem::path& workerExecutable, const std::filesystem::path& target,
-        const Version& expectedVersion, std::string_view timestamp, std::chrono::milliseconds confirmationTimeout,
+        const Version& expectedVersion, std::string_view buildId, std::chrono::milliseconds confirmationTimeout,
         std::uint32_t workerProcessId
     ) {
         const auto stagingDirectory = workerExecutable.parent_path();
         const auto token = stagingDirectory.filename().string();
-        if (!IsSafeToken(token) || !IsSafeTimestamp(timestamp) || workerExecutable.filename() != L"launcher-update.exe")
+        if (!IsSafeToken(token) || !IsSafeBuildId(buildId) || workerExecutable.filename() != L"launcher-update.exe")
             return std::unexpected(SelfUpdateError::InvalidPath);
         if (auto validation = ValidateLauncherPayload(workerExecutable, expectedVersion); !validation)
             return validation;
@@ -388,9 +387,7 @@ namespace hse {
         const auto restart = [&] {
             if (workerProcessId != 0) (void)LaunchForCleanup(target, stagingDirectory, workerProcessId);
         };
-        NamedPathMutex mutex(
-            target, L"Local\\HalfSwordEnhancer.SelfUpdate.", PARENT_WAIT_MILLISECONDS
-        );
+        NamedPathMutex mutex(target, L"Local\\HalfSwordEnhancer.SelfUpdate.", PARENT_WAIT_MILLISECONDS);
         if (!mutex) {
             restart();
             return std::unexpected(SelfUpdateError::MutexFailed);
@@ -409,18 +406,18 @@ namespace hse {
                 nullptr, nullptr
             )) {
             const DWORD replaceError = GetLastError();
-            const bool targetAvailable = replaceError != ERROR_UNABLE_TO_MOVE_REPLACEMENT_2 ||
-                                         MoveFileExW(
-                                             artifacts.backup.c_str(), target.c_str(),
-                                             MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH
-                                         ) != FALSE;
+            const bool targetAvailable =
+                replaceError != ERROR_UNABLE_TO_MOVE_REPLACEMENT_2 ||
+                MoveFileExW(
+                    artifacts.backup.c_str(), target.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH
+                ) != FALSE;
             RemoveFile(artifacts.candidate);
             if (targetAvailable) restart();
             return std::unexpected(SelfUpdateError::AtomicReplaceFailed);
         }
 
         const auto confirmation =
-            RunConfirmation(target, expectedVersion, timestamp, stagingDirectory, workerProcessId, confirmationTimeout);
+            RunConfirmation(target, expectedVersion, buildId, stagingDirectory, workerProcessId, confirmationTimeout);
         if (confirmation != ConfirmationResult::Success) {
             const bool restored =
                 ReplaceFileW(
@@ -442,10 +439,10 @@ namespace hse {
     }
 
     std::expected<void, SelfUpdateError> LaunchSelfUpdateWorker(
-        const SelfUpdateStaging& staging, const Version& expectedVersion, std::string_view timestamp,
+        const SelfUpdateStaging& staging, const Version& expectedVersion, std::string_view buildId,
         std::uint32_t launcherProcessId
     ) {
-        if (launcherProcessId == 0 || !expectedVersion.IsValid() || !IsSafeTimestamp(timestamp))
+        if (launcherProcessId == 0 || !expectedVersion.IsValid() || !IsSafeBuildId(buildId))
             return std::unexpected(SelfUpdateError::InvalidExecutable);
         const auto eventName = ReadyEventName(launcherProcessId, staging.Token());
         SetLastError(ERROR_SUCCESS);
@@ -463,7 +460,7 @@ namespace hse {
         command.push_back(L' ');
         AppendQuotedAscii(command, version);
         command.push_back(L' ');
-        AppendQuotedAscii(command, timestamp);
+        AppendQuotedAscii(command, buildId);
         command.push_back(L' ');
         command.append(std::to_wstring(launcherProcessId));
         command.push_back(L' ');
