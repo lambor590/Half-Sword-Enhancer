@@ -30,19 +30,16 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
           Copy-Item "bin/HSEnhancerLauncherExperimental.exe" "release_files/HSEnhancerLauncher.exe"
-          makecab.exe /V1 /F "scripts/HSEnhancer.ddf"
-          if ($LASTEXITCODE -ne 0) { throw "Package creation failed" }
+          Compress-Archive `
+            -LiteralPath "bin/HSEnhancer.dll", "bin/winmm.dll", "bin/main.dll", "Manual_Install.txt" `
+            -DestinationPath "release_files/HSEnhancer.zip"
 
       - name: Publish
         run: |
           $assets = (Get-ChildItem "release_files/*").FullName
           $repo = "${{ github.repository }}"
 
-          gh release view experimental-latest --repo $repo *> $null
-          if ($LASTEXITCODE -eq 0) {
-            gh release delete experimental-latest --repo $repo --cleanup-tag --yes
-            if ($LASTEXITCODE -ne 0) { throw "Failed to replace the experimental release" }
-          }
+          gh release delete experimental-latest --repo $repo --cleanup-tag --yes *> $null
 
           gh release create experimental-latest @assets `
             --repo $repo `

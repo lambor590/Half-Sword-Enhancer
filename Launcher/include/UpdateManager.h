@@ -78,19 +78,6 @@ namespace hse {
             std::string_view json, std::string_view fieldName
         );
         [[nodiscard]] static std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json);
-
-#ifdef EXPERIMENTAL_VERSION
-        struct ExperimentalAssets {
-            std::string packageTimestamp;
-            std::string launcherTimestamp;
-            std::string packageUrl;
-            std::string launcherUrl;
-        };
-
-        [[nodiscard]] static std::expected<ExperimentalAssets, UpdateError> ParseExperimentalAssets(
-            std::string_view json
-        );
-#endif
     };
 
 }

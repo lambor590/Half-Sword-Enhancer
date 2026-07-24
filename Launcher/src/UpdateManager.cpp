@@ -1,9 +1,9 @@
+#include <array>
 #include <atomic>
 #include <vector>
 #include <utility>
 #include <Windows.h>
-#include <SetupAPI.h>
-#include <cwchar>
+#include <process.h>
 
 #include "../include/UpdateManager.h"
 #include "../include/NetworkManager.h"
@@ -60,58 +60,30 @@ namespace hse {
             return std::unexpected(UpdateError::FileSystemError);
         }
 
-        struct CabinetExtractionContext {
-            std::filesystem::path destination;
-            InstallMode installMode;
-            std::uint8_t extractedMask = 0;
-            bool invalidPackage = false;
-        };
-
-        UINT CALLBACK ExtractCabinetFile(
-            PVOID rawContext, UINT notification, UINT_PTR parameter1, UINT_PTR /*parameter2*/
-        ) {
-            auto& context = *static_cast<CabinetExtractionContext*>(rawContext);
-            if (notification == SPFILENOTIFY_NEEDNEWCABINET) return ERROR_INVALID_DATA;
-            if (notification == SPFILENOTIFY_FILEEXTRACTED) {
-                const auto& paths = *reinterpret_cast<const FILEPATHS_W*>(parameter1);
-                return paths.Win32Error;
-            }
-            if (notification != SPFILENOTIFY_FILEINCABINET) return NO_ERROR;
-
-            auto& file = *reinterpret_cast<FILE_IN_CABINET_INFO_W*>(parameter1);
-            const std::filesystem::path name(file.NameInCabinet);
-            const auto plan = GetInstallPlan(context.installMode);
-            for (std::size_t index = 0; index < plan.size(); ++index) {
-                const auto& artifact = plan[index];
-                if (name != std::filesystem::path(artifact.filename)) continue;
-
-                const auto mask = static_cast<std::uint8_t>(1U << index);
-                const auto target = (context.destination / std::filesystem::path(artifact.filename)).native();
-                if ((context.extractedMask & mask) != 0 || file.FileSize < artifact.minimumFileSize ||
-                    target.size() >= _countof(file.FullTargetName) ||
-                    wcscpy_s(file.FullTargetName, _countof(file.FullTargetName), target.c_str()) != 0) {
-                    context.invalidPackage = true;
-                    return FILEOP_ABORT;
-                }
-
-                context.extractedMask |= mask;
-                return FILEOP_DOIT;
-            }
-            return FILEOP_SKIP;
-        }
-
         [[nodiscard]] std::expected<void, UpdateError> ExtractInstallPackage(
-            const std::filesystem::path& packagePath, const std::filesystem::path& destination, InstallMode installMode
+            const std::filesystem::path& packagePath, const std::filesystem::path& destination
         ) {
             std::error_code error;
             std::filesystem::create_directories(destination, error);
             if (error) return std::unexpected(UpdateError::FileSystemError);
 
-            CabinetExtractionContext context{.destination = destination, .installMode = installMode};
-            const auto plan = GetInstallPlan(installMode);
-            const auto expectedMask = static_cast<std::uint8_t>((1U << plan.size()) - 1U);
-            if (!SetupIterateCabinetW(packagePath.c_str(), 0, ExtractCabinetFile, &context) || context.invalidPackage ||
-                context.extractedMask != expectedMask) {
+            const auto quote = [](const std::filesystem::path& value) {
+                return L"\"" + value.native() + L"\"";
+            };
+            const auto package = quote(packagePath);
+            const auto target = quote(destination);
+            std::array<wchar_t, MAX_PATH> systemDirectory{};
+            const auto systemDirectoryCapacity = static_cast<UINT>(systemDirectory.size());
+            const auto systemDirectoryLength = GetSystemDirectoryW(systemDirectory.data(), systemDirectoryCapacity);
+            if (systemDirectoryLength == 0 || systemDirectoryLength >= systemDirectoryCapacity) {
+                return std::unexpected(UpdateError::FileSystemError);
+            }
+
+            const auto tarPath = std::filesystem::path(systemDirectory.data()) / L"tar.exe";
+            if (_wspawnl(
+                    _P_WAIT, tarPath.c_str(), L"tar.exe", L"-xf", package.c_str(), L"-C", target.c_str(),
+                    L"HSEnhancer.dll", L"winmm.dll", L"main.dll", static_cast<const wchar_t*>(nullptr)
+                ) != 0) {
                 Logger::error("The downloaded installation package is invalid");
                 return std::unexpected(UpdateError::InvalidResponse);
             }
@@ -188,8 +160,7 @@ namespace hse {
         if (auto download = DownloadFile(config); !download) return std::unexpected(UpdateError::NetworkError);
 
         const auto filesPath = staging->Path() / "files";
-        if (auto extraction = ExtractInstallPackage(packagePath, filesPath, installMode); !extraction)
-            return extraction;
+        if (auto extraction = ExtractInstallPackage(packagePath, filesPath); !extraction) return extraction;
 
         auto installResult = InstallFiles(filesPath, gameBinPath, installMode);
         if (!installResult) {
@@ -301,59 +272,33 @@ namespace hse {
     }
 
 #ifdef EXPERIMENTAL_VERSION
-    std::expected<UpdateManager::ExperimentalAssets, UpdateError> UpdateManager::ParseExperimentalAssets(
-        std::string_view json
-    ) {
-        ExperimentalAssets assets;
-
-        const auto storeAsset = [&](std::string_view name, std::string& url,
-                                    std::string& timestamp) -> std::expected<void, UpdateError> {
-            auto object = FindJsonObjectByStringField(json, "name", name);
-            if (!object) return std::unexpected(UpdateError::InvalidResponse);
-            auto parsedUrl = ParseJsonStringField(*object, "browser_download_url");
-            if (!parsedUrl || parsedUrl->empty()) return std::unexpected(UpdateError::InvalidResponse);
-            url = std::move(*parsedUrl);
-            auto parsedTimestamp = ParseJsonStringField(*object, "updated_at");
-            if (!parsedTimestamp || parsedTimestamp->empty()) return std::unexpected(UpdateError::InvalidResponse);
-            timestamp = std::move(*parsedTimestamp);
-            return {};
-        };
-
-        if (auto result = storeAsset(PACKAGE_FILENAME, assets.packageUrl, assets.packageTimestamp); !result)
-            return std::unexpected(result.error());
-        if (auto result = storeAsset("HSEnhancerLauncher.exe", assets.launcherUrl, assets.launcherTimestamp); !result)
-            return std::unexpected(result.error());
-
-        return assets;
-    }
-
     std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() {
-        ExperimentalUpdateInfo info;
-
         auto jsonResult = DownloadToString(GITHUB_EXPERIMENTAL_API_URL);
         if (!jsonResult) return std::unexpected(UpdateError::NetworkError);
 
-        const auto& json = *jsonResult;
+        ExperimentalUpdateInfo info;
+        const auto storeAsset = [&](std::string_view name, std::string& url, std::string& timestamp) {
+            auto object = FindJsonObjectByStringField(*jsonResult, "name", name);
+            if (!object) return false;
 
-        auto assets = ParseExperimentalAssets(json);
-        if (!assets) return std::unexpected(assets.error());
-        info.packageTimestamp = std::move(assets->packageTimestamp);
-        info.launcherTimestamp = std::move(assets->launcherTimestamp);
-        info.downloadUrlPackage = std::move(assets->packageUrl);
-        info.downloadUrlLauncher = std::move(assets->launcherUrl);
+            auto parsedUrl = ParseJsonStringField(*object, "browser_download_url");
+            auto parsedTimestamp = ParseJsonStringField(*object, "updated_at");
+            if (!parsedUrl || parsedUrl->empty() || !parsedTimestamp || parsedTimestamp->empty()) return false;
 
-        const std::string storedPackageTimestamp =
-            LauncherConfig::Instance().GetString("ExperimentalUpdate", "package_timestamp", "");
-        const std::string storedLauncherTimestamp =
-            LauncherConfig::Instance().GetString("ExperimentalUpdate", "launcher_timestamp", "");
+            url = std::move(*parsedUrl);
+            timestamp = std::move(*parsedTimestamp);
+            return true;
+        };
 
+        if (!storeAsset(PACKAGE_FILENAME, info.downloadUrlPackage, info.packageTimestamp) ||
+            !storeAsset("HSEnhancerLauncher.exe", info.downloadUrlLauncher, info.launcherTimestamp))
+            return std::unexpected(UpdateError::InvalidResponse);
+
+        auto& config = LauncherConfig::Instance();
         info.packageUpdateAvailable =
-            !info.packageTimestamp.empty() &&
-            (storedPackageTimestamp.empty() || info.packageTimestamp > storedPackageTimestamp);
-
+            info.packageTimestamp > config.GetString("ExperimentalUpdate", "package_timestamp", "");
         info.launcherUpdateAvailable =
-            !info.launcherTimestamp.empty() &&
-            (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
+            info.launcherTimestamp > config.GetString("ExperimentalUpdate", "launcher_timestamp", "");
 
         if (info.packageUpdateAvailable) {
             Logger::info("An experimental Half Sword Enhancer update is available");

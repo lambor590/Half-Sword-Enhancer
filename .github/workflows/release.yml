@@ -46,8 +46,9 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
           Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
-          makecab.exe /V1 /F "scripts/HSEnhancer.ddf"
-          if ($LASTEXITCODE -ne 0) { throw "Package creation failed" }
+          Compress-Archive `
+            -LiteralPath "bin/HSEnhancer.dll", "bin/winmm.dll", "bin/main.dll", "Manual_Install.txt" `
+            -DestinationPath "release_files/HSEnhancer.zip"
 
       - name: Create draft
         run: |
