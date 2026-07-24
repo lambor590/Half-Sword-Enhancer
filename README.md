@@ -44,9 +44,9 @@ Choose between the **Launcher** (recommended) or **Manual Install**.
 
 ### Manual Install
 
-1. Download the package: [HSEnhancer.cab](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.cab)
-2. Open the CAB and extract its contents to a temporary folder.
-3. Follow the included `README.txt`.
+1. Download [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip).
+2. Extract it to a temporary folder.
+3. Follow the included `Manual_Install.txt`.
 
 ### UE4SS
 
@@ -252,7 +252,7 @@ Antivirus may block injection. Solutions:
 #### Auto-updater Not Working
 Download manually from:
 - [GitHub Launcher](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancerLauncher.exe)
-- [GitHub Manual Install](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.cab)
+- [GitHub Manual Install](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
 - [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26)
 
 ## Compatibility

@@ -1,6 +1,6 @@
 HOW TO INSTALL
 
-1. Extract all files from HSEnhancer.cab into a temporary folder.
+1. Extract all files from HSEnhancer.zip into a temporary folder.
 
 2. Open the game folder:
    Right-click the game in Steam -> Manage -> Browse Local Files
