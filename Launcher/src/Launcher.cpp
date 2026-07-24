@@ -211,35 +211,25 @@ bool HSELauncher::LocateGame() {
     }
 
     hse::Logger::info("Searching for Half Sword...");
-    auto locateResult = hse::LocateGame();
-    if (locateResult) {
-        gameBinPath_ = locateResult->binariesPath;
-        gameEdition_ = locateResult->edition;
-        if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
-            hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
-        hse::Logger::info(
-            "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
-            hse::DescribeGameEdition(gameEdition_).displayName.data()
-        );
-        return true;
+    auto location = hse::LocateGame();
+    if (!location) {
+        hse::Logger::warn("Half Sword was not found automatically");
+        const auto manualPath = AskManualPath();
+        if (manualPath.empty()) return false;
+
+        location = hse::LocateGameAt(manualPath);
+        if (!location) {
+            hse::logAndShowError(
+                "Half Sword was not found at: " + manualPath.string(), "That folder does not contain Half Sword.\n\n"
+                                                                       "Please provide the path to the game folder, e.g.:\n"
+                                                                       "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
+            );
+            return false;
+        }
     }
 
-    hse::Logger::warn("Half Sword was not found automatically");
-    std::filesystem::path manualPath = AskManualPath();
-    if (manualPath.empty()) return false;
-
-    auto manualResult = hse::LocateGameAt(manualPath);
-    if (!manualResult) {
-        hse::logAndShowError(
-            "Half Sword was not found at: " + manualPath.string(), "That folder does not contain Half Sword.\n\n"
-                                                                   "Please provide the path to the game folder, e.g.:\n"
-                                                                   "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
-        );
-        return false;
-    }
-
-    gameBinPath_ = manualResult->binariesPath;
-    gameEdition_ = manualResult->edition;
+    gameBinPath_ = std::move(location->binariesPath);
+    gameEdition_ = location->edition;
     if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
         hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
     hse::Logger::info(
