@@ -19,33 +19,49 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Prepare
+        shell: pwsh
+        run: |
+          $resource = Get-Content "Launcher/resource/Launcher.rc" -Raw
+          if ($resource -notmatch 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+)') {
+            throw "Failed to read the experimental version"
+          }
+
+          $version = "$($Matches[1]).$($Matches[2]).$($Matches[3])"
+          $sequence = [uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }}
+          "PRODUCT_VERSION=$version" >> $env:GITHUB_ENV
+          "PACKAGE_SEQUENCE=$sequence" >> $env:GITHUB_ENV
+          "### Experimental $version (${{ github.sha }})" >> $env:GITHUB_STEP_SUMMARY
+
       - uses: microsoft/setup-msbuild@v2
 
       - name: Build
+        shell: pwsh
         run: >-
           msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
           "/p:Configuration=Release Experimental" /p:Platform=x64 /p:SkipGameInstall=true
 
       - name: Package
-        run: |
-          New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-          Copy-Item "bin/HSEnhancerLauncherExperimental.exe" "release_files/HSEnhancerLauncher.exe"
-          Compress-Archive `
-            -LiteralPath "bin/HSEnhancer.dll", "bin/winmm.dll", "bin/main.dll", "Manual_Install.txt" `
-            -DestinationPath "release_files/HSEnhancer.zip"
+        shell: pwsh
+        run: >-
+          & ".\scripts\package-release.ps1"
+          -Channel experimental
+          -Version $env:PRODUCT_VERSION
+          -BuildId "${{ github.sha }}"
+          -Sequence $env:PACKAGE_SEQUENCE
 
       - name: Publish
+        shell: pwsh
         run: |
-          $assets = (Get-ChildItem "release_files/*").FullName
           $repo = "${{ github.repository }}"
 
           gh release delete experimental-latest --repo $repo --cleanup-tag --yes *> $null
 
-          gh release create experimental-latest @assets `
+          gh release create experimental-latest "release_files/HSEnhancer.zip" `
             --repo $repo `
             --target "${{ github.sha }}" `
             --title "Experimental Build" `
-            --notes "Release notes are maintained manually." `
+            --notes "Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable." `
             --prerelease
 
           if ($LASTEXITCODE -ne 0) {

@@ -28,11 +28,14 @@ jobs:
           }
 
           $tag = "v$($Matches[1]).$($Matches[2]).$($Matches[3])"
+          $version = $tag.Substring(1)
           if (git tag --list "$tag") {
             throw "Release $tag already exists"
           }
 
           "VERSION=$tag" >> $env:GITHUB_ENV
+          "PRODUCT_VERSION=$version" >> $env:GITHUB_ENV
+          "PACKAGE_SEQUENCE=$([uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }})" >> $env:GITHUB_ENV
           "### Release $tag" >> $env:GITHUB_STEP_SUMMARY
 
       - uses: microsoft/setup-msbuild@v2
@@ -43,22 +46,21 @@ jobs:
           /p:Configuration=Release /p:Platform=x64 /p:SkipGameInstall=true
 
       - name: Package
-        run: |
-          New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-          Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
-          Compress-Archive `
-            -LiteralPath "bin/HSEnhancer.dll", "bin/winmm.dll", "bin/main.dll", "Manual_Install.txt" `
-            -DestinationPath "release_files/HSEnhancer.zip"
+        shell: pwsh
+        run: >-
+          & ".\scripts\package-release.ps1"
+          -Channel release
+          -Version $env:PRODUCT_VERSION
+          -BuildId "${{ github.sha }}"
+          -Sequence $env:PACKAGE_SEQUENCE
 
       - name: Create draft
         run: |
-          $assets = (Get-ChildItem "release_files/*").FullName
-
-          gh release create $env:VERSION @assets `
+          gh release create $env:VERSION "release_files/HSEnhancer.zip" `
             --repo "${{ github.repository }}" `
             --target "${{ github.sha }}" `
             --title $env:VERSION `
-            --notes "Add the changelog manually before publishing." `
+            --notes "Add the release notes manually before publishing." `
             --draft
 
           if ($LASTEXITCODE -ne 0) {
