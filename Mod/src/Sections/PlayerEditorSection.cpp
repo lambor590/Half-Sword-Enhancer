@@ -6,6 +6,7 @@
 
 #include "Hooks/GameHook.h"
 #include "SDK/Willie_BP_classes.hpp"
+#include "SDK/Engine_parameters.hpp"
 #include "Utils/GuiUtils.h"
 #include "Utils/GameClass.h"
 #include "Utils/PresetApplication.h"
@@ -116,13 +117,50 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
     {
         std::scoped_lock lock(publishedOverridesMutex);
         snapshot = publishedOverrides;
-        if (bodyOverridesPlayer == p) {
+        const bool restartPending = pendingRestartPlayer == p;
+        if (bodyOverridesPlayer == p || restartPending) {
             snapshot.heightRate.enabled = false;
             snapshot.muscleRate.enabled = false;
         }
-        bodyOverridesPlayer = p;
+        if (!restartPending) bodyOverridesPlayer = p;
     }
     (void)PresetApplication::ApplyPlayerOverridesAndRefreshBody(p, snapshot);
+}
+
+void PlayerEditorSection::ScheduleRestartApplication(SDK::AWillie_BP_C* player) {
+    {
+        std::scoped_lock lock(publishedOverridesMutex);
+        bodyOverridesPlayer = nullptr;
+    }
+    pendingRestartPlayer = player;
+    pendingRestartReadyAt = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) {
+        auto& hook = GameHook::Get();
+        if (!pendingRestartPlayer || hook.IsSubscribed(pendingRestartHook)) return;
+        pendingRestartHook = hook.Subscribe(
+            "ReceiveTick", GameHook::HookPhase::After,
+            [this](GameHook::ProcessEventContext& context) { CheckRestartApplication(context); }
+        );
+    });
+}
+
+void PlayerEditorSection::CheckRestartApplication(GameHook::ProcessEventContext& context) {
+    auto* player = pendingRestartPlayer;
+    if (!player || context.object != player || std::chrono::steady_clock::now() < pendingRestartReadyAt) return;
+    pendingRestartPlayer = nullptr;
+
+    GameHook::QueueAction([this, player](const RuntimeContextSnapshot& runtime) {
+        if (!pendingRestartPlayer) ClearRestartApplication();
+        if (runtime.player != player || !keybinds.Entries().front().CurrentState())
+            return;
+        ApplyToPlayer(player);
+    });
+}
+
+void PlayerEditorSection::ClearRestartApplication() {
+    pendingRestartPlayer = nullptr;
+    GameHook::Get().Unsubscribe(std::exchange(pendingRestartHook, GameHook::INVALID_HOOK_HANDLE));
 }
 
 void PlayerEditorSection::PublishOverrides() {
@@ -408,8 +446,11 @@ void PlayerEditorSection::InitKeybinds() {
         .callback =
             [this](bool active, const RuntimeContextSnapshot& runtime) {
                 if (!active) {
-                    std::scoped_lock lock(publishedOverridesMutex);
-                    bodyOverridesPlayer = nullptr;
+                    {
+                        std::scoped_lock lock(publishedOverridesMutex);
+                        bodyOverridesPlayer = nullptr;
+                    }
+                    ClearRestartApplication();
                     return;
                 }
                 auto* player = runtime.player;
@@ -418,6 +459,19 @@ void PlayerEditorSection::InitKeybinds() {
         .kind = KeybindKind::State,
         .applyOnToggle = true,
         .events = {GameEvent::OffLedge},
+        .functionHooks =
+            {
+                KeybindFunctionHook{
+                    .functionName = "ClientRestart",
+                    .callback =
+                        [this](GameHook::ProcessEventContext& context) {
+                            const auto* params = context.Params<SDK::Params::PlayerController_ClientRestart>();
+                            if (!params || !GameClass::IsWillie(params->NewPawn)) return;
+                            ScheduleRestartApplication(static_cast<SDK::AWillie_BP_C*>(params->NewPawn));
+                        },
+                    .phase = GameHook::HookPhase::After,
+                },
+            },
     });
 }
 

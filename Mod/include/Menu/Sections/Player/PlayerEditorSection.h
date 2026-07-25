@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <chrono>
 #include <mutex>
 #include <span>
 
@@ -23,6 +24,9 @@ private:
     PlayerEditorOverrides publishedOverrides{};
     bool overridesDirty = true;
     SDK::AWillie_BP_C* bodyOverridesPlayer = nullptr;
+    SDK::AWillie_BP_C* pendingRestartPlayer = nullptr;
+    std::chrono::steady_clock::time_point pendingRestartReadyAt{};
+    GameHook::HookHandle pendingRestartHook = GameHook::INVALID_HOOK_HANDLE;
     KeybindList keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
@@ -41,6 +45,9 @@ private:
     void RenderTrackedField(const OverrideDescriptor& field);
     void RenderTrackedGroup(std::span<const OverrideDescriptor> fields);
     void ApplyToPlayer(SDK::AWillie_BP_C* p);
+    void ScheduleRestartApplication(SDK::AWillie_BP_C* player);
+    void CheckRestartApplication(GameHook::ProcessEventContext& context);
+    void ClearRestartApplication();
     void PublishOverrides();
     void ReadFromPlayer();
     void ClonePlayer(SDK::AWillie_BP_C* player);
