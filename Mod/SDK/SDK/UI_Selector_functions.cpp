@@ -14,8 +14,7 @@
 #include "UI_Selector_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Selector.UI_Selector_C.AddOption
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -601,5 +600,5 @@ void UUI_Selector_C::SetSliderFocus()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

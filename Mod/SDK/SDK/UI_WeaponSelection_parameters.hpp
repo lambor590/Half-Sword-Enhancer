@@ -11,14 +11,14 @@
 #include "Basic.hpp"
 
 #include "SlateCore_structs.hpp"
-#include "UMG_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
+#include "UMG_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_WeaponSelection.UI_WeaponSelection_C.ExecuteUbergraph_UI_WeaponSelection
 // 0x2150 (0x2150 - 0x0000)
@@ -197,5 +197,5 @@ public:
 	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.ExecuteUbergraph_Modular_Sword_Pommel_Master
 // 0x0008 (0x0008 - 0x0000)
@@ -60,5 +60,5 @@ public:
 	float                                         CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast; // 0x004C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

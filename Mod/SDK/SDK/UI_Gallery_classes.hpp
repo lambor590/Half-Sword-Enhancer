@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "S_PhotosData_structs.hpp"
+#include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Gallery.UI_Gallery_C
 // 0x01F0 (0x04D0 - 0x02E0)
@@ -150,5 +149,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

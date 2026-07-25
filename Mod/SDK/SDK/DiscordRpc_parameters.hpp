@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function DiscordRpc.DiscordRpc.Initialize
 // 0x0028 (0x0028 - 0x0000)
@@ -43,5 +43,5 @@ public:
 	int64                                         ReturnValue;                                       // 0x0000(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "StructUtils_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct LocalizableMessage.LocalizableMessageParameterEntry
 // 0x0020 (0x0020 - 0x0000)
@@ -67,5 +66,4 @@ public:
 	struct FLocalizableMessage                    Value;                                             // 0x0000(0x0030)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_InputIcons.S_InputIcons
 // 0x0020 (0x0020 - 0x0000)
@@ -25,5 +24,4 @@ public:
 	class UTexture2D*                             Index3Other_16_859EF95D4EDAF52402A7158463A31EFF;   // 0x0018(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

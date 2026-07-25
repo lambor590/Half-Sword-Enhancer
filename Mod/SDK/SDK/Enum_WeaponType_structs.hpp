@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_WeaponType.Enum_WeaponType
 // NumValues: 0x0006
@@ -26,5 +25,4 @@ enum class Enum_WeaponType : uint8
 	Enum_MAX                                 = 5,
 };
 
-}
-
+SDK_NAMESPACE_END

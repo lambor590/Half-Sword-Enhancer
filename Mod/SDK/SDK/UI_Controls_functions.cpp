@@ -14,8 +14,7 @@
 #include "UI_Controls_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Controls.UI_Controls_C.BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -205,6 +204,46 @@ void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_1
 }
 
 
+// Function UI_Controls.UI_Controls_C.BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Controls.UI_Controls_C.BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Controls.UI_Controls_C.BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -284,6 +323,48 @@ void UUI_Controls_C::BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoun
 	Parms.Value = Value;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Controls.UI_Controls_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Controls.UI_Controls_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Controls.UI_Controls_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -395,6 +476,46 @@ ECheckBoxState UUI_Controls_C::GetCheckedState_0()
 }
 
 
+// Function UI_Controls.UI_Controls_C.GetCheckedState_1
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_Controls_C::GetCheckedState_1()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState_1");
+
+	Params::UI_Controls_C_GetCheckedState_1 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Controls.UI_Controls_C.GetCheckedState_2
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_Controls_C::GetCheckedState_2()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState_2");
+
+	Params::UI_Controls_C_GetCheckedState_2 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Controls.UI_Controls_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
@@ -416,5 +537,5 @@ void UUI_Controls_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,8 +13,8 @@
 #include "StreamlineBlueprint_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function StreamlineBlueprint.StreamlineLibrary.BreakStreamlineFeatureRequirements
 // 0x0006 (0x0006 - 0x0000)
@@ -57,5 +57,5 @@ public:
 	EStreamlineFeatureSupport                     ReturnValue;                                       // 0x0001(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

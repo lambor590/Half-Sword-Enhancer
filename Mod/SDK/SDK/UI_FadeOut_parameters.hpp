@@ -13,8 +13,8 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_FadeOut.UI_FadeOut_C.ExecuteUbergraph_UI_FadeOut
 // 0x0050 (0x0050 - 0x0000)
@@ -37,5 +37,5 @@ public:
 	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

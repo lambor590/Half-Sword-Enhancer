@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct ClothingSystemRuntimeInterface.ClothCollisionPrim_Sphere
 // 0x0020 (0x0020 - 0x0000)
@@ -88,5 +87,4 @@ public:
 	TArray<struct FClothCollisionPrim_Box>        Boxes;                                             // 0x0030(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

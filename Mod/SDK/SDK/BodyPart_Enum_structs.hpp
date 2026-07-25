@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum BodyPart_Enum.BodyPart_Enum
 // NumValues: 0x0009
@@ -29,5 +28,4 @@ enum class EBodyPart_Enum : uint8
 	BodyPart_MAX                             = 8,
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Chaos_structs.hpp"
 #include "DataflowCore_structs.hpp"
+#include "Chaos_structs.hpp"
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ChaosFleshNodes.TetMeshingMethod
 // NumValues: 0x0003
@@ -511,5 +510,4 @@ public:
 	uint8                                         Pad_1AC[0x4];                                      // 0x01AC(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

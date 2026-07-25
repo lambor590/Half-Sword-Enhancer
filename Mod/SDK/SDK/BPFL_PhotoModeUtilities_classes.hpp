@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
-#include "E_SaveSort_structs.hpp"
 #include "UMG_structs.hpp"
 #include "E_ScreenshotMethod_structs.hpp"
+#include "E_SaveSort_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C
 // 0x0000 (0x0028 - 0x0028)
@@ -56,5 +55,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

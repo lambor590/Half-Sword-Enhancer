@@ -13,8 +13,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_MerchantMenu.BP_MerchantMenu_C
 // 0x0038 (0x02C8 - 0x0290)
@@ -49,5 +48,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

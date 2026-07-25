@@ -12,10 +12,11 @@
 
 #include "UMG_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.BP_OnItemExpansionChanged
 // 0x0001 (0x0001 - 0x0000)
@@ -42,13 +43,16 @@ public:
 };
 
 // Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.ExecuteUbergraph_UI_Shop_TraderItemWidget
-// 0x0008 (0x0008 - 0x0000)
+// 0x0030 (0x0030 - 0x0000)
 struct UI_Shop_TraderItemWidget_C_ExecuteUbergraph_UI_Shop_TraderItemWidget final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_Event_bIsSelected;                          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_Event_bIsExpanded;                          // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_6[0x2];                                        // 0x0006(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateColor                            K2Node_MakeStruct_SlateColor;                      // 0x0008(0x0014)()
+	struct FSlateColor                            K2Node_MakeStruct_SlateColor_1;                    // 0x001C(0x0014)()
 };
 
 // Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.Get_Back_ColorAndOpacity
@@ -82,5 +86,5 @@ public:
 	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

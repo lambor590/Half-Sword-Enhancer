@@ -11,6 +11,7 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
+#include <optional>
 #include "UtfN.hpp"
 
 namespace UC
@@ -193,9 +194,9 @@ namespace UC
 		template<typename SetType>
 		class SetElement
 		{
-		private:
-			template<typename SetDataType>
-			friend class TSet;
+		public:
+			template<typename SetElementType>
+			friend class UC::TSet;
 
 		private:
 			SetType Value;
@@ -308,6 +309,43 @@ namespace UC
 			if (Data)
 				memset(Data, 0, NumElements * ElementSize);
 		}
+
+    public:
+        template<typename OtherType>
+        inline std::optional<ArrayElementType> Find(const OtherType& ElementToSearch, bool(*IsEqual)(const ArrayElementType&, const OtherType&)) const
+        {
+            for (const auto& Element : *this)
+            {
+                if (IsEqual(Element, ElementToSearch))
+                    return Element;
+            }
+
+            return {};
+        }
+
+        inline std::optional<ArrayElementType> Find(const ArrayElementType& ElementToSearch) const
+            requires std::equality_comparable<ArrayElementType>
+        {
+            for (const auto& Element : *this)
+            {
+                if (Element == ElementToSearch)
+                    return Element;
+            }
+
+            return {};
+        }
+
+        template<typename OtherType>
+        inline bool Contains(const OtherType& ElementToSearch,     bool(*IsEqual)(const ArrayElementType&, const OtherType&)) const
+        {
+            return Find<OtherType>(ElementToSearch, IsEqual).has_value();
+        }
+
+        inline bool Contains(const ArrayElementType& ElementToSearch) const
+            requires std::equality_comparable<ArrayElementType>
+        {
+            return Find(ElementToSearch).has_value();
+        }
 
 	public:
 		inline int32 Num() const { return NumElements; }
@@ -869,7 +907,6 @@ namespace UC
 
 		public:
 			inline TContainerIterator& operator++() { ++BitIterator; return *this; }
-			inline TContainerIterator& operator--() { --BitIterator; return *this; }
 
 			inline       auto& operator*()       { return IteratedContainer[GetIndex()]; }
 			inline const auto& operator*() const { return IteratedContainer[GetIndex()]; }

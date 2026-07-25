@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct FieldNotification.FieldNotificationId
 // 0x0008 (0x0008 - 0x0000)
@@ -22,5 +21,11 @@ public:
 	class FName                                   FieldName;                                         // 0x0000(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction FieldNotification.FieldValueChangedDynamicDelegate__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace FieldNotification
+{
+using FDelegateSignature_FieldValueChangedDynamicDelegate = void(class UObject* Object, const struct FFieldNotificationId& Field);
 }
 
+SDK_NAMESPACE_END

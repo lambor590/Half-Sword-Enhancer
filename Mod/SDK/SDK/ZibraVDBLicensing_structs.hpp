@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ZibraVDBLicensing.ZibraLicenseStatus
 // NumValues: 0x0007
@@ -48,15 +47,6 @@ public:
 	class FString                                 Engine;                                            // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct ZibraVDBLicensing.LicenseKeyResponse
-// 0x0020 (0x0020 - 0x0000)
-struct FLicenseKeyResponse final
-{
-public:
-	class FString                                 license_info;                                      // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FString                                 signature;                                         // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct ZibraVDBLicensing.LicenseWarning
 // 0x0040 (0x0040 - 0x0000)
 struct FLicenseWarning final
@@ -66,6 +56,15 @@ public:
 	class FString                                 body_text;                                         // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 button_text;                                       // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 URL;                                               // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct ZibraVDBLicensing.LicenseKeyResponse
+// 0x0020 (0x0020 - 0x0000)
+struct FLicenseKeyResponse final
+{
+public:
+	class FString                                 license_info;                                      // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FString                                 signature;                                         // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct ZibraVDBLicensing.LicenseInfo
@@ -94,5 +93,4 @@ public:
 	class FString                                 license_info;                                      // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

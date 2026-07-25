@@ -11,15 +11,14 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
+#include "DataflowEngine_structs.hpp"
 #include "OptimusCore_classes.hpp"
 #include "ChaosFleshEngine_structs.hpp"
-#include "CoreUObject_classes.hpp"
 #include "ComputeFramework_classes.hpp"
-#include "DataflowEngine_structs.hpp"
+#include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosFleshEngine.DeformablePhysicsComponent
 // 0x0010 (0x0530 - 0x0520)
@@ -385,5 +384,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

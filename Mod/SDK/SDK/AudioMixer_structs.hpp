@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum AudioMixer.EAudioDeviceChangedRole
 // NumValues: 0x0006
@@ -185,6 +184,32 @@ enum class ESubmixEffectDynamicsKeySource : uint8
 	ESubmixEffectDynamicsKeySource_MAX       = 4,
 };
 
+// ScriptStruct AudioMixer.SubmixEffectReverbSettings
+// 0x0040 (0x0040 - 0x0000)
+struct FSubmixEffectReverbSettings final
+{
+public:
+	bool                                          bBypassEarlyReflections;                           // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         ReflectionsDelay;                                  // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         GainHF;                                            // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReflectionsGain;                                   // 0x000C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bBypassLateReflections;                            // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_11[0x3];                                       // 0x0011(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         LateDelay;                                         // 0x0014(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         DecayTime;                                         // 0x0018(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Density;                                           // 0x001C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Diffusion;                                         // 0x0020(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         AirAbsorptionGainHF;                               // 0x0024(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         DecayHFRatio;                                      // 0x0028(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         LateGain;                                          // 0x002C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Gain;                                              // 0x0030(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         WetLevel;                                          // 0x0034(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         DryLevel;                                          // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bBypass;                                           // 0x003C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_3D[0x3];                                       // 0x003D(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
 // ScriptStruct AudioMixer.AudioOutputDeviceInfo
 // 0x0048 (0x0048 - 0x0000)
 struct FAudioOutputDeviceInfo final
@@ -202,16 +227,15 @@ public:
 	uint8                                         Pad_41[0x7];                                       // 0x0041(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct AudioMixer.SubmixEffectEQBand
-// 0x0010 (0x0010 - 0x0000)
-struct FSubmixEffectEQBand final
+// ScriptStruct AudioMixer.SubmixEffectDynamicProcessorFilterSettings
+// 0x000C (0x000C - 0x0000)
+struct FSubmixEffectDynamicProcessorFilterSettings final
 {
 public:
-	float                                         Frequency;                                         // 0x0000(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Bandwidth;                                         // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         bEnabled : 1;                                      // 0x0000(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic))
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Cutoff;                                            // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         GainDb;                                            // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         bEnabled : 1;                                      // 0x000C(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic))
-	uint8                                         Pad_D[0x3];                                        // 0x000D(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct AudioMixer.SwapAudioOutputResult
@@ -223,17 +247,6 @@ public:
 	class FString                                 RequestedDeviceId;                                 // 0x0010(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	ESwapAudioOutputDeviceResultState             Result;                                            // 0x0020(0x0001)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// ScriptStruct AudioMixer.SubmixEffectDynamicProcessorFilterSettings
-// 0x000C (0x000C - 0x0000)
-struct FSubmixEffectDynamicProcessorFilterSettings final
-{
-public:
-	uint8                                         bEnabled : 1;                                      // 0x0000(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic))
-	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         Cutoff;                                            // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         GainDb;                                            // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct AudioMixer.SubmixEffectDynamicsProcessorSettings
@@ -268,6 +281,18 @@ public:
 	uint8                                         Pad_5C[0x4];                                       // 0x005C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// ScriptStruct AudioMixer.SubmixEffectEQBand
+// 0x0010 (0x0010 - 0x0000)
+struct FSubmixEffectEQBand final
+{
+public:
+	float                                         Frequency;                                         // 0x0000(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Bandwidth;                                         // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         GainDb;                                            // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         bEnabled : 1;                                      // 0x000C(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic))
+	uint8                                         Pad_D[0x3];                                        // 0x000D(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
 // ScriptStruct AudioMixer.SubmixEffectSubmixEQSettings
 // 0x0010 (0x0010 - 0x0000)
 struct FSubmixEffectSubmixEQSettings final
@@ -276,31 +301,60 @@ public:
 	TArray<struct FSubmixEffectEQBand>            EQBands;                                           // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct AudioMixer.SubmixEffectReverbSettings
-// 0x0040 (0x0040 - 0x0000)
-struct FSubmixEffectReverbSettings final
+// DelegateFunction AudioMixer.OnAudioDefaultDeviceChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioMixer
 {
-public:
-	bool                                          bBypassEarlyReflections;                           // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         ReflectionsDelay;                                  // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         GainHF;                                            // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReflectionsGain;                                   // 0x000C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bBypassLateReflections;                            // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_11[0x3];                                       // 0x0011(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         LateDelay;                                         // 0x0014(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         DecayTime;                                         // 0x0018(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Density;                                           // 0x001C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Diffusion;                                         // 0x0020(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         AirAbsorptionGainHF;                               // 0x0024(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         DecayHFRatio;                                      // 0x0028(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         LateGain;                                          // 0x002C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Gain;                                              // 0x0030(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         WetLevel;                                          // 0x0034(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         DryLevel;                                          // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bBypass;                                           // 0x003C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_3D[0x3];                                       // 0x003D(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
+using FDelegateSignature_OnAudioDefaultDeviceChanged = void(EAudioDeviceChangedRole AudioDeviceRole, const class FString& DeviceID);
 }
 
+// DelegateFunction AudioMixer.OnAudioDeviceChange__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnAudioDeviceChange = void(const class FString& DeviceID);
+}
+
+// DelegateFunction AudioMixer.OnAudioDeviceStateChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnAudioDeviceStateChanged = void(const class FString& DeviceID, EAudioDeviceChangedState NewState);
+}
+
+// DelegateFunction AudioMixer.OnAudioOutputDevicesObtained__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnAudioOutputDevicesObtained = void(const TArray<struct FAudioOutputDeviceInfo>& AvailableDevices);
+}
+
+// DelegateFunction AudioMixer.OnCompletedDeviceSwap__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnCompletedDeviceSwap = void(const struct FSwapAudioOutputResult& SwapResult);
+}
+
+// DelegateFunction AudioMixer.OnMainAudioOutputDeviceObtained__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnMainAudioOutputDeviceObtained = void(const class FString& CurrentDevice);
+}
+
+// DelegateFunction AudioMixer.OnSoundLoadComplete__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnSoundLoadComplete = void(const class USoundWave* LoadedSoundWave, const bool WasCancelled);
+}
+
+// DelegateFunction AudioMixer.OnSynthEnvelopeValue__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioMixer
+{
+using FDelegateSignature_OnSynthEnvelopeValue = void(const float EnvelopeValue);
+}
+
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BPI_CanParry_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_CanParry.BPI_CanParry_C.Send Threat Location R
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -23,9 +22,9 @@ namespace SDK
 // const struct FVector&                   Threat_Location                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Immediate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* nul)
+void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -40,9 +39,9 @@ void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Locati
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (nul != nullptr)
-		*nul = Parms.nul;
+	if (Nul != nullptr)
+		*Nul = Parms.Nul;
 }
 
-}
 
+SDK_NAMESPACE_END

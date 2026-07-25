@@ -14,8 +14,7 @@
 #include "MLDeformerFramework_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function MLDeformerFramework.MLDeformerComponent.SetDeformerAsset
 // (Final, Native, Public, BlueprintCallable)
@@ -417,5 +416,5 @@ bool UMLDeformerMorphModel::CanDynamicallyUpdateMorphTargets() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

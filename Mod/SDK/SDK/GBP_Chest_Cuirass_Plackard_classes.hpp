@@ -13,8 +13,7 @@
 #include "BP_GameArmor_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GBP_Chest_Cuirass_Plackard.GBP_Chest_Cuirass_Plackard_C
 // 0x0000 (0x00C8 - 0x00C8)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

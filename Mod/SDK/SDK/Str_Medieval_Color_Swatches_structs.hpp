@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Medieval_Color_Swatches.Str_Medieval_Color_Swatches
 // 0x0028 (0x0028 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	bool                                          SetColor_5_30D1617146669CE43AD538B674B739FA;       // 0x0020(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

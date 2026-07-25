@@ -13,8 +13,7 @@
 #include "BP_GameWeapon_Customizable_Sword_Arming_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameWeapon_Customizable_Sword_Long.BP_GameWeapon_Customizable_Sword_Long_C
 // 0x0000 (0x01F0 - 0x01F0)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

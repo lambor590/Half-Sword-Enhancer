@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum LeftRight_Enum.LeftRight_Enum
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class ELeftRight_Enum : uint8
 	LeftRight_MAX                            = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

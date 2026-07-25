@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_Logos.S_Logos
 // 0x0028 (0x0028 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	struct FVector2D                              Size_20_1395B5E0448F1D5F61E722B131807AD7;          // 0x0018(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

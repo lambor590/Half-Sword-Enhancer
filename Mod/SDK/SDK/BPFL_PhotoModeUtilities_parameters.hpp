@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "S_PhotosData_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "E_SaveSort_structs.hpp"
-#include "UMG_structs.hpp"
 #include "E_ScreenshotMethod_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "UMG_structs.hpp"
+#include "S_PhotosData_structs.hpp"
+#include "E_SaveSort_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.Directory Path Correction
 // 0x00A8 (0x00A8 - 0x0000)
@@ -489,5 +489,5 @@ public:
 	class FString                                 CallFunc_Concat_StrStr_ReturnValue_14;             // 0x0210(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

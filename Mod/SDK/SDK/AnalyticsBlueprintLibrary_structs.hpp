@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct AnalyticsBlueprintLibrary.AnalyticsEventAttr
 // 0x0020 (0x0020 - 0x0000)
@@ -23,5 +22,4 @@ public:
 	class FString                                 Value;                                             // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

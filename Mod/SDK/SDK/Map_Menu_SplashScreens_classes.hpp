@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Map_Menu_SplashScreens.Map_Menu_SplashScreens_C
 // 0x0008 (0x02A0 - 0x0298)
@@ -43,5 +42,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

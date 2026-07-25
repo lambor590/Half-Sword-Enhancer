@@ -13,8 +13,7 @@
 #include "Modular_Sword_Pommel_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Pommel_C_LS.Weapon_Sword_Pommel_C_LS_C
 // 0x0000 (0x0450 - 0x0450)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

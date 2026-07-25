@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Enum_CombatEvent_Modes_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "Enum_CombatEvent_Modes_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_CombatEvent_Master.BP_CombatEvent_Master_C
 // 0x0180 (0x0410 - 0x0290)
@@ -66,5 +65,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

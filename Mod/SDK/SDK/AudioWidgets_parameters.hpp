@@ -15,8 +15,80 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
+
+// Function AudioWidgets.AudioMeter.SetBackgroundColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetBackgroundColor final
 {
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterBackgroundColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterBackgroundColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterChannelInfo
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterChannelInfo final
+{
+public:
+	TArray<struct FMeterChannelInfo>              InMeterChannelInfo;                                // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterClippingColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterClippingColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterPeakColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterPeakColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterScaleColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterScaleColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterScaleLabelColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterScaleLabelColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.SetMeterValueColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_SetMeterValueColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioMeter.GetMeterChannelInfo
+// 0x0010 (0x0010 - 0x0000)
+struct AudioMeter_GetMeterChannelInfo final
+{
+public:
+	TArray<struct FMeterChannelInfo>              ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
+};
 
 // Function AudioWidgets.AudioSliderBase.GetLinValue
 // 0x0008 (0x0008 - 0x0000)
@@ -123,78 +195,6 @@ struct AudioSliderBase_SetWidgetBackgroundColor final
 {
 public:
 	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetBackgroundColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetBackgroundColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterBackgroundColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterBackgroundColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterChannelInfo
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterChannelInfo final
-{
-public:
-	TArray<struct FMeterChannelInfo>              InMeterChannelInfo;                                // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterClippingColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterClippingColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterPeakColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterPeakColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterScaleColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterScaleColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterScaleLabelColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterScaleLabelColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.SetMeterValueColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_SetMeterValueColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioMeter.GetMeterChannelInfo
-// 0x0010 (0x0010 - 0x0000)
-struct AudioMeter_GetMeterChannelInfo final
-{
-public:
-	TArray<struct FMeterChannelInfo>              ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 
 // Function AudioWidgets.AudioRadialSlider.GetOutputValue
@@ -319,5 +319,5 @@ public:
 	EAudioRadialSliderLayout                      InLayout;                                          // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

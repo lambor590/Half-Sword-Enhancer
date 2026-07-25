@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function TimeManagement.TimeManagementBlueprintLibrary.Add_FrameNumberFrameNumber
 // 0x000C (0x000C - 0x0000)
@@ -192,5 +192,5 @@ public:
 	struct FFrameTime                             ReturnValue;                                       // 0x0018(0x0008)(Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

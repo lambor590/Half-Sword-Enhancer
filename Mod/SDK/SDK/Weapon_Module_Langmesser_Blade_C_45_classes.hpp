@@ -13,8 +13,7 @@
 #include "Modular_Falchion_Blade_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Langmesser_Blade_C_45.Weapon_Module_Langmesser_Blade_C_45_C
 // 0x0000 (0x0458 - 0x0458)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum EngineSettings.ETwoPlayerSplitScreenType
 // NumValues: 0x0003
@@ -84,5 +83,4 @@ public:
 	class FText                                   DisplayName;                                       // 0x0040(0x0010)(Edit, Config, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

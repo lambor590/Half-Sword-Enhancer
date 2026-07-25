@@ -14,8 +14,7 @@
 #include "NiagaraAnimNotifies_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function NiagaraAnimNotifies.AnimNotifyState_TimedNiagaraEffect.GetSpawnedEffect
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, Const)
@@ -97,5 +96,5 @@ class UFXSystemComponent* UAnimNotify_PlayNiagaraEffect::GetSpawnedEffect() cons
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

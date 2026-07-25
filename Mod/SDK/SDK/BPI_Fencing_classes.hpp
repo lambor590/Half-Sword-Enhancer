@@ -13,15 +13,14 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Fencing.BPI_Fencing_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_Fencing_C final
 {
 public:
-	void StopThatBlade(double Power, bool* nul);
+	void StopThatBlade(double Power, bool* Nul);
 
 public:
 	static class UClass* StaticClass()
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

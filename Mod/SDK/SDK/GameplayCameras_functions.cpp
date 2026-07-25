@@ -14,8 +14,7 @@
 #include "GameplayCameras_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GameplayCameras.LegacyCameraShake.StartLegacyCameraShake
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
@@ -817,5 +816,5 @@ class UCameraSystemEvaluator* UGameplayCameraSystemComponent::GetCameraSystemEva
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

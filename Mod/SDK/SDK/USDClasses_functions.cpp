@@ -14,8 +14,7 @@
 #include "USDClasses_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function USDClasses.UsdAssetCache2.AddAssetReference
 // (Final, Native, Public, BlueprintCallable)
@@ -771,5 +770,5 @@ class UTexture2D* UUsdDrawModeComponent::GetTextureForFace(EUsdModelCardFace Fac
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

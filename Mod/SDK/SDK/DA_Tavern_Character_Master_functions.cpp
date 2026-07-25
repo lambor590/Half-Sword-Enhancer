@@ -14,8 +14,7 @@
 #include "DA_Tavern_Character_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DA_Tavern_Character_Master.DA_Tavern_Character_Master_C.Get Spawn Chance
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
@@ -40,5 +39,5 @@ void UDA_Tavern_Character_Master_C::Get_Spawn_Chance(Enum_DayTime Time, double* 
 		*Chance = Parms.Chance;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_LanguageSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -166,6 +165,90 @@ void UUI_LanguageSettings_C::BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBo
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_LanguageSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_LanguageSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -364,5 +447,5 @@ void UUI_LanguageSettings_C::Tick(const struct FGeometry& MyGeometry, float InDe
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

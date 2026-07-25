@@ -13,8 +13,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Data.BPI_Data_C
 // 0x0000 (0x0000 - 0x0000)
@@ -48,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

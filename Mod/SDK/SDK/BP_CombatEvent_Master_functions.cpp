@@ -14,8 +14,7 @@
 #include "BP_CombatEvent_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_CombatEvent_Master.BP_CombatEvent_Master_C.UserConstructionScript
 // (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void ABP_CombatEvent_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

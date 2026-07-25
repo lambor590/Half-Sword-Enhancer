@@ -14,8 +14,7 @@
 #include "ACLPlugin_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ACLPlugin.AnimationCompressionLibraryDatabase.GetVisualFidelity
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -79,5 +78,5 @@ void UAnimationCompressionLibraryDatabase::SetVisualFidelity(class UObject* Worl
 		*Result = Parms.Result;
 }
 
-}
 
+SDK_NAMESPACE_END

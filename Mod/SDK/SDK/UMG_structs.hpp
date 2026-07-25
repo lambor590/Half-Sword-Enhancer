@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "PropertyPath_structs.hpp"
 #include "Slate_structs.hpp"
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum UMG.ESlateVisibility
 // NumValues: 0x0006
@@ -212,20 +211,24 @@ enum class EWidgetInteractionSource : uint8
 	EWidgetInteractionSource_MAX             = 4,
 };
 
+// ScriptStruct UMG.RadialBoxSettings
+// 0x0010 (0x0010 - 0x0000)
+struct FRadialBoxSettings final
+{
+public:
+	float                                         StartingAngle;                                     // 0x0000(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bDistributeItemsEvenly;                            // 0x0004(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         AngleBetweenItems;                                 // 0x0008(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         SectorCentralAngle;                                // 0x000C(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct UMG.EventReply
 // 0x00B8 (0x00B8 - 0x0000)
 struct alignas(0x08) FEventReply final
 {
 public:
 	uint8                                         Pad_0[0xB8];                                       // 0x0000(0x00B8)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// ScriptStruct UMG.PaintContext
-// 0x0030 (0x0030 - 0x0000)
-struct alignas(0x08) FPaintContext final
-{
-public:
-	uint8                                         Pad_0[0x30];                                       // 0x0000(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct UMG.WidgetTransform
@@ -240,16 +243,6 @@ public:
 	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct UMG.SlateChildSize
-// 0x0008 (0x0008 - 0x0000)
-struct FSlateChildSize final
-{
-public:
-	float                                         Value;                                             // 0x0000(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	ESlateSizeRule                                SizeRule;                                          // 0x0004(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
 // ScriptStruct UMG.ShapedTextOptions
 // 0x0003 (0x0003 - 0x0000)
 struct FShapedTextOptions final
@@ -261,18 +254,6 @@ public:
 	ETextFlowDirection                            TextFlowDirection;                                 // 0x0002(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct UMG.RadialBoxSettings
-// 0x0010 (0x0010 - 0x0000)
-struct FRadialBoxSettings final
-{
-public:
-	float                                         StartingAngle;                                     // 0x0000(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bDistributeItemsEvenly;                            // 0x0004(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         AngleBetweenItems;                                 // 0x0008(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         SectorCentralAngle;                                // 0x000C(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct UMG.WidgetChild
 // 0x0010 (0x0010 - 0x0000)
 struct FWidgetChild final
@@ -280,6 +261,39 @@ struct FWidgetChild final
 public:
 	class FName                                   WidgetName;                                        // 0x0000(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	TWeakObjectPtr<class UWidget>                 WidgetPtr;                                         // 0x0008(0x0008)(ExportObject, ZeroConstructor, Transient, InstancedReference, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+};
+
+// ScriptStruct UMG.SlateMeshVertex
+// 0x003C (0x003C - 0x0000)
+struct FSlateMeshVertex final
+{
+public:
+	struct FVector2f                              position;                                          // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FColor                                 Color;                                             // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV0;                                               // 0x000C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV1;                                               // 0x0014(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV2;                                               // 0x001C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV3;                                               // 0x0024(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV4;                                               // 0x002C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector2f                              UV5;                                               // 0x0034(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct UMG.PaintContext
+// 0x0030 (0x0030 - 0x0000)
+struct alignas(0x08) FPaintContext final
+{
+public:
+	uint8                                         Pad_0[0x30];                                       // 0x0000(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// ScriptStruct UMG.SlateChildSize
+// 0x0008 (0x0008 - 0x0000)
+struct FSlateChildSize final
+{
+public:
+	float                                         Value;                                             // 0x0000(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	ESlateSizeRule                                SizeRule;                                          // 0x0004(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct UMG.WidgetEventField
@@ -299,7 +313,7 @@ public:
 	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	class FName                                   WidgetToFocus;                                     // 0x0004(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TWeakObjectPtr<class UWidget>                 Widget;                                            // 0x000C(0x0008)(ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(EUINavigation Navigation)>     CustomDelegate;                                    // 0x0014(0x0010)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<class UWidget*(EUINavigation Navigation)> CustomDelegate;                              // 0x0014(0x0010)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct UMG.QueuedWidgetAnimationTransition
@@ -459,20 +473,249 @@ public:
 	uint8                                         Pad_B8[0x10];                                      // 0x00B8(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct UMG.SlateMeshVertex
-// 0x003C (0x003C - 0x0000)
-struct FSlateMeshVertex final
+// DelegateFunction UMG.CustomWidgetNavigationDelegate__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace UMG
 {
-public:
-	struct FVector2f                              position;                                          // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FColor                                 Color;                                             // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV0;                                               // 0x000C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV1;                                               // 0x0014(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV2;                                               // 0x001C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV3;                                               // 0x0024(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV4;                                               // 0x002C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector2f                              UV5;                                               // 0x0034(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
+using FDelegateSignature_CustomWidgetNavigationDelegate = class UWidget*(EUINavigation Navigation);
 }
 
+// DelegateFunction UMG.OnMenuOpenChangedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnMenuOpenChangedEvent = void(bool bIsOpen);
+}
+
+// DelegateFunction UMG.DownloadImageDelegate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_DownloadImageDelegate = void(class UTexture2DDynamic* Texture);
+}
+
+// DelegateFunction UMG.OnButtonClickedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnButtonClickedEvent = void();
+}
+
+// DelegateFunction UMG.OnButtonHoverEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnButtonHoverEvent = void();
+}
+
+// DelegateFunction UMG.OnButtonPressedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnButtonPressedEvent = void();
+}
+
+// DelegateFunction UMG.OnButtonReleasedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnButtonReleasedEvent = void();
+}
+
+// DelegateFunction UMG.OnCheckBoxComponentStateChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnCheckBoxComponentStateChanged = void(bool bIsChecked);
+}
+
+// DelegateFunction UMG.OnConstructEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnConstructEvent = void();
+}
+
+// DelegateFunction UMG.OnControllerCaptureBeginEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnControllerCaptureBeginEvent = void();
+}
+
+// DelegateFunction UMG.OnControllerCaptureEndEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnControllerCaptureEndEvent = void();
+}
+
+// DelegateFunction UMG.OnDragDropMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnDragDropMulticast = void(class UDragDropOperation* Operation);
+}
+
+// DelegateFunction UMG.OnExpandableAreaExpansionChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnExpandableAreaExpansionChanged = void(class UExpandableArea* Area, bool bIsExpanded);
+}
+
+// DelegateFunction UMG.OnFloatValueChangedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnFloatValueChangedEvent = void(float Value);
+}
+
+// DelegateFunction UMG.OnGetItemChildrenDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnGetItemChildrenDynamic = void(class UObject* Item, TArray<class UObject*>* Children);
+}
+
+// DelegateFunction UMG.OnHoveredWidgetChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnHoveredWidgetChanged = void(class UWidgetComponent* WidgetComponent, class UWidgetComponent* PreviousWidgetComponent);
+}
+
+// DelegateFunction UMG.OnInputAction__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnInputAction = void();
+}
+
+// DelegateFunction UMG.OnItemExpansionChangedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnItemExpansionChangedDynamic = void(class UObject* Item, bool bIsExpanded);
+}
+
+// DelegateFunction UMG.OnItemIsHoveredChangedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnItemIsHoveredChangedDynamic = void(class UObject* Item, bool bIsHovered);
+}
+
+// DelegateFunction UMG.OnListEntryGeneratedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListEntryGeneratedDynamic = void(class UUserWidget* Widget);
+}
+
+// DelegateFunction UMG.OnListEntryInitializedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListEntryInitializedDynamic = void(class UObject* Item, class UUserWidget* Widget);
+}
+
+// DelegateFunction UMG.OnListEntryReleasedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListEntryReleasedDynamic = void(class UUserWidget* Widget);
+}
+
+// DelegateFunction UMG.OnListItemScrolledIntoViewDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListItemScrolledIntoViewDynamic = void(class UObject* Item, class UUserWidget* Widget);
+}
+
+// DelegateFunction UMG.OnListItemSelectionChangedDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListItemSelectionChangedDynamic = void(class UObject* Item, bool bIsSelected);
+}
+
+// DelegateFunction UMG.OnListViewScrolledDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnListViewScrolledDynamic = void(float ItemOffset, float DistanceRemaining);
+}
+
+// DelegateFunction UMG.OnMouseCaptureBeginEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnMouseCaptureBeginEvent = void();
+}
+
+// DelegateFunction UMG.OnMouseCaptureEndEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnMouseCaptureEndEvent = void();
+}
+
+// DelegateFunction UMG.OnScrollBarVisibilityChangedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnScrollBarVisibilityChangedEvent = void(ESlateVisibility NewVisibility);
+}
+
+// DelegateFunction UMG.OnUserScrolledEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnUserScrolledEvent = void(float CurrentOffset);
+}
+
+// DelegateFunction UMG.OnVisibilityChangedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnVisibilityChangedEvent = void(ESlateVisibility InVisibility);
+}
+
+// DelegateFunction UMG.OnWidgetAnimationPlaybackStatusChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_OnWidgetAnimationPlaybackStatusChanged = void();
+}
+
+// DelegateFunction UMG.SimpleListItemEventDynamic__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_SimpleListItemEventDynamic = void(class UObject* Item);
+}
+
+// DelegateFunction UMG.WidgetAnimationDynamicEvent__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_WidgetAnimationDynamicEvent = void();
+}
+
+// DelegateFunction UMG.WidgetAnimationDynamicEvents__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_WidgetAnimationDynamicEvents = void();
+}
+
+// DelegateFunction UMG.WidgetAnimationResult__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace UMG
+{
+using FDelegateSignature_WidgetAnimationResult = void();
+}
+
+SDK_NAMESPACE_END

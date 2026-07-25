@@ -13,8 +13,8 @@
 #include "InputCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_StartUpScreen_1.UI_StartUpScreen_1_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
 // 0x0018 (0x0018 - 0x0000)
@@ -46,5 +46,5 @@ public:
 	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0068(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

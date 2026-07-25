@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangeCommonParser.EInterchangeCurveInterpMode
 // NumValues: 0x0005
@@ -81,5 +80,4 @@ public:
 	uint8                                         Pad_10[0x78];                                      // 0x0010(0x0078)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

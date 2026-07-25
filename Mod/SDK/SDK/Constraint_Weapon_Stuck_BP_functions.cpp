@@ -14,8 +14,7 @@
 #include "Constraint_Weapon_Stuck_BP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.Add Out Point Scene
 // (BlueprintCallable, BlueprintEvent)
@@ -222,5 +221,5 @@ void AConstraint_Weapon_Stuck_BP_C::Renew_Costrained_Bone()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

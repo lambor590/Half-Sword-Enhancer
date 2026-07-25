@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -17,218 +9,70 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release Beta|x64">
-      <Configuration>Release Beta</Configuration>
+    <ProjectConfiguration Include="Release Experimental|x64">
+      <Configuration>Release Experimental</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>17.0</VCProjectVersion>
-    <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c8b11247-ad69-495f-b699-31a31747e2a8}</ProjectGuid>
     <RootNamespace>Launcher</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Experimental|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v145</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <BetaBuild>true</BetaBuild>
+    <ExperimentalBuild>true</ExperimentalBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>HSEnhancerLauncher</TargetName>
+  <PropertyGroup>
+    <TargetName Condition="'$(ExperimentalBuild)'=='true'">HSEnhancerLauncherExperimental</TargetName>
+    <TargetName Condition="'$(ExperimentalBuild)'!='true'">HSEnhancerLauncher</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>HSEnhancerLauncher</TargetName>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src</SourcePath>
-    <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)bin\</OutDir>
-    <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
-    <TargetName>HSEnhancerLauncherBeta</TargetName>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src</SourcePath>
-    <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)bin\</OutDir>
-    <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
-    <BetaBuild>true</BetaBuild>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>Version.lib;Winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <StringPooling>true</StringPooling>
-      <OmitFramePointers>true</OmitFramePointers>
-      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalOptions>/guard:cf- %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /guard:cf %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>Version.lib;Winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <StripPrivateSymbols>true</StripPrivateSymbols>
-      <OptimizeReferences>true</OptimizeReferences>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/guard:cf %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
+  <ItemDefinitionGroup Condition="'$(ExperimentalBuild)'=='true'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BETA_VERSION;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <StringPooling>true</StringPooling>
-      <OmitFramePointers>true</OmitFramePointers>
-      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FloatingPointModel>Fast</FloatingPointModel>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <LanguageStandard_C>stdclatest</LanguageStandard_C>
-      <AdditionalOptions>/guard:cf- %(AdditionalOptions)</AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>Version.lib;Winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <StripPrivateSymbols>true</StripPrivateSymbols>
-      <OptimizeReferences>true</OptimizeReferences>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
-    </Link>
-  </ItemDefinitionGroup>
-  <!-- Conditional PropertyGroups for BetaBuild -->
-  <PropertyGroup Condition="'$(BetaBuild)'=='true'">
-    <TargetName>HSEnhancerLauncherBeta</TargetName>
-    <DefineConstants>BETA_VERSION</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(BetaBuild)'!='true'">
-    <TargetName>HSEnhancerLauncher</TargetName>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(BetaBuild)'=='true'">
-    <ClCompile>
-      <PreprocessorDefinitions>BETA_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -236,8 +80,13 @@
     <ClCompile Include="src\LauncherConfig.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\NetworkManager.cpp" />
+    <ClCompile Include="src\PackageCache.cpp" />
     <ClCompile Include="src\UpdateManager.cpp" />
-    <ClCompile Include="src\ProcessManager.cpp" />
+    <ClCompile Include="src\SteamLocator.cpp" />
+    <ClCompile Include="src\InstallManager.cpp" />
+    <ClCompile Include="src\JsonString.cpp" />
+    <ClCompile Include="src\SelfUpdate.cpp" />
+    <ClCompile Include="src\Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Launcher.h" />
@@ -245,8 +94,14 @@
     <ClInclude Include="include\Util.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\NetworkManager.h" />
+    <ClInclude Include="include\PackageCache.h" />
     <ClInclude Include="include\UpdateManager.h" />
-    <ClInclude Include="include\ProcessManager.h" />
+    <ClInclude Include="include\SteamLocator.h" />
+    <ClInclude Include="include\InstallManager.h" />
+    <ClInclude Include="include\JsonString.h" />
+    <ClInclude Include="include\SelfUpdate.h" />
+    <ClInclude Include="include\GameEdition.h" />
+    <ClInclude Include="include\Version.h" />
     <ClInclude Include="resource\resource.h" />
   </ItemGroup>
   <ItemGroup>

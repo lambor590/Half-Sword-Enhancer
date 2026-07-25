@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PhysicsCore.ECollisionTraceFlag
 // NumValues: 0x0005
@@ -228,5 +227,4 @@ public:
 	float                                         DamageThresholdMultiplier;                         // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

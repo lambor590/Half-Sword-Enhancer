@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum LocalFileNetworkReplayStreaming.ELocalFileReplayResult
 // NumValues: 0x000D
@@ -33,5 +32,4 @@ enum class ELocalFileReplayResult : uint8
 	ELocalFileReplayResult_MAX               = 12,
 };
 
-}
-
+SDK_NAMESPACE_END

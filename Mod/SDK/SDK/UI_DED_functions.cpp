@@ -14,8 +14,7 @@
 #include "UI_DED_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_DED.UI_DED_C.BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -174,5 +173,5 @@ void UUI_DED_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

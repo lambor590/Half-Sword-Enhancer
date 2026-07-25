@@ -12,15 +12,15 @@
 
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "Chaos_structs.hpp"
 #include "FieldNotification_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "AudioPlatformConfiguration_structs.hpp"
 #include "DeveloperSettings_structs.hpp"
 #include "DeveloperSettings_classes.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "PhysicsCore_classes.hpp"
-#include "AudioPlatformConfiguration_structs.hpp"
-#include "Chaos_structs.hpp"
 #include "MeshDescription_classes.hpp"
 #include "SlateCore_structs.hpp"
 #include "NetCore_structs.hpp"
@@ -31,8 +31,7 @@
 #include "PacketHandler_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class Engine.ActorComponent
 // 0x0078 (0x00A0 - 0x0028)
@@ -1107,7 +1106,7 @@ public:
 // Class Engine.PrimitiveComponent
 // 0x02F0 (0x0520 - 0x0230)
 #pragma pack(push, 0x1)
-class alignas(0x10) UPrimitiveComponent : public USceneComponent
+class SDK_ALIGN(0x10) UPrimitiveComponent : public USceneComponent
 {
 public:
 	uint8                                         Pad_230[0x18];                                     // 0x0230(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
@@ -1443,7 +1442,7 @@ public:
 // Class Engine.SkinnedMeshComponent
 // 0x0370 (0x08C0 - 0x0550)
 #pragma pack(push, 0x1)
-class alignas(0x10) USkinnedMeshComponent : public UMeshComponent
+class SDK_ALIGN(0x10) USkinnedMeshComponent : public UMeshComponent
 {
 public:
 	uint8                                         Pad_550[0x8];                                      // 0x0550(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
@@ -2143,7 +2142,7 @@ public:
 // Class Engine.StaticMeshComponent
 // 0x0090 (0x05E0 - 0x0550)
 #pragma pack(push, 0x1)
-class alignas(0x10) UStaticMeshComponent : public UMeshComponent
+class SDK_ALIGN(0x10) UStaticMeshComponent : public UMeshComponent
 {
 public:
 	int32                                         ForcedLodModel;                                    // 0x0550(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -4062,7 +4061,7 @@ public:
 // Class Engine.LevelStreaming
 // 0x0178 (0x01A0 - 0x0028)
 #pragma pack(push, 0x1)
-class alignas(0x10) ULevelStreaming : public UObject
+class SDK_ALIGN(0x10) ULevelStreaming : public UObject
 {
 public:
 	TSoftObjectPtr<class UWorld>                  WorldAsset;                                        // 0x0028(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
@@ -4887,7 +4886,7 @@ public:
 // Class Engine.DebugDrawComponent
 // 0x0050 (0x0570 - 0x0520)
 #pragma pack(push, 0x1)
-class alignas(0x10) UDebugDrawComponent : public UPrimitiveComponent
+class SDK_ALIGN(0x10) UDebugDrawComponent : public UPrimitiveComponent
 {
 public:
 	uint8                                         Pad_518[0x50];                                     // 0x0518(0x0050)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -7020,7 +7019,7 @@ public:
 // Class Engine.LightComponentBase
 // 0x0040 (0x0270 - 0x0230)
 #pragma pack(push, 0x1)
-class alignas(0x10) ULightComponentBase : public USceneComponent
+class SDK_ALIGN(0x10) ULightComponentBase : public USceneComponent
 {
 public:
 	struct FGuid                                  LightGuid;                                         // 0x0230(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -7919,7 +7918,7 @@ public:
 // Class Engine.ReflectionCaptureComponent
 // 0x0070 (0x02A0 - 0x0230)
 #pragma pack(push, 0x1)
-class alignas(0x10) UReflectionCaptureComponent : public USceneComponent
+class SDK_ALIGN(0x10) UReflectionCaptureComponent : public USceneComponent
 {
 public:
 	class UBillboardComponent*                    CaptureOffsetComponent;                            // 0x0230(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
@@ -10974,7 +10973,7 @@ public:
 // Class Engine.PointLightComponent
 // 0x0020 (0x03B0 - 0x0390)
 #pragma pack(push, 0x1)
-class alignas(0x10) UPointLightComponent : public ULocalLightComponent
+class SDK_ALIGN(0x10) UPointLightComponent : public ULocalLightComponent
 {
 public:
 	uint8                                         bUseInverseSquaredFalloff : 1;                     // 0x0390(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic))
@@ -15891,7 +15890,7 @@ public:
 	bool GetCookedFFTDataForAllPlayingSounds(TArray<struct FSoundWaveSpectralDataPerSound>* OutSoundWaveSpectralData);
 	TSet<class USoundModulatorBase*> GetModulators(const EModulationDestination Destination);
 	void Play(float StartTime);
-	void PlayQuantized(const class UObject* WorldContextObject, class UQuartzClockHandle*& InClockHandle, struct FQuartzQuantizationBoundary& InQuantizationBoundary, const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)>& InDelegate, float InStartTime, float InFadeInDuration, float InFadeVolumeLevel, EAudioFaderCurve InFadeCurve);
+	void PlayQuantized(const class UObject* WorldContextObject, class UQuartzClockHandle*& InClockHandle, struct FQuartzQuantizationBoundary& InQuantizationBoundary, const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)>& InDelegate, float InStartTime, float InFadeInDuration, float InFadeVolumeLevel, EAudioFaderCurve InFadeCurve);
 	void SetAttenuationOverrides(const struct FSoundAttenuationSettings& InAttenuationOverrides);
 	void SetAttenuationSettings(class USoundAttenuation* InAttenuationSettings);
 	void SetAudioBusSendPostEffect(class UAudioBus* AudioBus, float AudioBusSendLevel);
@@ -24667,7 +24666,7 @@ public:
 // Class Engine.FXSystemComponent
 // 0x0000 (0x0520 - 0x0520)
 #pragma pack(push, 0x1)
-class alignas(0x10) UFXSystemComponent : public UPrimitiveComponent
+class SDK_ALIGN(0x10) UFXSystemComponent : public UPrimitiveComponent
 {
 public:
 	void ReleaseToPool();
@@ -25070,7 +25069,7 @@ public:
 // Class Engine.SceneCaptureComponent
 // 0x00C0 (0x02F0 - 0x0230)
 #pragma pack(push, 0x1)
-class alignas(0x10) USceneCaptureComponent : public USceneComponent
+class SDK_ALIGN(0x10) USceneCaptureComponent : public USceneComponent
 {
 public:
 	ESceneCapturePrimitiveRenderMode              PrimitiveRenderMode;                               // 0x0230(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -27406,7 +27405,7 @@ public:
 // Class Engine.Character
 // 0x0358 (0x0670 - 0x0318)
 #pragma pack(push, 0x1)
-class alignas(0x10) ACharacter : public APawn
+class SDK_ALIGN(0x10) ACharacter : public APawn
 {
 public:
 	class USkeletalMeshComponent*                 Mesh;                                              // 0x0318(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -28898,7 +28897,7 @@ public:
 	static float PerlinNoise1D(const float Value);
 	static bool PointsAreCoplanar(const TArray<struct FVector>& Points, float Tolerance);
 	static struct FVector ProjectPointOnToPlane(const struct FVector& Point, const struct FVector& PlaneBase, const struct FVector& PlaneNormal);
-	static struct FVector ProjectVectorOntoPlane(const struct FVector& V, const struct FVector& PlaneNormal);
+	static struct FVector ProjectVectorOnToPlane(const struct FVector& V, const struct FVector& PlaneNormal);
 	static struct FVector ProjectVectorOnToVector(const struct FVector& V, const struct FVector& Target);
 	static float Quat_AngularDistance(const struct FQuat& A, const struct FQuat& B);
 	static void Quat_EnforceShortestArcWith(struct FQuat& A, const struct FQuat& B);
@@ -32976,7 +32975,7 @@ public:
 // Class Engine.CharacterMovementComponent
 // 0x0E28 (0x0F80 - 0x0158)
 #pragma pack(push, 0x1)
-class alignas(0x10) UCharacterMovementComponent : public UPawnMovementComponent
+class SDK_ALIGN(0x10) UCharacterMovementComponent : public UPawnMovementComponent
 {
 public:
 	uint8                                         Pad_158[0x10];                                     // 0x0158(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
@@ -35136,7 +35135,7 @@ public:
 	uint8                                         Pad_30[0x20];                                      // 0x0030(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
-	int32 AddDisplayDelegate(const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>& Delegate);
+	int32 AddDisplayDelegate(const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>& Delegate);
 	void AddTimedDisplay(const class FText& Text, const struct FLinearColor& Color, float Duration, const struct FVector2D& DisplayOffset);
 	void RemoveDisplayDelegate(const int32 IndexToRemove);
 
@@ -36463,7 +36462,7 @@ public:
 
 // Class Engine.PackedLevelActor
 // 0x0000 (0x0330 - 0x0330)
-class APackedLevelActor final : public ALevelInstance
+class APackedLevelActor : public ALevelInstance
 {
 public:
 	static class UClass* StaticClass()
@@ -38535,5 +38534,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

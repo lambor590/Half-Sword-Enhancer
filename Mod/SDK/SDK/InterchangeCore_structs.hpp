@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangeCore.EInterchangeFactoryAssetType
 // NumValues: 0x0007
@@ -145,5 +144,4 @@ public:
 	uint8                                         Pad_10[0x28];                                      // 0x0010(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

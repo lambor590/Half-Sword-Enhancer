@@ -14,8 +14,45 @@
 #include "BP_FreeCamera_parameters.hpp"
 
 
-namespace SDK
+SDK_NAMESPACE_START
+
+// Function BP_FreeCamera.BP_FreeCamera_C.Create Grab Handle
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   GrabLocation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              Component                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class FName                             InBoneName                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void BP_FreeCamera::ABP_FreeCamera_C::Create_Grab_Handle(const struct FVector& GrabLocation, class UPrimitiveComponent* Component, class FName InBoneName)
 {
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "Create Grab Handle");
+
+	Params::BP_FreeCamera_C_Create_Grab_Handle Parms{};
+
+	Parms.GrabLocation = std::move(GrabLocation);
+	Parms.Component = Component;
+	Parms.InBoneName = InBoneName;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_FreeCamera.BP_FreeCamera_C.Destroy Spawned Item
+// (BlueprintCallable, BlueprintEvent)
+
+void BP_FreeCamera::ABP_FreeCamera_C::Destroy_Spawned_Item()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "Destroy Spawned Item");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
 
 // Function BP_FreeCamera.BP_FreeCamera_C.ExecuteUbergraph_BP_FreeCamera
 // (Final, UbergraphFunction, HasDefaults)
@@ -32,6 +69,46 @@ void BP_FreeCamera::ABP_FreeCamera_C::ExecuteUbergraph_BP_FreeCamera(int32 Entry
 	Params::BP_FreeCamera_C_ExecuteUbergraph_BP_FreeCamera Parms{};
 
 	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_FreeCamera.BP_FreeCamera_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void BP_FreeCamera::ABP_FreeCamera_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0");
+
+	Params::BP_FreeCamera_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_FreeCamera.BP_FreeCamera_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void BP_FreeCamera::ABP_FreeCamera_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1");
+
+	Params::BP_FreeCamera_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1 Parms{};
+
+	Parms.Key = std::move(Key);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -71,18 +148,60 @@ void BP_FreeCamera::ABP_FreeCamera_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function BP_FreeCamera.BP_FreeCamera_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function BP_FreeCamera.BP_FreeCamera_C.Release Handle Event
+// (BlueprintCallable, BlueprintEvent)
 
-void BP_FreeCamera::ABP_FreeCamera_C::UserConstructionScript()
+void BP_FreeCamera::ABP_FreeCamera_C::Release_Handle_Event()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_FreeCamera_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_FreeCamera_C", "Release Handle Event");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
+
+// Function BP_FreeCamera.BP_FreeCamera_C.Take off Armor
+// (BlueprintCallable, BlueprintEvent)
+
+void BP_FreeCamera::ABP_FreeCamera_C::Take_off_Armor()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "Take off Armor");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
+
+// Function BP_FreeCamera.BP_FreeCamera_C.Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void BP_FreeCamera::ABP_FreeCamera_C::Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_FreeCamera.BP_FreeCamera_C.Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void BP_FreeCamera::ABP_FreeCamera_C::Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+SDK_NAMESPACE_END

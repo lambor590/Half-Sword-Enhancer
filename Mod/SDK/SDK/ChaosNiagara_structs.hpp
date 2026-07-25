@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ChaosNiagara.EDataSortTypeEnum
 // NumValues: 0x0005
@@ -116,5 +115,4 @@ public:
 	uint8                                         Pad_74[0x4];                                       // 0x0074(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

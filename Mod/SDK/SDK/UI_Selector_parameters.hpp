@@ -15,8 +15,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Selector.UI_Selector_C.AddOption
 // 0x0030 (0x0030 - 0x0000)
@@ -435,5 +435,5 @@ public:
 	float                                         CallFunc_SetValue_InValue_ImplicitCast_1;          // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

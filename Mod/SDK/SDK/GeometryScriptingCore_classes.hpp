@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Engine_classes.hpp"
 #include "GeometryScriptingCore_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class GeometryScriptingCore.GeometryScriptDebug
 // 0x0010 (0x0038 - 0x0028)
@@ -1376,5 +1375,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

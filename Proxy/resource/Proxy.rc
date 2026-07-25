@@ -1,11 +1,10 @@
-#include "resource.h"
 #include <Windows.h>
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 2,0,0,0
+ PRODUCTVERSION 2,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -21,13 +20,13 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "The Ghost"
-            VALUE "FileDescription", "Half Sword Enhancer injector"
-            VALUE "FileVersion", "1.0.0.0"
+            VALUE "FileDescription", "Half Sword Enhancer Loader"
+            VALUE "FileVersion", "2.0.0.0"
             VALUE "InternalName", "HSEnhancerProxy"
             VALUE "LegalCopyright", "Copyright (C) 2026 The Ghost"
-            VALUE "OriginalFilename", "HSEnhancerProxy.dll"
-            VALUE "ProductName", "Half Sword Enhancer injector"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "OriginalFilename", "winmm.dll"
+            VALUE "ProductName", "Half Sword Enhancer"
+            VALUE "ProductVersion", "2.0.0.0"
         END
     END
     BLOCK "VarFileInfo"

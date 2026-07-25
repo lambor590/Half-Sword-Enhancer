@@ -14,8 +14,8 @@
 #include "InterchangeEngine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function InterchangeEngine.InterchangeFilePickerBase.ScriptedFilePickerForTranslatorAssetType
 // 0x0048 (0x0048 - 0x0000)
@@ -280,5 +280,5 @@ public:
 	const class UClass*                           ReturnValue;                                       // 0x0008(0x0008)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Shield_Pavise_Tower_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Shield_Pavise_Tower.Shield_Pavise_Tower_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -92,5 +91,5 @@ void AShield_Pavise_Tower_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

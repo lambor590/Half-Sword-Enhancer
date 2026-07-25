@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum UdpMessaging.EUdpMessageFormat
 // NumValues: 0x0006
@@ -34,5 +33,4 @@ public:
 	TArray<uint8>                                 Data;                                              // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,8 @@
 #include "GeometryCache_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function GeometryCache.GeometryCacheActor.GetGeometryCacheComponent
 // 0x0008 (0x0008 - 0x0000)
@@ -233,5 +233,5 @@ public:
 	struct FGeometryCacheMeshData                 NewMeshData;                                       // 0x0000(0x00C8)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

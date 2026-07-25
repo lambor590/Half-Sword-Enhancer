@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_DayTime.Enum_DayTime
 // NumValues: 0x0005
@@ -25,5 +24,4 @@ enum class Enum_DayTime : uint8
 	Enum_MAX                                 = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

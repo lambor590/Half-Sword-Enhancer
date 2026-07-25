@@ -13,8 +13,7 @@
 #include "BP_ShopItems_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_TestTraderItemsList.BP_TestTraderItemsList_C
 // 0x0000 (0x0038 - 0x0038)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

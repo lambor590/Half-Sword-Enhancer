@@ -14,8 +14,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function GeometryScriptingCore.GeometryScriptLibrary_CollisionFunctions.ApproximateConvexHullsWithSimplerCollisionShapes
 // 0x0098 (0x0098 - 0x0000)
@@ -6309,5 +6309,5 @@ public:
 	struct FGeometryScriptScalarList              ReturnValue;                                       // 0x0028(0x0010)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

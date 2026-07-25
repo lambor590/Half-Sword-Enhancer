@@ -14,8 +14,7 @@
 #include "DirectLinkExtension_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DirectLinkExtension.DirectLinkExtensionBlueprintLibrary.GetAvailableDirectLinkSourcesUri
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -85,5 +84,5 @@ bool UDirectLinkExtensionBlueprintLibrary::ParseDirectLinkSourceUri(const class 
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

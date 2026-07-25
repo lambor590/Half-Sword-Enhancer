@@ -14,8 +14,7 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum GameplayTags.EGameplayContainerMatchType
 // NumValues: 0x0003
@@ -64,21 +63,18 @@ enum class EGameplayTagSelectionType : uint8
 	EGameplayTagSelectionType_MAX            = 4,
 };
 
-// ScriptStruct GameplayTags.GameplayTagRedirect
-// 0x0010 (0x0010 - 0x0000)
-struct FGameplayTagRedirect final
-{
-public:
-	class FName                                   OldTagName;                                        // 0x0000(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   NewTagName;                                        // 0x0008(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct GameplayTags.GameplayTag
 // 0x0008 (0x0008 - 0x0000)
 struct FGameplayTag final
 {
 public:
 	class FName                                   TagName;                                           // 0x0000(0x0008)(Edit, ZeroConstructor, EditConst, SaveGame, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+};
+
+// ScriptStruct GameplayTags.GameplayTagContainerNetSerializerConfig
+// 0x0000 (0x0010 - 0x0010)
+struct FGameplayTagContainerNetSerializerConfig final : public FNetSerializerConfig
+{
 };
 
 // ScriptStruct GameplayTags.GameplayTagContainerNetSerializerSerializationHelper
@@ -119,16 +115,19 @@ public:
 	class FString                                 AutoDescription;                                   // 0x0038(0x0010)(Edit, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 };
 
-// ScriptStruct GameplayTags.GameplayTagContainerNetSerializerConfig
-// 0x0000 (0x0010 - 0x0010)
-struct FGameplayTagContainerNetSerializerConfig final : public FNetSerializerConfig
-{
-};
-
 // ScriptStruct GameplayTags.GameplayTagNetSerializerConfig
 // 0x0000 (0x0010 - 0x0010)
 struct FGameplayTagNetSerializerConfig final : public FNetSerializerConfig
 {
+};
+
+// ScriptStruct GameplayTags.GameplayTagRedirect
+// 0x0010 (0x0010 - 0x0000)
+struct FGameplayTagRedirect final
+{
+public:
+	class FName                                   OldTagName;                                        // 0x0000(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   NewTagName;                                        // 0x0008(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct GameplayTags.GameplayTagTableRow
@@ -187,5 +186,4 @@ public:
 	TArray<class FString>                         Owners;                                            // 0x0010(0x0010)(Edit, ZeroConstructor, Config, AdvancedDisplay, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

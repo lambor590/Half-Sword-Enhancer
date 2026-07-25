@@ -14,8 +14,7 @@
 #include "BP_Weapon_Tool_Scissors_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Tool_Scissors.BP_Weapon_Tool_Scissors_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -92,5 +91,5 @@ void ABP_Weapon_Tool_Scissors_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

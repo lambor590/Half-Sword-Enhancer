@@ -14,8 +14,7 @@
 #include "AudioCapture_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AudioCapture.AudioCapture.GetAudioCaptureDeviceInfo
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
@@ -188,5 +187,5 @@ void UAudioCaptureBlueprintLibrary::GetAvailableAudioInputDevices(const class UO
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ModelingComponents.EBakeTextureResolution
 // NumValues: 0x000B
@@ -355,5 +354,4 @@ public:
 	struct FRenderableTriangleVertex              Vertex2;                                           // 0x0098(0x0048)(NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

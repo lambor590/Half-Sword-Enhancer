@@ -14,8 +14,7 @@
 #include "UI_WIN_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_WIN.UI_WIN_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -92,5 +91,5 @@ void UUI_WIN_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

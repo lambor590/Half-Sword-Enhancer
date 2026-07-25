@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "S_PostProcessFilter_structs.hpp"
+#include "E_SaveSort_structs.hpp"
+#include "SlateCore_structs.hpp"
+#include "S_Logos_structs.hpp"
+#include "S_InputKeys_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "E_CameraModes_structs.hpp"
-#include "SlateCore_structs.hpp"
-#include "CinematicCamera_structs.hpp"
-#include "S_InputKeys_structs.hpp"
 #include "E_PauseGameMethod_structs.hpp"
-#include "S_Logos_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "E_CameraModes_structs.hpp"
+#include "S_PostProcessFilter_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "S_PostProcessRendering_structs.hpp"
 #include "E_ScreenshotMethod_structs.hpp"
@@ -27,11 +27,10 @@
 #include "E_InputMode_structs.hpp"
 #include "S_PhotoResolutions_structs.hpp"
 #include "E_ColorGradingMode_structs.hpp"
-#include "E_SaveSort_structs.hpp"
+#include "CinematicCamera_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPC_PhotoMode.BPC_PhotoMode_C
 // 0x23C0 (0x2460 - 0x00A0)
@@ -127,7 +126,7 @@ public:
 	struct FS_InputKeys                           LeftCameraKeys;                                    // 0x2188(0x0030)(Edit, BlueprintVisible, HasGetValueTypeHash)
 	struct FS_InputKeys                           RightCameraKeys;                                   // 0x21B8(0x0030)(Edit, BlueprintVisible, HasGetValueTypeHash)
 	struct FS_InputKeys                           OpenPhotoModeKeys__Gallery_;                       // 0x21E8(0x0030)(Edit, BlueprintVisible, HasGetValueTypeHash)
-	TMulticastInlineDelegate<void(double CurrentTimeDilation)> PhotoModeOpened;                      // 0x2218(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	TMulticastInlineDelegate<void(double CurrentTimeDilation_0)> PhotoModeOpened;                    // 0x2218(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	TMulticastInlineDelegate<void()>              PhotoModeClosed;                                   // 0x2228(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	bool                                          bShowCharacterRotationOption;                      // 0x2238(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bControllerTickBackup;                             // 0x2239(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -151,7 +150,7 @@ public:
 	TMap<class FString, TSoftObjectPtr<class UTexture2D>> Borders;                                   // 0x2338(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	E_SaveSort                                    SavePhotosSort;                                    // 0x2388(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_2389[0x7];                                     // 0x2389(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference)> OnFreeCameraStart; // 0x2390(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	TMulticastInlineDelegate<void(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference)> OnFreeCameraStart; // 0x2390(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	TMulticastInlineDelegate<void()>              OnFreenCameraEnd;                                  // 0x23A0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	ETraceTypeQuery                               FocusCollisionType;                                // 0x23B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_23B1[0x7];                                     // 0x23B1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
@@ -202,5 +201,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

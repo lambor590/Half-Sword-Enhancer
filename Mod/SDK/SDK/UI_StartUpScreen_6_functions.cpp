@@ -14,8 +14,7 @@
 #include "UI_StartUpScreen_6_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.ExecuteUbergraph_UI_StartUpScreen_6
 // (Final, UbergraphFunction)
@@ -78,5 +77,5 @@ void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_Component
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

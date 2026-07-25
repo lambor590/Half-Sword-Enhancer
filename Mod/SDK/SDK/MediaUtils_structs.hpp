@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MediaUtils.EMediaPlayerOptionBooleanOverride
 // NumValues: 0x0004
@@ -73,5 +72,4 @@ public:
 	uint8                                         Pad_2B[0x55];                                      // 0x002B(0x0055)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

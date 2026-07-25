@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "SlateRHIRenderer_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "SlateRHIRenderer_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function SlateRHIRenderer.SlateRHIRendererSettings.GetMutableSlatePostSetting
 // 0x0038 (0x0038 - 0x0000)
@@ -47,5 +47,5 @@ public:
 	class USlateRHIPostBufferProcessor*           ReturnValue;                                       // 0x0008(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

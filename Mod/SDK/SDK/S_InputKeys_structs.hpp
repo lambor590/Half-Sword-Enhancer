@@ -13,8 +13,7 @@
 #include "InputCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_InputKeys.S_InputKeys
 // 0x0030 (0x0030 - 0x0000)
@@ -25,5 +24,4 @@ public:
 	struct FKey                                   GamepadKey_15_5F26C35E4857CEA4E16D529A1424B51B;    // 0x0018(0x0018)(Edit, BlueprintVisible, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

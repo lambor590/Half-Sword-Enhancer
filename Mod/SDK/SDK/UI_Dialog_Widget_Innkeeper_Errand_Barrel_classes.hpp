@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Innkeeper_Errand_Barrel.UI_Dialog_Widget_Innkeeper_Errand_Barrel_C
 // 0x0030 (0x0310 - 0x02E0)
@@ -53,5 +52,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

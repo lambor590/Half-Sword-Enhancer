@@ -13,27 +13,25 @@
 #include "BP_Armor_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Head_Barbute_A.BP_Armor_Head_Barbute_A_C
-// 0x0000 (0x08E0 - 0x08E0)
-class ABP_Armor_Head_Barbute_A_C final : public ABP_Armor_Master_C
+// 0x0000 (0x0920 - 0x0920)
+class BP_Armor_Head_Barbute_A::ABP_Armor_Head_Barbute_A_C final : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()
 	{
-		BP_STATIC_CLASS_IMPL("BP_Armor_Head_Barbute_A_C")
+		BP_STATIC_CLASS_IMPL_FULLNAME("BlueprintGeneratedClass BP_Armor_Head_Barbute_A.BP_Armor_Head_Barbute_A_C")
 	}
 	static const class FName& StaticName()
 	{
 		STATIC_NAME_IMPL(L"BP_Armor_Head_Barbute_A_C")
 	}
-	static class ABP_Armor_Head_Barbute_A_C* GetDefaultObj()
+	static class BP_Armor_Head_Barbute_A::ABP_Armor_Head_Barbute_A_C* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<ABP_Armor_Head_Barbute_A_C>();
+		return GetDefaultObjImpl<BP_Armor_Head_Barbute_A::ABP_Armor_Head_Barbute_A_C>();
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

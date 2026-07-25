@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum StreamlineReflexBlueprint.EStreamlineReflexMode
 // NumValues: 0x0004
@@ -24,5 +23,4 @@ enum class EStreamlineReflexMode : uint8
 	EStreamlineReflexMode_MAX                = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

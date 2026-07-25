@@ -14,11 +14,38 @@
 #include "BP_Weapon_Ranged_Projectle_Master_parameters.hpp"
 
 
-namespace SDK
+SDK_NAMESPACE_START
+
+// Function BP_Weapon_Ranged_Projectle_Master.BP_Weapon_Ranged_Projectle_Master_C.BndEvt__BP_Weapon_Ranged_Projectle_Master_Cube_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Weapon_Ranged_Projectle_Master_C::BndEvt__BP_Weapon_Ranged_Projectle_Master_Cube_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Projectle_Master_C", "BndEvt__BP_Weapon_Ranged_Projectle_Master_Cube_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+
+	Params::BP_Weapon_Ranged_Projectle_Master_C_BndEvt__BP_Weapon_Ranged_Projectle_Master_Cube_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
 
 // Function BP_Weapon_Ranged_Projectle_Master.BP_Weapon_Ranged_Projectle_Master_C.ExecuteUbergraph_BP_Weapon_Ranged_Projectle_Master
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -64,5 +91,5 @@ void ABP_Weapon_Ranged_Projectle_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

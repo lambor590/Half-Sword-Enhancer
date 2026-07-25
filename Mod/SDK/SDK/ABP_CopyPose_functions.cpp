@@ -14,8 +14,7 @@
 #include "ABP_CopyPose_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ABP_CopyPose.ABP_CopyPose_C.AnimGraph
 // (HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -105,5 +104,5 @@ void UABP_CopyPose_C::ExecuteUbergraph_ABP_CopyPose(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

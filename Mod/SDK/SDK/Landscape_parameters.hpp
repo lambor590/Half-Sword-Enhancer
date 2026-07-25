@@ -15,8 +15,8 @@
 #include "Landscape_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Landscape.LandscapeProxy.ChangeComponentScreenSizeToUseSubSections
 // 0x0004 (0x0004 - 0x0000)
@@ -276,5 +276,5 @@ public:
 	bool                                          bInUserTriggered;                                  // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

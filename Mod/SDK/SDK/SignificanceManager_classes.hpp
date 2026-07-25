@@ -14,8 +14,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class SignificanceManager.SignificanceManager
 // 0x0118 (0x0140 - 0x0028)
@@ -40,5 +39,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "InterchangeEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function InterchangeEngine.InterchangeFilePickerBase.ScriptedFilePickerForTranslatorAssetType
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -796,5 +795,5 @@ const class UClass* UInterchangeManager::GetRegisteredFactoryClass(const class U
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

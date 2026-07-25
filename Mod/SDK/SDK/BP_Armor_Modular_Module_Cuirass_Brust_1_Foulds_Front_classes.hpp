@@ -13,11 +13,10 @@
 #include "BP_Armor_Modular_Module_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Module_Cuirass_Brust_1_Foulds_Front.BP_Armor_Modular_Module_Cuirass_Brust_1_Foulds_Front_C
-// 0x0000 (0x08E0 - 0x08E0)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Modular_Module_Cuirass_Brust_1_Foulds_Front_C final : public ABP_Armor_Modular_Module_Master_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

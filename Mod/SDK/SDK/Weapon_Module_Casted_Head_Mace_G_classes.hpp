@@ -13,8 +13,7 @@
 #include "Weapon_Module_Casted_Head_Mace_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Casted_Head_Mace_G.Weapon_Module_Casted_Head_Mace_G_C
 // 0x0020 (0x0448 - 0x0428)
@@ -41,5 +40,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BPI_Data_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Data.BPI_Data_C.SendPhotoData
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -58,5 +57,5 @@ void IBPI_Data_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButtonP
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

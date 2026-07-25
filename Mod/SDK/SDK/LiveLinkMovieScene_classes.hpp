@@ -13,13 +13,12 @@
 #include "LiveLinkInterface_structs.hpp"
 #include "MovieScene_structs.hpp"
 #include "MovieScene_classes.hpp"
+#include "MovieSceneTracks_classes.hpp"
 #include "LiveLinkMovieScene_structs.hpp"
 #include "CoreUObject_classes.hpp"
-#include "MovieSceneTracks_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class LiveLinkMovieScene.MovieSceneLiveLinkSection
 // 0x0140 (0x0230 - 0x00F0)
@@ -164,5 +163,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

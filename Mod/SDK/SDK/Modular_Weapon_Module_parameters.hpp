@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_Weapon_Module.Modular_Weapon_Module_C.UserConstructionScript
 // 0x0038 (0x0038 - 0x0000)
@@ -34,5 +34,5 @@ public:
 	class UClass*                                 K2Node_Select_Default_1;                           // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

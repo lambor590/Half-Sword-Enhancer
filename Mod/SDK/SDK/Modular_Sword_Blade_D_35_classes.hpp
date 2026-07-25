@@ -13,8 +13,7 @@
 #include "Modular_Sword_Blade_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Sword_Blade_D_35.Modular_Sword_Blade_D_35_C
 // 0x0000 (0x0448 - 0x0448)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

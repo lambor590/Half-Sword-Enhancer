@@ -14,8 +14,8 @@
 #include "ProceduralMeshComponent_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ProceduralMeshComponent.KismetProceduralMeshLibrary.CalculateTangentsForMesh
 // 0x0050 (0x0050 - 0x0000)
@@ -269,5 +269,5 @@ public:
 	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

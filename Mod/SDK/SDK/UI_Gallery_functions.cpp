@@ -14,8 +14,7 @@
 #include "UI_Gallery_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Gallery.UI_Gallery_C.BndEvt__Command_BackFullScreen_K2Node_ComponentBoundEvent_4_OnPressed__DelegateSignature
 // (BlueprintEvent)
@@ -812,5 +811,5 @@ void UUI_Gallery_C::UpdatePhotosData()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

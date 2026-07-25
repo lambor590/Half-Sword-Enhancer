@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "StreamlineBlueprint_structs.hpp"
 #include "Engine_classes.hpp"
 #include "StreamlineDLSSGBlueprint_structs.hpp"
+#include "StreamlineBlueprint_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class StreamlineDLSSGBlueprint.StreamlineLibraryDLSSG
 // 0x0000 (0x0028 - 0x0028)
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

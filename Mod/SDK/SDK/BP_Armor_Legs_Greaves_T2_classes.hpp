@@ -13,12 +13,11 @@
 #include "BP_Armor_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Legs_Greaves_T2.BP_Armor_Legs_Greaves_T2_C
-// 0x0000 (0x08E0 - 0x08E0)
-class ABP_Armor_Legs_Greaves_T2_C final : public ABP_Armor_Master_C
+// 0x0000 (0x0920 - 0x0920)
+class ABP_Armor_Legs_Greaves_T2_C : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

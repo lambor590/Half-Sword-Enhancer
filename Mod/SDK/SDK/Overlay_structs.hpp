@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct Overlay.OverlayItem
 // 0x0030 (0x0030 - 0x0000)
@@ -27,5 +26,4 @@ public:
 	struct FVector2D                              position;                                          // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

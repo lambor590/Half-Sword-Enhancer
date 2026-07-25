@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
-#include "LocationServicesBPLibrary_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "LocationServicesBPLibrary_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class LocationServicesBPLibrary.LocationServices
 // 0x0000 (0x0028 - 0x0028)
@@ -68,5 +67,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

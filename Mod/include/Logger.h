@@ -7,11 +7,10 @@
 
 #include "ConfigManager.h"
 
-class Logger
-{
+class Logger {
 public:
     static constexpr size_t MAX_LOG_SIZE = 512;
-    
+
     explicit Logger(std::string_view prefix) noexcept : printPrefix(prefix) {
         FILE* logFile = GetLogFile();
         if (logFile == nullptr) {
@@ -22,23 +21,22 @@ public:
         }
     }
 
-    template<typename... Args>
-    void Log(std::string_view format, Args&&... args) const noexcept {
+    template <typename... Args> void Log(std::string_view format, Args&&... args) const noexcept {
         thread_local char buffer[MAX_LOG_SIZE];
         thread_local char formatBuffer[MAX_LOG_SIZE];
-        
+
         const int prefixLen = static_cast<int>(printPrefix.size());
-        constexpr const char* template_str = " > ";
-        constexpr int templateLen = 3;
-        
+        constexpr const char* TEMPLATE_STR = " > ";
+        constexpr int TEMPLATE_LEN = 3;
+
         size_t pos = 0;
         if (pos + prefixLen < MAX_LOG_SIZE) {
             std::memcpy(formatBuffer + pos, printPrefix.data(), prefixLen);
             pos += prefixLen;
         }
-        if (pos + templateLen < MAX_LOG_SIZE) {
-            std::memcpy(formatBuffer + pos, template_str, templateLen);
-            pos += templateLen;
+        if (pos + TEMPLATE_LEN < MAX_LOG_SIZE) {
+            std::memcpy(formatBuffer + pos, TEMPLATE_STR, TEMPLATE_LEN);
+            pos += TEMPLATE_LEN;
         }
         if (pos + format.size() < MAX_LOG_SIZE - 2) {
             std::memcpy(formatBuffer + pos, format.data(), format.size());
@@ -48,7 +46,7 @@ public:
             formatBuffer[pos++] = '\n';
         }
         formatBuffer[pos] = '\0';
-        
+
         const int result = std::snprintf(buffer, MAX_LOG_SIZE, formatBuffer, std::forward<Args>(args)...);
         if (result > 0) [[likely]] {
             printf("%s", buffer);

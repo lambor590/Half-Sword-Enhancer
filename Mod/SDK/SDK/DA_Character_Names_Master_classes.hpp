@@ -13,8 +13,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass DA_Character_Names_Master.DA_Character_Names_Master_C
 // 0x0010 (0x0040 - 0x0030)
@@ -41,5 +40,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

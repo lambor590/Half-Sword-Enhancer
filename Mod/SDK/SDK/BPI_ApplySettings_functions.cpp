@@ -11,30 +11,36 @@
 #include "Basic.hpp"
 
 #include "BPI_ApplySettings_classes.hpp"
-#include "BPI_ApplySettings_parameters.hpp"
 
 
-namespace SDK
+SDK_NAMESPACE_START
+
+// Function BPI_ApplySettings.BPI_ApplySettings_C.Apply Gameplay Settings
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void IBPI_ApplySettings_C::Apply_Gameplay_Settings()
 {
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_ApplySettings_C", "Apply Gameplay Settings");
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+}
+
 
 // Function BPI_ApplySettings.BPI_ApplySettings_C.Apply Settings
 // (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  FOV                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_ApplySettings_C::Apply_Settings(double FOV)
+void IBPI_ApplySettings_C::Apply_Settings()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = AsUObject()->Class->GetFunction("BPI_ApplySettings_C", "Apply Settings");
 
-	Params::BPI_ApplySettings_C_Apply_Settings Parms{};
-
-	Parms.FOV = FOV;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

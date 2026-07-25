@@ -16,8 +16,7 @@
 #include "InterchangeFactoryNodes_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class InterchangeFactoryNodes.InterchangeActorFactoryNode
 // 0x0040 (0x0180 - 0x0140)
@@ -1374,5 +1373,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

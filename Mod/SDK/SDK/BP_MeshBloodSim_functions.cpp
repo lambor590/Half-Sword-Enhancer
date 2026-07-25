@@ -14,8 +14,7 @@
 #include "BP_MeshBloodSim_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_MeshBloodSim.BP_MeshBloodSim_C.ExecuteUbergraph_BP_MeshBloodSim
 // (Final, UbergraphFunction)
@@ -100,5 +99,5 @@ void ABP_MeshBloodSim_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

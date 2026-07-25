@@ -13,8 +13,7 @@
 #include "Niagara_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct GeometryCache.TrackRenderData
 // 0x00C0 (0x00C0 - 0x0000)
@@ -68,5 +67,4 @@ public:
 	TArray<struct FNiagaraGeometryCacheMICOverride> MICOverrideMaterials;                            // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

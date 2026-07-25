@@ -14,8 +14,7 @@
 #include "HairStrandsCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function HairStrandsCore.GroomAsset.GetDeformedGroupSections
 // (Final, Native, Public, BlueprintCallable, BlueprintPure)
@@ -1530,5 +1529,5 @@ void UGroomComponent::SetPhysicsAsset(class UPhysicsAsset* InPhysicsAsset)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

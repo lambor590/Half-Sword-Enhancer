@@ -12,13 +12,12 @@
 
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "DeveloperSettings_classes.hpp"
 #include "RigVM_structs.hpp"
 #include "Engine_classes.hpp"
-#include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class RigVM.RigVMGraphFunctionHost
 // 0x0000 (0x0000 - 0x0000)
@@ -360,5 +359,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

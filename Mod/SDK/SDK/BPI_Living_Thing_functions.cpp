@@ -14,17 +14,16 @@
 #include "BPI_Living_Thing_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Living_Thing.BPI_Living_Thing_C.Attach Decal
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UDecalComponent*                  Decal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // const struct FAttached_Transform_Str&   Attach_Param                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
-// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* nul)
+void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -38,8 +37,8 @@ void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struc
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (nul != nullptr)
-		*nul = Parms.nul;
+	if (Nul != nullptr)
+		*Nul = Parms.Nul;
 }
 
 
@@ -63,9 +62,10 @@ void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struc
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // double                                  Pain_Rate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Hit_Flesh                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Draw_Cut                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double* Damage_Out)
+void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double Draw_Cut, double* Damage_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -91,6 +91,7 @@ void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct
 	Parms.Hit_Box = Hit_Box;
 	Parms.Pain_Rate = Pain_Rate;
 	Parms.Hit_Flesh = Hit_Flesh;
+	Parms.Draw_Cut = Draw_Cut;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
@@ -98,5 +99,5 @@ void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct
 		*Damage_Out = Parms.Damage_Out;
 }
 
-}
 
+SDK_NAMESPACE_END

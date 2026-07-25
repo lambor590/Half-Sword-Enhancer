@@ -10,21 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "E_ColorGradingMode_structs.hpp"
-#include "S_PhotosData_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "S_Logos_structs.hpp"
+#include "S_PostProcessRendering_structs.hpp"
 #include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "S_PhotosData_structs.hpp"
 #include "S_PhotoResolutions_structs.hpp"
-#include "S_PostProcessRendering_structs.hpp"
 #include "S_PostProcessFilter_structs.hpp"
+#include "S_Logos_structs.hpp"
+#include "E_ColorGradingMode_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_PhotoMode.UI_PhotoMode_C.ActiveTab
 // 0x0820 (0x0820 - 0x0000)
@@ -659,7 +659,7 @@ public:
 	struct FVector                                CallFunc_BreakTransform_Scale_1;                   // 0x08E8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FTransform                             CallFunc_MakeTransform_ReturnValue_1;              // 0x0900(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0960(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0968(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_FinishSpawningActor_ReturnValue;          // 0x0968(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Variable_8;                               // 0x0970(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Array_Index_Variable_3;                   // 0x0974(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FS_PostProcessRendering                CallFunc_Array_Get_Item_3;                         // 0x0978(0x0018)(HasGetValueTypeHash)
@@ -1034,7 +1034,7 @@ public:
 	bool                                          Temp_bool_Has_Been_Initd_Variable_7;               // 0x1EA9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Temp_bool_IsClosed_Variable_7;                     // 0x1EAA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_1EAB[0x1];                                     // 0x1EAB(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
-	TDelegate<void(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference)> K2Node_CreateDelegate_OutputDelegate_1; // 0x1EAC(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	TDelegate<void(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference)> K2Node_CreateDelegate_OutputDelegate_1; // 0x1EAC(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	TDelegate<void()>                             K2Node_CreateDelegate_OutputDelegate_2;            // 0x1EBC(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	float                                         CallFunc_GetValue_ReturnValue_5;                   // 0x1ECC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	TDelegate<void()>                             K2Node_CreateDelegate_OutputDelegate_3;            // 0x1ED0(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
@@ -1565,7 +1565,7 @@ public:
 	uint8                                         Pad_3653[0x5];                                     // 0x3653(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
 	class AActor*                                 CallFunc_GetOwner_ReturnValue_13;                  // 0x3658(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 CallFunc_GetOwner_ReturnValue_14;                  // 0x3660(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        K2Node_CustomEvent_FreeCameraReference;            // 0x3668(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      K2Node_CustomEvent_FreeCameraReference;            // 0x3668(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	float                                         CallFunc_SetMaxValue_InValue_ImplicitCast;         // 0x3670(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                         CallFunc_SetFieldOfView_InFieldOfView_ImplicitCast; // 0x3674(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                         CallFunc_Delay_Duration_ImplicitCast;              // 0x3678(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1819,7 +1819,7 @@ public:
 struct UI_PhotoMode_C_OnFreeCameraStart final
 {
 public:
-	class BP_FreeCamera::ABP_FreeCamera_C*        FreeCameraReference;                               // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      FreeCameraReference;                               // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function UI_PhotoMode.UI_PhotoMode_C.OnKeyDown
@@ -2158,5 +2158,5 @@ public:
 	ESlateVisibility                              K2Node_Select_Default;                             // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

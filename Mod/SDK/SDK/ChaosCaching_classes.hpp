@@ -12,15 +12,14 @@
 
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "MovieScene_classes.hpp"
 #include "ChaosCaching_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "MovieSceneTracks_classes.hpp"
-#include "MovieScene_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosCaching.ChaosCacheCollection
 // 0x0010 (0x0038 - 0x0028)
@@ -189,5 +188,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

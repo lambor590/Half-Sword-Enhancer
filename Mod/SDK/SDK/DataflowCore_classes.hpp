@@ -15,8 +15,7 @@
 #include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DataflowCore.DataflowSettings
 // 0x00A8 (0x00E0 - 0x0038)
@@ -45,5 +44,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

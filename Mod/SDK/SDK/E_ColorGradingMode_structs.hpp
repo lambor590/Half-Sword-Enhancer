@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum E_ColorGradingMode.E_ColorGradingMode
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class E_ColorGradingMode : uint8
 	E_MAX                                    = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

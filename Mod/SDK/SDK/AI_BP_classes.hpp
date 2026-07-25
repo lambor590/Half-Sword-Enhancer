@@ -10,22 +10,22 @@
 
 #include "Basic.hpp"
 
-#include "AIModule_structs.hpp"
-#include "AIModule_classes.hpp"
+#include "Engine_structs.hpp"
+#include "AI_Strafe_Enum_structs.hpp"
+#include "MeleeCombatRange_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "AI_CombatBehavior_Enum_structs.hpp"
 #include "GripType_Enum_structs.hpp"
 #include "AI_AttackStage_Enum_structs.hpp"
-#include "Engine_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "MeleeCombatRange_Enum_structs.hpp"
-#include "AI_CombatBehavior_Enum_structs.hpp"
-#include "AI_Strafe_Enum_structs.hpp"
+#include "Enum_AI_Behavior_State_structs.hpp"
+#include "AIModule_structs.hpp"
+#include "AIModule_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass AI_BP.AI_BP_C
-// 0x0488 (0x0840 - 0x03B8)
+// 0x0648 (0x0A00 - 0x03B8)
 class AAI_BP_C final : public AAIController
 {
 public:
@@ -71,7 +71,7 @@ public:
 	uint8                                         Pad_541[0x7];                                      // 0x0541(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Random_Float_Seed;                                 // 0x0548(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Target_Found;                                      // 0x0550(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Attck_Cooldown;                                    // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Attack_Cooldown;                                   // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_552[0x6];                                      // 0x0552(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Change_Attack_Rate;                                // 0x0558(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          No_Hands;                                          // 0x0560(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -192,15 +192,86 @@ public:
 	double                                        Drunkness;                                         // 0x0818(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Strafe_Position;                                   // 0x0820(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Strafe_Right__Left__;                              // 0x0838(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_839[0x7];                                      // 0x0839(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Threat_Direction;                                  // 0x0840(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Interrupted_Attacks_Count;                         // 0x0858(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Condition;                                         // 0x085C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar;                                            // 0x085D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Helicopter_Cooldown;                               // 0x085E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_85F[0x1];                                      // 0x085F(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         NewVar_1;                                          // 0x0860(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Pick_Up_Weapon_Found;                              // 0x0864(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Sprint;                                      // 0x0865(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          My_Leg_Is_Grabbed;                                 // 0x0866(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_2;                                          // 0x0867(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Attack_Anyway;                                     // 0x0868(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Being_Feinted;                                     // 0x0869(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_4;                                          // 0x086A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_86B[0x1];                                      // 0x086B(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Selection_0;                                       // 0x086C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Strangle_Rate;                                     // 0x0870(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Being_Grabbed;                                     // 0x0878(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_879[0x7];                                      // 0x0879(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Character_Scale__Set_in_BP_;                       // 0x0880(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_AI_Behavior_State                        Behavior_State;                                    // 0x0898(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Weapon_Idle;                                       // 0x0899(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Has_Sheathed_Shield;                               // 0x089A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_89B[0x5];                                      // 0x089B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class AWillie_BP_C*>                   Allies;                                            // 0x08A0(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	TArray<class AWillie_BP_C*>                   Target_Candidates;                                 // 0x08B0(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	bool                                          Was_Just_Damaged;                                  // 0x08C0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Shocked;                                           // 0x08C1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_8C2[0x6];                                      // 0x08C2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Noise_Alert_Level;                                 // 0x08C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class AWillie_BP_C*>                   Actors_To_Ignore_When_Alerting;                    // 0x08D0(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	TArray<class AWillie_BP_C*>                   Actors_To_Alert;                                   // 0x08E0(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	struct FVector                                Search_At_This_Location;                           // 0x08F0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Enemy_Find_Meter;                                  // 0x0908(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Enemy_Noticed;                                     // 0x0910(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_911[0x7];                                      // 0x0911(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AActor*                                 Searched_Actor;                                    // 0x0918(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Look_At_Specific_Point;                            // 0x0920(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_921[0x7];                                      // 0x0921(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Look_At_Location;                                  // 0x0928(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Look_At_Direction_General;                         // 0x0940(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Insult_Shock;                                      // 0x0958(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class AWillie_BP_C*>                   Target_Candidates_InFront;                         // 0x0960(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	TArray<class AWillie_BP_C*>                   Target_Candidates_Behind;                          // 0x0970(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	double                                        Allied_Forces_Rating;                              // 0x0980(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Enemy_Forces_Rating;                               // 0x0988(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Eyes_On_Target;                                    // 0x0990(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_991[0x7];                                      // 0x0991(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Target_Visibility_State;                           // 0x0998(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         N;                                                 // 0x09A0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Counter;                                           // 0x09A4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Distance;                                          // 0x09A8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Switched_to_Heard_Target;                          // 0x09AC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Targed_Downed;                                     // 0x09AD(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9AE[0x2];                                      // 0x09AE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                My_Pawn_Movement_Dislocation;                      // 0x09B0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class AWillie_BP_C*>                   Ally_Candidates_To_Check;                          // 0x09C8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	TArray<class AWillie_BP_C*>                   Known_Ally_Casualties;                             // 0x09D8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	TArray<class AWillie_BP_C*>                   Actors_To_Ignore_When_Searching;                   // 0x09E8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	class AWillie_BP_C*                           Inspected_Actor;                                   // 0x09F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Attack();
 	void Dash_Event();
+	void Event_Alert_Allies_Nearby();
+	void Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location);
+	void Event_Initialize_AI();
+	void Event_Release_Touch();
+	void Event_Reset_Touch();
+	void Event_Search_For_Enemy();
+	void Event_Touch();
+	void Event_Unsheathe_Weapon();
 	void ExecuteUbergraph_AI_BP(int32 EntryPoint);
+	void Func_Sent_Insult_And_Alert_Allies();
 	void Get_Insulted(class AWillie_BP_C* Other_Guy);
 	void Minus_Attack_Intent();
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void Rotate_Dagger_Event();
 	void Stop_That_Blade();
 	void UserConstructionScript();
 
@@ -219,5 +290,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

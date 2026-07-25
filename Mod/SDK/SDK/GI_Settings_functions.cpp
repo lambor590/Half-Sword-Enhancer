@@ -14,8 +14,7 @@
 #include "GI_Settings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GI_Settings.GI_Settings_C.Check Insured Items
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -45,6 +44,20 @@ void UGI_Settings_C::Clear_Equipment_Pool()
 }
 
 
+// Function GI_Settings.GI_Settings_C.Delete Save
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Delete_Save()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Delete Save");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function GI_Settings.GI_Settings_C.Event Generate Random Combat Events
 // (BlueprintCallable, BlueprintEvent)
 
@@ -54,6 +67,20 @@ void UGI_Settings_C::Event_Generate_Random_Combat_Events()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("GI_Settings_C", "Event Generate Random Combat Events");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Event Refresh Outdated Armors
+// (BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Event_Refresh_Outdated_Armors()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Event Refresh Outdated Armors");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -123,15 +150,21 @@ void UGI_Settings_C::LoadKeyMappings()
 
 // Function GI_Settings.GI_Settings_C.Override Player Character Equipment
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Keep_Exact_Values                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UGI_Settings_C::Override_Player_Character_Equipment()
+void UGI_Settings_C::Override_Player_Character_Equipment(bool Keep_Exact_Values)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("GI_Settings_C", "Override Player Character Equipment");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::GI_Settings_C_Override_Player_Character_Equipment Parms{};
+
+	Parms.Keep_Exact_Values = Keep_Exact_Values;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -216,7 +249,7 @@ void UGI_Settings_C::Save_Game()
 
 
 // Function GI_Settings.GI_Settings_C.Save Key Mappings
-// (Public, BlueprintCallable, BlueprintEvent)
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
 void UGI_Settings_C::Save_Key_Mappings()
 {
@@ -318,5 +351,5 @@ void UGI_Settings_C::Stop_Music()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -17,8 +17,7 @@
 #include "MediaAssets_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MediaCompositing.MovieSceneMediaPlayerPropertySection
 // 0x0010 (0x0100 - 0x00F0)
@@ -127,5 +126,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "ChaosClothAssetEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ChaosClothAssetEngine.ChaosClothComponent.ForceNextUpdateTeleport
 // (Final, Native, Public, BlueprintCallable)
@@ -299,5 +298,5 @@ class UPhysicsAsset* UChaosClothAsset::GetShadowPhysicsAsset() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

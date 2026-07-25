@@ -13,8 +13,7 @@
 #include "Weapon_Sword_Grip_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Falchion_Grip_12_S_T3.Weapon_Falchion_Grip_12_S_T3_C
 // 0x0000 (0x0670 - 0x0670)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

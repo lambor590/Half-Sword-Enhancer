@@ -14,8 +14,7 @@
 #include "Weapon_Part_Mace_Grip_Tier_Mid_S_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Part_Mace_Grip_Tier_Mid_S.Weapon_Part_Mace_Grip_Tier_Mid_S_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void AWeapon_Part_Mace_Grip_Tier_Mid_S_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

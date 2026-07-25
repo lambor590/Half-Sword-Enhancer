@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum CoreUObject.EAutomationEventType
 // NumValues: 0x0004
@@ -1328,6 +1327,31 @@ public:
 	float                                         LoopKeyOffset;                                     // 0x0014(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// ScriptStruct CoreUObject.ObjectCookedMetaDataStore
+// 0x0050 (0x0050 - 0x0000)
+struct FObjectCookedMetaDataStore final
+{
+public:
+	TMap<class FName, class FString>              ObjectMetaData;                                    // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
+};
+
+// ScriptStruct CoreUObject.FieldCookedMetaDataStore
+// 0x0050 (0x0050 - 0x0000)
+struct FFieldCookedMetaDataStore final
+{
+public:
+	TMap<class FName, class FString>              FieldMetaData;                                     // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
+};
+
+// ScriptStruct CoreUObject.StructCookedMetaDataStore
+// 0x00A0 (0x00A0 - 0x0000)
+struct FStructCookedMetaDataStore final
+{
+public:
+	struct FObjectCookedMetaDataStore             ObjectMetaData;                                    // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<class FName, struct FFieldCookedMetaDataStore> PropertiesMetaData;                          // 0x0050(0x0050)(NativeAccessSpecifierPrivate)
+};
+
 // ScriptStruct CoreUObject.LinearColor
 // 0x0010 (0x0010 - 0x0000)
 struct FLinearColor final
@@ -2059,31 +2083,6 @@ public:
 	float                                         W;                                                 // 0x000C(0x0004)(Edit, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct CoreUObject.ObjectCookedMetaDataStore
-// 0x0050 (0x0050 - 0x0000)
-struct FObjectCookedMetaDataStore final
-{
-public:
-	TMap<class FName, class FString>              ObjectMetaData;                                    // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
-};
-
-// ScriptStruct CoreUObject.FieldCookedMetaDataStore
-// 0x0050 (0x0050 - 0x0000)
-struct FFieldCookedMetaDataStore final
-{
-public:
-	TMap<class FName, class FString>              FieldMetaData;                                     // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
-};
-
-// ScriptStruct CoreUObject.StructCookedMetaDataStore
-// 0x00A0 (0x00A0 - 0x0000)
-struct FStructCookedMetaDataStore final
-{
-public:
-	struct FObjectCookedMetaDataStore             ObjectMetaData;                                    // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
-	TMap<class FName, struct FFieldCookedMetaDataStore> PropertiesMetaData;                          // 0x0050(0x0050)(NativeAccessSpecifierPrivate)
-};
-
 // ScriptStruct CoreUObject.OverriddenPropertyNodeID
 // 0x0010 (0x0010 - 0x0000)
 struct FOverriddenPropertyNodeID final
@@ -2114,5 +2113,4 @@ public:
 	uint8                                         Pad_58[0x8];                                       // 0x0058(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum IKRig.EPinBoneType
 // NumValues: 0x0005
@@ -436,5 +435,4 @@ public:
 	uint8                                         Pad_0[0x18];                                       // 0x0000(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -15,8 +15,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Seer_Greeting.UI_Dialog_Widget_Seer_Greeting_C
 // 0x0040 (0x0320 - 0x02E0)
@@ -65,5 +64,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

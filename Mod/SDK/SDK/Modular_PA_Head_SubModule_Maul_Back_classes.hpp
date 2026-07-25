@@ -13,8 +13,7 @@
 #include "Modular_PA_Head_SubModule_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Head_SubModule_Maul_Back.Modular_PA_Head_SubModule_Maul_Back_C
 // 0x0018 (0x0448 - 0x0430)
@@ -40,5 +39,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

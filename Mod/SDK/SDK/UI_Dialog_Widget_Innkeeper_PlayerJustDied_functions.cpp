@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Innkeeper_PlayerJustDied_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Innkeeper_PlayerJustDied.UI_Dialog_Widget_Innkeeper_PlayerJustDied_C.BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -98,5 +97,5 @@ void UUI_Dialog_Widget_Innkeeper_PlayerJustDied_C::PreConstruct(bool IsDesignTim
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

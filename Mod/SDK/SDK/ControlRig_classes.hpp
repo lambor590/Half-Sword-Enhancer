@@ -10,13 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "MovieScene_structs.hpp"
-#include "MovieScene_classes.hpp"
 #include "RigVM_structs.hpp"
 #include "RigVM_classes.hpp"
-#include "ControlRig_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "ControlRig_structs.hpp"
 #include "MovieSceneTracks_structs.hpp"
 #include "MovieSceneTracks_classes.hpp"
 #include "AnimationCore_structs.hpp"
@@ -24,11 +22,12 @@
 #include "Engine_classes.hpp"
 #include "Constraints_structs.hpp"
 #include "Constraints_classes.hpp"
+#include "MovieScene_structs.hpp"
+#include "MovieScene_classes.hpp"
 #include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ControlRig.ControlRigShapeLibraryLink
 // 0x0040 (0x0140 - 0x0100)
@@ -146,6 +145,28 @@ public:
 	static class UModularRig* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UModularRig>();
+	}
+};
+
+// Class ControlRig.AdditiveControlRig
+// 0x0010 (0x0AB8 - 0x0AA8)
+class UAdditiveControlRig final : public UControlRig
+{
+public:
+	uint8                                         Pad_AA8[0x10];                                     // 0x0AA8(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("AdditiveControlRig")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"AdditiveControlRig")
+	}
+	static class UAdditiveControlRig* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UAdditiveControlRig>();
 	}
 };
 
@@ -366,30 +387,6 @@ public:
 	}
 };
 
-// Class ControlRig.FKControlRig
-// 0x0040 (0x0AE8 - 0x0AA8)
-class UFKControlRig final : public UControlRig
-{
-public:
-	TArray<bool>                                  IsControlActive;                                   // 0x0AA8(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
-	EControlRigFKRigExecuteMode                   ApplyMode;                                         // 0x0AB8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
-	uint8                                         Pad_AB9[0x2F];                                     // 0x0AB9(0x002F)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("FKControlRig")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"FKControlRig")
-	}
-	static class UFKControlRig* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UFKControlRig>();
-	}
-};
-
 // Class ControlRig.RigHierarchyProvider
 // 0x0000 (0x0000 - 0x0000)
 class IRigHierarchyProvider final
@@ -418,6 +415,47 @@ public:
 	}
 };
 
+// Class ControlRig.ControlRigTestData
+// 0x0128 (0x0150 - 0x0028)
+class UControlRigTestData final : public UObject
+{
+public:
+	struct FSoftObjectPath                        ControlRigObjectPath;                              // 0x0028(0x0020)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, AssetRegistrySearchable, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FControlRigTestDataFrame               Initial;                                           // 0x0048(0x0090)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FControlRigTestDataFrame>       InputFrames;                                       // 0x00D8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FControlRigTestDataFrame>       OutputFrames;                                      // 0x00E8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<int32>                                 FramesToSkip;                                      // 0x00F8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
+	double                                        Tolerance;                                         // 0x0108(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_110[0x40];                                     // 0x0110(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UControlRigTestData* CreateNewAsset(const class FString& InDesiredPackagePath, const class FString& InBlueprintPathName);
+
+	bool Record(class UControlRig* InControlRig, double InRecordingDuration);
+	void ReleaseReplay();
+	bool SetupReplay(class UControlRig* InControlRig, bool bGroundTruth);
+
+	int32 GetFrameIndexForTime(double InSeconds, bool bInput) const;
+	EControlRigTestDataPlaybackMode GetPlaybackMode() const;
+	struct FVector2D GetTimeRange(bool bInput) const;
+	bool IsRecording() const;
+	bool IsReplaying() const;
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("ControlRigTestData")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"ControlRigTestData")
+	}
+	static class UControlRigTestData* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UControlRigTestData>();
+	}
+};
+
 // Class ControlRig.AnimNodeControlRigLibrary
 // 0x0000 (0x0028 - 0x0028)
 class UAnimNodeControlRigLibrary final : public UBlueprintFunctionLibrary
@@ -439,29 +477,6 @@ public:
 	static class UAnimNodeControlRigLibrary* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UAnimNodeControlRigLibrary>();
-	}
-};
-
-// Class ControlRig.ControlRigValidator
-// 0x0040 (0x0068 - 0x0028)
-class UControlRigValidator final : public UObject
-{
-public:
-	TArray<class UControlRigValidationPass*>      Passes;                                            // 0x0028(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPrivate, TObjectPtr)
-	uint8                                         Pad_38[0x30];                                      // 0x0038(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("ControlRigValidator")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"ControlRigValidator")
-	}
-	static class UControlRigValidator* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UControlRigValidator>();
 	}
 };
 
@@ -597,6 +612,28 @@ public:
 	}
 };
 
+// Class ControlRig.ModularRigRuleManager
+// 0x0008 (0x0030 - 0x0028)
+class UModularRigRuleManager final : public UObject
+{
+public:
+	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("ModularRigRuleManager")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"ModularRigRuleManager")
+	}
+	static class UModularRigRuleManager* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UModularRigRuleManager>();
+	}
+};
+
 // Class ControlRig.ControlRigControlActor
 // 0x00B0 (0x0340 - 0x0290)
 class AControlRigControlActor final : public AActor
@@ -636,29 +673,6 @@ public:
 	static class AControlRigControlActor* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<AControlRigControlActor>();
-	}
-};
-
-// Class ControlRig.TransformableControlHandle
-// 0x0030 (0x0090 - 0x0060)
-class UTransformableControlHandle final : public UTransformableHandle
-{
-public:
-	TSoftObjectPtr<class UControlRig>             ControlRig;                                        // 0x0060(0x0028)(BlueprintVisible, BlueprintReadOnly, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   ControlName;                                       // 0x0088(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("TransformableControlHandle")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"TransformableControlHandle")
-	}
-	static class UTransformableControlHandle* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UTransformableControlHandle>();
 	}
 };
 
@@ -739,44 +753,26 @@ public:
 	}
 };
 
-// Class ControlRig.ControlRigTestData
-// 0x0128 (0x0150 - 0x0028)
-class UControlRigTestData final : public UObject
+// Class ControlRig.ControlRigValidator
+// 0x0040 (0x0068 - 0x0028)
+class UControlRigValidator final : public UObject
 {
 public:
-	struct FSoftObjectPath                        ControlRigObjectPath;                              // 0x0028(0x0020)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, AssetRegistrySearchable, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FControlRigTestDataFrame               Initial;                                           // 0x0048(0x0090)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
-	TArray<struct FControlRigTestDataFrame>       InputFrames;                                       // 0x00D8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TArray<struct FControlRigTestDataFrame>       OutputFrames;                                      // 0x00E8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TArray<int32>                                 FramesToSkip;                                      // 0x00F8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
-	double                                        Tolerance;                                         // 0x0108(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_110[0x40];                                     // 0x0110(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UControlRigTestData* CreateNewAsset(const class FString& InDesiredPackagePath, const class FString& InBlueprintPathName);
-
-	bool Record(class UControlRig* InControlRig, double InRecordingDuration);
-	void ReleaseReplay();
-	bool SetupReplay(class UControlRig* InControlRig, bool bGroundTruth);
-
-	int32 GetFrameIndexForTime(double InSeconds, bool bInput) const;
-	EControlRigTestDataPlaybackMode GetPlaybackMode() const;
-	struct FVector2D GetTimeRange(bool bInput) const;
-	bool IsRecording() const;
-	bool IsReplaying() const;
+	TArray<class UControlRigValidationPass*>      Passes;                                            // 0x0028(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPrivate, TObjectPtr)
+	uint8                                         Pad_38[0x30];                                      // 0x0038(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("ControlRigTestData")
+		STATIC_CLASS_IMPL("ControlRigValidator")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"ControlRigTestData")
+		STATIC_NAME_IMPL(L"ControlRigValidator")
 	}
-	static class UControlRigTestData* GetDefaultObj()
+	static class UControlRigValidator* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UControlRigTestData>();
+		return GetDefaultObjImpl<UControlRigValidator>();
 	}
 };
 
@@ -838,47 +834,50 @@ public:
 	}
 };
 
-// Class ControlRig.ModularRigRuleManager
-// 0x0008 (0x0030 - 0x0028)
-class UModularRigRuleManager final : public UObject
+// Class ControlRig.TransformableControlHandle
+// 0x0030 (0x0090 - 0x0060)
+class UTransformableControlHandle final : public UTransformableHandle
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	TSoftObjectPtr<class UControlRig>             ControlRig;                                        // 0x0060(0x0028)(BlueprintVisible, BlueprintReadOnly, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   ControlName;                                       // 0x0088(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("ModularRigRuleManager")
+		STATIC_CLASS_IMPL("TransformableControlHandle")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"ModularRigRuleManager")
+		STATIC_NAME_IMPL(L"TransformableControlHandle")
 	}
-	static class UModularRigRuleManager* GetDefaultObj()
+	static class UTransformableControlHandle* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UModularRigRuleManager>();
+		return GetDefaultObjImpl<UTransformableControlHandle>();
 	}
 };
 
-// Class ControlRig.AdditiveControlRig
-// 0x0010 (0x0AB8 - 0x0AA8)
-class UAdditiveControlRig final : public UControlRig
+// Class ControlRig.FKControlRig
+// 0x0040 (0x0AE8 - 0x0AA8)
+class UFKControlRig final : public UControlRig
 {
 public:
-	uint8                                         Pad_AA8[0x10];                                     // 0x0AA8(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	TArray<bool>                                  IsControlActive;                                   // 0x0AA8(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	EControlRigFKRigExecuteMode                   ApplyMode;                                         // 0x0AB8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+	uint8                                         Pad_AB9[0x2F];                                     // 0x0AB9(0x002F)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("AdditiveControlRig")
+		STATIC_CLASS_IMPL("FKControlRig")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"AdditiveControlRig")
+		STATIC_NAME_IMPL(L"FKControlRig")
 	}
-	static class UAdditiveControlRig* GetDefaultObj()
+	static class UFKControlRig* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UAdditiveControlRig>();
+		return GetDefaultObjImpl<UFKControlRig>();
 	}
 };
 
@@ -1225,5 +1224,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

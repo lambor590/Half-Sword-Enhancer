@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum StructUtils.EPropertyBagPropertyType
 // NumValues: 0x0014
@@ -76,7 +75,8 @@ enum class EPropertyBagMissingEnum : uint8
 struct alignas(0x08) FInstancedStruct final
 {
 public:
-	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	UScriptStruct*                                ScriptStruct;                                      // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+	uint8*                                        StructMemory;                                      // 0x0008(0x0008)(NOT AUTO-GENERATED PROPERTY)
 };
 
 // ScriptStruct StructUtils.InstancedStructContainer
@@ -149,5 +149,4 @@ public:
 	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

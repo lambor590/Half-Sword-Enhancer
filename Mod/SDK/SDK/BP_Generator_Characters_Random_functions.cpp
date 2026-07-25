@@ -14,8 +14,7 @@
 #include "BP_Generator_Characters_Random_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Generator_Characters_Random.BP_Generator_Characters_Random_C.ExecuteUbergraph_BP_Generator_Characters_Random
 // (Final, UbergraphFunction)
@@ -44,9 +43,10 @@ void ABP_Generator_Characters_Random_C::ExecuteUbergraph_BP_Generator_Characters
 // Enum_Nationalities                      Nationality                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // Enum_Ranks                              Tier                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Is_Mercenary                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Ignore_Budget                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FStr_Passport_Character1*        Character_Passport                                     (Parm, OutParm, HasGetValueTypeHash)
 
-void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Ranks Tier, bool Is_Mercenary, struct FStr_Passport_Character1* Character_Passport)
+void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Ranks Tier, bool Is_Mercenary, bool Ignore_Budget, struct FStr_Passport_Character1* Character_Passport)
 {
 	static class UFunction* Func = nullptr;
 
@@ -59,6 +59,7 @@ void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_C
 	Parms.Nationality = Nationality;
 	Parms.Tier = Tier;
 	Parms.Is_Mercenary = Is_Mercenary;
+	Parms.Ignore_Budget = Ignore_Budget;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -80,5 +81,5 @@ void ABP_Generator_Characters_Random_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

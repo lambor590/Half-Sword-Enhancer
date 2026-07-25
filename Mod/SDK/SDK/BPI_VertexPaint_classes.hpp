@@ -13,15 +13,14 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_VertexPaint.BPI_VertexPaint_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_VertexPaint_C final
 {
 public:
-	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* nul);
+	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 
 public:
 	static class UClass* StaticClass()
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

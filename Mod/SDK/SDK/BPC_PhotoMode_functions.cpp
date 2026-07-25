@@ -14,8 +14,7 @@
 #include "BPC_PhotoMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPC_PhotoMode.BPC_PhotoMode_C.Calculate Weight by Ref
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -432,5 +431,5 @@ void UBPC_PhotoMode_C::UpdateReferences(bool bCheckWidgets)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

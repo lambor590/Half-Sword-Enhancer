@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum AudioSynesthesia.EConstantQNormalizationEnum
 // NumValues: 0x0004
@@ -117,5 +116,88 @@ public:
 	TArray<float>                                 SpectrumValues;                                    // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction AudioSynesthesia.OnConstantQResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnConstantQResults = void(int32 ChannelIndex, const TArray<struct FConstantQResults>& ConstantQResults);
 }
 
+// DelegateFunction AudioSynesthesia.OnLatestConstantQResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestConstantQResults = void(int32 ChannelIndex, const struct FConstantQResults& LatestConstantQResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnLatestOverallLoudnessResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestOverallLoudnessResults = void(const struct FLoudnessResults& LatestOverallLoudnessResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnLatestOverallMeterResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestOverallMeterResults = void(const struct FMeterResults& LatestOverallMeterResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnLatestPerChannelLoudnessResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestPerChannelLoudnessResults = void(int32 ChannelIndex, const struct FLoudnessResults& LatestLoudnessResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnLatestPerChannelMeterResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestPerChannelMeterResults = void(int32 ChannelIndex, const struct FMeterResults& LatestMeterResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnLatestSpectrumResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnLatestSpectrumResults = void(int32 ChannelIndex, const struct FSynesthesiaSpectrumResults& LatestSpectrumResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnOverallLoudnessResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnOverallLoudnessResults = void(const TArray<struct FLoudnessResults>& OverallLoudnessResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnOverallMeterResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnOverallMeterResults = void(const TArray<struct FMeterResults>& MeterResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnPerChannelLoudnessResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnPerChannelLoudnessResults = void(int32 ChannelIndex, const TArray<struct FLoudnessResults>& LoudnessResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnPerChannelMeterResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnPerChannelMeterResults = void(int32 ChannelIndex, const TArray<struct FMeterResults>& MeterResults);
+}
+
+// DelegateFunction AudioSynesthesia.OnSpectrumResults__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioSynesthesia
+{
+using FDelegateSignature_OnSpectrumResults = void(int32 ChannelIndex, const TArray<struct FSynesthesiaSpectrumResults>& SpectrumResults);
+}
+
+SDK_NAMESPACE_END

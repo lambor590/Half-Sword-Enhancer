@@ -14,8 +14,7 @@
 #include "MRMesh_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function MRMesh.MockDataMeshTrackerComponent.ConnectMRMesh
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -474,5 +473,5 @@ bool UMeshReconstructorBase::IsReconstructionStarted() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

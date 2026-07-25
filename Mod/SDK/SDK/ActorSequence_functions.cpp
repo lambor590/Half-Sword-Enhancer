@@ -13,8 +13,7 @@
 #include "ActorSequence_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ActorSequence.ActorSequenceComponent.PauseSequence
 // (Final, Native, Public, BlueprintCallable)
@@ -72,5 +71,5 @@ void UActorSequenceComponent::StopSequence()
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

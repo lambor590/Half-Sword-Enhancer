@@ -14,8 +14,7 @@
 #include "BP_Weapon_Ranged_Weapon_Crossbow_Light_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Add Bolt
 // (BlueprintCallable, BlueprintEvent)
@@ -54,6 +53,20 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_Bolt()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Load Bolt");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Make Bolt Temporily Undetachable
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Make_Bolt_Temporily_Undetachable()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Make Bolt Temporily Undetachable");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -98,6 +111,26 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Shoot()
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Shoot");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Spawn Sound Detector
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Sound                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Spawn_Sound_Detector(double Sound)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Spawn Sound Detector");
+
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Event_Spawn_Sound_Detector Parms{};
+
+	Parms.Sound = Sound;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -165,15 +198,21 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Forget_Loaded_Bolt()
 
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Release Bolt Representation
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector2D&                 NewParam                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation()
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation(const struct FVector2D& NewParam)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Release Bolt Representation");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Release_Bolt_Representation Parms{};
+
+	Parms.NewParam = std::move(NewParam);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -211,6 +250,20 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveTick(float DeltaSeconds)
 }
 
 
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Set Weapon Damping Pick Up
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Set_Weapon_Damping_Pick_Up()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Set Weapon Damping Pick Up");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
 
@@ -224,5 +277,5 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

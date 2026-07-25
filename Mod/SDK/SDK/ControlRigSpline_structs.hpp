@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "ControlRig_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "ControlRig_structs.hpp"
 #include "RigVM_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ControlRigSpline.ESplineType
 // NumValues: 0x0003
@@ -303,5 +302,4 @@ public:
 	float                                         U;                                                 // 0x0024(0x0004)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

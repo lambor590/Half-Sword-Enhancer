@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum LiveLink.ELiveLinkTimecodeProviderEvaluationType
 // NumValues: 0x0004
@@ -69,5 +68,11 @@ public:
 	TArray<TSubclassOf<class ULiveLinkFramePreProcessor>> FramePreProcessors;                        // 0x0018(0x0010)(Edit, ZeroConstructor, Config, UObjectWrapper, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction LiveLink.LiveLinkTickSignature__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace LiveLink
+{
+using FDelegateSignature_LiveLinkTickSignature = void(float DeltaTime);
 }
 
+SDK_NAMESPACE_END

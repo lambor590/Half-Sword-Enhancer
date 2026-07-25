@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Chaos_structs.hpp"
 #include "DataflowCore_structs.hpp"
+#include "Chaos_structs.hpp"
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct DataflowNodes.DataflowCollectionAddScalarVertexPropertyNode
 // 0x00D0 (0x01B8 - 0x00E8)
@@ -98,5 +97,4 @@ public:
 	class FName                                   PropertyName;                                      // 0x00F0(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

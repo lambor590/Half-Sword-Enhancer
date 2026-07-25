@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct ArmorSlotContents.ArmorSlotContents
 // 0x0010 (0x0010 - 0x0000)
@@ -22,5 +21,4 @@ public:
 	TArray<class UClass*>                         ArmorPiecesInSlot_5_437E5B6C48558F4524ABF1811C892DF8; // 0x0000(0x0010)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

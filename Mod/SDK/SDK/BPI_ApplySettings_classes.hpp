@@ -13,15 +13,15 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_ApplySettings.BPI_ApplySettings_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_ApplySettings_C final
 {
 public:
-	void Apply_Settings(double FOV);
+	void Apply_Gameplay_Settings();
+	void Apply_Settings();
 
 public:
 	static class UClass* StaticClass()
@@ -47,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

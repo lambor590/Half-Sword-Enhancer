@@ -14,8 +14,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function RVPDPRapidJson.RVPDPRapidJsonFunctionLibrary.DeserializeBool_Wrapper
 // 0x0018 (0x0018 - 0x0000)
@@ -723,5 +723,5 @@ public:
 	class FString                                 SerializedString;                                  // 0x0030(0x0010)(Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

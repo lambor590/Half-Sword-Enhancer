@@ -14,8 +14,7 @@
 #include "BP_GameItem_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameArmor.BP_GameArmor_C
 // 0x0060 (0x00C8 - 0x0068)
@@ -55,5 +54,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

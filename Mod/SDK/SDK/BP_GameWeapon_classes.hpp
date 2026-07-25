@@ -10,18 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "BP_GameItem_classes.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "BP_GameItem_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameWeapon.BP_GameWeapon_C
 // 0x00F8 (0x0160 - 0x0068)
 #pragma pack(push, 0x1)
-class alignas(0x08) UBP_GameWeapon_C : public UBP_GameItem_C
+class SDK_ALIGN(0x08) UBP_GameWeapon_C : public UBP_GameItem_C
 {
 public:
 	class UClass*                                 Module_Head;                                       // 0x0068(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
@@ -63,5 +62,4 @@ public:
 };
 #pragma pack(pop)
 
-}
-
+SDK_NAMESPACE_END

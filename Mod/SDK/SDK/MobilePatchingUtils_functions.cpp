@@ -14,8 +14,7 @@
 #include "MobilePatchingUtils_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function MobilePatchingUtils.MobileInstalledContent.GetDiskFreeSpace
 // (Final, Native, Public, BlueprintCallable, BlueprintPure)
@@ -409,5 +408,5 @@ void UMobilePatchingLibrary::RequestContent(const class FString& RemoteManifestU
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

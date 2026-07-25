@@ -13,8 +13,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameItem.BP_GameItem_C
 // 0x0040 (0x0068 - 0x0028)
@@ -48,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

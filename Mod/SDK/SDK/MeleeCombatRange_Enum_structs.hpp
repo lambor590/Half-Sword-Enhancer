@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum MeleeCombatRange_Enum.MeleeCombatRange_Enum
 // NumValues: 0x0004
@@ -24,5 +23,4 @@ enum class EMeleeCombatRange_Enum : uint8
 	MeleeCombatRange_MAX                     = 3,
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "BP_GameItem_Weapon_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_GameItem_Weapon.BP_GameItem_Weapon_C.Initialize
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -29,5 +28,5 @@ void UBP_GameItem_Weapon_C::Initialize()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

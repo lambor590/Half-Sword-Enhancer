@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "StructUtils_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "StructUtils_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PCG.EPCGAttributeAccessorFlags
 // NumValues: 0x0005
@@ -1838,5 +1837,32 @@ public:
 	uint8                                         Pad_81[0x7];                                       // 0x0081(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction PCG.OnPCGGraphCancelledExternal__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace PCG
+{
+using FDelegateSignature_OnPCGGraphCancelledExternal = void(class UPCGComponent* PCGComponent);
 }
 
+// DelegateFunction PCG.OnPCGGraphCleanedExternal__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace PCG
+{
+using FDelegateSignature_OnPCGGraphCleanedExternal = void(class UPCGComponent* PCGComponent);
+}
+
+// DelegateFunction PCG.OnPCGGraphGeneratedExternal__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace PCG
+{
+using FDelegateSignature_OnPCGGraphGeneratedExternal = void(class UPCGComponent* PCGComponent);
+}
+
+// DelegateFunction PCG.OnPCGGraphStartGeneratingExternal__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace PCG
+{
+using FDelegateSignature_OnPCGGraphStartGeneratingExternal = void(class UPCGComponent* PCGComponent);
+}
+
+SDK_NAMESPACE_END

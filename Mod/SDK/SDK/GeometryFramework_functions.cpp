@@ -14,8 +14,7 @@
 #include "GeometryFramework_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GeometryFramework.DynamicMeshActor.AllocateComputeMesh
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -1292,5 +1291,5 @@ EDynamicMeshComponentTangentsMode UDynamicMeshComponent::GetTangentsTypePure() c
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

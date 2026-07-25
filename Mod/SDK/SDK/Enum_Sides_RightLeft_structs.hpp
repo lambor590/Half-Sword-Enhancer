@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_Sides_RightLeft.Enum_Sides_RightLeft
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class Enum_Sides_RightLeft : uint8
 	Enum_Sides_MAX                           = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

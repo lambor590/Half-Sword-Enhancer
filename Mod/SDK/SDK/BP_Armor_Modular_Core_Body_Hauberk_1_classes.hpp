@@ -13,11 +13,10 @@
 #include "BP_Armor_Modular_Core_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Core_Body_Hauberk_1.BP_Armor_Modular_Core_Body_Hauberk_1_C
-// 0x0000 (0x0A10 - 0x0A10)
+// 0x0000 (0x0A70 - 0x0A70)
 class ABP_Armor_Modular_Core_Body_Hauberk_1_C final : public ABP_Armor_Modular_Core_Master_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

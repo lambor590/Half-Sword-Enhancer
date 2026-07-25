@@ -14,8 +14,7 @@
 #include "GeometryScriptingCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GeometryScriptingCore.GeometryScriptLibrary_CollisionFunctions.ApproximateConvexHullsWithSimplerCollisionShapes
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
@@ -17318,5 +17317,5 @@ struct FGeometryScriptScalarList UGeometryScriptLibrary_VectorMathFunctions::Vec
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

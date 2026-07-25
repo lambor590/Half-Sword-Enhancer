@@ -14,8 +14,7 @@
 #include "BP_Generator_Weapons_Random_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Generator_Weapons_Random.BP_Generator_Weapons_Random_C.Add Weapon Module to Array
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -75,9 +74,10 @@ void ABP_Generator_Weapons_Random_C::ExecuteUbergraph_BP_Generator_Weapons_Rando
 // bool                                    Spawn_Specific_Weapon                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UClass*                           Specific_Class                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_Passport_Weapon1&     Specific_Passport                                      (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
+// Enum_WeaponType_Specific                Weapon_Type_Specific                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FStr_Passport_Weapon1*           Weapon_Passport                                        (Parm, OutParm, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Generator_Weapons_Random_C::Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, struct FStr_Passport_Weapon1* Weapon_Passport)
+void ABP_Generator_Weapons_Random_C::Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, Enum_WeaponType_Specific Weapon_Type_Specific, struct FStr_Passport_Weapon1* Weapon_Passport)
 {
 	static class UFunction* Func = nullptr;
 
@@ -91,6 +91,7 @@ void ABP_Generator_Weapons_Random_C::Generate_Weapon(Enum_WeaponType Weapon_Type
 	Parms.Spawn_Specific_Weapon = Spawn_Specific_Weapon;
 	Parms.Specific_Class = Specific_Class;
 	Parms.Specific_Passport = std::move(Specific_Passport);
+	Parms.Weapon_Type_Specific = Weapon_Type_Specific;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -112,5 +113,5 @@ void ABP_Generator_Weapons_Random_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

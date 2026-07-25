@@ -14,8 +14,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DiscordRpc.DiscordRpc
 // 0x0128 (0x0150 - 0x0028)
@@ -57,5 +56,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

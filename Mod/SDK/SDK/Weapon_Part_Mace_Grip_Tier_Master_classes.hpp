@@ -14,8 +14,7 @@
 #include "Modular_Weapon_Shaft_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C
 // 0x0018 (0x0610 - 0x05F8)
@@ -45,5 +44,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

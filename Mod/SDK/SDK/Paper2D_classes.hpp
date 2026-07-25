@@ -16,8 +16,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class Paper2D.PaperCharacter
 // 0x0000 (0x0670 - 0x0670)
@@ -721,5 +720,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

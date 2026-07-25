@@ -14,8 +14,7 @@
 #include "HeadMountedDisplay_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function HeadMountedDisplay.HandKeypointConversion.Conv_HandKeypointToInt32
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
@@ -334,5 +333,5 @@ bool UMotionControllerComponent::IsTracked() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

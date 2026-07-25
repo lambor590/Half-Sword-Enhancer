@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MaterialShaderQualitySettings.EMobileShadowQuality
 // NumValues: 0x0005
@@ -40,5 +39,4 @@ public:
 	EMobileShadowQuality                          MobileShadowQuality;                               // 0x0007(0x0001)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

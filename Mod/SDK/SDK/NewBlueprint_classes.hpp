@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass NewBlueprint.NewBlueprint_C
 // 0x0010 (0x0680 - 0x0670)
@@ -48,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

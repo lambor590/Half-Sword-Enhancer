@@ -14,8 +14,7 @@
 #include "UI_ColorPicker_Widget_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_ColorPicker_Widget.UI_ColorPicker_Widget_C.BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEventSynth2D__DelegateSignature
 // (BlueprintEvent)
@@ -152,5 +151,5 @@ void UUI_ColorPicker_Widget_C::Tick(const struct FGeometry& MyGeometry, float In
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

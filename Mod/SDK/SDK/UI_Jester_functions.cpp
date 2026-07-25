@@ -14,8 +14,7 @@
 #include "UI_Jester_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Jester.UI_Jester_C.BndEvt__UI_Jester_Button_4_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -370,5 +369,5 @@ void UUI_Jester_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

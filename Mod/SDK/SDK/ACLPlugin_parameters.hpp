@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "ACLPlugin_structs.hpp"
 #include "Engine_structs.hpp"
+#include "ACLPlugin_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ACLPlugin.AnimationCompressionLibraryDatabase.GetVisualFidelity
 // 0x0010 (0x0010 - 0x0000)
@@ -40,5 +40,5 @@ public:
 	uint8                                         Pad_2A[0x6];                                       // 0x002A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

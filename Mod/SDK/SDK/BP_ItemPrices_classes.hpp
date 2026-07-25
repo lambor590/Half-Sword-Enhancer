@@ -13,8 +13,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_ItemPrices.BP_ItemPrices_C
 // 0x0050 (0x0078 - 0x0028)
@@ -38,5 +37,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

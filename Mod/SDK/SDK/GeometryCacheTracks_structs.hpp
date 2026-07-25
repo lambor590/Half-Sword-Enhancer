@@ -14,8 +14,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct GeometryCacheTracks.MovieSceneGeometryCacheParams
 // 0x0048 (0x0048 - 0x0000)
@@ -52,5 +51,4 @@ public:
 	struct FMovieSceneGeometryCacheSectionTemplateParameters Params;                                 // 0x0020(0x0050)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,8 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function CreditWid.CreditWid_C.ExecuteUbergraph_CreditWid
 // 0x0018 (0x0018 - 0x0000)
@@ -85,5 +85,5 @@ public:
 	class UClass*                                 UW;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

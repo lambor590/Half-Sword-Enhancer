@@ -14,8 +14,7 @@
 #include "BP_Armor_Modular_Core_Body_Tunic_1_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Armor_Modular_Core_Body_Tunic_1.BP_Armor_Modular_Core_Body_Tunic_1_C.UserConstructionScript
 // (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void ABP_Armor_Modular_Core_Body_Tunic_1_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

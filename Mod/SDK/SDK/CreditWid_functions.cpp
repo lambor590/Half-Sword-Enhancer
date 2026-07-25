@@ -14,8 +14,7 @@
 #include "CreditWid_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -248,5 +247,5 @@ void UCreditWid_C::SetLastOpenedWidget(class UClass* UW)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

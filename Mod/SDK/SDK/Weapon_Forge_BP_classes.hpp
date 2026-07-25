@@ -11,15 +11,14 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
-#include "GripType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Enum_Weapon_Customization_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Forge_BP.Weapon_Forge_BP_C
 // 0x0170 (0x0488 - 0x0318)
@@ -99,5 +98,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

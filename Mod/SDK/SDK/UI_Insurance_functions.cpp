@@ -14,8 +14,7 @@
 #include "UI_Insurance_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Insurance.UI_Insurance_C.BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -256,5 +255,5 @@ void UUI_Insurance_C::Spawn_Hovered_Item(class UObject* Object)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

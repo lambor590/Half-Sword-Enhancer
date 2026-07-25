@@ -13,8 +13,8 @@
 #include "LocalizableMessage_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function LocalizableMessageBlueprint.LocalizableMessageLibrary.Conv_LocalizableMessageToText
 // 0x0048 (0x0048 - 0x0000)
@@ -44,5 +44,5 @@ public:
 	struct FLocalizableMessage                    Message;                                           // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

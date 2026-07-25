@@ -14,8 +14,7 @@
 #include "UI_GC_MP_Win_Lose_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_GC_MP_Win_Lose.UI_GC_MP_Win_Lose_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -172,5 +171,5 @@ void UUI_GC_MP_Win_Lose_C::Tick(const struct FGeometry& MyGeometry, float InDelt
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

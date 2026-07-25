@@ -14,8 +14,7 @@
 #include "BP_ScreenshotManager_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_ScreenshotManager.BP_ScreenshotManager_C.ExecuteUbergraph_BP_ScreenshotManager
 // (Final, UbergraphFunction, HasDefaults)
@@ -94,5 +93,5 @@ void ABP_ScreenshotManager_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

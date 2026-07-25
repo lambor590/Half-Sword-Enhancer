@@ -16,8 +16,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ChaosCaching.ECacheMode
 // NumValues: 0x0004
@@ -104,6 +103,22 @@ public:
 	struct FTransform                             ComponentTransform;                                // 0x0070(0x0060)(Edit, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// ScriptStruct ChaosCaching.MovieSceneChaosCacheParams
+// 0x0008 (0x0028 - 0x0020)
+struct FMovieSceneChaosCacheParams final : public FMovieSceneBaseCacheParams
+{
+public:
+	class UChaosCacheCollection*                  CacheCollection;                                   // 0x0020(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
+};
+
+// ScriptStruct ChaosCaching.MovieSceneChaosCacheSectionTemplateParameters
+// 0x0028 (0x0030 - 0x0008)
+struct FMovieSceneChaosCacheSectionTemplateParameters final : public FMovieSceneBaseCacheSectionTemplateParameters
+{
+public:
+	struct FMovieSceneChaosCacheParams            ChaosCacheParams;                                  // 0x0008(0x0028)(NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct ChaosCaching.RichCurves
 // 0x0010 (0x0010 - 0x0000)
 struct FRichCurves final
@@ -180,22 +195,6 @@ public:
 	struct FVector                                BoundingBoxMax;                                    // 0x0070(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct ChaosCaching.MovieSceneChaosCacheParams
-// 0x0008 (0x0028 - 0x0020)
-struct FMovieSceneChaosCacheParams final : public FMovieSceneBaseCacheParams
-{
-public:
-	class UChaosCacheCollection*                  CacheCollection;                                   // 0x0020(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
-};
-
-// ScriptStruct ChaosCaching.MovieSceneChaosCacheSectionTemplateParameters
-// 0x0028 (0x0030 - 0x0008)
-struct FMovieSceneChaosCacheSectionTemplateParameters final : public FMovieSceneBaseCacheSectionTemplateParameters
-{
-public:
-	struct FMovieSceneChaosCacheParams            ChaosCacheParams;                                  // 0x0008(0x0028)(NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct ChaosCaching.MovieSceneChaosCacheSectionTemplate
 // 0x0030 (0x0050 - 0x0020)
 struct FMovieSceneChaosCacheSectionTemplate final : public FMovieSceneEvalTemplate
@@ -204,5 +203,4 @@ public:
 	struct FMovieSceneChaosCacheSectionTemplateParameters Params;                                    // 0x0020(0x0030)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

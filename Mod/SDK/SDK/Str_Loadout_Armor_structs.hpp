@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Str_ArmorElements_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Str_ArmorElements_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Loadout_Armor.Str_Loadout_Armor
 // 0x0050 (0x0050 - 0x0000)
@@ -25,5 +24,4 @@ public:
 	TMap<EArmorSlots_Enum, struct FStr_ArmorElements> ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A; // 0x0000(0x0050)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

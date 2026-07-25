@@ -14,8 +14,49 @@
 #include "UI_Shop_TraderItemWidget_parameters.hpp"
 
 
-namespace SDK
+SDK_NAMESPACE_START
+
+// Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
 
 // Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.BP_OnEntryReleased
 // (Event, Protected, BlueprintEvent)
@@ -86,7 +127,7 @@ void UUI_Shop_TraderItemWidget_C::Deselect()
 
 
 // Function UI_Shop_TraderItemWidget.UI_Shop_TraderItemWidget_C.ExecuteUbergraph_UI_Shop_TraderItemWidget
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -164,5 +205,5 @@ ESlateVisibility UUI_Shop_TraderItemWidget_C::Get_ItemWeight_Visibility()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

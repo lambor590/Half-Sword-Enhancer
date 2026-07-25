@@ -14,8 +14,7 @@
 #include "DataflowEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DataflowEngine.DataflowBlueprintLibrary.EvaluateTerminalNodeByName
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
@@ -45,5 +44,5 @@ void UDataflowBlueprintLibrary::EvaluateTerminalNodeByName(class UDataflow* Data
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

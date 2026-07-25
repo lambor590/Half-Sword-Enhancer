@@ -13,8 +13,7 @@
 #include "Weapon_Part_Mace_Grip_Tier_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_Tier_Low_L.Weapon_Part_Mace_Grip_Tier_Low_L_C
 // 0x0000 (0x0610 - 0x0610)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

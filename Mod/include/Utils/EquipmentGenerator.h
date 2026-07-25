@@ -1,0 +1,47 @@
+#pragma once
+
+#include "Utils/ArmorGenerationOptions.h"
+#include "Utils/CustomizableWeapon.h"
+#include "SDK/BP_Generator_Weapons_Random_classes.hpp"
+#include "SDK/BP_Generator_Armor_Random_classes.hpp"
+#include "SDK/BP_Generator_Characters_Random_classes.hpp"
+#include "SDK/Str_Passport_Weapon1_structs.hpp"
+#include "SDK/Str_Passport_Armor1_structs.hpp"
+#include "SDK/Str_Passport_Character1_structs.hpp"
+
+namespace EquipmentGenerator {
+
+    inline bool IsPassportValid(const SDK::FStr_Passport_Weapon1& passport) {
+        return passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC != nullptr &&
+               passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr &&
+               passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4 != nullptr;
+    }
+
+    inline bool IsArmorPassportValid(const SDK::FStr_Passport_Armor1& passport) {
+        return passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
+    }
+
+    SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type);
+
+    SDK::FStr_Passport_Weapon1 GenerateWeapon(
+        const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier,
+        SDK::Enum_WeaponType_Specific specificType = SDK::Enum_WeaponType_Specific::NewEnumerator7,
+        bool generateGreatsword = false
+    );
+    SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(
+        const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier,
+        SDK::Enum_WeaponType_Specific specificType = SDK::Enum_WeaponType_Specific::NewEnumerator7
+    );
+    SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(
+        const SDK::UWorld* world, CustomizableWeapon type, SDK::Enum_Ranks tier
+    );
+    SDK::FStr_Passport_Armor1 GenerateArmor(
+        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot,
+        ArmorGenerationOptions options = {}
+    );
+    SDK::FStr_Passport_Character1 GenerateCharacter(
+        const SDK::UWorld* world, SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier,
+        bool mercenary = false
+    );
+
+}

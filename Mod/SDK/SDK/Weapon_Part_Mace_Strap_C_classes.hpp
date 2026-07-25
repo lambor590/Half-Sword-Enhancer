@@ -13,8 +13,7 @@
 #include "Modular_Weapon_Module_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Strap_C.Weapon_Part_Mace_Strap_C_C
 // 0x0000 (0x0420 - 0x0420)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

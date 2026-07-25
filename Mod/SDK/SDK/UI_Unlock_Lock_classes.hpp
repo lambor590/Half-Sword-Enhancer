@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Unlock_Lock.UI_Unlock_Lock_C
 // 0x0020 (0x0300 - 0x02E0)
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

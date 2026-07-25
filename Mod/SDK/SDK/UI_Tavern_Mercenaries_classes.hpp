@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Engine_structs.hpp"
-#include "SlateCore_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
+#include "SlateCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Tavern_Mercenaries.UI_Tavern_Mercenaries_C
 // 0x0280 (0x0560 - 0x02E0)
@@ -81,7 +80,7 @@ public:
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0480(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	TMap<EArmorSlots_Enum, struct FStr_Passport_Armor1> Armor_Slots;                                 // 0x0488(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	TMulticastInlineDelegate<void()>              BBBB;                                              // 0x04D8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      My_Controller;                                     // 0x04E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        My_Controller;                                     // 0x04E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 Spawned_Item;                                      // 0x04F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UObject*                                Item;                                              // 0x04F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UBP_GameItem_Character_C*               Selected_Character_Item;                           // 0x0500(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
@@ -177,5 +176,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function AudioMixer.SubmixEffectDynamicsProcessorPreset.SetAudioBus
 // 0x0008 (0x0008 - 0x0000)
@@ -698,7 +698,7 @@ struct QuartzClockHandle_NotifyOnQuantizationBoundary final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            InQuantizationBoundary;                            // 0x0008(0x0020)(Parm, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> InDelegate;         // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         InMsOffset;                                        // 0x0038(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -718,7 +718,7 @@ struct QuartzClockHandle_ResetTransport final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;           // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> InDelegate;         // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // Function AudioMixer.QuartzClockHandle.ResetTransportQuantized
@@ -728,7 +728,7 @@ struct QuartzClockHandle_ResetTransportQuantized final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            InQuantizationBoundary;                            // 0x0008(0x0020)(Parm, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> InDelegate;         // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
@@ -748,7 +748,7 @@ struct QuartzClockHandle_SetBeatsPerMinute final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            QuantizationBoundary;                              // 0x0008(0x0020)(ConstParm, Parm, OutParm, ReferenceParm, AdvancedDisplay, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> Delegate;             // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> Delegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         BeatsPerMinute;                                    // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -761,7 +761,7 @@ struct QuartzClockHandle_SetMillisecondsPerTick final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            QuantizationBoundary;                              // 0x0008(0x0020)(ConstParm, Parm, OutParm, ReferenceParm, AdvancedDisplay, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> Delegate;             // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> Delegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         MillisecondsPerTick;                               // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -774,7 +774,7 @@ struct QuartzClockHandle_SetSecondsPerTick final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            QuantizationBoundary;                              // 0x0008(0x0020)(ConstParm, Parm, OutParm, ReferenceParm, AdvancedDisplay, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> Delegate;             // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> Delegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         SecondsPerTick;                                    // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -787,7 +787,7 @@ struct QuartzClockHandle_SetThirtySecondNotesPerMinute final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            QuantizationBoundary;                              // 0x0008(0x0020)(ConstParm, Parm, OutParm, ReferenceParm, AdvancedDisplay, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> Delegate;             // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> Delegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         ThirtySecondsNotesPerMinute;                       // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -800,7 +800,7 @@ struct QuartzClockHandle_SetTicksPerSecond final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            QuantizationBoundary;                              // 0x0008(0x0020)(ConstParm, Parm, OutParm, ReferenceParm, AdvancedDisplay, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> Delegate;             // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> Delegate;           // 0x0028(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     ClockHandle;                                       // 0x0038(0x0008)(Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         TicksPerSecond;                                    // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -823,7 +823,7 @@ public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   OtherClockName;                                    // 0x0008(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            InQuantizationBoundary;                            // 0x0010(0x0020)(Parm, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;           // 0x0030(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)> InDelegate;         // 0x0030(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // Function AudioMixer.QuartzClockHandle.StopClock
@@ -1129,5 +1129,5 @@ public:
 	bool                                          bInTickableWhenPaused;                             // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "TypedElementRuntime_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function TypedElementRuntime.TypedElementSelectionSetLibrary.DeselectElementsFromList
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -1250,5 +1249,5 @@ bool ITypedElementSelectionInterface::SelectElement(const struct FScriptTypedEle
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

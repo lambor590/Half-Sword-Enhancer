@@ -14,8 +14,7 @@
 #include "AudioSynesthesia_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AudioSynesthesia.ConstantQAnalyzer.GetCenterFrequencies
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
@@ -377,5 +376,5 @@ const int32 USynesthesiaSpectrumAnalyzer::GetNumCenterFrequencies() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

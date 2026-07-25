@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "GeometryCollectionTracks_structs.hpp"
 #include "MovieScene_classes.hpp"
+#include "GeometryCollectionTracks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class GeometryCollectionTracks.MovieSceneGeometryCollectionSection
 // 0x0038 (0x0128 - 0x00F0)
@@ -62,5 +61,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ModelingOperators.ERecomputeUVsPropertiesUnwrapType
 // NumValues: 0x0005
@@ -234,5 +233,4 @@ enum class EUVProjectionMethod : uint8
 	EUVProjectionMethod_MAX                  = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

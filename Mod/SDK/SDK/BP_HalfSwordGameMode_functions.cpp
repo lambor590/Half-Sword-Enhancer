@@ -14,8 +14,7 @@
 #include "BP_HalfSwordGameMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Add Rank Points
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -54,6 +53,20 @@ void ABP_HalfSwordGameMode_C::DED()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "DED");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Event Spawn DED UI
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_HalfSwordGameMode_C::Event_Spawn_DED_UI()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Event Spawn DED UI");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -168,5 +181,5 @@ void ABP_HalfSwordGameMode_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

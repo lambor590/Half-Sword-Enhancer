@@ -1,0 +1,70 @@
+# Functions with inherent complexity that should not trigger warnings.
+# Each line is a function name pattern matched against lizard output.
+
+# VK code switch table (108 cases, compile-time data mapping)
+KeybindManager::GetKeyNameConstexpr
+
+# x86 instruction length decoder (inherently complex opcode classification)
+MemoryUtils::GetInstructionLength
+
+# Declarative keybind registrations (flat list of independent blocks)
+PlayerAbilitiesSection::InitKeybinds
+WorldActionsSection::InitKeybinds
+
+# Table-driven blueprint categorization
+BlueprintRegistry::CategorizeByPath
+
+# Installer flow with ifdef experimental/stable split
+HSELauncher::CheckAndInstallMod
+
+# Type-dispatch switch (one self-contained case per UE property type)
+PropertyBrowser::RenderPropertyWidget
+
+# UI combo with actor selector, quick filters, search
+WorldEditorSection::RenderActorSelector
+
+# Linear data-mapping: independent if(enabled) prop=val assignments
+NPCSpawnHelpers::ApplyPropertyOverrides
+
+# VDF state-machine parser
+SteamLocator::ParseLibraryFolders
+
+# Weapon mesh combo with search, type tagging, transform controls
+WeaponEditorSection::RenderMeshCombo
+
+# Asset registry scan pipelines (query, filter, deduplicate, categorize)
+BlueprintRegistry::PerformScan
+MapRegistry::PerformScan
+
+# Map selector with search, category filter, combo
+MapLoaderSection::RenderMapSelector
+
+# Enum-to-value switch (19 cases)
+EquipmentGenerator::GetCustomizableModulesClass
+
+# Spawn orchestration with optional presets
+MapLoaderSection::SpawnPlayer
+
+# Component discovery state machine
+SkyEditorSection::RenderComponentStatus
+
+# Update check with JSON parsing and version comparison
+UpdateManager::CheckForExperimentalUpdates
+
+# Pointer-identity dispatch for override application
+WeaponEditorSection::ApplyOverridesToActor
+
+# Per-slot armor tree node rendering
+LoadoutManagerSection::RenderArmorTab
+
+# Filterable combo UI (template, inherent branching)
+GuiUtils::RenderGlobalModuleCombo
+GuiUtils::RenderModuleIndexCombo
+
+# Small functions flagged only by CCN, already concise
+ArmorEditorSection::RenderGenerationControls
+PresetUtils::SanitizeFilename
+Gui::WndProc
+
+# False positive: line range spans multiple already-separated functions
+HSELauncher::DisplayBanner

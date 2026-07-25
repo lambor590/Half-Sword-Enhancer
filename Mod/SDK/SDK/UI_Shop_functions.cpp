@@ -14,8 +14,7 @@
 #include "UI_Shop_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Shop.UI_Shop_C.AddItem
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -292,5 +291,5 @@ void UUI_Shop_C::RemoveItem(class UBP_GameItem_C* Item, class UWidget* Widget)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct CustomMeshComponent.CustomMeshTriangle
 // 0x0048 (0x0048 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	struct FVector                                Vertex2;                                           // 0x0030(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

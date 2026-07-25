@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_GameMode.Enum_GameMode
 // NumValues: 0x0007
@@ -27,5 +26,4 @@ enum class Enum_GameMode : uint8
 	Enum_MAX                                 = 6,
 };
 
-}
-
+SDK_NAMESPACE_END

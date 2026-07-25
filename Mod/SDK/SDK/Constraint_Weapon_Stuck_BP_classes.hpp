@@ -17,11 +17,10 @@
 #include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C
-// 0x06A0 (0x0930 - 0x0290)
+// 0x06B8 (0x0948 - 0x0290)
 class AConstraint_Weapon_Stuck_BP_C final : public AActor
 {
 public:
@@ -142,6 +141,13 @@ public:
 	class UAudioComponent*                        Meat_Sound_0;                                      // 0x0920(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          NewVar_12;                                         // 0x0928(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Is_Meat;                                           // 0x0929(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spikes__temp_;                                     // 0x092A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_92B[0x5];                                      // 0x092B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        NewVar_13;                                         // 0x0930(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_14;                                         // 0x0938(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Is_Ammo;                                           // 0x0939(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_93A[0x6];                                      // 0x093A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Draw_Cut;                                          // 0x0940(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void Add_Out_Point_Scene(const struct FVector& Location);
@@ -171,5 +177,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

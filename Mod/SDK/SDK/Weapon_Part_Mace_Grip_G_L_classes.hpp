@@ -13,8 +13,7 @@
 #include "Weapon_Part_Mace_Grip_A_L_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_G_L.Weapon_Part_Mace_Grip_G_L_C
 // 0x0000 (0x05F8 - 0x05F8)
@@ -38,5 +37,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Niagara_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Niagara.NiagaraDataChannelReader.InitAccess
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -7275,5 +7274,5 @@ void UNiagaraDataInterfaceUObjectPropertyReader::SetUObjectReaderPropertyRemap(c
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

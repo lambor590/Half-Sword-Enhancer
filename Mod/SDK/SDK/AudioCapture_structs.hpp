@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct AudioCapture.AudioInputDeviceInfo
 // 0x0030 (0x0030 - 0x0000)
@@ -37,5 +36,11 @@ public:
 	int32                                         SampleRate;                                        // 0x000C(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction AudioCapture.OnAudioInputDevicesObtained__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace AudioCapture
+{
+using FDelegateSignature_OnAudioInputDevicesObtained = void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices);
 }
 
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "Modular_Hafted_Head_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Head_AB.Weapon_Part_Hafted_Head_AB_C
 // 0x0010 (0x0440 - 0x0430)
@@ -39,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

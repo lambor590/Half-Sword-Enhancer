@@ -13,12 +13,11 @@
 #include "BP_Armor_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Doublet_Arming.BP_Armor_Body_Doublet_Arming_C
-// 0x0000 (0x08E0 - 0x08E0)
-class ABP_Armor_Body_Doublet_Arming_C final : public ABP_Armor_Master_C
+// 0x0000 (0x0920 - 0x0920)
+class ABP_Armor_Body_Doublet_Arming_C : public ABP_Armor_Master_C
 {
 public:
 	void UserConstructionScript();
@@ -38,5 +37,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

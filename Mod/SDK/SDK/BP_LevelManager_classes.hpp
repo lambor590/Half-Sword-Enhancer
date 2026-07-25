@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_LevelManager.BP_LevelManager_C
 // 0x0040 (0x02D0 - 0x0290)
@@ -42,6 +41,7 @@ public:
 	void Check_Availabe_Mercenaries();
 	void Clean_Up_and_Spawn_Actors();
 	void Clean_Up_Map();
+	void Event_Respawn_Respawnable_Objects_With_Delay();
 	void ExecuteUbergraph_BP_LevelManager(int32 EntryPoint);
 	void Fade_Out_Event(double Delay);
 	void ReceiveBeginPlay();
@@ -63,5 +63,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

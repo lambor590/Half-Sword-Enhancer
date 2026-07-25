@@ -14,8 +14,7 @@
 #include "CableComponent_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function CableComponent.CableComponent.SetAttachEndTo
 // (Final, Native, Public, BlueprintCallable)
@@ -148,5 +147,5 @@ void UCableComponent::GetCableParticleLocations(TArray<struct FVector>* Location
 		*Locations = std::move(Parms.Locations);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,8 +13,8 @@
 #include "InputCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function NewBlueprint.NewBlueprint_C.ExecuteUbergraph_NewBlueprint
 // 0x0060 (0x0060 - 0x0000)
@@ -57,5 +57,5 @@ public:
 	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

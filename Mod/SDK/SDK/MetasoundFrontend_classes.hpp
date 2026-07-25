@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "MetasoundFrontend_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "MetasoundFrontend_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MetasoundFrontend.MetaSoundDocumentInterface
 // 0x0000 (0x0000 - 0x0000)
@@ -111,5 +110,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

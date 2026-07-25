@@ -13,8 +13,8 @@
 #include "CinematicCamera_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function CinematicCamera.CameraRig_Rail.GetRailSplineComponent
 // 0x0008 (0x0008 - 0x0000)
@@ -305,5 +305,5 @@ public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_CombatEvent_LoseConditions.Enum_CombatEvent_LoseConditions
 // NumValues: 0x0005
@@ -25,5 +24,4 @@ enum class Enum_CombatEvent_LoseConditions : uint8
 	Enum_CombatEvent_MAX                     = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

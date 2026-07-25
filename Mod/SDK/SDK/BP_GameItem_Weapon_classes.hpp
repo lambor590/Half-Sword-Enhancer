@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "BP_GameItem_classes.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameItem_Weapon.BP_GameItem_Weapon_C
 // 0x0108 (0x0170 - 0x0068)
@@ -43,5 +42,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

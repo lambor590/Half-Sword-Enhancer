@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Prepare
+        run: |
+          $resource = Get-Content "Launcher/resource/Launcher.rc" -Raw
+          if ($resource -notmatch 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+)') {
+            throw "Failed to read the release version"
+          }
+
+          $tag = "v$($Matches[1]).$($Matches[2]).$($Matches[3])"
+          $version = $tag.Substring(1)
+          if (git tag --list "$tag") {
+            throw "Release $tag already exists"
+          }
+
+          "VERSION=$tag" >> $env:GITHUB_ENV
+          "PRODUCT_VERSION=$version" >> $env:GITHUB_ENV
+          "PACKAGE_SEQUENCE=$([uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }})" >> $env:GITHUB_ENV
+          "### Release $tag" >> $env:GITHUB_STEP_SUMMARY
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Build
+        run: >-
+          msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
+          /p:Configuration=Release /p:Platform=x64 /p:SkipGameInstall=true
+
+      - name: Package
+        shell: pwsh
+        run: >-
+          & ".\scripts\package-release.ps1"
+          -Channel release
+          -Version $env:PRODUCT_VERSION
+          -BuildId "${{ github.sha }}"
+          -Sequence $env:PACKAGE_SEQUENCE
+
+      - name: Create draft
+        run: |
+          gh release create $env:VERSION "release_files/HSEnhancer.zip" `
+            --repo "${{ github.repository }}" `
+            --target "${{ github.sha }}" `
+            --title $env:VERSION `
+            --notes "Add the release notes manually before publishing." `
+            --draft
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to create draft release $env:VERSION"
+          }

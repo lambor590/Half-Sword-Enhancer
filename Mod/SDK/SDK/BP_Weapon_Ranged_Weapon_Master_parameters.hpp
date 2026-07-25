@@ -14,30 +14,52 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
+
+// Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.Event Set Bolt Representation Default Position
+// 0x0010 (0x0010 - 0x0000)
+struct BP_Weapon_Ranged_Weapon_Master_C_Event_Set_Bolt_Representation_Default_Position final
 {
+public:
+	struct FVector2D                              Bolt_Representation_Default_Position_0;            // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
 
 // Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master
-// 0x03C0 (0x03C0 - 0x0000)
+// 0x0410 (0x0410 - 0x0000)
 struct BP_Weapon_Ranged_Weapon_Master_C_ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_4[0xC];                                        // 0x0004(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             Temp_struct_Variable;                              // 0x0010(0x0060)(ConstParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsConstraintComponent*            CallFunc_AddComponent_ReturnValue;                 // 0x0070(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_K2_GetComponentLocation_ReturnValue;      // 0x0078(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0090(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_91[0xF];                                       // 0x0091(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_GetSocketTransform_ReturnValue;           // 0x00A0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector2D                              K2Node_CustomEvent_Bolt_Representation_Default_Position; // 0x0008(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector2D_X;                          // 0x0018(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector2D_Y;                          // 0x0020(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_MakeVector_ReturnValue;                   // 0x0028(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                             Temp_struct_Variable;                              // 0x0040(0x0060)(ConstParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x00A0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FHitResult                             CallFunc_K2_SetWorldTransform_SweepHitResult;      // 0x0100(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
-	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x01F8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1F9[0x7];                                      // 0x01F9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             Temp_struct_Variable_1;                            // 0x0200(0x0060)(ConstParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0260(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsHandleComponent*                CallFunc_AddComponent_ReturnValue_1;               // 0x02C0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             CallFunc_K2_SetWorldTransform_SweepHitResult_1;    // 0x02C8(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	class UPhysicsConstraintComponent*            CallFunc_AddComponent_ReturnValue;                 // 0x01F8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0200(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_201[0xF];                                      // 0x0201(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_GetSocketTransform_ReturnValue;           // 0x0210(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x0270(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_271[0x7];                                      // 0x0271(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FHitResult                             CallFunc_K2_SetWorldTransform_SweepHitResult_1;    // 0x0278(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	struct FVector                                CallFunc_K2_GetComponentLocation_ReturnValue;      // 0x0370(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              K2Node_CustomEvent_NewParam;                       // 0x0388(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_398[0x8];                                      // 0x0398(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             Temp_struct_Variable_1;                            // 0x03A0(0x0060)(ConstParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPhysicsHandleComponent*                CallFunc_AddComponent_ReturnValue_1;               // 0x0400(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
 
-}
+// Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.Release Bolt Representation
+// 0x0010 (0x0010 - 0x0000)
+struct BP_Weapon_Ranged_Weapon_Master_C_Release_Bolt_Representation final
+{
+public:
+	struct FVector2D                              NewParam;                                          // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
 
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

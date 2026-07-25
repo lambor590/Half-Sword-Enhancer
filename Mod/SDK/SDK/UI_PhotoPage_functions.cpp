@@ -14,8 +14,7 @@
 #include "UI_PhotoPage_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_PhotoPage.UI_PhotoPage_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -142,5 +141,5 @@ void UUI_PhotoPage_C::UpdatePage()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

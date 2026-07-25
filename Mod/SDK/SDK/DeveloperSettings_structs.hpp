@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct DeveloperSettings.PerPlatformSettings
 // 0x0010 (0x0010 - 0x0000)
@@ -31,5 +30,4 @@ public:
 	TMap<class FName, class UPlatformSettings*>   OtherPlatforms;                                    // 0x0008(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
 };
 
-}
-
+SDK_NAMESPACE_END

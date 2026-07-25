@@ -10,18 +10,18 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Generator_Weapons_Random.BP_Generator_Weapons_Random_C
-// 0x0020 (0x02B0 - 0x0290)
+// 0x0028 (0x02B8 - 0x0290)
 class ABP_Generator_Weapons_Random_C final : public AActor
 {
 public:
@@ -32,11 +32,14 @@ public:
 	Enum_MaterialLayer                            Custom_Material_Colored_Metal;                     // 0x02A9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_MaterialLayer                            Custom_Material_Colored_Wood;                      // 0x02AA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_MaterialLayer                            Custom_Material_Colored_Leather;                   // 0x02AB(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Generate_Greatsword;                               // 0x02AC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2AD[0x3];                                      // 0x02AD(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x02B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_Weapon_Module_to_Array(class UClass* Weapon_Module, Enum_Ranks Tier_In, double* Module_Price, Enum_Ranks* Tier_Out);
 	void ExecuteUbergraph_BP_Generator_Weapons_Random(int32 EntryPoint);
-	void Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, struct FStr_Passport_Weapon1* Weapon_Passport);
+	void Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, Enum_WeaponType_Specific Weapon_Type_Specific, struct FStr_Passport_Weapon1* Weapon_Passport);
 	void ReceiveBeginPlay();
 
 public:
@@ -54,5 +57,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

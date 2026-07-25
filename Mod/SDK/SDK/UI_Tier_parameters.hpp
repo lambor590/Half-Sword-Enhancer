@@ -13,8 +13,8 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Tier.UI_Tier_C.ExecuteUbergraph_UI_Tier
 // 0x0030 (0x0030 - 0x0000)
@@ -52,5 +52,5 @@ public:
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0120(0x00D0)()
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

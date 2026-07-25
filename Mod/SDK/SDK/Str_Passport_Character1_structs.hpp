@@ -14,8 +14,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Passport_Character1.Str_Passport_Character1
 // 0x0140 (0x0140 - 0x0000)
@@ -36,5 +35,4 @@ public:
 	double                                        HairLength_41_9295B3CF41DF9BED0FEDB9AE02E7FC16;    // 0x0138(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

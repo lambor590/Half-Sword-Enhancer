@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Tool_Flail_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Tool_Flail.ModularWeaponBP_Tool_Flail_C.ExecuteUbergraph_ModularWeaponBP_Tool_Flail
 // (Final, UbergraphFunction)
@@ -70,5 +69,5 @@ void AModularWeaponBP_Tool_Flail_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

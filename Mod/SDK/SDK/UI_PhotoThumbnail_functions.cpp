@@ -14,8 +14,7 @@
 #include "UI_PhotoThumbnail_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_PhotoThumbnail.UI_PhotoThumbnail_C.Animation
 // (BlueprintCallable, BlueprintEvent)
@@ -236,5 +235,5 @@ void UUI_PhotoThumbnail_C::UpdatePhoto()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

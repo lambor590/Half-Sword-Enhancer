@@ -14,8 +14,7 @@
 #include "UI_Armorer_Frank_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.Add Armor to List
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -36,6 +35,150 @@ void UUI_Armorer_Frank_C::Add_Armor_to_List(const struct FStr_Passport_Armor1& I
 	Parms.Is_Equipped = Is_Equipped;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.AnimateFilterButton
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UButton*                          FilterButton                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool                                    IsHovered_0                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Armorer_Frank_C::AnimateFilterButton(class UButton* FilterButton, bool IsHovered_0)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "AnimateFilterButton");
+
+	Params::UI_Armorer_Frank_C_AnimateFilterButton Parms{};
+
+	Parms.FilterButton = FilterButton;
+	Parms.IsHovered_0 = IsHovered_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment1_GetName
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::Attachment1_GetName()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment1_GetName");
+
+	Params::UI_Armorer_Frank_C_Attachment1_GetName Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment2_GetName
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::Attachment2_GetName()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment2_GetName");
+
+	Params::UI_Armorer_Frank_C_Attachment2_GetName Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment3_GetName
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::Attachment3_GetName()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment3_GetName");
+
+	Params::UI_Armorer_Frank_C_Attachment3_GetName Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.AttachmentCore_GetName
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::AttachmentCore_GetName()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "AttachmentCore_GetName");
+
+	Params::UI_Armorer_Frank_C_AttachmentCore_GetName Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -207,83 +350,45 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundE
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
 
-	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
-
-	Parms.bIsChecked = bIsChecked;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
-
-	Parms.bIsChecked = bIsChecked;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
-
-	Parms.bIsChecked = bIsChecked;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature");
-
-	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
-
-	Parms.bIsChecked = bIsChecked;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -331,23 +436,367 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Nod
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// class UObject*                          Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item)
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature");
 
-	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.Item = Item;
 
-	UObject::ProcessEvent(Func, &Parms);
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -368,6 +817,160 @@ void UUI_Armorer_Frank_C::ExecuteUbergraph_UI_Armorer_Frank(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.FillItemsList
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Armorer_Frank_C::FillItemsList()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "FillItemsList");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.FillSwatchesOfType
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// ESwatch_Type                            Type                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Armorer_Frank_C::FillSwatchesOfType(ESwatch_Type Type)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "FillSwatchesOfType");
+
+	Params::UI_Armorer_Frank_C_FillSwatchesOfType Parms{};
+
+	Parms.Type = Type;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_ArmorClassIcon_Img_Visibility
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Armorer_Frank_C::Get_ArmorClassIcon_Img_Visibility()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_ArmorClassIcon_Img_Visibility");
+
+	Params::UI_Armorer_Frank_C_Get_ArmorClassIcon_Img_Visibility Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment1_Btn_bIsEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Armorer_Frank_C::Get_Attachment1_Btn_bIsEnabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment1_Btn_bIsEnabled");
+
+	Params::UI_Armorer_Frank_C_Get_Attachment1_Btn_bIsEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment2_Btn_bIsEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Armorer_Frank_C::Get_Attachment2_Btn_bIsEnabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment2_Btn_bIsEnabled");
+
+	Params::UI_Armorer_Frank_C_Get_Attachment2_Btn_bIsEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment3_Btn_bIsEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Armorer_Frank_C::Get_Attachment3_Btn_bIsEnabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment3_Btn_bIsEnabled");
+
+	Params::UI_Armorer_Frank_C_Get_Attachment3_Btn_bIsEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Core_Btn_bIsEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Armorer_Frank_C::Get_Core_Btn_bIsEnabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Core_Btn_bIsEnabled");
+
+	Params::UI_Armorer_Frank_C_Get_Core_Btn_bIsEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_PlayerMoney_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::Get_PlayerMoney_Text()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_PlayerMoney_Text");
+
+	Params::UI_Armorer_Frank_C_Get_PlayerMoney_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 
@@ -444,6 +1047,26 @@ ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_2()
 		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetCheckedState_2");
 
 	Params::UI_Armorer_Frank_C_GetCheckedState_2 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetMoneyCostText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Armorer_Frank_C::GetMoneyCostText()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetMoneyCostText");
+
+	Params::UI_Armorer_Frank_C_GetMoneyCostText Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -531,86 +1154,6 @@ class FText UUI_Armorer_Frank_C::GetText_2()
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_3
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Armorer_Frank_C::GetText_3()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_3");
-
-	Params::UI_Armorer_Frank_C_GetText_3 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_4
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Armorer_Frank_C::GetText_4()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_4");
-
-	Params::UI_Armorer_Frank_C_GetText_4 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_5
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Armorer_Frank_C::GetText_5()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_5");
-
-	Params::UI_Armorer_Frank_C_GetText_5 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_6
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Armorer_Frank_C::GetText_6()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_6");
-
-	Params::UI_Armorer_Frank_C_GetText_6 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_7
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -624,26 +1167,6 @@ class FText UUI_Armorer_Frank_C::GetText_7()
 		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_7");
 
 	Params::UI_Armorer_Frank_C_GetText_7 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_8
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Armorer_Frank_C::GetText_8()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_8");
-
-	Params::UI_Armorer_Frank_C_GetText_8 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -671,103 +1194,63 @@ ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_0()
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_1
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnItemSelected
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UBP_GameItem_Armor_C*             SelectedArmor                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_1()
+void UUI_Armorer_Frank_C::OnItemSelected(class UBP_GameItem_Armor_C* SelectedArmor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_1");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnItemSelected");
 
-	Params::UI_Armorer_Frank_C_GetVisibility_1 Parms{};
+	Params::UI_Armorer_Frank_C_OnItemSelected Parms{};
+
+	Parms.SelectedArmor = SelectedArmor;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_2
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnSwatchesClick
+// (Public, BlueprintCallable, BlueprintEvent)
 
-ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_2()
+void UUI_Armorer_Frank_C::OnSwatchesClick()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_2");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnSwatchesClick");
 
-	Params::UI_Armorer_Frank_C_GetVisibility_2 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_3
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnSwatchesHover
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FLinearColor&              NewColor                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESwatch_Type                            SwatchType                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESteel_Type                             SteelType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESecondaryMetal_Type                    SecondaryMetalType                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_3()
+void UUI_Armorer_Frank_C::OnSwatchesHover(const struct FLinearColor& NewColor, ESwatch_Type SwatchType, ESteel_Type SteelType, ESecondaryMetal_Type SecondaryMetalType)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_3");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnSwatchesHover");
 
-	Params::UI_Armorer_Frank_C_GetVisibility_3 Parms{};
+	Params::UI_Armorer_Frank_C_OnSwatchesHover Parms{};
 
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_4
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_4()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_4");
-
-	Params::UI_Armorer_Frank_C_GetVisibility_4 Parms{};
+	Parms.NewColor = std::move(NewColor);
+	Parms.SwatchType = SwatchType;
+	Parms.SteelType = SteelType;
+	Parms.SecondaryMetalType = SecondaryMetalType;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_5
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_5()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_5");
-
-	Params::UI_Armorer_Frank_C_GetVisibility_5 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
@@ -788,6 +1271,20 @@ void UUI_Armorer_Frank_C::PreConstruct(bool IsDesignTime)
 	Parms.IsDesignTime = IsDesignTime;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.RefreshSelectedSwatches
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Armorer_Frank_C::RefreshSelectedSwatches()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "RefreshSelectedSwatches");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -813,40 +1310,68 @@ void UUI_Armorer_Frank_C::Set_Up_List_Item(class UObject* Item, class UObject* W
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Spawn CUstomizaed Armor
-// (BlueprintCallable, BlueprintEvent)
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.SetAttachmentButtonVisibility
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void UUI_Armorer_Frank_C::Spawn_CUstomizaed_Armor()
+void UUI_Armorer_Frank_C::SetAttachmentButtonVisibility()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Spawn CUstomizaed Armor");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "SetAttachmentButtonVisibility");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Tick
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.SetItemsFilter
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TArray<EArmorSlots_Enum>&               PressedFilterType                                      (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
-void UUI_Armorer_Frank_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+void UUI_Armorer_Frank_C::SetItemsFilter(TArray<EArmorSlots_Enum>& PressedFilterType)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Tick");
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "SetItemsFilter");
 
-	Params::UI_Armorer_Frank_C_Tick Parms{};
+	Params::UI_Armorer_Frank_C_SetItemsFilter Parms{};
 
-	Parms.MyGeometry = std::move(MyGeometry);
-	Parms.InDeltaTime = InDeltaTime;
+	Parms.PressedFilterType = std::move(PressedFilterType);
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	PressedFilterType = std::move(Parms.PressedFilterType);
 }
 
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.UnsetItemsFilter
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UUI_Armorer_Frank_C::UnsetItemsFilter()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "UnsetItemsFilter");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.UpdateMoneyCost
+// (BlueprintCallable, BlueprintEvent)
+
+void UUI_Armorer_Frank_C::UpdateMoneyCost()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Armorer_Frank_C", "UpdateMoneyCost");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+SDK_NAMESPACE_END

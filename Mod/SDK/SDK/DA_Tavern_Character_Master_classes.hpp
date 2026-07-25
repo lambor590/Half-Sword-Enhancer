@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DayTime_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_DayTime_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass DA_Tavern_Character_Master.DA_Tavern_Character_Master_C
 // 0x0050 (0x0080 - 0x0030)
@@ -42,5 +41,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Weapon_Part_Mace_Grip_Tier_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
 // (Final, UbergraphFunction)
@@ -70,5 +69,5 @@ void AWeapon_Part_Mace_Grip_Tier_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

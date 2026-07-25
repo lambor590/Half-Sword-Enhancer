@@ -14,8 +14,7 @@
 #include "BPC_RuntimeVertexPaintAndDetectionComponent_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPC_RuntimeVertexPaintAndDetectionComponent.BPC_RuntimeVertexPaintAndDetectionComponent_C.ExecuteUbergraph_BPC_RuntimeVertexPaintAndDetectionComponent
 // (Final, UbergraphFunction)
@@ -36,5 +35,5 @@ void UBPC_RuntimeVertexPaintAndDetectionComponent_C::ExecuteUbergraph_BPC_Runtim
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

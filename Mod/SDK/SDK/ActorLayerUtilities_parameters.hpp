@@ -13,8 +13,8 @@
 #include "ActorLayerUtilities_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ActorLayerUtilities.LayersBlueprintLibrary.AddActorToLayer
 // 0x0010 (0x0010 - 0x0000)
@@ -44,5 +44,5 @@ public:
 	struct FActorLayer                            Layer;                                             // 0x0008(0x0008)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

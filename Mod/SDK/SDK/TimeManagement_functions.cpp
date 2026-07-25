@@ -14,8 +14,7 @@
 #include "TimeManagement_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function TimeManagement.TimeManagementBlueprintLibrary.Add_FrameNumberFrameNumber
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
@@ -540,5 +539,5 @@ struct FFrameTime UTimeManagementBlueprintLibrary::TransformTime(const struct FF
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

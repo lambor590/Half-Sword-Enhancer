@@ -14,8 +14,7 @@
 #include "ActorLayerUtilities_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ActorLayerUtilities.LayersBlueprintLibrary.AddActorToLayer
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
@@ -100,5 +99,5 @@ void ULayersBlueprintLibrary::RemoveActorFromLayer(class AActor* InActor, const 
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

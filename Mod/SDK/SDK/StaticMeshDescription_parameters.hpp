@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "MeshDescription_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "MeshDescription_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function StaticMeshDescription.StaticMeshDescription.CreateCube
 // 0x0050 (0x0050 - 0x0000)
@@ -65,5 +65,5 @@ public:
 	struct FVector2D                              ReturnValue;                                       // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

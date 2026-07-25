@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct PlayerCharacter_Settings_Struct.PlayerCharacter_Settings_Struct
 // 0x0010 (0x0010 - 0x0000)
@@ -23,5 +22,4 @@ public:
 	double                                        MutationInhibitor_4_ABF4BA554AA4BC263B2688A774957A9E; // 0x0008(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

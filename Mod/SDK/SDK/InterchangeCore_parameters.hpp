@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "InterchangeCore_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function InterchangeCore.InterchangeFactoryBase.GetFactoryClass
 // 0x0008 (0x0008 - 0x0000)
@@ -1032,5 +1032,5 @@ public:
 	uint8                                         Pad_19[0x7];                                       // 0x0019(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function RunningBlood_BP.RunningBlood_BP_C.ExecuteUbergraph_RunningBlood_BP
 // 0x0D80 (0x0D80 - 0x0000)
@@ -178,5 +178,5 @@ public:
 	bool                                          CallFunc_K2_AttachToComponent_ReturnValue;         // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

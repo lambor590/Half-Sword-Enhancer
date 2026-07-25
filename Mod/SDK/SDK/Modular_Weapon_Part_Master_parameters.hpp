@@ -11,13 +11,13 @@
 #include "Basic.hpp"
 
 #include "Enum_MaterialLayer_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_Weapon_Part_Master.Modular_Weapon_Part_Master_C.ExecuteUbergraph_Modular_Weapon_Part_Master
 // 0x0098 (0x0098 - 0x0000)
@@ -130,5 +130,5 @@ public:
 	float                                         CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast; // 0x0240(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -13,8 +13,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ABP_CopyPose.ABP_CopyPose_C.AnimGraph
 // 0x0010 (0x0010 - 0x0000)
@@ -46,5 +46,5 @@ public:
 	float                                         K2Node_Event_DeltaTimeX;                           // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

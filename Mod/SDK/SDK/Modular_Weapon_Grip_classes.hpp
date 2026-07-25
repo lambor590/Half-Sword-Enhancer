@@ -10,17 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "GripType_Enum_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "Engine_structs.hpp"
-#include "SwitchGrip_Type_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
 #include "Weapon_Icon_Enum_structs.hpp"
+#include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Modular_Weapon_Part_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Grip.Modular_Weapon_Grip_C
 // 0x0200 (0x05F8 - 0x03F8)
@@ -70,6 +70,7 @@ public:
 	double                                        Grip_Rate;                                         // 0x05E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	EGripType_Enum                                Grip_L_Hand_Default;                               // 0x05F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESwitchGrip_Type_Enum                         Alt_Grip_Switch_Type;                              // 0x05F1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_ReverseGripType                          Reverse_Grip_Type;                                 // 0x05F2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_Modular_Weapon_Grip(int32 EntryPoint);
@@ -91,5 +92,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

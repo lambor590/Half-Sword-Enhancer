@@ -13,8 +13,7 @@
 #include "Weapon_Module_Casted_Grip_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Casted_Grip_DA.Weapon_Module_Casted_Grip_DA_C
 // 0x0000 (0x05F8 - 0x05F8)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

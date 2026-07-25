@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "UMG_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Fencer_FreeMode.UI_Dialog_Widget_Fencer_FreeMode_C.ExecuteUbergraph_UI_Dialog_Widget_Fencer_FreeMode
 // 0x0068 (0x0068 - 0x0000)
@@ -137,5 +137,5 @@ public:
 	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

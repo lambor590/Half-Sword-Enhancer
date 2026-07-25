@@ -1,90 +1,32 @@
 #include <Windows.h>
-#include <fstream>
-#include <future>
+#include <atomic>
 
 #include "Logger.h"
-#include "MemoryUtils.h"
-#include "Hooks/GameHook.h"
-#include "Hooks/DirectXHook.h"
-#include "Render/Renderer.h"
-#include "GlobalDefinitions.h"
+#include "Core/ModRuntimeLifecycle.h"
 #include "KeybindManager.h"
 
-static Logger logger{ "DllMain" };
-static Renderer renderer;
-static DirectXHook dxHook(&renderer);
+static Logger logger{"DllMain"};
+static std::atomic<bool> lifecycleStarted{false};
 
-static inline bool CheckTerminalFile() noexcept {
-    std::fstream terminalFile("enhancer_enable_terminal.txt", std::fstream::in);
-    return terminalFile.is_open();
+extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
+    if (lifecycleStarted.exchange(true, std::memory_order_acq_rel)) return;
+    KeybindManager::Initialize();
+    ModRuntimeLifecycle::StartAsync();
 }
 
-static void OpenDebugTerminal() noexcept
-{
-    if (CheckTerminalFile()) {
-        AllocConsole();
-        freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-        #ifdef BETA_VERSION
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Beta Build");
-        #else
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
-        #endif
-    }
+extern "C" __declspec(dllexport) void HSE_Shutdown() noexcept {
+    if (!lifecycleStarted.exchange(false, std::memory_order_acq_rel)) return;
+    if (!ModRuntimeLifecycle::Stop()) lifecycleStarted.store(true, std::memory_order_release);
 }
 
-static DWORD WINAPI DXHookThread(LPVOID) noexcept
-{
-    g_DirectXHook = &dxHook;
-    g_DirectXHook->Hook();
-    return 0;
-}
-
-static DWORD WINAPI GameHookThread(LPVOID) noexcept
-{
-    GameHook::Get().Hook();
-    return 0;
-}
-
-static void Cleanup() noexcept
-{
-    logger.Log("Cleaning up resources...");
-    std::promise<void> cleanupPromise;
-    auto cleanupFuture = cleanupPromise.get_future();
-    
-    std::thread cleanupThread([&cleanupPromise]() noexcept {
-        renderer.Cleanup();
-        GameHook::Get().Unhook();
-        cleanupPromise.set_value();
-    });
-    
-    if (cleanupFuture.wait_for(std::chrono::seconds(5)) == std::future_status::timeout) {
-        logger.Log("Cleanup timed out, terminating forcefully");
-        cleanupThread.detach();
-    } else {
-        cleanupThread.join();
-    }
-}
-
-BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
-{
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
+BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID /*reserved*/) noexcept {
+    if (reason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(module);
-        OpenDebugTerminal();
-        #ifdef BETA_VERSION
-            logger.Log("Half Sword Enhancer - Beta Build initializing...");
-            logger.Log("This is a public beta build for testing purposes.");
-        #else
-            logger.Log("Half Sword Enhancer initializing...");
-        #endif
-        KeybindManager::Initialize();
-        CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
-        CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
-        break;
-    case DLL_PROCESS_DETACH:
-        Cleanup();
-        break;
+        logger.Log("Half Sword Enhancer initializing...");
+#ifdef EXPERIMENTAL_VERSION
+        logger.Log("This is a public experimental build for testing purposes.");
+#endif
     }
-    
+
     return TRUE;
 }

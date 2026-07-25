@@ -14,8 +14,7 @@
 #include "UI_CommandButton_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_CommandButton.UI_CommandButton_C.BndEvt__Button_K2Node_ComponentBoundEvent_1_OnButtonPressedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -152,5 +151,5 @@ void UUI_CommandButton_C::UpdateIconDT(const struct FDataTableRowHandle& IconDT_
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

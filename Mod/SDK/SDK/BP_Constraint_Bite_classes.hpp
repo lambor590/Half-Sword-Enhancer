@@ -15,8 +15,7 @@
 #include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Constraint_Bite.BP_Constraint_Bite_C
 // 0x0040 (0x02D0 - 0x0290)
@@ -52,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

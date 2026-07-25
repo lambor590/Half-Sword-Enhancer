@@ -14,8 +14,7 @@
 #include "BP_LevelManager_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_LevelManager.BP_LevelManager_C.Check Availabe Mercenaries
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -54,6 +53,20 @@ void ABP_LevelManager_C::Clean_Up_Map()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_LevelManager_C", "Clean Up Map");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_LevelManager.BP_LevelManager_C.Event Respawn Respawnable Objects With Delay
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_LevelManager_C::Event_Respawn_Respawnable_Objects_With_Delay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_LevelManager_C", "Event Respawn Respawnable Objects With Delay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -140,5 +153,5 @@ void ABP_LevelManager_C::Spawn_Combatants_Mock()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

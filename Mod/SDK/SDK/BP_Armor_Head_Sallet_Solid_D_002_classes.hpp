@@ -13,11 +13,10 @@
 #include "BP_Armor_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Head_Sallet_Solid_D_002.BP_Armor_Head_Sallet_Solid_D_002_C
-// 0x0000 (0x08E0 - 0x08E0)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Head_Sallet_Solid_D_002_C final : public ABP_Armor_Master_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

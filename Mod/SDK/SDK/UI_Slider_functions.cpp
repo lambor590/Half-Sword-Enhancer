@@ -14,8 +14,7 @@
 #include "UI_Slider_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Slider.UI_Slider_C.BndEvt__btn_left_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -506,5 +505,5 @@ ESlateVisibility UUI_Slider_C::TextValueVisibility()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

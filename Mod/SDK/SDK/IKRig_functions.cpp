@@ -14,8 +14,7 @@
 #include "IKRig_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function IKRig.IKGoalCreatorInterface.AddIKGoals
 // (Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -598,5 +597,5 @@ bool UIKRetargeter::HasTargetIKRig() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

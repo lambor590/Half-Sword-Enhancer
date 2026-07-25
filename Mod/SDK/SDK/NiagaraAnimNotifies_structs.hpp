@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct NiagaraAnimNotifies.CurveParameterPair
 // 0x0010 (0x0010 - 0x0000)
@@ -23,5 +22,4 @@ public:
 	class FName                                   UserVariableName;                                  // 0x0008(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

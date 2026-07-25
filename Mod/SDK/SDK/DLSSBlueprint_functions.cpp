@@ -14,8 +14,7 @@
 #include "DLSSBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DLSSBlueprint.DLSSLibrary.EnableDLAA
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
@@ -562,5 +561,5 @@ void UDLSSLibrary::SetDLSSMode(class UObject* WorldContextObject, EUDLSSMode DLS
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

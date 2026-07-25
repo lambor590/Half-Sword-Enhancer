@@ -12,13 +12,12 @@
 
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
-#include "DatasmithContent_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "DatasmithContent_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DatasmithContent.DatasmithObjectTemplate
 // 0x0008 (0x0030 - 0x0028)
@@ -1038,5 +1037,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

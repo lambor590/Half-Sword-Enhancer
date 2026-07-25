@@ -17,8 +17,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosVehicles.ChaosVehicleMovementComponent
 // 0x07D8 (0x0930 - 0x0158)
@@ -348,5 +347,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

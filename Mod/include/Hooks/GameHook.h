@@ -1,117 +1,153 @@
 #pragma once
 
-#include <queue>
-#include <mutex>
+#include <atomic>
+#include <chrono>
+#include <cstdint>
 #include <functional>
+#include <mutex>
+#include <string_view>
+#include <vector>
 
-#include "Utils/CommonHeaders.h"
+#include "Core/ModContext.h"
 #include "Logger.h"
-#include "SDK/CoreUObject_classes.hpp"
-#include "SDK/Basic.hpp"
-#include "MemoryUtils.h"
 
-typedef void* (__stdcall* ProcessEvent)(SDK::UObject*, SDK::UFunction*, void*);
+namespace SDK {
+    class UObject;
+    class UFunction;
+}
 
+using ProcessEvent = void(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
 
-class GameHook
-{
-private:
-    GameHook() = default;
-
+class GameHook {
 public:
-    static GameHook& Get() {
-        static GameHook instance;
-        return instance;
-    }
+    static GameHook& Get();
 
-    void Hook();
+    [[nodiscard]] bool Hook();
+    void Quiesce() noexcept;
     void Unhook();
 
-    void UnlockUEConsole();
-    void LockUEConsole();
+    void SetUEConsoleEnabled(bool enabled);
 
-    static void QueueAction(std::function<void()> action);
-    static void ProcessGameThreadQueue();
+    using QueuedAction = std::function<void(const RuntimeContextSnapshot&)>;
 
-    static void SetInputEnabled(bool enabled);
+    static bool QueueAction(QueuedAction action);
+    [[nodiscard]] bool ExecuteOnGameThreadAndWait(
+        QueuedAction action, std::chrono::milliseconds timeout = std::chrono::seconds(5)
+    );
+    [[nodiscard]] bool IsGameThread() const noexcept;
+    [[nodiscard]] bool IsHooked() const noexcept;
 
-    bool IsHooked() const noexcept { return hooked; }
+    enum class HookPhase : std::uint8_t { Before, After };
 
-    enum class GameEvent : uint8_t {
-        BeginFight,
-        InAbyss,
-        OffLedge,
-        OnTick
+    using HookHandle = std::uint64_t;
+    static constexpr HookHandle INVALID_HOOK_HANDLE = 0;
+
+    struct ProcessEventContext {
+        ProcessEventContext(SDK::UObject* object, SDK::UFunction* function, void* params) noexcept
+            : object(object), function(function), params(params) {}
+
+        SDK::UObject* object = nullptr;
+        SDK::UFunction* function = nullptr;
+        void* params = nullptr;
+
+        void Cancel() noexcept { cancelled = true; }
+        [[nodiscard]] bool IsCancelled() const noexcept { return cancelled; }
+
+        template <typename T> [[nodiscard]] T* Params() const noexcept { return static_cast<T*>(params); }
+
+    private:
+        bool cancelled = false;
     };
 
-    void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
-        QueueAction([this, event, id, cb = std::move(callback)]() mutable {
-            uint8_t idx = static_cast<uint8_t>(event);
-            auto& vec = eventCallbacks[idx];
-            bool first = vec.empty();
-            vec.emplace_back(id, std::move(cb));
-            if (first) {
-                const char* funcName = GetEventFunctionName(event);
-                RegisterHook(funcName, [this, event]() {
-                    uint8_t eventIdx = static_cast<uint8_t>(event);
-                    auto& callbacks = eventCallbacks[eventIdx];
-                    for (auto& pair : callbacks) {
-                        pair.second();
-                    }
-                });
-            }
-        });
-    }
+    using HookCallback = std::function<void(ProcessEventContext&)>;
 
-    void UnregisterEvent(GameEvent event, void* id) {
-        QueueAction([this, event, id]() {
-            uint8_t idx = static_cast<uint8_t>(event);
-            auto& vec = eventCallbacks[idx];
-            for (size_t i = 0; i < vec.size(); ++i) {
-                if (vec[i].first == id) {
-                    vec[i] = std::move(vec.back());
-                    vec.pop_back();
-                    break;
-                }
-            }
-            if (vec.empty()) {
-                const char* funcName = GetEventFunctionName(event);
-                UnregisterHook(funcName);
-            }
-        });
-    }
+    [[nodiscard]] HookHandle Subscribe(std::string_view functionName, HookPhase phase, HookCallback callback);
+    void Unsubscribe(HookHandle handle);
+    [[nodiscard]] bool IsSubscribed(HookHandle handle) noexcept;
 
-    static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EventNames[] = {
-            "ExecuteUbergraph_UI_BeginFight",
-            "ExecuteUbergraph_Abyss_Map_Open_Intermediate", 
-            "OnWalkingOffLedge",
-            "ReceiveTick"
-        };
-        return EventNames[static_cast<uint8_t>(event)];
-    }
-    
+    class SubscriptionGroup {
+    public:
+        [[nodiscard]] HookHandle Subscribe(std::string_view functionName, HookPhase phase, HookCallback callback);
+        void Reset() noexcept;
+        [[nodiscard]] bool IsSubscribed() const noexcept;
+
+        SubscriptionGroup() = default;
+        SubscriptionGroup(const SubscriptionGroup&) = delete;
+        SubscriptionGroup& operator=(const SubscriptionGroup&) = delete;
+
+    private:
+        std::vector<HookHandle> handles;
+    };
 
     GameHook(const GameHook&) = delete;
     GameHook& operator=(const GameHook&) = delete;
 
 private:
-    void RegisterHook(const std::string& functionName, std::function<void()> callback);
-    void RegisterHook(uint64_t hash, std::function<void()> callback);
-    void UnregisterHook(const std::string& functionName);
-    void UnregisterHook(uint64_t hash);
+    enum class DispatchMode : std::uint64_t { Bypass, Running, Blocked };
 
-    Logger logger{ "GameHook" };
-    uintptr_t oProcessEvent = NULL;
-    bool hooked = false;
+    class DispatchLease {
+    public:
+        explicit DispatchLease(GameHook& owner) noexcept;
+        ~DispatchLease();
+        [[nodiscard]] bool DispatchHooks() const noexcept { return dispatchHooks; }
 
-    alignas(64) std::unordered_map<uint64_t, std::function<void()>> hookMap;
-    alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
+        DispatchLease(const DispatchLease&) = delete;
+        DispatchLease& operator=(const DispatchLease&) = delete;
 
-    static std::queue<std::function<void()>> gameThreadQueue;
-    static std::mutex queueMutex;
+    private:
+        GameHook& owner;
+        bool dispatchHooks = false;
+        bool ownsDispatch = false;
+    };
 
-    static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
+    struct HookListener {
+        HookHandle handle = INVALID_HOOK_HANDLE;
+        HookCallback callback;
+    };
 
-    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept;
+    using ListenerList = std::vector<HookListener>;
+
+    struct HookEntry {
+        std::uint64_t nameHash = 0;
+        ListenerList before;
+        ListenerList after;
+    };
+
+    static constexpr std::uint64_t DISPATCH_MODE_SHIFT = 62;
+    static constexpr std::uint64_t DISPATCH_COUNT_MASK = (std::uint64_t{1} << DISPATCH_MODE_SHIFT) - 1;
+
+    GameHook() = default;
+
+    static constexpr std::uint64_t DispatchState(DispatchMode mode, std::uint64_t count = 0) noexcept {
+        return (static_cast<std::uint64_t>(mode) << DISPATCH_MODE_SHIFT) | count;
+    }
+    static constexpr DispatchMode ModeOf(std::uint64_t state) noexcept {
+        return static_cast<DispatchMode>(state >> DISPATCH_MODE_SHIFT);
+    }
+    static constexpr std::uint64_t DispatchCount(std::uint64_t state) noexcept { return state & DISPATCH_COUNT_MASK; }
+
+    [[nodiscard]] bool BeginDispatch() noexcept;
+    void EndDispatch() noexcept;
+    [[nodiscard]] bool IsDispatchRunning() const noexcept;
+    void SetDispatchMode(DispatchMode mode) noexcept;
+    void WaitForDispatches() noexcept;
+    [[nodiscard]] bool CanAccessRegistry() const noexcept;
+    [[nodiscard]] HookEntry* FindHookEntry(std::uint64_t nameHash) noexcept;
+    static void DispatchListeners(const ListenerList& listeners, ProcessEventContext& context);
+
+    Logger logger{"GameHook"};
+    uintptr_t oProcessEvent = 0;
+    uintptr_t processEventAddress = 0;
+    std::atomic<std::uint64_t> dispatchState{DispatchState(DispatchMode::Bypass)};
+    std::atomic<std::uint32_t> gameThreadId{0};
+    std::atomic<bool> hasListeners{false};
+    std::vector<HookEntry> hooks;
+    HookHandle nextHookHandle = 1;
+    std::uint32_t registryGeneration = 1;
+
+    std::vector<QueuedAction> gameThreadQueue;
+    std::mutex queueMutex;
+    std::atomic<bool> hasQueuedActions{false};
+
+    friend void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, void* params) noexcept;
 };

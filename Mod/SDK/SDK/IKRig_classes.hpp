@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "PBIK_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
-#include "PBIK_structs.hpp"
-#include "Engine_classes.hpp"
 #include "IKRig_structs.hpp"
+#include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class IKRig.RetargetOpBase
 // 0x0008 (0x0030 - 0x0028)
@@ -277,6 +276,31 @@ public:
 	}
 };
 
+// Class IKRig.IKRig_SetTransformEffector
+// 0x0008 (0x0030 - 0x0028)
+class UIKRig_SetTransformEffector final : public UObject
+{
+public:
+	bool                                          bEnablePosition;                                   // 0x0028(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bEnableRotation;                                   // 0x0029(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_2A[0x2];                                       // 0x002A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Alpha;                                             // 0x002C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("IKRig_SetTransformEffector")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"IKRig_SetTransformEffector")
+	}
+	static class UIKRig_SetTransformEffector* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UIKRig_SetTransformEffector>();
+	}
+};
+
 // Class IKRig.IKRetargeter
 // 0x01F0 (0x0218 - 0x0028)
 class UIKRetargeter final : public UObject
@@ -359,6 +383,67 @@ public:
 	}
 };
 
+// Class IKRig.IKRigSolver
+// 0x0008 (0x0030 - 0x0028)
+class UIKRigSolver : public UObject
+{
+public:
+	bool                                          bIsEnabled;                                        // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("IKRigSolver")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"IKRigSolver")
+	}
+	static class UIKRigSolver* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UIKRigSolver>();
+	}
+};
+
+// Class IKRig.IKRig_LimbSolver
+// 0x0060 (0x0090 - 0x0030)
+class UIKRig_LimbSolver final : public UIKRigSolver
+{
+public:
+	class FName                                   RootName;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReachPrecision;                                    // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EAxis                                         HingeRotationAxis;                                 // 0x003C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_3D[0x3];                                       // 0x003D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         MaxIterations;                                     // 0x0040(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bEnableLimit;                                      // 0x0044(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_45[0x3];                                       // 0x0045(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         MinRotationAngle;                                  // 0x0048(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bAveragePull;                                      // 0x004C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_4D[0x3];                                       // 0x004D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         PullDistribution;                                  // 0x0050(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReachStepAlpha;                                    // 0x0054(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bEnableTwistCorrection;                            // 0x0058(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EAxis                                         EndBoneForwardAxis;                                // 0x0059(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_5A[0x6];                                       // 0x005A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UIKRig_LimbEffector*                    Effector;                                          // 0x0060(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
+	uint8                                         Pad_68[0x28];                                      // 0x0068(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("IKRig_LimbSolver")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"IKRig_LimbSolver")
+	}
+	static class UIKRig_LimbSolver* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UIKRig_LimbSolver>();
+	}
+};
+
 // Class IKRig.IKRigEffectorGoal
 // 0x00D8 (0x0100 - 0x0028)
 class UIKRigEffectorGoal final : public UObject
@@ -437,63 +522,28 @@ public:
 	}
 };
 
-// Class IKRig.IKRigSolver
-// 0x0008 (0x0030 - 0x0028)
-class UIKRigSolver : public UObject
+// Class IKRig.IKRig_PoleSolverEffector
+// 0x0018 (0x0040 - 0x0028)
+class UIKRig_PoleSolverEffector final : public UObject
 {
 public:
-	bool                                          bIsEnabled;                                        // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
-	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	class FName                                   GoalName;                                          // 0x0028(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   BoneName;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Alpha;                                             // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("IKRigSolver")
+		STATIC_CLASS_IMPL("IKRig_PoleSolverEffector")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"IKRigSolver")
+		STATIC_NAME_IMPL(L"IKRig_PoleSolverEffector")
 	}
-	static class UIKRigSolver* GetDefaultObj()
+	static class UIKRig_PoleSolverEffector* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UIKRigSolver>();
-	}
-};
-
-// Class IKRig.IKRigFBIKSolver
-// 0x00C0 (0x00F0 - 0x0030)
-class UIKRigFBIKSolver final : public UIKRigSolver
-{
-public:
-	class FName                                   RootBone;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	int32                                         Iterations;                                        // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	int32                                         SubIterations;                                     // 0x003C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         MassMultiplier;                                    // 0x0040(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bAllowStretch;                                     // 0x0044(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EPBIKRootBehavior                             RootBehavior;                                      // 0x0045(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_46[0x2];                                       // 0x0046(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRootPrePullSettings                   PrePullRootSettings;                               // 0x0048(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	float                                         PullChainAlpha;                                    // 0x0068(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         MaxAngle;                                          // 0x006C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         OverRelaxation;                                    // 0x0070(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bStartSolveFromInputPose;                          // 0x0074(0x0001)(ZeroConstructor, Deprecated, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_75[0x3];                                       // 0x0075(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class UIKRig_FBIKEffector*>            Effectors;                                         // 0x0078(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
-	TArray<class UIKRig_FBIKBoneSettings*>        BoneSettings;                                      // 0x0088(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
-	uint8                                         Pad_98[0x58];                                      // 0x0098(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("IKRigFBIKSolver")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"IKRigFBIKSolver")
-	}
-	static class UIKRigFBIKSolver* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UIKRigFBIKSolver>();
+		return GetDefaultObjImpl<UIKRig_PoleSolverEffector>();
 	}
 };
 
@@ -581,69 +631,6 @@ public:
 	}
 };
 
-// Class IKRig.IKRig_SetTransform
-// 0x0020 (0x0050 - 0x0030)
-class UIKRig_SetTransform final : public UIKRigSolver
-{
-public:
-	class FName                                   Goal;                                              // 0x0030(0x0008)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   RootBone;                                          // 0x0038(0x0008)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class UIKRig_SetTransformEffector*            Effector;                                          // 0x0040(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
-	uint8                                         Pad_48[0x8];                                       // 0x0048(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("IKRig_SetTransform")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"IKRig_SetTransform")
-	}
-	static class UIKRig_SetTransform* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UIKRig_SetTransform>();
-	}
-};
-
-// Class IKRig.IKRig_LimbSolver
-// 0x0060 (0x0090 - 0x0030)
-class UIKRig_LimbSolver final : public UIKRigSolver
-{
-public:
-	class FName                                   RootName;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReachPrecision;                                    // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EAxis                                         HingeRotationAxis;                                 // 0x003C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_3D[0x3];                                       // 0x003D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         MaxIterations;                                     // 0x0040(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bEnableLimit;                                      // 0x0044(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_45[0x3];                                       // 0x0045(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         MinRotationAngle;                                  // 0x0048(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bAveragePull;                                      // 0x004C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_4D[0x3];                                       // 0x004D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         PullDistribution;                                  // 0x0050(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReachStepAlpha;                                    // 0x0054(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bEnableTwistCorrection;                            // 0x0058(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EAxis                                         EndBoneForwardAxis;                                // 0x0059(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_5A[0x6];                                       // 0x005A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class UIKRig_LimbEffector*                    Effector;                                          // 0x0060(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
-	uint8                                         Pad_68[0x28];                                      // 0x0068(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("IKRig_LimbSolver")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"IKRig_LimbSolver")
-	}
-	static class UIKRig_LimbSolver* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UIKRig_LimbSolver>();
-	}
-};
-
 // Class IKRig.IKRig_FBIKEffector
 // 0x0028 (0x0050 - 0x0028)
 class UIKRig_FBIKEffector final : public UObject
@@ -712,28 +699,40 @@ public:
 	}
 };
 
-// Class IKRig.IKRig_PoleSolverEffector
-// 0x0018 (0x0040 - 0x0028)
-class UIKRig_PoleSolverEffector final : public UObject
+// Class IKRig.IKRigFBIKSolver
+// 0x00C0 (0x00F0 - 0x0030)
+class UIKRigFBIKSolver final : public UIKRigSolver
 {
 public:
-	class FName                                   GoalName;                                          // 0x0028(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   BoneName;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Alpha;                                             // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	class FName                                   RootBone;                                          // 0x0030(0x0008)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         Iterations;                                        // 0x0038(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         SubIterations;                                     // 0x003C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         MassMultiplier;                                    // 0x0040(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bAllowStretch;                                     // 0x0044(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EPBIKRootBehavior                             RootBehavior;                                      // 0x0045(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_46[0x2];                                       // 0x0046(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRootPrePullSettings                   PrePullRootSettings;                               // 0x0048(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	float                                         PullChainAlpha;                                    // 0x0068(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         MaxAngle;                                          // 0x006C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         OverRelaxation;                                    // 0x0070(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bStartSolveFromInputPose;                          // 0x0074(0x0001)(ZeroConstructor, Deprecated, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_75[0x3];                                       // 0x0075(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UIKRig_FBIKEffector*>            Effectors;                                         // 0x0078(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
+	TArray<class UIKRig_FBIKBoneSettings*>        BoneSettings;                                      // 0x0088(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
+	uint8                                         Pad_98[0x58];                                      // 0x0098(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("IKRig_PoleSolverEffector")
+		STATIC_CLASS_IMPL("IKRigFBIKSolver")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"IKRig_PoleSolverEffector")
+		STATIC_NAME_IMPL(L"IKRigFBIKSolver")
 	}
-	static class UIKRig_PoleSolverEffector* GetDefaultObj()
+	static class UIKRigFBIKSolver* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UIKRig_PoleSolverEffector>();
+		return GetDefaultObjImpl<UIKRigFBIKSolver>();
 	}
 };
 
@@ -762,30 +761,29 @@ public:
 	}
 };
 
-// Class IKRig.IKRig_SetTransformEffector
-// 0x0008 (0x0030 - 0x0028)
-class UIKRig_SetTransformEffector final : public UObject
+// Class IKRig.IKRig_SetTransform
+// 0x0020 (0x0050 - 0x0030)
+class UIKRig_SetTransform final : public UIKRigSolver
 {
 public:
-	bool                                          bEnablePosition;                                   // 0x0028(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bEnableRotation;                                   // 0x0029(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_2A[0x2];                                       // 0x002A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         Alpha;                                             // 0x002C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   Goal;                                              // 0x0030(0x0008)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   RootBone;                                          // 0x0038(0x0008)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class UIKRig_SetTransformEffector*            Effector;                                          // 0x0040(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
+	uint8                                         Pad_48[0x8];                                       // 0x0048(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("IKRig_SetTransformEffector")
+		STATIC_CLASS_IMPL("IKRig_SetTransform")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"IKRig_SetTransformEffector")
+		STATIC_NAME_IMPL(L"IKRig_SetTransform")
 	}
-	static class UIKRig_SetTransformEffector* GetDefaultObj()
+	static class UIKRig_SetTransform* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UIKRig_SetTransformEffector>();
+		return GetDefaultObjImpl<UIKRig_SetTransform>();
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

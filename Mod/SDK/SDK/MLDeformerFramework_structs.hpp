@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MLDeformerFramework.EMLDeformerVizMode
 // NumValues: 0x0003
@@ -83,5 +82,4 @@ public:
 	TSoftObjectPtr<class UMLDeformerAsset>        DeformerAsset;                                     // 0x0008(0x0028)(Edit, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

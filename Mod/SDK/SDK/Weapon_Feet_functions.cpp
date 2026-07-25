@@ -14,8 +14,7 @@
 #include "Weapon_Feet_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Feet.Weapon_Feet_C.BndEvt__Weapon_Feet_Box_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -92,5 +91,5 @@ void AWeapon_Feet_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

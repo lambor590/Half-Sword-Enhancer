@@ -5,10 +5,10 @@ This guide details installing the Half Sword Enhancer mod on Linux / SteamDeck a
 
 **Installing the Half Sword Enhancer**
 
-1. **Download the zip:** [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
-2. **Extract DLLs:** Extract the following two DLL files from the downloaded ZIP archive:
-* `dwmapi.dll`
-* `HSEnhancer.dll`
+1. **Download the package:** [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
+2. **Extract DLLs:** Open the ZIP with your archive manager and extract these two files from the `Manual Install` folder:
+* `Manual Install/winmm.dll`
+* `Manual Install/HSEnhancer.dll`
 3. **Locate Game Directory:** Navigate to the game's installation folder.
 
 On desktop Linux the default location is: `/home/username/.steam/steam/steamapps/common/Half Sword Demo/HalfSwordUE5/Binaries/Win64`
@@ -16,7 +16,7 @@ On desktop Linux the default location is: `/home/username/.steam/steam/steamapps
 
 For SteamDeck the location is: `/home/deck/.steam/steam/steamapps/common/Half Sword Demo/HalfSwordUE5/Binaries/Win64`
 
-3. **Place DLLs:** Copy both `dwmapi.dll` and `HSEnhancer.dll` into the `Binaries/Win64` folder. This should be next to the `HalfSwordUE5-Win64-Shipping.exe` executable.
+3. **Place DLLs:** Copy both `winmm.dll` and `HSEnhancer.dll` into the `Binaries/Win64` folder. This should be next to the `HalfSwordUE5-Win64-Shipping.exe` executable.
 
 **Configuring Steam Launch Options**
 
@@ -29,7 +29,7 @@ This method provides a universal way to install the mod, but does not address th
 1. **Open Steam Library:** Right-click on "Half Sword Demo" in your Steam Library and select "Properties".
 2. **Launch Options:** In the "General" tab, find the "Launch Options" field.
 3. **Enter Command:** Add the following command to the Launch Options field:
-`WINEDLLOVERRIDES="dwmapi,HSEnhancer=n" %command%`. This sets the environment variable to tell Wine / Proton that it should load our DLLs in the prefix. The `=n` indicates native-mode, which tells Wine to look in exe directory. `%command%` is where steam puts the game executable.
+`WINEDLLOVERRIDES="winmm,HSEnhancer=n" %command%`. This sets the environment variable to tell Wine / Proton that it should load our DLLs in the prefix. The `=n` indicates native-mode, which tells Wine to look in exe directory. `%command%` is where steam puts the game executable.
 
 **B. Hardest Method - Fix Mouse Escape (With Mod)**
 
@@ -41,11 +41,11 @@ This method combines both the mod and the mouse fix. It requires extra steps to 
 4. **Select Wineprefix:** Select "Select the default wineprefix".
 5. **Run Winecfg:** Select "Run winecfg".
 6. **Libraries Tab:** In the "Libraries" tab, enter the following (without the `.dll` extension) in the "New override for library" field:
-* `dwmapi`
+* `winmm`
 * `HSEnhancer`
-7. **Verify Override:** The list should now display `dwmapi` and `HSEnhancer` with a setting of `n,b` (native first, then built-in). This is the desired setting.
+7. **Verify Override:** The list should now display `winmm` and `HSEnhancer` with a setting of `n,b` (native first, then built-in). This is the desired setting.
 8. **Exit:** Exit all Protontricks windows.
-9. **Install Gamescope:** If you are not on SteamDeck, you wont have gamescope automatically installed. **NOTE:** The gamescope package is currently bugged and requires recent patches to capture the mouse. More details in final section. 
+9. **Install Gamescope:** If you are not on SteamDeck, you wont have gamescope automatically installed. **NOTE:** The gamescope package is currently bugged and requires recent patches to capture the mouse. More details in final section.
 
 10. **Steam Launch Options:** Now, add the following to the Steam Launch Options to:
 `gamescope -w 1920 -h 1080 -r 144 --force-grab-cursor -- %command%`

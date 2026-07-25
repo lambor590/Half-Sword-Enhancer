@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MediaAssets.MediaTextureOutputFormat
 // NumValues: 0x0003
@@ -171,5 +170,25 @@ public:
 	class FString                                 URL;                                               // 0x0010(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction MediaAssets.OnMediaPlayerMediaEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MediaAssets
+{
+using FDelegateSignature_OnMediaPlayerMediaEvent = void();
 }
 
+// DelegateFunction MediaAssets.OnMediaPlayerMediaOpened__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MediaAssets
+{
+using FDelegateSignature_OnMediaPlayerMediaOpened = void(const class FString& OpenedUrl);
+}
+
+// DelegateFunction MediaAssets.OnMediaPlayerMediaOpenFailed__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MediaAssets
+{
+using FDelegateSignature_OnMediaPlayerMediaOpenFailed = void(const class FString& FailedUrl);
+}
+
+SDK_NAMESPACE_END

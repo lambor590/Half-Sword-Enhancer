@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PropertyPath.EPropertyPathTestEnum
 // NumValues: 0x0005
@@ -103,5 +102,4 @@ public:
 	struct FPropertyPathTestStruct                DefaultStruct;                                     // 0x0070(0x0060)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

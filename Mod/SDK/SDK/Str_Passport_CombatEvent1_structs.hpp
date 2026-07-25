@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Passport_CombatEvent1.Str_Passport_CombatEvent1
 // 0x0048 (0x0048 - 0x0000)
@@ -39,5 +38,4 @@ public:
 	Enum_Ranks                                    Tier_38_C21E98C34F256B9DCAA0628D037308BC;          // 0x0040(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

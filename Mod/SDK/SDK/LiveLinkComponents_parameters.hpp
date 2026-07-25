@@ -13,8 +13,8 @@
 #include "LiveLinkInterface_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function LiveLinkComponents.LiveLinkComponentController.SetSubjectRepresentation
 // 0x0010 (0x0010 - 0x0000)
@@ -32,5 +32,5 @@ public:
 	struct FLiveLinkSubjectRepresentation         ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

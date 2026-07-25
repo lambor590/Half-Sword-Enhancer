@@ -13,8 +13,7 @@
 #include "Str_Passport_Armor1_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_SubPassport_AvailableArmorInSlots.Str_SubPassport_AvailableArmorInSlots
 // 0x0010 (0x0010 - 0x0000)
@@ -24,5 +23,4 @@ public:
 	TArray<struct FStr_Passport_Armor1>           ArmorArrayinSlot_27_BD7AC6CB43FBB2FDB943E7864486F358; // 0x0000(0x0010)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

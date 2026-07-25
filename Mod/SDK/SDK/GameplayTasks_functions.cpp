@@ -14,8 +14,7 @@
 #include "GameplayTasks_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GameplayTasks.GameplayTask.EndTask
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -310,5 +309,5 @@ class UGameplayTask_WaitDelay* UGameplayTask_WaitDelay::TaskWaitDelay(TScriptInt
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

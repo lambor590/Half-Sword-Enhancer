@@ -15,8 +15,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function AnimGraphRuntime.AnimNodeRigidBodyLibrary.ConvertToRigidBodyAnimNode
 // 0x0028 (0x0028 - 0x0000)
@@ -1218,5 +1218,5 @@ public:
 	struct FSkeletalControlReference              ReturnValue;                                       // 0x0018(0x0010)(Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

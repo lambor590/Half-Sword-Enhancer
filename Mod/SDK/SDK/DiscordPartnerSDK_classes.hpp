@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_classes.hpp"
 #include "DiscordPartnerSDK_structs.hpp"
 #include "Engine_classes.hpp"
 #include "DeveloperSettings_classes.hpp"
+#include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DiscordPartnerSDK.DiscordLocalPlayerSubsystem
 // 0x0118 (0x0148 - 0x0030)
@@ -1194,7 +1193,7 @@ public:
 	void EndCall(const struct FDiscordUniqueID& ChannelId, const TDelegate<void()>& Callback);
 	void EndCalls(const TDelegate<void()>& Callback);
 	void ExchangeChildToken(const class FString& parentApplicationToken, const struct FDiscordUniqueID& childApplicationId, const TDelegate<void(class UDiscordClientResult* Result, const class FString& accessToken, EDiscordAuthorizationTokenType tokenType, int32 expiresIn, const class FString& Scopes)>& Callback);
-	void FetchCurrentUser(EDiscordAuthorizationTokenType tokenType, const class FString& Token, const TDelegate<void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name)>& Callback);
+	void FetchCurrentUser(EDiscordAuthorizationTokenType tokenType, const class FString& Token, const TDelegate<void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name_0)>& Callback);
 	struct FDiscordUniqueID GetApplicationId();
 	class UDiscordCall* GetCall(const struct FDiscordUniqueID& ChannelId);
 	TArray<class UDiscordCall*> GetCalls();
@@ -1360,5 +1359,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

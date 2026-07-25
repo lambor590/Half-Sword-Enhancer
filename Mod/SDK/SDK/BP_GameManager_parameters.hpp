@@ -10,17 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_GameManager.BP_GameManager_C.Create Pre-Made Weapon
 // 0x0490 (0x0490 - 0x0000)
@@ -167,7 +167,7 @@ public:
 };
 
 // Function BP_GameManager.BP_GameManager_C.Generate Random Combat Event
-// 0x0110 (0x0110 - 0x0000)
+// 0x0120 (0x0120 - 0x0000)
 struct BP_GameManager_C_Generate_Random_Combat_Event final
 {
 public:
@@ -200,10 +200,12 @@ public:
 	uint8                                         Pad_BE[0x2];                                       // 0x00BE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FStr_Passport_CombatEvent1             CallFunc_Generate_Combat_Event_Passport;           // 0x00C0(0x0048)(HasGetValueTypeHash)
 	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0108(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_10C[0x4];                                      // 0x010C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0110(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 };
 
 // Function BP_GameManager.BP_GameManager_C.Generate Random Equipment
-// 0x08D0 (0x08D0 - 0x0000)
+// 0x0900 (0x0900 - 0x0000)
 struct BP_GameManager_C_Generate_Random_Equipment final
 {
 public:
@@ -366,18 +368,18 @@ public:
 	struct FTransform                             CallFunc_MakeTransform_ReturnValue_3;              // 0x0620(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_3; // 0x0680(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class ABP_Generator_Armor_Random_C*           CallFunc_FinishSpawningActor_ReturnValue_3;        // 0x0688(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   CallFunc_Generate_Armor_Armor_Passport;            // 0x0690(0x00A8)(HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Add_ReturnValue_3;                  // 0x0738(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_73C[0x4];                                      // 0x073C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue_4;              // 0x0740(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x07A0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_7A4[0x4];                                      // 0x07A4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_4; // 0x07A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Subtract_IntInt_ReturnValue_3;            // 0x07B0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_7B4[0x4];                                      // 0x07B4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class ABP_Generator_Weapons_Random_C*         CallFunc_FinishSpawningActor_ReturnValue_4;        // 0x07B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Weapon1                  CallFunc_Generate_Weapon_Weapon_Passport_3;        // 0x07C0(0x0100)(NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Add_ReturnValue_4;                  // 0x08C0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   CallFunc_Generate_Armor_Armor_Passport;            // 0x0690(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue_3;                  // 0x0768(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_76C[0x4];                                      // 0x076C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue_4;              // 0x0770(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x07D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7D4[0x4];                                      // 0x07D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_4; // 0x07D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue_3;            // 0x07E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7E4[0x4];                                      // 0x07E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class ABP_Generator_Weapons_Random_C*         CallFunc_FinishSpawningActor_ReturnValue_4;        // 0x07E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  CallFunc_Generate_Weapon_Weapon_Passport_3;        // 0x07F0(0x0100)(NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue_4;                  // 0x08F0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function BP_GameManager.BP_GameManager_C.Rearrange Combat Events
@@ -436,5 +438,5 @@ public:
 	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue_1;        // 0x0100(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

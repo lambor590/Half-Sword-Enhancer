@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_Nationalities.Enum_Nationalities
 // NumValues: 0x0008
@@ -28,5 +27,4 @@ enum class Enum_Nationalities : uint8
 	Enum_MAX                                 = 7,
 };
 
-}
-
+SDK_NAMESPACE_END

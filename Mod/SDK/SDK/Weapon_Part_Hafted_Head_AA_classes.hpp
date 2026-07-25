@@ -15,8 +15,7 @@
 #include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Head_AA.Weapon_Part_Hafted_Head_AA_C
 // 0x0008 (0x0438 - 0x0430)
@@ -43,5 +42,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

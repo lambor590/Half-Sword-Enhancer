@@ -9,13 +9,11 @@
 // PROPERTY-FIXUP
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 class alignas(0x01) FMulticastSparseDelegateProperty_
 {
 	unsigned __int8 Pad[0x1];
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum SwitchGrip_Type_Enum.SwitchGrip_Type_Enum
 // NumValues: 0x0004
@@ -24,5 +23,4 @@ enum class ESwitchGrip_Type_Enum : uint8
 	SwitchGrip_Type_MAX                      = 3,
 };
 
-}
-
+SDK_NAMESPACE_END

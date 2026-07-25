@@ -14,8 +14,7 @@
 #include "AppleImageUtils_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class AppleImageUtils.AppleImageInterface
 // 0x0000 (0x0000 - 0x0000)
@@ -78,5 +77,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

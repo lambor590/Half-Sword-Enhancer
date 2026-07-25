@@ -14,8 +14,7 @@
 #include "UI_StartUpScreen_3_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_StartUpScreen_3.UI_StartUpScreen_3_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
 // (BlueprintEvent)
@@ -70,5 +69,5 @@ void UUI_StartUpScreen_3_C::Construct()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+if ! command -v lizard &>/dev/null; then
+    echo "lizard not found. Install with: pip install lizard"
+    exit 2
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SUPPRESSIONS="$SCRIPT_DIR/complexity-suppressions.txt"
+cd "$SCRIPT_DIR/.."
+
+echo "Running complexity analysis..."
+echo ""
+
+WARNINGS=$(lizard Mod/src/ Mod/include/ Launcher/src/ Launcher/include/ Proxy/src/ UE4SSBridge/src/ \
+    --exclude "Mod/SDK/*" --exclude "Mod/ext/*" --exclude "ext/*" \
+    --CCN 15 --length 100 --arguments 10 \
+    --sort cyclomatic_complexity -w 2>&1)
+
+if [ -z "$WARNINGS" ]; then
+    echo "All functions within complexity thresholds."
+    exit 0
+fi
+
+FILTERED="$WARNINGS"
+SUPPRESSION_PATTERN=$(awk '
+    {
+        sub(/#.*/, "")
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+        if ($0 != "") print
+    }
+' "$SUPPRESSIONS" | paste -sd '|' -)
+
+if [ -n "$SUPPRESSION_PATTERN" ]; then
+    FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS")
+fi
+
+if [ -z "$FILTERED" ]; then
+    echo "All warnings are suppressed ($(wc -l <<< "$WARNINGS") known exceptions in complexity-suppressions.txt)."
+    exit 0
+fi
+
+echo "$FILTERED"
+REMAINING=$(echo "$FILTERED" | wc -l)
+echo ""
+echo "WARNING: $REMAINING function(s) exceed complexity thresholds (CCN>15, length>100, args>10)"
+
+SUPPRESSED=$(($(wc -l <<< "$WARNINGS") - REMAINING))
+if [ "$SUPPRESSED" -gt 0 ]; then
+    echo "  ($SUPPRESSED additional warnings suppressed via complexity-suppressions.txt)"
+fi
+
+exit 1

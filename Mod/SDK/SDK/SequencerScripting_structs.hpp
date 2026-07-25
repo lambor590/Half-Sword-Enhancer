@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum SequencerScripting.ESequenceTimeUnit
 // NumValues: 0x0003
@@ -38,5 +37,4 @@ public:
 	struct FFrameRate                             InternalRate;                                      // 0x000C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Tevern_LowerPanel.UI_Tevern_LowerPanel_C
 // 0x0040 (0x0320 - 0x02E0)
@@ -58,5 +57,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

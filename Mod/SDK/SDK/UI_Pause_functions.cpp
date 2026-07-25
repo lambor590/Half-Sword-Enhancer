@@ -14,8 +14,7 @@
 #include "UI_Pause_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Pause.UI_Pause_C.BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -358,5 +357,5 @@ void UUI_Pause_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

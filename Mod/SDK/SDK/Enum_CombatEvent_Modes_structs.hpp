@@ -11,11 +11,10 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_CombatEvent_Modes.Enum_CombatEvent_Modes
-// NumValues: 0x000A
+// NumValues: 0x000C
 enum class Enum_CombatEvent_Modes : uint8
 {
 	NewEnumerator2                           = 0,
@@ -27,8 +26,9 @@ enum class Enum_CombatEvent_Modes : uint8
 	NewEnumerator10                          = 6,
 	NewEnumerator9                           = 7,
 	NewEnumerator6                           = 8,
-	Enum_CombatEvent_MAX                     = 9,
+	NewEnumerator11                          = 9,
+	NewEnumerator12                          = 10,
+	Enum_CombatEvent_MAX                     = 11,
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "DeveloperSettings_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DeveloperSettings.DeveloperSettings
 // 0x0010 (0x0038 - 0x0028)
@@ -103,5 +102,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

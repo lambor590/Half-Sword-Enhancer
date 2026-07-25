@@ -17,8 +17,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ZibraVDBRuntime.ZibraVDBActor
 // 0x0028 (0x02B8 - 0x0290)
@@ -372,5 +371,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

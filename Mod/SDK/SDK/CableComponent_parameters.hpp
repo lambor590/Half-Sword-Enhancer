@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function CableComponent.CableComponent.SetAttachEndTo
 // 0x0018 (0x0018 - 0x0000)
@@ -59,5 +59,5 @@ public:
 	TArray<struct FVector>                        Locations;                                         // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

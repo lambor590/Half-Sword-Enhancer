@@ -10,62 +10,135 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
-#include "CoreUObject_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "UMG_structs.hpp"
+#include "STR_ArmorTierColorSwatch_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Swatch_Type_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
+#include "STR_ArmorTextureSwatch_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.Add Armor to List
-// 0x0130 (0x0130 - 0x0000)
+// 0x0160 (0x0160 - 0x0000)
 struct UI_Armorer_Frank_C_Add_Armor_to_List final
 {
 public:
-	struct FStr_Passport_Armor1                   InputPin;                                          // 0x0000(0x00A8)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-	bool                                          Is_Equipped;                                       // 0x00A8(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A9[0x7];                                       // 0x00A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x00B0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue;                  // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0118(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0128(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x012C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   InputPin;                                          // 0x0000(0x00D8)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+	bool                                          Is_Equipped;                                       // 0x00D8(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D9[0x7];                                       // 0x00D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue;                  // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E8[0x8];                                       // 0x00E8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x00F0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0150(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0158(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.AnimateFilterButton
+// 0x00A8 (0x00A8 - 0x0000)
+struct UI_Armorer_Frank_C_AnimateFilterButton final
 {
 public:
-	bool                                          bIsChecked;                                        // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UButton*                                FilterButton;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsHovered_0;                                       // 0x0008(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9[0x7];                                        // 0x0009(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_RandomFloatInRange_ReturnValue;           // 0x0010(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FWidgetTransform                       K2Node_MakeStruct_WidgetTransform;                 // 0x0018(0x0038)(NoDestructor)
+	class UCanvasPanelSlot*                       CallFunc_SlotAsCanvasSlot_ReturnValue;             // 0x0050(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_GetZOrder_ReturnValue;                    // 0x0058(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_GetZOrder_ReturnValue_1;                  // 0x005C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0060(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0064(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FWidgetTransform                       K2Node_MakeStruct_WidgetTransform_1;               // 0x0068(0x0038)(NoDestructor)
+	float                                         K2Node_MakeStruct_Angle_ImplicitCast;              // 0x00A0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment1_GetName
+// 0x00A0 (0x00A0 - 0x0000)
+struct UI_Armorer_Frank_C_Attachment1_GetName final
 {
 public:
-	bool                                          bIsChecked;                                        // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_MakeLiteralText_ReturnValue;              // 0x0010(0x0010)()
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UClass*>                         Temp_class_Variable;                               // 0x0028(0x0010)(ReferenceParm)
+	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_49[0x7];                                       // 0x0049(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0050(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0060(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0070(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_74[0x4];                                       // 0x0074(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0078(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue_1;             // 0x0088(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_89[0x7];                                       // 0x0089(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0090(0x0010)()
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment2_GetName
+// 0x00A0 (0x00A0 - 0x0000)
+struct UI_Armorer_Frank_C_Attachment2_GetName final
 {
 public:
-	bool                                          bIsChecked;                                        // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_MakeLiteralText_ReturnValue;              // 0x0010(0x0010)()
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UClass*>                         Temp_class_Variable;                               // 0x0028(0x0010)(ReferenceParm)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0050(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0060(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0070(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0080(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_84[0x4];                                       // 0x0084(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0088(0x0010)()
+	bool                                          CallFunc_Greater_IntInt_ReturnValue_1;             // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Attachment3_GetName
+// 0x00A0 (0x00A0 - 0x0000)
+struct UI_Armorer_Frank_C_Attachment3_GetName final
 {
 public:
-	bool                                          bIsChecked;                                        // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	TArray<class UClass*>                         Temp_class_Variable;                               // 0x0010(0x0010)(ReferenceParm)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_MakeLiteralText_ReturnValue;              // 0x0028(0x0010)()
+	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_49[0x7];                                       // 0x0049(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0050(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0060(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0070(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_74[0x4];                                       // 0x0074(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0078(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue_1;             // 0x0088(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_89[0x7];                                       // 0x0089(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0090(0x0010)()
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.AttachmentCore_GetName
+// 0x0060 (0x0060 - 0x0000)
+struct UI_Armorer_Frank_C_AttachmentCore_GetName final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature
@@ -86,208 +159,371 @@ public:
 	bool                                          bIsHovered;                                        // 0x0008(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature
-// 0x0008 (0x0008 - 0x0000)
-struct UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature final
-{
-public:
-	class UObject*                                Item;                                              // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.ExecuteUbergraph_UI_Armorer_Frank
-// 0x0E60 (0x0E60 - 0x0000)
+// 0x0EC0 (0x0EC0 - 0x0000)
 struct UI_Armorer_Frank_C_ExecuteUbergraph_UI_Armorer_Frank final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             Temp_object_Variable;                              // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_1;                            // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_2;                            // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_3;                            // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_4;                            // 0x0028(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_5;                            // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_6;                            // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_7;                            // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_11;                           // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_12;                           // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_13;                           // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_14;                           // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_15;                           // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_16;                           // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_True_if_break_was_hit_Variable;          // 0x0090(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_91[0x3];                                       // 0x0091(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Temp_int_Array_Index_Variable;                     // 0x0094(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x0099(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_9A[0x2];                                       // 0x009A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x009C(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x00D4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UObject*                                K2Node_ComponentBoundEvent_Item_2;                 // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUserWidget*                            K2Node_ComponentBoundEvent_Widget;                 // 0x00E8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x00F8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_F9[0x7];                                       // 0x00F9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class AWillie_BP_DressUp_C*>           CallFunc_GetAllActorsOfClassWithTag_OutActors;     // 0x0100(0x0010)(ReferenceParm)
-	class UObject*                                K2Node_ComponentBoundEvent_Item_1;                 // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_DressUp_C*                   CallFunc_Array_Get_Item;                           // 0x0118(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UBP_GameItem_Armor_C*                   K2Node_DynamicCast_AsBP_Game_Item_Armor;           // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0128(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_129[0x7];                                      // 0x0129(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0130(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0190(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0198(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x01A0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x01A4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x01A8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue_1;             // 0x01A9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1AA[0x2];                                      // 0x01AA(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Array_Length_ReturnValue_2;               // 0x01AC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue_2;             // 0x01B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x01B1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1B2[0x6];                                      // 0x01B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUI_Hub_Tavern_C*                       CallFunc_Create_ReturnValue;                       // 0x01B8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Array_Index_Variable_1;                   // 0x01C0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsChecked_3;           // 0x01C4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x01C5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1C6[0x2];                                      // 0x01C6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x01C8(0x00A8)(HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsChecked_2;           // 0x0270(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_271[0x3];                                      // 0x0271(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x0274(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_1;                  // 0x0278(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_2;                  // 0x027C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_1;           // 0x0280(0x00A8)(HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsChecked_1;           // 0x0328(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_329[0x3];                                      // 0x0329(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_3;                  // 0x032C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_4;                  // 0x0330(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_334[0x4];                                      // 0x0334(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_2;           // 0x0338(0x00A8)(HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsChecked;             // 0x03E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_3E1[0x3];                                      // 0x03E1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_5;                  // 0x03E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_3;           // 0x03E8(0x00A8)(HasGetValueTypeHash)
-	bool                                          CallFunc_IsValidClass_ReturnValue;                 // 0x0490(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_491[0xF];                                      // 0x0491(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue_1;              // 0x04A0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_1; // 0x0500(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_1;        // 0x0508(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_4;           // 0x0510(0x00A8)(HasGetValueTypeHash)
-	uint8                                         Pad_5B8[0x8];                                      // 0x05B8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue_2;              // 0x05C0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x0620(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValidClass_ReturnValue_1;               // 0x0628(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_629[0x7];                                      // 0x0629(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x0630(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_5;           // 0x0638(0x00A8)(HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_6;           // 0x06E0(0x00A8)(HasGetValueTypeHash)
-	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1; // 0x0788(0x0010)(ReferenceParm)
-	EArmorSlots_Enum                              Temp_byte_Variable_1;                              // 0x0798(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_799[0x7];                                      // 0x0799(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_1;                         // 0x07A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x07A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_2;                         // 0x07B0(0x00A8)(HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x0858(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_RemoveItem_ReturnValue;             // 0x085C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x085D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_85E[0x2];                                      // 0x085E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0860(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0864(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0868(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue_4;               // 0x0870(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0874(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_875[0x3];                                      // 0x0875(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<EArmorSlots_Enum>                      CallFunc_Map_Keys_Keys;                            // 0x0878(0x0010)(ReferenceParm)
-	EArmorSlots_Enum                              CallFunc_Array_Get_Item_3;                         // 0x0888(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_889[0x3];                                      // 0x0889(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Array_Length_ReturnValue_5;               // 0x088C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   CallFunc_Map_Find_Value;                           // 0x0890(0x00A8)(HasGetValueTypeHash)
-	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x0938(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_939[0x3];                                      // 0x0939(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Temp_int_Loop_Counter_Variable_1;                  // 0x093C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Array_Index_Variable_2;                   // 0x0940(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_944[0x4];                                      // 0x0944(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_4;                         // 0x0948(0x00A8)(HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue_1;                // 0x09F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_9F1[0x3];                                      // 0x09F1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Add_IntInt_ReturnValue_1;                 // 0x09F4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Temp_byte_Variable_2;                              // 0x09F8(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue_2;                // 0x09F9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_9FA[0x6];                                      // 0x09FA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_7;           // 0x0A00(0x00A8)(HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_1;          // 0x0AA8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AA9[0x3];                                      // 0x0AA9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_6;                  // 0x0AAC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_2;          // 0x0AB0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AB1[0x3];                                      // 0x0AB1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_7;                  // 0x0AB4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_8;                  // 0x0AB8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_ABC[0x4];                                      // 0x0ABC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue;                  // 0x0AC0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_3;          // 0x0AC8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AC9[0x3];                                      // 0x0AC9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_9;                  // 0x0ACC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_4;          // 0x0AD0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AD1[0x3];                                      // 0x0AD1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_10;                 // 0x0AD4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_5;          // 0x0AD8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AD9[0x3];                                      // 0x0AD9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_11;                 // 0x0ADC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_8;           // 0x0AE0(0x00A8)(HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_12;                 // 0x0B88(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_B8C[0x4];                                      // 0x0B8C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_9;           // 0x0B90(0x00A8)(HasGetValueTypeHash)
-	int32                                         CallFunc_SelectInt_ReturnValue_13;                 // 0x0C38(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C3C[0x4];                                      // 0x0C3C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                K2Node_ComponentBoundEvent_Item;                   // 0x0C40(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsHovered;             // 0x0C48(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C49[0x3];                                      // 0x0C49(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_SelectInt_ReturnValue_14;                 // 0x0C4C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_10;          // 0x0C50(0x00A8)(HasGetValueTypeHash)
-	class UTexture2D*                             K2Node_Select_Default;                             // 0x0CF8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Temp_byte_Variable_3;                              // 0x0D00(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_D01[0x7];                                      // 0x0D01(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Subtract_DoubleDouble_ReturnValue;        // 0x0D08(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_DoubleDouble_ReturnValue;         // 0x0D10(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_D11[0xF];                                      // 0x0D11(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue_3;              // 0x0D20(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_SelectFloat_ReturnValue;                  // 0x0D80(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0D88(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_3; // 0x0D90(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_3;        // 0x0D98(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue_4;              // 0x0DA0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Loop_Counter_Variable_2;                  // 0x0E00(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E04[0x4];                                      // 0x0E04(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_4; // 0x0E08(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue_2;                // 0x0E10(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0E11(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E12[0x6];                                      // 0x0E12(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_4;        // 0x0E18(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Add_IntInt_ReturnValue_2;                 // 0x0E20(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Round_ReturnValue;                        // 0x0E24(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0E28(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E29[0x3];                                      // 0x0E29(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Round_ReturnValue_1;                      // 0x0E2C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0E30(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E34[0x4];                                      // 0x0E34(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue_1;                // 0x0E38(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_Contains_ReturnValue;               // 0x0E40(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_RemoveItem_ReturnValue_1;           // 0x0E41(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E42[0x2];                                      // 0x0E42(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Array_Add_ReturnValue;                    // 0x0E44(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_Contains_ReturnValue_1;             // 0x0E48(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_Contains_ReturnValue_2;             // 0x0E49(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue_3;                // 0x0E4A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue_4;                // 0x0E4B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_RemoveItem_ReturnValue_2;           // 0x0E4C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E4D[0x3];                                      // 0x0E4D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0E50(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_Conv_DoubleToVector_ReturnValue;          // 0x0008(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Conv_DoubleToVector_ReturnValue_1;        // 0x0020(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_True_if_break_was_hit_Variable;          // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_39[0x3];                                       // 0x0039(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Temp_int_Array_Index_Variable;                     // 0x003C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0040(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x0041(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_42[0x6];                                       // 0x0042(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                K2Node_ComponentBoundEvent_Item_1;                 // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUserWidget*                            K2Node_ComponentBoundEvent_Widget;                 // 0x0058(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0068(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_69[0x7];                                       // 0x0069(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class AWillie_BP_C*>                   CallFunc_GetAllActorsOfClassWithTag_OutActors;     // 0x0070(0x0010)(ReferenceParm)
+	class AWillie_BP_C*                           CallFunc_Array_Get_Item;                           // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValidClass_ReturnValue;                 // 0x0088(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_89[0x7];                                       // 0x0089(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0090(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x00F8(0x00D8)(HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x01D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_1;           // 0x01D8(0x00D8)(HasGetValueTypeHash)
+	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1;  // 0x02B0(0x0010)(ReferenceParm)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x02C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_1;                         // 0x02C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x02D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x02D8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2D9[0x7];                                      // 0x02D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_2;           // 0x02E0(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x03B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3B9[0x3];                                      // 0x03B9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x03BC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_1;          // 0x03C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3C1[0x3];                                      // 0x03C1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue_1;                  // 0x03C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue_2;                  // 0x03C8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Remove_ReturnValue;                   // 0x03CC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_2;          // 0x03CD(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3CE[0x2];                                      // 0x03CE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue_3;                  // 0x03D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_3;          // 0x03D4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3D5[0x3];                                      // 0x03D5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue_4;                  // 0x03D8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_4;          // 0x03DC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3DD[0x3];                                      // 0x03DD(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue_5;                  // 0x03E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3E4[0x4];                                      // 0x03E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_3;           // 0x03E8(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue_6;                  // 0x04C0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue_7;                  // 0x04C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_4;           // 0x04C8(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue_8;                  // 0x05A0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_5A4[0x4];                                      // 0x05A4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                K2Node_ComponentBoundEvent_Item;                   // 0x05A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_ComponentBoundEvent_bIsHovered;             // 0x05B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_5B1[0x7];                                      // 0x05B1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_5;           // 0x05B8(0x00D8)(HasGetValueTypeHash)
+	class UBP_GameItem_Weapon_C*                  K2Node_DynamicCast_AsBP_Game_Item_Weapon;          // 0x0690(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0698(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_699[0x7];                                      // 0x0699(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UBP_GameItem_Armor_C*                   K2Node_DynamicCast_AsBP_Game_Item_Armor;           // 0x06A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_2;                     // 0x06A8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_6A9[0x7];                                      // 0x06A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue_1;              // 0x06B0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Subtract_DoubleDouble_ReturnValue;        // 0x0710(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_DoubleDouble_ReturnValue;         // 0x0718(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_719[0x7];                                      // 0x0719(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_SelectFloat_ReturnValue;                  // 0x0720(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_1; // 0x0728(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0730(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_1;        // 0x0738(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Round_ReturnValue;                        // 0x0740(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0744(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_745[0x3];                                      // 0x0745(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Round_ReturnValue_1;                      // 0x0748(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x074C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0750(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0754(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_2;                         // 0x0758(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Array_RemoveItem_ReturnValue;             // 0x0830(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_831[0x3];                                      // 0x0831(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0834(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0838(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0839(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_83A[0x2];                                      // 0x083A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x083C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0840(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_1;                   // 0x0844(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_True_if_break_was_hit_Variable_1;        // 0x0848(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_849[0x7];                                      // 0x0849(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_3;                         // 0x0850(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Array_RemoveItem_ReturnValue_1;           // 0x0928(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_2;                // 0x0929(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_5;          // 0x092A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ClassClass_ReturnValue;        // 0x092B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x092C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_92D[0x3];                                      // 0x092D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array;                            // 0x0930(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_1;                          // 0x0940(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_2;                          // 0x0950(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_3;                          // 0x0960(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_4;                          // 0x0970(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_5;                          // 0x0980(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_6;                          // 0x0990(0x0010)(ReferenceParm)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_7;                          // 0x09A0(0x0010)(ReferenceParm)
+	int32                                         CallFunc_Array_Length_ReturnValue_2;               // 0x09B0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_LessEqual_IntInt_ReturnValue;             // 0x09B4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9B5[0x3];                                      // 0x09B5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class UUI_Hub_Tavern_C*                       CallFunc_Create_ReturnValue;                       // 0x09B8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	TArray<EArmorSlots_Enum>                      K2Node_MakeArray_Array_8;                          // 0x09C0(0x0010)(ReferenceParm)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x09D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x09D1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x09D2(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable_1;                              // 0x09D3(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_2;                    // 0x09D4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsPackagedForDistribution_ReturnValue;    // 0x09D5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9D6[0x2];                                      // 0x09D6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Temp_int_Loop_Counter_Variable_1;                  // 0x09D8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_1;                // 0x09DC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9DD[0x3];                                      // 0x09DD(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Add_IntInt_ReturnValue_1;                 // 0x09E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x09E4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9E5[0x3];                                      // 0x09E5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_RandomInteger_ReturnValue;                // 0x09E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9EC[0x4];                                      // 0x09EC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_6;           // 0x09F0(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue_1;            // 0x0AC8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue;                    // 0x0ACC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_7;           // 0x0AD0(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_8;           // 0x0BA8(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue_1;                  // 0x0C80(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue_2;                  // 0x0C84(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_9;           // 0x0C88(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Add_ReturnValue_3;                  // 0x0D60(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_6;          // 0x0D64(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D65[0x3];                                      // 0x0D65(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue;                  // 0x0D68(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ClassClass_ReturnValue_1;      // 0x0D70(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x0D71(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D72[0x6];                                      // 0x0D72(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_GetUpVector_ReturnValue;                  // 0x0D78(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_GetForwardVector_ReturnValue;             // 0x0D90(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Multiply_VectorVector_ReturnValue;        // 0x0DA8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Multiply_VectorVector_ReturnValue_1;      // 0x0DC0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_K2_GetActorLocation_ReturnValue;          // 0x0DD8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Add_VectorVector_ReturnValue;             // 0x0DF0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Add_VectorVector_ReturnValue_1;           // 0x0E08(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_2;  // 0x0E20(0x0010)(ReferenceParm)
+	struct FTransform                             CallFunc_Conv_VectorToTransform_ReturnValue;       // 0x0E30(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_4;                         // 0x0E90(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x0E98(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AModularWeaponBP_C*                     CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x0EA0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_3; // 0x0EA8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_3;        // 0x0EB0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0EB8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.FillItemsList
+// 0x03E0 (0x03E0 - 0x0000)
+struct UI_Armorer_Frank_C_FillItemsList final
+{
+public:
+	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_1;                  // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_1;                 // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable;                     // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_2;                  // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_2;                 // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_1;                   // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_2;                   // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_3;                  // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_3;                 // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_3;                   // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item;                           // 0x0030(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0108(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x010C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue;               // 0x010D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue_1;             // 0x010E(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x010F(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              CallFunc_Array_Get_Item_1;                         // 0x0110(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_111[0x3];                                      // 0x0111(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x0114(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_1;                // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_119[0x7];                                      // 0x0119(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   CallFunc_Map_Find_Value;                           // 0x0120(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x01F8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1F9[0x7];                                      // 0x01F9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_2;                         // 0x0200(0x00D8)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_2;               // 0x02D8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue_2;             // 0x02DC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_2;                // 0x02DD(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x02DE(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue_3;             // 0x02DF(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_2;                // 0x02E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2E1[0x7];                                      // 0x02E1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<EArmorSlots_Enum>                      CallFunc_Map_Keys_Keys;                            // 0x02E8(0x0010)(ReferenceParm)
+	EArmorSlots_Enum                              CallFunc_Array_Get_Item_3;                         // 0x02F8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2F9[0x3];                                      // 0x02F9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x02FC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   CallFunc_Map_Find_Value_1;                         // 0x0300(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue_1;                   // 0x03D8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_3;                // 0x03D9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue_4;             // 0x03DA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_3;                // 0x03DB(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.FillSwatchesOfType
+// 0x01F0 (0x01F0 - 0x0000)
+struct UI_Armorer_Frank_C_FillSwatchesOfType final
+{
+public:
+	ESwatch_Type                                  Type;                                              // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    NewLocalVar;                                       // 0x0001(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2[0x6];                                        // 0x0002(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSTR_ArmorTierColorSwatch              CurrentColorSwatchStr;                             // 0x0008(0x0018)(Edit, BlueprintVisible, HasGetValueTypeHash)
+	class UBP_ArmorColorSwatch_C*                 CurrentColorsSwatchesDA;                           // 0x0020(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable;                     // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_SwitchEnum_CmpSuccess;                      // 0x002C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2D[0x3];                                       // 0x002D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Temp_int_Array_Index_Variable_1;                   // 0x0030(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0034(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0038(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_2;                   // 0x003C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_1;                  // 0x0040(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_2;                  // 0x0044(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_1;                 // 0x0048(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_2;                 // 0x004C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_3;                   // 0x0050(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_4;                   // 0x0054(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_3;                  // 0x0058(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_3;                 // 0x005C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_5;                   // 0x0060(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_4;                  // 0x0064(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_4;                 // 0x0068(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Loop_Counter_Variable_5;                  // 0x006C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_5;                 // 0x0070(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Array_Index_Variable_6;                   // 0x0074(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_ColorSwatch_C* CallFunc_Create_ReturnValue;                  // 0x0088(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_Swatches_WrapBox_C*                 CallFunc_Create_ReturnValue_1;                     // 0x0090(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue;                     // 0x0098(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue_1;                   // 0x00A0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FSTR_ArmorTextureSwatch                CallFunc_Array_Get_Item;                           // 0x00A8(0x0028)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x00D4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          CallFunc_Array_Get_Item_1;                         // 0x00D5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D6[0x2];                                       // 0x00D6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x00D8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_DC[0x4];                                       // 0x00DC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_3;        // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_ColorSwatch_C* CallFunc_Create_ReturnValue_2;                // 0x00F0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_Swatches_WrapBox_C*                 CallFunc_Create_ReturnValue_3;                     // 0x00F8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue_2;                   // 0x0100(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_SwitchEnum_CmpSuccess_1;                    // 0x0108(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_109[0x7];                                      // 0x0109(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue_3;                   // 0x0110(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FSTR_ArmorTierColorSwatch              CallFunc_Array_Get_Item_2;                         // 0x0118(0x0018)(HasGetValueTypeHash)
+	struct FColor                                 CallFunc_Array_Get_Item_3;                         // 0x0130(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           CallFunc_Conv_ColorToLinearColor_ReturnValue;      // 0x0134(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_2;               // 0x0144(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x0148(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_1;                // 0x014C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_2;                // 0x014D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14E[0x2];                                      // 0x014E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSTR_ArmorTierColorSwatch              CallFunc_Array_Get_Item_4;                         // 0x0150(0x0018)(HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_4;               // 0x0168(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_3;                // 0x016C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_16D[0x3];                                      // 0x016D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Temp_int_Loop_Counter_Variable_6;                  // 0x0170(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_4;                // 0x0174(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_175[0x3];                                      // 0x0175(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Add_IntInt_ReturnValue_6;                 // 0x0178(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_17C[0x4];                                      // 0x017C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_4;        // 0x0180(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_5;        // 0x0188(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_ColorSwatch_C* CallFunc_Create_ReturnValue_4;                // 0x0190(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_Swatches_WrapBox_C*                 CallFunc_Create_ReturnValue_5;                     // 0x0198(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue_4;                   // 0x01A0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPanelSlot*                             CallFunc_AddChild_ReturnValue_5;                   // 0x01A8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_5;               // 0x01B0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1B4[0x4];                                      // 0x01B4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSTR_ArmorTextureSwatch                CallFunc_Array_Get_Item_5;                         // 0x01B8(0x0028)(HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_5;                // 0x01E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   CallFunc_Array_Get_Item_6;                         // 0x01E1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1E2[0x2];                                      // 0x01E2(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_6;               // 0x01E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_6;                // 0x01E8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_ArmorClassIcon_Img_Visibility
+// 0x0006 (0x0006 - 0x0000)
+struct UI_Armorer_Frank_C_Get_ArmorClassIcon_Img_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment1_Btn_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_Armorer_Frank_C_Get_Attachment1_Btn_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment2_Btn_bIsEnabled
+// 0x0005 (0x0005 - 0x0000)
+struct UI_Armorer_Frank_C_Get_Attachment2_Btn_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Attachment3_Btn_bIsEnabled
+// 0x0005 (0x0005 - 0x0000)
+struct UI_Armorer_Frank_C_Get_Attachment3_Btn_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_Core_Btn_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_Armorer_Frank_C_Get_Core_Btn_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Get_PlayerMoney_Text
+// 0x0030 (0x0030 - 0x0000)
+struct UI_Armorer_Frank_C_Get_PlayerMoney_Text final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0020(0x0010)()
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetCheckedState
@@ -341,6 +577,18 @@ public:
 	ECheckBoxState                                K2Node_Select_Default;                             // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetMoneyCostText
+// 0x0038 (0x0038 - 0x0000)
+struct UI_Armorer_Frank_C_GetMoneyCostText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         CallFunc_Round_ReturnValue;                        // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0018(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0028(0x0010)()
+};
+
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText
 // 0x0020 (0x0020 - 0x0000)
 struct UI_Armorer_Frank_C_GetText final
@@ -377,64 +625,6 @@ public:
 	class FText                                   CallFunc_Conv_NameToText_ReturnValue;              // 0x0010(0x0010)()
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_3
-// 0x0060 (0x0060 - 0x0000)
-struct UI_Armorer_Frank_C_GetText_3 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_4
-// 0x0068 (0x0068 - 0x0000)
-struct UI_Armorer_Frank_C_GetText_4 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0028(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0048(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0058(0x0010)()
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_5
-// 0x0068 (0x0068 - 0x0000)
-struct UI_Armorer_Frank_C_GetText_5 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0028(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0048(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0058(0x0010)()
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_6
-// 0x0068 (0x0068 - 0x0000)
-struct UI_Armorer_Frank_C_GetText_6 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_Conv_NameToString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0028(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0048(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0058(0x0010)()
-};
-
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_7
 // 0x0050 (0x0050 - 0x0000)
 struct UI_Armorer_Frank_C_GetText_7 final
@@ -445,29 +635,6 @@ public:
 	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0040(0x0010)()
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetText_8
-// 0x00C8 (0x00C8 - 0x0000)
-struct UI_Armorer_Frank_C_GetText_8 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue;    // 0x0030(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_31[0x7];                                       // 0x0031(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Abs_ReturnValue;                          // 0x0038(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_SelectString_ReturnValue;                 // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Round_ReturnValue;                        // 0x0050(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_54[0x4];                                       // 0x0054(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_2;              // 0x0058(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0068(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_3;              // 0x0078(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_4;              // 0x0088(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_5;              // 0x0098(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_6;              // 0x00A8(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x00B8(0x0010)()
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_0
@@ -484,81 +651,92 @@ public:
 	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_1
-// 0x0007 (0x0007 - 0x0000)
-struct UI_Armorer_Frank_C_GetVisibility_1 final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnItemSelected
+// 0x0300 (0x0300 - 0x0000)
+struct UI_Armorer_Frank_C_OnItemSelected final
 {
 public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UBP_GameItem_Armor_C*                   SelectedArmor;                                     // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable;                              // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_1;                            // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_2;                            // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_3;                            // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_4;                            // 0x0028(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_5;                            // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_6;                            // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_7;                            // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_11;                           // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_12;                           // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_GameItem_Armor_C*                   CallFunc_SpawnObject_ReturnValue;                  // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x0078(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ObjectObject_ReturnValue;      // 0x0079(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x007A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7B[0x5];                                       // 0x007B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class UTexture2D*                             Temp_object_Variable_13;                           // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_14;                           // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0090(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_15;                           // 0x0100(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_16;                           // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue_1;              // 0x0110(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValidClass_ReturnValue;                 // 0x0170(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_171[0x7];                                      // 0x0171(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_1; // 0x0178(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_1;        // 0x0180(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x0188(0x00D8)(HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable_1;                              // 0x0260(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_261[0x7];                                      // 0x0261(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UTexture2D*                             K2Node_Select_Default;                             // 0x0268(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue_2;              // 0x0270(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x02D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x02D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x02E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x02E4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2E5[0x3];                                      // 0x02E5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x02E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue_1;             // 0x02EC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2ED[0x3];                                      // 0x02ED(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Length_ReturnValue_2;               // 0x02F0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue_2;             // 0x02F4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x02F5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_2
-// 0x0009 (0x0009 - 0x0000)
-struct UI_Armorer_Frank_C_GetVisibility_2 final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnSwatchesClick
+// 0x0001 (0x0001 - 0x0000)
+struct UI_Armorer_Frank_C_OnSwatchesClick final
 {
 public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_3
-// 0x0009 (0x0009 - 0x0000)
-struct UI_Armorer_Frank_C_GetVisibility_3 final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.OnSwatchesHover
+// 0x06E8 (0x06E8 - 0x0000)
+struct UI_Armorer_Frank_C_OnSwatchesHover final
 {
 public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_4
-// 0x0005 (0x0005 - 0x0000)
-struct UI_Armorer_Frank_C_GetVisibility_4 final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.GetVisibility_5
-// 0x000C (0x000C - 0x0000)
-struct UI_Armorer_Frank_C_GetVisibility_5 final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_BoolBool_ReturnValue;            // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue_1;            // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue_2;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue_1;                  // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue_2;                  // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           NewColor;                                          // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESwatch_Type                                  SwatchType;                                        // 0x0010(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   SteelType;                                         // 0x0011(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          SecondaryMetalType;                                // 0x0012(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_13[0x5];                                       // 0x0013(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   PassportCopyBeforeChange;                          // 0x0018(0x00D8)(Edit, BlueprintVisible, HasGetValueTypeHash)
+	bool                                          K2Node_SwitchEnum_CmpSuccess;                      // 0x00F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x00F1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_F2[0x6];                                       // 0x00F2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   CallFunc_Map_Find_Value;                           // 0x00F8(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x01D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Remove_ReturnValue;                   // 0x01D1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1D2[0x6];                                      // 0x01D2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x01D8(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_1;           // 0x02B0(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_2;           // 0x0388(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_3;           // 0x0460(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_4;           // 0x0538(0x00D8)(HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_5;           // 0x0610(0x00D8)(HasGetValueTypeHash)
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.PreConstruct
@@ -569,68 +747,93 @@ public:
 	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.RefreshSelectedSwatches
+// 0x00D0 (0x00D0 - 0x0000)
+struct UI_Armorer_Frank_C_RefreshSelectedSwatches final
+{
+public:
+	bool                                          Temp_bool_Variable;                                // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         CallFunc_BreakColor_R;                             // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_BreakColor_G;                             // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_BreakColor_B;                             // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_BreakColor_A;                             // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0xC];                                       // 0x0014(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0020(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0080(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_FFloor_ReturnValue;                       // 0x0090(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0094(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0098(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         CallFunc_Conv_IntToByte_ReturnValue;               // 0x00A0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         CallFunc_GetValidValue_ReturnValue;                // 0x00A1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A2[0x6];                                       // 0x00A2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_Conv_NameToText_ReturnValue;              // 0x00A8(0x0010)()
+	bool                                          CallFunc_EqualEqual_DoubleDouble_ReturnValue;      // 0x00B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   K2Node_Select_Default;                             // 0x00B9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BA[0x6];                                       // 0x00BA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_EqualEqual_DoubleDouble_A_ImplicitCast;   // 0x00C0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_A_ImplicitCast;     // 0x00C8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.Set Up List Item
-// 0x01F0 (0x01F0 - 0x0000)
+// 0x01D0 (0x01D0 - 0x0000)
 struct UI_Armorer_Frank_C_Set_Up_List_Item final
 {
 public:
 	class UObject*                                Item;                                              // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UObject*                                Widget;                                            // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUI_Shop_TraderItemWidget_C*            Item_Widget;                                       // 0x0010(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_Shop_ArmorerItemWidget_C*           Item_Widget;                                       // 0x0010(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable;                              // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUI_Shop_TraderItemWidget_C*            K2Node_DynamicCast_AsUI_Shop_Trader_Item_Widget;   // 0x0020(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_Shop_ArmorerItemWidget_C*           K2Node_DynamicCast_AsUI_Shop_Armorer_Item_Widget;  // 0x0020(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UBP_GameItem_Armor_C*                   K2Node_DynamicCast_AsBP_Game_Item_Armor;           // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             Temp_object_Variable_1;                            // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_2;                            // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_3;                            // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_4;                            // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_5;                            // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_6;                            // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_7;                            // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_11;                           // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_12;                           // 0x0098(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_13;                           // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_14;                           // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_Contains_ReturnValue;               // 0x00B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Array_Contains_ReturnValue_1;             // 0x00B1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_B2[0x6];                                       // 0x00B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             Temp_object_Variable_15;                           // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_16;                           // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C8[0x8];                                       // 0x00C8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x00D0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x0130(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_131[0x7];                                      // 0x0131(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0140(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Round_ReturnValue;                        // 0x0148(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14C[0x4];                                      // 0x014C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             K2Node_Select_Default;                             // 0x0150(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0158(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Left_ReturnValue;                         // 0x0168(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0178(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_NameToText_ReturnValue;              // 0x0188(0x0010)()
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0198(0x0010)()
-	class FString                                 CallFunc_Conv_DoubleToString_ReturnValue;          // 0x01A8(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Left_ReturnValue_1;                       // 0x01B8(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x01C8(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue_1;          // 0x01D8(0x0010)()
+	class UTexture2D*                             Temp_object_Variable_1;                            // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_2;                            // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_3;                            // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_4;                            // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_5;                            // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_6;                            // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_7;                            // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_11;                           // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_12;                           // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_13;                           // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_14;                           // 0x0098(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_15;                           // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_16;                           // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_GameItem_Armor_C*                   K2Node_DynamicCast_AsBP_Game_Item_Armor;           // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x00B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue;               // 0x00B9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_Contains_ReturnValue_1;             // 0x00BA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x00BB(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BC[0x4];                                       // 0x00BC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x00C0(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x0128(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Round_ReturnValue;                        // 0x0130(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_134[0x4];                                      // 0x0134(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UTexture2D*                             K2Node_Select_Default;                             // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0140(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Left_ReturnValue;                         // 0x0150(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0160(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_NameToText_ReturnValue;              // 0x0170(0x0010)()
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0180(0x0010)()
+	class FString                                 CallFunc_Conv_DoubleToString_ReturnValue;          // 0x0190(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Left_ReturnValue_1;                       // 0x01A0(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x01B0(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue_1;          // 0x01C0(0x0010)()
 };
 
-// Function UI_Armorer_Frank.UI_Armorer_Frank_C.Tick
-// 0x003C (0x003C - 0x0000)
-struct UI_Armorer_Frank_C_Tick final
+// Function UI_Armorer_Frank.UI_Armorer_Frank_C.SetItemsFilter
+// 0x0010 (0x0010 - 0x0000)
+struct UI_Armorer_Frank_C_SetItemsFilter final
 {
 public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<EArmorSlots_Enum>                      PressedFilterType;                                 // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

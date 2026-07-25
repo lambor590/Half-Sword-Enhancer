@@ -13,8 +13,8 @@
 #include "UMG_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Seer_Greeting.UI_Dialog_Widget_Seer_Greeting_C.ExecuteUbergraph_UI_Dialog_Widget_Seer_Greeting
 // 0x0088 (0x0088 - 0x0000)
@@ -152,5 +152,5 @@ public:
 	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

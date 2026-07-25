@@ -14,8 +14,7 @@
 #include "VertexPaintDetectionPlugin_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionComponent.GetCurrentGetAllVertexColorsOnlyTasks
 // (Final, Native, Public, BlueprintCallable, BlueprintPure)
@@ -4396,5 +4395,5 @@ void UVertexPaintTasksFunctionLibrary::SetMeshComponentVertexColorsUsingSerializ
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -16,8 +16,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MovieSceneTracks.MovieScene3DPathSection_Axis
 // NumValues: 0x0007
@@ -698,5 +697,18 @@ public:
 	uint8                                         Pad_0[0x80];                                       // 0x0000(0x0080)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction MovieSceneTracks.MovieSceneActorPredictionFailure__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MovieSceneTracks
+{
+using FDelegateSignature_MovieSceneActorPredictionFailure = void();
 }
 
+// DelegateFunction MovieSceneTracks.MovieSceneActorPredictionResult__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MovieSceneTracks
+{
+using FDelegateSignature_MovieSceneActorPredictionResult = void(const struct FTransform& PredictedTransform);
+}
+
+SDK_NAMESPACE_END

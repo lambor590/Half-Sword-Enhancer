@@ -13,8 +13,7 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct ABP_CopyPose.ABP_CopyPose_C.AnimBlueprintGeneratedConstantData
 // 0x012F (0x0130 - 0x0001)
@@ -32,5 +31,4 @@ public:
 	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_CopyPoseFromMesh;               // 0x0100(0x0030)()
 };
 
-}
-
+SDK_NAMESPACE_END

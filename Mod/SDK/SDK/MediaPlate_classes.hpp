@@ -12,12 +12,11 @@
 
 #include "Engine_classes.hpp"
 #include "MediaAssets_structs.hpp"
-#include "MediaPlate_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "MediaPlate_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MediaPlate.MediaPlate
 // 0x0010 (0x02A0 - 0x0290)
@@ -143,5 +142,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

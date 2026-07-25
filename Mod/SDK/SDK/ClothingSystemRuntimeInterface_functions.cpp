@@ -14,8 +14,7 @@
 #include "ClothingSystemRuntimeInterface_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ClothingSystemRuntimeInterface.ClothingSimulationInteractor.ClothConfigUpdated
 // (RequiredAPI, Native, Public, BlueprintCallable)
@@ -376,5 +375,5 @@ float UClothingSimulationInteractor::GetSimulationTime() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

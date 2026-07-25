@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum AI_AttackStage_Enum.AI_AttackStage_Enum
 // NumValues: 0x0012
@@ -38,5 +37,4 @@ enum class EAI_AttackStage_Enum : uint8
 	AI_AttackStage_MAX                       = 17,
 };
 
-}
-
+SDK_NAMESPACE_END

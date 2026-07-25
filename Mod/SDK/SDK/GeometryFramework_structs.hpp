@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum GeometryFramework.EDynamicMeshChangeType
 // NumValues: 0x0007
@@ -94,5 +93,11 @@ public:
 	uint8                                         Pad_3[0x1D];                                       // 0x0003(0x001D)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction GeometryFramework.OnDynamicMeshModifiedBP__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace GeometryFramework
+{
+using FDelegateSignature_OnDynamicMeshModifiedBP = void(class UDynamicMesh* Mesh);
 }
 
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "Modular_Weapon_Polearm_Haft_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Polearm_Haft_High_Tier_Short.Modular_Weapon_Polearm_Haft_High_Tier_Short_C
 // 0x0008 (0x0600 - 0x05F8)
@@ -38,5 +37,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -1,287 +1,250 @@
 #include <algorithm>
 #include <array>
+#include <ranges>
 
 #include "KeybindManager.h"
 #include "ConfigManager.h"
-#include "Menu/IMenuFunction.h"
-#include "NotificationManager.h"
 #include "Gui.h"
-
-std::map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
-bool KeybindManager::s_initialized = false;
 
 KeybindManager::HotData KeybindManager::s_hotData;
 KeybindManager::ColdData KeybindManager::s_coldData;
 
-void KeybindManager::Initialize() noexcept {
-    if (!s_initialized) {
-        int loadedToggleKey = g_ConfigManager.GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
-        int loadedUnbindKey = g_ConfigManager.GetInt("Keybinds", "unbind_key", VK_DELETE);
+namespace {
+    constexpr bool IsIndexedKey(int key) noexcept {
+        return key >= 0 && key < 256;
+    }
 
-        s_hotData.toggleGuiKey = IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT;
-        s_coldData.unbindKey = IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE;
-
-        s_initialized = true;
+    constexpr bool IsRepeatedKeyDown(UINT msg, LPARAM lParam) noexcept {
+        return (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) &&
+               (static_cast<std::uintptr_t>(lParam) & (std::uintptr_t{1} << 30)) != 0;
     }
 }
 
-void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept {
-    bool expected = false;
-    if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
-        return;
-    }
+std::map<int*, KeybindManager::Binding>& KeybindManager::Bindings() {
+    static std::map<int*, Binding> bindings;
+    return bindings;
+}
 
-    UnregisterKeybind(keyPtr);
+void KeybindManager::Initialize() noexcept {
+    int loadedToggleKey = ConfigManager::Get().GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
+    int loadedUnbindKey = ConfigManager::Get().GetInt("Keybinds", "unbind_key", VK_DELETE);
+
+    SetToggleGuiKey(IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT);
+    SetUnbindKey(IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE);
+}
+
+void KeybindManager::RegisterKeybind(
+    int* keyPtr, Callback callback, std::string name, Callback onUnbound
+) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
 
     int currentKey = *keyPtr;
-    s_bindings[keyPtr] = {std::move(callback), keyPtr, function, currentKey};
+    auto& bindings = Bindings();
+    auto bindingIt =
+        bindings
+            .emplace(
+                keyPtr,
+                Binding{std::move(callback), keyPtr, std::move(name), currentKey, std::move(onUnbound)}
+            )
+            .first;
 
-    if (currentKey != -1) {
-        s_hotData.keyToBindings[currentKey].push_back(&s_bindings[keyPtr]);
+    if (IsIndexedKey(currentKey)) {
+        s_hotData.keyToBindings[static_cast<size_t>(currentKey)].push_back(&bindingIt->second);
     }
-
-    s_hotData.processingKeyEvent.store(false, std::memory_order_release);
 }
 
-void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
-    auto it = s_bindings.find(keyPtr);
-    if (it == s_bindings.end()) return;
+void KeybindManager::UnregisterKeybind(int* keyPtr) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
+    UnregisterKeybindLocked(keyPtr);
+}
+
+void KeybindManager::UnregisterKeybindLocked(int* keyPtr) {
+    auto& bindings = Bindings();
+    auto it = bindings.find(keyPtr);
+    if (it == bindings.end()) return;
 
     Binding& binding = it->second;
-    if (binding.currentKey != -1) {
-        auto keyIt = s_hotData.keyToBindings.find(binding.currentKey);
-        if (keyIt != s_hotData.keyToBindings.end()) {
-            auto& vec = keyIt->second;
-            vec.erase(std::remove(vec.begin(), vec.end(), &binding), vec.end());
-            if (vec.empty()) {
-                s_hotData.keyToBindings.erase(keyIt);
-            }
-        }
+    if (IsIndexedKey(binding.currentKey)) {
+        auto& vec = s_hotData.keyToBindings[static_cast<size_t>(binding.currentKey)];
+        std::erase(vec, &binding);
     }
 
-    s_bindings.erase(it);
+    bindings.erase(it);
 }
 
 constexpr bool KeybindManager::IsRelevantMessage(UINT msg) noexcept {
-    return (msg == WM_KEYDOWN) ||
-           (msg == WM_SYSKEYDOWN) ||
-           (msg == WM_MBUTTONDOWN) ||
-           (msg == WM_MBUTTONDBLCLK) ||
-           (msg == WM_XBUTTONDOWN) ||
-           (msg == WM_XBUTTONDBLCLK);
+    return (msg == WM_KEYDOWN) || (msg == WM_SYSKEYDOWN) || (msg == WM_MBUTTONDOWN) || (msg == WM_MBUTTONDBLCLK) ||
+           (msg == WM_XBUTTONDOWN) || (msg == WM_XBUTTONDBLCLK);
 }
 
 int KeybindManager::ExtractKeyCode(UINT msg, WPARAM wParam) noexcept {
     switch (msg) {
         case WM_KEYDOWN:
-        case WM_SYSKEYDOWN:
-            return static_cast<int>(wParam);
+        case WM_SYSKEYDOWN: return static_cast<int>(wParam);
 
         case WM_MBUTTONDOWN:
-        case WM_MBUTTONDBLCLK:
-            return VK_MBUTTON;
+        case WM_MBUTTONDBLCLK: return VK_MBUTTON;
 
         case WM_XBUTTONDOWN:
-        case WM_XBUTTONDBLCLK:
-            return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
+        case WM_XBUTTONDBLCLK: return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
 
-        default:
-            return -1;
+        default: return -1;
     }
 }
 
-bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
+bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
     if (!IsRelevantMessage(msg)) [[likely]] {
         return false;
     }
 
     int keyCode = ExtractKeyCode(msg, wParam);
-    if (keyCode == -1) return false;
+    const bool repeated = IsRepeatedKeyDown(msg, lParam);
 
-    if (keyCode == s_hotData.toggleGuiKey) [[unlikely]] {
-        Gui::ToggleVisibility();
+    if (keyCode == GetToggleGuiKey()) [[unlikely]] {
+        if (!repeated) Gui::ToggleVisibility();
         return true;
     }
 
-    const auto it = s_hotData.keyToBindings.find(keyCode);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return false;
-
-    bool expected = false;
-    if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
+    const auto* bindings = FindBindings(keyCode);
+    if (!bindings) [[likely]]
         return false;
-    }
+    if (repeated) return true;
 
-    static thread_local std::vector<Binding*> s_bindingCache;
-    s_bindingCache.clear();
-    s_bindingCache.reserve(it->second.size());
-
-    for (Binding* binding : it->second) {
-        s_bindingCache.push_back(binding);
-    }
-
-    for (const Binding* binding : s_bindingCache) {
+    for (const Binding* binding : *bindings) {
         binding->callback();
-
-        if (IMenuFunction* function = binding->function) [[likely]] {
-            if (const auto name = function->GetName(); !name.empty()) [[likely]] {
-                if (auto* hookedFunc = dynamic_cast<HookedFunction*>(function)) [[likely]] {
-                    NotificationManager::NotifyHookToggle(name, hookedFunc->LoadEnabledState());
-                } else {
-                    NotificationManager::NotifyOneTimeAction(name);
-                }
-            }
-        }
     }
 
-    s_hotData.processingKeyEvent.store(false, std::memory_order_release);
     return true;
 }
 
-bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
-    if (!waitingForKey) {
-        return false;
-    }
-
-    static bool previousWaitingState = false;
-
-    if (waitingForKey && !previousWaitingState) {
-        StartWaitingForRebind();
-        previousWaitingState = true;
-    }
-
-    if (s_coldData.keyWasCaptured) {
-        key = s_coldData.capturedKey;
-        waitingForKey = false;
-        previousWaitingState = false;
-
-        s_coldData.keyWasCaptured = false;
-        s_coldData.capturedKey = -1;
-
-        return true;
-    }
-
-    if (!waitingForKey) {
-        previousWaitingState = false;
-    }
-
-    return false;
+void KeybindManager::BeginRebind(const void* owner) noexcept {
+    const std::scoped_lock lock(s_coldData.rebindMutex);
+    s_coldData.rebindOwner = owner;
+    s_coldData.rebindPhase = RebindPhase::Waiting;
+    s_coldData.capturedKey = -1;
 }
 
-void KeybindManager::SaveKeybinds() noexcept {
-    g_ConfigManager.SetInt("Keybinds", "toggle_gui_key", s_hotData.toggleGuiKey);
-    g_ConfigManager.SetInt("Keybinds", "unbind_key", s_coldData.unbindKey);
-    g_ConfigManager.SaveConfig();
+void KeybindManager::CancelRebind() noexcept {
+    const std::scoped_lock lock(s_coldData.rebindMutex);
+    s_coldData.rebindOwner = nullptr;
+    s_coldData.rebindPhase = RebindPhase::Idle;
+    s_coldData.capturedKey = -1;
+}
+
+KeybindManager::RebindResult KeybindManager::PollRebind(const void* owner, int& key) noexcept {
+    const std::scoped_lock lock(s_coldData.rebindMutex);
+    if (s_coldData.rebindOwner != owner) return RebindResult::None;
+
+    RebindResult result = RebindResult::None;
+    if (s_coldData.rebindPhase == RebindPhase::Assigned) {
+        key = s_coldData.capturedKey;
+        result = RebindResult::Assigned;
+    } else if (s_coldData.rebindPhase == RebindPhase::Cancelled) {
+        result = RebindResult::Cancelled;
+    }
+
+    if (result != RebindResult::None) {
+        s_coldData.rebindOwner = nullptr;
+        s_coldData.rebindPhase = RebindPhase::Idle;
+        s_coldData.capturedKey = -1;
+    }
+    return result;
+}
+
+bool KeybindManager::IsRebinding(const void* owner) noexcept {
+    const std::scoped_lock lock(s_coldData.rebindMutex);
+    return s_coldData.rebindOwner == owner && s_coldData.rebindPhase == RebindPhase::Waiting;
+}
+
+void KeybindManager::SaveKeybinds() {
+    auto& config = ConfigManager::Get();
+    config.BatchSave([&] {
+        config.SetInt("Keybinds", "toggle_gui_key", GetToggleGuiKey());
+        config.SetInt("Keybinds", "unbind_key", GetUnbindKey());
+    });
 }
 
 const std::vector<KeybindManager::Binding*>* KeybindManager::FindBindings(int key) noexcept {
-    auto it = s_hotData.keyToBindings.find(key);
-    return (it != s_hotData.keyToBindings.end()) ? &it->second : nullptr;
+    if (!IsIndexedKey(key)) return nullptr;
+    const auto& bindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
+    return bindings.empty() ? nullptr : &bindings;
 }
 
-bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
-    auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return false;
+void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) {
+    if (!IsIndexedKey(key)) return;
 
-    if (!excludeKeyPtr) return !bindings->empty();
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
+    auto& keyBindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
+    if (keyBindings.empty()) return;
 
-    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
-    return bindings->size() > (hasExcluded ? 1 : 0);
-}
+    auto foundIt =
+        std::ranges::find_if(keyBindings, [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
 
-void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
-    auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) return;
-
-    auto& bindings = it->second;
-    auto foundIt = std::find_if(bindings.begin(), bindings.end(),
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
-
-    if (foundIt != bindings.end()) {
+    if (foundIt != keyBindings.end()) {
         Binding* binding = *foundIt;
-        *(binding->keyPtr) = 255;
-        s_bindings.erase(binding->keyPtr);
-        bindings.erase(foundIt);
-
-        if (bindings.empty()) {
-            s_hotData.keyToBindings.erase(it);
+        *(binding->keyPtr) = -1;
+        if (binding->onUnbound) {
+            binding->onUnbound();
         }
+        int* keyPtr = binding->keyPtr;
+        keyBindings.erase(foundIt);
+        Bindings().erase(keyPtr);
     }
 }
 
-IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noexcept {
+std::string KeybindManager::GetBoundName(int key, int* excludeKeyPtr) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return nullptr;
+    if (!bindings) [[likely]]
+        return {};
 
     for (const Binding* binding : *bindings) {
         if (binding->keyPtr != excludeKeyPtr) {
-            return binding->function;
+            return binding->name;
         }
     }
-    return nullptr;
+    return {};
 }
 
-std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* excludeKeyPtr) noexcept {
+std::vector<std::string> KeybindManager::GetAllBoundNames(int key, int* excludeKeyPtr) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return {};
+    if (!bindings) [[likely]]
+        return {};
 
-    std::vector<IMenuFunction*> functions;
-    functions.reserve(bindings->size());
+    std::vector<std::string> names;
+    names.reserve(bindings->size());
 
     for (const Binding* binding : *bindings) {
-        if (binding->keyPtr != excludeKeyPtr && binding->function) {
-            functions.push_back(binding->function);
+        if (binding->keyPtr != excludeKeyPtr) {
+            names.push_back(binding->name);
         }
     }
-    return functions;
+    return names;
 }
 
-int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
+int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return 0;
+    if (!bindings) [[likely]]
+        return 0;
 
     if (!excludeKeyPtr) return static_cast<int>(bindings->size());
 
-    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
+    bool hasExcluded = std::ranges::find_if(*bindings, [excludeKeyPtr](const Binding* b) {
+                           return b->keyPtr == excludeKeyPtr;
+                       }) != bindings->end();
     return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
 }
 
-void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
-    bool expected = false;
-    if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
-        return;
+void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) {
+    const std::scoped_lock lock(s_hotData.bindingsMutex);
+    auto& bindings = Bindings();
+    auto it = bindings.find(keyPtr);
+    if (it != bindings.end()) {
+        it->second.name = std::move(name);
     }
-
-    auto it = s_bindings.find(keyPtr);
-    if (it == s_bindings.end()) {
-        s_hotData.processingKeyEvent.store(false, std::memory_order_release);
-        return;
-    }
-
-    Binding& binding = it->second;
-    int newKey = *keyPtr;
-    int oldKey = binding.currentKey;
-
-    if (oldKey == newKey) {
-        s_hotData.processingKeyEvent.store(false, std::memory_order_release);
-        return;
-    }
-
-    if (oldKey != -1) {
-        auto& oldBindings = s_hotData.keyToBindings[oldKey];
-        oldBindings.erase(std::remove(oldBindings.begin(), oldBindings.end(), &binding), oldBindings.end());
-        if (oldBindings.empty()) {
-            s_hotData.keyToBindings.erase(oldKey);
-        }
-    }
-
-    binding.currentKey = newKey;
-    if (newKey != -1) {
-        s_hotData.keyToBindings[newKey].push_back(&binding);
-    }
-
-    s_hotData.processingKeyEvent.store(false, std::memory_order_release);
 }
 
 bool KeybindManager::IsValidKey(int key) noexcept {
@@ -289,17 +252,19 @@ bool KeybindManager::IsValidKey(int key) noexcept {
     return s_validKeys[key];
 }
 
-bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
-    if (!s_coldData.waitingForRebind) return false;
+bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+    const std::scoped_lock lock(s_coldData.rebindMutex);
+    if (s_coldData.rebindPhase != RebindPhase::Waiting) return false;
 
     int keyCode = ExtractKeyCode(msg, wParam);
     if (keyCode == -1) return false;
+    if (IsRepeatedKeyDown(msg, lParam)) return true;
 
     if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
         if (keyCode == VK_ESCAPE) {
-            CancelRebind();
+            s_coldData.rebindPhase = RebindPhase::Cancelled;
             return true;
-        } else if (keyCode == s_coldData.unbindKey) {
+        } else if (keyCode == GetUnbindKey()) {
             keyCode = -1;
         } else if (!IsValidKey(keyCode)) {
             return false;
@@ -307,19 +272,13 @@ bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
     }
 
     s_coldData.capturedKey = keyCode;
-    s_coldData.keyWasCaptured = true;
-    s_coldData.waitingForRebind = false;
+    s_coldData.rebindPhase = RebindPhase::Assigned;
     return true;
 }
 
-void KeybindManager::StartWaitingForRebind() noexcept {
-    s_coldData.waitingForRebind = true;
-    s_coldData.capturedKey = -1;
-    s_coldData.keyWasCaptured = false;
-}
-
-void KeybindManager::CancelRebind() noexcept {
-    s_coldData.waitingForRebind = false;
-    s_coldData.capturedKey = -1;
-    s_coldData.keyWasCaptured = false;
+bool KeybindManager::ProcessToggleGuiEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+    if (!IsRelevantMessage(msg)) return false;
+    if (ExtractKeyCode(msg, wParam) != GetToggleGuiKey()) return false;
+    if (!IsRepeatedKeyDown(msg, lParam)) Gui::ToggleVisibility();
+    return true;
 }

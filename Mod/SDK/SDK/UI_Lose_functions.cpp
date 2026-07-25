@@ -14,8 +14,7 @@
 #include "UI_Lose_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Lose.UI_Lose_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -132,5 +131,5 @@ void UUI_Lose_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

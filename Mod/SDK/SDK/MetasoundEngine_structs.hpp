@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "AudioExtensions_structs.hpp"
-#include "MetasoundFrontend_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "MetasoundFrontend_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MetasoundEngine.EMetaSoundMessageLevel
 // NumValues: 0x0004
@@ -126,5 +125,25 @@ public:
 	TScriptInterface<class IMetaSoundDocumentInterface> ExistingMetaSound;                           // 0x0010(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction MetasoundEngine.OnCreateAuditionGeneratorHandleDelegate__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace MetasoundEngine
+{
+using FDelegateSignature_OnCreateAuditionGeneratorHandleDelegate = void(class UMetasoundGeneratorHandle* GeneratorHandle);
 }
 
+// DelegateFunction MetasoundEngine.OnMetasoundOutputValueChanged__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace MetasoundEngine
+{
+using FDelegateSignature_OnMetasoundOutputValueChanged = void(class FName OutputName, const struct FMetaSoundOutput& Output);
+}
+
+// DelegateFunction MetasoundEngine.OnMetasoundOutputValueChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MetasoundEngine
+{
+using FDelegateSignature_OnMetasoundOutputValueChangedMulticast = void(class FName Name_0, const struct FMetaSoundOutput& Output);
+}
+
+SDK_NAMESPACE_END

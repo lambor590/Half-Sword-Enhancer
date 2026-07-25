@@ -15,8 +15,7 @@
 #include "NiagaraAnimNotifies_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class NiagaraAnimNotifies.AnimNotifyState_TimedNiagaraEffect
 // 0x0048 (0x0078 - 0x0030)
@@ -114,5 +113,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MeshModelingTools.EPolyEditExtrudeEdgeDirectionMode
 // NumValues: 0x0003
@@ -360,5 +359,4 @@ enum class EEdgeLoopInsertionMode : uint32
 	EEdgeLoopInsertionMode_MAX               = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

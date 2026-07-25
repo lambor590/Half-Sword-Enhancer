@@ -14,8 +14,7 @@
 #include "UI_List_MapSelect_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_List_MapSelect.UI_List_MapSelect_C.BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -352,5 +351,27 @@ void UUI_List_MapSelect_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
+
+// Function UI_List_MapSelect.UI_List_MapSelect_C.Tick
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_List_MapSelect_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_List_MapSelect_C", "Tick");
+
+	Params::UI_List_MapSelect_C_Tick Parms{};
+
+	Parms.MyGeometry = std::move(MyGeometry);
+	Parms.InDeltaTime = InDeltaTime;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
+
+SDK_NAMESPACE_END

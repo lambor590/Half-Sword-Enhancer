@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsDebugBuild Condition="'$(Configuration)'=='Debug'">true</IsDebugBuild>
+    <IsReleaseBuild Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Experimental'">true</IsReleaseBuild>
+    <OutDir Condition="'$(IsDebugBuild)'=='true'">$(SolutionDir)bin\Debug\</OutDir>
+    <OutDir Condition="'$(IsDebugBuild)'!='true'">$(SolutionDir)bin\</OutDir>
+    <UseDebugLibraries Condition="'$(IsDebugBuild)'=='true'">true</UseDebugLibraries>
+    <UseDebugLibraries Condition="'$(IsReleaseBuild)'=='true'">false</UseDebugLibraries>
+    <WholeProgramOptimization Condition="'$(IsReleaseBuild)'=='true'">true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(IsDebugBuild)'=='true'">
+    <ClCompile>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
+    <ClCompile>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>

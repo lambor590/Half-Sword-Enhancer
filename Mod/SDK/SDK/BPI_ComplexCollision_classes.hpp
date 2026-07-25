@@ -14,15 +14,14 @@
 #include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_ComplexCollision.BPI_ComplexCollision_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_ComplexCollision_C final
 {
 public:
-	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
+	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Extra_High_Velocity, double Draw_Cut, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
 
 public:
 	static class UClass* StaticClass()
@@ -48,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

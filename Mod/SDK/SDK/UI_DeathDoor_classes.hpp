@@ -15,8 +15,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_DeathDoor.UI_DeathDoor_C
 // 0x0098 (0x0378 - 0x02E0)
@@ -73,5 +72,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -12,14 +12,13 @@
 
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
-#include "E_ColorGradingMode_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "E_ColorGradingMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_PhotoMode.UI_PhotoMode_C
 // 0x0C80 (0x0F60 - 0x02E0)
@@ -122,7 +121,7 @@ public:
 	int32                                         LastTabIndex;                                      // 0x05C4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bUsingFreeCamera;                                  // 0x05C8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_5C9[0x7];                                      // 0x05C9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera::ABP_FreeCamera_C*        FreeCameraActor;                                   // 0x05D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      FreeCameraActor;                                   // 0x05D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UCameraComponent*                       FreeCameraComponent;                               // 0x05D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	struct FRotator                               EditedCameraRoll;                                  // 0x05E0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 	double                                        EditedCameraFOV;                                   // 0x05F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -282,7 +281,7 @@ public:
 	void OnCameraMoved();
 	void OnCameraStopped();
 	void OnDestruct();
-	void OnFreeCameraStart(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference);
+	void OnFreeCameraStart(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference);
 	void OnFreenCameraEnd();
 	struct FEventReply OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent);
 	void OnLoaded_82A7579942174F38FE2AD9A2E247AA34(class UObject* Loaded);
@@ -334,5 +333,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

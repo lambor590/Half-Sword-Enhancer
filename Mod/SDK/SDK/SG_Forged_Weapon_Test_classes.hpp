@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Forged_Weapon_Test.SG_Forged_Weapon_Test_C
 // 0x0130 (0x0158 - 0x0028)
@@ -39,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

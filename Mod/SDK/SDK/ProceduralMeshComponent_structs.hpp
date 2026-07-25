@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ProceduralMeshComponent.EProcMeshSliceCapOption
 // NumValues: 0x0004
@@ -65,5 +64,4 @@ public:
 	uint8                                         Pad_5A[0x6];                                       // 0x005A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

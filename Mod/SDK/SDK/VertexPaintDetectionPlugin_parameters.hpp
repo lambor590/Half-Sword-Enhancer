@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "VertexPaintDetectionPlugin_structs.hpp"
 #include "GameplayTags_structs.hpp"
-#include "GeometryScriptingCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "PhysicsCore_structs.hpp"
+#include "GeometryScriptingCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionComponent.GetCurrentGetAllVertexColorsOnlyTasks
 // 0x0050 (0x0050 - 0x0000)
@@ -1506,5 +1506,5 @@ public:
 	struct FRVPDPAdditionalDataToPassThroughInfo  AdditionalDataToPassThrough;                       // 0x0198(0x0130)(Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

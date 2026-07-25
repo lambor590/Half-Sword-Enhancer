@@ -14,8 +14,7 @@
 #include "StreamlineDLSSGBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function StreamlineDLSSGBlueprint.StreamlineLibraryDLSSG.GetDefaultDLSSGMode
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
@@ -224,5 +223,5 @@ void UStreamlineLibraryDLSSG::SetDLSSGMode(EStreamlineDLSSGMode DLSSGMode)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

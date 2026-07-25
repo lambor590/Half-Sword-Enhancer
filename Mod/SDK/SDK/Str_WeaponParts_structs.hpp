@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Weapon_Material_Type_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Weapon_Material_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_WeaponParts.Str_WeaponParts
 // 0x0130 (0x0130 - 0x0000)
@@ -39,5 +38,4 @@ public:
 	int32                                         COAInt_63_593665BE4EF020F95F7D1A92564C1239;        // 0x0128(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

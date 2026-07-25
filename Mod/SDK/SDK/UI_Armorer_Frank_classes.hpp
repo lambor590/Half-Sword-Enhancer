@@ -10,71 +10,124 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Engine_structs.hpp"
-#include "SlateCore_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
+#include "Swatch_Type_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
+#include "SlateCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Armorer_Frank.UI_Armorer_Frank_C
-// 0x0268 (0x0548 - 0x02E0)
+// 0x04E0 (0x07C0 - 0x02E0)
 class UUI_Armorer_Frank_C final : public UUserWidget
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x02E0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UButton*                                Button;                                            // 0x02E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_0;                                          // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_1;                                          // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_2;                                          // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_3;                                          // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_4;                                          // 0x0310(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UCheckBox*                              CheckBox;                                          // 0x0318(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UCheckBox*                              CheckBox_0;                                        // 0x0320(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UCheckBox*                              CheckBox_1;                                        // 0x0328(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UCheckBox*                              CheckBox_2;                                        // 0x0330(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UListView*                              Customizable_Items_List;                           // 0x0338(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Icon;                                              // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image;                                             // 0x0348(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_47;                                          // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_59;                                          // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_0;                                       // 0x0360(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_2;                                       // 0x0368(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_3;                                       // 0x0370(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_4;                                       // 0x0378(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_5;                                       // 0x0380(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_6;                                       // 0x0388(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_7;                                       // 0x0390(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_8;                                       // 0x0398(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_9;                                       // 0x03A0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_10;                                      // 0x03A8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x03B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_DressUp_C*                   MyDressUpDarling;                                  // 0x03B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   Customized_Armor;                                  // 0x03C0(0x00A8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	bool                                          Core_Removable;                                    // 0x0468(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Module_1_Available;                                // 0x0469(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Module_2_Available;                                // 0x046A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Module_3_Available;                                // 0x046B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Armor_Slot;                                        // 0x046C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_46D[0x3];                                      // 0x046D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   Customized_Armor_Before_Changes;                   // 0x0470(0x00A8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	bool                                          Customized_Armor_is_Worn;                          // 0x0518(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Requires_Module_Hierarchy;                         // 0x0519(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_51A[0x2];                                      // 0x051A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	class FName                                   Core_Name;                                         // 0x051C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Attachment_1_Name;                                 // 0x0524(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Attachment_2_Name;                                 // 0x052C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Attachment_3_Name;                                 // 0x0534(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Armor_is_being_Customized;                         // 0x053C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_53D[0x3];                                      // 0x053D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        Current_Fee;                                       // 0x0540(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UImage*                                 ArmorClassFrame_Img;                               // 0x02E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 ArmorClassIcon_Img;                                // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UWidgetSwitcher*                        ArmorClassSpecificSwatches_Switcher;               // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             ArmorItemName_Txt;                                 // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Attachment1_Btn;                                   // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Attachment2_Btn;                                   // 0x0310(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Attachment3_Btn;                                   // 0x0318(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Background_Img;                                    // 0x0320(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                BevorFilter_Btn;                                   // 0x0328(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Clean_Btn;                                         // 0x0330(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Core_Btn;                                          // 0x0338(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Craft_Btn;                                         // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             CraftCostAmount_Txt;                               // 0x0348(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                CuirassFilter_Btn;                                 // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UListView*                              Customizable_Items_List;                           // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Fabric1_Img;                                       // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Fabric2_Img;                                       // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Fabric2_Img_1;                                     // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Furbish_Btn;                                       // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                GauntletFilter_Btn;                                // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                HelmetFilter_Btn;                                  // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 LeatherColor_Img;                                  // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Leave_Btn;                                         // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                LegsFilter_Btn;                                    // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 MainMetal_Img;                                     // 0x03A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UWidgetSwitcher*                        MainSwitcher;                                      // 0x03B0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 MoneyStrip_Img;                                    // 0x03B8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 MoneyStrip_Img_1;                                  // 0x03C0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                NoFilter_Btn;                                      // 0x03C8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 NoItemSelectedCover_Img;                           // 0x03D0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             NoItemSelectedCover_Txt;                           // 0x03D8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                PauldronFilter_Btn;                                // 0x03E0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             PlayerMoney;                                       // 0x03E8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                SabatonFilter_Btn;                                 // 0x03F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 SecondaryMetal_Img;                                // 0x03F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                SelectCustomizePanel_Btn;                          // 0x0400(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedFabricColor1_Btn;                    // 0x0408(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedFabricColor2_Btn;                    // 0x0410(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedFabricColor3_Btn;                    // 0x0418(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedLeatherColor_Btn;                    // 0x0420(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedMainMetal_Btn;                       // 0x0428(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedSecondaryMetal_Btn;                  // 0x0430(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_Widget_ArmorCustomization_SelectedIcon_C* SelectedTemporaryAttachmentMetal_Btn;        // 0x0438(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                SelectUpgradePanel_Btn;                            // 0x0440(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Swatches_Background_Img;                           // 0x0448(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UScrollBox*                             Swatches_ScrollBox;                                // 0x0450(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 TemporaryAttachmentMetal_Img;                      // 0x0458(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_0;                                       // 0x0460(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_7;                                       // 0x0468(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_8;                                       // 0x0470(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_9;                                       // 0x0478(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                VambraceFilter_Btn;                                // 0x0480(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                WaistFilter_Btn;                                   // 0x0488(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0490(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AWillie_BP_C*                           MyDressUpDarling;                                  // 0x0498(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   Customized_Armor;                                  // 0x04A0(0x00D8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	bool                                          Core_Removable;                                    // 0x0578(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Module_1_Available;                                // 0x0579(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Module_2_Available;                                // 0x057A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Module_3_Available;                                // 0x057B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Selected_Item_Armor_Slot;                          // 0x057C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_57D[0x3];                                      // 0x057D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   Customized_Armor_Before_Changes;                   // 0x0580(0x00D8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	bool                                          Customized_Armor_is_Worn;                          // 0x0658(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Requires_Module_Hierarchy;                         // 0x0659(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_65A[0x2];                                      // 0x065A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	class FName                                   Core_Name;                                         // 0x065C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Attachment_1_Name;                                 // 0x0664(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Attachment_2_Name;                                 // 0x066C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Attachment_3_Name;                                 // 0x0674(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Armor_is_being_Customized;                         // 0x067C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_67D[0x3];                                      // 0x067D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Current_Fee;                                       // 0x0680(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UBP_ArmorTextureSwatch_C*               MetalTextures;                                     // 0x0688(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_ArmorTextureSwatch_C*               SecondaryMetalTextures;                            // 0x0690(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_ArmorColorSwatch_C*                 FabricColors;                                      // 0x0698(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_ArmorColorSwatch_C*                 LeatherColors;                                     // 0x06A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UBP_ArmorColorSwatch_C*                 TempAttachmentColors;                              // 0x06A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	TArray<EArmorSlots_Enum>                      FilteredSlotType;                                  // 0x06B0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	bool                                          UseFilter;                                         // 0x06C0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_6C1[0x7];                                      // 0x06C1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UBP_GameItem_Armor_C*                   CurrentSelectedItem;                               // 0x06C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   UnmodifiedPassport;                                // 0x06D0(0x00D8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	bool                                          AllowCrafting;                                     // 0x07A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7A9[0x7];                                      // 0x07A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class BP_FreeCamera::ABP_FreeCamera_C*        My_Controller;                                     // 0x07B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          SettingAttachmentMaterial;                         // 0x07B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_Armor_to_List(const struct FStr_Passport_Armor1& InputPin, bool Is_Equipped);
+	void AnimateFilterButton(class UButton* FilterButton, bool IsHovered_0);
+	class FText Attachment1_GetName();
+	class FText Attachment2_GetName();
+	class FText Attachment3_GetName();
+	class FText AttachmentCore_GetName();
+	void BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature();
@@ -87,38 +140,67 @@ public:
 	void BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Armorer_Frank_CheckBox_0_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
-	void BndEvt__UI_Armorer_Frank_CheckBox_1_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
-	void BndEvt__UI_Armorer_Frank_CheckBox_2_K2Node_ComponentBoundEvent_6_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
-	void BndEvt__UI_Armorer_Frank_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
+	void BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget);
 	void BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_13_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered);
-	void BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item);
+	void BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature();
 	void ExecuteUbergraph_UI_Armorer_Frank(int32 EntryPoint);
+	void FillItemsList();
+	void FillSwatchesOfType(ESwatch_Type Type);
+	ESlateVisibility Get_ArmorClassIcon_Img_Visibility();
+	bool Get_Attachment1_Btn_bIsEnabled();
+	bool Get_Attachment2_Btn_bIsEnabled();
+	bool Get_Attachment3_Btn_bIsEnabled();
+	bool Get_Core_Btn_bIsEnabled();
+	class FText Get_PlayerMoney_Text();
 	ECheckBoxState GetCheckedState();
 	ECheckBoxState GetCheckedState_0();
 	ECheckBoxState GetCheckedState_1();
 	ECheckBoxState GetCheckedState_2();
+	class FText GetMoneyCostText();
 	class FText GetText();
 	class FText GetText_0();
 	class FText GetText_1();
 	class FText GetText_2();
-	class FText GetText_3();
-	class FText GetText_4();
-	class FText GetText_5();
-	class FText GetText_6();
 	class FText GetText_7();
-	class FText GetText_8();
 	ESlateVisibility GetVisibility_0();
-	ESlateVisibility GetVisibility_1();
-	ESlateVisibility GetVisibility_2();
-	ESlateVisibility GetVisibility_3();
-	ESlateVisibility GetVisibility_4();
-	ESlateVisibility GetVisibility_5();
+	void OnItemSelected(class UBP_GameItem_Armor_C* SelectedArmor);
+	void OnSwatchesClick();
+	void OnSwatchesHover(const struct FLinearColor& NewColor, ESwatch_Type SwatchType, ESteel_Type SteelType, ESecondaryMetal_Type SecondaryMetalType);
 	void PreConstruct(bool IsDesignTime);
+	void RefreshSelectedSwatches();
 	void Set_Up_List_Item(class UObject* Item, class UObject* Widget);
-	void Spawn_CUstomizaed_Armor();
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
+	void SetAttachmentButtonVisibility();
+	void SetItemsFilter(TArray<EArmorSlots_Enum>& PressedFilterType);
+	void UnsetItemsFilter();
+	void UpdateMoneyCost();
 
 public:
 	static class UClass* StaticClass()
@@ -135,5 +217,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

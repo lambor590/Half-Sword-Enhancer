@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_Clothing_Material.Enum_Clothing_Material
 // NumValues: 0x0005
@@ -25,5 +24,4 @@ enum class Enum_Clothing_Material : uint8
 	Enum_Clothing_MAX                        = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

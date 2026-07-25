@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_PlayCards.Enum_PlayCards
 // NumValues: 0x000B
@@ -31,5 +30,4 @@ enum class Enum_PlayCards : uint8
 	Enum_MAX                                 = 10,
 };
 
-}
-
+SDK_NAMESPACE_END

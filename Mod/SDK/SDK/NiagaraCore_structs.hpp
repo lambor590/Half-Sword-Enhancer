@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum NiagaraCore.ENiagaraIterationSource
 // NumValues: 0x0004
@@ -41,5 +40,4 @@ public:
 	TArray<uint8>                                 DataHash;                                          // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 
-}
-
+SDK_NAMESPACE_END

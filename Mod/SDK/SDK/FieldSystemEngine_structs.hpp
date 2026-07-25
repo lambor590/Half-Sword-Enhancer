@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct FieldSystemEngine.FieldObjectCommands
 // 0x0030 (0x0030 - 0x0000)
@@ -24,5 +23,4 @@ public:
 	TArray<class UFieldSystemMetaData*>           MetaDatas;                                         // 0x0020(0x0010)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
 };
 
-}
-
+SDK_NAMESPACE_END

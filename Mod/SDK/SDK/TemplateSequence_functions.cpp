@@ -14,8 +14,7 @@
 #include "TemplateSequence_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function TemplateSequence.TemplateSequenceActor.SetBinding
 // (Final, Native, Public, BlueprintCallable)
@@ -273,5 +272,5 @@ bool USequenceCameraShakeTestUtil::GetPostProcessBlendCache(class APlayerControl
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

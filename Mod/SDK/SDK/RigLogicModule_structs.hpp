@@ -14,8 +14,7 @@
 #include "ControlRig_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum RigLogicModule.EArchetype
 // NumValues: 0x0007
@@ -202,5 +201,4 @@ public:
 	uint8                                         Pad_269[0x7];                                      // 0x0269(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

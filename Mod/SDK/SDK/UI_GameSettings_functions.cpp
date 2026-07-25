@@ -14,8 +14,7 @@
 #include "UI_GameSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -191,6 +190,108 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoun
 }
 
 
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -261,26 +362,6 @@ void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoun
 }
 
 
-// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
-
-	Params::UI_GameSettings_C_BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
-
-	Parms.Value = Value;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -335,6 +416,34 @@ void UUI_GameSettings_C::Construct()
 }
 
 
+// Function UI_GameSettings.UI_GameSettings_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_GameSettings_C::Destruct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "Destruct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.Event Force Apply Settings
+// (BlueprintCallable, BlueprintEvent)
+
+void UUI_GameSettings_C::Event_Force_Apply_Settings()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "Event Force Apply Settings");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_GameSettings.UI_GameSettings_C.ExecuteUbergraph_UI_GameSettings
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -352,6 +461,26 @@ void UUI_GameSettings_C::ExecuteUbergraph_UI_GameSettings(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.Get_DamageNPC_1_Value
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+float UUI_GameSettings_C::Get_DamageNPC_1_Value()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "Get_DamageNPC_1_Value");
+
+	Params::UI_GameSettings_C_Get_DamageNPC_1_Value Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 
@@ -408,6 +537,46 @@ ECheckBoxState UUI_GameSettings_C::GetCheckedState()
 		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState");
 
 	Params::UI_GameSettings_C_GetCheckedState Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.GetCheckedState_0
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_GameSettings_C::GetCheckedState_0()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState_0");
+
+	Params::UI_GameSettings_C_GetCheckedState_0 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.GetCheckedState_1
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_GameSettings_C::GetCheckedState_1()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState_1");
+
+	Params::UI_GameSettings_C_GetCheckedState_1 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -556,5 +725,5 @@ void UUI_GameSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaT
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

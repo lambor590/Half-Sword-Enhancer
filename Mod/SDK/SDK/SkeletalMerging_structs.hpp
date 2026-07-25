@@ -13,8 +13,7 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct SkeletalMerging.SkeletalMeshMergeParams
 // 0x0040 (0x0040 - 0x0000)
@@ -46,5 +45,4 @@ public:
 	uint8                                         Pad_16[0x2];                                       // 0x0016(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

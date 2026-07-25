@@ -14,8 +14,7 @@
 #include "Map_Menu_SplashScreens_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Map_Menu_SplashScreens.Map_Menu_SplashScreens_C.ReceiveBeginPlay
 // (Event, Protected, BlueprintEvent)
@@ -50,5 +49,5 @@ void AMap_Menu_SplashScreens_C::ExecuteUbergraph_Map_Menu_SplashScreens(int32 En
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

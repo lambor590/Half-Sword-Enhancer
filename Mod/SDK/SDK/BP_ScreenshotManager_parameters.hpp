@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_ScreenshotManager.BP_ScreenshotManager_C.ExecuteUbergraph_BP_ScreenshotManager
 // 0x00D0 (0x00D0 - 0x0000)
@@ -59,5 +59,5 @@ public:
 	class FString                                 Filename;                                          // 0x0018(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

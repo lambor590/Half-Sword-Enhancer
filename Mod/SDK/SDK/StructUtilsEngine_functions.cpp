@@ -14,8 +14,7 @@
 #include "StructUtilsEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.EqualEqual_InstancedStruct
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -251,5 +250,5 @@ void UStructUtilsFunctionLibrary::SetInstancedStructValue(struct FInstancedStruc
 	InstancedStruct = std::move(Parms.InstancedStruct);
 }
 
-}
 
+SDK_NAMESPACE_END

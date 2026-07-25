@@ -14,8 +14,7 @@
 #include "HalfSwordUE5_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function HalfSwordUE5.FireComponent.IsBurning
 // (Final, Native, Public, BlueprintCallable)
@@ -284,5 +283,24 @@ void AProcGenCommon::GenerateTerrainChunk(const struct FVector& ChunkCenter)
 	Func->FunctionFlags = Flgs;
 }
 
+
+// Function HalfSwordUE5.UWorkshopManagerSubsystem.CreateWorkshopItem
+// (Final, Native, Public, BlueprintCallable)
+
+void UUWorkshopManagerSubsystem::CreateWorkshopItem()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UWorkshopManagerSubsystem", "CreateWorkshopItem");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
 }
 
+
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum HalfSwordUE5.ECollisionType
 // NumValues: 0x0003
@@ -32,5 +31,11 @@ enum class EVFXActorType : uint8
 	VFXActorType_MAX                         = 2,
 };
 
+// DelegateFunction HalfSwordUE5.OnCVarChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace HalfSwordUE5
+{
+using FDelegateSignature_OnCVarChanged = void(int32 NewValue);
 }
 
+SDK_NAMESPACE_END

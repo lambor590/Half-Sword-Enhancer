@@ -16,8 +16,7 @@
 #include "AnimGraphRuntime_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // AnimBlueprintGeneratedClass ABP_Crossbow.ABP_Crossbow_C
 // 0x0470 (0x07E0 - 0x0370)
@@ -65,5 +64,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

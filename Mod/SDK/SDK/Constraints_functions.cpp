@@ -14,8 +14,7 @@
 #include "Constraints_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Constraints.ConstraintsScriptingLibrary.AddConstraint
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
@@ -234,5 +233,5 @@ bool UConstraintsScriptingLibrary::RemoveThisConstraint(class UWorld* InWorld, c
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

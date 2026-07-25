@@ -14,8 +14,7 @@
 #include "ChaosCloth_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ChaosCloth.ChaosClothingInteractor.ResetAndTeleport
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -433,5 +432,5 @@ void UChaosClothingInteractor::SetWind(const struct FVector2D& Drag, const struc
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

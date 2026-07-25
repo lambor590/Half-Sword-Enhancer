@@ -14,8 +14,7 @@
 #include "BP_MeshBloodSimManager_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_MeshBloodSimManager.BP_MeshBloodSimManager_C.DoMeshBloodSim
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -64,5 +63,5 @@ void ABP_MeshBloodSimManager_C::UpdateSimulations(class UStaticMeshComponent* Me
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

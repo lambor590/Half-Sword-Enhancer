@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Armorsmith.UI_Dialog_Widget_Armorsmith_C
 // 0x0020 (0x0300 - 0x02E0)
@@ -50,5 +49,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

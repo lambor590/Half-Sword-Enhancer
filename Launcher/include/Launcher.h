@@ -1,35 +1,42 @@
 #pragma once
 
-#include <string>
 #include <optional>
-#include <Windows.h>
+#include <cstdint>
+#include <filesystem>
 
 #include "UpdateManager.h"
-#include "ProcessManager.h"
-#include "LauncherConfig.h"
+
+namespace hse {
+    enum class GameEdition : std::uint8_t;
+    enum class InstallMode : std::uint8_t;
+    class LauncherConfig;
+}
 
 class HSELauncher {
-    static constexpr int EXIT_DELAY_SECONDS = 3;
-    static constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
-    static constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-    static constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-
-    hse::UpdateManager& updateManager;
-    hse::ProcessManager& processManager;
     hse::LauncherConfig& config;
 
-#ifdef BETA_VERSION
-    std::optional<hse::BetaUpdateInfo> cachedBetaInfo_;
+    std::filesystem::path gameBinPath_;
+    hse::GameEdition gameEdition_;
+
+#ifdef EXPERIMENTAL_VERSION
+    std::optional<hse::ExperimentalUpdateInfo> cachedExperimentalInfo_;
+#else
+    std::optional<hse::UpdateInfo> cachedUpdateInfo_;
 #endif
 
     void DisplayBanner();
     void SetupConsole();
-    bool HandleDraggedDLL(int argc, char* argv[]);
     void ShowFirstRunInstructions();
     bool AskForUpdatePreference();
-    bool EnsureModExists();
-    bool PerformUpdatesIfNeeded();
-    bool InjectMod();
+    bool PerformSelfUpdate();
+    bool LocateGame();
+    std::filesystem::path AskManualPath();
+#ifdef EXPERIMENTAL_VERSION
+    hse::InstallMode GetInstallMode();
+#endif
+    bool CheckAndInstallMod();
+    bool DownloadAndInstall(const hse::Version& version, hse::InstallMode installMode);
+    void OfferGameLaunch();
     void ShowExitMessage(bool success);
 
 public:

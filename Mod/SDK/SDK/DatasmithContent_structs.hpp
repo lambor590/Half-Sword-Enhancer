@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "CinematicCamera_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum DatasmithContent.EDatasmithAreaLightActorShape
 // NumValues: 0x0006
@@ -324,5 +323,4 @@ public:
 	TMap<uint32, struct FDatasmithMeshSectionInfoTemplate> Map;                                      // 0x0000(0x0050)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

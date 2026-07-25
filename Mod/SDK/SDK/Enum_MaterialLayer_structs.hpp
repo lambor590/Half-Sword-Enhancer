@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_MaterialLayer.Enum_MaterialLayer
 // NumValues: 0x0011
@@ -37,5 +36,4 @@ enum class Enum_MaterialLayer : uint8
 	Enum_MAX                                 = 16,
 };
 
-}
-
+SDK_NAMESPACE_END

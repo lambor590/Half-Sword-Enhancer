@@ -15,8 +15,7 @@
 #include "Enum_PlayMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_GiveUp.UI_GiveUp_C
 // 0x0070 (0x0350 - 0x02E0)
@@ -63,5 +62,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

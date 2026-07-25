@@ -14,8 +14,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Weapon_Part_MaceHead_K.Weapon_Part_MaceHead_K_C.UserConstructionScript
 // 0x00A0 (0x00A0 - 0x0000)
@@ -51,5 +51,5 @@ public:
 	struct FMaterialParameterInfo                 CallFunc_GetParameterInfo_ReturnValue;             // 0x0090(0x0010)(NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

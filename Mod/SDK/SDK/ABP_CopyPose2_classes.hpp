@@ -16,8 +16,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // AnimBlueprintGeneratedClass ABP_CopyPose2.ABP_CopyPose2_C
 // 0x01E0 (0x0550 - 0x0370)
@@ -60,5 +59,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

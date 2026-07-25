@@ -1,46 +1,133 @@
-#include "Windows.h"
+#include <Windows.h>
 
-#include "Util.h"
+#include <algorithm>
+#include <cstddef>
+#include <cwchar>
+#include <string_view>
+#include <vector>
 
-HMODULE hOriginalDLL = NULL;
+#include "winmm_exports.generated.h"
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
-        hOriginalDLL = LoadOriginalDLL();
-        LoadModDLL();
+extern "C" FARPROC originalFuncs[winmm_exports::kCount]{};
+extern "C" volatile LONG proxyState = 0;
+
+namespace {
+    constexpr DWORD PROXY_READY_WAIT_MS = 250;
+    constexpr LONG PROXY_READY = 1;
+    constexpr std::size_t MAX_PATH_CHARACTERS = 32'768;
+    constexpr std::wstring_view MOD_FILENAME = L"HSEnhancer.dll";
+
+    HANDLE proxyReadyEvent = nullptr;
+
+    [[nodiscard]] HMODULE LoadOriginalDll() noexcept {
+        wchar_t path[MAX_PATH]{};
+        const UINT systemDirectoryLength = GetSystemDirectoryW(path, MAX_PATH);
+        constexpr wchar_t DLL_SUFFIX[] = L"\\winmm.dll";
+        constexpr std::size_t DLL_SUFFIX_CHARACTERS = sizeof(DLL_SUFFIX) / sizeof(wchar_t);
+        if (systemDirectoryLength == 0 || systemDirectoryLength + DLL_SUFFIX_CHARACTERS > MAX_PATH) return nullptr;
+
+        std::wmemcpy(path + systemDirectoryLength, DLL_SUFFIX, DLL_SUFFIX_CHARACTERS);
+        return LoadLibraryW(path);
     }
-    else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
-        if (hOriginalDLL) {
-            FreeLibrary(hOriginalDLL);
+
+    void CacheOriginalFunctions(HMODULE originalDll) noexcept {
+        // Wine omits some legacy Windows exports. Their trampolines return a
+        // function-appropriate failure value instead of blocking mod startup.
+        for (std::size_t index = 0; index < winmm_exports::kCount; ++index) {
+            originalFuncs[index] = GetProcAddress(originalDll, winmm_exports::kNames[index]);
         }
     }
-    return TRUE;
+
+    void PublishProxyState(LONG state) noexcept {
+        InterlockedExchange(&proxyState, state);
+        if (proxyReadyEvent) SetEvent(proxyReadyEvent);
+    }
+
+    [[nodiscard]] std::vector<wchar_t> BuildModPath(HMODULE module) {
+        std::vector<wchar_t> path(MAX_PATH);
+        while (true) {
+            const DWORD length = GetModuleFileNameW(module, path.data(), static_cast<DWORD>(path.size()));
+            if (length == 0) return {};
+            if (length < path.size()) {
+                const wchar_t* separator = std::wcsrchr(path.data(), L'\\');
+                if (!separator) return {};
+                const auto prefixLength = static_cast<std::size_t>(separator - path.data()) + 1;
+                path.resize(prefixLength + MOD_FILENAME.size() + 1);
+                std::wmemcpy(path.data() + prefixLength, MOD_FILENAME.data(), MOD_FILENAME.size());
+                path.back() = L'\0';
+                return path;
+            }
+            if (path.size() == MAX_PATH_CHARACTERS) return {};
+            path.resize((std::min)(path.size() * 2, MAX_PATH_CHARACTERS));
+        }
+    }
+
+    void LoadModDll(HMODULE proxyModule) {
+        const auto modPath = BuildModPath(proxyModule);
+        HMODULE modDll = modPath.empty() ? nullptr : LoadLibraryW(modPath.data());
+        if (modDll) {
+            using InitFn = void (*)();
+            auto init = reinterpret_cast<InitFn>(GetProcAddress(modDll, "HSE_Initialize"));
+            if (init) {
+                init();
+                return;
+            }
+            FreeLibrary(modDll);
+            MessageBoxA(
+                nullptr, "'HSEnhancer.dll' does not export HSE_Initialize and cannot be started.",
+                "Half Sword Enhancer", MB_OK | MB_ICONERROR
+            );
+            return;
+        }
+
+        MessageBoxA(
+            nullptr,
+            "Could not find 'HSEnhancer.dll'."
+            "\n\nPlease make sure the file is named 'HSEnhancer.dll' and is in the same folder as the game.",
+            "Half Sword Enhancer", MB_OK | MB_ICONINFORMATION
+        );
+    }
+
+    DWORD WINAPI BootstrapMod(LPVOID context) {
+        const HMODULE originalDll = LoadOriginalDll();
+        // Some Wine prefixes cannot load their built-in winmm while the native
+        // override selects this proxy. Missing functions fail through the safe
+        // trampolines, so they do not need to block HSE startup.
+        if (originalDll) CacheOriginalFunctions(originalDll);
+        PublishProxyState(PROXY_READY);
+
+        LoadModDll(static_cast<HMODULE>(context));
+        return 0;
+    }
 }
 
-#define IMPLEMENT_FORWARDED_FUNCTION(name) \
-    extern "C" __declspec(dllexport) FARPROC name() \
-    { \
-        return GetProcAddress(hOriginalDLL, #name); \
+extern "C" FARPROC WaitForOriginalFunction(std::size_t index) noexcept {
+    LONG state = InterlockedCompareExchange(&proxyState, 0, 0);
+    if (state == PROXY_READY) return originalFuncs[index];
+    if (!proxyReadyEvent) return nullptr;
+
+    (void)WaitForSingleObject(proxyReadyEvent, PROXY_READY_WAIT_MS);
+    state = InterlockedCompareExchange(&proxyState, 0, 0);
+    return state == PROXY_READY ? originalFuncs[index] : nullptr;
+}
+
+BOOL APIENTRY DllMain(HMODULE module, DWORD reasonForCall, LPVOID /*reserved*/) {
+    if (reasonForCall != DLL_PROCESS_ATTACH) return TRUE;
+
+    DisableThreadLibraryCalls(module);
+
+    // Loading another DLL from DllMain runs under the loader lock and can deadlock.
+    // Bootstrap after attach instead; an unusually early winmm call fails closed in
+    // the assembly trampoline if the post-attach worker cannot publish in time.
+    proxyReadyEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+    if (!proxyReadyEvent) return FALSE;
+
+    HANDLE bootstrapThread = CreateThread(nullptr, 0, BootstrapMod, module, 0, nullptr);
+    if (!bootstrapThread) {
+        CloseHandle(proxyReadyEvent);
+        proxyReadyEvent = nullptr;
+        return FALSE;
     }
-IMPLEMENT_FORWARDED_FUNCTION(DwmAttachMilContent)
-IMPLEMENT_FORWARDED_FUNCTION(DwmDefWindowProc)
-IMPLEMENT_FORWARDED_FUNCTION(DwmDetachMilContent)
-IMPLEMENT_FORWARDED_FUNCTION(DwmEnableBlurBehindWindow)
-IMPLEMENT_FORWARDED_FUNCTION(DwmEnableComposition)
-IMPLEMENT_FORWARDED_FUNCTION(DwmEnableMMCSS)
-IMPLEMENT_FORWARDED_FUNCTION(DwmExtendFrameIntoClientArea)
-IMPLEMENT_FORWARDED_FUNCTION(DwmFlush)
-IMPLEMENT_FORWARDED_FUNCTION(DwmGetColorizationColor)
-IMPLEMENT_FORWARDED_FUNCTION(DwmGetCompositionTimingInfo)
-IMPLEMENT_FORWARDED_FUNCTION(DwmGetTransportAttributes)
-IMPLEMENT_FORWARDED_FUNCTION(DwmGetWindowAttribute)
-IMPLEMENT_FORWARDED_FUNCTION(DwmIsCompositionEnabled)
-IMPLEMENT_FORWARDED_FUNCTION(DwmModifyPreviousDxFrameDuration)
-IMPLEMENT_FORWARDED_FUNCTION(DwmQueryThumbnailSourceSize)
-IMPLEMENT_FORWARDED_FUNCTION(DwmRegisterThumbnail)
-IMPLEMENT_FORWARDED_FUNCTION(DwmSetDxFrameDuration)
-IMPLEMENT_FORWARDED_FUNCTION(DwmSetPresentParameters)
-IMPLEMENT_FORWARDED_FUNCTION(DwmSetWindowAttribute)
-IMPLEMENT_FORWARDED_FUNCTION(DwmUnregisterThumbnail)
-IMPLEMENT_FORWARDED_FUNCTION(DwmUpdateThumbnailProperties)
+    CloseHandle(bootstrapThread);
+    return TRUE;
+}

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum GripType_Enum.GripType_Enum
 // NumValues: 0x0013
@@ -39,5 +38,4 @@ enum class EGripType_Enum : uint8
 	GripType_MAX                             = 18,
 };
 
-}
-
+SDK_NAMESPACE_END

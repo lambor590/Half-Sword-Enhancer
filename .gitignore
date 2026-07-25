@@ -1,7 +1,12 @@
 .vs
+.vscode
 packages/
 bin/
-.claude
-CLAUDE.md
 Mod/SDK/Engine
 *.user
+*.aps
+private/
+.codex/
+.agents/
+AGENTS.md
+CHANGELOG-dev.md

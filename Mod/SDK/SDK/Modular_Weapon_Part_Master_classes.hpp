@@ -10,17 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Part_Master.Modular_Weapon_Part_Master_C
 // 0x0168 (0x03F8 - 0x0290)
@@ -101,5 +100,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

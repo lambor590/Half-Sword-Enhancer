@@ -17,8 +17,7 @@
 #include "Gauntlet_Progress_Struct_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_PlayerProgression.SG_PlayerProgression_C
 // 0x5678 (0x56A0 - 0x0028)
@@ -60,5 +59,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

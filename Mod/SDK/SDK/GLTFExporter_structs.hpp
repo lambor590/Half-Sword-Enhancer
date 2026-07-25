@@ -13,8 +13,7 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum GLTFExporter.EGLTFTextureImageFormat
 // NumValues: 0x0004
@@ -96,5 +95,4 @@ public:
 	ETextureAddress                               Tiling;                                            // 0x0013(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "RigVM_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function RigVM.RigVMHost.FindRigVMHosts
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -1499,5 +1498,5 @@ bool URigVMUserWorkflowOptions::RequiresDialog() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

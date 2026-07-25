@@ -14,8 +14,7 @@
 #include "BP_SpawnerPoint_Willies_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_SpawnerPoint_Willies.BP_SpawnerPoint_Willies_C.ExecuteUbergraph_BP_SpawnerPoint_Willies
 // (Final, UbergraphFunction, HasDefaults)
@@ -98,5 +97,5 @@ void ABP_SpawnerPoint_Willies_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

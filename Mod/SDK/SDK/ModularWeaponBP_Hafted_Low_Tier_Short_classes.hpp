@@ -13,11 +13,10 @@
 #include "ModularWeaponBP_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_Low_Tier_Short.ModularWeaponBP_Hafted_Low_Tier_Short_C
-// 0x0000 (0x0BC0 - 0x0BC0)
+// 0x0000 (0x0BF8 - 0x0BF8)
 class AModularWeaponBP_Hafted_Low_Tier_Short_C final : public AModularWeaponBP_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

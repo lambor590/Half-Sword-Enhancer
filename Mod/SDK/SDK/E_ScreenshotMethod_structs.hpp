@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum E_ScreenshotMethod.E_ScreenshotMethod
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class E_ScreenshotMethod : uint8
 	E_MAX                                    = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

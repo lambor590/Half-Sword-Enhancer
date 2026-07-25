@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_ColorPicker_Widget.UI_ColorPicker_Widget_C
 // 0x0040 (0x0320 - 0x02E0)
@@ -53,5 +52,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

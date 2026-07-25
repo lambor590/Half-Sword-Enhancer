@@ -14,8 +14,7 @@
 #include "InterchangeFactoryNodes_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function InterchangeFactoryNodes.InterchangeActorFactoryNode.SetCustomActorClassName
 // (Final, Native, Public, BlueprintCallable)
@@ -13400,5 +13399,5 @@ int32 UInterchangeStaticMeshLodDataNode::GetSphereCollisionMeshUidsCount() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

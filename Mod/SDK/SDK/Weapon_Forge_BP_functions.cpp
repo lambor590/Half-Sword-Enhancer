@@ -14,8 +14,7 @@
 #include "Weapon_Forge_BP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Forge_BP.Weapon_Forge_BP_C.ExecuteUbergraph_Weapon_Forge_BP
 // (Final, UbergraphFunction)
@@ -214,5 +213,5 @@ void AWeapon_Forge_BP_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "Modular_MaceHead_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_MaceHead_G.Weapon_Part_MaceHead_G_C
 // 0x00C0 (0x04E8 - 0x0428)
@@ -61,5 +60,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

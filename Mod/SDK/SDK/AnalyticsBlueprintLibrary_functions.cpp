@@ -14,8 +14,7 @@
 #include "AnalyticsBlueprintLibrary_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AnalyticsBlueprintLibrary.AnalyticsBlueprintLibrary.EndSession
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -787,5 +786,5 @@ bool UAnalyticsBlueprintLibrary::StartSessionWithAttributes(const TArray<struct 
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

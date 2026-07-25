@@ -13,13 +13,12 @@
 #include "Modular_Weapon_Part_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Module.Modular_Weapon_Module_C
 // 0x0028 (0x0420 - 0x03F8)
 #pragma pack(push, 0x1)
-class alignas(0x08) AModular_Weapon_Module_C : public AModular_Weapon_Part_Master_C
+class SDK_ALIGN(0x08) AModular_Weapon_Module_C : public AModular_Weapon_Part_Master_C
 {
 public:
 	TArray<class UClass*>                         Sub_Module_1_Array;                                // 0x03F8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
@@ -45,5 +44,4 @@ public:
 };
 #pragma pack(pop)
 
-}
-
+SDK_NAMESPACE_END

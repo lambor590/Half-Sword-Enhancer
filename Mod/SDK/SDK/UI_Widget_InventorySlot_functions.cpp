@@ -14,8 +14,7 @@
 #include "UI_Widget_InventorySlot_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Widget_InventorySlot.UI_Widget_InventorySlot_C.BndEvt__ABUBUBA_Button_117_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -64,5 +63,5 @@ void UUI_Widget_InventorySlot_C::ExecuteUbergraph_UI_Widget_InventorySlot(int32 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

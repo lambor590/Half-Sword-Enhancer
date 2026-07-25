@@ -10,18 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
-#include "CoreUObject_classes.hpp"
 #include "VertexPaintDetectionPlugin_structs.hpp"
 #include "GameplayTags_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "CoreUObject_structs.hpp"
+#include "CoreUObject_classes.hpp"
 #include "DeveloperSettings_classes.hpp"
 #include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class VertexPaintDetectionPlugin.VertexPaintDetectionComponent
 // 0x0408 (0x04A8 - 0x00A0)
@@ -650,5 +649,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

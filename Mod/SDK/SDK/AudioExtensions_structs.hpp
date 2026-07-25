@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum AudioExtensions.ESoundWaveCloudStreamingPlatformProjectEnableType
 // NumValues: 0x0003
@@ -102,5 +101,4 @@ public:
 	uint8                                         Pad_8C[0x14];                                      // 0x008C(0x0014)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

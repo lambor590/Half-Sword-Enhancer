@@ -14,8 +14,7 @@
 #include "AudioLinkEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AudioLinkEngine.AudioLinkBlueprintInterface.PlayLink
 // (Native, Public, BlueprintCallable)
@@ -110,5 +109,5 @@ bool IAudioLinkBlueprintInterface::IsLinkPlaying() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

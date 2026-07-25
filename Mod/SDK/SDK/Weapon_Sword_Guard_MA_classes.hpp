@@ -13,13 +13,16 @@
 #include "Modular_Sword_Guard_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Guard_MA.Weapon_Sword_Guard_MA_C
-// 0x0000 (0x0448 - 0x0448)
+// 0x0010 (0x0458 - 0x0448)
 class AWeapon_Sword_Guard_MA_C final : public AModular_Sword_Guard_Master_C
 {
+public:
+	class USceneComponent*                        Tip2;                                              // 0x0448(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0450(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -35,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

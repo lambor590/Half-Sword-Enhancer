@@ -14,8 +14,7 @@
 #include "Constraint_Zero_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Constraint_Zero.Constraint_Zero_C.Destroy Self
 // (BlueprintCallable, BlueprintEvent)
@@ -98,5 +97,5 @@ void AConstraint_Zero_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

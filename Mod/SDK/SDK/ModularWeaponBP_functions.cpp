@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP.ModularWeaponBP_C.BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -256,6 +255,20 @@ void AModularWeaponBP_C::Collision_Hit(class UPrimitiveComponent* Hit_Component,
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Reenable Last Parent Collision
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Reenable_Last_Parent_Collision()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "Event Reenable Last Parent Collision");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -566,20 +579,6 @@ void AModularWeaponBP_C::UserConstructionScript()
 }
 
 
-// Function ModularWeaponBP.ModularWeaponBP_C.Vertex Paint
-// (BlueprintCallable, BlueprintEvent)
-
-void AModularWeaponBP_C::Vertex_Paint()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Vertex Paint");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function ModularWeaponBP.ModularWeaponBP_C.Weapon HIt
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -609,5 +608,5 @@ void AModularWeaponBP_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component, co
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

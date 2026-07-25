@@ -14,8 +14,7 @@
 #include "LocationServicesBPLibrary_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function LocationServicesBPLibrary.LocationServices.AreLocationServicesEnabled
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -201,5 +200,5 @@ bool ULocationServices::StopLocationServices()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

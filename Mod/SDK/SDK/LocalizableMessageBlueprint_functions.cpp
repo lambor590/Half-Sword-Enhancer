@@ -14,8 +14,7 @@
 #include "LocalizableMessageBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function LocalizableMessageBlueprint.LocalizableMessageLibrary.Conv_LocalizableMessageToText
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -101,5 +100,5 @@ void ULocalizableMessageLibrary::Reset_LocalizableMessage(struct FLocalizableMes
 	Message = std::move(Parms.Message);
 }
 
-}
 
+SDK_NAMESPACE_END

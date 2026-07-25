@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum NavigationSystem.ERuntimeGenerationType
 // NumValues: 0x0005
@@ -244,5 +243,18 @@ public:
 	float                                         AgentMaxStepHeight;                                // 0x0008(0x0004)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction NavigationSystem.OnNavDataGenericEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace NavigationSystem
+{
+using FDelegateSignature_OnNavDataGenericEvent = void(class ANavigationData* NavData);
 }
 
+// DelegateFunction NavigationSystem.OnNavigationPathUpdated__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace NavigationSystem
+{
+using FDelegateSignature_OnNavigationPathUpdated = void(class UNavigationPath* AffectedPath, ENavPathEvent PathEvent);
+}
+
+SDK_NAMESPACE_END

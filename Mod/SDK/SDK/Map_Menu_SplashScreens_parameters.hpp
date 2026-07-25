@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Map_Menu_SplashScreens.Map_Menu_SplashScreens_C.ExecuteUbergraph_Map_Menu_SplashScreens
 // 0x0010 (0x0010 - 0x0000)
@@ -24,5 +24,5 @@ public:
 	class UUI_StartUpScreen_1_C*                  CallFunc_Create_ReturnValue;                       // 0x0008(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "MovieSceneCapture_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_PhotoResolutions.S_PhotoResolutions
 // 0x0018 (0x0018 - 0x0000)
@@ -25,5 +24,4 @@ public:
 	struct FCaptureResolution                     Resolution_6_B3AEAAD34C4B52CF27BFFC8A6C6D15C2;     // 0x0010(0x0008)(Edit, BlueprintVisible, NoDestructor)
 };
 
-}
-
+SDK_NAMESPACE_END

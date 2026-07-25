@@ -14,8 +14,7 @@
 #include "ControlRig_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ControlRig.ControlRigShapeLibraryLink.SetShapeLibrary
 // (Final, Native, Public, BlueprintCallable)
@@ -5576,6 +5575,248 @@ TArray<struct FRigElementKey> URigHierarchy::SortKeys(const TArray<struct FRigEl
 }
 
 
+// Function ControlRig.ControlRigTestData.CreateNewAsset
+// (Final, Native, Static, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    InDesiredPackagePath                                   (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InBlueprintPathName                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UControlRigTestData*              ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UControlRigTestData* UControlRigTestData::CreateNewAsset(const class FString& InDesiredPackagePath, const class FString& InBlueprintPathName)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("ControlRigTestData", "CreateNewAsset");
+
+	Params::ControlRigTestData_CreateNewAsset Parms{};
+
+	Parms.InDesiredPackagePath = std::move(InDesiredPackagePath);
+	Parms.InBlueprintPathName = std::move(InBlueprintPathName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.Record
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// class UControlRig*                      InControlRig                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// double                                  InRecordingDuration                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UControlRigTestData::Record(class UControlRig* InControlRig, double InRecordingDuration)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "Record");
+
+	Params::ControlRigTestData_Record Parms{};
+
+	Parms.InControlRig = InControlRig;
+	Parms.InRecordingDuration = InRecordingDuration;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.ReleaseReplay
+// (Final, Native, Public, BlueprintCallable)
+
+void UControlRigTestData::ReleaseReplay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "ReleaseReplay");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function ControlRig.ControlRigTestData.SetupReplay
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// class UControlRig*                      InControlRig                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bGroundTruth                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UControlRigTestData::SetupReplay(class UControlRig* InControlRig, bool bGroundTruth)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "SetupReplay");
+
+	Params::ControlRigTestData_SetupReplay Parms{};
+
+	Parms.InControlRig = InControlRig;
+	Parms.bGroundTruth = bGroundTruth;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.GetFrameIndexForTime
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// double                                  InSeconds                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bInput                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+int32 UControlRigTestData::GetFrameIndexForTime(double InSeconds, bool bInput) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "GetFrameIndexForTime");
+
+	Params::ControlRigTestData_GetFrameIndexForTime Parms{};
+
+	Parms.InSeconds = InSeconds;
+	Parms.bInput = bInput;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.GetPlaybackMode
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// EControlRigTestDataPlaybackMode         ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+EControlRigTestDataPlaybackMode UControlRigTestData::GetPlaybackMode() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "GetPlaybackMode");
+
+	Params::ControlRigTestData_GetPlaybackMode Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.GetTimeRange
+// (Final, Native, Public, HasDefaults, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    bInput                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector2D UControlRigTestData::GetTimeRange(bool bInput) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "GetTimeRange");
+
+	Params::ControlRigTestData_GetTimeRange Parms{};
+
+	Parms.bInput = bInput;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.IsRecording
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UControlRigTestData::IsRecording() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "IsRecording");
+
+	Params::ControlRigTestData_IsRecording Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ControlRig.ControlRigTestData.IsReplaying
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UControlRigTestData::IsReplaying() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ControlRigTestData", "IsReplaying");
+
+	Params::ControlRigTestData_IsReplaying Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function ControlRig.AnimNodeControlRigLibrary.ConvertToControlRig
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
@@ -7323,248 +7564,6 @@ bool AControlRigShapeActor::IsSelectedInEditor() const
 		Func = Class->GetFunction("ControlRigShapeActor", "IsSelectedInEditor");
 
 	Params::ControlRigShapeActor_IsSelectedInEditor Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.CreateNewAsset
-// (Final, Native, Static, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    InDesiredPackagePath                                   (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const class FString&                    InBlueprintPathName                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UControlRigTestData*              ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class UControlRigTestData* UControlRigTestData::CreateNewAsset(const class FString& InDesiredPackagePath, const class FString& InBlueprintPathName)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("ControlRigTestData", "CreateNewAsset");
-
-	Params::ControlRigTestData_CreateNewAsset Parms{};
-
-	Parms.InDesiredPackagePath = std::move(InDesiredPackagePath);
-	Parms.InBlueprintPathName = std::move(InBlueprintPathName);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.Record
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// class UControlRig*                      InControlRig                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// double                                  InRecordingDuration                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UControlRigTestData::Record(class UControlRig* InControlRig, double InRecordingDuration)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "Record");
-
-	Params::ControlRigTestData_Record Parms{};
-
-	Parms.InControlRig = InControlRig;
-	Parms.InRecordingDuration = InRecordingDuration;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.ReleaseReplay
-// (Final, Native, Public, BlueprintCallable)
-
-void UControlRigTestData::ReleaseReplay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "ReleaseReplay");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function ControlRig.ControlRigTestData.SetupReplay
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// class UControlRig*                      InControlRig                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    bGroundTruth                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UControlRigTestData::SetupReplay(class UControlRig* InControlRig, bool bGroundTruth)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "SetupReplay");
-
-	Params::ControlRigTestData_SetupReplay Parms{};
-
-	Parms.InControlRig = InControlRig;
-	Parms.bGroundTruth = bGroundTruth;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.GetFrameIndexForTime
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// double                                  InSeconds                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    bInput                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-int32 UControlRigTestData::GetFrameIndexForTime(double InSeconds, bool bInput) const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "GetFrameIndexForTime");
-
-	Params::ControlRigTestData_GetFrameIndexForTime Parms{};
-
-	Parms.InSeconds = InSeconds;
-	Parms.bInput = bInput;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.GetPlaybackMode
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// EControlRigTestDataPlaybackMode         ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-EControlRigTestDataPlaybackMode UControlRigTestData::GetPlaybackMode() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "GetPlaybackMode");
-
-	Params::ControlRigTestData_GetPlaybackMode Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.GetTimeRange
-// (Final, Native, Public, HasDefaults, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    bInput                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-struct FVector2D UControlRigTestData::GetTimeRange(bool bInput) const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "GetTimeRange");
-
-	Params::ControlRigTestData_GetTimeRange Parms{};
-
-	Parms.bInput = bInput;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.IsRecording
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UControlRigTestData::IsRecording() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "IsRecording");
-
-	Params::ControlRigTestData_IsRecording Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ControlRig.ControlRigTestData.IsReplaying
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UControlRigTestData::IsReplaying() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ControlRigTestData", "IsReplaying");
-
-	Params::ControlRigTestData_IsReplaying Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -9349,5 +9348,5 @@ TArray<struct FRigVMUserWorkflow> UControlRigTransformWorkflowOptions::ProvideWo
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

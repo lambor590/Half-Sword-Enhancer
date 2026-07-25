@@ -14,8 +14,7 @@
 #include "UI_WeaponSelection_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_WeaponSelection.UI_WeaponSelection_C.BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -514,5 +513,5 @@ void UUI_WeaponSelection_C::Tick(const struct FGeometry& MyGeometry, float InDel
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

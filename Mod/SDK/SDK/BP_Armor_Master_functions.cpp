@@ -14,8 +14,7 @@
 #include "BP_Armor_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Armor_Master.BP_Armor_Master_C.BndEvt__BP_Armor_Master_Armor Mesh Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -121,21 +120,25 @@ void ABP_Armor_Master_C::ReceiveBeginPlay()
 }
 
 
-// Function BP_Armor_Master.BP_Armor_Master_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function BP_Armor_Master.BP_Armor_Master_C.Setup Armor Material
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class USkeletalMeshComponent*           AddedArmorMesh                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FStr_Passport_Armor1&      Passport                                               (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// class UMaterialInstanceDynamic*         SetupArmorDynamicMaterial                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Armor_Master_C::ReceiveTick(float DeltaSeconds)
+void ABP_Armor_Master_C::Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "ReceiveTick");
+		Func = Class->GetFunction("BP_Armor_Master_C", "Setup Armor Material");
 
-	Params::BP_Armor_Master_C_ReceiveTick Parms{};
+	Params::BP_Armor_Master_C_Setup_Armor_Material Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.AddedArmorMesh = AddedArmorMesh;
+	Parms.Passport = std::move(Passport);
+	Parms.SetupArmorDynamicMaterial = SetupArmorDynamicMaterial;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -154,5 +157,5 @@ void ABP_Armor_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,16 +13,15 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Living_Thing.BPI_Living_Thing_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_Living_Thing_C final
 {
 public:
-	void Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* nul);
-	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double* Damage_Out);
+	void Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul);
+	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double Draw_Cut, double* Damage_Out);
 
 public:
 	static class UClass* StaticClass()
@@ -48,5 +47,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

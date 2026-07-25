@@ -1,12 +1,17 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <expected>
+#include <filesystem>
 #include <optional>
-#include <compare>
-#include <mutex>
+#include <cstdint>
+
+#include "Version.h"
 
 namespace hse {
+
+    enum class InstallMode : std::uint8_t;
 
     enum class UpdateError : std::uint8_t {
         VersionParsingFailed = 1,
@@ -16,107 +21,68 @@ namespace hse {
         UpdateFailed = 5
     };
 
-    class Version {
-    public:
-        constexpr Version() noexcept = default;
-        explicit Version(std::string_view versionString) noexcept;
-
-        constexpr auto operator<=>(const Version&) const noexcept = default;
-        constexpr bool operator==(const Version&) const noexcept = default;
-
-        [[nodiscard]] std::string ToString() const;
-        [[nodiscard]] constexpr bool IsValid() const noexcept {
-            return major_ > 0 || minor_ > 0 || patch_ > 0;
-        }
-
-        [[nodiscard]] constexpr std::uint16_t major() const noexcept { return major_; }
-        [[nodiscard]] constexpr std::uint16_t minor() const noexcept { return minor_; }
-        [[nodiscard]] constexpr std::uint16_t patch() const noexcept { return patch_; }
-
-    private:
-        std::uint16_t major_ = 0;
-        std::uint16_t minor_ = 0;
-        std::uint16_t patch_ = 0;
-    };
-
     struct UpdateInfo {
         bool available = false;
         Version currentVersion;
         Version remoteVersion;
-        std::string downloadUrlLauncher;
-        std::string downloadUrlMod;
+        std::string downloadUrlBundle;
     };
 
-#ifdef BETA_VERSION
-    struct BetaUpdateInfo {
-        std::optional<UpdateInfo> stableRelease;
-
-        bool modUpdateAvailable = false;
+#ifdef EXPERIMENTAL_VERSION
+    struct ExperimentalUpdateInfo {
+        bool packageUpdateAvailable = false;
         bool launcherUpdateAvailable = false;
-        std::string modTimestamp;
-        std::string launcherTimestamp;
-        std::string downloadUrlMod;
-        std::string downloadUrlLauncher;
+        std::string buildId;
+        std::string downloadUrlBundle;
     };
 #endif
 
     class UpdateManager {
     public:
-        static UpdateManager& Instance() noexcept {
-            static UpdateManager instance;
-            return instance;
-        }
+        [[nodiscard]] static std::expected<void, UpdateError> PrepareBundledPackage();
+        [[nodiscard]] static std::expected<Version, UpdateError> GetLocalVersion();
+        [[nodiscard]] static std::expected<UpdateInfo, UpdateError> CheckForUpdates();
+        [[nodiscard]] static std::expected<Version, UpdateError> GetInstalledModVersion(
+            const std::filesystem::path& gameBinPath
+        );
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallMod(
+            const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
+        );
+        [[nodiscard]] static std::expected<bool, UpdateError> InstallPreparedPackage(
+            const std::filesystem::path& gameBinPath, InstallMode installMode
+        );
+        [[nodiscard]] static std::expected<void, UpdateError> UpdateLauncher(
+            std::string_view downloadUrl, std::optional<Version> expectedVersion = std::nullopt,
+            std::string_view buildId = {}
+        );
 
-        [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
-        [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateMod(const Version& version) noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
-            std::string_view downloadUrl,
-            std::string_view timestamp = {}
-        ) noexcept;
-
-#ifdef BETA_VERSION
-        [[nodiscard]] std::expected<BetaUpdateInfo, UpdateError> CheckForBetaUpdates() noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateBetaMod(
-            std::string_view downloadUrl,
-            std::string_view timestamp
-        ) noexcept;
+#ifdef EXPERIMENTAL_VERSION
+        [[nodiscard]] static std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates();
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
+            const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
+        );
 #endif
 
     private:
         static constexpr std::string_view GITHUB_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/latest";
-
-#ifdef BETA_VERSION
-        static constexpr std::string_view GITHUB_BETA_API_URL =
-            "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/beta-latest";
+#ifdef EXPERIMENTAL_VERSION
+        static constexpr std::string_view GITHUB_EXPERIMENTAL_API_URL =
+            "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/experimental-latest";
 #endif
 
-        mutable std::mutex mutex_;
-        std::optional<Version> cachedLocalVersion_;
-
-        UpdateManager() = default;
-        ~UpdateManager() = default;
-        UpdateManager(const UpdateManager&) = delete;
-        UpdateManager& operator=(const UpdateManager&) = delete;
-        UpdateManager(UpdateManager&&) = delete;
-        UpdateManager& operator=(UpdateManager&&) = delete;
-
-        [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
-        [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
-        [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
-
-#ifdef BETA_VERSION
-        [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
-            std::string_view json,
-            std::string_view assetName
-        ) const noexcept;
-
-        [[nodiscard]] std::expected<std::string, UpdateError> ParseAssetField(
-            std::string_view assetObject,
-            std::string_view fieldName
-        ) const noexcept;
-#endif
+        [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
+        [[nodiscard]] static std::expected<void, UpdateError> DownloadPackageAndInstall(
+            std::string_view packageUrl, const std::filesystem::path& gameBinPath, InstallMode installMode,
+            std::optional<Version> expectedVersion, std::string_view expectedBuildId = {}
+        );
+        [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
+            const std::filesystem::path& filePath
+        );
+        [[nodiscard]] static std::expected<std::string, UpdateError> ParseJsonStringField(
+            std::string_view json, std::string_view fieldName
+        );
+        [[nodiscard]] static std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json);
     };
 
 }

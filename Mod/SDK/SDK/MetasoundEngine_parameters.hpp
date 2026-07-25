@@ -11,12 +11,12 @@
 #include "Basic.hpp"
 
 #include "MetasoundFrontend_structs.hpp"
-#include "MetasoundEngine_structs.hpp"
 #include "AudioExtensions_structs.hpp"
+#include "MetasoundEngine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateBoolArrayMetaSoundLiteral
 // 0x0068 (0x0068 - 0x0000)
@@ -1241,5 +1241,5 @@ public:
 	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

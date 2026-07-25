@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "ControlRig_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum FullBodyIK.EFBIKBoneLimitType
 // NumValues: 0x0004
@@ -155,5 +154,4 @@ public:
 	uint8                                         Pad_448[0x8];                                      // 0x0448(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

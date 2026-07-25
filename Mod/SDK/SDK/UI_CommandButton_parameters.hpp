@@ -15,8 +15,8 @@
 #include "S_InputIcons_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_CommandButton.UI_CommandButton_C.ExecuteUbergraph_UI_CommandButton
 // 0x0180 (0x0180 - 0x0000)
@@ -79,5 +79,5 @@ public:
 	struct FDataTableRowHandle                    IconDT_0;                                          // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

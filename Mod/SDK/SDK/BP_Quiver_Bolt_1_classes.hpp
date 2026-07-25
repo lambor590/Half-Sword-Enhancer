@@ -13,8 +13,7 @@
 #include "BP_Quiver_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Quiver_Bolt_1.BP_Quiver_Bolt_1_C
 // 0x0000 (0x02D0 - 0x02D0)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -15,8 +15,7 @@
 #include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class CinematicCamera.CameraRig_Crane
 // 0x0030 (0x02C0 - 0x0290)
@@ -217,5 +216,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

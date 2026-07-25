@@ -14,8 +14,7 @@
 #include "Willie_BP_DressUp_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Willie_BP_DressUp.Willie_BP_DressUp_C.ExecuteUbergraph_Willie_BP_DressUp
 // (Final, UbergraphFunction, HasDefaults)
@@ -71,6 +70,20 @@ void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
 }
 
 
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.Reset Character
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_DressUp_C::Reset_Character()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_DressUp_C", "Reset Character");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP_DressUp.Willie_BP_DressUp_C.Set Up Armor
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -106,5 +119,5 @@ void AWillie_BP_DressUp_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

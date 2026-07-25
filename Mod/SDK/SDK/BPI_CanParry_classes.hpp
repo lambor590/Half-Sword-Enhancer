@@ -13,15 +13,14 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_CanParry.BPI_CanParry_C
 // 0x0000 (0x0000 - 0x0000)
 class IBPI_CanParry_C final
 {
 public:
-	void Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* nul);
+	void Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul);
 
 public:
 	static class UClass* StaticClass()
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

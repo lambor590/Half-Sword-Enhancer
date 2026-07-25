@@ -14,8 +14,7 @@
 #include "StreamlineBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function StreamlineBlueprint.StreamlineLibrary.BreakStreamlineFeatureRequirements
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -145,5 +144,5 @@ EStreamlineFeatureSupport UStreamlineLibrary::QueryStreamlineFeatureSupport(EStr
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

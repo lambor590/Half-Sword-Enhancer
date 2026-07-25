@@ -13,8 +13,7 @@
 #include "Modular_PA_Guard_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Guard_C.Modular_PA_Guard_C_C
 // 0x0000 (0x0430 - 0x0430)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

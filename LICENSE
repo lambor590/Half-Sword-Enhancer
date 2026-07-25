@@ -1,0 +1,123 @@
+HALF SWORD ENHANCER SOURCE-AVAILABLE LICENSE
+Version 1.0 — July 25, 2026
+
+Copyright (c) 2026 The Ghost. All rights reserved.
+
+This software is source-available, not open-source.
+
+1. Definitions
+
+"Software" means the Half Sword Enhancer source code, official compiled
+releases, documentation, and other materials owned by the Licensor and
+distributed with this license.
+
+"Licensor" means The Ghost.
+
+"You" means the individual exercising the permissions granted by this
+license.
+
+"Personal Use" means use by You solely on your own behalf for private,
+non-commercial purposes. It excludes use for or on behalf of any business,
+employer, client, organization, educational institution, or other third
+party, whether or not compensation is received.
+
+"Private Fork" means a copy, clone, or fork of the Software that:
+
+- is accessible only to You;
+- is not published, distributed, or shared with any other person or
+  organization; and
+- is not used for any purpose other than Personal Use.
+
+Private storage or hosting providers may hold a Private Fork on your behalf
+provided that You do not grant access to any other person.
+
+2. Limited Permission
+
+Subject to every term of this license, the Licensor grants You a limited,
+non-exclusive, non-transferable, non-sublicensable, royalty-free license to:
+
+- download, install, and run the Software for Personal Use;
+- view and inspect the source code for Personal Use;
+- create and maintain Private Forks, including reasonable private backups;
+- modify and compile the Software only within a Private Fork; and
+- run builds produced from your Private Fork for Personal Use.
+
+No other permission is granted.
+
+3. Restrictions
+
+Except where applicable law or the terms of the hosting platform independently
+require otherwise, You may not:
+
+- publish, upload, share, transmit, mirror, or otherwise distribute the
+  Software, in whole or in part, whether modified or unmodified;
+- make a Private Fork accessible to any other person or organization;
+- create or maintain a publicly accessible copy or fork;
+- sell, rent, lease, sublicense, monetize, or commercially exploit the
+  Software;
+- use the Software for professional, business, organizational, educational,
+  hosted-service, or revenue-generating purposes;
+- distribute builds or derivative works created from a Private Fork;
+- remove or alter copyright, license, attribution, or proprietary notices; or
+- use the Half Sword Enhancer name, branding, or logos in a way that suggests
+  endorsement or affiliation.
+
+Any use not expressly permitted by Section 2 is prohibited unless You first
+obtain separate written permission from the Licensor.
+
+4. Public Repository Hosting
+
+When the Software is hosted in a public repository, the hosting platform's
+terms may independently grant users limited rights to view or fork the
+repository within that platform. This license does not expand or attempt to
+revoke those platform-specific rights.
+
+A copy or fork created solely under a hosting platform's terms receives no
+additional permission under this license unless it also qualifies as a
+Private Fork. In particular, public availability does not grant permission to
+modify, redistribute, commercialize, or use the Software outside the limited
+rights provided by that platform.
+
+5. Ownership
+
+The Software is licensed, not sold. The Licensor retains all copyright and
+other rights in the Software. No patent, trademark, or other intellectual
+property license is granted except for the limited copyright permissions
+expressly stated in Section 2.
+
+6. Third-Party Materials
+
+This license applies only to material owned by the Licensor. Third-party
+libraries, generated SDK files, game assets, trademarks, and other third-party
+materials remain subject to their respective rights and terms.
+
+7. Termination
+
+Your permissions under this license terminate automatically if You breach any
+of its terms. Upon termination, You must stop using the Software and delete
+all copies and Private Forks in your possession or control.
+
+Sections 3, 5, 6, 8, and 9 survive termination.
+
+8. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR
+A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. YOU USE THE SOFTWARE AT
+YOUR OWN RISK.
+
+9. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR WILL NOT BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, OR
+FOR ANY LOSS OF DATA, PROFITS, GOODWILL, OR BUSINESS, ARISING FROM OR RELATED
+TO THE SOFTWARE OR THIS LICENSE.
+
+10. General
+
+If any provision of this license is held unenforceable, the remaining
+provisions remain in effect. A failure to enforce any provision is not a
+waiver of the right to enforce it later.
+
+Permission for any use outside this license must be obtained from the Licensor
+in writing.

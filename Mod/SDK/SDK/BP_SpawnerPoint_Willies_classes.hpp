@@ -12,18 +12,18 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_SpwanerFaceRotation_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_SpwanerFaceRotation_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Enum_PlayMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_SpawnerPoint_Willies.BP_SpawnerPoint_Willies_C
-// 0x03D8 (0x0668 - 0x0290)
+// 0x0430 (0x06C0 - 0x0290)
 class ABP_SpawnerPoint_Willies_C final : public AActor
 {
 public:
@@ -52,13 +52,16 @@ public:
 	struct FStr_Passport_Character1               Spawned_Character;                                 // 0x0330(0x0140)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
 	TMap<Enum_CombatEvent_Modes, bool>            Works_in_these_Combat_Modes;                       // 0x0470(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
 	TMap<Enum_GameMode, bool>                     Works_in_these_Game_Modes;                         // 0x04C0(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
-	int32                                         Currently_Spawned_Mercenary_ID;                    // 0x0510(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Spawn_Mercenary;                                   // 0x0514(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_515[0x3];                                      // 0x0515(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Index_0;                                           // 0x0518(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         NewVar_0;                                          // 0x051C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Character1               Spawned_mercenary;                                 // 0x0520(0x0140)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	int32                                         Random_Sparring_Partner_ID;                        // 0x0660(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TMap<Enum_PlayMode, bool>                     Works_in_these_Play_Modes;                         // 0x0510(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
+	int32                                         Currently_Spawned_Mercenary_ID;                    // 0x0560(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawn_Mercenary;                                   // 0x0564(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_565[0x3];                                      // 0x0565(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Index_0;                                           // 0x0568(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         NewVar_0;                                          // 0x056C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Character1               Spawned_mercenary;                                 // 0x0570(0x0140)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	int32                                         Random_Sparring_Partner_ID;                        // 0x06B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Required_Combatants_Amount;                        // 0x06B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          Blossfechten_Gear;                                 // 0x06B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_SpawnerPoint_Willies(int32 EntryPoint);
@@ -82,5 +85,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

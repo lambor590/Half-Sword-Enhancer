@@ -14,8 +14,7 @@
 #include "ClothingSystemRuntimeNv_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ClothingSystemRuntimeNv.ClothingSimulationInteractorNv.SetAnimDriveDamperStiffness
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
@@ -41,5 +40,5 @@ void UClothingSimulationInteractorNv::SetAnimDriveDamperStiffness(float InStiffn
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

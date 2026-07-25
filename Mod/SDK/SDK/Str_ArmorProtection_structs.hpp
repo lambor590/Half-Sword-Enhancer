@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_ArmorProtection.Str_ArmorProtection
 // 0x0020 (0x0020 - 0x0000)
@@ -25,5 +24,4 @@ public:
 	double                                        Density_8_B3D4247C4C7FD0F8EE8F0C8D74E1A90D;        // 0x0018(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

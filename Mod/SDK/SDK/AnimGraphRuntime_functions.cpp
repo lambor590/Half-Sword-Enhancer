@@ -14,8 +14,7 @@
 #include "AnimGraphRuntime_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AnimGraphRuntime.AnimNodeRigidBodyLibrary.ConvertToRigidBodyAnimNode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
@@ -3414,5 +3413,5 @@ struct FSkeletalControlReference USkeletalControlLibrary::SetAlpha(const struct 
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_TabButton_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_TabButton.UI_TabButton_C.BndEvt__Button_99_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -118,5 +117,5 @@ void UUI_TabButton_C::SetUnselectedTabStyle()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

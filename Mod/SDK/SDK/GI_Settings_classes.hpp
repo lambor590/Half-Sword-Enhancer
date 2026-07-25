@@ -10,35 +10,40 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
+#include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "ScreenResolution_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "ScreenResolution_Enum_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
-#include "Str_Inventory_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
-#include "Enum_PlayMode_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
+#include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
+#include "EUpscaler_structs.hpp"
 #include "StreamlineReflexBlueprint_structs.hpp"
 #include "Str_CurrentlyForgedWeapon_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
+#include "Enum_Maps_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
+#include "EUpscalerMode_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0C98 (0x0E58 - 0x01C0)
+// 0x0D68 (0x0F28 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -50,9 +55,9 @@ public:
 	double                                        Music_Volume;                                      // 0x01E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Blood_Rate;                                        // 0x01F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Gore_Rate;                                         // 0x01F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FOV;                                               // 0x0200(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        TPV_FOV;                                           // 0x0200(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        HUD_Opacity;                                       // 0x0208(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         DLSSIndex;                                         // 0x0210(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         DLSSFGIndex;                                       // 0x0210(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	EScreenResolution_Enum                        Resolution;                                        // 0x0214(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_215[0x3];                                      // 0x0215(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Lock_On_Strength;                                  // 0x0218(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -215,17 +220,61 @@ public:
 	int32                                         LandscapeQ;                                        // 0x0E44(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         LightingQ;                                         // 0x0E48(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         ShadingQ;                                          // 0x0E4C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         DLSsFGIndex;                                       // 0x0E50(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Maps                                     Current_FreeMode_Map;                              // 0x0E50(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_DayTime                                  Current_FreeMode_Time;                             // 0x0E51(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Foes_Amount_Random;                       // 0x0E52(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Tier_Random;                              // 0x0E53(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Map_Random;                               // 0x0E54(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Time_Random;                              // 0x0E55(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Armors_Refreshed;                                  // 0x0E56(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E57[0x1];                                      // 0x0E57(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<struct FStr_Passport_Armor1>           Armor_Passports;                                   // 0x0E58(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	bool                                          Free_Mode_Brawling;                                // 0x0E68(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E69[0x7];                                      // 0x0E69(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Free_Mode_Opponents_Height;                        // 0x0E70(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Free_Mode_Opponents_Weight;                        // 0x0E78(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_WeaponType_Specific                      Free_Mode_Opponents_Weapons_Type;                  // 0x0E80(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E81[0x7];                                      // 0x0E81(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Forge_Weapon_Pommel_Mass_Setting;                  // 0x0E88(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Pommel_Size_Setting;                  // 0x0E90(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Grip_Size_Setting;                    // 0x0E98(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Grip_Mass_Setting;                    // 0x0EA0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Guard_Size_Setting;                   // 0x0EA8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Guard_Mass_Setting;                   // 0x0EB0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Head_Size_Setting;                    // 0x0EB8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Head_Mass_Setting;                    // 0x0EC0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Old_Willie;                                        // 0x0EC8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    Free_Mode_Rendom_Equipment_Tier;                   // 0x0EC9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_ECA[0x6];                                      // 0x0ECA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Bone_Snapping;                                     // 0x0ED0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_Alt_Thrust_Toggle;                         // 0x0ED8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Free_Mode_Blossfechten;                            // 0x0ED9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_HalfSwording_Toggle;                       // 0x0EDA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Greatswords_in_Blossfechten;                       // 0x0EDB(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_EDC[0x4];                                      // 0x0EDC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        FPV_Smoothness;                                    // 0x0EE0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        TPV_Smoothness;                                    // 0x0EE8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        TPV_Position;                                      // 0x0EF0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        TPV_Height;                                        // 0x0EF8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        TPV_Distance;                                      // 0x0F00(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FPV_FOV;                                           // 0x0F08(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Disable_Hair;                                      // 0x0F10(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_F11[0x7];                                      // 0x0F11(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Dead_Weight_Scale;                                 // 0x0F18(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EUpscaler                                     SelectedUpscaler;                                  // 0x0F20(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EUpscalerMode                                 UpscalerMode;                                      // 0x0F21(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();
 	void Clear_Equipment_Pool();
+	void Delete_Save();
 	void Event_Generate_Random_Combat_Events();
+	void Event_Refresh_Outdated_Armors();
 	void ExecuteUbergraph_GI_Settings(int32 EntryPoint);
 	void Generate_Mercenaries();
 	void Load_Game();
 	void LoadKeyMappings();
-	void Override_Player_Character_Equipment();
+	void Override_Player_Character_Equipment(bool Keep_Exact_Values);
 	void Play_Music(class USoundBase* Sound, float VolumeMultiplier, bool bPersistAcrossLevelTransition);
 	void Refresh_NPCs_Event();
 	void Renew_Merchant();
@@ -254,5 +303,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

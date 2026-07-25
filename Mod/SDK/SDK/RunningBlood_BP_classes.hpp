@@ -15,8 +15,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass RunningBlood_BP.RunningBlood_BP_C
 // 0x00C8 (0x0358 - 0x0290)
@@ -68,5 +67,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

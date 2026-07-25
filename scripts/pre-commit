@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+FAILED=0
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Get staged files (excluding deleted)
+STAGED_FILES=()
+while IFS= read -r file; do
+    STAGED_FILES+=("$file")
+done < <(git diff --cached --name-only --diff-filter=d)
+((${#STAGED_FILES[@]} == 0)) && exit 0
+
+is_excluded() {
+    case "$1" in
+        Mod/SDK/*|ext/*|*/ext/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# --- Check: large files (>500KB), using one batch Git query ---
+while IFS=' ' read -r size file; do
+    if [ "$size" -gt 512000 ]; then
+        echo "[FAIL] Large file detected ($(( size / 1024 ))KB): $file"
+        FAILED=1
+    fi
+done < <(
+    git ls-files -s -- "${STAGED_FILES[@]}" | while IFS=$'\t' read -r metadata file; do
+        object_id="${metadata#* }"
+        object_id="${object_id%% *}"
+        printf '%s %s\n' "$object_id" "$file"
+    done | git cat-file --batch-check='%(objectsize) %(rest)' --buffer --no-flush 2>/dev/null
+)
+
+CHECK_FILES=()
+for file in "${STAGED_FILES[@]}"; do
+    is_excluded "$file" || CHECK_FILES+=("$file")
+done
+
+# Search every staged blob with one Git process per rule.
+if ((${#CHECK_FILES[@]} > 0)); then
+    CONFLICT_FILES=$(git grep --cached -IlE '^(<{7}|>{7}|={7})( |$)' -- "${CHECK_FILES[@]}" || true)
+    if [ -n "$CONFLICT_FILES" ]; then
+        echo "[FAIL] Merge conflict markers found in:"
+        sed 's/^/  /' <<< "$CONFLICT_FILES"
+        FAILED=1
+    fi
+
+    WS_FILES=$(git grep --cached -IlE '[[:blank:]]+$' -- "${CHECK_FILES[@]}" || true)
+    if [ -n "$WS_FILES" ]; then
+        echo "[FAIL] Trailing whitespace found in:"
+        sed 's/^/  /' <<< "$WS_FILES"
+        echo "  Run: sed -i 's/[[:space:]]*$//' <file>"
+        FAILED=1
+    fi
+fi
+
+# --- Check: clang-format (if available) ---
+if command -v clang-format &>/dev/null; then
+    FORMAT_FILES=$(for file in "${CHECK_FILES[@]}"; do
+        case "$file" in
+            *.cpp|*.h|*.hpp|*.c)
+                if ! git show ":$file" | clang-format --style=file:"$REPO_ROOT/.clang-format" --dry-run --Werror 2>/dev/null; then
+                    echo "  $file"
+                fi
+                ;;
+        esac
+    done)
+    if [ -n "$FORMAT_FILES" ]; then
+        echo "[FAIL] clang-format violations in:"
+        echo "$FORMAT_FILES"
+        echo "  Run: clang-format -i <file>"
+        FAILED=1
+    fi
+else
+    echo "[SKIP] clang-format not found, skipping format check"
+fi
+
+if [ "$FAILED" -ne 0 ]; then
+    echo ""
+    echo "Pre-commit checks failed. Fix the issues above and try again."
+    exit 1
+fi

@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Customizable_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.ExecuteUbergraph_ModularWeaponBP_Customizable
 // (Final, UbergraphFunction)
@@ -34,6 +33,20 @@ void AModularWeaponBP_Customizable_C::ExecuteUbergraph_ModularWeaponBP_Customiza
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.Refresh Weapon
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_Customizable_C::Refresh_Weapon()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "Refresh Weapon");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -57,18 +70,4 @@ void AModularWeaponBP_Customizable_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.Refresh Weapon
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AModularWeaponBP_Customizable_C::Refresh_Weapon()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "Refresh Weapon");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-}
-
+SDK_NAMESPACE_END

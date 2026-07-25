@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MeshDescription.EComputeNTBsOptions
 // NumValues: 0x0005
@@ -75,5 +74,4 @@ struct FPolygonID final : public FElementID
 {
 };
 
-}
-
+SDK_NAMESPACE_END

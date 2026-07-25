@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function MeshModelingToolsExp.BakeInputMeshProperties.GetSourceUVLayerNamesFunc
 // 0x0010 (0x0010 - 0x0000)
@@ -110,17 +110,17 @@ public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 
-// Function MeshModelingToolsExp.MeshAttributePaintToolProperties.GetAttributeNames
+// Function MeshModelingToolsExp.TransferMeshToolProperties.GetSourceLODNamesFunc
 // 0x0010 (0x0010 - 0x0000)
-struct MeshAttributePaintToolProperties_GetAttributeNames final
+struct TransferMeshToolProperties_GetSourceLODNamesFunc final
 {
 public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-// Function MeshModelingToolsExp.MeshInspectorMaterialProperties.GetUVChannelNamesFunc
+// Function MeshModelingToolsExp.TransferMeshToolProperties.GetTargetLODNamesFunc
 // 0x0010 (0x0010 - 0x0000)
-struct MeshInspectorMaterialProperties_GetUVChannelNamesFunc final
+struct TransferMeshToolProperties_GetTargetLODNamesFunc final
 {
 public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, ReferenceParm, NativeAccessSpecifierPublic)
@@ -142,21 +142,21 @@ public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-// Function MeshModelingToolsExp.TransferMeshToolProperties.GetSourceLODNamesFunc
+// Function MeshModelingToolsExp.MeshAttributePaintToolProperties.GetAttributeNames
 // 0x0010 (0x0010 - 0x0000)
-struct TransferMeshToolProperties_GetSourceLODNamesFunc final
+struct MeshAttributePaintToolProperties_GetAttributeNames final
 {
 public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-// Function MeshModelingToolsExp.TransferMeshToolProperties.GetTargetLODNamesFunc
+// Function MeshModelingToolsExp.MeshInspectorMaterialProperties.GetUVChannelNamesFunc
 // 0x0010 (0x0010 - 0x0000)
-struct TransferMeshToolProperties_GetTargetLODNamesFunc final
+struct MeshInspectorMaterialProperties_GetUVChannelNamesFunc final
 {
 public:
 	TArray<class FString>                         ReturnValue;                                       // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

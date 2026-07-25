@@ -13,8 +13,8 @@
 #include "DiscordPartnerSDK_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function DiscordPartnerSDK.DiscordLocalPlayerSubsystem.Connect
 // 0x0010 (0x0010 - 0x0000)
@@ -2542,7 +2542,7 @@ public:
 	EDiscordAuthorizationTokenType                tokenType;                                         // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 Token;                                             // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name)> Callback; // 0x0018(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name_0)> Callback; // 0x0018(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // Function DiscordPartnerSDK.DiscordClient.GetApplicationId
@@ -3628,5 +3628,5 @@ public:
 	struct FDiscordUniqueID                       ReturnValue;                                       // 0x0000(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

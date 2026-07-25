@@ -14,16 +14,14 @@
 #include "BP_Armor_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C
-// 0x0000 (0x08E0 - 0x08E0)
-class ABP_Armor_Body_Brestplate_A_T2_C final : public ABP_Armor_Master_C
+// 0x0000 (0x0920 - 0x0920)
+class ABP_Armor_Body_Brestplate_A_T2_C : public ABP_Armor_Master_C
 {
 public:
-	uint8                                         Pad_8D1[0x7];                                      // 0x08D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x08D8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0918(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
@@ -45,5 +43,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum FractureEngine.EConvexHullSimplifyMethod
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class EConvexHullSimplifyMethod : uint32
 	EConvexHullSimplifyMethod_MAX            = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

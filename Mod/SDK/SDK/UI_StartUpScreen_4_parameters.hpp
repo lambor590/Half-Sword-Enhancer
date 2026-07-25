@@ -13,8 +13,8 @@
 #include "InputCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
 // 0x0018 (0x0018 - 0x0000)
@@ -41,5 +41,5 @@ public:
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

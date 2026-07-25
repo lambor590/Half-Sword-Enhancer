@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_CurrentlyForgedWeapon.Str_CurrentlyForgedWeapon
 // 0x0088 (0x0088 - 0x0000)
@@ -42,5 +41,4 @@ public:
 	Enum_MaterialLayer                            CustomMaterialColoredMetal_40_5D2F4E4947D637F1B82E82ACB54B9A54; // 0x0080(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

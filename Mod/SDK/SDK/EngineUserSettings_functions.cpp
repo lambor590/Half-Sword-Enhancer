@@ -14,8 +14,7 @@
 #include "EngineUserSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function EngineUserSettings.EngineUserSettingsBPLibrary.GetCurrentFeatureLevel
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
@@ -220,5 +219,5 @@ void UEngineUserSettingsBPLibrary::SetPreferredRHI(EGraphicsRHI GraphicsRHI)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

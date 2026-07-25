@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ModularWeaponBP_Tool_Flail.ModularWeaponBP_Tool_Flail_C.ExecuteUbergraph_ModularWeaponBP_Tool_Flail
 // 0x0008 (0x0008 - 0x0000)
@@ -31,5 +31,5 @@ public:
 	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

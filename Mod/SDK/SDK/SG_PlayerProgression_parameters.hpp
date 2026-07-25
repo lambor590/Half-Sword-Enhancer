@@ -14,8 +14,8 @@
 #include "Gauntlet_Progress_Struct_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function SG_PlayerProgression.SG_PlayerProgression_C.ExecuteUbergraph_SG_PlayerProgression
 // 0x2C358 (0x2C358 - 0x0000)
@@ -48,5 +48,5 @@ public:
 	struct FStr_Loadout_Equipment                 Saved_Equipment_Struct;                            // 0x0000(0x08A0)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

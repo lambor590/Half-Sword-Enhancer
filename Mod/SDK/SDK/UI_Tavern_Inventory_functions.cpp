@@ -14,8 +14,7 @@
 #include "UI_Tavern_Inventory_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_0_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -110,6 +109,48 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_3_K2Node_Compone
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -479,6 +520,82 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_WeaponSheathedR2
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -558,6 +675,46 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Nod
 	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_3_SimpleListItemEventDynamic__DelegateSignature Parms{};
 
 	Parms.Item_0 = Item_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1499,6 +1656,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::Get_TextBlock_4_Visibility()
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_TextBlock_9_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Tavern_Inventory_C::Get_TextBlock_9_Text()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "Get_TextBlock_9_Text");
+
+	Params::UI_Tavern_Inventory_C_Get_TextBlock_9_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetBrush
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -1712,6 +1889,26 @@ struct FSlateBrush UUI_Tavern_Inventory_C::GetBrush_9()
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetBrush_9");
 
 	Params::UI_Tavern_Inventory_C_GetBrush_9 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetCheckedState
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_Tavern_Inventory_C::GetCheckedState()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetCheckedState");
+
+	Params::UI_Tavern_Inventory_C_GetCheckedState Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -2319,6 +2516,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_6()
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetVisibility_7
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_7()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetVisibility_7");
+
+	Params::UI_Tavern_Inventory_C_GetVisibility_7 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.PreConstruct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
@@ -2408,5 +2625,5 @@ void UUI_Tavern_Inventory_C::Set_Up_Trader_Item(class UObject* Item_0, class UOb
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

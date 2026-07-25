@@ -14,8 +14,7 @@
 #include "DirectLinkTest_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DirectLinkTest.DirectLinkTestLibrary.AddPublicDestination
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -387,5 +386,5 @@ bool UDirectLinkTestLibrary::TestParameters()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

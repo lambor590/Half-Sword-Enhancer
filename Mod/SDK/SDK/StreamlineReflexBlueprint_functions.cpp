@@ -14,8 +14,7 @@
 #include "StreamlineReflexBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function StreamlineReflexBlueprint.StreamlineLibraryReflex.GetDefaultReflexMode
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
@@ -269,5 +268,5 @@ void UStreamlineLibraryReflex::SetReflexMode(const EStreamlineReflexMode Mode)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

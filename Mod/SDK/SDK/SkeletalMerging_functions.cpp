@@ -14,8 +14,7 @@
 #include "SkeletalMerging_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function SkeletalMerging.SkeletalMergingLibrary.MergeMeshes
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
@@ -72,5 +71,5 @@ class USkeleton* USkeletalMergingLibrary::MergeSkeletons(const struct FSkeletonM
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -15,8 +15,7 @@
 #include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Hafted_Head_Master.Modular_Hafted_Head_Master_C
 // 0x0010 (0x0430 - 0x0420)
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

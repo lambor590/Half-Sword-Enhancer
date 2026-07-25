@@ -14,8 +14,7 @@
 #include "BP_Container_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Container_Master.BP_Container_Master_C.Collision Bug Check Event
 // (BlueprintCallable, BlueprintEvent)
@@ -32,6 +31,28 @@ void ABP_Container_Master_C::Collision_Bug_Check_Event(class UPrimitiveComponent
 	Params::BP_Container_Master_C_Collision_Bug_Check_Event Parms{};
 
 	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Container_Master.BP_Container_Master_C.Event Spawn Sound Detector
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Sound_Volume                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class USceneComponent*                  Last_Hit_Part                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Container_Master_C::Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Container_Master_C", "Event Spawn Sound Detector");
+
+	Params::BP_Container_Master_C_Event_Spawn_Sound_Detector Parms{};
+
+	Parms.Sound_Volume = Sound_Volume;
+	Parms.Last_Hit_Part = Last_Hit_Part;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -104,5 +125,5 @@ void ABP_Container_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

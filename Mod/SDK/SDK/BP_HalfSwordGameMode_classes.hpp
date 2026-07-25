@@ -15,8 +15,7 @@
 #include "Enum_PlayCards_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_HalfSwordGameMode.BP_HalfSwordGameMode_C
 // 0x00F0 (0x0418 - 0x0328)
@@ -69,6 +68,7 @@ public:
 	void Add_Rank_Points();
 	void Clear_Proxy_Model_Locations();
 	void DED();
+	void Event_Spawn_DED_UI();
 	void ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryPoint);
 	void Minus_Enemy();
 	void Multiplayer_Match_Win_Check();
@@ -92,5 +92,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

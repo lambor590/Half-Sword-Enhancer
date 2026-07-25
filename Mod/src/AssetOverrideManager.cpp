@@ -1,0 +1,1033 @@
+#include "Utils/AssetOverrideManager.h"
+
+#include <algorithm>
+#include <cctype>
+#include <string_view>
+#include <system_error>
+#include <utility>
+
+#include "ConfigManager.h"
+#include "Hooks/GameHook.h"
+#include "Logger.h"
+#include "Utils/CompileTimeHash.h"
+#include "Utils/PresetUtils.h"
+#include "SDK/Basic.hpp"
+#include "SDK/Blood_BP_P4_classes.hpp"
+#include "SDK/Blood_BP_P4_parameters.hpp"
+#include "SDK/Blood_BP_PT_classes.hpp"
+#include "SDK/BP_BloodDecal_classes.hpp"
+#include "SDK/BP_MeshBloodSim_classes.hpp"
+#include "SDK/BP_MeshBloodSimManager_classes.hpp"
+#include "SDK/BP_MeshBloodSimManager_parameters.hpp"
+#include "SDK/BP_MeshBloodSim_parameters.hpp"
+#include "SDK/Engine_classes.hpp"
+#include "SDK/Engine_parameters.hpp"
+#include "SDK/HSComputeShaders_classes.hpp"
+#include "SDK/RunningBlood_BP_classes.hpp"
+
+namespace {
+    Logger g_logger("AssetOverrides");
+    constexpr std::string_view GAME_PREFIX = "/Game/Assets/";
+
+    bool IsSupportedImage(const std::filesystem::path& path) {
+        auto ext = path.extension().string();
+        std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) {
+            return static_cast<char>(std::tolower(c));
+        });
+        return ext == ".png" || ext == ".jpg" || ext == ".jpeg";
+    }
+
+    std::string TargetPathFromFile(const std::filesystem::path& root, const std::filesystem::path& file) {
+        std::error_code ec;
+        auto rel = std::filesystem::relative(file, root, ec);
+        if (ec) return {};
+
+        rel.replace_extension();
+        auto target = std::string(GAME_PREFIX);
+        target += rel.generic_string();
+        target += ".";
+        target += file.stem().string();
+        return target;
+    }
+
+    SDK::UMaterialInstance* AsMaterialInstance(SDK::UMaterialInterface* material) {
+        return material && material->IsA(SDK::UMaterialInstance::StaticClass())
+                   ? static_cast<SDK::UMaterialInstance*>(material)
+                   : nullptr;
+    }
+
+    SDK::UMaterialInstanceDynamic* AsDynamicMaterial(SDK::UMaterialInterface* material) {
+        return material && material->IsA(SDK::UMaterialInstanceDynamic::StaticClass())
+                   ? static_cast<SDK::UMaterialInstanceDynamic*>(material)
+                   : nullptr;
+    }
+
+    bool IsBloodDebugActor(SDK::UObject* object) {
+        return object &&
+               (object->IsA(SDK::ABlood_BP_P4_C::StaticClass()) || object->IsA(SDK::ABlood_BP_PT_C::StaticClass()) ||
+                object->IsA(SDK::ABP_BloodDecal_C::StaticClass()) ||
+                object->IsA(SDK::ABP_MeshBloodSim_C::StaticClass()) ||
+                object->IsA(SDK::ABP_MeshBloodSimManager_C::StaticClass()) ||
+                object->IsA(SDK::ACSBloodSimActor::StaticClass()) ||
+                object->IsA(SDK::AHSWoundsController::StaticClass()) ||
+                object->IsA(SDK::ARunningBlood_BP_C::StaticClass()));
+    }
+
+    bool MaterialChainContains(SDK::UMaterialInterface* material, SDK::UMaterialInterface* expected) {
+        if (!material || !expected) return false;
+        for (auto* current = material; current;) {
+            if (current == expected) return true;
+            auto* instance = AsMaterialInstance(current);
+            current = instance ? instance->Parent : nullptr;
+        }
+        return false;
+    }
+
+    bool IsBloodRtParameter(const SDK::FName& name) {
+        return name.GetRawString() == "BloodRT";
+    }
+
+    bool IsRenderTargetTexture(SDK::UTexture* texture) {
+        return texture && texture->IsA(SDK::UTextureRenderTarget::StaticClass());
+    }
+
+    const SDK::FMaterialParameterInfo& BloodRtParameterInfo() {
+        static const SDK::FMaterialParameterInfo PARAMETER = [] {
+            SDK::FMaterialParameterInfo info{};
+            info.Name = SDK::BasicFilesImplUtils::StringToName(L"BloodRT");
+            info.Association = SDK::EMaterialParameterAssociation::GlobalParameter;
+            info.Index = -1;
+            return info;
+        }();
+        return PARAMETER;
+    }
+
+    SDK::UTexture* GetBloodRenderTarget(SDK::UMaterialInstanceDynamic* dynamicMaterial) {
+        if (!dynamicMaterial) return nullptr;
+
+        auto* texture = dynamicMaterial->K2_GetTextureParameterValueByInfo(BloodRtParameterInfo());
+        if (IsRenderTargetTexture(texture)) return texture;
+
+        for (int p = 0; p < dynamicMaterial->TextureParameterValues.Num(); ++p) {
+            auto& value = dynamicMaterial->TextureParameterValues[p];
+            if (IsBloodRtParameter(value.ParameterInfo.Name) && IsRenderTargetTexture(value.ParameterValue))
+                return value.ParameterValue;
+        }
+        return nullptr;
+    }
+
+    void CopyExplicitDynamicParameters(SDK::UMaterialInstanceDynamic* target, SDK::UMaterialInstanceDynamic* source) {
+        if (!target || !source) return;
+
+        for (int p = 0; p < source->ScalarParameterValues.Num(); ++p) {
+            auto& value = source->ScalarParameterValues[p];
+            target->SetScalarParameterValueByInfo(value.ParameterInfo, value.ParameterValue);
+        }
+        for (int p = 0; p < source->VectorParameterValues.Num(); ++p) {
+            auto& value = source->VectorParameterValues[p];
+            target->SetVectorParameterValueByInfo(value.ParameterInfo, value.ParameterValue);
+        }
+        for (int p = 0; p < source->TextureParameterValues.Num(); ++p) {
+            auto& value = source->TextureParameterValues[p];
+            if (value.ParameterValue) target->SetTextureParameterValueByInfo(value.ParameterInfo, value.ParameterValue);
+        }
+    }
+
+    bool HasRuntimeBloodTarget(SDK::UMaterialInterface* material) {
+        for (auto* current = AsMaterialInstance(material); current;) {
+            for (int p = 0; p < current->TextureParameterValues.Num(); ++p) {
+                auto& value = current->TextureParameterValues[p];
+                if (IsBloodRtParameter(value.ParameterInfo.Name) && IsRenderTargetTexture(value.ParameterValue))
+                    return true;
+            }
+            current = AsMaterialInstance(current->Parent);
+        }
+        return false;
+    }
+
+    void PrepareOverrideTexture(SDK::UTexture* source, SDK::UTexture2D* replacement) {
+        if (!source || !replacement) return;
+
+        replacement->CompressionSettings = source->CompressionSettings;
+        replacement->Filter = source->Filter;
+        replacement->MipLoadOptions = source->MipLoadOptions;
+        replacement->CookPlatformTilingSettings = source->CookPlatformTilingSettings;
+        replacement->bOodlePreserveExtremes = source->bOodlePreserveExtremes;
+        replacement->LODGroup = source->LODGroup;
+        replacement->Downscale = source->Downscale;
+        replacement->DownscaleOptions = source->DownscaleOptions;
+        replacement->SRGB = source->SRGB;
+        replacement->bNoTiling = source->bNoTiling;
+        replacement->NeverStream = true;
+
+        if (auto* source2D =
+                source->IsA(SDK::UTexture2D::StaticClass()) ? static_cast<SDK::UTexture2D*>(source) : nullptr) {
+            replacement->AddressX = source2D->AddressX;
+            replacement->AddressY = source2D->AddressY;
+        }
+        replacement->SetForceMipLevelsToBeResident(30.0f, 0);
+    }
+
+    template <typename Func> void ForEachPrimitiveComponent(SDK::UWorld* world, Func&& func) {
+        if (!world) return;
+        for (auto* level : world->Levels) {
+            if (!level) continue;
+            for (auto* actor : level->Actors) {
+                if (!actor) continue;
+                if (IsBloodDebugActor(actor)) continue;
+                SDK::TArray<SDK::UActorComponent*> components =
+                    actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass());
+                for (auto* component : components) {
+                    if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
+                        func(static_cast<SDK::UPrimitiveComponent*>(component));
+                }
+            }
+        }
+    }
+
+    template <typename Func> void ForEachActorPrimitiveComponent(SDK::AActor* actor, Func&& func) {
+        if (!actor) return;
+        if (IsBloodDebugActor(actor)) return;
+        SDK::TArray<SDK::UActorComponent*> components =
+            actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass());
+        for (auto* component : components) {
+            if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
+                func(static_cast<SDK::UPrimitiveComponent*>(component));
+        }
+    }
+
+    template <typename LookupTexture, typename PathCache, typename Func>
+    int ApplyMatchedTextureParameters(
+        SDK::UMaterialInterface* material, LookupTexture&& lookupTexture, PathCache& pathCache,
+        std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount, Func&& func
+    ) {
+        auto* instance = AsMaterialInstance(material);
+        if (!instance) return 0;
+
+        int updates = 0;
+        for (auto* current = instance; current;) {
+            for (int p = 0; p < current->TextureParameterValues.Num(); ++p) {
+                auto& value = current->TextureParameterValues[p];
+                if (!value.ParameterValue) continue;
+
+                auto [pathIt, insertedPath] = pathCache.try_emplace(value.ParameterValue);
+                if (insertedPath) {
+                    pathIt->second.path = PresetUtils::ObjectToAbsolutePath(value.ParameterValue);
+                    pathIt->second.hash = HS::Hash::FNV1A(pathIt->second.path);
+                }
+
+                const auto match = lookupTexture(pathIt->second.path, pathIt->second.hash);
+                if (!match.texture) continue;
+
+                if (matchedTargets && matchedTargetCount && match.index < matchedTargets->size() &&
+                    (*matchedTargets)[match.index] == 0) {
+                    (*matchedTargets)[match.index] = 1;
+                    ++(*matchedTargetCount);
+                }
+                updates += func(value.ParameterInfo, value.ParameterValue, match.texture) ? 1 : 0;
+            }
+            current = AsMaterialInstance(current->Parent);
+        }
+        return updates;
+    }
+}
+
+AssetOverrideManager& AssetOverrideManager::Get() {
+    static AssetOverrideManager manager;
+    return manager;
+}
+
+bool AssetOverrideManager::Initialize() {
+    if (initialized) return true;
+    if (!ScanFiles()) return false;
+    initialized = true;
+
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) {
+        auto applyActor = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::AActor::StaticClass())) return;
+            if (IsBloodDebugActor(context.object)) return;
+            ApplyToActor(SDK::UWorld::GetWorld(), static_cast<SDK::AActor*>(context.object));
+        };
+        auto getPrimitiveComponent = [](GameHook::ProcessEventContext& context) -> SDK::UPrimitiveComponent* {
+            if (!context.object || !context.object->IsA(SDK::UPrimitiveComponent::StaticClass())) return nullptr;
+            return static_cast<SDK::UPrimitiveComponent*>(context.object);
+        };
+        auto applySetMaterial = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_SetMaterial>();
+            if (!component || !params) return;
+
+            ApplyToComponentNow(component, params->ElementIndex, true);
+        };
+        auto applySetMaterialByName = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_SetMaterialByName>();
+            if (!component || !params) return;
+
+            const int slot = component->GetMaterialIndex(params->MaterialSlotName);
+            ApplyToComponentNow(component, slot, true);
+        };
+        auto applyCreatedMaterial = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_CreateDynamicMaterialInstance>();
+            if (!component || !params) return;
+
+            ApplyToCreatedMaterial(component, params->ElementIndex, params->ReturnValue, params->SourceMaterial);
+        };
+        auto applyCreatedAndSetMaterial = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_CreateAndSetMaterialInstanceDynamic>();
+            if (!component || !params) return;
+
+            ApplyToCreatedMaterial(component, params->ElementIndex, params->ReturnValue, nullptr);
+        };
+        auto applyCreatedAndSetMaterialFromMaterial = [this,
+                                                       getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params =
+                context.Params<SDK::Params::PrimitiveComponent_CreateAndSetMaterialInstanceDynamicFromMaterial>();
+            if (!component || !params) return;
+
+            ApplyToCreatedMaterial(component, params->ElementIndex, params->ReturnValue, params->Parent);
+        };
+        auto replaceTextureParameter = [this](SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UTexture*& value) {
+            if (!value || IsRenderTargetTexture(value) || HasRuntimeBloodTarget(dynamicMaterial) ||
+                !PrepareWorld(SDK::UWorld::GetWorld()) || textures.empty())
+                return;
+
+            const auto path = PresetUtils::ObjectToAbsolutePath(value);
+            if (path.empty()) return;
+
+            auto* texture = FindTexture(path, HS::Hash::FNV1A(path)).texture;
+            if (!texture || texture == value) return;
+
+            PrepareOverrideTexture(value, texture);
+            value = texture;
+        };
+        auto applyTextureParameter = [replaceTextureParameter](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::UMaterialInstanceDynamic::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::MaterialInstanceDynamic_SetTextureParameterValue>();
+            if (!params) return;
+            auto* dynamicMaterial = static_cast<SDK::UMaterialInstanceDynamic*>(context.object);
+            if (IsBloodRtParameter(params->ParameterName)) return;
+            replaceTextureParameter(dynamicMaterial, params->Value);
+        };
+        auto applyTextureParameterByInfo = [replaceTextureParameter](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::UMaterialInstanceDynamic::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::MaterialInstanceDynamic_SetTextureParameterValueByInfo>();
+            if (!params) return;
+            auto* dynamicMaterial = static_cast<SDK::UMaterialInstanceDynamic*>(context.object);
+            if (IsBloodRtParameter(params->ParameterInfo.Name)) return;
+            replaceTextureParameter(dynamicMaterial, params->Value);
+        };
+        auto prepareCreatedMaterial = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_CreateDynamicMaterialInstance>();
+            if (!component || !params) return;
+
+            auto* rebasedSource = RebaseSourceMaterial(component, params->ElementIndex, params->SourceMaterial);
+            if (rebasedSource == params->SourceMaterial) return;
+
+            params->SourceMaterial = rebasedSource;
+        };
+        auto prepareCreatedAndSetMaterial = [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+            auto* component = getPrimitiveComponent(context);
+            auto* params = context.Params<SDK::Params::PrimitiveComponent_CreateAndSetMaterialInstanceDynamic>();
+            if (!component || !params || params->ElementIndex < 0 ||
+                params->ElementIndex >= component->GetNumMaterials())
+                return;
+
+            auto* sourceMaterial = GetTrackedSourceMaterial(component, params->ElementIndex);
+            if (!sourceMaterial) return;
+
+            auto* currentMaterial = component->GetMaterial(params->ElementIndex);
+            if (currentMaterial == sourceMaterial || !MaterialChainContains(currentMaterial, sourceMaterial)) return;
+
+            component->SetMaterial(params->ElementIndex, sourceMaterial);
+        };
+        auto prepareCreatedAndSetMaterialFromMaterial =
+            [this, getPrimitiveComponent](GameHook::ProcessEventContext& context) {
+                auto* component = getPrimitiveComponent(context);
+                auto* params =
+                    context.Params<SDK::Params::PrimitiveComponent_CreateAndSetMaterialInstanceDynamicFromMaterial>();
+                if (!component || !params) return;
+
+                auto* rebasedSource = RebaseSourceMaterial(component, params->ElementIndex, params->Parent);
+                if (rebasedSource == params->Parent) return;
+
+                params->Parent = rebasedSource;
+            };
+        auto prepareBloodMeshInitialize = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ABP_MeshBloodSim_C::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::BP_MeshBloodSim_C_Initialize>();
+            auto* component = params ? params->MeshSimulatedOn : nullptr;
+            auto* sourceMaterial = GetTrackedSourceMaterial(component, 0);
+            if (!component || !sourceMaterial) return;
+
+            auto* currentMaterial = component->GetMaterial(0);
+            if (currentMaterial == sourceMaterial || !MaterialChainContains(currentMaterial, sourceMaterial)) return;
+
+            component->SetMaterial(0, sourceMaterial);
+        };
+        auto applyBloodMeshInitialize = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ABP_MeshBloodSim_C::StaticClass())) return;
+
+            auto* sim = static_cast<SDK::ABP_MeshBloodSim_C*>(context.object);
+            auto* params = context.Params<SDK::Params::BP_MeshBloodSim_C_Initialize>();
+            auto* component = params && params->MeshSimulatedOn ? params->MeshSimulatedOn : sim->MeshToSimOn;
+            auto* sourceMaterial = GetTrackedSourceMaterial(component, 0);
+            auto* dynamicMaterial = sim->MaterialOfTheMesh;
+            if (!component || !sourceMaterial || !dynamicMaterial) return;
+
+            const int updates = ApplyBloodDynamicMaterial(dynamicMaterial, sourceMaterial);
+
+            Stats next = GetStats();
+            next.appliedMaterials = updates;
+            next.scannedComponents = 1;
+            next.scannedMaterials = 1;
+            StoreStats(next);
+
+            TrackOverriddenMaterial(component, 0, sourceMaterial, dynamicMaterial);
+        };
+        auto applyReceiveParticleData = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ABlood_BP_P4_C::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::Blood_BP_P4_C_ReceiveParticleData>();
+            auto* blood = static_cast<SDK::ABlood_BP_P4_C*>(context.object);
+            if (!params) return;
+
+            (void)ApplyBloodComponentMaterial(blood->Hit_Component, 0);
+            (void)RepairBloodMaterials();
+        };
+        auto applyBloodDoMesh = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ABP_MeshBloodSimManager_C::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::BP_MeshBloodSimManager_C_DoMeshBloodSim>();
+            if (!params) return;
+
+            auto* sim = params->CallFunc_FinishSpawningActor_ReturnValue
+                            ? params->CallFunc_FinishSpawningActor_ReturnValue
+                            : params->CallFunc_Map_Find_Value;
+            if (sim && sim->MeshToSimOn) {
+                auto* sourceMaterial = GetTrackedSourceMaterial(sim->MeshToSimOn, 0);
+                ApplyBloodDynamicMaterial(sim->MaterialOfTheMesh, sourceMaterial);
+            }
+            ApplyBloodComponentMaterial(params->MeshToSimOn, 0);
+        };
+        auto applyBloodUpdateSimulations = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ABP_MeshBloodSimManager_C::StaticClass())) return;
+
+            auto* params = context.Params<SDK::Params::BP_MeshBloodSimManager_C_UpdateSimulations>();
+            if (!params) return;
+
+            auto* sim = params->ExistingSimActor;
+            if (!sim) sim = params->CallFunc_FinishSpawningActor_ReturnValue;
+            if (!sim) sim = params->CallFunc_Map_Find_Value;
+            if (sim) {
+                ApplyBloodComputeActor(sim);
+            } else {
+                ApplyBloodComponentMaterial(params->MeshToSimOn, 0);
+            }
+        };
+        auto applyBloodAddNewParticle = [this](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::ACSBloodSimActor::StaticClass())) return;
+            ApplyBloodComputeActor(static_cast<SDK::ACSBloodSimActor*>(context.object));
+        };
+
+        bool subscriptionsReady = true;
+        const auto subscribe = [this, &subscriptionsReady](
+                                   std::string_view functionName, GameHook::HookPhase phase,
+                                   GameHook::HookCallback callback
+                               ) {
+            subscriptionsReady = hookSubscriptions.Subscribe(functionName, phase, std::move(callback)) !=
+                                     GameHook::INVALID_HOOK_HANDLE &&
+                                 subscriptionsReady;
+        };
+        subscribe("ReceiveBeginPlay", GameHook::HookPhase::After, applyActor);
+        subscribe("SetMaterial", GameHook::HookPhase::After, applySetMaterial);
+        subscribe("SetMaterialByName", GameHook::HookPhase::After, applySetMaterialByName);
+        subscribe("CreateDynamicMaterialInstance", GameHook::HookPhase::Before, prepareCreatedMaterial);
+        subscribe("CreateDynamicMaterialInstance", GameHook::HookPhase::After, applyCreatedMaterial);
+        subscribe("CreateAndSetMaterialInstanceDynamic", GameHook::HookPhase::Before, prepareCreatedAndSetMaterial);
+        subscribe("CreateAndSetMaterialInstanceDynamic", GameHook::HookPhase::After, applyCreatedAndSetMaterial);
+        subscribe(
+            "CreateAndSetMaterialInstanceDynamicFromMaterial", GameHook::HookPhase::Before,
+            prepareCreatedAndSetMaterialFromMaterial
+        );
+        subscribe(
+            "CreateAndSetMaterialInstanceDynamicFromMaterial", GameHook::HookPhase::After,
+            applyCreatedAndSetMaterialFromMaterial
+        );
+        subscribe("SetTextureParameterValue", GameHook::HookPhase::Before, applyTextureParameter);
+        subscribe("SetTextureParameterValueByInfo", GameHook::HookPhase::Before, applyTextureParameterByInfo);
+        subscribe("Initialize", GameHook::HookPhase::Before, prepareBloodMeshInitialize);
+        subscribe("Initialize", GameHook::HookPhase::After, applyBloodMeshInitialize);
+        subscribe("DoMeshBloodSim", GameHook::HookPhase::After, applyBloodDoMesh);
+        subscribe("UpdateSimulations", GameHook::HookPhase::After, applyBloodUpdateSimulations);
+        subscribe("AddNewParticle", GameHook::HookPhase::After, applyBloodAddNewParticle);
+        subscribe("ReceiveParticleData", GameHook::HookPhase::After, applyReceiveParticleData);
+        if (!subscriptionsReady) {
+            hookSubscriptions.Reset();
+            g_logger.Log("Texture override runtime hooks could not be registered");
+        }
+    });
+    return true;
+}
+
+void AssetOverrideManager::Shutdown() noexcept {
+    hookSubscriptions.Reset();
+    initialized = false;
+    trackedMaterials.clear();
+    needsScan = true;
+    needsLoad = true;
+    needsApply = true;
+    loadedWorld = nullptr;
+    appliedWorld = nullptr;
+}
+
+void AssetOverrideManager::PrepareForRuntimeShutdown() noexcept {
+    ClearTextures();
+    trackedMaterials.clear();
+    needsLoad = true;
+    needsApply = true;
+    appliedWorld = nullptr;
+}
+
+std::filesystem::path AssetOverrideManager::GetRootPath() const {
+    return ConfigManager::GetAppDataPath() / ROOT_FOLDER;
+}
+
+void AssetOverrideManager::RequestRefresh() {
+    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+        needsScan = true;
+        needsLoad = true;
+        needsApply = true;
+        if (runtime.world) ApplyNow(runtime.world);
+    });
+}
+
+void AssetOverrideManager::RequestActorApply(SDK::AActor* actor) {
+    if (!actor) return;
+    const int actorObjectIndex = actor->Index;
+    GameHook::QueueAction([this, actor, actorObjectIndex](const RuntimeContextSnapshot& runtime) {
+        if (actorObjectIndex < 0 || SDK::UObject::GObjects->GetByIndex(actorObjectIndex) != actor) return;
+        if (runtime.world) ApplyToActor(runtime.world, actor);
+    });
+}
+
+bool AssetOverrideManager::PrepareWorld(SDK::UWorld* world) {
+    if (!world) return false;
+    if (needsScan) (void)ScanFiles();
+    const bool changedWorld = (loadedWorld && loadedWorld != world) || (appliedWorld && appliedWorld != world);
+    if (loadedWorld != world) {
+        needsLoad = true;
+        needsApply = true;
+        if (changedWorld) {
+            trackedMaterials.clear();
+        }
+    }
+    if (needsLoad) LoadTextures(world);
+    return true;
+}
+
+void AssetOverrideManager::ApplyNow(SDK::UWorld* world) {
+    if (!PrepareWorld(world)) return;
+    if (needsApply) ApplyToWorld(world);
+}
+
+AssetOverrideManager::Stats AssetOverrideManager::GetStats() const {
+    std::lock_guard lock(statsMutex);
+    return stats;
+}
+
+void AssetOverrideManager::StoreStats(Stats next) const {
+    std::lock_guard lock(statsMutex);
+    stats = next;
+}
+
+bool AssetOverrideManager::ScanFiles() {
+    files.clear();
+    ClearTextures();
+
+    Stats next{};
+    const auto root = GetRootPath();
+    std::error_code ec;
+    std::filesystem::create_directories(root, ec);
+    if (ec) {
+        next.errors = 1;
+        StoreStats(next);
+        g_logger.Log("Failed to create override folder: %s", ec.message().c_str());
+        return false;
+    }
+
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(root, ec)) {
+        if (ec) break;
+        if (!entry.is_regular_file(ec) || !IsSupportedImage(entry.path())) continue;
+
+        auto target = TargetPathFromFile(root, entry.path());
+        if (target.empty()) {
+            ++next.errors;
+            continue;
+        }
+        files.push_back({entry.path(), std::move(target)});
+    }
+
+    std::ranges::sort(files, [](const FileEntry& lhs, const FileEntry& rhs) {
+        if (lhs.targetPath != rhs.targetPath) return lhs.targetPath < rhs.targetPath;
+        return lhs.filePath < rhs.filePath;
+    });
+
+    next.files = static_cast<int>(files.size());
+    StoreStats(next);
+    needsScan = false;
+    needsLoad = true;
+    needsApply = true;
+    return true;
+}
+
+void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {
+    ClearTextures();
+
+    Stats next = GetStats();
+    next.loaded = 0;
+    next.appliedMaterials = 0;
+    next.scannedComponents = 0;
+    next.scannedMaterials = 0;
+    next.unmatched = 0;
+
+    rootedTextures.reserve(files.size());
+    textures.reserve(files.size());
+
+    for (const auto& file : files) {
+        const auto widePath = file.filePath.wstring();
+        auto* texture = SDK::UKismetRenderingLibrary::ImportFileAsTexture2D(world, SDK::FString(widePath.c_str()));
+        if (!texture) {
+            ++next.errors;
+            g_logger.Log("Failed to import texture override: %s", file.filePath.string().c_str());
+            continue;
+        }
+        texture->Flags = static_cast<SDK::EObjectFlags>(
+            static_cast<uint32_t>(texture->Flags) | static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
+        );
+        const auto targetHash = HS::Hash::FNV1A(file.targetPath);
+        if (!textures.empty() && textures.back().targetPath == file.targetPath) {
+            auto* replaced = textures.back().texture;
+            replaced->Flags = static_cast<SDK::EObjectFlags>(
+                static_cast<uint32_t>(replaced->Flags) & ~static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
+            );
+            textures.back().texture = texture;
+            rootedTextures.back() = texture;
+        } else {
+            textures.push_back({file.targetPath, targetHash, texture});
+            rootedTextures.push_back(texture);
+        }
+        ++next.loaded;
+    }
+
+    SortTexturesForLookup();
+    needsLoad = false;
+    loadedWorld = world;
+    StoreStats(next);
+}
+
+void AssetOverrideManager::ClearTextures() {
+    for (auto* texture : rootedTextures) {
+        if (!texture) continue;
+        texture->Flags = static_cast<SDK::EObjectFlags>(
+            static_cast<uint32_t>(texture->Flags) & ~static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
+        );
+    }
+    rootedTextures.clear();
+    textures.clear();
+    loadedWorld = nullptr;
+}
+
+void AssetOverrideManager::SortTexturesForLookup() {
+    std::ranges::sort(textures, [](const TextureOverride& a, const TextureOverride& b) {
+        if (a.targetHash != b.targetHash) return a.targetHash < b.targetHash;
+        return a.targetPath < b.targetPath;
+    });
+}
+
+AssetOverrideManager::TextureLookupResult AssetOverrideManager::FindTexture(
+    std::string_view targetPath, uint64_t targetHash
+) const {
+    auto it = std::lower_bound(
+        textures.begin(), textures.end(), targetHash,
+        [](const TextureOverride& entry, uint64_t value) { return entry.targetHash < value; }
+    );
+    for (; it != textures.end() && it->targetHash == targetHash; ++it) {
+        if (it->targetPath == targetPath) return {static_cast<size_t>(it - textures.begin()), it->texture};
+    }
+    return {};
+}
+
+SDK::UMaterialInterface* AssetOverrideManager::GetTrackedSourceMaterial(
+    SDK::UPrimitiveComponent* component, int materialIndex
+) {
+    if (!component || materialIndex < 0 || materialIndex >= component->GetNumMaterials()) return nullptr;
+
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    auto trackedIt = trackedMaterials.find(slotKey);
+    return trackedIt != trackedMaterials.end() ? trackedIt->second.source : nullptr;
+}
+
+SDK::UMaterialInterface* AssetOverrideManager::RebaseSourceMaterial(
+    SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInterface* requestedSource
+) {
+    auto* storedSource = GetTrackedSourceMaterial(component, materialIndex);
+    if (!storedSource) return requestedSource;
+
+    auto* effectiveSource = requestedSource ? requestedSource : component->GetMaterial(materialIndex);
+    if (effectiveSource != storedSource && MaterialChainContains(effectiveSource, storedSource)) return storedSource;
+
+    return requestedSource;
+}
+
+void AssetOverrideManager::ForgetComponentSourceMaterials(SDK::UPrimitiveComponent* component, int materialIndex) {
+    if (!component || materialIndex < 0) return;
+
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    trackedMaterials.erase(slotKey);
+}
+
+void AssetOverrideManager::TrackOverriddenMaterial(
+    SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInterface* sourceMaterial,
+    SDK::UMaterialInstanceDynamic* dynamicMaterial
+) {
+    if (!component || materialIndex < 0 || !sourceMaterial || !dynamicMaterial) return;
+
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    trackedMaterials.insert_or_assign(slotKey, TrackedMaterial{sourceMaterial, dynamicMaterial});
+}
+
+int AssetOverrideManager::ApplyBloodDynamicMaterial(
+    SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial
+) {
+    if (!dynamicMaterial || !sourceMaterial || !PrepareWorld(SDK::UWorld::GetWorld()) || textures.empty()) return 0;
+
+    ObjectPathCache pathCache;
+    pathCache.reserve(32);
+    return ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, nullptr, pathCache, true);
+}
+
+int AssetOverrideManager::ApplyBloodComponentMaterial(SDK::UPrimitiveComponent* component, int materialIndex) {
+    if (!component || materialIndex < 0 || materialIndex >= component->GetNumMaterials()) return 0;
+    int updates = 0;
+
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    auto trackedIt = trackedMaterials.find(slotKey);
+    if (trackedIt == trackedMaterials.end() || !trackedIt->second.source) return updates;
+
+    auto* sourceMaterial = trackedIt->second.source;
+    auto* currentMaterial = component->GetMaterial(materialIndex);
+    auto* dynamicMaterial = AsDynamicMaterial(currentMaterial);
+    auto* storedOverrideMaterial = trackedIt->second.dynamic;
+
+    if (dynamicMaterial && dynamicMaterial != storedOverrideMaterial) {
+        auto* bloodTexture = GetBloodRenderTarget(dynamicMaterial);
+        if (bloodTexture) {
+            auto* brokenDynamicMaterial = dynamicMaterial;
+            auto* repairedMaterial =
+                component->CreateDynamicMaterialInstance(materialIndex, sourceMaterial, SDK::FName());
+            if (!repairedMaterial) return updates;
+
+            CopyExplicitDynamicParameters(repairedMaterial, brokenDynamicMaterial);
+            repairedMaterial->SetTextureParameterValueByInfo(BloodRtParameterInfo(), bloodTexture);
+
+            dynamicMaterial = repairedMaterial;
+            currentMaterial = repairedMaterial;
+            TrackOverriddenMaterial(component, materialIndex, sourceMaterial, dynamicMaterial);
+        }
+    }
+
+    updates += ApplyBloodDynamicMaterial(dynamicMaterial, sourceMaterial);
+
+    if (!dynamicMaterial && currentMaterial == sourceMaterial) {
+        if (storedOverrideMaterial) {
+            component->SetMaterial(materialIndex, storedOverrideMaterial);
+            dynamicMaterial = storedOverrideMaterial;
+        }
+    }
+    if (!dynamicMaterial) return updates;
+
+    TrackOverriddenMaterial(component, materialIndex, sourceMaterial, dynamicMaterial);
+    return updates;
+}
+
+int AssetOverrideManager::ApplyBloodComputeActor(SDK::ACSBloodSimActor* sim) {
+    if (!sim || !sim->BoundMesh) return 0;
+
+    auto* component = static_cast<SDK::UPrimitiveComponent*>(sim->BoundMesh);
+    auto* sourceMaterial = GetTrackedSourceMaterial(component, 0);
+    int updates = 0;
+    updates += ApplyBloodDynamicMaterial(sim->BoundMeshMatInstance, sourceMaterial);
+    for (auto* dynamicMaterial : sim->BoundMeshMatInstances) {
+        updates += ApplyBloodDynamicMaterial(dynamicMaterial, sourceMaterial);
+    }
+    updates += ApplyBloodComponentMaterial(component, 0);
+    return updates;
+}
+
+int AssetOverrideManager::RepairBloodMaterials() {
+    if (trackedMaterials.empty()) return 0;
+
+    int updates = 0;
+    for (auto tracked = trackedMaterials.begin(); tracked != trackedMaterials.end();) {
+        const auto slot = tracked->first;
+        auto* component = slot.component;
+        if (!component || SDK::UObject::GObjects->GetByIndex(slot.componentObjectIndex) != component ||
+            !component->IsA(SDK::UPrimitiveComponent::StaticClass())) {
+            tracked = trackedMaterials.erase(tracked);
+            continue;
+        }
+        if (slot.materialIndex < 0 || slot.materialIndex >= component->GetNumMaterials()) {
+            tracked = trackedMaterials.erase(tracked);
+            continue;
+        }
+
+        if (!tracked->second.source || !tracked->second.dynamic) {
+            tracked = trackedMaterials.erase(tracked);
+            continue;
+        }
+
+        auto* currentMaterial = component->GetMaterial(slot.materialIndex);
+        if (currentMaterial == tracked->second.dynamic) {
+            ++tracked;
+            continue;
+        }
+
+        if (!AsDynamicMaterial(currentMaterial) && currentMaterial != tracked->second.source) {
+            ++tracked;
+            continue;
+        }
+
+        updates += ApplyBloodComponentMaterial(component, slot.materialIndex);
+        ++tracked;
+    }
+
+    return updates;
+}
+
+int AssetOverrideManager::ApplyToMaterialInstance(
+    SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial,
+    std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount, ObjectPathCache& pathCache,
+    bool allowRuntimeBloodTarget
+) {
+    if (!dynamicMaterial || !sourceMaterial) return 0;
+    if ((!allowRuntimeBloodTarget && HasRuntimeBloodTarget(dynamicMaterial)) || HasRuntimeBloodTarget(sourceMaterial))
+        return 0;
+
+    auto lookupTexture = [this](std::string_view targetPath, uint64_t targetHash) {
+        return FindTexture(targetPath, targetHash);
+    };
+
+    return ApplyMatchedTextureParameters(
+        sourceMaterial, lookupTexture, pathCache, matchedTargets, matchedTargetCount,
+        [dynamicMaterial](
+            const SDK::FMaterialParameterInfo& parameter, SDK::UTexture* sourceTexture, SDK::UTexture2D* texture
+        ) {
+            if (IsBloodRtParameter(parameter.Name)) return false;
+            if (dynamicMaterial->K2_GetTextureParameterValueByInfo(parameter) == texture) return false;
+
+            PrepareOverrideTexture(sourceTexture, texture);
+            dynamicMaterial->SetTextureParameterValueByInfo(parameter, texture);
+            return true;
+        }
+    );
+}
+
+void AssetOverrideManager::ApplyToComponent(
+    SDK::UPrimitiveComponent* component, Stats& next, std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount,
+    ObjectPathCache& pathCache
+) {
+    if (!component) return;
+
+    ++next.scannedComponents;
+    const int materialCount = component->GetNumMaterials();
+    for (int materialIndex = 0; materialIndex < materialCount; ++materialIndex) {
+        ApplyToComponentSlot(component, materialIndex, next, matchedTargets, matchedTargetCount, pathCache);
+    }
+}
+
+void AssetOverrideManager::ApplyToComponentSlot(
+    SDK::UPrimitiveComponent* component, int materialIndex, Stats& next, std::vector<uint8_t>* matchedTargets,
+    size_t* matchedTargetCount, ObjectPathCache& pathCache
+) {
+    auto lookupTexture = [this](std::string_view targetPath, uint64_t targetHash) {
+        return FindTexture(targetPath, targetHash);
+    };
+
+    ++next.scannedMaterials;
+    auto* material = component->GetMaterial(materialIndex);
+    if (HasRuntimeBloodTarget(material)) return;
+
+    auto* dynamicMaterial = AsDynamicMaterial(material);
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    auto trackedIt = trackedMaterials.find(slotKey);
+    auto* sourceMaterial = trackedIt != trackedMaterials.end() ? trackedIt->second.source
+                                                               : (dynamicMaterial ? dynamicMaterial->Parent : material);
+    if (!sourceMaterial) return;
+
+    next.appliedMaterials += ApplyMatchedTextureParameters(
+        sourceMaterial, lookupTexture, pathCache, matchedTargets, matchedTargetCount,
+        [this, component, materialIndex, sourceMaterial, &dynamicMaterial,
+         &next](const SDK::FMaterialParameterInfo& parameter, SDK::UTexture* sourceTexture, SDK::UTexture2D* texture) {
+            if (IsBloodRtParameter(parameter.Name)) return false;
+            if (dynamicMaterial && dynamicMaterial->K2_GetTextureParameterValueByInfo(parameter) == texture)
+                return false;
+
+            const MaterialSlot slotKey{component, materialIndex, component->Index};
+            if (!dynamicMaterial) {
+                if (auto trackedIt = trackedMaterials.find(slotKey);
+                    trackedIt != trackedMaterials.end() && trackedIt->second.dynamic) {
+                    dynamicMaterial = trackedIt->second.dynamic;
+                    component->SetMaterial(materialIndex, dynamicMaterial);
+                } else {
+                    dynamicMaterial =
+                        component->CreateDynamicMaterialInstance(materialIndex, sourceMaterial, SDK::FName());
+                }
+            }
+            if (!dynamicMaterial) {
+                ++next.errors;
+                return false;
+            }
+            if (dynamicMaterial->K2_GetTextureParameterValueByInfo(parameter) == texture) return false;
+
+            TrackOverriddenMaterial(component, materialIndex, sourceMaterial, dynamicMaterial);
+            PrepareOverrideTexture(sourceTexture, texture);
+            dynamicMaterial->SetTextureParameterValueByInfo(parameter, texture);
+            return true;
+        }
+    );
+}
+
+void AssetOverrideManager::ApplyToComponentNow(
+    SDK::UPrimitiveComponent* component, int materialIndex, bool resetSource
+) {
+    auto* world = SDK::UWorld::GetWorld();
+    if (!component || materialIndex < 0 || materialIndex >= component->GetNumMaterials() || !PrepareWorld(world) ||
+        textures.empty())
+        return;
+    if (IsBloodDebugActor(component->GetOwner())) return;
+
+    const MaterialSlot slotKey{component, materialIndex, component->Index};
+    auto trackedIt = trackedMaterials.find(slotKey);
+    if (resetSource || (trackedIt != trackedMaterials.end() &&
+                        !MaterialChainContains(component->GetMaterial(materialIndex), trackedIt->second.source))) {
+        ForgetComponentSourceMaterials(component, materialIndex);
+    }
+
+    Stats next = GetStats();
+    next.appliedMaterials = 0;
+    next.scannedComponents = 0;
+    next.scannedMaterials = 0;
+
+    ObjectPathCache pathCache;
+    pathCache.reserve(32);
+    ++next.scannedComponents;
+    ApplyToComponentSlot(component, materialIndex, next, nullptr, nullptr, pathCache);
+
+    StoreStats(next);
+}
+
+void AssetOverrideManager::ApplyToCreatedMaterial(
+    SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInstanceDynamic* dynamicMaterial,
+    SDK::UMaterialInterface* explicitSource
+) {
+    auto* world = SDK::UWorld::GetWorld();
+    if (!dynamicMaterial || !PrepareWorld(world) || textures.empty()) return;
+    if (component && IsBloodDebugActor(component->GetOwner())) return;
+
+    SDK::UMaterialInterface* sourceMaterial = explicitSource ? explicitSource : dynamicMaterial->Parent;
+    if (HasRuntimeBloodTarget(dynamicMaterial) || HasRuntimeBloodTarget(sourceMaterial)) return;
+
+    const bool validSlot = component && materialIndex >= 0 && materialIndex < component->GetNumMaterials();
+    if (validSlot) {
+        const MaterialSlot slotKey{component, materialIndex, component->Index};
+        auto trackedIt = trackedMaterials.find(slotKey);
+        if (trackedIt != trackedMaterials.end()) {
+            if (auto* inheritedDynamic = AsDynamicMaterial(sourceMaterial);
+                inheritedDynamic && MaterialChainContains(inheritedDynamic, trackedIt->second.source)) {
+                return;
+            }
+            if (MaterialChainContains(dynamicMaterial, trackedIt->second.source)) {
+                sourceMaterial = trackedIt->second.source;
+            } else {
+                ForgetComponentSourceMaterials(component, materialIndex);
+            }
+        }
+    }
+
+    if (!sourceMaterial) return;
+
+    Stats next = GetStats();
+    next.appliedMaterials = 0;
+    next.scannedComponents = validSlot ? 1 : 0;
+    next.scannedMaterials = 1;
+
+    ObjectPathCache pathCache;
+    pathCache.reserve(32);
+    const int updates = ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, nullptr, pathCache);
+    next.appliedMaterials += updates;
+
+    if (updates > 0 && validSlot) TrackOverriddenMaterial(component, materialIndex, sourceMaterial, dynamicMaterial);
+    StoreStats(next);
+}
+
+void AssetOverrideManager::ApplyToActor(SDK::UWorld* world, SDK::AActor* actor) {
+    if (!actor || !PrepareWorld(world) || textures.empty()) return;
+    if (needsApply) {
+        ApplyToWorld(world);
+        return;
+    }
+
+    Stats next = GetStats();
+    next.appliedMaterials = 0;
+    next.scannedComponents = 0;
+    next.scannedMaterials = 0;
+
+    ObjectPathCache pathCache;
+    pathCache.reserve(64);
+    ForEachActorPrimitiveComponent(actor, [this, &next, &pathCache](SDK::UPrimitiveComponent* component) {
+        ApplyToComponent(component, next, nullptr, nullptr, pathCache);
+    });
+
+    StoreStats(next);
+}
+
+void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
+    Stats next = GetStats();
+    next.appliedMaterials = 0;
+    next.scannedComponents = 0;
+    next.scannedMaterials = 0;
+    next.unmatched = static_cast<int>(textures.size());
+
+    if (!textures.empty()) {
+        std::vector<uint8_t> matchedTargets(textures.size(), 0);
+        size_t matchedTargetCount = 0;
+        ObjectPathCache pathCache;
+        pathCache.reserve(256);
+
+        ForEachPrimitiveComponent(
+            world,
+            [this, &next, &matchedTargets, &matchedTargetCount, &pathCache](SDK::UPrimitiveComponent* component) {
+                ApplyToComponent(component, next, &matchedTargets, &matchedTargetCount, pathCache);
+            }
+        );
+        next.unmatched = static_cast<int>(textures.size() - matchedTargetCount);
+    }
+
+    appliedWorld = world;
+    needsApply = false;
+    StoreStats(next);
+    if (next.files > 0) {
+        g_logger.Log(
+            "Texture overrides applied: components=%d materials=%d updated=%d unmatched=%d errors=%d",
+            next.scannedComponents, next.scannedMaterials, next.appliedMaterials, next.unmatched, next.errors
+        );
+    }
+}

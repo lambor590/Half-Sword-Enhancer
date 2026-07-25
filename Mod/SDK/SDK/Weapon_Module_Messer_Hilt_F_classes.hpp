@@ -13,8 +13,7 @@
 #include "Weapon_Module_Messer_Hilt_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Messer_Hilt_F.Weapon_Module_Messer_Hilt_F_C
 // 0x0000 (0x05F8 - 0x05F8)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

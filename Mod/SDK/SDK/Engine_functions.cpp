@@ -14,8 +14,7 @@
 #include "Engine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Engine.ActorComponent.Activate
 // (RequiredAPI, Native, Public, BlueprintCallable)
@@ -49968,13 +49967,13 @@ void UAudioComponent::Play(float StartTime)
 // const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UQuartzClockHandle*&              InClockHandle                                          (Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FQuartzQuantizationBoundary&     InQuantizationBoundary                                 (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)>&InDelegate                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)>&InDelegate                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   InStartTime                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   InFadeInDuration                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   InFadeVolumeLevel                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EAudioFaderCurve                        InFadeCurve                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UAudioComponent::PlayQuantized(const class UObject* WorldContextObject, class UQuartzClockHandle*& InClockHandle, struct FQuartzQuantizationBoundary& InQuantizationBoundary, const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)>& InDelegate, float InStartTime, float InFadeInDuration, float InFadeVolumeLevel, EAudioFaderCurve InFadeCurve)
+void UAudioComponent::PlayQuantized(const class UObject* WorldContextObject, class UQuartzClockHandle*& InClockHandle, struct FQuartzQuantizationBoundary& InQuantizationBoundary, const TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name_0)>& InDelegate, float InStartTime, float InFadeInDuration, float InFadeVolumeLevel, EAudioFaderCurve InFadeCurve)
 {
 	static class UFunction* Func = nullptr;
 
@@ -90546,21 +90545,21 @@ struct FVector UKismetMathLibrary::ProjectPointOnToPlane(const struct FVector& P
 }
 
 
-// Function Engine.KismetMathLibrary.ProjectVectorOntoPlane
+// Function Engine.KismetMathLibrary.ProjectVectorOnToPlane
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // const struct FVector&                   V                                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector&                   PlaneNormal                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-struct FVector UKismetMathLibrary::ProjectVectorOntoPlane(const struct FVector& V, const struct FVector& PlaneNormal)
+struct FVector UKismetMathLibrary::ProjectVectorOnToPlane(const struct FVector& V, const struct FVector& PlaneNormal)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("KismetMathLibrary", "ProjectVectorOntoPlane");
+		Func = StaticClass()->GetFunction("KismetMathLibrary", "ProjectVectorOnToPlane");
 
-	Params::KismetMathLibrary_ProjectVectorOntoPlane Parms{};
+	Params::KismetMathLibrary_ProjectVectorOnToPlane Parms{};
 
 	Parms.V = std::move(V);
 	Parms.PlaneNormal = std::move(PlaneNormal);
@@ -111613,10 +111612,10 @@ int32 UPhysicsSettings::GetPhysicsHistoryCount() const
 // Function Engine.ViewportStatsSubsystem.AddDisplayDelegate
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>&Delegate                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>&Delegate                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-int32 UViewportStatsSubsystem::AddDisplayDelegate(const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>& Delegate)
+int32 UViewportStatsSubsystem::AddDisplayDelegate(const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>& Delegate)
 {
 	static class UFunction* Func = nullptr;
 
@@ -123401,5 +123400,5 @@ void UWorldPartitionDestructibleInHLODSupportLibrary::DestroyInHLOD(const TScrip
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

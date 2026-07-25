@@ -11,11 +11,10 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum ENUM_Languages.ENUM_Languages
-// NumValues: 0x0007
+// NumValues: 0x000C
 enum class ENUM_Languages : uint8
 {
 	NewEnumerator0                           = 0,
@@ -24,8 +23,12 @@ enum class ENUM_Languages : uint8
 	NewEnumerator3                           = 3,
 	NewEnumerator4                           = 4,
 	NewEnumerator5                           = 5,
-	ENUM_MAX                                 = 6,
+	NewEnumerator11                          = 6,
+	NewEnumerator12                          = 7,
+	NewEnumerator13                          = 8,
+	NewEnumerator14                          = 9,
+	NewEnumerator15                          = 10,
+	ENUM_MAX                                 = 11,
 };
 
-}
-
+SDK_NAMESPACE_END

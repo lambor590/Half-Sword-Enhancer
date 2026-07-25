@@ -10,21 +10,20 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "Engine_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
-#include "Enum_Weapon_Customization_Type_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Enum_Weapon_Customization_Type_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Forge_Old.UI_Forge_Old_C
-// 0x0678 (0x0958 - 0x02E0)
+// 0x0680 (0x0960 - 0x02E0)
 class UUI_Forge_Old_C final : public UUserWidget
 {
 public:
@@ -148,67 +147,68 @@ public:
 	class UTextBlock*                             TextBlock_37;                                      // 0x0688(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             TextBlock_38;                                      // 0x0690(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             TextBlock_92;                                      // 0x0698(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UUI_ColorPicker_Widget_C*               UI_ColorPicker_Widget;                             // 0x06A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UVerticalBox*                           VerticalBox_0;                                     // 0x06A8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UVerticalBox*                           VerticalBox_1;                                     // 0x06B0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UVerticalBox*                           VerticalBox_118;                                   // 0x06B8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UVerticalBox*                           VerticalBox_136;                                   // 0x06C0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class AWeapon_Forge_BP_C*                     My_Forge;                                          // 0x06C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	class UClass*                                 Customizable_Modules;                              // 0x06D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class AModularWeaponBP_Customizable_C*        Customized_Weapon;                                 // 0x06D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	TMulticastInlineDelegate<void()>              NewEventDispatcher;                                // 0x06E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
-	int32                                         Which_Color_Picking_Now_Int;                       // 0x06F0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           Picked_Color;                                      // 0x06F4(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           Picked_Color_Leather;                              // 0x0704(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           Picked_Color_Wood;                                 // 0x0714(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_724[0x4];                                      // 0x0724(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FLinearColor>                   Metal_Color_Swatches;                              // 0x0728(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	struct FVector2D                              Picked_Leather_Value;                              // 0x0738(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector2D                              Picked_Wood_Value;                                 // 0x0748(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Current_Head_Int;                                  // 0x0758(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Current_Guard_Int;                                 // 0x075C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Current_Grip_Int;                                  // 0x0760(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Current_Pommel_Int;                                // 0x0764(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Head_Mass_Scale;                                   // 0x0768(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Guard_Masss_Scale;                                 // 0x076C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Grip_Mass_Scale;                                   // 0x0770(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Pommel_Mass_Scale;                                 // 0x0774(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Head_Scale;                                        // 0x0778(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Guard_Scale;                                       // 0x077C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Grip_Scale;                                        // 0x0780(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         Pommel_Scale;                                      // 0x0784(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Choosing_Metal_Material;                           // 0x0788(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Choosing_Weaapon_Type;                             // 0x0789(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_Weapon_Customization_Type                Customization_Type;                                // 0x078A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_78B[0x1];                                      // 0x078B(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Current_Head_Sub_1_Int;                            // 0x078C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Current_Head_Sub_2_Int;                            // 0x0790(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_794[0x4];                                      // 0x0794(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class USG_Forged_Weapon_Test_C*               As_SG_Forged_Weapon_Test;                          // 0x0798(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Weapon1                  Forged_Weapon_Passport;                            // 0x07A0(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x08A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Price;                                             // 0x08A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Choosing_Leather_Material;                         // 0x08B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Choosing_Wood_Material;                            // 0x08B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_8B2[0x6];                                      // 0x08B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class UClass*>                         Customizable_Modules_Head;                         // 0x08B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Customizable_Modules_Sub_1;                        // 0x08C8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Customizable_Modules_Sub_2;                        // 0x08D8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Customizable_Modules_Guards;                       // 0x08E8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Customizable_Modules_Grips;                        // 0x08F8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Customizable_Modules_Pommels;                      // 0x0908(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	class UDA_Equipment_Weapons_Modules_Master_C* DA_Weapon_Modules_Tiers;                           // 0x0918(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Sub_1;                                      // 0x0920(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Sub_2;                                      // 0x0928(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Head;                                       // 0x0930(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Guard;                                      // 0x0938(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Pommel;                                     // 0x0940(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Module_Grip;                                       // 0x0948(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	Enum_MaterialLayer                            Custom_Material_Steel;                             // 0x0950(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_MaterialLayer                            Custom_Material_Colored_Metal;                     // 0x0951(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_MaterialLayer                            Custom_Material_Wood;                              // 0x0952(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_MaterialLayer                            Custom_Material_Leather;                           // 0x0953(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_Ranks                                    Current_Tier;                                      // 0x0954(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_126;                                     // 0x06A0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UUI_ColorPicker_Widget_C*               UI_ColorPicker_Widget;                             // 0x06A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UVerticalBox*                           VerticalBox_0;                                     // 0x06B0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UVerticalBox*                           VerticalBox_1;                                     // 0x06B8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UVerticalBox*                           VerticalBox_118;                                   // 0x06C0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UVerticalBox*                           VerticalBox_136;                                   // 0x06C8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class AWeapon_Forge_BP_C*                     My_Forge;                                          // 0x06D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	class UClass*                                 Customizable_Modules;                              // 0x06D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AModularWeaponBP_Customizable_C*        Customized_Weapon;                                 // 0x06E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	TMulticastInlineDelegate<void()>              NewEventDispatcher;                                // 0x06E8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	int32                                         Which_Color_Picking_Now_Int;                       // 0x06F8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           Picked_Color;                                      // 0x06FC(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           Picked_Color_Leather;                              // 0x070C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           Picked_Color_Wood;                                 // 0x071C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_72C[0x4];                                      // 0x072C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<struct FLinearColor>                   Metal_Color_Swatches;                              // 0x0730(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	struct FVector2D                              Picked_Leather_Value;                              // 0x0740(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              Picked_Wood_Value;                                 // 0x0750(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Head_Int;                                  // 0x0760(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Guard_Int;                                 // 0x0764(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Grip_Int;                                  // 0x0768(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Pommel_Int;                                // 0x076C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Head_Mass_Scale;                                   // 0x0770(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Guard_Masss_Scale;                                 // 0x0774(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Grip_Mass_Scale;                                   // 0x0778(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Pommel_Mass_Scale;                                 // 0x077C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Head_Scale;                                        // 0x0780(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Guard_Scale;                                       // 0x0784(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Grip_Scale;                                        // 0x0788(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Pommel_Scale;                                      // 0x078C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Choosing_Metal_Material;                           // 0x0790(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Choosing_Weaapon_Type;                             // 0x0791(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Weapon_Customization_Type                Customization_Type;                                // 0x0792(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_793[0x1];                                      // 0x0793(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Current_Head_Sub_1_Int;                            // 0x0794(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Head_Sub_2_Int;                            // 0x0798(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_79C[0x4];                                      // 0x079C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_Forged_Weapon_Test_C*               As_SG_Forged_Weapon_Test;                          // 0x07A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Forged_Weapon_Passport;                            // 0x07A8(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x08A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Price;                                             // 0x08B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Choosing_Leather_Material;                         // 0x08B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Choosing_Wood_Material;                            // 0x08B9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_8BA[0x6];                                      // 0x08BA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UClass*>                         Customizable_Modules_Head;                         // 0x08C0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Customizable_Modules_Sub_1;                        // 0x08D0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Customizable_Modules_Sub_2;                        // 0x08E0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Customizable_Modules_Guards;                       // 0x08F0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Customizable_Modules_Grips;                        // 0x0900(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Customizable_Modules_Pommels;                      // 0x0910(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	class UDA_Equipment_Weapons_Modules_Master_C* DA_Weapon_Modules_Tiers;                           // 0x0920(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Sub_1;                                      // 0x0928(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Sub_2;                                      // 0x0930(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Head;                                       // 0x0938(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Guard;                                      // 0x0940(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Pommel;                                     // 0x0948(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Module_Grip;                                       // 0x0950(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	Enum_MaterialLayer                            Custom_Material_Steel;                             // 0x0958(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_MaterialLayer                            Custom_Material_Colored_Metal;                     // 0x0959(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_MaterialLayer                            Custom_Material_Wood;                              // 0x095A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_MaterialLayer                            Custom_Material_Leather;                           // 0x095B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    Current_Tier;                                      // 0x095C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
@@ -412,6 +412,7 @@ public:
 	ESlateVisibility GetVisibility_2();
 	ESlateVisibility GetVisibility_20();
 	ESlateVisibility GetVisibility_21();
+	ESlateVisibility GetVisibility_22();
 	ESlateVisibility GetVisibility_3();
 	ESlateVisibility GetVisibility_4();
 	ESlateVisibility GetVisibility_5();
@@ -444,5 +445,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

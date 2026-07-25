@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_WinScreen.UI_WinScreen_C
 // 0x0030 (0x0310 - 0x02E0)
@@ -49,5 +48,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

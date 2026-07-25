@@ -13,8 +13,7 @@
 #include "MeshDescription_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class StaticMeshDescription.StaticMeshDescription
 // 0x0000 (0x02F0 - 0x02F0)
@@ -42,5 +41,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

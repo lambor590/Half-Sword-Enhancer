@@ -10,21 +10,20 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Master.BP_Container_Master_C
-// 0x0718 (0x09A8 - 0x0290)
-class ABP_Container_Master_C final : public AActor
+// 0x0780 (0x0A10 - 0x0290)
+class ABP_Container_Master_C : public AActor
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0290(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
@@ -83,17 +82,19 @@ public:
 	int32                                         Collision_Bug_Int;                                 // 0x0548(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_Ranks                                    Tier;                                              // 0x054C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_54D[0x3];                                      // 0x054D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   Armor_Passport;                                    // 0x0550(0x00A8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   Armor_Passport__DELETE_;                           // 0x05F8(0x00A8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x06A0(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Weapon1                  Weapon_Passpoer__DELETE_;                          // 0x07A0(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	bool                                          Spawn_Weapon_L;                                    // 0x08A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Spawn_Armor_L;                                     // 0x08A1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_8A2[0x6];                                      // 0x08A2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Weapon1                  Treasure_Passport;                                 // 0x08A8(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   Armor_Passport;                                    // 0x0550(0x00D8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   Armor_Passport__DELETE_;                           // 0x0628(0x00D8)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x0700(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Weapon_Passpoer__DELETE_;                          // 0x0800(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawn_Weapon_L;                                    // 0x0900(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawn_Armor_L;                                     // 0x0901(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_902[0x6];                                      // 0x0902(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Weapon1                  Treasure_Passport;                                 // 0x0908(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Accumulated_Noise;                                 // 0x0A08(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Collision_Bug_Check_Event(class UPrimitiveComponent* Target);
+	void Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part);
 	void ExecuteUbergraph_BP_Container_Master(int32 EntryPoint);
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
@@ -114,5 +115,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

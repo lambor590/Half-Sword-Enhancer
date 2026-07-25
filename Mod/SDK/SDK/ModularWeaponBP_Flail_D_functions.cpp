@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Flail_D_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Flail_D.ModularWeaponBP_Flail_D_C.BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -126,5 +125,5 @@ void AModularWeaponBP_Flail_D_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

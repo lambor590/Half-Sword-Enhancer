@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum AI_Strafe_Enum.AI_Strafe_Enum
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class EAI_Strafe_Enum : uint8
 	AI_Strafe_MAX                            = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

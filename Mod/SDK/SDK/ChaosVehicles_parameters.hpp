@@ -14,8 +14,8 @@
 #include "ChaosVehicles_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ChaosVehicles.ChaosVehicleMovementComponent.DecreaseThrottleInput
 // 0x0004 (0x0004 - 0x0000)
@@ -711,5 +711,5 @@ public:
 	class AWheeledVehiclePawn*                    ReturnValue;                                       // 0x0000(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

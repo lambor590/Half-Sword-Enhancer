@@ -14,8 +14,7 @@
 #include "BP_Quiver_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Quiver_Master.BP_Quiver_Master_C.ExecuteUbergraph_BP_Quiver_Master
 // (Final, UbergraphFunction)
@@ -78,5 +77,5 @@ void ABP_Quiver_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END
