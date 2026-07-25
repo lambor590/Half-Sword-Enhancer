@@ -70,17 +70,16 @@ jobs:
           }
 
       - name: Publish to Nexus Mods
-        uses: Nexus-Mods/upload-action@19da5c91527877cd0bfedc6e6239c911035846a0 # v1.0.0-beta.9
+        uses: Nexus-Mods/upload-action@0bf670d75d46988c176c9bfacc94ca0144e0fe3f # v1.0.0-beta.7
         with:
           api_key: ${{ secrets.NEXUSMODS_API_KEY }}
-          file_id: 409
+          file_group_id: 409
           filename: release_files/HSEnhancer.zip
           version: ${{ env.NEXUS_VERSION }}
           display_name: Half Sword Enhancer - Experimental
           description: Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable.
-          category: main
-          archive_existing_version: true
+          file_category: main
+          archive_existing_file: true
           primary_mod_manager_download: false
           allow_mod_manager_download: false
           show_requirements_pop_up: false
-          update_mod_version: false
