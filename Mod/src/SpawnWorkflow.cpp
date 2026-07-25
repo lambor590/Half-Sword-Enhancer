@@ -196,15 +196,6 @@ namespace SpawnWorkflow {
             return FailedSpawn("Choose an item to spawn");
         }
 
-        bool HasActiveNPCOverrides(const NPCOverrides& overrides) {
-            NPCPresetData data{};
-            data.overrides = overrides;
-            const auto fields = NPCPresetData::GetPresetOverrides(data);
-            for (const auto& descriptor : fields)
-                if (*descriptor.field.enabled) return true;
-            return false;
-        }
-
         bool SpawnNPCAtImpl(
             SDK::UWorld* world, const NPCSpawnParams& request, int playerTeam, const SDK::FTransform& transform,
             bool snapToGround
@@ -216,12 +207,11 @@ namespace SpawnWorkflow {
                 );
                 return false;
             }
-            const bool hasOverrides = HasActiveNPCOverrides(request.overrides);
             const bool replaceGeneratedEquipment = request.loadout.has_value();
 
             auto preCallback = [nationality = request.nationality, tier = request.tier, mercenary = request.mercenary,
-                                bodyguard = request.bodyguard, team = request.team, overrides = request.overrides,
-                                hasOverrides, replaceGeneratedEquipment, playerTeam, world](SDK::AActor* actor) {
+                                 bodyguard = request.bodyguard, team = request.team, overrides = request.overrides,
+                                 replaceGeneratedEquipment, playerTeam, world](SDK::AActor* actor) {
                 if (!IsUsableActor(actor) || !GameClass::IsWillie(actor)) return;
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
 
@@ -230,14 +220,16 @@ namespace SpawnWorkflow {
                 auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
                 NPCSpawnHelpers::ApplyPassportOverrides(passport, overrides);
                 npc->Character_Passport = passport;
+                if (overrides.heightRate.enabled) npc->Height_Rate = overrides.heightRate.value;
+                if (overrides.muscleRate.enabled) npc->Muscle_Rate = overrides.muscleRate.value;
 
                 if (replaceGeneratedEquipment) npc->Spawn_in_Pants = true;
-                if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
+                NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
             };
 
             bool postSpawnCalled = false;
             auto postCallback = [world, overrides = request.overrides, loadout = request.loadout,
-                                 spawnScale = transform.Scale3D, completion = request.onComplete,
+                                 completion = request.onComplete,
                                  &postSpawnCalled](SDK::AActor* actor) mutable {
                 postSpawnCalled = true;
                 if (!IsUsableActor(actor) || !GameClass::IsWillie(actor)) {
@@ -247,9 +239,7 @@ namespace SpawnWorkflow {
                 }
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
 
-                NPCSpawnHelpers::ApplySpawnOverrides(npc, overrides, spawnScale);
-                auto finalizeSpawn = [npc, overrides, spawnScale, hasLoadout = loadout.has_value(),
-                                      completion](bool success) {
+                auto finalizeSpawn = [npc, overrides, hasLoadout = loadout.has_value(), completion](bool success) {
                     if (!success || !IsUsableActor(npc)) {
                         if (IsUsableActor(npc)) npc->K2_DestroyActor();
                         CompleteSpawn(
@@ -261,7 +251,8 @@ namespace SpawnWorkflow {
                         );
                         return;
                     }
-                    NPCSpawnHelpers::ApplySpawnOverrides(npc, overrides, spawnScale);
+                    NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
+                    NPCSpawnHelpers::ApplyHairColor(npc, overrides);
                     CompleteSpawn(completion, {.success = true, .actor = npc});
                 };
 

@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include "Utils/NPCPresetSerializer.h"
-#include "Utils/PresetApplication.h"
 #include "SDK/AI_BP_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Str_Passport_Character1_structs.hpp"
@@ -36,8 +35,6 @@ namespace NPCSpawnHelpers {
     }
 
     inline void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
-        if (ovr.heightRate.enabled) npc->Height_Rate = ovr.heightRate.value;
-        if (ovr.muscleRate.enabled) npc->Muscle_Rate = ovr.muscleRate.value;
         if (ovr.scaleMutationInhibitor.enabled) npc->Scale_Mutation_Inhibitor = ovr.scaleMutationInhibitor.value;
 
         if (ovr.damageRate.enabled) npc->Damage_Rate__Additional_ = ovr.damageRate.value;
@@ -76,30 +73,6 @@ namespace NPCSpawnHelpers {
             auto melaninName = SDK::BasicFilesImplUtils::StringToName(L"Melanin");
             npc->Hair_Mat->SetScalarParameterValue(melaninName, static_cast<float>(ovr.hairColor.value));
         }
-    }
-
-    inline void ApplySpawnBodyOverrides(
-        SDK::AWillie_BP_C* npc, const NPCOverrides& ovr, const SDK::FVector& spawnScale
-    ) {
-        if (ovr.muscleRate.enabled) (void)PresetApplication::ApplyPlayerWeight(npc, ovr.muscleRate.value);
-
-        if (ovr.heightRate.enabled) {
-            const double heightScale = PresetApplication::PlayerScaleFromHeight(ovr.heightRate.value);
-            (void)PresetApplication::ApplyLivePlayerHeight(
-                npc, ovr.heightRate.value, spawnScale * heightScale
-            );
-        } else {
-            npc->SetActorScale3D(spawnScale);
-        }
-    }
-
-    inline void ApplySpawnOverrides(
-        SDK::AWillie_BP_C* npc, const NPCOverrides& ovr, const SDK::FVector& spawnScale
-    ) {
-        ApplyPassportOverrides(npc->Character_Passport, ovr);
-        ApplyPropertyOverrides(npc, ovr);
-        ApplyHairColor(npc, ovr);
-        ApplySpawnBodyOverrides(npc, ovr, spawnScale);
     }
 
 }
