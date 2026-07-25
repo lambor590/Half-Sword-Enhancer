@@ -19,23 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Validate Nexus Mods identity
-        shell: pwsh
-        env:
-          NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}
-        run: |
-          $headers = @{ apikey = $env:NEXUSMODS_API_KEY }
-          $identity = Invoke-RestMethod `
-            -Uri "https://api.nexusmods.com/v1/users/validate.json" `
-            -Headers $headers
-
-          "Nexus Mods identity: $($identity.name) (user ID $($identity.user_id))"
-          if ($identity.name -ne "TheGhost590") {
-            throw "NEXUSMODS_API_KEY belongs to '$($identity.name)', not 'TheGhost590'"
-          }
-
       - name: Prepare
-        shell: pwsh
         run: |
           $resource = Get-Content "Launcher/resource/Launcher.rc" -Raw
           if ($resource -notmatch 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+)') {
@@ -43,22 +27,19 @@ jobs:
           }
 
           $version = "$($Matches[1]).$($Matches[2]).$($Matches[3])"
-          $sequence = [uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }}
           "PRODUCT_VERSION=$version" >> $env:GITHUB_ENV
-          "PACKAGE_SEQUENCE=$sequence" >> $env:GITHUB_ENV
+          "PACKAGE_SEQUENCE=$([uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }})" >> $env:GITHUB_ENV
           "NEXUS_VERSION=$version-experimental.${{ github.run_number }}.${{ github.run_attempt }}" >> $env:GITHUB_ENV
           "### Experimental $version (${{ github.sha }})" >> $env:GITHUB_STEP_SUMMARY
 
       - uses: microsoft/setup-msbuild@v2
 
       - name: Build
-        shell: pwsh
         run: >-
           msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
           "/p:Configuration=Release Experimental" /p:Platform=x64 /p:SkipGameInstall=true
 
       - name: Package
-        shell: pwsh
         run: >-
           & ".\scripts\package-release.ps1"
           -Channel experimental
@@ -67,7 +48,6 @@ jobs:
           -Sequence $env:PACKAGE_SEQUENCE
 
       - name: Publish
-        shell: pwsh
         run: |
           $repo = "${{ github.repository }}"
 
@@ -93,9 +73,5 @@ jobs:
           version: ${{ env.NEXUS_VERSION }}
           display_name: Half Sword Enhancer - Experimental
           description: Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable.
-          category: main
           archive_existing_version: true
-          primary_mod_manager_download: false
           allow_mod_manager_download: false
-          show_requirements_pop_up: false
-          update_mod_version: false
