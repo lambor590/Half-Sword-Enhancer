@@ -51,11 +51,16 @@ jobs:
         run: |
           $repo = "${{ github.repository }}"
 
-          gh release delete experimental-latest --repo $repo --cleanup-tag --yes *> $null
+          git push --force origin "${{ github.sha }}:refs/tags/experimental-latest"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to update the experimental tag"
+          }
+
+          gh release delete experimental-latest --repo $repo --yes *> $null
 
           gh release create experimental-latest "release_files/HSEnhancer.zip" `
             --repo $repo `
-            --target "${{ github.sha }}" `
+            --verify-tag `
             --title "Experimental Build" `
             --notes "Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable." `
             --prerelease
