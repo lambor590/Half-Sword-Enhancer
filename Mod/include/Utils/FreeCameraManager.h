@@ -24,8 +24,8 @@ struct FreeCameraSettings {
 };
 
 struct ScreenOverlaySettings {
-    bool visualEffects = true;
-    bool resultMenus = true;
+    bool visualEffects = false;
+    bool resultMenus = false;
     bool onlyInFreeCamera = true;
 };
 
