@@ -22,6 +22,7 @@ private:
     std::mutex publishedOverridesMutex;
     PlayerEditorOverrides publishedOverrides{};
     bool overridesDirty = true;
+    SDK::AWillie_BP_C* bodyOverridesPlayer = nullptr;
     KeybindList keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;

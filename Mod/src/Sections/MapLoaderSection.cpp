@@ -389,7 +389,8 @@ void MapLoaderSection::ApplyPreparedAutoSpawn(
     }
 
     const bool playerSucceeded =
-        !prepared->player || PresetApplication::ApplyPlayerOverrides(willie, prepared->player->overrides);
+        !prepared->player ||
+        PresetApplication::ApplyPlayerOverridesAndRefreshBody(willie, prepared->player->overrides);
     auto spawnNpcs = [this, world, willie, prepared, generation, playerSucceeded](bool loadoutSucceeded) {
         if (!IsAutoSpawnAttemptCurrent(generation)) return;
 

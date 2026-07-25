@@ -116,28 +116,33 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
     {
         std::scoped_lock lock(publishedOverridesMutex);
         snapshot = publishedOverrides;
+        if (bodyOverridesPlayer == p) {
+            snapshot.heightRate.enabled = false;
+            snapshot.muscleRate.enabled = false;
+        }
+        bodyOverridesPlayer = p;
     }
-    (void)PresetApplication::ApplyLivePlayerOverrides(p, snapshot);
+    (void)PresetApplication::ApplyPlayerOverridesAndRefreshBody(p, snapshot);
 }
 
 void PlayerEditorSection::PublishOverrides() {
     bool applyBody = false;
-    PlayerEditorOverrides snapshot;
     const bool enforceOverrides =
         !keybinds.Entries().empty() && keybinds.Entries().front().CurrentState();
     {
         std::scoped_lock lock(publishedOverridesMutex);
-        applyBody = PresetApplication::ShouldApplyLivePlayerBodyOverrides(
-            enforceOverrides, overrides, publishedOverrides
-        );
-        snapshot = overrides;
+        applyBody =
+            enforceOverrides &&
+            ((overrides.heightRate.enabled && overrides.heightRate != publishedOverrides.heightRate) ||
+             (overrides.muscleRate.enabled && overrides.muscleRate != publishedOverrides.muscleRate));
         publishedOverrides = overrides;
+        if (applyBody) bodyOverridesPlayer = nullptr;
         overridesDirty = false;
     }
 
     if (applyBody) {
-        GameHook::QueueAction([snapshot](const RuntimeContextSnapshot& runtime) {
-            if (runtime.player) (void)PresetApplication::ApplyLivePlayerOverrides(runtime.player, snapshot);
+        GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+            if (runtime.player) ApplyToPlayer(runtime.player);
         });
     }
 }
@@ -402,8 +407,13 @@ void PlayerEditorSection::InitKeybinds() {
         .keyPtr = &enforceKey,
         .callback =
             [this](bool active, const RuntimeContextSnapshot& runtime) {
+                if (!active) {
+                    std::scoped_lock lock(publishedOverridesMutex);
+                    bodyOverridesPlayer = nullptr;
+                    return;
+                }
                 auto* player = runtime.player;
-                if (active && player) ApplyToPlayer(player);
+                if (player) ApplyToPlayer(player);
             },
         .kind = KeybindKind::State,
         .applyOnToggle = true,
