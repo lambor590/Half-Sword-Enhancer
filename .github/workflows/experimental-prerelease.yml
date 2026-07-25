@@ -19,6 +19,21 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Validate Nexus Mods identity
+        shell: pwsh
+        env:
+          NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}
+        run: |
+          $headers = @{ apikey = $env:NEXUSMODS_API_KEY }
+          $identity = Invoke-RestMethod `
+            -Uri "https://api.nexusmods.com/v1/users/validate.json" `
+            -Headers $headers
+
+          "Nexus Mods identity: $($identity.name) (user ID $($identity.user_id))"
+          if ($identity.name -ne "TheGhost590") {
+            throw "NEXUSMODS_API_KEY belongs to '$($identity.name)', not 'TheGhost590'"
+          }
+
       - name: Prepare
         shell: pwsh
         run: |
