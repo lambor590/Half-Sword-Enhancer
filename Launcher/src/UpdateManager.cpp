@@ -27,6 +27,30 @@ namespace hse {
         constexpr std::string_view CURRENT_LAUNCHER_BUILD_ID = HSE_STRINGIZE(HSE_LAUNCHER_BUILD_ID);
 #undef HSE_STRINGIZE
 #undef HSE_STRINGIZE_DETAIL
+
+        [[nodiscard]] std::string_view FindBuildMarker(
+            std::string_view releaseBody, std::string_view marker
+        ) noexcept {
+            constexpr std::size_t BUILD_ID_LENGTH = 40;
+            constexpr std::string_view MARKER_END = " -->";
+
+            const auto markerStart = releaseBody.find(marker);
+            if (markerStart == std::string_view::npos ||
+                releaseBody.find(marker, markerStart + marker.size()) != std::string_view::npos)
+                return {};
+
+            const auto buildIdStart = markerStart + marker.size();
+            const auto buildId = releaseBody.substr(buildIdStart, BUILD_ID_LENGTH);
+            if (buildId.size() != BUILD_ID_LENGTH ||
+                !std::ranges::all_of(
+                    buildId, [](char value) {
+                        return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f');
+                    }
+                ) ||
+                releaseBody.substr(buildIdStart + BUILD_ID_LENGTH, MARKER_END.size()) != MARKER_END)
+                return {};
+            return buildId;
+        }
 #else
         constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Release;
 #endif
@@ -319,8 +343,6 @@ namespace hse {
         auto json = DownloadToString(GITHUB_EXPERIMENTAL_API_URL);
         if (!json) return std::unexpected(UpdateError::NetworkError);
 
-        auto buildId = ParseJsonStringField(*json, "target_commitish");
-        if (!buildId || buildId->empty()) return std::unexpected(UpdateError::InvalidResponse);
         auto asset = FindJsonObjectByStringField(*json, "name", PACKAGE_FILENAME);
         if (!asset) return std::unexpected(UpdateError::InvalidResponse);
         auto downloadUrl = ParseJsonStringField(*asset, "browser_download_url");
@@ -328,28 +350,17 @@ namespace hse {
 
         auto releaseBody = ParseJsonStringField(*json, "body");
         if (!releaseBody) return std::unexpected(UpdateError::InvalidResponse);
-        constexpr std::string_view MARKER = "<!-- hse-launcher:";
-        constexpr std::size_t BUILD_ID_LENGTH = 40;
-        constexpr std::string_view MARKER_END = " -->";
-        const auto marker = releaseBody->find(MARKER);
-        if (marker == std::string::npos) return std::unexpected(UpdateError::InvalidResponse);
-        const auto buildIdStart = marker + MARKER.size();
-        if (releaseBody->size() < buildIdStart + BUILD_ID_LENGTH + MARKER_END.size())
-            return std::unexpected(UpdateError::InvalidResponse);
-        const std::string_view publishedBuild(*releaseBody);
-        const auto publishedBuildId = publishedBuild.substr(buildIdStart, BUILD_ID_LENGTH);
-        if (!std::ranges::all_of(
-                publishedBuildId,
-                [](char value) { return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f'); }
-            ) ||
-            publishedBuild.substr(buildIdStart + BUILD_ID_LENGTH, MARKER_END.size()) != MARKER_END)
+        const auto packageBuildId = FindBuildMarker(*releaseBody, "<!-- hse-package:");
+        const auto launcherBuildId = FindBuildMarker(*releaseBody, "<!-- hse-launcher:");
+        if (packageBuildId.empty() || launcherBuildId.empty())
             return std::unexpected(UpdateError::InvalidResponse);
 
         const auto& config = LauncherConfig::Instance();
         ExperimentalUpdateInfo info{
-            .packageUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
-            .launcherUpdateAvailable = publishedBuildId != CURRENT_LAUNCHER_BUILD_ID,
-            .buildId = std::move(*buildId),
+            .packageUpdateAvailable =
+                packageBuildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
+            .launcherUpdateAvailable = launcherBuildId != CURRENT_LAUNCHER_BUILD_ID,
+            .buildId = std::string(packageBuildId),
             .downloadUrlBundle = std::move(*downloadUrl),
         };
         if (info.packageUpdateAvailable) Logger::info("An experimental Half Sword Enhancer update is available");
