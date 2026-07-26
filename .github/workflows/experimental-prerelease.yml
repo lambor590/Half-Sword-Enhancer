@@ -27,8 +27,14 @@ jobs:
           }
 
           $version = "$($Matches[1]).$($Matches[2]).$($Matches[3])"
+          $sequence = [uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }}
+          $launcherBuild = git rev-parse HEAD:Launcher
+          if ($LASTEXITCODE -ne 0 -or $launcherBuild -notmatch '^[0-9a-f]{40}$') {
+            throw "Failed to identify the experimental launcher build"
+          }
           "PRODUCT_VERSION=$version" >> $env:GITHUB_ENV
-          "PACKAGE_SEQUENCE=$([uint64]${{ github.run_id }} * 100 + [uint64]${{ github.run_attempt }})" >> $env:GITHUB_ENV
+          "PACKAGE_SEQUENCE=$sequence" >> $env:GITHUB_ENV
+          "LAUNCHER_BUILD_ID=$launcherBuild" >> $env:GITHUB_ENV
           "NEXUS_VERSION=$version-experimental.${{ github.run_number }}.${{ github.run_attempt }}" >> $env:GITHUB_ENV
           "### Experimental $version (${{ github.sha }})" >> $env:GITHUB_STEP_SUMMARY
 
@@ -38,6 +44,7 @@ jobs:
         run: >-
           msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
           "/p:Configuration=Release Experimental" /p:Platform=x64 /p:SkipGameInstall=true
+          "/p:LauncherBuildId=$env:LAUNCHER_BUILD_ID"
 
       - name: Package
         run: >-
@@ -50,6 +57,7 @@ jobs:
       - name: Publish
         run: |
           $repo = "${{ github.repository }}"
+          $notes = "Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable.`n`n<!-- hse-launcher:$env:LAUNCHER_BUILD_ID -->"
 
           git push --force origin "${{ github.sha }}:refs/tags/experimental-latest"
           if ($LASTEXITCODE -ne 0) {
@@ -61,8 +69,8 @@ jobs:
           gh release create experimental-latest "release_files/HSEnhancer.zip" `
             --repo $repo `
             --verify-tag `
-            --title "Experimental Build" `
-            --notes "Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable." `
+            --title "Experimental Build v$env:PRODUCT_VERSION" `
+            --notes $notes `
             --prerelease
 
           if ($LASTEXITCODE -ne 0) {

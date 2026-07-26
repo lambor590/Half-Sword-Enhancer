@@ -1,4 +1,5 @@
 #include <array>
+#include <algorithm>
 #include <atomic>
 #include <utility>
 #include <vector>
@@ -21,7 +22,11 @@ namespace hse {
         constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Experimental;
         constexpr const char* EXPERIMENTAL_SECTION = "ExperimentalUpdate";
         constexpr const char* PACKAGE_BUILD_KEY = "package_build";
-        constexpr const char* LAUNCHER_BUILD_KEY = "launcher_build";
+#define HSE_STRINGIZE_DETAIL(value) #value
+#define HSE_STRINGIZE(value) HSE_STRINGIZE_DETAIL(value)
+        constexpr std::string_view CURRENT_LAUNCHER_BUILD_ID = HSE_STRINGIZE(HSE_LAUNCHER_BUILD_ID);
+#undef HSE_STRINGIZE
+#undef HSE_STRINGIZE_DETAIL
 #else
         constexpr PackageChannel CURRENT_CHANNEL = PackageChannel::Release;
 #endif
@@ -125,8 +130,7 @@ namespace hse {
 #ifdef EXPERIMENTAL_VERSION
         if (*imported) {
             auto& config = LauncherConfig::Instance();
-            if (!config.SetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, (*imported)->manifest.buildId) ||
-                !config.SetString(EXPERIMENTAL_SECTION, LAUNCHER_BUILD_KEY, (*imported)->manifest.buildId))
+            if (!config.SetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, (*imported)->manifest.buildId))
                 return std::unexpected(UpdateError::FileSystemError);
         }
 #endif
@@ -322,10 +326,29 @@ namespace hse {
         auto downloadUrl = ParseJsonStringField(*asset, "browser_download_url");
         if (!downloadUrl || downloadUrl->empty()) return std::unexpected(UpdateError::InvalidResponse);
 
+        auto releaseBody = ParseJsonStringField(*json, "body");
+        if (!releaseBody) return std::unexpected(UpdateError::InvalidResponse);
+        constexpr std::string_view MARKER = "<!-- hse-launcher:";
+        constexpr std::size_t BUILD_ID_LENGTH = 40;
+        constexpr std::string_view MARKER_END = " -->";
+        const auto marker = releaseBody->find(MARKER);
+        if (marker == std::string::npos) return std::unexpected(UpdateError::InvalidResponse);
+        const auto buildIdStart = marker + MARKER.size();
+        if (releaseBody->size() < buildIdStart + BUILD_ID_LENGTH + MARKER_END.size())
+            return std::unexpected(UpdateError::InvalidResponse);
+        const std::string_view publishedBuild(*releaseBody);
+        const auto publishedBuildId = publishedBuild.substr(buildIdStart, BUILD_ID_LENGTH);
+        if (!std::ranges::all_of(
+                publishedBuildId,
+                [](char value) { return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f'); }
+            ) ||
+            publishedBuild.substr(buildIdStart + BUILD_ID_LENGTH, MARKER_END.size()) != MARKER_END)
+            return std::unexpected(UpdateError::InvalidResponse);
+
         const auto& config = LauncherConfig::Instance();
         ExperimentalUpdateInfo info{
             .packageUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
-            .launcherUpdateAvailable = *buildId != config.GetString(EXPERIMENTAL_SECTION, LAUNCHER_BUILD_KEY, ""),
+            .launcherUpdateAvailable = publishedBuildId != CURRENT_LAUNCHER_BUILD_ID,
             .buildId = std::move(*buildId),
             .downloadUrlBundle = std::move(*downloadUrl),
         };
