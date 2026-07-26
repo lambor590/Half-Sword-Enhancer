@@ -2,15 +2,18 @@
 #include <string>
 #include <string_view>
 #include <array>
+#include <vector>
 #include <Windows.h>
+#include <shellapi.h>
 
 #include "../include/SteamLocator.h"
 #include "../include/Logger.h"
+#include "../include/Util.h"
 
 namespace hse {
     namespace {
-        constexpr wchar_t STEAM_REGISTRY_KEY[] = LR"(SOFTWARE\Wow6432Node\Valve\Steam)";
-        constexpr wchar_t STEAM_INSTALL_VALUE[] = L"InstallPath";
+        constexpr wchar_t STEAM_REGISTRY_KEY[] = LR"(SOFTWARE\Valve\Steam)";
+        constexpr wchar_t STEAM_INSTALL_VALUE[] = L"SteamPath";
         constexpr const char* BINARIES_SUBPATH = R"(HalfSwordUE5\Binaries\Win64)";
 
         struct LibraryFolder {
@@ -58,6 +61,18 @@ namespace hse {
             return edition == GameEdition::Demo ? 1 : 0;
         }
 
+        [[nodiscard]] std::filesystem::path ParseVdfPath(std::string_view value) {
+            std::string decoded;
+            decoded.reserve(value.size());
+            for (std::size_t index = 0; index < value.size(); ++index) {
+                if (value[index] == '\\' && index + 1 < value.size() &&
+                    (value[index + 1] == '\\' || value[index + 1] == '"'))
+                    ++index;
+                decoded.push_back(value[index]);
+            }
+            return PathFromUtf8(decoded);
+        }
+
         [[nodiscard]] bool ContainsGameExecutable(const std::filesystem::path& directory, GameEdition edition) {
             std::error_code error;
             return std::filesystem::is_regular_file(directory / DescribeGameEdition(edition).executableName, error) &&
@@ -68,29 +83,18 @@ namespace hse {
 
     std::expected<GameLocation, SteamError> LocateGame() {
         auto steamPath = ReadSteamInstallPath();
-        if (!steamPath) {
-            return std::unexpected(steamPath.error());
-        }
+        if (!steamPath) return std::unexpected(steamPath.error());
 
         auto vdfPath = *steamPath / "steamapps" / "libraryfolders.vdf";
         auto libraries = ParseLibraryFolders(vdfPath);
-        if (!libraries) {
-            return std::unexpected(libraries.error());
-        }
+        if (!libraries) return std::unexpected(libraries.error());
 
-        std::expected<GameLocation, SteamError> fallback = std::unexpected(SteamError::GameNotFound);
-
-        for (const auto& library : *libraries) {
-            for (const auto& descriptor : GAME_EDITIONS) {
+        for (const auto& descriptor : GAME_EDITIONS) {
+            for (const auto& library : *libraries) {
                 if (!library.installedEditions[EditionIndex(descriptor.edition)]) continue;
-                auto result = ResolveGamePath(library.path, descriptor.edition);
-                if (!result) continue;
-                if (descriptor.edition == GameEdition::FullGame) return result;
-                fallback = std::move(result);
+                if (auto result = ResolveGamePath(library.path, descriptor.edition)) return result;
             }
         }
-
-        if (fallback) return fallback;
 
         return std::unexpected(SteamError::GameNotFound);
     }
@@ -98,52 +102,66 @@ namespace hse {
     std::expected<GameLocation, SteamError> LocateGameAt(
         const std::filesystem::path& manualPath, std::optional<GameEdition> knownEdition
     ) {
-        auto win64Dir = manualPath.filename() == "Win64" ? manualPath : manualPath / BINARIES_SUBPATH;
+        if (manualPath.empty()) return std::unexpected(SteamError::PathDoesNotExist);
 
-        const auto edition = knownEdition.value_or(DetectEditionFromPath(win64Dir));
-        if (!ContainsGameExecutable(win64Dir, edition)) {
-            return std::unexpected(SteamError::PathDoesNotExist);
-        }
+        const auto edition = knownEdition.value_or(DetectEditionFromPath(manualPath));
+        auto binariesPath = manualPath.lexically_normal();
+        if (!ContainsGameExecutable(binariesPath, edition)) binariesPath /= BINARIES_SUBPATH;
+        if (!ContainsGameExecutable(binariesPath, edition)) return std::unexpected(SteamError::PathDoesNotExist);
+        return GameLocation{.binariesPath = std::move(binariesPath), .edition = edition};
+    }
 
-        return GameLocation{.binariesPath = win64Dir, .edition = edition};
+    std::expected<void, SteamError> LaunchGameThroughSteam(GameEdition edition) {
+        auto steamPath = ReadSteamInstallPath();
+        if (!steamPath) return std::unexpected(steamPath.error());
+
+        const auto& descriptor = DescribeGameEdition(edition);
+        const auto steamExecutable = *steamPath / "steam.exe";
+        std::error_code error;
+        if (!std::filesystem::is_regular_file(steamExecutable, error) || error)
+            return std::unexpected(SteamError::LaunchFailed);
+
+        const std::wstring parameters =
+            L"-applaunch " + std::wstring(descriptor.steamAppId.begin(), descriptor.steamAppId.end());
+        SHELLEXECUTEINFOW launch{
+            .cbSize = sizeof(SHELLEXECUTEINFOW),
+            .fMask = SEE_MASK_NOASYNC,
+            .lpVerb = L"open",
+            .lpFile = steamExecutable.c_str(),
+            .lpParameters = parameters.c_str(),
+            .lpDirectory = steamPath->c_str(),
+            .nShow = SW_SHOWNORMAL,
+        };
+        if (!ShellExecuteExW(&launch)) return std::unexpected(SteamError::LaunchFailed);
+        return {};
     }
 
     namespace {
 
         std::expected<std::filesystem::path, SteamError> ReadSteamInstallPath() {
-            HKEY hKey;
-            LONG result = RegOpenKeyExW(HKEY_LOCAL_MACHINE, STEAM_REGISTRY_KEY, 0, KEY_READ, &hKey);
-            if (result != ERROR_SUCCESS) {
-                Logger::warn("Steam could not be found automatically");
-                return std::unexpected(SteamError::SteamNotInstalled);
-            }
-
-            struct RegKeyGuard {
-                HKEY key;
-                ~RegKeyGuard() { RegCloseKey(key); }
-            } guard{hKey};
-
             DWORD bufferSize = 0;
-            result = RegGetValueW(hKey, nullptr, STEAM_INSTALL_VALUE, RRF_RT_REG_SZ, nullptr, nullptr, &bufferSize);
-            if (result != ERROR_SUCCESS) {
-                Logger::warn("The Steam installation folder could not be found automatically");
+            if (RegGetValueW(
+                    HKEY_CURRENT_USER, STEAM_REGISTRY_KEY, STEAM_INSTALL_VALUE, RRF_RT_REG_SZ, nullptr, nullptr,
+                    &bufferSize
+                ) != ERROR_SUCCESS ||
+                bufferSize <= sizeof(wchar_t)) {
+                Logger::warn("Steam could not be found automatically");
                 return std::unexpected(SteamError::RegistryNotFound);
             }
 
-            std::wstring installPath(bufferSize / sizeof(wchar_t), L'\0');
-            result = RegGetValueW(
-                hKey, nullptr, STEAM_INSTALL_VALUE, RRF_RT_REG_SZ, nullptr, installPath.data(), &bufferSize
-            );
-            if (result != ERROR_SUCCESS) return std::unexpected(SteamError::RegistryNotFound);
-            if (!installPath.empty() && installPath.back() == L'\0') installPath.pop_back();
+            std::wstring value(bufferSize / sizeof(wchar_t), L'\0');
+            if (RegGetValueW(
+                    HKEY_CURRENT_USER, STEAM_REGISTRY_KEY, STEAM_INSTALL_VALUE, RRF_RT_REG_SZ, nullptr, value.data(),
+                    &bufferSize
+                ) != ERROR_SUCCESS)
+                return std::unexpected(SteamError::RegistryNotFound);
+            while (!value.empty() && value.back() == L'\0')
+                value.pop_back();
 
-            std::filesystem::path path(installPath);
-            std::error_code ec;
-            if (installPath.empty() || !std::filesystem::is_directory(path, ec)) {
-                Logger::warn("The saved Steam installation folder is no longer available");
+            std::filesystem::path path(value);
+            std::error_code error;
+            if (path.empty() || !std::filesystem::is_directory(path, error) || error)
                 return std::unexpected(SteamError::SteamNotInstalled);
-            }
-
             return path;
         }
 
@@ -152,7 +170,7 @@ namespace hse {
         ) {
             std::ifstream file(vdfPath);
             if (!file.is_open()) {
-                Logger::error("Could not read the Steam game library list: %s", vdfPath.string().c_str());
+                Logger::error("Could not read the Steam game library list: %s", PathToUtf8(vdfPath).c_str());
                 return std::unexpected(SteamError::VdfParsingFailed);
             }
 
@@ -187,7 +205,7 @@ namespace hse {
 
                 if (braceDepth == 2 && key == "path") {
                     if (!value.empty()) {
-                        current.path = std::filesystem::path(value);
+                        current.path = ParseVdfPath(value);
                     }
                 }
 

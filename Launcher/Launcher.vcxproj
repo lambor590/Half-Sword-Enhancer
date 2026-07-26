@@ -48,6 +48,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
+    <LauncherBuildId Condition="'$(LauncherBuildId)'==''">local</LauncherBuildId>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -62,17 +63,17 @@
   <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
     <ClCompile>
       <PreprocessorDefinitions>NOMINMAX;WIN32_LEAN_AND_MEAN;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /guard:cf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /guard:cf /Brepro %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>Version.lib;Winhttp.lib;Advapi32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/guard:cf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/guard:cf /Brepro %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(ExperimentalBuild)'=='true'">
     <ClCompile>
-      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;HSE_LAUNCHER_BUILD_ID=$(LauncherBuildId);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

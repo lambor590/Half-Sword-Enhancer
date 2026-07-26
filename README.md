@@ -2,13 +2,15 @@
 
 # Half Sword Enhancer
 
-[![Latest release](https://img.shields.io/github/v/release/lambor590/Half-Sword-Enhancer?style=flat-square&color=blue)](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest)
+[![Experimental build](https://img.shields.io/badge/download-experimental%20build-yellow?style=flat-square)](https://github.com/lambor590/Half-Sword-Enhancer/releases/download/experimental-latest/HSEnhancer.zip)
 [![Total downloads](https://img.shields.io/github/downloads/lambor590/Half-Sword-Enhancer/total?style=flat-square&color=green)](https://github.com/lambor590/Half-Sword-Enhancer/releases)
 [![License: source-available](https://img.shields.io/badge/license-source--available-orange?style=flat-square)](LICENSE)
 
 Half Sword Enhancer is an all-in-one gameplay mod for **Half Sword**. It adds a fast, searchable in-game menu for customizing your character, creating NPCs and equipment, changing the world, and setting up your own scenarios.
 
-**[Download the latest version](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)** · [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26) · [Release notes](https://github.com/lambor590/Half-Sword-Enhancer/releases)
+**[Download the experimental build](https://github.com/lambor590/Half-Sword-Enhancer/releases/download/experimental-latest/HSEnhancer.zip)** · [Experimental release page](https://github.com/lambor590/Half-Sword-Enhancer/releases/tag/experimental-latest) · [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26)
+
+> The experimental build is currently required for the final version of Half Sword. The latest stable release is outdated and is not compatible with the current game version.
 
 ## Features
 
@@ -26,7 +28,7 @@ The interface includes section search, contextual help, shortcut notifications, 
 
 ### Windows — recommended
 
-1. Download [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip).
+1. Download the [experimental HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/download/experimental-latest/HSEnhancer.zip).
 2. Extract the complete archive to a folder. Do not run the launcher from inside the ZIP.
 3. Run `HSEnhancerLauncher.exe`.
 4. Follow the prompts. The launcher finds Half Sword, installs the mod, can check for updates, and can start the game when it finishes.
@@ -45,8 +47,8 @@ Half Sword Enhancer can be used through Proton. Follow the community-maintained 
 
 ## Getting started
 
-1. Launch Half Sword normally.
-2. Press **Insert** to open or close the mod menu.
+1. Launch Half Sword normally. The mod interface is visible by default.
+2. Press **Insert** to hide or show the interface.
 3. Use the sidebar or search bar to find a feature.
 4. Hover over an option for an explanation, or assign it a keyboard or mouse shortcut for quick access.
 
@@ -69,7 +71,7 @@ Linux and Steam Deck require Proton and the additional setup described in the [L
 
 ## Troubleshooting
 
-- **The menu does not appear:** confirm that you are using the latest release, install the Visual C++ Redistributable, and run the launcher again.
+- **The menu does not appear:** confirm that you are using the latest experimental build, install the Visual C++ Redistributable, and run the launcher again.
 - **The game fails to start after installation:** remove old HSE files using the uninstall instructions in [Manual_Install.txt](Manual_Install.txt), then perform a clean launcher installation.
 - **The launcher cannot find the game:** in Steam, open **Half Sword → Manage → Browse local files**, then provide that folder when the launcher asks for it.
 - **Still need help?** Join the [Discord community](https://discord.gg/x3KmgsQYMp) and include your HSE version, game version, and a short description of what happened.

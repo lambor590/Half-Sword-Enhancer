@@ -12,7 +12,6 @@ namespace hse {
         std::string_view displayName;
         std::string_view configValue;
         std::string_view steamAppId;
-        std::string_view steamUrl;
         std::string_view installFolder;
         std::string_view executableName;
     };
@@ -23,7 +22,6 @@ namespace hse {
             "Full Game",
             "full",
             "2397300",
-            "steam://rungameid/2397300",
             "Half Sword",
             "HalfSwordUE5-Win64-Shipping.exe",
         },
@@ -32,7 +30,6 @@ namespace hse {
             "Demo",
             "demo",
             "2642680",
-            "steam://rungameid/2642680",
             "Half Sword Demo",
             "HalfSwordUE5-Win64-Shipping.exe",
         },

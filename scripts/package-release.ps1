@@ -38,6 +38,7 @@ $sourceFiles = @(
     (Join-Path $repositoryRoot "bin/winmm.dll")
     (Join-Path $repositoryRoot "bin/main.dll")
     (Join-Path $repositoryRoot "Manual_Install.txt")
+    (Join-Path $repositoryRoot "Linux-Guide.md")
 )
 foreach ($sourceFile in $sourceFiles) {
     if (-not (Test-Path -LiteralPath $sourceFile -PathType Leaf)) {
@@ -58,6 +59,7 @@ Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/HSEnhancer.dll") -Destina
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/winmm.dll") -Destination $manualDirectory
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/main.dll") -Destination $manualDirectory
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "Manual_Install.txt") -Destination $manualDirectory
+Copy-Item -LiteralPath (Join-Path $repositoryRoot "Linux-Guide.md") -Destination $bundleDirectory
 
 $hashes = [ordered]@{
     "HSEnhancerLauncher.exe" = (

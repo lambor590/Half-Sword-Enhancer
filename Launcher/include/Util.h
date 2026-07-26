@@ -25,6 +25,15 @@ namespace hse {
     constexpr const char* PACKAGE_MANIFEST_FILENAME = "package.ini";
     constexpr const char* UE4SS_MOD_NAME = "HSEnhancer";
 
+    [[nodiscard]] inline std::string PathToUtf8(const std::filesystem::path& path) {
+        const auto text = path.u8string();
+        return {text.begin(), text.end()};
+    }
+
+    [[nodiscard]] inline std::filesystem::path PathFromUtf8(std::string_view text) {
+        return std::filesystem::path(std::u8string(text.begin(), text.end()));
+    }
+
     class ScopedDirectory final {
     public:
         explicit ScopedDirectory(std::filesystem::path initialPath) : path(std::move(initialPath)) {}
