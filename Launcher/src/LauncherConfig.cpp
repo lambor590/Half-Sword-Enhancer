@@ -45,7 +45,7 @@ namespace hse {
     }
 
     std::filesystem::path LauncherConfig::GetGamePath() const {
-        return GetString(INSTALL_SECTION, GAME_PATH_KEY, "");
+        return PathFromUtf8(GetString(INSTALL_SECTION, GAME_PATH_KEY, ""));
     }
 
     GameEdition LauncherConfig::GetGameEdition() const {
@@ -56,7 +56,8 @@ namespace hse {
     std::expected<void, ConfigError> LauncherConfig::SetGameLocation(
         const std::filesystem::path& path, GameEdition edition
     ) {
-        const auto pathText = path.string();
+        const auto pathText = PathToUtf8(path);
+        if (pathText.empty() && !path.empty()) return std::unexpected(ConfigError::InvalidValue);
         const std::string editionText{DescribeGameEdition(edition).configValue};
         if (ini_.SetValue(INSTALL_SECTION, GAME_PATH_KEY, pathText.c_str()) < 0 ||
             ini_.SetValue(INSTALL_SECTION, GAME_EDITION_KEY, editionText.c_str()) < 0)
