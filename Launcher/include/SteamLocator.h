@@ -14,7 +14,8 @@ namespace hse {
         SteamNotInstalled,
         VdfParsingFailed,
         GameNotFound,
-        PathDoesNotExist
+        PathDoesNotExist,
+        LaunchFailed
     };
 
     struct GameLocation {
@@ -26,5 +27,6 @@ namespace hse {
     [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(
         const std::filesystem::path& manualPath, std::optional<GameEdition> knownEdition = std::nullopt
     );
+    [[nodiscard]] std::expected<void, SteamError> LaunchGameThroughSteam(GameEdition edition);
 
 }
