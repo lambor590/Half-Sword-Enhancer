@@ -42,13 +42,13 @@ namespace hse {
             return exists;
         }
 
-        [[nodiscard]] bool IsPlausibleUe4ssRuntime(const std::filesystem::path& loader) {
+        [[nodiscard]] bool IsPlausibleUe4ssRuntime(const std::filesystem::path& runtime) {
             std::error_code error;
-            if (!std::filesystem::is_regular_file(loader, error)) return false;
-            const auto fileSize = std::filesystem::file_size(loader, error);
+            if (!std::filesystem::is_regular_file(runtime, error)) return false;
+            const auto fileSize = std::filesystem::file_size(runtime, error);
             if (error || fileSize < MIN_UE4SS_RUNTIME_SIZE) return false;
 
-            std::ifstream input(loader, std::ios::binary);
+            std::ifstream input(runtime, std::ios::binary);
             IMAGE_DOS_HEADER dosHeader{};
             input.read(reinterpret_cast<char*>(&dosHeader), sizeof(dosHeader));
             if (!input || dosHeader.e_magic != IMAGE_DOS_SIGNATURE || dosHeader.e_lfanew <= 0) return false;
@@ -66,18 +66,9 @@ namespace hse {
                    ntHeaders.OptionalHeader.SizeOfImage >= MIN_UE4SS_RUNTIME_SIZE;
         }
 
-        [[nodiscard]] bool IsUe4ssInstalled(const std::filesystem::path& gameBinPath) {
-            const auto loader = gameBinPath / "ue4ss" / "UE4SS.dll";
-            std::error_code error;
-            const bool exists = std::filesystem::exists(loader, error);
-            if (error && error != std::errc::no_such_file_or_directory) {
-                Logger::warn("Could not check the existing UE4SS installation: %s", error.message().c_str());
-                return false;
-            }
-            if (!exists) return false;
-            const bool plausible = IsPlausibleUe4ssRuntime(loader);
-            if (!plausible) Logger::warn("The existing UE4SS installation is incomplete and cannot be used");
-            return plausible;
+        [[nodiscard]] bool IsUe4ssActive(const std::filesystem::path& gameBinPath) {
+            return IsPlausibleUe4ssRuntime(gameBinPath / "ue4ss" / "UE4SS.dll") &&
+                   std::filesystem::is_regular_file(gameBinPath / "dwmapi.dll");
         }
 
         [[nodiscard]] std::optional<std::string_view> HseModValue(std::string_view line) noexcept {
@@ -214,7 +205,7 @@ namespace hse {
             [[nodiscard]] static std::expected<void, InstallError> Fail(
                 const char* action, const std::filesystem::path& path, const std::error_code& error
             ) {
-                Logger::error("Could not %s (%s): %s", action, path.string().c_str(), error.message().c_str());
+                Logger::error("Could not %s (%s): %s", action, PathToUtf8(path).c_str(), error.message().c_str());
                 return std::unexpected(FileError(error));
             }
 
@@ -226,7 +217,7 @@ namespace hse {
                 if (error) return std::unexpected(FileError(error));
                 if (exists && !std::filesystem::is_regular_file(destination, error)) {
                     if (error) return std::unexpected(FileError(error));
-                    Logger::error("A required file path is occupied by a folder: %s", destination.string().c_str());
+                    Logger::error("A required file path is occupied by a folder: %s", PathToUtf8(destination).c_str());
                     return std::unexpected(InstallError::InvalidPath);
                 }
 
@@ -343,16 +334,17 @@ namespace hse {
                 if (!std::filesystem::is_regular_file(path, error)) {
                     if (error)
                         Logger::error(
-                            "Could not read the downloaded file %s: %s", path.string().c_str(), error.message().c_str()
+                            "Could not read the downloaded file %s: %s", PathToUtf8(path).c_str(),
+                            error.message().c_str()
                         );
                     else
-                        Logger::error("A required downloaded file is missing: %s", path.string().c_str());
+                        Logger::error("A required downloaded file is missing: %s", PathToUtf8(path).c_str());
                     return std::unexpected(error ? FileError(error) : InstallError::FileNotFound);
                 }
 
                 const auto size = std::filesystem::file_size(path, error);
                 if (error || size < artifact.minimumFileSize) {
-                    Logger::error("A downloaded file is incomplete: %s", path.string().c_str());
+                    Logger::error("A downloaded file is incomplete: %s", PathToUtf8(path).c_str());
                     return std::unexpected(error ? FileError(error) : InstallError::FileNotFound);
                 }
             }
@@ -396,11 +388,11 @@ namespace hse {
     }
 
     InstallMode DetectInstallMode(const std::filesystem::path& gameBinPath) {
-        return IsUe4ssInstalled(gameBinPath) ? InstallMode::Ue4ss : InstallMode::Standalone;
+        return IsUe4ssActive(gameBinPath) ? InstallMode::Ue4ss : InstallMode::Standalone;
     }
 
     bool IsInstallModeAvailable(const std::filesystem::path& gameBinPath, InstallMode mode) {
-        return mode != InstallMode::Ue4ss || IsUe4ssInstalled(gameBinPath);
+        return mode != InstallMode::Ue4ss || IsUe4ssActive(gameBinPath);
     }
 
     bool IsInstallationComplete(const std::filesystem::path& gameBinPath, InstallMode mode) {
@@ -408,9 +400,9 @@ namespace hse {
             const auto path = GetInstallDestination(gameBinPath, artifact.artifact);
             std::error_code error;
             if (!std::filesystem::is_regular_file(path, error)) {
-                if (error)
+                if (error && error != std::errc::no_such_file_or_directory)
                     Logger::error(
-                        "Could not check the installed file %s: %s", path.string().c_str(), error.message().c_str()
+                        "Could not check the installed file %s: %s", PathToUtf8(path).c_str(), error.message().c_str()
                     );
                 return false;
             }
@@ -419,7 +411,7 @@ namespace hse {
         }
         const bool ue4ssEntryEnabled = IsHseModEnabled(gameBinPath);
         if (mode == InstallMode::Ue4ss) {
-            return IsUe4ssInstalled(gameBinPath) && ue4ssEntryEnabled &&
+            return IsUe4ssActive(gameBinPath) && ue4ssEntryEnabled &&
                    !PathExists(gameBinPath / PROXY_FILENAME, "an old direct-install file");
         }
         return !ue4ssEntryEnabled && !PathExists(Ue4ssBridgePath(gameBinPath), "an old UE4SS integration file");
@@ -428,7 +420,8 @@ namespace hse {
     std::expected<void, InstallError> InstallFiles(
         const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath, InstallMode mode
     ) {
-        if (!IsInstallModeAvailable(gameBinPath, mode)) return std::unexpected(InstallError::InvalidPath);
+        if (!IsInstallModeAvailable(gameBinPath, mode))
+            return std::unexpected(InstallError::InvalidPath);
         if (auto validation = ValidateInstallSource(sourcePath, mode); !validation) return validation;
 
         NamedPathMutex lock(gameBinPath, L"Local\\HalfSwordEnhancer.Install.", INFINITE);
@@ -469,7 +462,7 @@ namespace hse {
         std::filesystem::remove(testFile, error);
         if (error)
             Logger::warn(
-                "Could not remove the temporary permission-check file %s: %s", testFile.string().c_str(),
+                "Could not remove the temporary permission-check file %s: %s", PathToUtf8(testFile).c_str(),
                 error.message().c_str()
             );
         return true;
