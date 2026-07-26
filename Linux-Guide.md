@@ -6,7 +6,7 @@ This guide is for the final version of **Half Sword**, not the demo.
 
 ## Installation
 
-1. Download `HSEnhancer.zip` from the [latest release](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest).
+1. Download the [experimental HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/download/experimental-latest/HSEnhancer.zip). The stable release is currently outdated and does not work with the final game.
 2. Open the ZIP and locate these files:
    - `Manual Install/winmm.dll`
    - `Manual Install/HSEnhancer.dll`
@@ -22,4 +22,4 @@ In Steam, right-click **Half Sword**, open **Properties → General**, and enter
 WINEDLLOVERRIDES="winmm=n,b" %command%
 ```
 
-Launch Half Sword normally through Steam. Press **Insert** in-game to open the Half Sword Enhancer menu.
+Launch Half Sword normally through Steam. The interface is visible by default; press **Insert** to hide or show it.
