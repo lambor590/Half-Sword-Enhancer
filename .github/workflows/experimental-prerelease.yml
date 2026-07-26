@@ -60,9 +60,7 @@ jobs:
           $notes = "Frequently updated experimental version. It may be significantly ahead of the release version, but it is less stable.`n`n<!-- hse-package:${{ github.sha }} -->`n<!-- hse-launcher:$env:LAUNCHER_BUILD_ID -->"
 
           gh release delete experimental-latest --repo $repo --cleanup-tag --yes
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to remove the previous experimental release"
-          }
+          if ($LASTEXITCODE) { throw "Failed to remove the previous experimental release" }
 
           gh release create experimental-latest "release_files/HSEnhancer.zip" `
             --repo $repo `
@@ -71,9 +69,7 @@ jobs:
             --notes $notes `
             --prerelease
 
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to publish the experimental release"
-          }
+          if ($LASTEXITCODE) { throw "Failed to publish the experimental release" }
 
       - name: Publish to Nexus Mods
         uses: Nexus-Mods/upload-action@19da5c91527877cd0bfedc6e6239c911035846a0 # v1.0.0-beta.9

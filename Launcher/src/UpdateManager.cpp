@@ -28,7 +28,7 @@ namespace hse {
 #undef HSE_STRINGIZE
 #undef HSE_STRINGIZE_DETAIL
 
-        [[nodiscard]] std::expected<std::string_view, UpdateError> ParseBuildMarker(
+        [[nodiscard]] std::string_view FindBuildMarker(
             std::string_view releaseBody, std::string_view marker
         ) noexcept {
             constexpr std::size_t BUILD_ID_LENGTH = 40;
@@ -37,20 +37,18 @@ namespace hse {
             const auto markerStart = releaseBody.find(marker);
             if (markerStart == std::string_view::npos ||
                 releaseBody.find(marker, markerStart + marker.size()) != std::string_view::npos)
-                return std::unexpected(UpdateError::InvalidResponse);
+                return {};
 
             const auto buildIdStart = markerStart + marker.size();
-            if (releaseBody.size() < buildIdStart + BUILD_ID_LENGTH + MARKER_END.size())
-                return std::unexpected(UpdateError::InvalidResponse);
-
             const auto buildId = releaseBody.substr(buildIdStart, BUILD_ID_LENGTH);
-            if (!std::ranges::all_of(
+            if (buildId.size() != BUILD_ID_LENGTH ||
+                !std::ranges::all_of(
                     buildId, [](char value) {
                         return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f');
                     }
                 ) ||
                 releaseBody.substr(buildIdStart + BUILD_ID_LENGTH, MARKER_END.size()) != MARKER_END)
-                return std::unexpected(UpdateError::InvalidResponse);
+                return {};
             return buildId;
         }
 #else
@@ -352,16 +350,17 @@ namespace hse {
 
         auto releaseBody = ParseJsonStringField(*json, "body");
         if (!releaseBody) return std::unexpected(UpdateError::InvalidResponse);
-        auto packageBuildId = ParseBuildMarker(*releaseBody, "<!-- hse-package:");
-        auto launcherBuildId = ParseBuildMarker(*releaseBody, "<!-- hse-launcher:");
-        if (!packageBuildId || !launcherBuildId) return std::unexpected(UpdateError::InvalidResponse);
+        const auto packageBuildId = FindBuildMarker(*releaseBody, "<!-- hse-package:");
+        const auto launcherBuildId = FindBuildMarker(*releaseBody, "<!-- hse-launcher:");
+        if (packageBuildId.empty() || launcherBuildId.empty())
+            return std::unexpected(UpdateError::InvalidResponse);
 
         const auto& config = LauncherConfig::Instance();
         ExperimentalUpdateInfo info{
             .packageUpdateAvailable =
-                *packageBuildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
-            .launcherUpdateAvailable = *launcherBuildId != CURRENT_LAUNCHER_BUILD_ID,
-            .buildId = std::string(*packageBuildId),
+                packageBuildId != config.GetString(EXPERIMENTAL_SECTION, PACKAGE_BUILD_KEY, ""),
+            .launcherUpdateAvailable = launcherBuildId != CURRENT_LAUNCHER_BUILD_ID,
+            .buildId = std::string(packageBuildId),
             .downloadUrlBundle = std::move(*downloadUrl),
         };
         if (info.packageUpdateAvailable) Logger::info("An experimental Half Sword Enhancer update is available");
