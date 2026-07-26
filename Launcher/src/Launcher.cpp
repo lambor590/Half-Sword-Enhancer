@@ -1,10 +1,10 @@
 #include <iostream>
 #include <filesystem>
-#include <optional>
-#include <string_view>
 #include <thread>
 #include <chrono>
 #include <Windows.h>
+#include <ShObjIdl.h>
+#include <wrl/client.h>
 
 #include "../include/Launcher.h"
 #include "../include/InstallManager.h"
@@ -12,39 +12,60 @@
 #include "../include/SteamLocator.h"
 #include "../include/Util.h"
 
-#include <shellapi.h>
-
 namespace {
     constexpr int EXIT_DELAY_SECONDS = 3;
     constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
     constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
     constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 
-#ifdef EXPERIMENTAL_VERSION
-    constexpr const char* INSTALL_SECTION = "Install";
-    constexpr const char* INSTALL_MODE_KEY = "install_mode";
-    constexpr const char* INSTALL_MODE_STANDALONE = "standalone";
-    constexpr const char* INSTALL_MODE_UE4SS = "ue4ss";
+    class ComApartment {
+    public:
+        ComApartment() : result(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)) {}
+        ~ComApartment() {
+            if (SUCCEEDED(result)) CoUninitialize();
+        }
 
-    [[nodiscard]] constexpr const char* InstallModeConfigValue(hse::InstallMode mode) noexcept {
-        return mode == hse::InstallMode::Ue4ss ? INSTALL_MODE_UE4SS : INSTALL_MODE_STANDALONE;
+        [[nodiscard]] bool Available() const noexcept { return SUCCEEDED(result); }
+
+    private:
+        HRESULT result;
+    };
+
+    [[nodiscard]] std::filesystem::path BrowseForGameFolder() {
+        ComApartment apartment;
+        if (!apartment.Available()) return {};
+
+        Microsoft::WRL::ComPtr<IFileOpenDialog> dialog;
+        if (FAILED(CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&dialog))))
+            return {};
+
+        FILEOPENDIALOGOPTIONS options = 0;
+        if (FAILED(dialog->GetOptions(&options)) ||
+            FAILED(dialog->SetOptions(options | FOS_PICKFOLDERS | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST)))
+            return {};
+
+        (void)dialog->SetTitle(L"Select your Half Sword installation");
+        (void)dialog->SetOkButtonLabel(L"Select folder");
+        const HRESULT shown = dialog->Show(GetConsoleWindow());
+        if (FAILED(shown)) return {};
+
+        Microsoft::WRL::ComPtr<IShellItem> item;
+        if (FAILED(dialog->GetResult(&item))) return {};
+
+        PWSTR selectedPath = nullptr;
+        if (FAILED(item->GetDisplayName(SIGDN_FILESYSPATH, &selectedPath))) return {};
+        std::filesystem::path result(selectedPath);
+        CoTaskMemFree(selectedPath);
+        return result;
     }
 
-    [[nodiscard]] constexpr const char* InstallModeName(hse::InstallMode mode) noexcept {
-        return mode == hse::InstallMode::Ue4ss ? "UE4SS integration" : "direct installation";
-    }
-
-    [[nodiscard]] std::optional<hse::InstallMode> ParseInstallMode(std::string_view value) noexcept {
-        if (value == INSTALL_MODE_UE4SS) return hse::InstallMode::Ue4ss;
-        if (value == INSTALL_MODE_STANDALONE) return hse::InstallMode::Standalone;
-        return std::nullopt;
-    }
-#endif
 }
 
 HSELauncher::HSELauncher() : config(hse::LauncherConfig::Instance()), gameEdition_(hse::GameEdition::FullGame) {}
 
 void HSELauncher::SetupConsole() {
+    SetConsoleOutputCP(CP_UTF8);
+
     auto localVersionResult = hse::UpdateManager::GetLocalVersion();
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
@@ -129,13 +150,13 @@ bool HSELauncher::PerformSelfUpdate() {
         return true;
     }
 
-    hse::Logger::info("Checking for updates...");
+    hse::Logger::info("Checking for launcher updates...");
 
 #ifdef EXPERIMENTAL_VERSION
     if (!cachedExperimentalInfo_) {
         auto experimentalUpdateResult = hse::UpdateManager::CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
-            hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
+            hse::Logger::warn("Could not check for experimental launcher updates. Continuing with this launcher.");
             return true;
         }
         cachedExperimentalInfo_ = *experimentalUpdateResult;
@@ -202,7 +223,7 @@ bool HSELauncher::LocateGame() {
             gameBinPath_ = std::move(savedLocation->binariesPath);
             gameEdition_ = savedLocation->edition;
             hse::Logger::info(
-                "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
+                "Half Sword found: %s (%s)", hse::PathToUtf8(gameBinPath_).c_str(),
                 hse::DescribeGameEdition(gameEdition_).displayName.data()
             );
             return true;
@@ -219,11 +240,12 @@ bool HSELauncher::LocateGame() {
 
         location = hse::LocateGameAt(manualPath);
         if (!location) {
-            hse::logAndShowError(
-                "Half Sword was not found at: " + manualPath.string(), "That folder does not contain Half Sword.\n\n"
-                                                                       "Please provide the path to the game folder, e.g.:\n"
-                                                                       "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
-            );
+            hse::Logger::error("Half Sword was not found at: %s", hse::PathToUtf8(manualPath).c_str());
+            std::wstring message = L"That selection does not contain Half Sword.\n\n"
+                                   L"Select the Half Sword or Half Sword Demo installation folder.\n\n"
+                                   L"Selected path:\n";
+            message.append(manualPath.native());
+            MessageBoxW(nullptr, message.c_str(), L"Half Sword Not Found", MB_OK | MB_ICONWARNING);
             return false;
         }
     }
@@ -233,59 +255,24 @@ bool HSELauncher::LocateGame() {
     if (auto saved = config.SetGameLocation(gameBinPath_, gameEdition_); !saved)
         hse::Logger::warn("Could not remember the Half Sword location. You may be asked for it again.");
     hse::Logger::info(
-        "Half Sword found: %s (%s)", gameBinPath_.string().c_str(),
+        "Half Sword found: %s (%s)", hse::PathToUtf8(gameBinPath_).c_str(),
         hse::DescribeGameEdition(gameEdition_).displayName.data()
     );
     return true;
 }
 
 std::filesystem::path HSELauncher::AskManualPath() {
-    hse::Logger::info("Please enter the path to your Half Sword installation:");
-    hse::Logger::info("  Example: D:\\SteamLibrary\\steamapps\\common\\Half Sword");
-    std::cout << "\n  > ";
-
-    std::string path;
-    std::getline(std::cin, path);
-
-    const auto first = path.find_first_not_of("\"'");
-    if (first == std::string::npos) return {};
-    const auto last = path.find_last_not_of("\"'");
-    path.erase(last + 1);
-    path.erase(0, first);
-
-    return std::filesystem::path(path);
+    hse::Logger::info("Select your Half Sword installation folder.");
+    return BrowseForGameFolder();
 }
 
 #ifdef EXPERIMENTAL_VERSION
 hse::InstallMode HSELauncher::GetInstallMode() {
-    if (auto stored = ParseInstallMode(config.GetString(INSTALL_SECTION, INSTALL_MODE_KEY, ""))) {
-        if (hse::IsInstallModeAvailable(gameBinPath_, *stored)) {
-            hse::Logger::info("Installation method: %s", InstallModeName(*stored));
-            return *stored;
-        }
-        hse::Logger::warn("UE4SS was not found, so the previous installation choice cannot be used");
-    }
-
-    const auto detectedMode = hse::DetectInstallMode(gameBinPath_);
-    std::string message = "Choose how to install this build.\n\n"
-                          "YES: Integrate with your existing UE4SS installation.\n\n"
-                          "NO: Install directly into Half Sword.\n\n";
-
-    message += detectedMode == hse::InstallMode::Ue4ss
-                   ? "An existing UE4SS installation was found, so integration is recommended."
-                   : "No UE4SS installation was found, so direct installation is recommended.";
-
-    const UINT defaultButton = detectedMode == hse::InstallMode::Ue4ss ? MB_DEFBUTTON1 : MB_DEFBUTTON2;
-    const int result =
-        MessageBoxA(nullptr, message.c_str(), "Installation Method", MB_YESNO | MB_ICONQUESTION | defaultButton);
-    const auto installMode = result == IDYES ? hse::InstallMode::Ue4ss : hse::InstallMode::Standalone;
-
-    if (auto saveResult = config.SetString(INSTALL_SECTION, INSTALL_MODE_KEY, InstallModeConfigValue(installMode));
-        !saveResult) {
-        hse::Logger::warn("Could not remember the installation method. You may be asked again.");
-    }
-
-    hse::Logger::info("Installation method selected: %s", InstallModeName(installMode));
+    const auto installMode = hse::DetectInstallMode(gameBinPath_);
+    hse::Logger::info(
+        "Installation method: %s",
+        installMode == hse::InstallMode::Ue4ss ? "detected UE4SS integration" : "direct installation"
+    );
     return installMode;
 }
 #endif
@@ -321,7 +308,7 @@ bool HSELauncher::CheckAndInstallMod() {
                     "Could not connect to the update server. Please check your internet connection."
                 );
             } else {
-                hse::Logger::warn("Could not check for experimental updates. The installed version will be kept.");
+                hse::Logger::warn("Could not check for experimental mod updates. The installed mod will be kept.");
             }
             return !needsInstall;
         }
@@ -431,7 +418,7 @@ bool HSELauncher::DownloadAndInstall(const hse::Version& version, hse::InstallMo
 }
 
 void HSELauncher::OfferGameLaunch() {
-    hse::Logger::info("Would you like to launch the game? [Y/n]");
+    hse::Logger::info("Would you like to launch the game through Steam? [Y/n]");
     std::cout << "  > ";
 
     std::string input;
@@ -439,9 +426,14 @@ void HSELauncher::OfferGameLaunch() {
 
     if (input.empty() || input[0] == 'Y' || input[0] == 'y') {
         const auto& edition = hse::DescribeGameEdition(gameEdition_);
-        const auto* steamUrl = edition.steamUrl.data();
         hse::Logger::info("Launching %s via Steam...", edition.displayName.data());
-        ShellExecuteA(nullptr, "open", steamUrl, nullptr, nullptr, SW_SHOWNORMAL);
+        if (auto launched = hse::LaunchGameThroughSteam(gameEdition_); !launched) {
+            hse::logAndShowError(
+                "Steam did not accept the game launch request",
+                "Half Sword could not be started through Steam.\n\n"
+                "The mod is installed and ready. Please start Half Sword from your Steam Library."
+            );
+        }
     }
 }
 
@@ -485,13 +477,12 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
 
         auto permResult = hse::TestWritePermissions(gameBinPath_);
         if (!permResult || !*permResult) {
-            hse::logAndShowError(
-                "Cannot write to game folder: " + gameBinPath_.string(),
-                "Cannot write to the game folder.\n\n"
-                "Please run the installer as administrator or check the folder permissions.\n\n"
-                "Path: " +
-                    gameBinPath_.string()
-            );
+            hse::Logger::error("Cannot write to game folder: %s", hse::PathToUtf8(gameBinPath_).c_str());
+            std::wstring message = L"Cannot write to the game folder.\n\n"
+                                   L"Please run the installer as administrator or check the folder permissions.\n\n"
+                                   L"Path:\n";
+            message.append(gameBinPath_.native());
+            MessageBoxW(nullptr, message.c_str(), L"Game Folder Is Not Writable", MB_OK | MB_ICONERROR);
             ShowExitMessage(false);
             return 1;
         }

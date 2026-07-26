@@ -391,10 +391,6 @@ namespace hse {
         return IsUe4ssActive(gameBinPath) ? InstallMode::Ue4ss : InstallMode::Standalone;
     }
 
-    bool IsInstallModeAvailable(const std::filesystem::path& gameBinPath, InstallMode mode) {
-        return mode != InstallMode::Ue4ss || IsUe4ssActive(gameBinPath);
-    }
-
     bool IsInstallationComplete(const std::filesystem::path& gameBinPath, InstallMode mode) {
         for (const auto& artifact : GetInstallPlan(mode)) {
             const auto path = GetInstallDestination(gameBinPath, artifact.artifact);
@@ -420,7 +416,7 @@ namespace hse {
     std::expected<void, InstallError> InstallFiles(
         const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath, InstallMode mode
     ) {
-        if (!IsInstallModeAvailable(gameBinPath, mode))
+        if (mode == InstallMode::Ue4ss && !IsUe4ssActive(gameBinPath))
             return std::unexpected(InstallError::InvalidPath);
         if (auto validation = ValidateInstallSource(sourcePath, mode); !validation) return validation;
 

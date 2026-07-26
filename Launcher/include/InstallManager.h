@@ -25,7 +25,6 @@ namespace hse {
     );
 
     [[nodiscard]] InstallMode DetectInstallMode(const std::filesystem::path& gameBinPath);
-    [[nodiscard]] bool IsInstallModeAvailable(const std::filesystem::path& gameBinPath, InstallMode mode);
     [[nodiscard]] bool IsInstallationComplete(const std::filesystem::path& gameBinPath, InstallMode mode);
 
     [[nodiscard]] std::expected<void, InstallError> InstallFiles(
