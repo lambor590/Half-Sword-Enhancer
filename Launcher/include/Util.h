@@ -34,6 +34,27 @@ namespace hse {
         return std::filesystem::path(std::u8string(text.begin(), text.end()));
     }
 
+    class ScopedHandle final {
+    public:
+        explicit ScopedHandle(HANDLE initialValue) noexcept : value(initialValue) {}
+        ~ScopedHandle() {
+            if (value && value != INVALID_HANDLE_VALUE) CloseHandle(value);
+        }
+
+        ScopedHandle(const ScopedHandle&) = delete;
+        ScopedHandle& operator=(const ScopedHandle&) = delete;
+        ScopedHandle(ScopedHandle&& other) noexcept : value(std::exchange(other.value, nullptr)) {}
+        ScopedHandle& operator=(ScopedHandle&&) = delete;
+
+        [[nodiscard]] HANDLE Get() const noexcept { return value; }
+        [[nodiscard]] explicit operator bool() const noexcept {
+            return value && value != INVALID_HANDLE_VALUE;
+        }
+
+    private:
+        HANDLE value = nullptr;
+    };
+
     class ScopedDirectory final {
     public:
         explicit ScopedDirectory(std::filesystem::path initialPath) : path(std::move(initialPath)) {}

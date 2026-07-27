@@ -21,24 +21,6 @@ namespace hse {
         constexpr DWORD WORKER_READY_MILLISECONDS = 10'000;
         constexpr DWORD CLEANUP_WAIT_MILLISECONDS = 60'000;
 
-        class ScopedHandle {
-        public:
-            explicit ScopedHandle(HANDLE value) noexcept : value(value) {}
-            ~ScopedHandle() {
-                if (value && value != INVALID_HANDLE_VALUE) CloseHandle(value);
-            }
-            ScopedHandle(const ScopedHandle&) = delete;
-            ScopedHandle& operator=(const ScopedHandle&) = delete;
-            ScopedHandle(ScopedHandle&& other) noexcept : value(std::exchange(other.value, nullptr)) {}
-            ScopedHandle& operator=(ScopedHandle&&) = delete;
-
-            [[nodiscard]] HANDLE Get() const noexcept { return value; }
-            [[nodiscard]] explicit operator bool() const noexcept { return value && value != INVALID_HANDLE_VALUE; }
-
-        private:
-            HANDLE value = nullptr;
-        };
-
         struct SiblingArtifacts {
             std::filesystem::path backup;
             std::filesystem::path candidate;
