@@ -47,9 +47,7 @@ namespace hse {
         ScopedHandle& operator=(ScopedHandle&&) = delete;
 
         [[nodiscard]] HANDLE Get() const noexcept { return value; }
-        [[nodiscard]] explicit operator bool() const noexcept {
-            return value && value != INVALID_HANDLE_VALUE;
-        }
+        [[nodiscard]] explicit operator bool() const noexcept { return value && value != INVALID_HANDLE_VALUE; }
 
     private:
         HANDLE value = nullptr;
