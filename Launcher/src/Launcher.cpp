@@ -1,8 +1,10 @@
+#include <array>
 #include <iostream>
 #include <filesystem>
 #include <thread>
 #include <chrono>
 #include <Windows.h>
+#include <TlHelp32.h>
 #include <ShObjIdl.h>
 #include <wrl/client.h>
 
@@ -57,6 +59,34 @@ namespace {
         std::filesystem::path result(selectedPath);
         CoTaskMemFree(selectedPath);
         return result;
+    }
+
+    [[nodiscard]] bool IsExecutableRunning(const std::filesystem::path& executable) {
+        hse::ScopedHandle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+        if (!snapshot) return false;
+
+        PROCESSENTRY32W entry{};
+        entry.dwSize = sizeof(entry);
+        if (!Process32FirstW(snapshot.Get(), &entry)) return false;
+
+        const auto executableName = executable.filename().native();
+        do {
+            if (CompareStringOrdinal(entry.szExeFile, -1, executableName.c_str(), -1, TRUE) != CSTR_EQUAL) continue;
+
+            hse::ScopedHandle process(OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, entry.th32ProcessID));
+            if (!process) continue;
+
+            std::array<wchar_t, 32'768> path{};
+            auto pathLength = static_cast<DWORD>(path.size());
+            if (!QueryFullProcessImageNameW(process.Get(), 0, path.data(), &pathLength)) continue;
+
+            std::error_code error;
+            if (std::filesystem::equivalent(
+                    executable, std::filesystem::path(std::wstring_view(path.data(), pathLength)), error
+                ))
+                return true;
+        } while (Process32NextW(snapshot.Get(), &entry));
+        return false;
     }
 
 }
@@ -466,7 +496,9 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
             return 1;
         }
 
-        if (FindWindowA("UnrealWindow", nullptr) != nullptr) {
+        const auto gameExecutable =
+            gameBinPath_ / hse::PathFromUtf8(hse::DescribeGameEdition(gameEdition_).executableName);
+        if (IsExecutableRunning(gameExecutable)) {
             hse::Logger::warn("Half Sword is currently running.");
             hse::Logger::warn("Please close the game before installing or updating the mod.");
             ShowExitMessage(false);
