@@ -83,7 +83,7 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
         slot = {.key = function, .nameHash = HS::Hash::FNV1A(functionName)};
     }
 
-    if (queued && (slot.nameHash == RECEIVE_TICK_HASH || hook.IsGameThread())) [[unlikely]] {
+    if (queued && slot.nameHash == RECEIVE_TICK_HASH) [[unlikely]] {
         const ScopedHookSuppression suppressHooks;
         hook.gameThreadId.store(GetCurrentThreadId(), std::memory_order_release);
 

@@ -176,9 +176,8 @@ void WorldActionsSection::InitKeybinds() {
                 auto* world = runtime.world;
                 if (!world) return;
                 SyncStateWorld(world);
-                if (SDK::UGameplayStatics::SetGamePaused(world, active)) {
-                    paused.store(active, std::memory_order_release);
-                }
+                (void)SDK::UGameplayStatics::SetGamePaused(world, active);
+                paused.store(SDK::UGameplayStatics::IsGamePaused(world), std::memory_order_release);
             },
         .kind = KeybindKind::State,
         .stateGetter = [this]() { return CurrentWorldState(paused); },

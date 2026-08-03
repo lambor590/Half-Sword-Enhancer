@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <Windows.h>
+#include <TlHelp32.h>
 #include <ShObjIdl.h>
 #include <wrl/client.h>
 
@@ -57,6 +58,21 @@ namespace {
         std::filesystem::path result(selectedPath);
         CoTaskMemFree(selectedPath);
         return result;
+    }
+
+    [[nodiscard]] bool IsExecutableRunning(std::string_view executableName) {
+        const auto expectedName = hse::PathFromUtf8(executableName).native();
+        hse::ScopedHandle snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
+        if (!snapshot) return false;
+
+        PROCESSENTRY32W entry{};
+        entry.dwSize = sizeof(entry);
+        if (!Process32FirstW(snapshot.Get(), &entry)) return false;
+
+        do {
+            if (CompareStringOrdinal(entry.szExeFile, -1, expectedName.c_str(), -1, TRUE) == CSTR_EQUAL) return true;
+        } while (Process32NextW(snapshot.Get(), &entry));
+        return false;
     }
 
 }
@@ -466,7 +482,7 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
             return 1;
         }
 
-        if (FindWindowA("UnrealWindow", nullptr) != nullptr) {
+        if (IsExecutableRunning(hse::DescribeGameEdition(gameEdition_).executableName)) {
             hse::Logger::warn("Half Sword is currently running.");
             hse::Logger::warn("Please close the game before installing or updating the mod.");
             ShowExitMessage(false);
