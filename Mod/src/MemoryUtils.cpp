@@ -342,6 +342,12 @@ namespace {
 } // namespace
 
 namespace MemoryUtils {
+    const char* HookIntegrityName(HookIntegrity integrity) noexcept {
+        constexpr std::array NAMES{"not tracked", "intact", "replaced", "unreadable"};
+        const auto index = static_cast<std::size_t>(integrity);
+        return index < NAMES.size() ? NAMES[index] : "unknown";
+    }
+
     bool PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress) {
         if (!addressToHook || !destinationAddress || !returnAddress) {
             if (returnAddress) *returnAddress = 0;
@@ -378,9 +384,7 @@ namespace MemoryUtils {
         std::memcpy(hookInfo.originalBytes.data(), Ptr<const void>(originalInstructions), clearance);
 
         if (!PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, ABS_JUMP_SIZE) ||
-            !PlaceJump(
-                trampoline + trampolineSize - ABS_JUMP_SIZE, addressToHook + clearance, true, ABS_JUMP_SIZE
-            )) {
+            !PlaceJump(trampoline + trampolineSize - ABS_JUMP_SIZE, addressToHook + clearance, true, ABS_JUMP_SIZE)) {
             VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
@@ -424,6 +428,25 @@ namespace MemoryUtils {
         }
 
         return true;
+    }
+
+    HookIntegrity InspectHook(uintptr_t hookedAddress) noexcept {
+        try {
+            const auto& hooks = Hooks();
+            const auto hook = hooks.find(hookedAddress);
+            if (hook == hooks.end()) return HookIntegrity::NotTracked;
+
+            uint8_t firstByte = 0;
+            int32_t jumpOffset = 0;
+            if (!SafeReadMemory(hookedAddress, firstByte) || !SafeReadMemory(hookedAddress + 1, jumpOffset))
+                return HookIntegrity::Unreadable;
+            if (firstByte != 0xE9) return HookIntegrity::Replaced;
+
+            const uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
+            return jumpTarget == hook->second.trampolineBase ? HookIntegrity::Intact : HookIntegrity::Replaced;
+        } catch (...) {
+            return HookIntegrity::Unreadable;
+        }
     }
 
     void Unhook(uintptr_t hookedAddress) {

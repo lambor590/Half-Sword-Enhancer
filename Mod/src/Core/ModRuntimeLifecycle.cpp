@@ -1,6 +1,8 @@
 #include "Core/ModRuntimeLifecycle.h"
 
 #include <atomic>
+#include <chrono>
+#include <condition_variable>
 #include <cstdint>
 #include <mutex>
 #include <thread>
@@ -28,6 +30,8 @@ namespace {
     std::atomic<bool> stopRequested{false};
     StartedStep startedStep = StartedStep::None;
     std::mutex workerMutex;
+    std::mutex monitorMutex;
+    std::condition_variable monitorSignal;
     std::thread startupWorker;
 
     void ShutdownStarted() noexcept {
@@ -74,7 +78,26 @@ namespace {
         ShutdownStarted();
     }
 
+    void MonitorRuntime() noexcept {
+        try {
+            logger.Log("Startup completed");
+            std::unique_lock monitorLock(monitorMutex);
+            while (!stopRequested.load(std::memory_order_acquire)) {
+                monitorSignal.wait_for(monitorLock, std::chrono::seconds(1), [] {
+                    return stopRequested.load(std::memory_order_acquire);
+                });
+                if (stopRequested.load(std::memory_order_acquire)) break;
+
+                GameHook::Get().PollDiagnostics();
+                renderer.PollDiagnostics();
+            }
+        } catch (...) {
+            logger.Log("Diagnostic monitor terminated after an unexpected synchronization failure");
+        }
+    }
+
     void StartWorker() noexcept {
+        logger.Log("Startup worker entered");
         try {
             if (!GameHook::Get().Hook()) {
                 FailStartup("game hook");
@@ -87,15 +110,18 @@ namespace {
                 return;
             }
             if (!ContinueStartup(StartedStep::Renderer)) return;
+            logger.Log("Startup step completed: renderer hooks");
 
             if (!AssetOverrideManager::Get().Initialize()) {
                 FailStartup("asset overrides");
                 return;
             }
             if (!ContinueStartup(StartedStep::AssetOverrides)) return;
+            logger.Log("Startup step completed: asset overrides");
 
             FreeCameraManager::Get().OnRuntimeStart();
             if (!ContinueStartup(StartedStep::RuntimeSubsystems)) return;
+            logger.Log("Startup step completed: runtime subsystems");
         } catch (...) {
             FailStartup("startup exception");
             return;
@@ -106,6 +132,8 @@ namespace {
         } catch (...) {
             logger.Log("Non-critical graphics startup settings failed");
         }
+
+        MonitorRuntime();
     }
 }
 
@@ -118,6 +146,7 @@ void ModRuntimeLifecycle::StartAsync() noexcept {
     active.store(true, std::memory_order_release);
     try {
         startupWorker = std::thread(StartWorker);
+        logger.Log("Asynchronous startup worker created");
     } catch (...) {
         logger.Log("Failed to create startup worker");
         active.store(false, std::memory_order_release);
@@ -132,6 +161,7 @@ bool ModRuntimeLifecycle::Stop() noexcept {
 
     std::lock_guard lock(workerMutex);
     stopRequested.store(true, std::memory_order_release);
+    monitorSignal.notify_all();
     if (startupWorker.joinable()) startupWorker.join();
     if (!active.load(std::memory_order_acquire)) return true;
 

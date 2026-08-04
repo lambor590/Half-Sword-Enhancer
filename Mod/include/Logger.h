@@ -12,11 +12,10 @@ public:
     static constexpr size_t MAX_LOG_SIZE = 512;
 
     explicit Logger(std::string_view prefix) noexcept : printPrefix(prefix) {
-        FILE* logFile = GetLogFile();
-        if (logFile == nullptr) {
+        if (GetLogFile() == nullptr) {
             std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "logs.log";
             FILE* newFile = nullptr;
-            fopen_s(&newFile, logPath.string().c_str(), "w");
+            fopen_s(&newFile, logPath.string().c_str(), "a");
             GetLogFile(newFile);
         }
     }
