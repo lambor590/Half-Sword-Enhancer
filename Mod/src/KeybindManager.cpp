@@ -101,7 +101,7 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
     const bool repeated = IsRepeatedKeyDown(msg, lParam);
 
     if (keyCode == GetToggleGuiKey()) [[unlikely]] {
-        if (!repeated) Gui::ToggleVisibility();
+        if (!repeated) Gui::ToggleVisibility("toggle key");
         return true;
     }
 
@@ -279,6 +279,6 @@ bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) 
 bool KeybindManager::ProcessToggleGuiEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
     if (!IsRelevantMessage(msg)) return false;
     if (ExtractKeyCode(msg, wParam) != GetToggleGuiKey()) return false;
-    if (!IsRepeatedKeyDown(msg, lParam)) Gui::ToggleVisibility();
+    if (!IsRepeatedKeyDown(msg, lParam)) Gui::ToggleVisibility("toggle key");
     return true;
 }
