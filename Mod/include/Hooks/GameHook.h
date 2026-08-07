@@ -10,7 +10,6 @@
 
 #include "Core/ModContext.h"
 #include "Logger.h"
-#include "MemoryUtils.h"
 
 namespace SDK {
     class UObject;
@@ -37,7 +36,6 @@ public:
     );
     [[nodiscard]] bool IsGameThread() const noexcept;
     [[nodiscard]] bool IsHooked() const noexcept;
-    void PollDiagnostics() noexcept;
 
     enum class HookPhase : std::uint8_t { Before, After };
 
@@ -143,12 +141,6 @@ private:
     std::atomic<std::uint64_t> dispatchState{DispatchState(DispatchMode::Bypass)};
     std::atomic<std::uint32_t> gameThreadId{0};
     std::atomic<bool> hasListeners{false};
-    std::atomic<bool> processEventObserved{false};
-    std::atomic<bool> receiveTickObserved{false};
-    MemoryUtils::HookIntegrity lastHookIntegrity = MemoryUtils::HookIntegrity::NotTracked;
-    std::chrono::steady_clock::time_point hookInstalledAt{};
-    bool missingProcessEventLogged = false;
-    bool missingReceiveTickLogged = false;
     std::vector<HookEntry> hooks;
     HookHandle nextHookHandle = 1;
     std::uint32_t registryGeneration = 1;

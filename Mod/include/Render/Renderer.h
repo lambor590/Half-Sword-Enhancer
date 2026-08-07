@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <array>
 #include <atomic>
-#include <chrono>
 #include <d3d11.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
@@ -11,14 +10,12 @@
 #include <wrl/client.h>
 
 #include "Logger.h"
-#include "MemoryUtils.h"
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_dx11.h"
 #include "imgui/backends/imgui_impl_dx12.h"
 #include "imgui/backends/imgui_impl_win32.h"
 
 using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
-using Present1 = HRESULT(__stdcall*)(IDXGISwapChain1*, UINT, UINT, const DXGI_PRESENT_PARAMETERS*);
 using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
 using ResizeBuffers1 =
     HRESULT(__stdcall*)(IDXGISwapChain3*, UINT, UINT, UINT, DXGI_FORMAT, UINT, const UINT*, IUnknown* const*);
@@ -33,7 +30,6 @@ public:
     [[nodiscard]] bool Hook();
     void Cleanup() noexcept;
     [[nodiscard]] bool IsInCallback() const noexcept { return currentCallbackDepth > 0; }
-    void PollDiagnostics() noexcept;
 
 private:
     class CallbackLease {
@@ -74,7 +70,6 @@ private:
     void CompleteUnhook() noexcept;
 
     enum class RenderBackend : std::uint8_t { Unknown, D3D11, D3D12 };
-    static constexpr std::size_t DIAGNOSTIC_HOOK_COUNT = 6;
 
     struct RenderState {
         bool needsInit = true;
@@ -102,8 +97,6 @@ private:
     // Addresses of the original methods after MemoryUtils installs the detours.
     uintptr_t presentAddress = 0;
     uintptr_t presentReturnAddress = 0;
-    uintptr_t present1Address = 0;
-    uintptr_t present1ReturnAddress = 0;
     uintptr_t resizeBuffersAddress = 0;
     uintptr_t resizeBuffersReturnAddress = 0;
     uintptr_t resizeBuffers1Address = 0;
@@ -116,26 +109,6 @@ private:
     RenderState state;
 
     HWND windowHandle = nullptr;
-    HWND imguiWindowHandle = nullptr;
-
-    std::atomic<bool> presentObserved{false};
-    std::atomic<bool> present1Observed{false};
-    std::atomic<bool> overlayFrameObserved{false};
-    std::atomic<ULONGLONG> lastPresentAt{0};
-    std::atomic<ULONGLONG> lastOverlayFrameAt{0};
-    std::atomic<std::uint64_t> presentExceptionCount{0};
-    std::atomic<std::uint64_t> createdSwapChainCount{0};
-    std::atomic<std::uint64_t> swapChainChangeCount{0};
-    std::atomic<std::uint64_t> foreignResizeCount{0};
-    std::atomic<std::uint64_t> resourceInitializationCount{0};
-    std::array<MemoryUtils::HookIntegrity, DIAGNOSTIC_HOOK_COUNT> lastHookIntegrity{};
-    std::chrono::steady_clock::time_point hooksInstalledAt{};
-    bool missingPresentLogged = false;
-    bool presentStallLogged = false;
-    bool visibleOverlayStallLogged = false;
-    bool windowMismatchLogged = false;
-    std::atomic<bool> unexpectedPresentImplementationLogged{false};
-    std::atomic<bool> unexpectedPresent1ImplementationLogged{false};
 
     Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
@@ -187,11 +160,6 @@ private:
     bool SignalAndWait() noexcept;
 
     void OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept;
-    void OnPresent1Observed() noexcept;
-    void ObserveCreatedSwapChain(IDXGISwapChain* createdSwapChain, HWND creationWindow) noexcept;
-    void RecordOverlayFrame(RenderBackend backend) noexcept;
-    void RecordResourceInitialization() noexcept;
-    [[nodiscard]] std::array<uintptr_t, DIAGNOSTIC_HOOK_COUNT> DiagnosticHookAddresses() const noexcept;
     static void AllocateD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE* outCpuHandle,
         D3D12_GPU_DESCRIPTOR_HANDLE* outGpuHandle
@@ -199,15 +167,12 @@ private:
     static void FreeD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
     );
-    void BeforeResizeBuffers(IDXGISwapChain* resizedSwapChain) noexcept;
+    void BeforeResizeBuffers() noexcept;
     void AfterResizeBuffers(HRESULT result) noexcept;
     bool CaptureCommandQueue(IUnknown* queueCandidate) noexcept;
     bool CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
 
     friend HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept;
-    friend HRESULT __fastcall HookOnPresent1(
-        IDXGISwapChain1* pThis, UINT syncInterval, UINT flags, const DXGI_PRESENT_PARAMETERS* presentParameters
-    ) noexcept;
     friend HRESULT __fastcall HookOnResizeBuffers(
         IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
     ) noexcept;

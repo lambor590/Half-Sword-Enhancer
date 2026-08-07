@@ -9,7 +9,6 @@ thread_local std::uint32_t Renderer::currentCallbackDepth = 0;
 
 namespace {
     constexpr int VMT_PRESENT_OFFSET = 8;
-    constexpr int VMT_PRESENT1_OFFSET = 22;
     constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
     constexpr int VMT_RESIZE_BUFFERS1_OFFSET = 39;
     constexpr int VMT_CREATE_SWAP_CHAIN_OFFSET = 10;
@@ -17,15 +16,6 @@ namespace {
     constexpr UINT D3D12_SKIP_LOG_LIMIT = 8;
     constexpr UINT SYNC_TIMEOUT_MS = 500;
     constexpr UINT64 FENCE_INCREMENT = 1;
-    constexpr std::uint64_t DETAILED_ACTIVITY_LOG_LIMIT = 3;
-
-    std::uint64_t IncrementDiagnosticCount(std::atomic<std::uint64_t>& counter) noexcept {
-        return counter.fetch_add(1, std::memory_order_relaxed) + 1;
-    }
-
-    bool ObserveFirst(std::atomic<bool>& observed) noexcept {
-        return !observed.load(std::memory_order_relaxed) && !observed.exchange(true, std::memory_order_relaxed);
-    }
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
@@ -73,24 +63,13 @@ HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT 
     return original ? original(pThis, syncInterval, flags) : E_FAIL;
 }
 
-HRESULT __fastcall HookOnPresent1(
-    IDXGISwapChain1* pThis, UINT syncInterval, UINT flags, const DXGI_PRESENT_PARAMETERS* presentParameters
-) noexcept {
-    auto& renderer = *g_Renderer;
-    const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks()) renderer.OnPresent1Observed();
-    const auto original = std::bit_cast<Present1>(
-        renderer.present1ReturnAddress ? renderer.present1ReturnAddress : renderer.present1Address
-    );
-    return original ? original(pThis, syncInterval, flags, presentParameters) : E_FAIL;
-}
-
 HRESULT __fastcall HookOnResizeBuffers(
     IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers(pThis);
+    if (callback.DispatchHooks())
+        renderer.BeforeResizeBuffers();
     const auto original = std::bit_cast<ResizeBuffers>(
         renderer.resizeBuffersReturnAddress ? renderer.resizeBuffersReturnAddress : renderer.resizeBuffersAddress
     );
@@ -105,7 +84,8 @@ HRESULT __fastcall HookOnResizeBuffers1(
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers(pThis);
+    if (callback.DispatchHooks())
+        renderer.BeforeResizeBuffers();
     const auto original = std::bit_cast<ResizeBuffers1>(
         renderer.resizeBuffers1ReturnAddress ? renderer.resizeBuffers1ReturnAddress : renderer.resizeBuffers1Address
     );
@@ -129,11 +109,7 @@ HRESULT __fastcall HookOnCreateSwapChain(
         renderer.createSwapChainReturnAddress ? renderer.createSwapChainReturnAddress : renderer.createSwapChainAddress
     );
     const HRESULT result = original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
-    if (callback.DispatchHooks() && SUCCEEDED(result)) {
-        renderer.CaptureCommandQueue(pDevice);
-        if (ppSwapChain && *ppSwapChain)
-            renderer.ObserveCreatedSwapChain(*ppSwapChain, pDesc ? pDesc->OutputWindow : nullptr);
-    }
+    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
 }
 
@@ -150,11 +126,7 @@ HRESULT __fastcall HookOnCreateSwapChainForHwnd(
     );
     const HRESULT result =
         original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain) : E_FAIL;
-    if (callback.DispatchHooks() && SUCCEEDED(result)) {
-        renderer.CaptureCommandQueue(pDevice);
-        if (ppSwapChain && *ppSwapChain)
-            renderer.ObserveCreatedSwapChain(static_cast<IDXGISwapChain*>(*ppSwapChain), hWnd);
-    }
+    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
 }
 
@@ -271,22 +243,6 @@ void Renderer::CompleteUnhook() noexcept {
 bool Renderer::Hook() {
     BeginInstall();
     g_Renderer = this;
-    presentObserved.store(false, std::memory_order_release);
-    present1Observed.store(false, std::memory_order_release);
-    overlayFrameObserved.store(false, std::memory_order_release);
-    lastPresentAt.store(0, std::memory_order_release);
-    lastOverlayFrameAt.store(0, std::memory_order_release);
-    presentExceptionCount.store(0, std::memory_order_release);
-    createdSwapChainCount.store(0, std::memory_order_release);
-    swapChainChangeCount.store(0, std::memory_order_release);
-    foreignResizeCount.store(0, std::memory_order_release);
-    resourceInitializationCount.store(0, std::memory_order_release);
-    missingPresentLogged = false;
-    presentStallLogged = false;
-    visibleOverlayStallLogged = false;
-    windowMismatchLogged = false;
-    unexpectedPresentImplementationLogged.store(false, std::memory_order_release);
-    unexpectedPresent1ImplementationLogged.store(false, std::memory_order_release);
 
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
     if (!dummySwapChain) {
@@ -305,38 +261,18 @@ bool Renderer::Hook() {
     }
 
     CompleteInstall(true);
-    hooksInstalledAt = std::chrono::steady_clock::now();
-    const auto hookAddresses = DiagnosticHookAddresses();
-    for (std::size_t index = 0; index < hookAddresses.size(); ++index) {
-        lastHookIntegrity[index] = MemoryUtils::InspectHook(hookAddresses[index]);
-    }
     return true;
 }
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
     try {
-        if (flags & DXGI_PRESENT_TEST) [[unlikely]]
-            return;
-        lastPresentAt.store(GetTickCount64(), std::memory_order_relaxed);
-        if (ObserveFirst(presentObserved)) logger.Log("First Present callback observed");
         if (state.inResize) [[unlikely]]
             return;
-
-        Gui::Get().PollDiagnostics();
+        if (flags & DXGI_PRESENT_TEST) [[unlikely]]
+            return;
 
         if (swapChain.Get() && pThis != swapChain.Get()) [[unlikely]] {
-            const std::uint64_t changeNumber = IncrementDiagnosticCount(swapChainChangeCount);
-            if (changeNumber <= DETAILED_ACTIVITY_LOG_LIMIT) {
-                DXGI_SWAP_CHAIN_DESC incomingDesc{};
-                const HRESULT descResult = pThis->GetDesc(&incomingDesc);
-                logger.Log(
-                    "Swap chain changed #%llu (oldHwnd=%p newHwnd=%p size=%ux%u)",
-                    static_cast<unsigned long long>(changeNumber), static_cast<void*>(windowHandle),
-                    static_cast<void*>(SUCCEEDED(descResult) ? incomingDesc.OutputWindow : nullptr),
-                    SUCCEEDED(descResult) ? incomingDesc.BufferDesc.Width : 0,
-                    SUCCEEDED(descResult) ? incomingDesc.BufferDesc.Height : 0
-                );
-            }
+            logger.Log("Swap chain changed, recreating overlay resources");
             ReleaseD3DResourcesForResize();
         }
 
@@ -356,109 +292,8 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
         else if (state.backend == RenderBackend::D3D12)
             RenderFrameD3D12();
     } catch (...) {
-        const std::uint64_t exceptionNumber = IncrementDiagnosticCount(presentExceptionCount);
-        if (exceptionNumber <= DETAILED_ACTIVITY_LOG_LIMIT) {
-            logger.Log(
-                "Unhandled exception during Present processing #%llu", static_cast<unsigned long long>(exceptionNumber)
-            );
-        }
         state.needsInit = true;
         ReleaseD3DResourcesForResize();
-    }
-}
-
-void Renderer::OnPresent1Observed() noexcept {
-    if (!ObserveFirst(present1Observed)) return;
-    logger.Log("First Present1 callback observed; overlay rendering currently uses Present");
-}
-
-void Renderer::ObserveCreatedSwapChain(IDXGISwapChain* createdSwapChain, HWND creationWindow) noexcept {
-    if (!createdSwapChain) return;
-
-    const std::uint64_t creationNumber = IncrementDiagnosticCount(createdSwapChainCount);
-
-    DXGI_SWAP_CHAIN_DESC desc{};
-    const HRESULT descResult = createdSwapChain->GetDesc(&desc);
-    const HWND outputWindow = creationWindow ? creationWindow : (SUCCEEDED(descResult) ? desc.OutputWindow : nullptr);
-    auto* vmt = *reinterpret_cast<uintptr_t**>(createdSwapChain);
-    const uintptr_t actualPresent = vmt[VMT_PRESENT_OFFSET];
-
-    uintptr_t actualPresent1 = 0;
-    ComPtr<IDXGISwapChain1> swapChain1;
-    if (SUCCEEDED(createdSwapChain->QueryInterface(IID_PPV_ARGS(&swapChain1))) && swapChain1) {
-        auto* swapChain1Vmt = *reinterpret_cast<uintptr_t**>(swapChain1.Get());
-        actualPresent1 = swapChain1Vmt[VMT_PRESENT1_OFFSET];
-    }
-
-    if (creationNumber <= DETAILED_ACTIVITY_LOG_LIMIT) {
-        logger.Log(
-            "Created swap chain observed #%llu (hwnd=%p size=%ux%u)", static_cast<unsigned long long>(creationNumber),
-            static_cast<void*>(outputWindow), SUCCEEDED(descResult) ? desc.BufferDesc.Width : 0,
-            SUCCEEDED(descResult) ? desc.BufferDesc.Height : 0
-        );
-    }
-
-    if (actualPresent != presentAddress &&
-        !unexpectedPresentImplementationLogged.exchange(true, std::memory_order_acq_rel)) {
-        logger.Log("WARNING: created swap chain uses a different Present implementation");
-    }
-    if (actualPresent1 && present1Address && actualPresent1 != present1Address &&
-        !unexpectedPresent1ImplementationLogged.exchange(true, std::memory_order_acq_rel)) {
-        logger.Log("WARNING: created swap chain uses a different Present1 implementation");
-    }
-}
-
-void Renderer::PollDiagnostics() noexcept {
-    const auto hookAddresses = DiagnosticHookAddresses();
-    constexpr std::array HOOK_NAMES{
-        "Present", "Present1", "ResizeBuffers", "ResizeBuffers1", "CreateSwapChain", "CreateSwapChainForHwnd",
-    };
-    for (std::size_t index = 0; index < hookAddresses.size(); ++index) {
-        if (!hookAddresses[index]) continue;
-        const auto integrity = MemoryUtils::InspectHook(hookAddresses[index]);
-        if (integrity == lastHookIntegrity[index]) continue;
-        logger.Log(
-            "%s hook integrity changed: %s -> %s", HOOK_NAMES[index],
-            MemoryUtils::HookIntegrityName(lastHookIntegrity[index]), MemoryUtils::HookIntegrityName(integrity)
-        );
-        lastHookIntegrity[index] = integrity;
-    }
-
-    const auto now = std::chrono::steady_clock::now();
-    const auto installedFor = now - hooksInstalledAt;
-    if (!missingPresentLogged && installedFor >= std::chrono::seconds(10) &&
-        !presentObserved.load(std::memory_order_acquire)) {
-        if (present1Observed.load(std::memory_order_acquire))
-            logger.Log(
-                "No Present callback observed, but Present1 is active; the game may be presenting exclusively through "
-                "Present1"
-            );
-        else
-            logger.Log("No Present or Present1 callback observed within 10 seconds of renderer hook installation");
-        missingPresentLogged = true;
-    }
-    if (installedFor < std::chrono::seconds(5)) return;
-    const ULONGLONG nowTick = GetTickCount64();
-    const ULONGLONG lastPresent = lastPresentAt.load(std::memory_order_acquire);
-    const ULONGLONG lastOverlayFrame = lastOverlayFrameAt.load(std::memory_order_acquire);
-    const bool presentActive = lastPresent && nowTick - lastPresent < 5'000;
-    const bool overlayActive = lastOverlayFrame && nowTick - lastOverlayFrame < 5'000;
-    if (presentObserved.load(std::memory_order_acquire) && !presentActive && !presentStallLogged) {
-        logger.Log("Present callbacks stopped during the last 5 seconds after earlier renderer activity");
-        presentStallLogged = true;
-    } else if (presentActive && presentStallLogged) {
-        logger.Log("Present callbacks resumed");
-        presentStallLogged = false;
-    }
-
-    if (!Gui::IsVisible()) {
-        visibleOverlayStallLogged = false;
-    } else if (presentActive && !overlayActive && !visibleOverlayStallLogged) {
-        logger.Log("GUI is visible and Present is active, but no overlay frame completed during the last 5 seconds");
-        visibleOverlayStallLogged = true;
-    } else if (overlayActive && visibleOverlayStallLogged) {
-        logger.Log("Overlay frame rendering resumed");
-        visibleOverlayStallLogged = false;
     }
 }
 
@@ -496,13 +331,7 @@ bool Renderer::CaptureCommandQueue(IUnknown* queueCandidate) noexcept {
     return CaptureCommandQueue(newQueue.Get());
 }
 
-void Renderer::BeforeResizeBuffers(IDXGISwapChain* resizedSwapChain) noexcept {
-    if (swapChain.Get() && resizedSwapChain != swapChain.Get()) {
-        const std::uint64_t resizeNumber = IncrementDiagnosticCount(foreignResizeCount);
-        if (resizeNumber <= DETAILED_ACTIVITY_LOG_LIMIT) {
-            logger.Log("ResizeBuffers from non-active swap chain #%llu", static_cast<unsigned long long>(resizeNumber));
-        }
-    }
+void Renderer::BeforeResizeBuffers() noexcept {
     state.inResize = true;
 
     ReleaseD3DResourcesForResize();
@@ -527,7 +356,6 @@ void Renderer::RenderFrameD3D11() noexcept {
     ImGui_ImplDX11_NewFrame();
     Gui::Get().Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-    RecordOverlayFrame(RenderBackend::D3D11);
 }
 
 void Renderer::RenderFrameD3D12() noexcept {
@@ -614,51 +442,16 @@ void Renderer::RenderFrameD3D12() noexcept {
         return;
     }
     target.fenceValue = fenceValue;
-    RecordOverlayFrame(RenderBackend::D3D12);
-}
-
-void Renderer::RecordOverlayFrame(RenderBackend backend) noexcept {
-    lastOverlayFrameAt.store(GetTickCount64(), std::memory_order_relaxed);
-    if (!ObserveFirst(overlayFrameObserved)) return;
-    logger.Log("First overlay frame rendered through %s", backend == RenderBackend::D3D12 ? "D3D12" : "D3D11");
-}
-
-void Renderer::RecordResourceInitialization() noexcept {
-    const std::uint64_t initializationNumber = IncrementDiagnosticCount(resourceInitializationCount);
-    if (initializationNumber > DETAILED_ACTIVITY_LOG_LIMIT) return;
-    logger.Log(
-        "%s overlay resources initialized #%llu (buffers=%u)",
-        state.backend == RenderBackend::D3D12 ? "D3D12" : "D3D11",
-        static_cast<unsigned long long>(initializationNumber), state.bufferCount
-    );
-}
-
-std::array<uintptr_t, Renderer::DIAGNOSTIC_HOOK_COUNT> Renderer::DiagnosticHookAddresses() const noexcept {
-    return {
-        presentAddress,        present1Address,        resizeBuffersAddress,
-        resizeBuffers1Address, createSwapChainAddress, createSwapChainForHwndAddress,
-    };
 }
 
 bool Renderer::InitOrReinitImGui() noexcept {
     if (!state.imguiContextReady) {
         ImGui::CreateContext();
-        const bool win32Ready = ImGui_ImplWin32_Init(windowHandle);
-        imguiWindowHandle = windowHandle;
-        logger.Log("ImGui Win32 backend initialization %s", win32Ready ? "succeeded" : "failed");
+        ImGui_ImplWin32_Init(windowHandle);
         Gui::Get().Init(windowHandle);
         Gui::Get().Setup();
         ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
         state.imguiContextReady = true;
-    } else if (windowHandle != imguiWindowHandle && !windowMismatchLogged) {
-        logger.Log(
-            "WARNING: swap-chain HWND changed after ImGui initialization (bound=%p current=%p)",
-            static_cast<void*>(imguiWindowHandle), static_cast<void*>(windowHandle)
-        );
-        windowMismatchLogged = true;
-    } else if (windowHandle == imguiWindowHandle && windowMismatchLogged) {
-        logger.Log("Swap-chain HWND returned to the ImGui-bound window");
-        windowMismatchLogged = false;
     }
 
     if (!state.imguiRendererReady) {
@@ -764,9 +557,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
     if (SUCCEEDED(sc->GetDevice(IID_PPV_ARGS(&newD3D11Device)))) [[likely]] {
         d3d11Device = newD3D11Device;
         state.backend = RenderBackend::D3D11;
-        const bool initialized = InitD3D11();
-        if (initialized) RecordResourceInitialization();
-        return initialized;
+        return InitD3D11();
     }
 
     ComPtr<ID3D12Device> newD3D12Device;
@@ -778,9 +569,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
         }
         d3d12Device = newD3D12Device;
         state.backend = RenderBackend::D3D12;
-        const bool initialized = InitD3D12();
-        if (initialized) RecordResourceInitialization();
-        return initialized;
+        return InitD3D12();
     }
 
     logger.Log("Failed to get D3D device from swap chain");
@@ -1007,13 +796,11 @@ void Renderer::FreeD3D12SrvDescriptor(
 
 void Renderer::Cleanup() noexcept {
     QuiesceCallbacks();
-    if (presentAddress || present1Address || resizeBuffersAddress || resizeBuffers1Address) {
+    if (presentAddress || resizeBuffersAddress || resizeBuffers1Address) {
         if (presentAddress) MemoryUtils::Unhook(presentAddress);
-        if (present1Address) MemoryUtils::Unhook(present1Address);
         if (resizeBuffersAddress) MemoryUtils::Unhook(resizeBuffersAddress);
         if (resizeBuffers1Address) MemoryUtils::Unhook(resizeBuffers1Address);
         presentReturnAddress = 0;
-        present1ReturnAddress = 0;
         resizeBuffersReturnAddress = 0;
         resizeBuffers1ReturnAddress = 0;
     }
@@ -1021,7 +808,6 @@ void Renderer::Cleanup() noexcept {
     CompleteUnhook();
 
     presentAddress = 0;
-    present1Address = 0;
     resizeBuffersAddress = 0;
     resizeBuffers1Address = 0;
     createSwapChainAddress = 0;
@@ -1035,7 +821,6 @@ void Renderer::Cleanup() noexcept {
         ImGui::DestroyContext();
         state.imguiContextReady = false;
         windowHandle = nullptr;
-        imguiWindowHandle = nullptr;
     }
 
     state = {};
@@ -1119,21 +904,6 @@ bool Renderer::HookSwapChain(IDXGISwapChain* dummySwapChain) {
         return false;
     }
     this->resizeBuffersAddress = resizeBuffersHookAddress;
-
-    ComPtr<IDXGISwapChain1> swapChain1Dummy;
-    if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain1Dummy))) && swapChain1Dummy) {
-        auto* swapChain1Vmt = *reinterpret_cast<uintptr_t**>(swapChain1Dummy.Get());
-        const uintptr_t present1HookAddress = swapChain1Vmt[VMT_PRESENT1_OFFSET];
-        if (MemoryUtils::PlaceHook(
-                present1HookAddress, reinterpret_cast<uintptr_t>(&HookOnPresent1), &present1ReturnAddress
-            )) {
-            this->present1Address = present1HookAddress;
-        } else {
-            logger.Log("Present1 observation hook failed; Present diagnostics will continue");
-        }
-    } else {
-        logger.Log("Dummy swap chain does not expose IDXGISwapChain1; Present1 cannot be observed");
-    }
 
     ComPtr<IDXGISwapChain3> swapChain3Dummy;
     if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain3Dummy))) && swapChain3Dummy) {
