@@ -48,10 +48,6 @@ namespace {
         ScopedHookSuppression(const ScopedHookSuppression&) = delete;
         ScopedHookSuppression& operator=(const ScopedHookSuppression&) = delete;
     };
-
-    bool ObserveFirst(std::atomic<bool>& observed) noexcept {
-        return !observed.load(std::memory_order_relaxed) && !observed.exchange(true, std::memory_order_relaxed);
-    }
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, void* params) noexcept {
@@ -62,8 +58,6 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
                                  : (hook.oProcessEvent ? hook.oProcessEvent : hook.processEventAddress)
     );
     if (!originalProcessEvent) return;
-
-    if (ObserveFirst(hook.processEventObserved)) hook.logger.Log("First ProcessEvent callback observed");
 
     if (hookSuppressionDepth > 0) [[unlikely]] {
         originalProcessEvent(object, function, params);
@@ -82,8 +76,8 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
         return;
     }
 
-    auto& slot =
-        processEventCache.slots[(reinterpret_cast<std::uintptr_t>(function) >> 4) & ProcessEventCache::TABLE_MASK];
+    auto& slot = processEventCache.slots
+        [(reinterpret_cast<std::uintptr_t>(function) >> 4) & ProcessEventCache::TABLE_MASK];
     if (slot.key != function) [[unlikely]] {
         const std::string functionName = function->GetName();
         slot = {.key = function, .nameHash = HS::Hash::FNV1A(functionName)};
@@ -92,7 +86,6 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
     if (queued && slot.nameHash == RECEIVE_TICK_HASH) [[unlikely]] {
         const ScopedHookSuppression suppressHooks;
         hook.gameThreadId.store(GetCurrentThreadId(), std::memory_order_release);
-        if (ObserveFirst(hook.receiveTickObserved)) hook.logger.Log("First ReceiveTick observed");
 
         static thread_local std::vector<GameHook::QueuedAction> localQueue;
         localQueue.clear();
@@ -167,10 +160,6 @@ bool GameHook::Hook() {
 
     hooks.reserve(32);
 
-    processEventObserved.store(false, std::memory_order_release);
-    receiveTickObserved.store(false, std::memory_order_release);
-    missingProcessEventLogged = false;
-    missingReceiveTickLogged = false;
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
     oProcessEvent = processEventAddress;
     if (!MemoryUtils::PlaceHook(oProcessEvent, reinterpret_cast<uintptr_t>(OnProcessEvent), &oProcessEvent)) {
@@ -179,10 +168,6 @@ bool GameHook::Hook() {
         processEventAddress = 0;
         return false;
     }
-
-    hookInstalledAt = std::chrono::steady_clock::now();
-    lastHookIntegrity = MemoryUtils::InspectHook(processEventAddress);
-    logger.Log("ProcessEvent hook installed (integrity=%s)", MemoryUtils::HookIntegrityName(lastHookIntegrity));
 
     SetDispatchMode(DispatchMode::Running);
 
@@ -244,35 +229,6 @@ void GameHook::Unhook() {
     hasListeners.store(false, std::memory_order_release);
     nextHookHandle = 1;
     gameThreadId.store(0, std::memory_order_release);
-    processEventObserved.store(false, std::memory_order_release);
-    receiveTickObserved.store(false, std::memory_order_release);
-    lastHookIntegrity = MemoryUtils::HookIntegrity::NotTracked;
-    processEventAddress = 0;
-}
-
-void GameHook::PollDiagnostics() noexcept {
-    if (!processEventAddress) return;
-
-    const auto integrity = MemoryUtils::InspectHook(processEventAddress);
-    if (integrity != lastHookIntegrity) {
-        logger.Log(
-            "ProcessEvent hook integrity changed: %s -> %s", MemoryUtils::HookIntegrityName(lastHookIntegrity),
-            MemoryUtils::HookIntegrityName(integrity)
-        );
-        lastHookIntegrity = integrity;
-    }
-
-    const auto installedFor = std::chrono::steady_clock::now() - hookInstalledAt;
-    if (!missingProcessEventLogged && installedFor >= std::chrono::seconds(10) &&
-        !processEventObserved.load(std::memory_order_acquire)) {
-        logger.Log("No ProcessEvent callback observed within 10 seconds of hook installation");
-        missingProcessEventLogged = true;
-    }
-    if (!missingReceiveTickLogged && installedFor >= std::chrono::seconds(20) &&
-        !receiveTickObserved.load(std::memory_order_acquire)) {
-        logger.Log("No ReceiveTick observed within 20 seconds of hook installation");
-        missingReceiveTickLogged = true;
-    }
 }
 
 bool GameHook::BeginDispatch() noexcept {

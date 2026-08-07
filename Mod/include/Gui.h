@@ -26,12 +26,11 @@ public:
     void Init(HWND newWindow) noexcept;
     void Setup();
     void Shutdown() noexcept;
-    void PollDiagnostics() noexcept;
     void Render();
     [[nodiscard]] bool IsInCallback() const noexcept { return currentWndProcDepth > 0; }
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     static bool IsVisible() noexcept { return isVisible.load(std::memory_order_relaxed); }
-    static void ToggleVisibility(const char* reason) noexcept;
+    static void ToggleVisibility() noexcept;
     static bool NeedsRendering() noexcept;
 
 private:
@@ -66,8 +65,6 @@ private:
 
     HWND window = nullptr;
     bool menuBuilt = false;
-    ULONGLONG nextWndProcDiagnosticAt = 0;
-    WNDPROC lastObservedWndProc = nullptr;
 
     static WNDPROC originalWndProc;
     static std::atomic<std::uint64_t> wndProcState;

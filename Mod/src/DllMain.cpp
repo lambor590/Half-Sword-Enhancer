@@ -9,10 +9,8 @@ static Logger logger{"DllMain"};
 static std::atomic<bool> lifecycleStarted{false};
 
 extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
-    logger.Log("HSE_Initialize export entered");
     if (lifecycleStarted.exchange(true, std::memory_order_acq_rel)) return;
     KeybindManager::Initialize();
-    logger.Log("Keybind manager initialized; starting runtime lifecycle");
     ModRuntimeLifecycle::StartAsync();
 }
 

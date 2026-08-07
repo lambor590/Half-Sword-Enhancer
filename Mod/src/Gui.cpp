@@ -3,7 +3,6 @@
 #include "Core/ModContext.h"
 #include "DefaultStyle.h"
 #include "Hooks/GameHook.h"
-#include "Logger.h"
 #include "Menu/Keybind.h"
 #include "Menu/MenuManager.h"
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
@@ -44,8 +43,6 @@ void Gui::Init(HWND newWindow) noexcept {
 }
 
 namespace {
-    Logger logger{"Gui"};
-
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;
     bool s_popupOpened = false;
@@ -57,7 +54,7 @@ namespace {
             s_showMismatchPopup = true;
             s_popupOpened = false;
             s_mismatchNeedsInput.store(true, std::memory_order_release);
-            if (!Gui::IsVisible()) Gui::ToggleVisibility("version mismatch dialog");
+            if (!Gui::IsVisible()) Gui::ToggleVisibility();
         }
 
         if (!s_showMismatchPopup) return;
@@ -94,7 +91,7 @@ namespace {
     }
 }
 
-void Gui::ToggleVisibility(const char* reason) noexcept {
+void Gui::ToggleVisibility() noexcept {
     const bool wasVisible = isVisible.load(std::memory_order_relaxed);
     if (wasVisible && s_mismatchNeedsInput.load(std::memory_order_acquire)) return;
     if (wasVisible) {
@@ -104,10 +101,6 @@ void Gui::ToggleVisibility(const char* reason) noexcept {
         (void)GameHook::QueueAction([](const RuntimeContextSnapshot&) {});
     }
     isVisible.store(!wasVisible, std::memory_order_relaxed);
-    logger.Log(
-        "GUI visibility changed: %s -> %s (reason=%s)", wasVisible ? "visible" : "hidden",
-        wasVisible ? "hidden" : "visible", reason
-    );
 }
 
 bool Gui::BeginWndProc() noexcept {
@@ -290,17 +283,9 @@ void Gui::Setup() {
     }
 
     BeginWndProcInstall();
-    nextWndProcDiagnosticAt = GetTickCount64() + 1'000;
     const auto wndProc = static_cast<WNDPROC>(WndProc);
-    SetLastError(ERROR_SUCCESS);
-    originalWndProc = std::bit_cast<WNDPROC>(SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(wndProc)));
-    const DWORD installError = GetLastError();
-    const auto installedWndProc = std::bit_cast<WNDPROC>(GetWindowLongPtr(window, GWLP_WNDPROC));
-    lastObservedWndProc = installedWndProc;
-    if (installedWndProc == wndProc)
-        logger.Log("WndProc installation succeeded");
-    else
-        logger.Log("WndProc installation failed (error=%lu)", installError);
+    originalWndProc =
+        std::bit_cast<WNDPROC>(SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(wndProc)));
     TransitionWndProcPhase(WndProcPhase::Running);
 }
 
@@ -316,40 +301,13 @@ void Gui::Shutdown() noexcept {
     window = nullptr;
 }
 
-void Gui::PollDiagnostics() noexcept {
-    const ULONGLONG now = GetTickCount64();
-    if (now < nextWndProcDiagnosticAt) return;
-    nextWndProcDiagnosticAt = now + 1'000;
-    if (!window) return;
-
-    if (!IsWindow(window)) {
-        if (lastObservedWndProc) {
-            logger.Log("WARNING: the ImGui-bound HWND is no longer a valid window");
-            lastObservedWndProc = nullptr;
-        }
-        return;
-    }
-
-    const auto expectedWndProc = static_cast<WNDPROC>(WndProc);
-    const auto installedWndProc = std::bit_cast<WNDPROC>(GetWindowLongPtr(window, GWLP_WNDPROC));
-    if (installedWndProc == lastObservedWndProc) return;
-
-    if (installedWndProc != expectedWndProc) {
-        logger.Log("WARNING: WndProc was replaced while the GUI is active");
-    } else {
-        logger.Log("WndProc ownership returned to the GUI");
-    }
-    lastObservedWndProc = installedWndProc;
-}
-
 bool Gui::NeedsRendering() noexcept {
     ConfigManager::Get().FlushIfDue();
 
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
 
     const bool hasNotifications = NotificationManager::Update();
-    if (isVisible.load(std::memory_order_relaxed) || hasNotifications) [[unlikely]]
-        return true;
+    if (isVisible.load(std::memory_order_relaxed) || hasNotifications) [[unlikely]] return true;
 
     if (s_showMismatchPopup) [[unlikely]]
         return true;
@@ -409,7 +367,7 @@ void Gui::Render() {
         }
         ImGui::End();
         ImGui::PopStyleVar();
-        if (!showWindow) ToggleVisibility("menu close button");
+        if (!showWindow) ToggleVisibility();
     } else {
         ImGui::ClosePopupsExceptModals();
         io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
