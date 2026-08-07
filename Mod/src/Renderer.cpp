@@ -19,6 +19,38 @@ namespace {
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
+    thread_local bool creatingDummySwapChain = false;
+
+    template <typename Function> bool PlaceVtableHook(uintptr_t* entry, Function detour, Function& original) noexcept {
+        DWORD oldProtection = 0;
+        if (!entry || !detour || !VirtualProtect(entry, sizeof(*entry), PAGE_READWRITE, &oldProtection)) return false;
+
+        auto* slot = reinterpret_cast<PVOID volatile*>(entry);
+        const auto detourPointer = reinterpret_cast<PVOID>(detour);
+        const PVOID current = InterlockedCompareExchangePointer(slot, nullptr, nullptr);
+        const PVOID replaced = current ? InterlockedCompareExchangePointer(slot, detourPointer, current) : nullptr;
+
+        DWORD unused = 0;
+        VirtualProtect(entry, sizeof(*entry), oldProtection, &unused);
+        if (!current || current == detourPointer || replaced != current) return false;
+
+        original = reinterpret_cast<Function>(current);
+        return true;
+    }
+
+    template <typename Function> void RemoveVtableHook(uintptr_t* entry, Function detour, Function original) noexcept {
+        DWORD oldProtection = 0;
+        if (!entry || !detour || !original || !VirtualProtect(entry, sizeof(*entry), PAGE_READWRITE, &oldProtection)) {
+            return;
+        }
+
+        InterlockedCompareExchangePointer(
+            reinterpret_cast<PVOID volatile*>(entry), reinterpret_cast<PVOID>(original), reinterpret_cast<PVOID>(detour)
+        );
+
+        DWORD unused = 0;
+        VirtualProtect(entry, sizeof(*entry), oldProtection, &unused);
+    }
 
     struct D3D11OutputStateGuard {
         ID3D11DeviceContext* context = nullptr;
@@ -58,8 +90,7 @@ HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT 
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
     if (callback.DispatchHooks()) renderer.OnPresent(pThis, flags);
-    const auto original =
-        std::bit_cast<Present>(renderer.presentReturnAddress ? renderer.presentReturnAddress : renderer.presentAddress);
+    const auto original = renderer.originalPresent;
     return original ? original(pThis, syncInterval, flags) : E_FAIL;
 }
 
@@ -68,11 +99,8 @@ HRESULT __fastcall HookOnResizeBuffers(
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks())
-        renderer.BeforeResizeBuffers();
-    const auto original = std::bit_cast<ResizeBuffers>(
-        renderer.resizeBuffersReturnAddress ? renderer.resizeBuffersReturnAddress : renderer.resizeBuffersAddress
-    );
+    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers();
+    const auto original = renderer.originalResizeBuffers;
     const HRESULT result = original ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags) : E_FAIL;
     if (callback.DispatchHooks()) renderer.AfterResizeBuffers(result);
     return result;
@@ -84,11 +112,8 @@ HRESULT __fastcall HookOnResizeBuffers1(
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks())
-        renderer.BeforeResizeBuffers();
-    const auto original = std::bit_cast<ResizeBuffers1>(
-        renderer.resizeBuffers1ReturnAddress ? renderer.resizeBuffers1ReturnAddress : renderer.resizeBuffers1Address
-    );
+    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers();
+    const auto original = renderer.originalResizeBuffers1;
     const HRESULT result =
         original
             ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue)
@@ -104,10 +129,12 @@ HRESULT __fastcall HookOnCreateSwapChain(
     IDXGIFactory* pThis, IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain
 ) noexcept {
     auto& renderer = *g_Renderer;
-    const Renderer::CallbackLease callback{renderer};
     const auto original = std::bit_cast<CreateSwapChain>(
         renderer.createSwapChainReturnAddress ? renderer.createSwapChainReturnAddress : renderer.createSwapChainAddress
     );
+    if (creatingDummySwapChain) return original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
+
+    const Renderer::CallbackLease callback{renderer};
     const HRESULT result = original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
     if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
@@ -119,11 +146,16 @@ HRESULT __fastcall HookOnCreateSwapChainForHwnd(
     IDXGISwapChain1** ppSwapChain
 ) noexcept {
     auto& renderer = *g_Renderer;
-    const Renderer::CallbackLease callback{renderer};
     const auto original = std::bit_cast<CreateSwapChainForHwnd>(
         renderer.createSwapChainForHwndReturnAddress ? renderer.createSwapChainForHwndReturnAddress
                                                      : renderer.createSwapChainForHwndAddress
     );
+    if (creatingDummySwapChain) {
+        return original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain)
+                        : E_FAIL;
+    }
+
+    const Renderer::CallbackLease callback{renderer};
     const HRESULT result =
         original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain) : E_FAIL;
     if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
@@ -241,20 +273,9 @@ void Renderer::CompleteUnhook() noexcept {
 }
 
 bool Renderer::Hook() {
+    std::lock_guard lock(hookMutex);
     BeginInstall();
     g_Renderer = this;
-
-    IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
-    if (!dummySwapChain) {
-        logger.Log("Failed to create dummy swap chain, hooking aborted");
-        CompleteInstall(false);
-        return false;
-    }
-    if (!HookSwapChain(dummySwapChain)) {
-        logger.Log("Failed to hook swap chain");
-        Cleanup();
-        return false;
-    }
 
     if (!HookFactory()) {
         logger.Log("DXGI factory hooks unavailable; D3D12 command queue capture may be unavailable");
@@ -262,6 +283,23 @@ bool Renderer::Hook() {
 
     CompleteInstall(true);
     return true;
+}
+
+bool Renderer::HookSwapChainAfterStartup() {
+    std::lock_guard lock(hookMutex);
+    if (CallbackPhaseOf(callbackState.load(std::memory_order_acquire)) == CallbackPhase::Unhooked) return false;
+    if (swapChainHooked) return true;
+
+    QuiesceCallbacks();
+    IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
+    const bool hooked = dummySwapChain && HookSwapChain(dummySwapChain);
+    if (!hooked) {
+        logger.Log("Failed to hook swap chain");
+        UnhookSwapChain();
+    }
+    swapChainHooked = hooked;
+    CompleteInstall(true);
+    return hooked;
 }
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
@@ -795,21 +833,21 @@ void Renderer::FreeD3D12SrvDescriptor(
 }
 
 void Renderer::Cleanup() noexcept {
+    std::lock_guard lock(hookMutex);
+    if (CallbackPhaseOf(callbackState.load(std::memory_order_acquire)) == CallbackPhase::Unhooked) return;
+
     QuiesceCallbacks();
-    if (presentAddress || resizeBuffersAddress || resizeBuffers1Address) {
-        if (presentAddress) MemoryUtils::Unhook(presentAddress);
-        if (resizeBuffersAddress) MemoryUtils::Unhook(resizeBuffersAddress);
-        if (resizeBuffers1Address) MemoryUtils::Unhook(resizeBuffers1Address);
-        presentReturnAddress = 0;
-        resizeBuffersReturnAddress = 0;
-        resizeBuffers1ReturnAddress = 0;
-    }
+    UnhookSwapChain();
     UnhookFactory();
     CompleteUnhook();
 
-    presentAddress = 0;
-    resizeBuffersAddress = 0;
-    resizeBuffers1Address = 0;
+    presentVtableEntry = nullptr;
+    originalPresent = nullptr;
+    resizeBuffersVtableEntry = nullptr;
+    originalResizeBuffers = nullptr;
+    resizeBuffers1VtableEntry = nullptr;
+    originalResizeBuffers1 = nullptr;
+    swapChainHooked = false;
     createSwapChainAddress = 0;
     createSwapChainForHwndAddress = 0;
 
@@ -867,10 +905,12 @@ IDXGISwapChain* Renderer::CreateDummySwapChain() {
     ComPtr<IDXGISwapChain> swapChainResult;
     ComPtr<ID3D11Device> device;
 
+    creatingDummySwapChain = true;
     const HRESULT result = D3D11CreateDeviceAndSwapChain(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChainResult,
         &device, nullptr, nullptr
     );
+    creatingDummySwapChain = false;
 
     if (FAILED(result) || !swapChainResult) {
         logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%08X", result);
@@ -885,41 +925,38 @@ bool Renderer::HookSwapChain(IDXGISwapChain* dummySwapChain) {
     ownedSwapChain.Attach(dummySwapChain);
 
     auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
-    const uintptr_t presentHookAddress = vmt[VMT_PRESENT_OFFSET];
-    const uintptr_t resizeBuffersHookAddress = vmt[VMT_RESIZE_BUFFERS_OFFSET];
+    presentVtableEntry = &vmt[VMT_PRESENT_OFFSET];
+    if (!PlaceVtableHook(presentVtableEntry, static_cast<Present>(&HookOnPresent), originalPresent)) {
+        return false;
+    }
 
-    if (!MemoryUtils::PlaceHook(
-            presentHookAddress, reinterpret_cast<uintptr_t>(&HookOnPresent), &presentReturnAddress
+    resizeBuffersVtableEntry = &vmt[VMT_RESIZE_BUFFERS_OFFSET];
+    if (!PlaceVtableHook(
+            resizeBuffersVtableEntry, static_cast<ResizeBuffers>(&HookOnResizeBuffers), originalResizeBuffers
         )) {
         return false;
     }
-    this->presentAddress = presentHookAddress;
-
-    if (!MemoryUtils::PlaceHook(
-            resizeBuffersHookAddress, reinterpret_cast<uintptr_t>(&HookOnResizeBuffers), &resizeBuffersReturnAddress
-        )) {
-        MemoryUtils::Unhook(presentAddress);
-        presentAddress = 0;
-        presentReturnAddress = 0;
-        return false;
-    }
-    this->resizeBuffersAddress = resizeBuffersHookAddress;
 
     ComPtr<IDXGISwapChain3> swapChain3Dummy;
     if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain3Dummy))) && swapChain3Dummy) {
         auto* swapChain3Vmt = *reinterpret_cast<uintptr_t**>(swapChain3Dummy.Get());
-        const uintptr_t resizeBuffers1HookAddress = swapChain3Vmt[VMT_RESIZE_BUFFERS1_OFFSET];
-        if (MemoryUtils::PlaceHook(
-                resizeBuffers1HookAddress, reinterpret_cast<uintptr_t>(&HookOnResizeBuffers1),
-                &resizeBuffers1ReturnAddress
+        resizeBuffers1VtableEntry = &swapChain3Vmt[VMT_RESIZE_BUFFERS1_OFFSET];
+        if (!PlaceVtableHook(
+                resizeBuffers1VtableEntry, static_cast<ResizeBuffers1>(&HookOnResizeBuffers1), originalResizeBuffers1
             )) {
-            this->resizeBuffers1Address = resizeBuffers1HookAddress;
-        } else {
             logger.Log("ResizeBuffers1 hook failed; continuing with Present and ResizeBuffers hooks");
         }
     }
 
     return true;
+}
+
+void Renderer::UnhookSwapChain() noexcept {
+    RemoveVtableHook(presentVtableEntry, static_cast<Present>(&HookOnPresent), originalPresent);
+    RemoveVtableHook(resizeBuffersVtableEntry, static_cast<ResizeBuffers>(&HookOnResizeBuffers), originalResizeBuffers);
+    RemoveVtableHook(
+        resizeBuffers1VtableEntry, static_cast<ResizeBuffers1>(&HookOnResizeBuffers1), originalResizeBuffers1
+    );
 }
 
 bool Renderer::HookFactory() {
