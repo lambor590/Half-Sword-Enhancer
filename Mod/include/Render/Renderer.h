@@ -6,6 +6,7 @@
 #include <d3d11.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
+#include <mutex>
 #include <vector>
 #include <wrl/client.h>
 
@@ -28,6 +29,7 @@ using CreateSwapChainForHwnd = HRESULT(__stdcall*)(
 class Renderer {
 public:
     [[nodiscard]] bool Hook();
+    [[nodiscard]] bool HookSwapChainAfterStartup();
     void Cleanup() noexcept;
     [[nodiscard]] bool IsInCallback() const noexcept { return currentCallbackDepth > 0; }
 
@@ -91,20 +93,21 @@ private:
     };
 
     Logger logger{"Renderer"};
+    std::mutex hookMutex;
     std::atomic<std::uint64_t> callbackState{CallbackState(CallbackPhase::Unhooked)};
     static thread_local std::uint32_t currentCallbackDepth;
 
-    // Addresses of the original methods after MemoryUtils installs the detours.
-    uintptr_t presentAddress = 0;
-    uintptr_t presentReturnAddress = 0;
-    uintptr_t resizeBuffersAddress = 0;
-    uintptr_t resizeBuffersReturnAddress = 0;
-    uintptr_t resizeBuffers1Address = 0;
-    uintptr_t resizeBuffers1ReturnAddress = 0;
+    uintptr_t* presentVtableEntry = nullptr;
+    Present originalPresent = nullptr;
+    uintptr_t* resizeBuffersVtableEntry = nullptr;
+    ResizeBuffers originalResizeBuffers = nullptr;
+    uintptr_t* resizeBuffers1VtableEntry = nullptr;
+    ResizeBuffers1 originalResizeBuffers1 = nullptr;
     uintptr_t createSwapChainAddress = 0;
     uintptr_t createSwapChainReturnAddress = 0;
     uintptr_t createSwapChainForHwndAddress = 0;
     uintptr_t createSwapChainForHwndReturnAddress = 0;
+    bool swapChainHooked = false;
 
     RenderState state;
 
@@ -139,6 +142,7 @@ private:
 
     IDXGISwapChain* CreateDummySwapChain();
     [[nodiscard]] bool HookSwapChain(IDXGISwapChain* dummySwapChain);
+    void UnhookSwapChain() noexcept;
     [[nodiscard]] bool HookFactory();
     void UnhookFactory() noexcept;
 

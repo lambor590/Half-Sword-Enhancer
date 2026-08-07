@@ -106,6 +106,12 @@ namespace {
         } catch (...) {
             logger.Log("Non-critical graphics startup settings failed");
         }
+
+        if (!GameHook::QueueAction([](const RuntimeContextSnapshot&) {
+                if (!renderer.HookSwapChainAfterStartup()) logger.Log("Failed to hook the game swap chain");
+            })) {
+            FailStartup("deferred renderer hook");
+        }
     }
 }
 
