@@ -14,13 +14,14 @@
 class KeybindManager {
 public:
     using Callback = std::function<void()>;
+    using KeyCallback = std::function<void(bool)>;
     enum class RebindResult : uint8_t { None, Assigned, Cancelled };
 
 private:
     enum class RebindPhase : uint8_t { Idle, Waiting, Assigned, Cancelled };
 
     struct Binding {
-        Callback callback;
+        KeyCallback callback;
         int* keyPtr = nullptr;
         std::string name;
         int currentKey = -1;
@@ -65,7 +66,7 @@ private:
 
 public:
     static void Initialize() noexcept;
-    static void RegisterKeybind(int* keyPtr, Callback callback, std::string name, Callback onUnbound);
+    static void RegisterKeybind(int* keyPtr, KeyCallback callback, std::string name, Callback onUnbound);
     static void UnregisterKeybind(int* keyPtr);
     static void BeginRebind(const void* owner) noexcept;
     static void CancelRebind() noexcept;
@@ -157,5 +158,5 @@ private:
     static const std::vector<Binding*>* FindBindings(int key) noexcept;
     static void UnregisterKeybindLocked(int* keyPtr);
     static int ExtractKeyCode(UINT msg, WPARAM wParam) noexcept;
-    static constexpr bool IsRelevantMessage(UINT msg) noexcept;
+    static constexpr bool IsPressMessage(UINT msg) noexcept;
 };

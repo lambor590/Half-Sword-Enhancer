@@ -66,6 +66,8 @@ struct KeybindEntry {
     bool applyOnToggle = false;
     std::atomic_bool isActive = false;
     bool persistParams = true;
+    bool invokeOnRelease = false;
+    std::function<void(float, const RuntimeContextSnapshot&)> mouseWheelCallback;
 
     std::vector<GameEvent> events;
     EventBus::SubscriptionGroup eventSubscriptions;
@@ -117,6 +119,8 @@ namespace KeybindUi {
 }
 
 namespace KeybindRuntime {
+    // Window thread. Queues wheel input for interested entries on the game thread.
+    void DispatchMouseWheel(float steps);
     // UI thread. Persists any in-progress popup edits before navigation hides their controls.
     void FlushPendingParamChanges() noexcept;
     // Game-thread only. Rehydrates enabled event/function hooks after GameHook restarts.

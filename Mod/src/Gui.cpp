@@ -216,6 +216,8 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (KeybindManager::ProcessRebindEvent(msg, wParam, lParam)) return true;
 
     if (!isVisible.load(std::memory_order_relaxed)) [[likely]] {
+        if (msg == WM_MOUSEWHEEL)
+            KeybindRuntime::DispatchMouseWheel(static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA);
         if (KeybindManager::ProcessKeyEvent(msg, wParam, lParam)) return true;
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
