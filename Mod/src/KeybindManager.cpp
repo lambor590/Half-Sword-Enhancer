@@ -34,7 +34,7 @@ void KeybindManager::Initialize() noexcept {
 }
 
 void KeybindManager::RegisterKeybind(
-    int* keyPtr, Callback callback, std::string name, Callback onUnbound
+    int* keyPtr, KeyCallback callback, std::string name, Callback onUnbound
 ) {
     const std::scoped_lock lock(s_hotData.bindingsMutex);
 
@@ -72,7 +72,7 @@ void KeybindManager::UnregisterKeybindLocked(int* keyPtr) {
     bindings.erase(it);
 }
 
-constexpr bool KeybindManager::IsRelevantMessage(UINT msg) noexcept {
+constexpr bool KeybindManager::IsPressMessage(UINT msg) noexcept {
     return (msg == WM_KEYDOWN) || (msg == WM_SYSKEYDOWN) || (msg == WM_MBUTTONDOWN) || (msg == WM_MBUTTONDBLCLK) ||
            (msg == WM_XBUTTONDOWN) || (msg == WM_XBUTTONDBLCLK);
 }
@@ -80,28 +80,30 @@ constexpr bool KeybindManager::IsRelevantMessage(UINT msg) noexcept {
 int KeybindManager::ExtractKeyCode(UINT msg, WPARAM wParam) noexcept {
     switch (msg) {
         case WM_KEYDOWN:
-        case WM_SYSKEYDOWN: return static_cast<int>(wParam);
+        case WM_SYSKEYDOWN:
+        case WM_KEYUP:
+        case WM_SYSKEYUP: return static_cast<int>(wParam);
 
         case WM_MBUTTONDOWN:
-        case WM_MBUTTONDBLCLK: return VK_MBUTTON;
+        case WM_MBUTTONDBLCLK:
+        case WM_MBUTTONUP: return VK_MBUTTON;
 
         case WM_XBUTTONDOWN:
-        case WM_XBUTTONDBLCLK: return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
+        case WM_XBUTTONDBLCLK:
+        case WM_XBUTTONUP: return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
 
         default: return -1;
     }
 }
 
 bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (!IsRelevantMessage(msg)) [[likely]] {
-        return false;
-    }
-
     int keyCode = ExtractKeyCode(msg, wParam);
+    if (keyCode < 0) [[likely]] return false;
+    const bool pressed = IsPressMessage(msg);
     const bool repeated = IsRepeatedKeyDown(msg, lParam);
 
     if (keyCode == GetToggleGuiKey()) [[unlikely]] {
-        if (!repeated) Gui::ToggleVisibility();
+        if (pressed && !repeated) Gui::ToggleVisibility();
         return true;
     }
 
@@ -112,7 +114,7 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam, LPARAM lParam) {
     if (repeated) return true;
 
     for (const Binding* binding : *bindings) {
-        binding->callback();
+        binding->callback(pressed);
     }
 
     return true;
@@ -255,6 +257,7 @@ bool KeybindManager::IsValidKey(int key) noexcept {
 bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
     const std::scoped_lock lock(s_coldData.rebindMutex);
     if (s_coldData.rebindPhase != RebindPhase::Waiting) return false;
+    if (!IsPressMessage(msg)) return false;
 
     int keyCode = ExtractKeyCode(msg, wParam);
     if (keyCode == -1) return false;
@@ -277,7 +280,7 @@ bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) 
 }
 
 bool KeybindManager::ProcessToggleGuiEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
-    if (!IsRelevantMessage(msg)) return false;
+    if (!IsPressMessage(msg)) return false;
     if (ExtractKeyCode(msg, wParam) != GetToggleGuiKey()) return false;
     if (!IsRepeatedKeyDown(msg, lParam)) Gui::ToggleVisibility();
     return true;

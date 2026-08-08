@@ -505,7 +505,13 @@ namespace {
     void RegisterEntry(KeybindEntry& entry) {
         auto* entryPtr = &entry;
         KeybindManager::RegisterKeybind(
-            entry.keyPtr, [entryPtr]() { InvokeEntry(entryPtr, true); },
+            entry.keyPtr,
+            [entryPtr](bool pressed) {
+                if (pressed)
+                    InvokeEntry(entryPtr, true);
+                else if (entryPtr->invokeOnRelease)
+                    (void)QueueEntryCallback(entryPtr, false);
+            },
             entry.name, [entryPtr]() { KeybindConfig::SaveKeybind(*entryPtr); }
         );
     }
@@ -820,6 +826,8 @@ void KeybindEntry::AdoptDefinition(KeybindEntry& source) noexcept {
     applyOnToggle = source.applyOnToggle;
     isActive.store(source.isActive.load(std::memory_order_acquire), std::memory_order_release);
     persistParams = source.persistParams;
+    invokeOnRelease = source.invokeOnRelease;
+    mouseWheelCallback = std::move(source.mouseWheelCallback);
     events = std::move(source.events);
     functionHooks = std::move(source.functionHooks);
     params = std::move(source.params);
@@ -841,6 +849,14 @@ void KeybindEntry::Init() {
         SetFunctionHooksEnabled(this, true);
         if (applyOnToggle) (void)QueueEntryCallback(this, true);
     }
+}
+
+void KeybindRuntime::DispatchMouseWheel(float steps) {
+    (void)GameHook::QueueAction([steps](const RuntimeContextSnapshot& runtime) {
+        for (auto* entry : RuntimeEntries()) {
+            if (entry->mouseWheelCallback) entry->mouseWheelCallback(steps, runtime);
+        }
+    });
 }
 
 void KeybindRuntime::FlushPendingParamChanges() noexcept {
