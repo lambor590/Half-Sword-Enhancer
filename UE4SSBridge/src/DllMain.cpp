@@ -11,12 +11,13 @@ namespace {
     }
 }
 
-extern "C" __declspec(dllexport) void start_mod() noexcept {
+extern "C" __declspec(dllexport) void* start_mod() noexcept {
     if (!hseModule) hseModule = LoadLibraryA("HSEnhancer.dll");
     if (hseModule) CallHseExport(hseModule, "HSE_Initialize");
+    return nullptr;
 }
 
-extern "C" __declspec(dllexport) void uninstall_mod() noexcept {
+extern "C" __declspec(dllexport) void uninstall_mod(void*) noexcept {
     HMODULE module = hseModule ? hseModule : GetModuleHandleA("HSEnhancer.dll");
     if (!module) return;
 
