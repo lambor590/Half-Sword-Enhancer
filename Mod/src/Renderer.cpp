@@ -19,7 +19,6 @@ namespace {
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
-    thread_local bool creatingDummySwapChain = false;
 
     template <typename Function> bool PlaceVtableHook(uintptr_t* entry, Function detour, Function& original) noexcept {
         DWORD oldProtection = 0;
@@ -129,12 +128,10 @@ HRESULT __fastcall HookOnCreateSwapChain(
     IDXGIFactory* pThis, IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain
 ) noexcept {
     auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
     const auto original = std::bit_cast<CreateSwapChain>(
         renderer.createSwapChainReturnAddress ? renderer.createSwapChainReturnAddress : renderer.createSwapChainAddress
     );
-    if (creatingDummySwapChain) return original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
-
-    const Renderer::CallbackLease callback{renderer};
     const HRESULT result = original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
     if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
     return result;
@@ -146,16 +143,11 @@ HRESULT __fastcall HookOnCreateSwapChainForHwnd(
     IDXGISwapChain1** ppSwapChain
 ) noexcept {
     auto& renderer = *g_Renderer;
+    const Renderer::CallbackLease callback{renderer};
     const auto original = std::bit_cast<CreateSwapChainForHwnd>(
         renderer.createSwapChainForHwndReturnAddress ? renderer.createSwapChainForHwndReturnAddress
                                                      : renderer.createSwapChainForHwndAddress
     );
-    if (creatingDummySwapChain) {
-        return original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain)
-                        : E_FAIL;
-    }
-
-    const Renderer::CallbackLease callback{renderer};
     const HRESULT result =
         original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain) : E_FAIL;
     if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
@@ -290,9 +282,12 @@ bool Renderer::HookSwapChainAfterStartup() {
     if (CallbackPhaseOf(callbackState.load(std::memory_order_acquire)) == CallbackPhase::Unhooked) return false;
     if (swapChainHooked) return true;
 
-    QuiesceCallbacks();
+    // Dummy creation can call the factory hooks, so leave callbacks running until it completes.
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
-    const bool hooked = dummySwapChain && HookSwapChain(dummySwapChain);
+    if (!dummySwapChain) return false;
+
+    QuiesceCallbacks();
+    const bool hooked = HookSwapChain(dummySwapChain);
     if (!hooked) {
         logger.Log("Failed to hook swap chain");
         UnhookSwapChain();
@@ -905,12 +900,10 @@ IDXGISwapChain* Renderer::CreateDummySwapChain() {
     ComPtr<IDXGISwapChain> swapChainResult;
     ComPtr<ID3D11Device> device;
 
-    creatingDummySwapChain = true;
     const HRESULT result = D3D11CreateDeviceAndSwapChain(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChainResult,
         &device, nullptr, nullptr
     );
-    creatingDummySwapChain = false;
 
     if (FAILED(result) || !swapChainResult) {
         logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%08X", result);
