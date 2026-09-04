@@ -64,10 +64,6 @@ namespace EquipmentApplication {
             return state;
         }
 
-        bool IsUsableWillie(SDK::AWillie_BP_C* willie) {
-            return willie && SDK::UKismetSystemLibrary::IsValid(willie) && !willie->IsActorBeingDestroyed();
-        }
-
         bool IsUsableActor(SDK::AActor* actor) {
             return actor && SDK::UKismetSystemLibrary::IsValid(actor) && !actor->IsActorBeingDestroyed();
         }
@@ -639,7 +635,7 @@ namespace EquipmentApplication {
             state->stepQueued = true;
             const bool queued = GameHook::QueueAction([state](const RuntimeContextSnapshot& runtime) {
                 state->stepQueued = false;
-                if (!IsCurrentApplication(state) || runtime.world != state->world || !IsUsableWillie(state->willie)) {
+                if (!IsCurrentApplication(state) || runtime.world != state->world || !IsUsableActor(state->willie)) {
                     FinishApplication(state, false);
                     return;
                 }
@@ -693,7 +689,7 @@ namespace EquipmentApplication {
             SDK::UWorld* world, SDK::AWillie_BP_C* willie, ResolvedLoadout target, bool replaceWeapons,
             ApplyFinish finish, std::string* error
         ) {
-            if (!world || !IsUsableWillie(willie)) {
+            if (!world || !IsUsableActor(willie)) {
                 if (error) *error = "Enter a map with an active character";
                 return false;
             }
@@ -779,7 +775,7 @@ namespace EquipmentApplication {
 
         void QueueNPCInitialization(const std::shared_ptr<PendingNPCInitialization>& state) {
             const bool queued = GameHook::QueueAction([state](const RuntimeContextSnapshot& runtime) {
-                if (runtime.world != state->world || !IsUsableWillie(state->npc)) {
+                if (runtime.world != state->world || !IsUsableActor(state->npc)) {
                     if (state->onComplete) state->onComplete(false);
                     return;
                 }
@@ -886,7 +882,7 @@ namespace EquipmentApplication {
         SDK::UWorld* world, SDK::AWillie_BP_C* willie, int overrideSlot, const WeaponPresetData* overridePreset,
         std::string* error
     ) {
-        if (!world || !IsUsableWillie(willie) || overrideSlot < 0 ||
+        if (!world || !IsUsableActor(willie) || overrideSlot < 0 ||
             overrideSlot >= static_cast<int>(LoadoutPresetData::K_WEAPON_SLOT_COUNT)) {
             if (error) *error = "The selected character or weapon slot is no longer available";
             return false;
@@ -927,7 +923,7 @@ namespace EquipmentApplication {
     }
 
     void ClearWeaponActors(SDK::AWillie_BP_C* willie) {
-        if (!IsUsableWillie(willie)) return;
+        if (!IsUsableActor(willie)) return;
         willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {});
         willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {});
         ClearSheathedWeaponActors(*willie);
@@ -987,7 +983,7 @@ namespace EquipmentApplication {
     bool WaitForNPCInitialization(
         SDK::UWorld* world, SDK::AWillie_BP_C* npc, LoadoutApplyCallback onComplete, std::string* error
     ) {
-        if (!world || !IsUsableWillie(npc)) {
+        if (!world || !IsUsableActor(npc)) {
             if (error) *error = "The NPC is no longer available";
             return false;
         }
@@ -1004,7 +1000,7 @@ namespace EquipmentApplication {
         SDK::UWorld* world, SDK::AWillie_BP_C* npc, ResolvedLoadoutPresetData loadout, std::string* error,
         LoadoutApplyCallback onComplete
     ) {
-        if (!world || !IsUsableWillie(npc)) {
+        if (!world || !IsUsableActor(npc)) {
             if (error) *error = "The NPC is no longer available";
             return false;
         }

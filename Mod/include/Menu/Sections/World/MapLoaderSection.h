@@ -104,8 +104,6 @@ private:
     int optAutoNPCCount = 0;
     std::string packageOverride;
 
-    static constexpr ImVec4 K_GRAY_TEXT{0.5f, 0.5f, 0.5f, 1.0f};
-
     void RefreshLevelName();
     void StartAutoSpawnSubscription();
     void RebuildFilter(MapRegistry& reg);
