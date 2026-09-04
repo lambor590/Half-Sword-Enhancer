@@ -25,26 +25,8 @@ private:
 
     int team = 0;
     int newTeam = 0;
-    int combatBehavior = 0;
-    int strafeMode = 0;
+    AIDirector::BehaviorSettings behavior;
     float radius = 1000.0f;
-    float bodySkill = 1.0f;
-    float weaponSkill = 1.0f;
-    float dodgeRate = 1.0f;
-    float runningSpeed = 1.0f;
-    float drunkLevel = 0.0f;
-    float attackIntent = 1.0f;
-    float defendIntent = 1.0f;
-    float retreatIntent = 0.0f;
-    float strafeIntent = 0.0f;
-    float berserkRate = 0.0f;
-    float parryRate = 1.0f;
-    float swingSpeed = 1.0f;
-    float changeAttackRate = 1.0f;
-    float approachDistance = 180.0f;
-    double aiInvincibility = 0.0;
-    double aiArmorInvincibility = 0.0;
-    bool fearless = false;
 
     GuiUtils::StatusMessage status;
 

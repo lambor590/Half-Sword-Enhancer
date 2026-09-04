@@ -145,68 +145,45 @@ void AIDirectorSection::RenderBehavior() {
     if (ImGui::Button("Use Personality")) AIDirector::Get().ApplyProfile(SelectedTargets(), profile);
 
     ImGui::SeparatorText("Custom Behavior");
-    ImGui::Checkbox("Fearless", &fearless);
-    GuiUtils::DebouncedDragFloat("Drunkenness", &drunkLevel, 0.01f, 0.0f, 1.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Physical Skill", &bodySkill, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Weapon Skill", &weaponSkill, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Dodging", &dodgeRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Running Speed", &runningSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
+    ImGui::Checkbox("Fearless", &behavior.fearless);
+    GuiUtils::DebouncedDragFloat("Drunkenness", &behavior.drunkLevel, 0.01f, 0.0f, 1.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Physical Skill", &behavior.bodySkill, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Weapon Skill", &behavior.weaponSkill, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Dodging", &behavior.dodgeRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Running Speed", &behavior.runningSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
 }
 
 void AIDirectorSection::RenderAdvanced() {
     ImGui::SeparatorText("Fine Tuning");
 
-    GuiUtils::DebouncedDragFloat("Aggression", &attackIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Defense", &defendIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Retreat Tendency", &retreatIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Footwork", &strafeIntent, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Berserk Tendency", &berserkRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Parrying", &parryRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Swing Speed", &swingSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Attack Variety", &changeAttackRate, 0.05f, 0.0f, 10.0f, "%.2f");
-    GuiUtils::DebouncedDragFloat("Preferred Distance", &approachDistance, 5.0f, 0.0f, 1000.0f, "%.0f");
+    GuiUtils::DebouncedDragFloat("Aggression", &behavior.attackIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Defense", &behavior.defendIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Retreat Tendency", &behavior.retreatIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Footwork", &behavior.strafeIntent, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Berserk Tendency", &behavior.berserkRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Parrying", &behavior.parryRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Swing Speed", &behavior.swingSpeed, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Attack Variety", &behavior.changeAttackRate, 0.05f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Preferred Distance", &behavior.approachDistance, 5.0f, 0.0f, 1000.0f, "%.0f");
 
     const auto& combatBehaviorInfo = PropertyBrowser::GetEnumInfo("AI_CombatBehavior_Enum");
     (void)GuiUtils::RenderEnumCombo(
-        "Fighting Style", combatBehavior, combatBehaviorInfo.names, combatBehaviorInfo.maxTextWidthEm
+        "Fighting Style", behavior.combatBehavior, combatBehaviorInfo.names, combatBehaviorInfo.maxTextWidthEm
     );
 
     const auto& strafeInfo = PropertyBrowser::GetEnumInfo("AI_Strafe_Enum");
-    (void)GuiUtils::RenderEnumCombo("Footwork Style", strafeMode, strafeInfo.names, strafeInfo.maxTextWidthEm);
+    (void)GuiUtils::RenderEnumCombo("Footwork Style", behavior.strafeMode, strafeInfo.names, strafeInfo.maxTextWidthEm);
 
-    auto invincibility = static_cast<float>(aiInvincibility);
+    auto invincibility = static_cast<float>(behavior.aiInvincibility);
     if (GuiUtils::DebouncedDragFloat("Damage Resistance", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
-        aiInvincibility = invincibility;
+        behavior.aiInvincibility = invincibility;
 
-    auto armorInvincibility = static_cast<float>(aiArmorInvincibility);
+    auto armorInvincibility = static_cast<float>(behavior.aiArmorInvincibility);
     if (GuiUtils::DebouncedDragFloat("Armor Resistance", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
-        aiArmorInvincibility = armorInvincibility;
+        behavior.aiArmorInvincibility = armorInvincibility;
 
     if (ImGui::Button("Use Custom Behavior")) {
-        AIDirector::Get().ApplyBehavior(
-            SelectedTargets(),
-            {
-                .bodySkill = bodySkill,
-                .weaponSkill = weaponSkill,
-                .dodgeRate = dodgeRate,
-                .runningSpeed = runningSpeed,
-                .drunkLevel = drunkLevel,
-                .attackIntent = attackIntent,
-                .defendIntent = defendIntent,
-                .retreatIntent = retreatIntent,
-                .strafeIntent = strafeIntent,
-                .berserkRate = berserkRate,
-                .parryRate = parryRate,
-                .swingSpeed = swingSpeed,
-                .changeAttackRate = changeAttackRate,
-                .approachDistance = approachDistance,
-                .aiInvincibility = aiInvincibility,
-                .aiArmorInvincibility = aiArmorInvincibility,
-                .combatBehavior = combatBehavior,
-                .strafeMode = strafeMode,
-                .fearless = fearless,
-            }
-        );
+        AIDirector::Get().ApplyBehavior(SelectedTargets(), behavior);
     }
 
     ImGui::SeparatorText("Alliances");
