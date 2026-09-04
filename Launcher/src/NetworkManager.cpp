@@ -8,6 +8,7 @@
 
 #include "../include/NetworkManager.h"
 #include "../include/Logger.h"
+#include "../include/Util.h"
 
 namespace hse {
     namespace {
@@ -47,21 +48,6 @@ namespace hse {
             HINTERNET sessionHandle = nullptr;
             HINTERNET connectionHandle = nullptr;
             HINTERNET requestHandle = nullptr;
-        };
-
-        struct FileHandle {
-            HANDLE handle = INVALID_HANDLE_VALUE;
-
-            ~FileHandle() {
-                if (handle != INVALID_HANDLE_VALUE) {
-                    CloseHandle(handle);
-                }
-            }
-
-            FileHandle(const FileHandle&) = delete;
-            FileHandle& operator=(const FileHandle&) = delete;
-
-            explicit FileHandle(HANDLE fileHandle) noexcept : handle(fileHandle) {}
         };
 
         template <typename Sink>
@@ -208,10 +194,10 @@ namespace hse {
         auto session = OpenRequest(config.url, config.connectTimeout, config.receiveTimeout);
         if (!session) return std::unexpected(session.error());
 
-        FileHandle fileHandle(CreateFileW(
+        const ScopedHandle fileHandle(CreateFileW(
             config.outputPath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr
         ));
-        if (fileHandle.handle == INVALID_HANDLE_VALUE)
+        if (!fileHandle)
             return std::unexpected(NetworkError::FileCreationFailed);
 
         std::array<char, BUFFER_SIZE> buffer{};
@@ -219,7 +205,7 @@ namespace hse {
             session->requestHandle, buffer,
             [&fileHandle](const char* data, DWORD size) noexcept -> std::expected<void, NetworkError> {
                 DWORD bytesWritten = 0;
-                if (!WriteFile(fileHandle.handle, data, size, &bytesWritten, nullptr) || bytesWritten != size) {
+                if (!WriteFile(fileHandle.Get(), data, size, &bytesWritten, nullptr) || bytesWritten != size) {
                     return std::unexpected(NetworkError::DownloadFailed);
                 }
                 return std::expected<void, NetworkError>{};
