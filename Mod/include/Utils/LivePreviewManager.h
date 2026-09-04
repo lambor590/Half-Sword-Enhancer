@@ -105,16 +105,15 @@ public:
         state->yaw.store(yaw, std::memory_order_release);
         auto* world = state->previewWorld.load(std::memory_order_acquire);
 
-        rotationState->yaw.store(yaw, std::memory_order_release);
-        if (rotationState->queued.exchange(true, std::memory_order_acq_rel)) return;
+        if (state->rotationQueued.exchange(true, std::memory_order_acq_rel)) return;
 
-        auto queuedRotation = rotationState;
-        if (!GameHook::QueueAction([actor, world, queuedRotation](const RuntimeContextSnapshot& runtime) {
-                queuedRotation->queued.store(false, std::memory_order_release);
-                const double y = queuedRotation->yaw.load(std::memory_order_acquire);
+        auto queuedPreview = previewState;
+        if (!GameHook::QueueAction([actor, world, queuedPreview](const RuntimeContextSnapshot& runtime) {
+                queuedPreview->rotationQueued.store(false, std::memory_order_release);
+                const double y = queuedPreview->yaw.load(std::memory_order_acquire);
                 if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
             })) {
-            queuedRotation->queued.store(false, std::memory_order_release);
+            queuedPreview->rotationQueued.store(false, std::memory_order_release);
         }
     }
 
@@ -157,6 +156,7 @@ private:
         std::atomic_bool enabled{false};
         std::atomic_bool alive{true};
         std::atomic_bool autoRotate{false};
+        std::atomic_bool rotationQueued{false};
         std::atomic<SDK::AActor*> previewActor{nullptr};
         std::atomic<SDK::UWorld*> previewWorld{nullptr};
         std::atomic<double> yaw{0.0};
@@ -196,12 +196,6 @@ private:
     bool prevEnabled = false;
 
     std::shared_ptr<PreviewState> previewState = std::make_shared<PreviewState>();
-
-    struct RotationQueueState {
-        std::atomic_bool queued{false};
-        std::atomic<double> yaw{0.0};
-    };
-    std::shared_ptr<RotationQueueState> rotationState = std::make_shared<RotationQueueState>();
 
     PreviewConfig& cfg;
 };
