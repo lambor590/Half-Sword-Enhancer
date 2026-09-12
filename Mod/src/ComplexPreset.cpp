@@ -9,7 +9,8 @@
 
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/GameConstants.h"
-#include "Utils/PresetLinkResolution.h"
+#include "Utils/LoadoutPresetResolver.h"
+#include "Utils/NPCPresetResolver.h"
 #include "SDK/Enum_WeaponType_Specific_structs.hpp"
 
 namespace {
@@ -63,7 +64,20 @@ PresetOperationResult MapScenarioPresetData::ValidateForSave() const {
 }
 
 PresetOperationResult MapScenarioPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    return PresetLinkResolution::ValidateForSave<MapScenarioPresetSerializer>(*this, appDataRoot);
+    if (!autoSpawn.enabled) return {.success = true};
+
+    PresetResolveContext context;
+    auto player = PlayerPresetSerializer::ResolveLink(autoSpawn.playerPreset, appDataRoot, context);
+    if (!player.success) return {.path = std::move(player.path), .error = "Starting Player: " + player.error};
+
+    auto loadout = LoadoutPresetResolver(appDataRoot).Resolve(autoSpawn.loadoutPreset, context);
+    if (!loadout.success) return {.path = std::move(loadout.path), .error = "Starting Equipment: " + loadout.error};
+
+    if (autoSpawn.npcCount > 0) {
+        auto npc = NPCPresetResolver(appDataRoot).Resolve(autoSpawn.npcPreset, context);
+        if (!npc.success) return {.path = std::move(npc.path), .error = "Starting NPCs: " + npc.error};
+    }
+    return {.success = true};
 }
 
 std::array<PresetFieldDescriptor, 11> MapScenarioPresetData::GetPresetFields(MapScenarioPresetData& data) {
@@ -185,7 +199,15 @@ PresetOperationResult ItemSpawnPresetData::ValidateForSave() const {
 }
 
 PresetOperationResult ItemSpawnPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    return PresetLinkResolution::ValidateForSave<ItemSpawnPresetSerializer>(*this, appDataRoot);
+    PresetResolveContext context;
+    if (source == ItemSpawnPresetSource::WeaponPreset) {
+        auto weapon = WeaponPresetSerializer::ResolveLink(weaponPreset, appDataRoot, context);
+        if (!weapon.success) return {.path = std::move(weapon.path), .error = "Weapon: " + weapon.error};
+    } else if (source == ItemSpawnPresetSource::ArmorPreset) {
+        auto armor = ArmorPresetSerializer::ResolveLink(armorPreset, appDataRoot, context);
+        if (!armor.success) return {.path = std::move(armor.path), .error = "Armor: " + armor.error};
+    }
+    return {.success = true};
 }
 
 std::array<PresetFieldDescriptor, 16> ItemSpawnPresetData::GetPresetFields(ItemSpawnPresetData& data) {

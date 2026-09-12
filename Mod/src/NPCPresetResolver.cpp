@@ -2,12 +2,12 @@
 
 #include <utility>
 
-#include "Utils/PresetLinkResolution.h"
-
 NPCPresetResolver::NPCPresetResolver(std::filesystem::path appDataRoot) : appDataRoot_(std::move(appDataRoot)) {}
 
 PresetOperationResult NPCPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    return PresetLinkResolution::ValidateForSave<NPCPresetSerializer>(*this, appDataRoot);
+    PresetResolveContext context;
+    auto resolved = NPCPresetResolver(appDataRoot).Resolve(*this, context);
+    return {.success = resolved.success, .path = std::move(resolved.path), .error = std::move(resolved.error)};
 }
 
 PresetResolveResult<ResolvedNPCPresetData> NPCPresetResolver::Resolve(
