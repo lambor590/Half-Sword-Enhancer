@@ -50,16 +50,12 @@ namespace GuiUtils {
         return (std::clamp)(preferred > 0.0f ? preferred : minimum, minimum, maximum);
     }
 
-    [[nodiscard]] inline float ResolveInputWidth(float preferred = FLT_MAX) noexcept {
-        return ResolveControlWidth({0.0f, preferred, K_INPUT_MAX_WIDTH});
-    }
-
     inline void SetNextInputWidth(float preferred = FLT_MAX) noexcept {
-        ImGui::SetNextItemWidth(ResolveInputWidth(preferred));
+        ImGui::SetNextItemWidth(ResolveControlWidth({0.0f, preferred, K_INPUT_MAX_WIDTH}));
     }
 
     inline void SetNextFieldWidth(WidthSpec spec) noexcept {
-        ImGui::SetNextItemWidth(ResolveControlWidth(spec, spec.preferred));
+        ImGui::SetNextItemWidth(ResolveControlWidth(spec));
     }
 
     inline void TextDisabledWrapped(std::string_view text) {
