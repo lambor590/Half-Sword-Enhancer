@@ -113,25 +113,19 @@ template <typename Serializer> struct PresetLinkPickerState {
         return result;
     }
 
-    void SetLink(Link loadedLink) { SetLink(std::move(loadedLink), ConfigManager::GetAppDataPath()); }
-
-    void SetLink(Link loadedLink, const std::filesystem::path& appDataRoot) {
+    void SetLink(Link loadedLink, const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()) {
         operationError.clear();
         (void)state.AssignAndResolve(std::move(loadedLink), appDataRoot);
         lastPresetCatalogRevision = GetPresetCatalogRevision();
         RestorePickerSelection(appDataRoot);
     }
 
-    [[nodiscard]] ResolveResult Resolve() { return Resolve(ConfigManager::GetAppDataPath()); }
-
-    [[nodiscard]] ResolveResult Resolve(const std::filesystem::path& appDataRoot) {
+    [[nodiscard]] ResolveResult Resolve(const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()) {
         operationError.clear();
         return state.Resolve(appDataRoot);
     }
 
-    bool RefreshIfCatalogChanged() { return RefreshIfCatalogChanged(ConfigManager::GetAppDataPath()); }
-
-    bool RefreshIfCatalogChanged(const std::filesystem::path& appDataRoot) {
+    bool RefreshIfCatalogChanged(const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()) {
         const uint64_t presetCatalogRevision = GetPresetCatalogRevision();
         if (presetCatalogRevision != lastPresetCatalogRevision) {
             lastPresetCatalogRevision = presetCatalogRevision;

@@ -493,10 +493,7 @@ public:
         const PresetLink<DataType>& link, const std::filesystem::path& appDataRoot, PresetResolveContext& context
     ) {
         return ResolveLinkAs<DataType>(link, appDataRoot, context, [](const DataType& value, PresetResolveContext&) {
-            PresetResolveResult<DataType> result;
-            result.success = true;
-            result.value = value;
-            return result;
+            return ResolvedPreset(value);
         });
     }
 

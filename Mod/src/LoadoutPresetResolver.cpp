@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "ConfigManager.h"
-#include "Utils/PresetLinkResolution.h"
 
 LoadoutPresetResolver::LoadoutPresetResolver() : appDataRoot_(ConfigManager::GetAppDataPath()) {}
 
@@ -12,7 +11,9 @@ LoadoutPresetResolver::LoadoutPresetResolver(std::filesystem::path appDataRoot)
     : appDataRoot_(std::move(appDataRoot)) {}
 
 PresetOperationResult LoadoutPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    return PresetLinkResolution::ValidateForSave<LoadoutPresetSerializer>(*this, appDataRoot);
+    PresetResolveContext context;
+    auto resolved = LoadoutPresetResolver(appDataRoot).Resolve(*this, context);
+    return {.success = resolved.success, .path = std::move(resolved.path), .error = std::move(resolved.error)};
 }
 
 PresetResolveResult<ResolvedLoadoutPresetData> LoadoutPresetResolver::Resolve(

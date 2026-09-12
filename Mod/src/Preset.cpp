@@ -18,7 +18,7 @@
 #include "Utils/LoadoutPresetSerializer.h"
 
 namespace {
-    void AddInvalidValue(std::string& error, std::string_view, std::string_view, const char*) {
+    void AddInvalidValue(std::string& error) {
         if (!error.empty()) return;
         error = "This preset contains an invalid value";
     }
@@ -28,7 +28,7 @@ namespace {
     ) {
         const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         int result = defaultValue;
-        if (!PresetUtils::TryParseInt(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
+        if (!PresetUtils::TryParseInt(raw ? raw : "", result)) AddInvalidValue(error);
         return result;
     }
 
@@ -49,7 +49,7 @@ namespace {
     ) {
         const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         double result = defaultValue;
-        if (!PresetUtils::TryParseDouble(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
+        if (!PresetUtils::TryParseDouble(raw ? raw : "", result)) AddInvalidValue(error);
         return result;
     }
 
@@ -58,7 +58,7 @@ namespace {
     ) {
         const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         bool result = defaultValue;
-        if (!PresetUtils::TryParseBool(raw ? raw : "", result)) AddInvalidValue(error, section, key, raw);
+        if (!PresetUtils::TryParseBool(raw ? raw : "", result)) AddInvalidValue(error);
         return result;
     }
 
@@ -68,12 +68,12 @@ namespace {
     ) {
         const char* raw = ini.GetValue(section.c_str(), key, nullptr);
         if (!raw || !raw[0]) {
-            AddInvalidValue(error, section, key, raw);
+            AddInvalidValue(error);
             return defaultValue;
         }
         SDK::FLinearColor result{};
         if (!PresetUtils::TryStringToColor(raw, result)) {
-            AddInvalidValue(error, section, key, raw);
+            AddInvalidValue(error);
             return defaultValue;
         }
         return result;
@@ -113,10 +113,6 @@ namespace {
         return std::isfinite(value.R) && std::isfinite(value.G) && std::isfinite(value.B) && std::isfinite(value.A);
     }
 
-    bool ContainsIniControlCharacter(const std::string& value) {
-        return !PresetUtils::IsSafeIniValue(value);
-    }
-
     PresetOperationResult ValidateFinitePresetFields(
         std::string_view kind, std::span<const PresetFieldDescriptor> fields
     ) {
@@ -124,7 +120,7 @@ namespace {
             bool valid = true;
             switch (field.type) {
                 case PresetFieldType::String:
-                    valid = !ContainsIniControlCharacter(*static_cast<const std::string*>(field.value));
+                    valid = PresetUtils::IsSafeIniValue(*static_cast<const std::string*>(field.value));
                     break;
                 case PresetFieldType::Double: valid = std::isfinite(*static_cast<const double*>(field.value)); break;
                 case PresetFieldType::Vec3: valid = IsFinite(*static_cast<const SDK::FVector*>(field.value)); break;
@@ -136,17 +132,6 @@ namespace {
                 case PresetFieldType::Bool: break;
             }
             if (!valid) return PresetValidationFailure(kind);
-        }
-        return {.success = true};
-    }
-
-    PresetOperationResult ValidateFinitePresetOverrides(
-        std::string_view kind, std::span<const PresetOverrideDescriptor> fields
-    ) {
-        for (const auto& descriptor : fields) {
-            const auto& field = descriptor.field;
-            if (field.type == OverrideFieldType::Double && !std::isfinite(*static_cast<const double*>(field.value)))
-                return PresetValidationFailure(kind);
         }
         return {.success = true};
     }
@@ -211,7 +196,7 @@ bool DeserializePresetFields(
     std::span<const PresetFieldDescriptor> fields, const CSimpleIniA& ini, std::string_view sectionPrefix,
     std::string* error
 ) {
-    auto invalid = [&](const PresetFieldDescriptor&, std::string_view, const char*) {
+    auto invalid = [&] {
         if (error) *error = "This preset contains an invalid value";
         return false;
     };
@@ -225,21 +210,21 @@ bool DeserializePresetFields(
         }
         const char* raw = ini.GetValue(section.c_str(), f.key, nullptr);
 
-        if (!raw) return invalid(f, section, raw);
+        if (!raw) return invalid();
 
         switch (f.type) {
             case PresetFieldType::String:
                 if (PresetUtils::IsSafeIniValue(raw))
                     *static_cast<std::string*>(f.value) = raw;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             case PresetFieldType::Int: {
                 int parsed = 0;
                 if (PresetUtils::TryParseInt(raw, parsed))
                     *static_cast<int*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
             case PresetFieldType::Double: {
@@ -247,7 +232,7 @@ bool DeserializePresetFields(
                 if (PresetUtils::TryParseDouble(raw, parsed))
                     *static_cast<double*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
             case PresetFieldType::Bool: {
@@ -255,7 +240,7 @@ bool DeserializePresetFields(
                 if (PresetUtils::TryParseBool(raw, parsed))
                     *static_cast<bool*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
             case PresetFieldType::Vec3: {
@@ -263,7 +248,7 @@ bool DeserializePresetFields(
                 if (PresetUtils::TryStringToVec(raw, parsed))
                     *static_cast<SDK::FVector*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
             case PresetFieldType::Rotator: {
@@ -271,7 +256,7 @@ bool DeserializePresetFields(
                 if (PresetUtils::TryStringToRot(raw, parsed))
                     *static_cast<SDK::FRotator*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
             case PresetFieldType::Color: {
@@ -279,7 +264,7 @@ bool DeserializePresetFields(
                 if (PresetUtils::TryStringToColor(raw, parsed))
                     *static_cast<SDK::FLinearColor*>(f.value) = parsed;
                 else
-                    return invalid(f, section, raw);
+                    return invalid();
                 break;
             }
         }
@@ -360,7 +345,12 @@ bool DeserializePresetOverrides(
 PresetOperationResult ValidatePresetOverrideValuesForSave(
     std::span<const PresetOverrideDescriptor> fields, std::string_view presetKind
 ) {
-    return ValidateFinitePresetOverrides(presetKind, fields);
+    for (const auto& descriptor : fields) {
+        const auto& field = descriptor.field;
+        if (field.type == OverrideFieldType::Double && !std::isfinite(*static_cast<const double*>(field.value)))
+            return PresetValidationFailure(presetKind);
+    }
+    return {.success = true};
 }
 
 // PlayerPresetData descriptors
@@ -639,7 +629,7 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     if (weaponName && PresetUtils::IsSafeIniValue(weaponName))
         data.deferredWeaponName = weaponName;
     else
-        AddInvalidValue(error, passportSection, "name", weaponName);
+        AddInvalidValue(error);
 
     // Material enums
     p.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
@@ -668,7 +658,7 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     for (int slot = 0; slot < MODULE_SLOT_COUNT; ++slot) {
         const char* raw = ini.GetValue(meshSection.c_str(), MESH_KEYS[slot], nullptr);
         if (!raw || !raw[0]) {
-            AddInvalidValue(error, meshSection, MESH_KEYS[slot], raw);
+            AddInvalidValue(error);
             continue;
         }
 
@@ -683,7 +673,7 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
                            PresetUtils::TryStringToRot(std::string(fields[4]).c_str(), parsed.rotation) &&
                            PresetUtils::TryStringToVec(std::string(fields[5]).c_str(), parsed.offset);
         if (!valid) {
-            AddInvalidValue(error, meshSection, MESH_KEYS[slot], raw);
+            AddInvalidValue(error);
             continue;
         }
 
