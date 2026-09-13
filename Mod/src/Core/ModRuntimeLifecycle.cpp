@@ -76,6 +76,10 @@ namespace {
 
     void StartWorker() noexcept {
         try {
+            if (!EngineMemory::Initialize()) {
+                FailStartup("engine memory allocator signature");
+                return;
+            }
             if (!GameHook::Get().Hook()) {
                 FailStartup("game hook");
                 return;

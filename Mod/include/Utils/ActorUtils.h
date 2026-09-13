@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Utils/EngineArray.h"
+
 #include <unordered_set>
 #include <utility>
 
@@ -150,7 +152,7 @@ namespace ActorUtils {
 
     template <typename Func>
     void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
-        SDK::TArray<SDK::AActor*> actors;
+        EngineArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
 
         auto* originalPawn = PossessState::GetOriginalPawn();
@@ -245,13 +247,12 @@ namespace ActorUtils {
     }
 
     template <typename ComponentClass, typename Func> void ForEachComponentOfType(SDK::UWorld* world, Func&& func) {
-        SDK::TArray<SDK::AActor*> actors;
+        EngineArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
 
         for (auto* actor : actors) {
             if (!actor) continue;
-            SDK::TArray<SDK::UActorComponent*> components =
-                actor->K2_GetComponentsByClass(ComponentClass::StaticClass());
+            EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(ComponentClass::StaticClass())};
             for (auto* component : components) {
                 if (auto* typed = static_cast<ComponentClass*>(component)) {
                     func(typed);
@@ -278,7 +279,7 @@ namespace ActorUtils {
     }
 
     template <typename ObjectClass, typename Func> void ForEachObjectOfType(SDK::UWorld* world, Func&& func) {
-        SDK::TArray<SDK::AActor*> objects;
+        EngineArray<SDK::AActor*> objects;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, ObjectClass::StaticClass(), &objects);
 
         for (auto* object : objects) {

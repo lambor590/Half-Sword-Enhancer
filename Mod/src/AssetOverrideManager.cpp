@@ -1,3 +1,5 @@
+#include "Utils/EngineArray.h"
+
 #include "Utils/AssetOverrideManager.h"
 
 #include <algorithm>
@@ -175,8 +177,7 @@ namespace {
             for (auto* actor : level->Actors) {
                 if (!actor) continue;
                 if (IsBloodDebugActor(actor)) continue;
-                SDK::TArray<SDK::UActorComponent*> components =
-                    actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass());
+                EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())};
                 for (auto* component : components) {
                     if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
                         func(static_cast<SDK::UPrimitiveComponent*>(component));
@@ -188,8 +189,7 @@ namespace {
     template <typename Func> void ForEachActorPrimitiveComponent(SDK::AActor* actor, Func&& func) {
         if (!actor) return;
         if (IsBloodDebugActor(actor)) return;
-        SDK::TArray<SDK::UActorComponent*> components =
-            actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass());
+        EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())};
         for (auto* component : components) {
             if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
                 func(static_cast<SDK::UPrimitiveComponent*>(component));

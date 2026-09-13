@@ -1,3 +1,5 @@
+#include "Utils/EngineArray.h"
+
 #include "Utils/FreeCameraManager.h"
 
 #include <algorithm>
@@ -126,7 +128,7 @@ namespace {
     }
 
     int ApplyScreenOverlayClass(SDK::UObject* worldContext, SDK::UClass* widgetClass, bool hidden) {
-        SDK::TArray<SDK::UUserWidget*> widgets;
+        EngineArray<SDK::UUserWidget*> widgets;
         if (!FindWidgets(worldContext, widgetClass, widgets)) return 0;
         int delta = 0;
         for (int i = 0; i < widgets.Num(); ++i) {
@@ -571,7 +573,7 @@ void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapsho
 
     const bool hideVisualEffects = ShouldHideVisualEffects();
     const bool hideResultMenus = screenOverlays.resultMenus;
-    SDK::TArray<SDK::UUserWidget*> hudWidgets;
+    EngineArray<SDK::UUserWidget*> hudWidgets;
     if (FindWidgets(runtime.world, SDK::UUI_HUD_C::StaticClass(), hudWidgets)) {
         for (int i = 0; i < hudWidgets.Num(); ++i) {
             SetHudWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(hudWidgets[i]), hideVisualEffects, hideResultMenus);
