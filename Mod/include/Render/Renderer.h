@@ -92,7 +92,7 @@ private:
         UINT64 fenceValue = 0;
     };
 
-    Logger logger{"Renderer"};
+    Logger logger{"Renderer", Logger::FlushMode::Immediate};
     std::mutex hookMutex;
     std::atomic<std::uint64_t> callbackState{CallbackState(CallbackPhase::Unhooked)};
     static thread_local std::uint32_t currentCallbackDepth;

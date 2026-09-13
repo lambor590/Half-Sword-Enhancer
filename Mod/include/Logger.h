@@ -10,15 +10,15 @@
 class Logger {
 public:
     static constexpr size_t MAX_LOG_SIZE = 512;
+    enum class FlushMode { Buffered, Immediate };
 
-    explicit Logger(std::string_view prefix) noexcept : printPrefix(prefix) {
-        FILE* logFile = GetLogFile();
-        if (logFile == nullptr) {
-            std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "logs.log";
-            FILE* newFile = nullptr;
-            fopen_s(&newFile, logPath.string().c_str(), "w");
-            GetLogFile(newFile);
-        }
+    explicit Logger(std::string_view prefix, FlushMode mode = FlushMode::Buffered) noexcept
+        : printPrefix(prefix), flushMode(mode) {
+        (void)GetLogFile();
+    }
+
+    static void Flush() noexcept {
+        if (FILE* logFile = GetLogFile()) fflush(logFile);
     }
 
     template <typename... Args> void Log(std::string_view format, Args&&... args) const noexcept {
@@ -52,19 +52,24 @@ public:
             printf("%s", buffer);
             if (FILE* logFile = GetLogFile(); logFile != nullptr) [[likely]] {
                 fputs(buffer, logFile);
-                fflush(logFile);
+                if (flushMode == FlushMode::Immediate) fflush(logFile);
             }
         }
     }
 
 private:
     std::string_view printPrefix;
+    FlushMode flushMode;
 
-    static FILE* GetLogFile(FILE* newLogFile = nullptr) noexcept {
-        static FILE* logFile = nullptr;
-        if (newLogFile != nullptr) {
-            logFile = newLogFile;
-        }
-        return logFile;
+    static FILE* GetLogFile() noexcept {
+        static FILE* const LOG_FILE = [] {
+            FILE* file = nullptr;
+            try {
+                const auto path = ConfigManager::GetAppDataPath() / "logs.log";
+                fopen_s(&file, path.string().c_str(), "w");
+            } catch (...) {}
+            return file;
+        }();
+        return LOG_FILE;
     }
 };

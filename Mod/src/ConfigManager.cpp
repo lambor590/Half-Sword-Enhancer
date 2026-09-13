@@ -37,18 +37,13 @@ ConfigManager::ConfigManager() : configPath(GetAppDataPath() / "config.ini") {
         ini.SetUnicode();
     }
     needsSave = true;
-    (void)SaveConfigLocked();
 }
 
-bool ConfigManager::SaveConfigLocked() noexcept {
-    lastSaveAttempt = std::chrono::steady_clock::now();
+bool ConfigManager::WriteConfig(const std::string& content) const noexcept {
     try {
         std::error_code error;
         std::filesystem::create_directories(configPath.parent_path(), error);
         if (error) return false;
-
-        serializedConfig.clear();
-        if (ini.Save(serializedConfig) < 0) return false;
 
         auto temporary = configPath;
         temporary += L".tmp";
@@ -56,7 +51,7 @@ bool ConfigManager::SaveConfigLocked() noexcept {
         {
             std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
             if (!output) return false;
-            output.write(serializedConfig.data(), static_cast<std::streamsize>(serializedConfig.size()));
+            output.write(content.data(), static_cast<std::streamsize>(content.size()));
             output.close();
             if (!output) {
                 std::filesystem::remove(temporary, error);
@@ -69,7 +64,6 @@ bool ConfigManager::SaveConfigLocked() noexcept {
             return false;
         }
 
-        needsSave = false;
         return true;
     } catch (...) {
         return false;
@@ -77,31 +71,26 @@ bool ConfigManager::SaveConfigLocked() noexcept {
 }
 
 void ConfigManager::MarkChangedLocked() {
-    needsSave = true;
-    if (batchDepth == 0 && std::chrono::steady_clock::now() - lastSaveAttempt >= SAVE_DELAY) (void)SaveConfigLocked();
-}
-
-void ConfigManager::SaveConfig() {
-    const std::lock_guard lock(mutex);
-    if (needsSave) (void)SaveConfigLocked();
-}
-
-void ConfigManager::FlushIfDue() noexcept {
-    try {
-        const std::lock_guard lock(mutex);
-        if (needsSave && batchDepth == 0 && std::chrono::steady_clock::now() - lastSaveAttempt >= SAVE_DELAY)
-            (void)SaveConfigLocked();
-    } catch (...) {
-        return;
-    }
+    ++revision;
+    needsSave.store(true, std::memory_order_relaxed);
 }
 
 bool ConfigManager::Flush() noexcept {
+    if (!needsSave.load(std::memory_order_relaxed)) return true;
     try {
+        const std::lock_guard writerLock(writerMutex);
+        std::string content;
+        std::uint64_t savedRevision = 0;
+        {
+            const std::lock_guard lock(mutex);
+            if (!needsSave.load(std::memory_order_relaxed)) return true;
+            if (batchDepth != 0 || ini.Save(content) < 0) return false;
+            savedRevision = revision;
+        }
+        if (!WriteConfig(content)) return false;
         const std::lock_guard lock(mutex);
-        if (!needsSave) return true;
-        if (batchDepth != 0) return false;
-        return SaveConfigLocked();
+        needsSave.store(revision != savedRevision, std::memory_order_relaxed);
+        return true;
     } catch (...) {
         return false;
     }
@@ -115,7 +104,6 @@ void ConfigManager::BeginBatch() {
 void ConfigManager::EndBatch() {
     const std::lock_guard lock(mutex);
     --batchDepth;
-    if (batchDepth == 0 && needsSave) (void)SaveConfigLocked();
 }
 
 int ConfigManager::GetInt(const char* section, const char* key, int defaultValue) {
@@ -146,36 +134,41 @@ std::string ConfigManager::GetString(const char* section, const char* key, std::
 
 void ConfigManager::SetInt(const char* section, const char* key, int value) {
     const std::lock_guard lock(mutex);
+    if (ini.GetValue(section, key) && ini.GetLongValue(section, key) == value) return;
     ini.SetLongValue(section, key, value);
     MarkChangedLocked();
 }
 
 void ConfigManager::SetBool(const char* section, const char* key, bool value) {
     const std::lock_guard lock(mutex);
+    if (ini.GetValue(section, key) && ini.GetBoolValue(section, key) == value) return;
     ini.SetBoolValue(section, key, value);
     MarkChangedLocked();
 }
 
 void ConfigManager::SetFloat(const char* section, const char* key, float value) {
     const std::lock_guard lock(mutex);
+    if (ini.GetValue(section, key) && static_cast<float>(ini.GetDoubleValue(section, key)) == value) return;
     ini.SetDoubleValue(section, key, value);
     MarkChangedLocked();
 }
 
 void ConfigManager::SetDouble(const char* section, const char* key, double value) {
     const std::lock_guard lock(mutex);
+    if (ini.GetValue(section, key) && ini.GetDoubleValue(section, key) == value) return;
     ini.SetDoubleValue(section, key, value);
     MarkChangedLocked();
 }
 
 void ConfigManager::SetString(const char* section, const char* key, const char* value) {
     const std::lock_guard lock(mutex);
+    const char* previous = ini.GetValue(section, key);
+    if (previous && value && std::string_view(previous) == value) return;
     ini.SetValue(section, key, value);
     MarkChangedLocked();
 }
 
 void ConfigManager::DeleteSection(const char* section) {
     const std::lock_guard lock(mutex);
-    ini.Delete(section, nullptr);
-    MarkChangedLocked();
+    if (ini.Delete(section, nullptr)) MarkChangedLocked();
 }

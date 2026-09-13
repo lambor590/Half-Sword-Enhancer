@@ -46,7 +46,6 @@ void GuiSection::Render() {
     if (GuiUtils::CheckboxWithTooltip(TOOLTIPS_LABEL, &tooltipsEnabled, TOOLTIPS_TOOLTIP)) {
         auto& config = ConfigManager::Get();
         config.SetBool("GUI", "tooltips_enabled", tooltipsEnabled);
-        config.SaveConfig();
         GuiUtils::SetHelpTooltipsEnabled(tooltipsEnabled);
     }
 
@@ -56,7 +55,6 @@ void GuiSection::Render() {
     if (GuiUtils::CheckboxWithTooltip(UE_CONSOLE_LABEL, &ueConsoleEnabled, UE_CONSOLE_TOOLTIP)) {
         auto& config = ConfigManager::Get();
         config.SetBool("UE", "console_enabled", ueConsoleEnabled);
-        config.SaveConfig();
         GameHook::Get().SetUEConsoleEnabled(ueConsoleEnabled);
     }
 

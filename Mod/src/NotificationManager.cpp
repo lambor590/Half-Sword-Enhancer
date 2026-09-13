@@ -185,7 +185,6 @@ void NotificationManager::SetEnabled(bool enabled) {
     if (s_enabled.exchange(enabled, std::memory_order_acq_rel) == enabled) return;
 
     ConfigManager::Get().SetBool("Notifications", "enabled", enabled);
-    ConfigManager::Get().SaveConfig();
     if (!enabled) {
         const std::scoped_lock lock(s_mutex);
         s_notifications.clear();

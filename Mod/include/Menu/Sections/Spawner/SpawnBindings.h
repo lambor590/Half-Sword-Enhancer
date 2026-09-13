@@ -232,7 +232,6 @@ namespace SpawnBindings {
             auto& configManager = ConfigManager::Get();
             const auto section = BindingSection(config, binding.id);
             configManager.SetString(section.c_str(), "name", binding.name);
-            configManager.SaveConfig();
         }
 
         void PublishSpawnSnapshot(Binding& binding) const {

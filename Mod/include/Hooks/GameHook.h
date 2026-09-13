@@ -135,7 +135,7 @@ private:
     [[nodiscard]] HookEntry* FindHookEntry(std::uint64_t nameHash) noexcept;
     static void DispatchListeners(const ListenerList& listeners, ProcessEventContext& context);
 
-    Logger logger{"GameHook"};
+    Logger logger{"GameHook", Logger::FlushMode::Immediate};
     uintptr_t oProcessEvent = 0;
     uintptr_t processEventAddress = 0;
     std::atomic<std::uint64_t> dispatchState{DispatchState(DispatchMode::Bypass)};

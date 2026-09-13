@@ -255,9 +255,9 @@ bool KeybindManager::IsValidKey(int key) noexcept {
 }
 
 bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+    if (!IsPressMessage(msg)) return false;
     const std::scoped_lock lock(s_coldData.rebindMutex);
     if (s_coldData.rebindPhase != RebindPhase::Waiting) return false;
-    if (!IsPressMessage(msg)) return false;
 
     int keyCode = ExtractKeyCode(msg, wParam);
     if (keyCode == -1) return false;
