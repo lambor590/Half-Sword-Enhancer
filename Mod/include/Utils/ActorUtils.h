@@ -150,18 +150,27 @@ namespace ActorUtils {
         }
     }
 
+    inline double DistanceSquared(const SDK::FVector& a, const SDK::FVector& b) noexcept {
+        const auto delta = a - b;
+        return delta.Dot(delta);
+    }
+
     template <typename Func>
     void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
         EngineArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
 
         auto* originalPawn = PossessState::GetOriginalPawn();
+        const bool limited = radius != GameConstants::MAX_DISTANCE;
+        if (limited && (!player || radius < 0.0f)) return;
+        const auto origin = limited ? player->K2_GetActorLocation() : SDK::FVector{};
+        const double radiusSquared = static_cast<double>(radius) * radius;
 
         for (auto* actor : actors) {
             auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
             if (willie == player || willie == originalPawn || !willie) continue;
 
-            if (radius == GameConstants::MAX_DISTANCE || player->GetDistanceTo(willie) <= radius) {
+            if (!limited || DistanceSquared(origin, willie->K2_GetActorLocation()) <= radiusSquared) {
                 func(willie);
             }
         }
@@ -252,7 +261,9 @@ namespace ActorUtils {
 
         for (auto* actor : actors) {
             if (!actor) continue;
-            EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(ComponentClass::StaticClass())};
+            EngineArray<SDK::UActorComponent*> components{
+                actor->K2_GetComponentsByClass(ComponentClass::StaticClass())
+            };
             for (auto* component : components) {
                 if (auto* typed = static_cast<ComponentClass*>(component)) {
                     func(typed);
@@ -266,10 +277,12 @@ namespace ActorUtils {
         SDK::AWillie_BP_C* additionalExclude = nullptr
     ) {
         SDK::AWillie_BP_C* nearest = nullptr;
-        float nearestDist = maxRange;
+        if (!origin || maxRange <= 0.0f) return nullptr;
+        const auto location = origin->K2_GetActorLocation();
+        double nearestDist = static_cast<double>(maxRange) * maxRange;
         ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
             if (willie == additionalExclude) return;
-            float dist = origin->GetDistanceTo(willie);
+            const double dist = DistanceSquared(location, willie->K2_GetActorLocation());
             if (dist < nearestDist) {
                 nearestDist = dist;
                 nearest = willie;
