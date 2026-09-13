@@ -4,13 +4,21 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstring>
+#include <memory>
 #include <optional>
+#include <span>
 #include <string_view>
+#include <unordered_map>
+#include <vector>
 
 #include "ConfigManager.h"
 #include "Hooks/GameHook.h"
 #include "Logger.h"
 #include "SDK/BP_HalfSwordGameMode_classes.hpp"
+#include "SDK/GI_Settings_classes.hpp"
+#include "SDK/UI_Jester_FreeMode_classes.hpp"
+#include "Utils/EngineArray.h"
 
 namespace {
     using Clock = std::chrono::steady_clock;
@@ -88,6 +96,76 @@ namespace {
     std::optional<DiscordPresence::Activity> submitted;
 
     Text View(std::string_view text) { return {text.data(), text.size()}; }
+
+    std::vector<std::string> EnumLabels(const char* name) {
+        const std::string path = "UserDefinedEnum " + std::string(name) + "." + name;
+        auto* definition = SDK::UObject::FindObject<SDK::UEnum>(path);
+        if (!definition || !EngineMemory::freeBuffer) return {};
+        std::vector<std::string> labels;
+        for (const auto& entry : definition->Names) {
+            if (entry.Value() < 0 || entry.Value() >= 255 || entry.Key().ToString().ends_with("_MAX")) continue;
+            auto text = SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(
+                definition, static_cast<SDK::uint8>(entry.Value()));
+            const std::unique_ptr<wchar_t, EngineMemory::FreeFunction> storage(
+                const_cast<wchar_t*>(text.GetDataPtr()), EngineMemory::freeBuffer);
+            labels.resize((std::max)(labels.size(), static_cast<std::size_t>(entry.Value()) + 1));
+            labels[entry.Value()] = text.ToString();
+        }
+        return labels;
+    }
+
+    template <typename Value>
+    Value ReadOperand(std::span<const SDK::uint8> script, std::size_t offset) {
+        Value value{};
+        std::memcpy(&value, script.data() + offset, sizeof(value));
+        return value;
+    }
+
+    std::unordered_map<std::string, std::string> MapLabels() {
+        auto* menu = SDK::UUI_Jester_FreeMode_C::StaticClass();
+        auto* selector = menu ? menu->GetFunction("UI_Jester_FreeMode_C", "ExecuteUbergraph_UI_Jester_FreeMode") : nullptr;
+        if (!selector) return {};
+        // The game stores enum -> world choices in its Blueprint Select node,
+        // not in a data table. Read its constants without executing the menu.
+        // UStruct::Script is omitted by Dumper-7; validate the copied buffer and
+        // accept only a complete byte-enum switch over constant soft objects.
+        SDK::TArray<SDK::uint8> bytecode;
+        if (!ReadProcessMemory(GetCurrentProcess(), reinterpret_cast<const std::byte*>(selector) + 0x60,
+                               &bytecode, sizeof(bytecode), nullptr) || bytecode.Num() <= 0 || bytecode.Num() > 100'000)
+            return {};
+        std::vector<SDK::uint8> script(bytecode.Num());
+        if (!ReadProcessMemory(GetCurrentProcess(), bytecode.GetDataPtr(), script.data(), script.size(), nullptr)) return {};
+        std::unordered_map<std::uintptr_t, std::string> constants;
+        for (std::size_t offset = 0; offset + 20 < script.size(); ++offset) {
+            // Let(property, LocalVariable(property), SoftObjectConst(StringConst)).
+            if (script[offset] != 0x0f || script[offset + 9] != 0x00 ||
+                script[offset + 18] != 0x67 || script[offset + 19] != 0x1f) continue;
+            const auto property = ReadOperand<std::uintptr_t>(script, offset + 1);
+            if (property != ReadOperand<std::uintptr_t>(script, offset + 10)) continue;
+            const auto* path = reinterpret_cast<const char*>(script.data() + offset + 20);
+            const auto* end = static_cast<const char*>(std::memchr(path, '\0', script.size() - offset - 20));
+            if (end) constants.emplace(property, std::string(path, end));
+        }
+        const auto labels = EnumLabels("Enum_Maps");
+        for (std::size_t offset = 0; offset + 16 < script.size(); ++offset) {
+            if (script[offset] != 0x69 || script[offset + 7] != 0x00) continue;
+            const std::size_t count = ReadOperand<std::uint16_t>(script, offset + 1);
+            if (!count || count != labels.size() || offset + 16 + count * 15 + 9 > script.size()) continue;
+            std::unordered_map<std::string, std::string> maps;
+            for (std::size_t index = 0; index < count; ++index) {
+                const auto entry = offset + 16 + index * 15;
+                if (script[entry] != 0x24 || script[entry + 6] != 0x00) break;
+                const auto label = script[entry + 1];
+                const auto path = constants.find(ReadOperand<std::uintptr_t>(script, entry + 7));
+                if (label >= labels.size() || labels[label].empty() || path == constants.end()) break;
+                const auto separator = path->second.rfind('.');
+                if (separator == std::string::npos) break;
+                maps.emplace(path->second.substr(separator + 1), labels[label]);
+            }
+            if (maps.size() == count) return maps;
+        }
+        return {};
+    }
 
     bool CallbackPending() {
         return callbackReleased && WaitForSingleObject(callbackReleased, 0) != WAIT_OBJECT_0;
@@ -214,7 +292,11 @@ namespace {
     void Tick(const RuntimeContextSnapshot& runtime) {
         if (!running.load(std::memory_order_acquire)) return;
         if (api.runCallbacks) api.runCallbacks();
-        auto& config = ConfigManager::Get();
+        if (!ConfigManager::Get().GetBool("Discord", "enabled", true)) {
+            Clear();
+            nextPublish = {};
+            return;
+        }
         const auto now = Clock::now();
         if (pending && now - lastPublish >= REFRESH_INTERVAL) {
             Clear();
@@ -233,34 +315,32 @@ namespace {
             }
             api.setApplicationId(&client, APPLICATION_ID);
         }
-        auto description = DiscordPresence::Describe(runtime, config.GetBool("Discord", "share_details", true),
-                                                     config.GetBool("Discord", "show_elapsed", true));
+        auto description = DiscordPresence::Describe(runtime);
         if (published && *published == description && !failed && now - lastPublish < REFRESH_INTERVAL) return;
         Publish(std::move(description));
     }
 }
 
-DiscordPresence::Activity DiscordPresence::Describe(const RuntimeContextSnapshot& runtime, bool shareDetails, bool showElapsed) {
-    Activity activity{"Playing with Half Sword Enhancer", "Join the HSE community", showElapsed ? sessionStart : 0};
-    if (!shareDetails) return activity;
-    if (!runtime.world) {
-        activity.details = "Loading Half Sword";
-        return activity;
+DiscordPresence::Activity DiscordPresence::Describe(const RuntimeContextSnapshot& runtime) {
+    Activity activity{"Playing Half Sword", "Join the HSE community", sessionStart};
+    if (!runtime.world || !runtime.world->OwningGameInstance) return activity;
+    auto* settingsClass = SDK::UGI_Settings_C::StaticClass();
+    if (!settingsClass || !runtime.world->OwningGameInstance->IsA(settingsClass)) return activity;
+    auto* settings = static_cast<SDK::UGI_Settings_C*>(runtime.world->OwningGameInstance);
+    static std::unordered_map<std::string, std::string> maps;
+    static std::vector<std::string> modes;
+    static Clock::time_point nextMetadataAttempt;
+    if ((maps.empty() || modes.empty()) && Clock::now() >= nextMetadataAttempt) {
+        if (maps.empty()) maps = MapLabels();
+        if (modes.empty()) modes = EnumLabels("Enum_PlayMode");
+        nextMetadataAttempt = Clock::now() + std::chrono::seconds(30);
     }
-
-    std::string map = runtime.world->GetName();
-    if (map.starts_with("Map_Menu_") || map.find("MainMenu") != std::string::npos) {
-        activity.details = "In the main menu";
-        return activity;
+    const auto modeIndex = static_cast<std::size_t>(settings->Current_Play_Mode);
+    const auto map = maps.find(runtime.world->GetName());
+    if (modeIndex < modes.size() && !modes[modeIndex].empty()) {
+        activity.details = "Playing " + modes[modeIndex];
+        if (map != maps.end()) activity.details = "In " + map->second + " playing " + modes[modeIndex];
     }
-    const bool hub = map.find("Hub_") != std::string::npos || map.find("Smithery") != std::string::npos;
-    if (map.starts_with("Map_")) map.erase(0, 4);
-    if (map == "Hub_Tavern_Frank") map = "Tavern";
-    else if (map == "Workshop_Smithery_Map") map = "Smithery";
-    else if (map == "Abyss_Map_Open_EA") map = "Abyss";
-    else if (map == "Arena_Cutting_Map") map = "Arena";
-    std::ranges::replace(map, '_', ' ');
-    activity.details = map.empty() ? "Playing Half Sword" : map.substr(0, 100);
 
     auto* authority = runtime.world->AuthorityGameMode;
     auto* modeClass = SDK::ABP_HalfSwordGameMode_C::StaticClass();
@@ -268,7 +348,7 @@ DiscordPresence::Activity DiscordPresence::Describe(const RuntimeContextSnapshot
         ? static_cast<SDK::ABP_HalfSwordGameMode_C*>(authority) : nullptr;
 
     // Use the game's match counter; avoid scanning actors or counting allies/NPCs.
-    if (!hub && mode && mode->Enemy_Count >= 0) {
+    if (map != maps.end() && mode && mode->Enemy_Count >= 0) {
         activity.state = std::to_string(mode->Enemy_Count) + (mode->Enemy_Count == 1 ? " enemy remaining" : " enemies remaining");
     }
     return activity;

@@ -18,7 +18,7 @@ namespace DiscordPresence {
     // Call on the game thread before the runtime hooks are removed.
     void Shutdown() noexcept;
 
-    [[nodiscard]] Activity Describe(const RuntimeContextSnapshot& runtime, bool shareDetails, bool showElapsed);
+    [[nodiscard]] Activity Describe(const RuntimeContextSnapshot& runtime);
 
 #ifdef HSE_PRIVATE_AUTOMATION
     struct Status {

@@ -40,8 +40,7 @@ private:
     bool notificationsEnabled;
     bool tooltipsEnabled = true;
     bool ueConsoleEnabled = false;
-    bool discordDetails = true;
-    bool discordElapsed = true;
+    bool discordEnabled = true;
     int toggleGuiKey = 0;
     int unbindKey = 0;
     std::string shortcutError;
