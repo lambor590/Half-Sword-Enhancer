@@ -16,6 +16,7 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetApplication.h"
 #include "Utils/PresetUtils.h"
+#include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/ModularWeaponBP_classes.hpp"
@@ -146,24 +147,8 @@ void WeaponEditorSection::CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapo
     PublishMeshEntries(std::move(entries), false);
 }
 
-SDK::UObject* WeaponEditorSection::LoadAssetByPath(const char* pathStr) {
-    std::string path(pathStr);
-    if (path.empty()) return nullptr;
-
-    if (path[0] != '/') path = "/Game/" + path;
-
-    if (path.find('.') == std::string::npos) {
-        size_t lastSlash = path.rfind('/');
-        if (lastSlash != std::string::npos) path += "." + path.substr(lastSlash + 1);
-    }
-
-    std::wstring widePath;
-    if (!PresetUtils::TryUtf8ToWide(path, widePath)) return nullptr;
-    SDK::FString fstr(widePath.c_str());
-
-    auto softPath = SDK::UKismetSystemLibrary::MakeSoftObjectPath(fstr);
-    auto softRef = SDK::UKismetSystemLibrary::Conv_SoftObjPathToSoftObjRef(softPath);
-    auto* loaded = SDK::UKismetSystemLibrary::LoadAsset_Blocking(softRef);
+SDK::UObject* WeaponEditorSection::LoadAssetByPath(const std::string& path) {
+    auto* loaded = Spawner::LoadAsset(path);
     if (!loaded) return nullptr;
 
     auto* staticMeshClass = SDK::UStaticMesh::StaticClass();
@@ -1291,7 +1276,7 @@ void WeaponEditorSection::RenderMeshTab() {
         auto pathCopy = std::string(assetPathBuf);
         if (!GameHook::QueueAction([this, pathCopy = std::move(pathCopy), request](const RuntimeContextSnapshot&) {
                 PublishFeedback(
-                    FeedbackOrigin::AddModel, LoadAssetByPath(pathCopy.c_str()) ? "" : "Model could not be added",
+                    FeedbackOrigin::AddModel, LoadAssetByPath(pathCopy) ? "" : "Model could not be added",
                     request
                 );
             }))
@@ -1390,7 +1375,7 @@ bool WeaponEditorSection::PrepareDraftUpdate(PendingDraftUpdate& update, std::st
             return false;
         }
 
-        auto* loaded = LoadAssetByPath(preset.meshPath.c_str());
+        auto* loaded = LoadAssetByPath(preset.meshPath);
         if (!loaded) {
             if (!preset.enabled) continue;
             error = "A custom model is unavailable";

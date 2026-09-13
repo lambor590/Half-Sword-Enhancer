@@ -85,20 +85,7 @@ namespace PresetApplication {
         }};
 
         SDK::UObject* LoadMeshAsset(const MeshOverridePreset& preset) {
-            if (!preset.enabled || preset.meshPath.empty()) return nullptr;
-
-            std::string path = preset.meshPath;
-            if (path[0] != '/') path = "/Game/" + path;
-            if (path.find('.') == std::string::npos) {
-                const auto slash = path.rfind('/');
-                if (slash != std::string::npos) path += "." + path.substr(slash + 1);
-            }
-
-            std::wstring widePath;
-            if (!PresetUtils::TryUtf8ToWide(path, widePath)) return nullptr;
-            const auto softPath = SDK::UKismetSystemLibrary::MakeSoftObjectPath(SDK::FString(widePath.c_str()));
-            const auto softReference = SDK::UKismetSystemLibrary::Conv_SoftObjPathToSoftObjRef(softPath);
-            auto* loaded = SDK::UKismetSystemLibrary::LoadAsset_Blocking(softReference);
+            auto* loaded = Spawner::LoadAsset(preset.meshPath);
             if (!loaded) return nullptr;
 
             auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()

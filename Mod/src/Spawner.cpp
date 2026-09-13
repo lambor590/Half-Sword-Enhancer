@@ -230,6 +230,23 @@ namespace Spawner {
         return actor;
     }
 
+    SDK::UObject* LoadAsset(const std::string& assetPath) {
+        if (assetPath.empty()) return nullptr;
+
+        std::string path = assetPath;
+        if (path.front() != '/') path = "/Game/" + path;
+        if (path.find('.') == std::string::npos) {
+            const auto slash = path.rfind('/');
+            path += "." + path.substr(slash + 1);
+        }
+
+        std::wstring widePath;
+        if (!PresetUtils::TryUtf8ToWide(path, widePath)) return nullptr;
+        const auto softPath = SDK::UKismetSystemLibrary::MakeSoftObjectPath(SDK::FString(widePath.c_str()));
+        const auto softReference = SDK::UKismetSystemLibrary::Conv_SoftObjPathToSoftObjRef(softPath);
+        return SDK::UKismetSystemLibrary::LoadAsset_Blocking(softReference);
+    }
+
     SDK::UClass* LoadClass(const std::string& classPath) {
         return LoadActorClass(classPath);
     }
