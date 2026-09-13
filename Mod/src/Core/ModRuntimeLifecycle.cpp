@@ -17,6 +17,7 @@
 #include "Utils/AIDirector.h"
 #include "Utils/ActorUtils.h"
 #include "Utils/AssetOverrideManager.h"
+#include "Utils/DiscordPresence.h"
 #include "Utils/EquipmentApplication.h"
 #include "Utils/FreeCameraManager.h"
 
@@ -42,6 +43,7 @@ namespace {
         if (startedStep >= StartedStep::AssetOverrides &&
             !GameHook::Get().ExecuteOnGameThreadAndWait([](const RuntimeContextSnapshot& runtime) {
                 if (startedStep >= StartedStep::RuntimeSubsystems) {
+                    DiscordPresence::Shutdown();
                     FreeCameraManager::Get().PrepareForRuntimeShutdown(runtime);
                     EquipmentApplication::AbortRuntimeTransactionsForShutdown();
                 }
@@ -104,6 +106,7 @@ namespace {
             if (!ContinueStartup(StartedStep::AssetOverrides)) return;
 
             FreeCameraManager::Get().OnRuntimeStart();
+            DiscordPresence::Start();
             if (!ContinueStartup(StartedStep::RuntimeSubsystems)) return;
         } catch (...) {
             FailStartup("startup exception");
@@ -133,6 +136,7 @@ namespace {
                         break;
                 }
                 (void)ConfigManager::Get().Flush();
+                DiscordPresence::Poll();
                 Logger::Flush();
             }
         } catch (...) {

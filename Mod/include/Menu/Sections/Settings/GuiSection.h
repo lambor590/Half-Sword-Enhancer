@@ -8,7 +8,7 @@
 class GuiSection : public Section {
 public:
     static constexpr SectionDefinition SECTION{
-        MenuTab::Settings, "Interface", "Choose menu shortcuts, help, messages, and visible HUD elements."
+        MenuTab::Settings, "Interface", "Choose menu shortcuts, help, Discord activity, and visible HUD elements."
     };
 
 private:
@@ -40,6 +40,8 @@ private:
     bool notificationsEnabled;
     bool tooltipsEnabled = true;
     bool ueConsoleEnabled = false;
+    bool discordDetails = true;
+    bool discordElapsed = true;
     int toggleGuiKey = 0;
     int unbindKey = 0;
     std::string shortcutError;
