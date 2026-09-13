@@ -1,3 +1,5 @@
+#include "Utils/EngineArray.h"
+
 #include "Menu/Sections/World/SkyEditorSection.h"
 #include "Hooks/GameHook.h"
 #include "Utils/GuiUtils.h"
@@ -215,7 +217,7 @@ namespace {
     [[nodiscard]] SDK::UActorComponent* FirstComponentOfClass(SDK::AActor* actor, SDK::UClass* componentClass) {
         if (!IsLiveActor(actor)) return nullptr;
 
-        SDK::TArray<SDK::UActorComponent*> components = actor->K2_GetComponentsByClass(componentClass);
+        EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(componentClass)};
         for (auto* component : components) {
             if (IsLiveObject(component) && component->IsA(componentClass)) return component;
         }
@@ -325,7 +327,7 @@ void SkyEditorSection::FindComponents() {
     const bool queued = GameHook::QueueAction([this, world](const RuntimeContextSnapshot&) {
         if (world != cachedWorld) return;
 
-        SDK::TArray<SDK::AActor*> actors;
+        EngineArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
 
         for (auto* actor : actors) {

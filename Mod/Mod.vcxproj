@@ -258,6 +258,7 @@
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="include\Utils\GameConstants.h" />
     <ClInclude Include="include\Utils\ActorUtils.h" />
+    <ClInclude Include="include\Utils\EngineArray.h" />
     <ClInclude Include="include\Utils\AIDirector.h" />
     <ClInclude Include="include\Utils\BoneControl.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
