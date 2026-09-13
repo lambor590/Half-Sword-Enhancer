@@ -202,7 +202,7 @@ private:
     static bool IsStaticMeshInvalid(SDK::UStaticMesh* sm);
     static bool IsSkeletalMeshInvalid(SDK::USkeletalMesh* sk);
     void CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon);
-    SDK::UObject* LoadAssetByPath(const char* pathStr);
+    SDK::UObject* LoadAssetByPath(const std::string& path);
     void ScanAllMeshes();
     void QueueMeshScan();
     bool HasAnyMeshOverride() const;

@@ -88,18 +88,7 @@ namespace EquipmentApplication {
             result = nullptr;
             if (path.empty()) return true;
 
-            std::string normalized = path;
-            if (normalized.front() != '/') normalized = "/Game/" + normalized;
-            if (normalized.find('.') == std::string::npos) {
-                const auto slash = normalized.rfind('/');
-                if (slash != std::string::npos) normalized += "." + normalized.substr(slash + 1);
-            }
-
-            std::wstring widePath;
-            if (!PresetUtils::TryUtf8ToWide(normalized, widePath)) return false;
-            const auto softPath = SDK::UKismetSystemLibrary::MakeSoftObjectPath(SDK::FString(widePath.c_str()));
-            const auto softReference = SDK::UKismetSystemLibrary::Conv_SoftObjPathToSoftObjRef(softPath);
-            auto* loaded = SDK::UKismetSystemLibrary::LoadAsset_Blocking(softReference);
+            auto* loaded = Spawner::LoadAsset(path);
             if (!loaded || !loaded->IsA(SDK::UStaticMesh::StaticClass())) return false;
             result = static_cast<SDK::UStaticMesh*>(loaded);
             return true;

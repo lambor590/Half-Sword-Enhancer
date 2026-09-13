@@ -50,6 +50,8 @@ namespace Spawner {
     );
 
     SDK::UClass* LoadClass(const std::string& classPath);
+    // Game-thread only. Accepts an absolute object path or a path relative to /Game.
+    [[nodiscard]] SDK::UObject* LoadAsset(const std::string& assetPath);
 
     SDK::FTransform BuildSpawnTransform(
         SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale
