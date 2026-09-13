@@ -46,14 +46,6 @@ private:
     static HotData s_hotData;
     static ColdData s_coldData;
 
-    static constexpr std::array<bool, 256> s_validKeys = [] {
-        std::array<bool, 256> valid{};
-        for (size_t i = 0; i < 256; ++i) {
-            valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
-        }
-        return valid;
-    }();
-
     static constexpr std::array<const char*, 10> DIGIT_NAMES = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     static constexpr std::array<const char*, 26> LETTER_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
                                                                  "J", "K", "L", "M", "N", "O", "P", "Q", "R",
@@ -149,9 +141,8 @@ public:
     static void SaveKeybinds();
 
     static void RemoveBinding(int key, int* excludeKeyPtr = nullptr);
-    static std::string GetBoundName(int key, int* excludeKeyPtr = nullptr);
     static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr);
-    static int GetBindingCount(int key, int* excludeKeyPtr = nullptr);
+    static bool HasBinding(int key, int* excludeKeyPtr = nullptr);
     static void UpdateBindingName(int* keyPtr, std::string name);
 
 private:

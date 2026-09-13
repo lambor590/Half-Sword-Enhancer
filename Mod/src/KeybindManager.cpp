@@ -195,20 +195,6 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) {
     }
 }
 
-std::string KeybindManager::GetBoundName(int key, int* excludeKeyPtr) {
-    const std::scoped_lock lock(s_hotData.bindingsMutex);
-    auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]]
-        return {};
-
-    for (const Binding* binding : *bindings) {
-        if (binding->keyPtr != excludeKeyPtr) {
-            return binding->name;
-        }
-    }
-    return {};
-}
-
 std::vector<std::string> KeybindManager::GetAllBoundNames(int key, int* excludeKeyPtr) {
     const std::scoped_lock lock(s_hotData.bindingsMutex);
     auto* bindings = FindBindings(key);
@@ -226,18 +212,12 @@ std::vector<std::string> KeybindManager::GetAllBoundNames(int key, int* excludeK
     return names;
 }
 
-int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) {
+bool KeybindManager::HasBinding(int key, int* excludeKeyPtr) {
     const std::scoped_lock lock(s_hotData.bindingsMutex);
-    auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]]
-        return 0;
-
-    if (!excludeKeyPtr) return static_cast<int>(bindings->size());
-
-    bool hasExcluded = std::ranges::find_if(*bindings, [excludeKeyPtr](const Binding* b) {
-                           return b->keyPtr == excludeKeyPtr;
-                       }) != bindings->end();
-    return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
+    const auto* bindings = FindBindings(key);
+    return bindings && std::ranges::any_of(*bindings, [excludeKeyPtr](const Binding* binding) {
+        return binding->keyPtr != excludeKeyPtr;
+    });
 }
 
 void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) {
@@ -250,8 +230,7 @@ void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) {
 }
 
 bool KeybindManager::IsValidKey(int key) noexcept {
-    if (key < 0 || key > 255) return false;
-    return s_validKeys[key];
+    return key > 0 && key < 256 && key != VK_LWIN && key != VK_RWIN && key != VK_APPS;
 }
 
 bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam, LPARAM lParam) noexcept {

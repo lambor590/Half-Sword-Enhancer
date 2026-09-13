@@ -530,13 +530,11 @@ namespace {
         if (result != KeybindManager::RebindResult::Assigned) return;
 
         const int newKey = capturedKey;
-        if (newKey != -1) {
-            const int count = KeybindManager::GetBindingCount(newKey, entry.keyPtr);
-            if (newKey == KeybindManager::GetToggleGuiKey() || count > 0) {
-                entry.pendingConflictKey = newKey;
-                ImGui::OpenPopup("Shortcut conflict");
-                return;
-            }
+        if (newKey != -1 && (newKey == KeybindManager::GetToggleGuiKey() ||
+                            KeybindManager::HasBinding(newKey, entry.keyPtr))) {
+            entry.pendingConflictKey = newKey;
+            ImGui::OpenPopup("Shortcut conflict");
+            return;
         }
 
         *entry.keyPtr = newKey;
