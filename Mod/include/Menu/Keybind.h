@@ -13,8 +13,6 @@
 #include "Menu/EventBus.h"
 #include "Menu/GameEvent.h"
 
-class ModContext;
-
 struct KeybindParam {
     enum class Type : uint8_t { Int, Float, Double, Bool };
 
@@ -54,7 +52,8 @@ struct KeybindFunctionHook {
 
 enum class KeybindKind : uint8_t { Command, State };
 
-struct KeybindEntry {
+// Movable configuration, assembled before registering callbacks against stable entry storage.
+struct KeybindDefinition {
     std::string name;
     std::string tooltip;
     std::string configSection;
@@ -64,19 +63,23 @@ struct KeybindEntry {
     std::function<bool()> stateGetter;
     std::function<bool()> available;
     bool applyOnToggle = false;
-    std::atomic_bool isActive = false;
+    bool initiallyActive = false;
     bool persistParams = true;
     bool invokeOnRelease = false;
     std::function<void(float, const RuntimeContextSnapshot&)> mouseWheelCallback;
 
     std::vector<GameEvent> events;
-    EventBus::SubscriptionGroup eventSubscriptions;
     std::vector<KeybindFunctionHook> functionHooks;
 
     std::vector<KeybindParam> params;
     std::function<void()> onParamsChanged;
     const char* group = "";
     bool destructive = false;
+};
+
+struct KeybindEntry : KeybindDefinition {
+    std::atomic_bool isActive = false;
+    EventBus::SubscriptionGroup eventSubscriptions;
 
     /// UI state -- managed by rendering.
     int pendingOriginalKey = 0;
@@ -90,10 +93,8 @@ struct KeybindEntry {
     bool IsAvailable() const { return !available || available(); }
     ~KeybindEntry();
 
-    // Definitions are assembled as aggregates, then transferred into their final stable storage before Init().
-    // A registered entry must never move because runtime callbacks retain its address.
-    void AdoptDefinition(KeybindEntry& source) noexcept;
-    void Init();
+    // Initialize once in final storage: runtime callbacks retain this entry's address.
+    void Init(KeybindDefinition definition);
     void Render(bool highlight = false, bool scrollIntoView = false, float cellWidth = 0.0f);
 };
 
@@ -101,7 +102,7 @@ static_assert(!std::is_copy_constructible_v<KeybindEntry> && !std::is_move_const
 
 class KeybindList {
 public:
-    void Add(KeybindEntry&& entry);
+    void Add(KeybindDefinition definition);
     void Render();
     void RequestHighlight(const KeybindEntry* entry);
     std::deque<KeybindEntry>& Entries() noexcept { return entries; }
