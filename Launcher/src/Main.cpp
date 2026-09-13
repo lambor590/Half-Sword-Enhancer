@@ -1,8 +1,8 @@
 #include "../include/Launcher.h"
 #include "../include/SelfUpdate.h"
 
-int main(int argc, char* argv[]) {
+int main() {
     if (auto commandResult = hse::TryRunSelfUpdateCommand()) return *commandResult;
     HSELauncher app;
-    return app.Run(argc, argv);
+    return app.Run();
 }
