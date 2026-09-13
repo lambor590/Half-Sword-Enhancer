@@ -457,7 +457,7 @@ void HSELauncher::ShowExitMessage(bool success) {
     std::this_thread::sleep_for(std::chrono::seconds(EXIT_DELAY_SECONDS));
 }
 
-int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
+int HSELauncher::Run() {
     try {
         SetupConsole();
         DisplayBanner();

@@ -45,5 +45,5 @@ public:
     HSELauncher(const HSELauncher&) = delete;
     HSELauncher& operator=(const HSELauncher&) = delete;
 
-    int Run(int argc, char* argv[]);
+    int Run();
 };
