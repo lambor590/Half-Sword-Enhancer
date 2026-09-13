@@ -57,24 +57,14 @@ namespace hse {
             std::uint32_t totalBytes = 0;
 
             while (true) {
-                DWORD availableBytes = 0;
-                if (!WinHttpQueryDataAvailable(request, &availableBytes)) {
-                    return std::unexpected(NetworkError::DownloadFailed);
-                }
-
-                if (availableBytes == 0) {
-                    return totalBytes;
-                }
-
-                const DWORD bytesToRead = (std::min)(availableBytes, static_cast<DWORD>(buffer.size()));
                 DWORD bytesRead = 0;
 
-                if (!WinHttpReadData(request, buffer.data(), bytesToRead, &bytesRead)) {
+                if (!WinHttpReadData(request, buffer.data(), static_cast<DWORD>(buffer.size()), &bytesRead)) {
                     return std::unexpected(NetworkError::DownloadFailed);
                 }
 
                 if (bytesRead == 0) {
-                    continue;
+                    return totalBytes;
                 }
 
                 if (auto sinkResult = sink(buffer.data(), bytesRead); !sinkResult) {

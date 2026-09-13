@@ -32,16 +32,6 @@ namespace hse {
             std::array<std::string, PACKAGE_FILE_NAMES.size()> fileHashes;
         };
 
-        struct AlgorithmHandle {
-            BCRYPT_ALG_HANDLE value = nullptr;
-            AlgorithmHandle() = default;
-            ~AlgorithmHandle() {
-                if (value) BCryptCloseAlgorithmProvider(value, 0);
-            }
-            AlgorithmHandle(const AlgorithmHandle&) = delete;
-            AlgorithmHandle& operator=(const AlgorithmHandle&) = delete;
-        };
-
         struct HashHandle {
             BCRYPT_HASH_HANDLE value = nullptr;
             HashHandle() = default;
@@ -88,28 +78,8 @@ namespace hse {
             std::ifstream input(path, std::ios::binary);
             if (!input) return std::unexpected(PackageCacheError::HashFailed);
 
-            AlgorithmHandle algorithm;
-            if (BCryptOpenAlgorithmProvider(&algorithm.value, BCRYPT_SHA256_ALGORITHM, nullptr, 0) < 0)
-                return std::unexpected(PackageCacheError::HashFailed);
-
-            DWORD objectBytes = 0;
-            DWORD hashBytes = 0;
-            DWORD resultBytes = 0;
-            if (BCryptGetProperty(
-                    algorithm.value, BCRYPT_OBJECT_LENGTH, reinterpret_cast<PUCHAR>(&objectBytes), sizeof(objectBytes),
-                    &resultBytes, 0
-                ) < 0 ||
-                BCryptGetProperty(
-                    algorithm.value, BCRYPT_HASH_LENGTH, reinterpret_cast<PUCHAR>(&hashBytes), sizeof(hashBytes),
-                    &resultBytes, 0
-                ) < 0)
-                return std::unexpected(PackageCacheError::HashFailed);
-
-            std::vector<UCHAR> object(objectBytes);
             HashHandle hash;
-            if (BCryptCreateHash(
-                    algorithm.value, &hash.value, object.data(), static_cast<ULONG>(object.size()), nullptr, 0, 0
-                ) < 0)
+            if (BCryptCreateHash(BCRYPT_SHA256_ALG_HANDLE, &hash.value, nullptr, 0, nullptr, 0, 0) < 0)
                 return std::unexpected(PackageCacheError::HashFailed);
 
             std::array<char, static_cast<std::size_t>(64) * 1024> buffer{};
@@ -123,7 +93,7 @@ namespace hse {
             }
             if (!input.eof()) return std::unexpected(PackageCacheError::HashFailed);
 
-            std::vector<UCHAR> digest(hashBytes);
+            std::array<UCHAR, 32> digest{};
             if (BCryptFinishHash(hash.value, digest.data(), static_cast<ULONG>(digest.size()), 0) < 0)
                 return std::unexpected(PackageCacheError::HashFailed);
 
