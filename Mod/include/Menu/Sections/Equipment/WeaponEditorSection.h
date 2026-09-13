@@ -69,7 +69,7 @@ private:
     WeaponClassPaths lastPreviewedPaths{};
     WeaponRuntimeProps lastPreviewedProps{};
 
-    char moduleFilters[6][64] = {};
+    GuiUtils::ModuleFilterState moduleFilters[6];
     char weaponTypeFilter[64] = {};
 
     PresetSectionState<WeaponPresetSerializer> presets;

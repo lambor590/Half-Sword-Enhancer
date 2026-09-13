@@ -5,6 +5,8 @@
 #include <string>
 #include <atomic>
 #include <unordered_set>
+#include <unordered_map>
+#include <string_view>
 
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/CustomizableWeapon.h"
@@ -15,8 +17,8 @@
 
 struct GlobalModuleEntry {
     SDK::UClass* cls;
-    std::string name;
-    std::string path;
+    std::string_view name;
+    std::string_view path;
     const char* sourceType;
 };
 
@@ -83,6 +85,7 @@ struct GlobalModulePool {
 
 private:
     GlobalModulePool() = default;
+    std::unordered_map<SDK::UClass*, std::array<std::string, 2>> metadata;
 
     static void BuildAllParts(GlobalModuleSet& set) {
         std::unordered_set<SDK::UClass*> seen;
@@ -91,16 +94,18 @@ private:
                 if (seen.insert(entry.cls).second) set.allParts.push_back(entry);
     }
 
-    static void CollectEntries(
+    void CollectEntries(
         std::vector<GlobalModuleEntry>& out, std::unordered_set<SDK::UClass*>& seen,
         const SDK::TArray<SDK::UClass*>& arr, const char* sourceType
     ) {
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i] && seen.insert(arr[i]).second)
-                out.push_back(
-                    {arr[i], BlueprintRegistry::CleanDisplayName(arr[i]->GetName()),
-                     PresetUtils::ObjectToAbsolutePath(arr[i]), sourceType}
-                );
+            if (!arr[i] || !seen.insert(arr[i]).second) continue;
+            auto [entry, inserted] = metadata.try_emplace(arr[i]);
+            if (inserted) {
+                entry->second =
+                    {BlueprintRegistry::CleanDisplayName(arr[i]->GetName()), PresetUtils::ObjectToAbsolutePath(arr[i])};
+            }
+            out.push_back({arr[i], entry->second[0], entry->second[1], sourceType});
         }
     }
 };
