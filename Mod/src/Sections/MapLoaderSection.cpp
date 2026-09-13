@@ -5,8 +5,8 @@
 #include "Utils/EquipmentApplication.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/GameClass.h"
+#include "Utils/NPCPresetResolver.h"
 #include "Utils/PresetApplication.h"
-#include "Utils/PresetLinkResolution.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
@@ -236,8 +236,7 @@ std::shared_ptr<const MapLoaderSection::PreparedAutoSpawn> MapLoaderSection::Pre
     const auto& appDataRoot = ConfigManager::GetAppDataPath();
     PresetResolveContext context;
     const auto failure = [&error](std::string_view component, const auto& cause) {
-        error = std::string(component) + ": " +
-                (cause.error.empty() ? "could not be loaded" : PresetLinkResolution::FormatDiagnostic(cause));
+        error = std::string(component) + ": " + (cause.error.empty() ? "could not be loaded" : cause.Diagnostic());
         return std::shared_ptr<const PreparedAutoSpawn>{};
     };
 
@@ -248,7 +247,7 @@ std::shared_ptr<const MapLoaderSection::PreparedAutoSpawn> MapLoaderSection::Pre
 
     PreparedAutoSpawn prepared;
     if (!IsEmptyPresetLink(options.playerPreset)) {
-        auto player = PresetLinkResolution::Resolve<PlayerPresetSerializer>(options.playerPreset, appDataRoot, context);
+        auto player = PlayerPresetSerializer::ResolveLink(options.playerPreset, appDataRoot, context);
         if (!player.success || !player.value) return failure("Player preset", player);
         prepared.player = std::move(*player.value);
     }

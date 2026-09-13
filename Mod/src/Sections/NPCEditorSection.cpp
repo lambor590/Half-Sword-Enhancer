@@ -8,7 +8,6 @@
 #include "ConfigManager.h"
 
 #include "Utils/GuiUtils.h"
-#include "Utils/PresetLinkResolution.h"
 #include "Utils/SpawnWorkflow.h"
 
 namespace {
@@ -55,7 +54,7 @@ namespace {
 
         auto resolution = LoadoutPresetResolver{}.Resolve(link);
         if (!resolution.success || !resolution.value) {
-            error = PresetLinkResolution::FormatDiagnostic(resolution);
+            error = resolution.Diagnostic();
             if (error.empty()) error = "Loadout preset is unavailable";
             return false;
         }

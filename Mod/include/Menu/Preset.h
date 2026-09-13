@@ -114,10 +114,12 @@ concept HasPresetSaveValidation = requires(const T& value) {
     { value.ValidateForSave() } -> std::convertible_to<PresetOperationResult>;
 };
 
+// Saving and resolving composite presets share this validation; nested links reuse the caller's file cache.
 template <typename T>
-concept HasContextualPresetSaveValidation = requires(const T& value, const std::filesystem::path& appDataRoot) {
-    { value.ValidateForSave(appDataRoot) } -> std::convertible_to<PresetOperationResult>;
-};
+concept HasContextualPresetSaveValidation =
+    requires(const T& value, const std::filesystem::path& appDataRoot, PresetResolveContext& context) {
+        { value.ValidateForSave(appDataRoot, context) } -> std::convertible_to<PresetOperationResult>;
+    };
 
 template <typename T> [[nodiscard]] PresetOperationResult ValidatePresetDataForSave(const T& value) {
     if constexpr (std::is_base_of_v<PresetDataBase, T>) {
@@ -136,10 +138,11 @@ template <typename T>
 [[nodiscard]] PresetOperationResult ValidatePresetForSave(const T& value, const std::filesystem::path& appDataRoot) {
     auto validation = ValidatePresetDataForSave(value);
     if (!validation) return validation;
-    if constexpr (HasContextualPresetSaveValidation<T>)
-        return value.ValidateForSave(appDataRoot);
-    else
-        return validation;
+    if constexpr (HasContextualPresetSaveValidation<T>) {
+        PresetResolveContext context;
+        return value.ValidateForSave(appDataRoot, context);
+    }
+    return validation;
 }
 
 [[nodiscard]] inline std::atomic<uint64_t>& PresetCatalogRevisionCounter() noexcept {
@@ -492,9 +495,25 @@ public:
     static PresetResolveResult<DataType> ResolveLink(
         const PresetLink<DataType>& link, const std::filesystem::path& appDataRoot, PresetResolveContext& context
     ) {
-        return ResolveLinkAs<DataType>(link, appDataRoot, context, [](const DataType& value, PresetResolveContext&) {
-            return ResolvedPreset(value);
-        });
+        return ResolveLinkAs<DataType>(
+            link, appDataRoot, context, [&appDataRoot](const DataType& value, PresetResolveContext& nestedContext) {
+                if constexpr (HasContextualPresetSaveValidation<DataType>) {
+                    auto validation = value.ValidateForSave(appDataRoot, nestedContext);
+                    if (!validation.success)
+                        return PresetResolveResult<DataType>{
+                            .path = std::move(validation.path), .error = std::move(validation.error)
+                        };
+                }
+                return ResolvedPreset(value);
+            }
+        );
+    }
+
+    static PresetResolveResult<DataType> ResolveLink(
+        const PresetLink<DataType>& link, const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()
+    ) {
+        PresetResolveContext context;
+        return ResolveLink(link, appDataRoot, context);
     }
 
 private:

@@ -5,7 +5,6 @@
 #include <utility>
 
 #include "Utils/PresetDataBase.h"
-#include "Utils/PresetLinkResolution.h"
 
 template <typename Serializer> class PresetLinkState {
 public:
@@ -23,9 +22,9 @@ public:
     }
 
     [[nodiscard]] ResolveResult Resolve(const std::filesystem::path& appDataRoot) {
-        auto result = PresetLinkResolution::Resolve<Serializer>(link, appDataRoot);
+        auto result = Serializer::ResolveLink(link, appDataRoot);
         broken = !result.success && HasLink();
-        diagnostic = PresetLinkResolution::FormatDiagnostic(result);
+        diagnostic = result.Diagnostic();
         resolvedPath = result.path;
         return result;
     }

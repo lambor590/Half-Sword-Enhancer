@@ -48,7 +48,9 @@ struct ItemSpawnPresetData : PresetDataBase {
     PresetLink<ArmorPresetData> armorPreset;
 
     [[nodiscard]] PresetOperationResult ValidateForSave() const;
-    [[nodiscard]] PresetOperationResult ValidateForSave(const std::filesystem::path& appDataRoot) const;
+    [[nodiscard]] PresetOperationResult ValidateForSave(
+        const std::filesystem::path& appDataRoot, PresetResolveContext& context
+    ) const;
     static std::array<PresetFieldDescriptor, 16> GetPresetFields(ItemSpawnPresetData& data);
     static void SerializeCustom(const ItemSpawnPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {});
     [[nodiscard]] static PresetOperationResult DeserializeCustom(

@@ -38,7 +38,9 @@ struct LoadoutPresetData : PresetDataBase {
 
     static SDK::FStr_WeaponParts& GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index);
     static const SDK::FStr_WeaponParts& GetWeaponSlot(const SDK::FStr_Loadout_Weapons& weapons, int index);
-    [[nodiscard]] PresetOperationResult ValidateForSave(const std::filesystem::path& appDataRoot) const;
+    [[nodiscard]] PresetOperationResult ValidateForSave(
+        const std::filesystem::path& appDataRoot, PresetResolveContext& context
+    ) const;
     static void SerializeCustom(const LoadoutPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {});
     [[nodiscard]] static PresetOperationResult DeserializeCustom(
         LoadoutPresetData& data, const CSimpleIniA& ini, std::string_view sectionPrefix = {}
