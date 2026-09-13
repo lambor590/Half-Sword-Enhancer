@@ -4,7 +4,8 @@
 #include <string>
 #include <string_view>
 #include <filesystem>
-#include <chrono>
+#include <atomic>
+#include <cstdint>
 #include <mutex>
 #include <utility>
 
@@ -14,15 +15,14 @@ class ConfigManager {
 private:
     CSimpleIni ini;
     std::filesystem::path configPath;
-    std::string serializedConfig;
     mutable std::mutex mutex;
-    std::chrono::steady_clock::time_point lastSaveAttempt{};
-    bool needsSave = false;
+    std::mutex writerMutex;
+    std::atomic<bool> needsSave{false};
+    std::uint64_t revision = 0;
     unsigned int batchDepth = 0;
-    static constexpr std::chrono::milliseconds SAVE_DELAY{500};
 
     ConfigManager();
-    [[nodiscard]] bool SaveConfigLocked() noexcept;
+    [[nodiscard]] bool WriteConfig(const std::string& content) const noexcept;
     void MarkChangedLocked();
     void BeginBatch();
     void EndBatch();
@@ -43,8 +43,6 @@ public:
     [[nodiscard]] static const std::filesystem::path& GetAppDataPath();
     static ConfigManager& Get();
 
-    void SaveConfig();
-    void FlushIfDue() noexcept;
     [[nodiscard]] bool Flush() noexcept;
     template <typename Updates> void BatchSave(Updates&& updates) {
         const BatchGuard batch(*this);

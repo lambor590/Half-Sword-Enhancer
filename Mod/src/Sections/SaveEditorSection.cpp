@@ -1501,7 +1501,6 @@ void SaveEditorSection::RenderBackupPanel() {
         )) {
         auto& config = ConfigManager::Get();
         config.SetBool(BACKUP_CONFIG_SECTION, "backups_enabled", backupsEnabled);
-        config.SaveConfig();
     }
 
     ImGui::BeginDisabled(!backupsEnabled);
@@ -1515,7 +1514,6 @@ void SaveEditorSection::RenderBackupPanel() {
                 backupRetentionIndex = static_cast<std::uint8_t>(index);
                 auto& config = ConfigManager::Get();
                 config.SetInt(BACKUP_CONFIG_SECTION, "backup_retention", option.count);
-                config.SaveConfig();
             }
             if (selected) ImGui::SetItemDefaultFocus();
         }

@@ -304,7 +304,6 @@ void Gui::Shutdown() noexcept {
 }
 
 bool Gui::NeedsRendering() noexcept {
-    ConfigManager::Get().FlushIfDue();
 
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
 

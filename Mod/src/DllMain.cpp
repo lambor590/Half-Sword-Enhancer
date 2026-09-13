@@ -23,6 +23,7 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID /*reserved*/) noexcept 
     if (reason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(module);
         logger.Log("Half Sword Enhancer initializing...");
+        Logger::Flush();
 #ifdef EXPERIMENTAL_VERSION
         logger.Log("This is a public experimental build for testing purposes.");
 #endif

@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <condition_variable>
 #include <mutex>
 #include <thread>
 
@@ -22,13 +23,15 @@
 namespace {
     enum class StartedStep : std::uint8_t { None, GameHook, Renderer, AssetOverrides, RuntimeSubsystems };
 
-    Logger logger{"ModRuntimeLifecycle"};
+    Logger logger{"ModRuntimeLifecycle", Logger::FlushMode::Immediate};
     Renderer renderer;
     std::atomic<bool> active{false};
     std::atomic<bool> stopRequested{false};
     StartedStep startedStep = StartedStep::None;
     std::mutex workerMutex;
     std::thread startupWorker;
+    std::mutex maintenanceMutex;
+    std::condition_variable maintenanceWake;
 
     void ShutdownStarted() noexcept {
         if (startedStep >= StartedStep::Renderer) renderer.Cleanup();
@@ -58,6 +61,8 @@ namespace {
         if (startedStep >= StartedStep::Renderer) KeybindRuntime::OnRuntimeShutdown();
         if (startedStep >= StartedStep::AssetOverrides) AssetOverrideManager::Get().Shutdown();
         GameHook::Get().Unhook();
+        if (!ConfigManager::Get().Flush()) logger.Log("Final configuration flush failed");
+        Logger::Flush();
         startedStep = StartedStep::None;
         active.store(false, std::memory_order_release);
     }
@@ -115,6 +120,24 @@ namespace {
                 if (!renderer.HookSwapChainAfterStartup()) logger.Log("Failed to hook the game swap chain");
             })) {
             FailStartup("deferred renderer hook");
+            return;
+        }
+
+        try {
+            for (;;) {
+                {
+                    std::unique_lock lock(maintenanceMutex);
+                    if (maintenanceWake.wait_for(lock, std::chrono::milliseconds(500), [] {
+                            return stopRequested.load(std::memory_order_acquire);
+                        }))
+                        break;
+                }
+                (void)ConfigManager::Get().Flush();
+                Logger::Flush();
+            }
+        } catch (...) {
+            logger.Log("Maintenance worker failed");
+            Logger::Flush();
         }
     }
 }
@@ -141,7 +164,11 @@ bool ModRuntimeLifecycle::Stop() noexcept {
     }
 
     std::lock_guard lock(workerMutex);
-    stopRequested.store(true, std::memory_order_release);
+    {
+        const std::lock_guard maintenanceLock(maintenanceMutex);
+        stopRequested.store(true, std::memory_order_release);
+    }
+    maintenanceWake.notify_all();
     if (startupWorker.joinable()) startupWorker.join();
     if (!active.load(std::memory_order_acquire)) return true;
 
