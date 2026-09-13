@@ -74,7 +74,7 @@ private:
         SDK::UClass* populatedForCore = nullptr;
     } armorModules;
 
-    char moduleFilters[3][64] = {};
+    GuiUtils::ModuleFilterState moduleFilters[3];
 
     PresetSectionState<ArmorPresetSerializer> presets;
     int activeTab = 0;

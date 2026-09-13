@@ -47,6 +47,7 @@ template <typename Serializer> struct PresetSectionState {
     char presetNameBuf[512] = {};
     char presetSearchBuf[256] = {};
     PresetUtils::PresetTreeNode presetTree;
+    GuiUtils::PresetSearchCache searchCache;
     std::filesystem::path pendingDeletePath;
     ImVec2 pendingDeletePopupAnchor{};
     std::filesystem::path editingPath;
@@ -101,6 +102,8 @@ template <typename Serializer> struct PresetSectionState {
     void RefreshPresetTree() {
         if (!presetListDirty) Serializer::InvalidateCatalog();
         const std::uint64_t revisionBefore = Serializer::GetCatalogRevision();
+        searchCache.rows.clear();
+        searchCache.dirty = true;
         presetTree = Serializer::ListPresetsTree();
         GuiUtils::SortPresetTree(presetTree);
         const std::uint64_t revisionAfter = Serializer::GetCatalogRevision();
@@ -121,6 +124,7 @@ template <typename Serializer> struct PresetSectionState {
             sizeof(presetSearchBuf),
             presetListDirty,
             presetTree,
+            searchCache,
             status,
             pendingDeletePath,
             pendingDeletePopupAnchor,

@@ -51,7 +51,7 @@ private:
     KeybindList keybinds;
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     std::atomic<bool> modulePoolQueued{false};
-    char moduleFilters[6][64] = {};
+    GuiUtils::ModuleFilterState moduleFilters[6];
 
     double lastSlotApplyTime = 0.0;
     SDK::EArmorSlots_Enum pendingSlot{};

@@ -759,25 +759,6 @@ namespace GuiUtils {
         return action;
     }
 
-    [[nodiscard]] inline bool PresetEntryMatchesFilter(
-        const PresetListEntry& preset, const std::filesystem::path& presetsDir, const char* filter, size_t filterLen
-    ) {
-        const auto displayPath = PresetDisplayPath(preset.path, presetsDir);
-        return MatchesFilter(preset.name.c_str(), preset.name.size(), filter, filterLen) ||
-               MatchesFilter(displayPath.c_str(), displayPath.size(), filter, filterLen);
-    }
-
-    [[nodiscard]] inline bool PresetTreeHasMatches(
-        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* filter,
-        size_t filterLen
-    ) {
-        for (const auto& preset : node.presets)
-            if (PresetEntryMatchesFilter(preset, presetsDir, filter, filterLen)) return true;
-        for (const auto& child : node.children)
-            if (PresetTreeHasMatches(child, presetsDir, filter, filterLen)) return true;
-        return false;
-    }
-
     [[nodiscard]] inline PresetTreeAction RenderPresetTree(
         const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* loadLabel
     ) {
@@ -797,22 +778,50 @@ namespace GuiUtils {
         return action;
     }
 
-    [[nodiscard]] inline PresetTreeAction RenderFilteredPresetTree(
-        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* filter,
-        size_t filterLen, const char* loadLabel
-    ) {
-        PresetTreeAction action;
-        for (const auto& preset : node.presets) {
-            if (!PresetEntryMatchesFilter(preset, presetsDir, filter, filterLen)) continue;
-            auto rowAction = RenderPresetRow(preset, PresetDisplayPath(preset.path, presetsDir), loadLabel);
-            if (rowAction.type != PresetTreeAction::Type::None) action = std::move(rowAction);
+    struct PresetSearchCache {
+        struct Row {
+            const PresetListEntry* preset;
+            std::string label;
+        };
+        std::vector<Row> rows;
+        std::string query;
+        bool dirty = true;
+
+        void Collect(const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir) {
+            for (const auto& preset : node.presets) {
+                auto label = PresetDisplayPath(preset.path, presetsDir);
+                if (MatchesFilter(preset.name.data(), preset.name.size(), query.data(), query.size()) ||
+                    MatchesFilter(label.data(), label.size(), query.data(), query.size()))
+                    rows.push_back({&preset, std::move(label)});
+            }
+            for (const auto& child : node.children)
+                Collect(child, presetsDir);
         }
-        for (const auto& child : node.children) {
-            auto childAction = RenderFilteredPresetTree(child, presetsDir, filter, filterLen, loadLabel);
-            if (childAction.type != PresetTreeAction::Type::None) action = std::move(childAction);
+
+        void Update(
+            const PresetUtils::PresetTreeNode& tree, const std::filesystem::path& presetsDir, const char* filter
+        ) {
+            if (!dirty && query == filter) return;
+            query = filter;
+            rows.clear();
+            Collect(tree, presetsDir);
+            dirty = false;
         }
-        return action;
-    }
+
+        [[nodiscard]] PresetTreeAction Render(const char* loadLabel) const {
+            PresetTreeAction action;
+            ImGuiListClipper clipper;
+            clipper.Begin(static_cast<int>(rows.size()), ImGui::GetFrameHeightWithSpacing());
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const auto& row = rows[static_cast<size_t>(index)];
+                    auto rowAction = RenderPresetRow(*row.preset, row.label, loadLabel);
+                    if (rowAction.type != PresetTreeAction::Type::None) action = std::move(rowAction);
+                }
+            }
+            return action;
+        }
+    };
 
     struct PresetPanelState {
         char* nameBuf;
@@ -821,6 +830,7 @@ namespace GuiUtils {
         size_t searchBufSize;
         bool& listDirty;
         PresetUtils::PresetTreeNode& tree;
+        PresetSearchCache& searchCache;
         StatusMessage& status;
         std::filesystem::path& pendingDeletePath;
         ImVec2& pendingDeletePopupAnchor;
@@ -970,8 +980,8 @@ namespace GuiUtils {
             ImGui::TextDisabled("No saved presets");
         } else {
             const size_t filterLen = std::strlen(state.searchBuf);
-            const bool hasMatches =
-                filterLen == 0 || PresetTreeHasMatches(state.tree, presetsDir, state.searchBuf, filterLen);
+            if (filterLen != 0) state.searchCache.Update(state.tree, presetsDir, state.searchBuf);
+            const bool hasMatches = filterLen == 0 || !state.searchCache.rows.empty();
             PresetTreeAction action;
             if (!state.canInteract) ImGui::BeginDisabled();
             if (!hasMatches) {
@@ -980,10 +990,8 @@ namespace GuiUtils {
                 ImGui::BeginChild(
                     "##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders
                 );
-                action =
-                    filterLen == 0
-                        ? RenderPresetTree(state.tree, presetsDir, state.loadLabel)
-                        : RenderFilteredPresetTree(state.tree, presetsDir, state.searchBuf, filterLen, state.loadLabel);
+                action = filterLen == 0 ? RenderPresetTree(state.tree, presetsDir, state.loadLabel)
+                                        : state.searchCache.Render(state.loadLabel);
                 ImGui::EndChild();
             }
             if (!state.canInteract) ImGui::EndDisabled();
@@ -1080,9 +1088,35 @@ namespace GuiUtils {
         }
     }
 
+    struct ModuleFilterState {
+        char text[64]{};
+        std::vector<int> matches;
+        std::string appliedFilter;
+        const void* catalog = nullptr;
+        size_t catalogSize = 0;
+
+        template <typename Entry> void Update(const std::vector<Entry>& entries, bool invalidate) {
+            if (!invalidate && catalog == entries.data() && catalogSize == entries.size() && appliedFilter == text)
+                return;
+            catalog = entries.data();
+            catalogSize = entries.size();
+            appliedFilter = text;
+            matches.clear();
+            for (int index = 0; index < static_cast<int>(entries.size()); ++index) {
+                const auto& name = entries[static_cast<size_t>(index)].name;
+                if (MatchesFilter(name.data(), name.size(), text, appliedFilter.size())) matches.push_back(index);
+            }
+        }
+
+        [[nodiscard]] int SelectedRow(int index) const {
+            const auto found = std::lower_bound(matches.begin(), matches.end(), index);
+            return found != matches.end() && *found == index ? static_cast<int>(found - matches.begin()) : -1;
+        }
+    };
+
     template <typename Entry>
     inline void RenderGlobalModuleCombo(
-        const char* label, SDK::UClass*& current, const std::vector<Entry>& options, char* filterBuf,
+        const char* label, SDK::UClass*& current, const std::vector<Entry>& options, ModuleFilterState& filter,
         float& cachedWidth, bool allowNone = true, std::string* currentPath = nullptr
     ) {
         const char* preview = "None";
@@ -1091,7 +1125,7 @@ namespace GuiUtils {
         for (int i = 0; i < static_cast<int>(options.size()); ++i) {
             const auto& e = options[static_cast<size_t>(i)];
             if ((currentPath && e.path == *currentPath) || (!currentPath && e.cls == current)) {
-                preview = e.name.c_str();
+                preview = e.name.data();
                 selectedIndex = i;
                 if (currentPath) {
                     current = e.cls;
@@ -1102,11 +1136,13 @@ namespace GuiUtils {
         }
         if (currentPath && !foundPath) current = nullptr;
 
-        if (cachedWidth == 0.0f) {
+        const bool invalidate = cachedWidth == 0.0f;
+        if (invalidate) {
+            filter.catalog = nullptr;
             float maxW = 0;
             for (const auto& e : options) {
                 char buf[128];
-                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.c_str(), e.sourceType);
+                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.data(), e.sourceType);
                 float w = ImGui::CalcTextSize(buf).x;
                 if (w > maxW) maxW = w;
             }
@@ -1116,17 +1152,12 @@ namespace GuiUtils {
         if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
         SetComboSearchWidth(cachedWidth);
-        ImGui::InputTextWithHint("##filter", "Search parts...", filterBuf, 64);
-
-        const size_t filterLen = std::strlen(filterBuf);
-        const bool hasFilter = filterLen > 0;
-
-        if (hasFilter) {
-            int visible = 0;
-            for (const auto& e : options)
-                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
-            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(options.size()));
-        }
+        ImGui::InputTextWithHint("##filter", "Search parts...", filter.text, sizeof(filter.text));
+        filter.Update(options, invalidate);
+        if (filter.text[0])
+            ImGui::TextDisabled(
+                "Showing %d of %d", static_cast<int>(filter.matches.size()), static_cast<int>(options.size())
+            );
 
         ImGui::Separator();
 
@@ -1137,9 +1168,8 @@ namespace GuiUtils {
 
         auto renderEntry = [&](int idx) {
             const auto& e = options[static_cast<size_t>(idx)];
-            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) return;
             char display[128];
-            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
+            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.data(), e.sourceType);
             const bool selected = currentPath ? e.path == *currentPath : e.cls == current;
             if (ImGui::Selectable(display, selected)) {
                 if (currentPath) *currentPath = e.path;
@@ -1148,19 +1178,15 @@ namespace GuiUtils {
             if (selected) ImGui::SetItemDefaultFocus();
         };
 
-        if (hasFilter) {
-            for (int i = 0; i < static_cast<int>(options.size()); ++i) {
-                renderEntry(i);
-            }
-        } else {
-            RenderClippedList(static_cast<int>(options.size()), selectedIndex, renderEntry);
-        }
+        RenderClippedList(static_cast<int>(filter.matches.size()), filter.SelectedRow(selectedIndex), [&](int row) {
+            renderEntry(filter.matches[static_cast<size_t>(row)]);
+        });
         ImGui::EndCombo();
     }
 
     template <typename Entry>
     inline void RenderModuleIndexCombo(
-        const char* label, int32_t& moduleIndex, const std::vector<Entry>& available, char* filterBuf,
+        const char* label, int32_t& moduleIndex, const std::vector<Entry>& available, ModuleFilterState& filter,
         float& cachedWidth
     ) {
         if (available.empty()) {
@@ -1170,12 +1196,14 @@ namespace GuiUtils {
 
         const char* preview = "None";
         if (moduleIndex > 0 && moduleIndex <= static_cast<int32_t>(available.size()))
-            preview = available[moduleIndex - 1].name.c_str();
+            preview = available[moduleIndex - 1].name.data();
 
-        if (cachedWidth == 0.0f) {
+        const bool invalidate = cachedWidth == 0.0f;
+        if (invalidate) {
+            filter.catalog = nullptr;
             float maxW = 0;
             for (const auto& e : available) {
-                float w = ImGui::CalcTextSize(e.name.c_str()).x;
+                float w = ImGui::CalcTextSize(e.name.data()).x;
                 if (w > maxW) maxW = w;
             }
             cachedWidth = ComboWidthFromText(maxW);
@@ -1184,17 +1212,12 @@ namespace GuiUtils {
         if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
         SetComboSearchWidth(cachedWidth);
-        ImGui::InputTextWithHint("##filter", "Search parts...", filterBuf, 64);
-
-        const size_t filterLen = std::strlen(filterBuf);
-        const bool hasFilter = filterLen > 0;
-
-        if (hasFilter) {
-            int visible = 0;
-            for (const auto& e : available)
-                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
-            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(available.size()));
-        }
+        ImGui::InputTextWithHint("##filter", "Search parts...", filter.text, sizeof(filter.text));
+        filter.Update(available, invalidate);
+        if (filter.text[0])
+            ImGui::TextDisabled(
+                "Showing %d of %d", static_cast<int>(filter.matches.size()), static_cast<int>(available.size())
+            );
 
         ImGui::Separator();
 
@@ -1202,20 +1225,14 @@ namespace GuiUtils {
 
         auto renderEntry = [&](int i) {
             const auto& entry = available[static_cast<size_t>(i)];
-            if (hasFilter && !MatchesFilter(entry.name.c_str(), entry.name.size(), filterBuf, filterLen)) return;
             bool selected = (moduleIndex == i + 1);
-            if (ImGui::Selectable(entry.name.c_str(), selected)) moduleIndex = i + 1;
+            if (ImGui::Selectable(entry.name.data(), selected)) moduleIndex = i + 1;
             if (selected) ImGui::SetItemDefaultFocus();
         };
 
-        if (hasFilter) {
-            for (int i = 0; i < static_cast<int>(available.size()); ++i) {
-                renderEntry(i);
-            }
-        } else {
-            RenderClippedList(static_cast<int>(available.size()), moduleIndex - 1, renderEntry);
-        }
+        RenderClippedList(static_cast<int>(filter.matches.size()), filter.SelectedRow(moduleIndex - 1), [&](int row) {
+            renderEntry(filter.matches[static_cast<size_t>(row)]);
+        });
         ImGui::EndCombo();
     }
-
 }
