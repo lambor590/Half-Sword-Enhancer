@@ -91,13 +91,15 @@ bool GuiSection::RenderKeybind(const char* label, const char* tooltip, int& key,
         shortcutError = "Menu shortcuts cannot be removed.";
         return false;
     }
-    if (menuShortcut && KeybindManager::GetBindingCount(capturedKey) > 0) {
-        const std::string boundName = KeybindManager::GetBoundName(capturedKey);
-        shortcutError = KeybindManager::GetKeyName(capturedKey);
-        shortcutError += " is already used by ";
-        shortcutError += boundName.empty() ? "another action" : boundName;
-        shortcutError += ". Choose another menu shortcut.";
-        return false;
+    if (menuShortcut) {
+        const auto names = KeybindManager::GetAllBoundNames(capturedKey);
+        if (!names.empty()) {
+            shortcutError = KeybindManager::GetKeyName(capturedKey);
+            shortcutError += " is already used by ";
+            shortcutError += names.front().empty() ? "another action" : names.front();
+            shortcutError += ". Choose another menu shortcut.";
+            return false;
+        }
     }
     shortcutError.clear();
     key = capturedKey;
