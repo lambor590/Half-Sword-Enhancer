@@ -54,6 +54,8 @@ Half Sword Enhancer can be used through Proton. Follow the community-maintained 
 
 The menu key and other interface behavior can be changed under **Settings → Interface**.
 
+When Discord is running, HSE automatically displays **Half Sword [Enhanced]** with the current map, remaining enemies, and session time, where available. Buttons link to [the HSE website](https://halfswordenhancer.com) and its Discord community. Discord uses Half Sword's default main image, with the HSE logo as a small badge. Using HSE tools such as Free Camera does not change the activity. You can hide match details or the timer under **Settings → Interface → Discord Activity**.
+
 Settings and presets are stored in:
 
 ```text

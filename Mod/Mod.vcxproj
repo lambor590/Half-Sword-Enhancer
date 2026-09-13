@@ -186,6 +186,7 @@
     <ClCompile Include="src\EquipmentApplication.cpp" />
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
+    <ClCompile Include="src\DiscordPresence.cpp" />
     <ClCompile Include="src\AIDirector.cpp" />
     <ClCompile Include="src\FreeCameraManager.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\Gui.h" />
     <ClInclude Include="include\Hooks\GameHook.h" />
+    <ClInclude Include="include\Utils\DiscordPresence.h" />
     <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\DefaultStyle.h" />

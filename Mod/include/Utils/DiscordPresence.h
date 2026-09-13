@@ -1,0 +1,34 @@
+#pragma once
+
+#include <cstdint>
+#include <string>
+
+#include "Core/ModContext.h"
+
+namespace DiscordPresence {
+    struct Activity {
+        std::string details;
+        std::string state;
+        std::uint64_t sessionStart = 0;
+        bool operator==(const Activity&) const = default;
+    };
+
+    void Start() noexcept;
+    void Poll();
+    // Call on the game thread before the runtime hooks are removed.
+    void Shutdown() noexcept;
+
+    [[nodiscard]] Activity Describe(const RuntimeContextSnapshot& runtime, bool shareDetails, bool showElapsed);
+
+#ifdef HSE_PRIVATE_AUTOMATION
+    struct Status {
+        bool clientActive = false;
+        bool pending = false;
+        unsigned int accepted = 0;
+        unsigned int rejected = 0;
+        unsigned int outstandingCallbacks = 0;
+        Activity published;
+    };
+    [[nodiscard]] Status GetStatus();
+#endif
+}
