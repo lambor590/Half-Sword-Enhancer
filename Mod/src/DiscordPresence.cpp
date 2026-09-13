@@ -339,7 +339,7 @@ DiscordPresence::Activity DiscordPresence::Describe(const RuntimeContextSnapshot
     const auto map = maps.find(runtime.world->GetName());
     if (modeIndex < modes.size() && !modes[modeIndex].empty()) {
         activity.details = "Playing " + modes[modeIndex];
-        if (map != maps.end()) activity.details = "In " + map->second + " playing " + modes[modeIndex];
+        if (map != maps.end()) activity.details += " in " + map->second;
     }
 
     auto* authority = runtime.world->AuthorityGameMode;

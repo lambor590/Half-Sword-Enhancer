@@ -54,7 +54,7 @@ Half Sword Enhancer can be used through Proton. Follow the community-maintained 
 
 The menu key and other interface behavior can be changed under **Settings → Interface**.
 
-When Discord is running, HSE displays **Half Sword [Enhanced]** with text such as **In Yard playing Free Mode**, remaining enemies, and session time. Map and mode labels come from the game; locations without a published map label show the mode alone. Buttons link to [the HSE website](https://halfswordenhancer.com) and its Discord community. The HSE logo appears as a small badge, without overriding the main image or its hover text. Using HSE tools such as Free Camera does not change the activity. One switch under **Settings → Interface → Discord Activity** enables or disables the integration, and is on by default.
+When Discord is running, HSE displays **Half Sword [Enhanced]** with text such as **Playing Free Mode in Yard**, remaining enemies, and session time. Map and mode labels come from the game; locations without a published map label show the mode alone. Buttons link to [the HSE website](https://halfswordenhancer.com) and its Discord community. The HSE logo appears as a small badge, without overriding the main image or its hover text. Using HSE tools such as Free Camera does not change the activity. One switch under **Settings → Interface → Discord Activity** enables or disables the integration, and is on by default.
 
 Settings and presets are stored in:
 
