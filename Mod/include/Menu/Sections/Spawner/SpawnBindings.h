@@ -246,7 +246,7 @@ namespace SpawnBindings {
             std::vector<KeybindParam> params;
             adapter.AppendParams(*binding, params, config.spawnParams);
 
-            KeybindEntry definition{
+            binding->keybind.Init({
                 .name = binding->name,
                 .tooltip = binding->summary,
                 .configSection = section,
@@ -265,9 +265,7 @@ namespace SpawnBindings {
                         if (const auto bindingLifetime = weakBinding.lock())
                             PersistBinding(*bindingLifetime, bindingConfig, bindingAdapter);
                     },
-            };
-            binding->keybind.AdoptDefinition(definition);
-            binding->keybind.Init();
+            });
             PublishSpawnSnapshot(*binding);
         }
 

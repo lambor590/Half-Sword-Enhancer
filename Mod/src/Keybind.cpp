@@ -814,29 +814,9 @@ KeybindEntry::~KeybindEntry() {
     std::erase(RuntimeEntries(), this);
 }
 
-void KeybindEntry::AdoptDefinition(KeybindEntry& source) noexcept {
-    name = std::move(source.name);
-    tooltip = std::move(source.tooltip);
-    configSection = std::move(source.configSection);
-    keyPtr = source.keyPtr;
-    callback = std::move(source.callback);
-    kind = source.kind;
-    stateGetter = std::move(source.stateGetter);
-    available = std::move(source.available);
-    applyOnToggle = source.applyOnToggle;
-    isActive.store(source.isActive.load(std::memory_order_acquire), std::memory_order_release);
-    persistParams = source.persistParams;
-    invokeOnRelease = source.invokeOnRelease;
-    mouseWheelCallback = std::move(source.mouseWheelCallback);
-    events = std::move(source.events);
-    functionHooks = std::move(source.functionHooks);
-    params = std::move(source.params);
-    onParamsChanged = std::move(source.onParamsChanged);
-    group = source.group;
-    destructive = source.destructive;
-}
-
-void KeybindEntry::Init() {
+void KeybindEntry::Init(KeybindDefinition definition) {
+    static_cast<KeybindDefinition&>(*this) = std::move(definition);
+    isActive.store(initiallyActive, std::memory_order_release);
     std::erase(configSection, ' ');
     KeybindConfig::LoadKeybind(*this);
 
@@ -901,8 +881,7 @@ void KeybindRuntime::OnRuntimeShutdown() noexcept {
     }
 }
 
-void KeybindList::Add(KeybindEntry&& entry) {
+void KeybindList::Add(KeybindDefinition definition) {
     entries.emplace_back();
-    entries.back().AdoptDefinition(entry);
-    entries.back().Init();
+    entries.back().Init(std::move(definition));
 }
