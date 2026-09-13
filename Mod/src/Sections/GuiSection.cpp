@@ -13,8 +13,11 @@ GuiSection::GuiSection(ModContext& ctx)
     auto& config = ConfigManager::Get();
     tooltipsEnabled = config.GetBool("GUI", "tooltips_enabled", true);
     ueConsoleEnabled = config.GetBool("UE", "console_enabled", false);
-    discordDetails = config.GetBool("Discord", "share_details", true);
-    discordElapsed = config.GetBool("Discord", "show_elapsed", true);
+    discordEnabled = config.GetBool("Discord", "enabled", true);
+    config.BatchSave([&] {
+        config.DeleteSection("Discord");
+        config.SetBool("Discord", "enabled", discordEnabled);
+    });
     toggleGuiKey = KeybindManager::GetToggleGuiKey();
     unbindKey = KeybindManager::GetUnbindKey();
     GuiUtils::SetHelpTooltipsEnabled(tooltipsEnabled);
@@ -54,14 +57,9 @@ void GuiSection::Render() {
     RenderScreenOverlaySettings();
 
     ImGui::SeparatorText("Discord Activity");
-    if (GuiUtils::CheckboxWithTooltip("Share Match Details", &discordDetails,
-        "Include the current map and remaining enemies in your Discord activity.")) {
-        ConfigManager::Get().SetBool("Discord", "share_details", discordDetails);
-    }
-    if (GuiUtils::CheckboxWithTooltip("Show Session Time", &discordElapsed,
-        "Show how long this game session has been running in your Discord activity.")) {
-        auto& config = ConfigManager::Get();
-        config.SetBool("Discord", "show_elapsed", discordElapsed);
+    if (GuiUtils::CheckboxWithTooltip("Enable Discord Activity", &discordEnabled,
+        "Show your game session with the HSE badge and community links on Discord.")) {
+        ConfigManager::Get().SetBool("Discord", "enabled", discordEnabled);
     }
 
     ImGui::SeparatorText("Game Console");
