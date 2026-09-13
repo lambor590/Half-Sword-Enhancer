@@ -177,7 +177,9 @@ namespace {
             for (auto* actor : level->Actors) {
                 if (!actor) continue;
                 if (IsBloodDebugActor(actor)) continue;
-                EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())};
+                EngineArray<SDK::UActorComponent*> components{
+                    actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())
+                };
                 for (auto* component : components) {
                     if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
                         func(static_cast<SDK::UPrimitiveComponent*>(component));
@@ -189,7 +191,9 @@ namespace {
     template <typename Func> void ForEachActorPrimitiveComponent(SDK::AActor* actor, Func&& func) {
         if (!actor) return;
         if (IsBloodDebugActor(actor)) return;
-        EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())};
+        EngineArray<SDK::UActorComponent*> components{
+            actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass())
+        };
         for (auto* component : components) {
             if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
                 func(static_cast<SDK::UPrimitiveComponent*>(component));
@@ -523,7 +527,11 @@ bool AssetOverrideManager::PrepareWorld(SDK::UWorld* world) {
     if (needsScan) (void)ScanFiles();
     const bool changedWorld = (loadedWorld && loadedWorld != world) || (appliedWorld && appliedWorld != world);
     if (loadedWorld != world) {
-        needsLoad = true;
+        needsLoad |= std::ranges::any_of(textures, [](const TextureOverride& entry) {
+            return SDK::UObject::GObjects->GetByIndex(entry.objectIndex) != entry.texture ||
+                   !SDK::UKismetSystemLibrary::IsValid(entry.texture);
+        });
+        loadedWorld = world;
         needsApply = true;
         if (changedWorld) {
             trackedMaterials.clear();
@@ -598,32 +606,23 @@ void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {
     next.scannedMaterials = 0;
     next.unmatched = 0;
 
-    rootedTextures.reserve(files.size());
     textures.reserve(files.size());
 
-    for (const auto& file : files) {
-        const auto widePath = file.filePath.wstring();
+    for (auto file = files.rbegin(); file != files.rend(); ++file) {
+        // The last successful path wins. Try candidates backwards so overridden
+        // files are never decoded, while retaining fallback after an import failure.
+        if (!textures.empty() && textures.back().targetPath == file->targetPath) continue;
+        const auto widePath = file->filePath.wstring();
         auto* texture = SDK::UKismetRenderingLibrary::ImportFileAsTexture2D(world, SDK::FString(widePath.c_str()));
         if (!texture) {
             ++next.errors;
-            g_logger.Log("Failed to import texture override: %s", file.filePath.string().c_str());
+            g_logger.Log("Failed to import texture override: %s", file->filePath.string().c_str());
             continue;
         }
         texture->Flags = static_cast<SDK::EObjectFlags>(
             static_cast<uint32_t>(texture->Flags) | static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
         );
-        const auto targetHash = HS::Hash::FNV1A(file.targetPath);
-        if (!textures.empty() && textures.back().targetPath == file.targetPath) {
-            auto* replaced = textures.back().texture;
-            replaced->Flags = static_cast<SDK::EObjectFlags>(
-                static_cast<uint32_t>(replaced->Flags) & ~static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
-            );
-            textures.back().texture = texture;
-            rootedTextures.back() = texture;
-        } else {
-            textures.push_back({file.targetPath, targetHash, texture});
-            rootedTextures.push_back(texture);
-        }
+        textures.push_back({file->targetPath, HS::Hash::FNV1A(file->targetPath), texture, texture->Index});
         ++next.loaded;
     }
 
@@ -634,13 +633,13 @@ void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {
 }
 
 void AssetOverrideManager::ClearTextures() {
-    for (auto* texture : rootedTextures) {
-        if (!texture) continue;
+    for (const auto& entry : textures) {
+        auto* texture = entry.texture;
+        if (!texture || SDK::UObject::GObjects->GetByIndex(entry.objectIndex) != texture) continue;
         texture->Flags = static_cast<SDK::EObjectFlags>(
             static_cast<uint32_t>(texture->Flags) & ~static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
         );
     }
-    rootedTextures.clear();
     textures.clear();
     loadedWorld = nullptr;
 }

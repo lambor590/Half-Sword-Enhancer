@@ -7,6 +7,7 @@
 #include "SDK/GI_Settings_classes.hpp"
 #include "SDK/Ultra_Dynamic_Sky_classes.hpp"
 
+#include <cmath>
 #include <string>
 
 namespace {
@@ -382,36 +383,43 @@ void SkyEditorSection::QueueApplySunState() {
     float bt = sunBloomThreshold, sha = sunShadowAmount;
     float vs = sunVolumetricScatter, ii = sunIndirectIntensity;
 
-    GameHook::QueueAction([targetComp, p, y, intensity, color, temperature, useTemperature, sa, soft,
-                           bs, bt, sha, vs, ii, queued](const RuntimeContextSnapshot&) {
-        if (!IsLiveObject(targetComp)) {
+    if (!GameHook::QueueAction([targetComp, p, y, intensity, color, temperature, useTemperature, sa, soft, bs, bt, sha,
+                                vs, ii, queued](const RuntimeContextSnapshot&) {
+            if (!IsLiveObject(targetComp)) {
+                queued->store(false, std::memory_order_release);
+                return;
+            }
+
+            auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
+            lightBase->bAffectsWorld = true;
+            if (!lightBase->bAffectGlobalIllumination) lightBase->SetAffectGlobalIllumination(true);
+            if (!lightBase->bAffectReflection) lightBase->SetAffectReflection(true);
+            if (!lightBase->CastShadows) lightBase->SetCastShadows(true);
+            const auto rotation = targetComp->K2_GetComponentRotation();
+            if (std::abs(std::remainder(rotation.Pitch - p, 360.0)) > 0.001 ||
+                std::abs(std::remainder(rotation.Yaw - y, 360.0)) > 0.001 || std::abs(rotation.Roll) > 0.001)
+                targetComp->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
+
+            auto* light = static_cast<SDK::ULightComponent*>(targetComp);
+            if (light->Intensity != intensity) light->SetIntensity(intensity);
+            const auto expectedColor = SDK::UKismetMathLibrary::Conv_LinearColorToColor(color, true);
+            const auto actualColor = lightBase->LightColor;
+            if (actualColor.R != expectedColor.R || actualColor.G != expectedColor.G ||
+                actualColor.B != expectedColor.B || actualColor.A != expectedColor.A)
+                light->SetLightColor(color, true);
+            if (light->bUseTemperature != useTemperature) light->SetUseTemperature(useTemperature);
+            if (useTemperature && light->Temperature != temperature) light->SetTemperature(temperature);
+
+            if (targetComp->LightSourceAngle != sa) targetComp->SetLightSourceAngle(sa);
+            if (targetComp->LightSourceSoftAngle != soft) targetComp->SetLightSourceSoftAngle(soft);
+            if (targetComp->ShadowAmount != sha) targetComp->SetShadowAmount(sha);
+            if (light->BloomScale != bs) light->SetBloomScale(bs);
+            if (light->BloomThreshold != bt) light->SetBloomThreshold(bt);
+            if (light->VolumetricScatteringIntensity != vs) light->SetVolumetricScatteringIntensity(vs);
+            if (light->IndirectLightingIntensity != ii) light->SetIndirectLightingIntensity(ii);
             queued->store(false, std::memory_order_release);
-            return;
-        }
-
-        auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
-        lightBase->bAffectsWorld = true;
-        lightBase->SetAffectGlobalIllumination(true);
-        lightBase->SetAffectReflection(true);
-        lightBase->SetCastShadows(true);
-        static_cast<SDK::USceneComponent*>(targetComp)
-            ->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
-
-        auto* light = static_cast<SDK::ULightComponent*>(targetComp);
-        light->SetIntensity(intensity);
-        light->SetLightColor(color, true);
-        light->SetUseTemperature(useTemperature);
-        if (useTemperature) light->SetTemperature(temperature);
-
-        targetComp->SetLightSourceAngle(sa);
-        targetComp->SetLightSourceSoftAngle(soft);
-        targetComp->SetShadowAmount(sha);
-        light->SetBloomScale(bs);
-        light->SetBloomThreshold(bt);
-        light->SetVolumetricScatteringIntensity(vs);
-        light->SetIndirectLightingIntensity(ii);
+        }))
         queued->store(false, std::memory_order_release);
-    });
 }
 
 void SkyEditorSection::ApplyPreset(int presetIndex) {
