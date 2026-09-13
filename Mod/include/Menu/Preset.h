@@ -195,12 +195,8 @@ public:
         return appDataRoot / K_PRESETS_SUBDIR;
     }
 
-    static PresetLoadResult<DataType> LoadFromFileResult(const std::filesystem::path& path) {
-        return LoadFromFileResult(path, ConfigManager::GetAppDataPath());
-    }
-
     static PresetLoadResult<DataType> LoadFromFileResult(
-        const std::filesystem::path& path, const std::filesystem::path& appDataRoot
+        const std::filesystem::path& path, const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()
     ) {
         const auto directory = GetPresetsDirectory(appDataRoot);
         const auto resolvedPath = path.is_absolute() ? path : directory / path;
@@ -217,9 +213,9 @@ public:
         return DeserializeFileReadResult(resolvedPath, content);
     }
 
-    static PresetUtils::PresetTreeNode ListPresetsTree() { return ListPresetsTree(ConfigManager::GetAppDataPath()); }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree(const std::filesystem::path& appDataRoot) {
+    static PresetUtils::PresetTreeNode ListPresetsTree(
+        const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()
+    ) {
         const std::scoped_lock lock(catalogMutex_);
         return GetCatalogSnapshot(appDataRoot).tree;
     }
@@ -250,12 +246,8 @@ public:
         return result;
     }
 
-    static PresetOperationResult DeletePresetResult(const std::filesystem::path& path) {
-        return DeletePresetResult(path, ConfigManager::GetAppDataPath());
-    }
-
     static PresetOperationResult DeletePresetResult(
-        const std::filesystem::path& path, const std::filesystem::path& appDataRoot
+        const std::filesystem::path& path, const std::filesystem::path& appDataRoot = ConfigManager::GetAppDataPath()
     ) {
         const auto directory = GetPresetsDirectory(appDataRoot);
         const auto resolvedPath = path.is_absolute() ? path : directory / path;

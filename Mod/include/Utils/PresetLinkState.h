@@ -15,9 +15,6 @@ public:
     PresetLinkState() = default;
     [[nodiscard]] ResolveResult AssignAndResolve(Link loadedLink, const std::filesystem::path& appDataRoot) {
         link = std::move(loadedLink);
-        broken = false;
-        diagnostic.clear();
-        resolvedPath.clear();
         return Resolve(appDataRoot);
     }
 
