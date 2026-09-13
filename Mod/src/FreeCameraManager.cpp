@@ -223,6 +223,10 @@ void FreeCameraManager::OnRuntimeShutdown() noexcept {
 }
 
 void FreeCameraManager::EnsureScreenOverlayHooks() {
+    if (!ShouldHideVisualEffects() && !screenOverlays.resultMenus) {
+        screenOverlaySubscriptions.Reset();
+        return;
+    }
     if (screenOverlaySubscriptions.IsSubscribed()) return;
 
     screenOverlaySubscriptions.Reset();
@@ -569,6 +573,7 @@ void FreeCameraManager::ApplyScreenOverlay(SDK::UObject* object) {
 }
 
 void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime) {
+    EnsureScreenOverlayHooks();
     if (!runtime.world) return;
 
     const bool hideVisualEffects = ShouldHideVisualEffects();

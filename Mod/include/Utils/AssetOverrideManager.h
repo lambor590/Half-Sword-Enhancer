@@ -79,6 +79,7 @@ private:
         std::string targetPath;
         uint64_t targetHash = 0;
         SDK::UTexture2D* texture = nullptr;
+        int objectIndex = -1;
     };
 
     struct TextureLookupResult {
@@ -126,7 +127,6 @@ private:
     );
 
     std::vector<FileEntry> files;
-    std::vector<SDK::UTexture2D*> rootedTextures;
     std::vector<TextureOverride> textures;
     GameHook::SubscriptionGroup hookSubscriptions;
 
