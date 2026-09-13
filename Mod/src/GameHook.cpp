@@ -87,21 +87,30 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
         const ScopedHookSuppression suppressHooks;
         hook.gameThreadId.store(GetCurrentThreadId(), std::memory_order_release);
 
+        const auto frame = SDK::UKismetSystemLibrary::GetFrameCount();
+        const bool newFrame = frame != hook.lastQueueFrame;
+        hook.lastQueueFrame = frame;
         static thread_local std::vector<GameHook::QueuedAction> localQueue;
+        static thread_local std::vector<GameHook::QueuedAction> localNextFrameQueue;
         localQueue.clear();
-        {
+        localNextFrameQueue.clear();
+        if (newFrame || hook.hasImmediateActions.load(std::memory_order_relaxed)) {
             std::lock_guard lock(hook.queueMutex);
             localQueue.swap(hook.gameThreadQueue);
-            hook.hasQueuedActions.store(false, std::memory_order_release);
+            if (newFrame) localNextFrameQueue.swap(hook.nextFrameQueue);
+            hook.hasImmediateActions.store(false, std::memory_order_release);
+            hook.hasQueuedActions.store(!hook.nextFrameQueue.empty(), std::memory_order_release);
         }
 
-        if (!localQueue.empty()) {
+        if (!localQueue.empty() || !localNextFrameQueue.empty()) {
             const auto snapshot = ModContext::Get().RefreshGameThreadCache();
-            for (auto& action : localQueue) {
-                try {
-                    action(snapshot);
-                } catch (...) {
-                    hook.logger.Log("Queued game-thread action failed");
+            for (auto* queue : {&localQueue, &localNextFrameQueue}) {
+                for (auto& action : *queue) {
+                    try {
+                        action(snapshot);
+                    } catch (...) {
+                        hook.logger.Log("Queued game-thread action failed");
+                    }
                 }
             }
         }
@@ -220,6 +229,9 @@ void GameHook::Unhook() {
     {
         std::lock_guard lock(queueMutex);
         gameThreadQueue.clear();
+        nextFrameQueue.clear();
+        lastQueueFrame = -1;
+        hasImmediateActions.store(false, std::memory_order_release);
         hasQueuedActions.store(false, std::memory_order_release);
     }
 
@@ -232,14 +244,7 @@ void GameHook::Unhook() {
 }
 
 bool GameHook::BeginDispatch() noexcept {
-    auto state = dispatchState.load(std::memory_order_acquire);
-    for (;;) {
-        const auto entered = state + 1;
-        if (dispatchState.compare_exchange_weak(state, entered, std::memory_order_acq_rel, std::memory_order_acquire)) {
-            state = entered;
-            break;
-        }
-    }
+    auto state = dispatchState.fetch_add(1, std::memory_order_acq_rel) + 1;
 
     while (ModeOf(state) == DispatchMode::Blocked) {
         dispatchState.wait(state, std::memory_order_acquire);
@@ -389,13 +394,18 @@ void GameHook::SetUEConsoleEnabled(bool enabled) {
     });
 }
 
-bool GameHook::QueueAction(QueuedAction action) {
+bool GameHook::QueueAction(QueuedAction action, ActionTiming timing) {
     if (!action) return false;
 
     auto& hook = GameHook::Get();
     std::lock_guard lock(hook.queueMutex);
     if (!hook.IsHooked()) return false;
-    hook.gameThreadQueue.push_back(std::move(action));
+    if (timing == ActionTiming::NextFrame) {
+        hook.nextFrameQueue.push_back(std::move(action));
+    } else {
+        hook.gameThreadQueue.push_back(std::move(action));
+        hook.hasImmediateActions.store(true, std::memory_order_release);
+    }
     hook.hasQueuedActions.store(true, std::memory_order_release);
     return true;
 }

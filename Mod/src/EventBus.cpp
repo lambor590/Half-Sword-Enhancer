@@ -2,6 +2,7 @@
 
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
+#include "SDK/Engine_classes.hpp"
 
 #include <algorithm>
 #include <utility>
@@ -46,6 +47,11 @@ void EventBus::SubscriptionGroup::Clear() {
 }
 
 void EventBus::Dispatch(GameEvent event) {
+    if (event == GameEvent::OnTick) {
+        const auto frame = SDK::UKismetSystemLibrary::GetFrameCount();
+        if (lastTickFrame == frame) return;
+        lastTickFrame = frame;
+    }
     const auto runtime = ModContext::Get().RefreshGameThreadCache();
     auto& list = subscribers[static_cast<size_t>(event)];
     for (auto& subscriber : list) {
@@ -54,6 +60,7 @@ void EventBus::Dispatch(GameEvent event) {
 }
 
 void EventBus::Clear() {
+    lastTickFrame = -1;
     for (auto& hookHandle : eventHookHandles) {
         GameHook::Get().Unsubscribe(hookHandle);
         hookHandle = GameHook::INVALID_HOOK_HANDLE;

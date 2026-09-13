@@ -295,24 +295,27 @@ namespace {
     }
 
     void QueuePossessionCameraActivation(const std::shared_ptr<PossessionCameraActivation>& activation) {
-        GameHook::QueueAction([activation](const RuntimeContextSnapshot& runtime) {
-            if (!activation || !activation->controller || runtime.controller != activation->controller ||
-                !activation->willie || activation->willie->IsActorBeingDestroyed() ||
-                activation->controller->K2_GetPawn() != activation->willie)
-                return;
+        GameHook::QueueAction(
+            [activation](const RuntimeContextSnapshot& runtime) {
+                if (!activation || !activation->controller || runtime.controller != activation->controller ||
+                    !activation->willie || activation->willie->IsActorBeingDestroyed() ||
+                    activation->controller->K2_GetPawn() != activation->willie)
+                    return;
 
-            const bool firstActivation = !activation->initialized;
-            if (firstActivation) {
-                ActivatePossessionCamera(activation->controller, activation->willie, activation->state, true);
-                activation->initialized = true;
-            }
-            if (std::chrono::steady_clock::now() - activation->started < POSSESSION_CAMERA_STABILIZATION) {
-                QueuePossessionCameraActivation(activation);
-                return;
-            }
-            if (!firstActivation)
-                ActivatePossessionCamera(activation->controller, activation->willie, activation->state, false);
-        });
+                const bool firstActivation = !activation->initialized;
+                if (firstActivation) {
+                    ActivatePossessionCamera(activation->controller, activation->willie, activation->state, true);
+                    activation->initialized = true;
+                }
+                if (std::chrono::steady_clock::now() - activation->started < POSSESSION_CAMERA_STABILIZATION) {
+                    QueuePossessionCameraActivation(activation);
+                    return;
+                }
+                if (!firstActivation)
+                    ActivatePossessionCamera(activation->controller, activation->willie, activation->state, false);
+            },
+            GameHook::ActionTiming::NextFrame
+        );
     }
 
     void QueuePossessionCamera(
