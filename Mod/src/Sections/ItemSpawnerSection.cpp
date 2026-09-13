@@ -14,7 +14,6 @@
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
-#include "Utils/PresetLinkResolution.h"
 #include "Utils/WeaponGenerationUi.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
@@ -598,7 +597,7 @@ struct ItemSpawnerSection::BindingOps {
         }
 
         if (binding.data.source == ItemSpawnPresetSource::WeaponPreset && !GetPresetCopy(binding.data.weaponPreset)) {
-            auto resolved = PresetLinkResolution::Resolve<WeaponPresetSerializer>(binding.data.weaponPreset);
+            auto resolved = WeaponPresetSerializer::ResolveLink(binding.data.weaponPreset);
             if (!resolved.success || !resolved.value) {
                 binding.resolutionError =
                     resolved.error.empty() ? "weapon preset is unavailable" : std::move(resolved.error);
@@ -606,7 +605,7 @@ struct ItemSpawnerSection::BindingOps {
         } else if (
             binding.data.source == ItemSpawnPresetSource::ArmorPreset && !GetPresetCopy(binding.data.armorPreset)
         ) {
-            auto resolved = PresetLinkResolution::Resolve<ArmorPresetSerializer>(binding.data.armorPreset);
+            auto resolved = ArmorPresetSerializer::ResolveLink(binding.data.armorPreset);
             if (!resolved.success || !resolved.value) {
                 binding.resolutionError =
                     resolved.error.empty() ? "armor preset is unavailable" : std::move(resolved.error);

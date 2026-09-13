@@ -78,6 +78,11 @@ template <typename T> struct PresetResolveResult {
     std::string error;
 
     [[nodiscard]] explicit operator bool() const noexcept { return success; }
+
+    [[nodiscard]] std::string Diagnostic() const {
+        if (success) return {};
+        return error.empty() ? "The selected preset is unavailable." : error;
+    }
 };
 
 template <typename Target, typename Source>

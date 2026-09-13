@@ -63,10 +63,11 @@ PresetOperationResult MapScenarioPresetData::ValidateForSave() const {
     return {.success = true};
 }
 
-PresetOperationResult MapScenarioPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
+PresetOperationResult MapScenarioPresetData::ValidateForSave(
+    const std::filesystem::path& appDataRoot, PresetResolveContext& context
+) const {
     if (!autoSpawn.enabled) return {.success = true};
 
-    PresetResolveContext context;
     auto player = PlayerPresetSerializer::ResolveLink(autoSpawn.playerPreset, appDataRoot, context);
     if (!player.success) return {.path = std::move(player.path), .error = "Starting Player: " + player.error};
 
@@ -198,8 +199,9 @@ PresetOperationResult ItemSpawnPresetData::ValidateForSave() const {
     return {.error = "Choose a valid item type"};
 }
 
-PresetOperationResult ItemSpawnPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    PresetResolveContext context;
+PresetOperationResult ItemSpawnPresetData::ValidateForSave(
+    const std::filesystem::path& appDataRoot, PresetResolveContext& context
+) const {
     if (source == ItemSpawnPresetSource::WeaponPreset) {
         auto weapon = WeaponPresetSerializer::ResolveLink(weaponPreset, appDataRoot, context);
         if (!weapon.success) return {.path = std::move(weapon.path), .error = "Weapon: " + weapon.error};

@@ -10,8 +10,9 @@ LoadoutPresetResolver::LoadoutPresetResolver() : appDataRoot_(ConfigManager::Get
 LoadoutPresetResolver::LoadoutPresetResolver(std::filesystem::path appDataRoot)
     : appDataRoot_(std::move(appDataRoot)) {}
 
-PresetOperationResult LoadoutPresetData::ValidateForSave(const std::filesystem::path& appDataRoot) const {
-    PresetResolveContext context;
+PresetOperationResult LoadoutPresetData::ValidateForSave(
+    const std::filesystem::path& appDataRoot, PresetResolveContext& context
+) const {
     auto resolved = LoadoutPresetResolver(appDataRoot).Resolve(*this, context);
     return {.success = resolved.success, .path = std::move(resolved.path), .error = std::move(resolved.error)};
 }

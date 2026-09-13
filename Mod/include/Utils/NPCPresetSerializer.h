@@ -71,7 +71,9 @@ struct NPCPresetData : PresetDataBase {
     PresetLink<LoadoutPresetData> loadout;
 
     [[nodiscard]] PresetOperationResult ValidateForSave() const;
-    [[nodiscard]] PresetOperationResult ValidateForSave(const std::filesystem::path& appDataRoot) const;
+    [[nodiscard]] PresetOperationResult ValidateForSave(
+        const std::filesystem::path& appDataRoot, PresetResolveContext& context
+    ) const;
     static std::array<PresetFieldDescriptor, 10> GetPresetFields(NPCPresetData& data);
     static std::array<PresetOverrideDescriptor, 28> GetPresetOverrides(NPCPresetData& data);
     static void SerializeCustom(const NPCPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {});

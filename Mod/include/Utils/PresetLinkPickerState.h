@@ -101,7 +101,7 @@ template <typename Serializer> struct PresetLinkPickerState {
         auto verification = candidate.AssignAndResolve(std::move(next), appDataRoot);
         result.path = verification.path.empty() ? selected.path : std::move(verification.path);
         if (!verification.success) {
-            result.error = PresetLinkResolution::FormatDiagnostic(verification);
+            result.error = verification.Diagnostic();
             operationError = result.error;
             return result;
         }

@@ -269,7 +269,6 @@
     <ClInclude Include="include\Utils\PresetSectionState.h" />
     <ClInclude Include="include\Utils\PresetPickerState.h" />
     <ClInclude Include="include\Utils\PresetLinkPickerState.h" />
-    <ClInclude Include="include\Utils\PresetLinkResolution.h" />
     <ClInclude Include="include\Utils\PresetLinkState.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />
     <ClInclude Include="include\Utils\CharacterOverrideSets.h" />

@@ -35,7 +35,9 @@ struct MapScenarioPresetData : PresetDataBase {
     std::string packageName;
 
     [[nodiscard]] PresetOperationResult ValidateForSave() const;
-    [[nodiscard]] PresetOperationResult ValidateForSave(const std::filesystem::path& appDataRoot) const;
+    [[nodiscard]] PresetOperationResult ValidateForSave(
+        const std::filesystem::path& appDataRoot, PresetResolveContext& context
+    ) const;
     static std::array<PresetFieldDescriptor, 11> GetPresetFields(MapScenarioPresetData& data);
     static void SerializeCustom(
         const MapScenarioPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix = {}

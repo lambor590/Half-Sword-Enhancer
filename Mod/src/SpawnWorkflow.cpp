@@ -11,7 +11,6 @@
 #include "Utils/GameConstants.h"
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/PresetApplication.h"
-#include "Utils/PresetLinkResolution.h"
 #include "Utils/Spawner.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
@@ -87,14 +86,14 @@ namespace SpawnWorkflow {
                 return false;
             }
             if (data.source == ItemSpawnPresetSource::WeaponPreset && !GetPresetCopy(data.weaponPreset)) {
-                auto resolved = PresetLinkResolution::Resolve<WeaponPresetSerializer>(data.weaponPreset);
+                auto resolved = WeaponPresetSerializer::ResolveLink(data.weaponPreset);
                 if (!resolved.success || !resolved.value) {
                     error = resolved.error.empty() ? "The selected weapon preset is unavailable" : resolved.error;
                     return false;
                 }
                 data.weaponPreset = MakePresetCopyLink(std::move(*resolved.value));
             } else if (data.source == ItemSpawnPresetSource::ArmorPreset && !GetPresetCopy(data.armorPreset)) {
-                auto resolved = PresetLinkResolution::Resolve<ArmorPresetSerializer>(data.armorPreset);
+                auto resolved = ArmorPresetSerializer::ResolveLink(data.armorPreset);
                 if (!resolved.success || !resolved.value) {
                     error = resolved.error.empty() ? "The selected armor preset is unavailable" : resolved.error;
                     return false;
