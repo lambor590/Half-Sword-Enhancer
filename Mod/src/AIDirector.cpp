@@ -85,22 +85,34 @@ namespace {
     }
 
     template <typename Func>
-    int ForEachTarget(const RuntimeContextSnapshot& runtime, AIDirector::TargetFilter query, Func&& func) {
+    int ForEachTarget(
+        const RuntimeContextSnapshot& runtime, AIDirector::TargetFilter query, Func&& func,
+        const std::vector<SDK::AWillie_BP_C*>* candidates = nullptr
+    ) {
         auto* world = runtime.world;
         auto* player = runtime.player;
         if (!world || !player) return 0;
 
-        if (query.scope == AIDirector::Scope::NearestNpc) {
-            auto* nearest = ActorUtils::FindNearestWillie(world, player, player, GameConstants::MAX_DISTANCE);
-            if (!nearest) return 0;
-            func(nearest, ActorUtils::GetAIController(nearest));
-            return 1;
-        }
-
+        const bool nearestOnly = query.scope == AIDirector::Scope::NearestNpc;
+        const bool limited = query.scope == AIDirector::Scope::Radius;
+        if (limited && query.radius < 0.0f) return 0;
+        const auto origin = nearestOnly || limited ? player->K2_GetActorLocation() : SDK::FVector{};
+        double nearestDistance = static_cast<double>(GameConstants::MAX_DISTANCE) * GameConstants::MAX_DISTANCE;
+        SDK::AWillie_BP_C* nearest = nullptr;
         int count = 0;
-        const float targetRadius =
-            query.scope == AIDirector::Scope::Radius ? query.radius : GameConstants::MAX_DISTANCE;
-        ActorUtils::ForEachWillieInRadius(world, player, targetRadius, [&](SDK::AWillie_BP_C* willie) {
+        const auto visit = [&](SDK::AWillie_BP_C* willie) {
+            if (nearestOnly) {
+                const double distance = ActorUtils::DistanceSquared(origin, willie->K2_GetActorLocation());
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearest = willie;
+                }
+                return;
+            }
+            if (limited && query.radius != GameConstants::MAX_DISTANCE &&
+                ActorUtils::DistanceSquared(origin, willie->K2_GetActorLocation()) >
+                    static_cast<double>(query.radius) * query.radius)
+                return;
             auto* ai = ActorUtils::GetAIController(willie);
             if (query.scope == AIDirector::Scope::Team && willie->Team_Int != query.team) return;
             if (query.scope == AIDirector::Scope::TargetingPlayer && !TargetsPlayer(willie, player, ai)) return;
@@ -110,10 +122,19 @@ namespace {
             if (query.scope == AIDirector::Scope::NoTarget && (!ai || ai->Target)) return;
             if (query.scope == AIDirector::Scope::PlayerTeam && willie->Team_Int != player->Team_Int) return;
             if (query.scope == AIDirector::Scope::NotPlayerTeam && willie->Team_Int == player->Team_Int) return;
-
             func(willie, ai);
             ++count;
-        });
+        };
+        if (candidates) {
+            for (auto* willie : *candidates)
+                visit(willie);
+        } else {
+            ActorUtils::ForEachWillie(world, player, visit);
+        }
+        if (nearest) {
+            func(nearest, ActorUtils::GetAIController(nearest));
+            return 1;
+        }
         return count;
     }
 
@@ -516,6 +537,11 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
 
     targetsBuffer.clear();
     enemiesBuffer.clear();
+    williesBuffer.clear();
+    ActorUtils::ForEachWillie(runtime.world, runtime.player, [this](auto* willie) { williesBuffer.push_back(willie); });
+    const auto forEachTarget = [&](auto&& action) {
+        return ForEachTarget(runtime, selectedQuery, action, &williesBuffer);
+    };
 
     auto saveState = [this](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
         if (!willie) return;
@@ -566,10 +592,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
 
     originalStates.erase(runtime.player);
     if (!originalStates.empty()) {
-        ActorUtils::ForEachWillieInRadius(
-            runtime.world, runtime.player, GameConstants::MAX_DISTANCE,
-            [&](auto* willie) { enemiesBuffer.push_back(willie); }
-        );
+        enemiesBuffer.assign(williesBuffer.begin(), williesBuffer.end());
         std::sort(enemiesBuffer.begin(), enemiesBuffer.end(), PointerLess);
         for (auto it = originalStates.begin(); it != originalStates.end();) {
             const bool current = std::binary_search(enemiesBuffer.begin(), enemiesBuffer.end(), it->first, PointerLess);
@@ -581,8 +604,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
     switch (ActiveDirective()) {
         case Directive::AttackPlayer: {
             auto* player = runtime.player;
-            int changed = ForEachTarget(
-                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+            int changed = forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
                 setTeam(willie, ai, DIRECTIVE_HOSTILE_TEAM);
@@ -594,9 +616,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             break;
         }
         case Directive::FightEachOther: {
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
-                targetsBuffer.push_back(willie);
-            });
+            forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) { targetsBuffer.push_back(willie); });
             if (targetsBuffer.size() < 2) {
                 if (publishResult) PublishCommandResult("Choose at least 2 NPCs");
                 return;
@@ -626,20 +646,16 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             }
 
             const int playerTeam = player->Team_Int;
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
-                targetsBuffer.push_back(willie);
-            });
+            forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) { targetsBuffer.push_back(willie); });
             std::sort(targetsBuffer.begin(), targetsBuffer.end(), PointerLess);
 
-            ActorUtils::ForEachWillieInRadius(
-                runtime.world, player, GameConstants::MAX_DISTANCE, [&](SDK::AWillie_BP_C* candidate) {
-                    const bool selected =
-                        std::binary_search(targetsBuffer.begin(), targetsBuffer.end(), candidate, PointerLess);
-                    if (selected) return;
-                    setTeam(candidate, ActorUtils::GetAIController(candidate), DIRECTIVE_HOSTILE_TEAM);
-                    enemiesBuffer.push_back(candidate);
-                }
-            );
+            enemyLocationsBuffer.clear();
+            for (auto* candidate : williesBuffer) {
+                if (std::binary_search(targetsBuffer.begin(), targetsBuffer.end(), candidate, PointerLess)) continue;
+                setTeam(candidate, ActorUtils::GetAIController(candidate), DIRECTIVE_HOSTILE_TEAM);
+                enemiesBuffer.push_back(candidate);
+                enemyLocationsBuffer.push_back(candidate->K2_GetActorLocation());
+            }
 
             int changed = 0;
             for (auto* willie : targetsBuffer) {
@@ -647,10 +663,12 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 if (!ai) continue;
 
                 SDK::AWillie_BP_C* nearestEnemy = nullptr;
-                float nearestDistance = GameConstants::MAX_DISTANCE;
-                for (auto* candidate : enemiesBuffer) {
+                const auto origin = willie->K2_GetActorLocation();
+                double nearestDistance = static_cast<double>(GameConstants::MAX_DISTANCE) * GameConstants::MAX_DISTANCE;
+                for (size_t index = 0; index < enemiesBuffer.size(); ++index) {
+                    auto* candidate = enemiesBuffer[index];
                     if (!candidate || candidate == willie) continue;
-                    float distance = willie->GetDistanceTo(candidate);
+                    const double distance = ActorUtils::DistanceSquared(origin, enemyLocationsBuffer[index]);
                     if (distance < nearestDistance) {
                         nearestDistance = distance;
                         nearestEnemy = candidate;
@@ -667,8 +685,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             break;
         }
         case Directive::IgnorePlayer: {
-            int changed = ForEachTarget(
-                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+            int changed = forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
                 saveState(willie, ai);
@@ -682,8 +699,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             break;
         }
         case Directive::PanicFlee: {
-            int changed = ForEachTarget(
-                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+            int changed = forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
                 saveState(willie, ai);
@@ -696,8 +712,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             break;
         }
         case Directive::FreezeAI: {
-            int changed = ForEachTarget(
-                runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
+            int changed = forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C* ai) {
                 if (!ai) return;
 
                 saveState(willie, ai);
@@ -710,9 +725,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             break;
         }
         case Directive::DuelMode: {
-            ForEachTarget(runtime, selectedQuery, [&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) {
-                targetsBuffer.push_back(willie);
-            });
+            forEachTarget([&](SDK::AWillie_BP_C* willie, SDK::AAI_BP_C*) { targetsBuffer.push_back(willie); });
             if (targetsBuffer.size() < 2) {
                 if (publishResult) PublishCommandResult("Choose at least 2 NPCs");
                 return;

@@ -11,6 +11,7 @@
 
 namespace SDK {
     class AWillie_BP_C;
+    struct FVector;
 }
 
 class AIDirector {
@@ -200,6 +201,8 @@ private:
     double nextDirectiveApplyTime = 0.0;
     EventBus::SubscriptionHandle directiveTickSubscription = EventBus::INVALID_SUBSCRIPTION;
     std::unordered_map<SDK::AWillie_BP_C*, ActorState> originalStates;
+    std::vector<SDK::AWillie_BP_C*> williesBuffer;
+    std::vector<SDK::FVector> enemyLocationsBuffer;
     std::vector<SDK::AWillie_BP_C*> targetsBuffer;
     std::vector<SDK::AWillie_BP_C*> enemiesBuffer;
 };
