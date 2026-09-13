@@ -30,7 +30,8 @@ public:
 
     using QueuedAction = std::function<void(const RuntimeContextSnapshot&)>;
 
-    static bool QueueAction(QueuedAction action);
+    enum class ActionTiming : std::uint8_t { NextTick, NextFrame };
+    static bool QueueAction(QueuedAction action, ActionTiming timing = ActionTiming::NextTick);
     [[nodiscard]] bool ExecuteOnGameThreadAndWait(
         QueuedAction action, std::chrono::milliseconds timeout = std::chrono::seconds(5)
     );
@@ -146,8 +147,11 @@ private:
     std::uint32_t registryGeneration = 1;
 
     std::vector<QueuedAction> gameThreadQueue;
+    std::vector<QueuedAction> nextFrameQueue;
+    std::int64_t lastQueueFrame = -1;
     std::mutex queueMutex;
     std::atomic<bool> hasQueuedActions{false};
+    std::atomic<bool> hasImmediateActions{false};
 
     friend void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, void* params) noexcept;
 };
