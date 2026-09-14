@@ -546,6 +546,11 @@ namespace PropertyBrowser {
         }
     };
 
+    inline void EnsureMovable(SDK::USceneComponent* component) {
+        if (component && component->Mobility != SDK::EComponentMobility::Movable)
+            component->SetMobility(SDK::EComponentMobility::Movable);
+    }
+
     inline bool ApplyPropertyEdit(SDK::UObject* object, const PropertyEdit& edit) {
         if (!GameHook::Get().IsGameThread() || !IsLiveObject(object) || !edit.property || edit.offset < 0 ||
             edit.Size() <= 0 || edit.Size() > static_cast<int32_t>(edit.value.size()) ||
@@ -555,6 +560,10 @@ namespace PropertyBrowser {
         const bool rootProperty = edit.offset == prop.offset + (prop.type == PropType::Bool ? prop.byteOffset : 0);
         if (rootProperty && object->IsA(SDK::USceneComponent::StaticClass())) {
             auto* component = static_cast<SDK::USceneComponent*>(object);
+            if (prop.rawName == "RelativeLocation" || prop.rawName == "RelativeRotation" ||
+                prop.rawName == "RelativeScale3D" ||
+                (prop.rawName != "Mobility" && component->IsA(SDK::ULightComponent::StaticClass())))
+                EnsureMovable(component);
             if (prop.rawName == "RelativeLocation" && prop.type == PropType::Vector) {
                 SDK::FVector value;
                 std::memcpy(&value, edit.value.data(), sizeof(value));
