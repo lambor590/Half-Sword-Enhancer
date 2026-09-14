@@ -162,7 +162,7 @@ namespace BoneControl {
                     std::clamp(scaled, 0.0, static_cast<double>((std::numeric_limits<float>::max)()))
                 );
                 ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
-                    SDK::TArray<SDK::FConstraintInstanceAccessor> constraints;
+                    EngineArray<SDK::FConstraintInstanceAccessor> constraints;
                     mesh->GetConstraintsFromBody(entry.Key(), true, true, false, &constraints);
                     for (auto& constraint : constraints) {
                         if (linear) {

@@ -25,17 +25,18 @@ namespace EngineMemory {
     }
 }
 
-// Owns a pointer array returned by the engine, not a borrowed UObject property.
+// Owns an array returned by the engine, not a borrowed UObject property.
 // Construct and destroy on the game thread after EngineMemory::Initialize.
 // Dumper-7's TArray does not free its storage; CRT free uses the wrong allocator.
-template <typename Pointer> class EngineArray final : public SDK::TArray<Pointer> {
-    static_assert(std::is_pointer_v<Pointer>);
+template <typename Element> class EngineArray final : public SDK::TArray<Element> {
+    // SDK destructors are absent, so explicitly allow only elements with no owned allocations.
+    static_assert(std::is_pointer_v<Element> || std::is_same_v<Element, SDK::FConstraintInstanceAccessor>);
 
 public:
     EngineArray() = default;
-    explicit EngineArray(SDK::TArray<Pointer> array) : SDK::TArray<Pointer>(array) {}
+    explicit EngineArray(SDK::TArray<Element> array) : SDK::TArray<Element>(array) {}
     ~EngineArray() {
-        if (this->GetDataPtr()) EngineMemory::freeBuffer(const_cast<Pointer*>(this->GetDataPtr()));
+        if (this->GetDataPtr()) EngineMemory::freeBuffer(const_cast<Element*>(this->GetDataPtr()));
     }
 
     EngineArray(const EngineArray&) = delete;
