@@ -1,9 +1,14 @@
 #pragma once
 
 #include <atomic>
+#include <unordered_map>
 
-#include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Menu/Section.h"
+
+namespace SDK {
+    class AActor;
+}
 
 class WorldActionsSection : public Section {
 public:
@@ -39,9 +44,26 @@ private:
     std::atomic_bool customGravityActive = false;
     std::atomic_bool paused = false;
     std::atomic_bool enemyAIStopped = false;
+    float originalGravity = 0.0f;
+    bool originalGravitySet = false;
+    float originalTimeDilation = 1.0f;
+    struct PauseTickState {
+        SDK::AActor* actor = nullptr;
+        int32_t objectIndex = -1;
+        bool tickEnabled = false;
+        bool tickWhenPaused = false;
+        float tickInterval = 0.0f;
+        GameHook::HookHandle hook = GameHook::INVALID_HOOK_HANDLE;
+    } pauseTick;
+    struct ControllerState {
+        int32_t objectIndex;
+        bool tickEnabled;
+    };
+    std::unordered_map<SDK::AActor*, ControllerState> stoppedControllers;
     KeybindList keybinds;
 
     void InitKeybinds();
+    void RestorePauseTick();
     void SyncStateWorld(SDK::UWorld* world) noexcept;
     bool CurrentWorldState(const std::atomic_bool& state) const noexcept;
 

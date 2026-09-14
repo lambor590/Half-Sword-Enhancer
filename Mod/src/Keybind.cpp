@@ -557,6 +557,8 @@ namespace {
                     "%s opens and closes the menu. Choose another shortcut.",
                     KeybindManager::GetKeyName(entry.pendingConflictKey)
                 );
+            } else if (count == 0) {
+                ImGui::Text("%s is now available.", KeybindManager::GetKeyName(entry.pendingConflictKey));
             } else if (count == 1) {
                 const char* conflictName = names[0].c_str();
                 ImGui::Text(KEY_CONFLICT_FORMAT, KeybindManager::GetKeyName(entry.pendingConflictKey), conflictName);
@@ -574,19 +576,21 @@ namespace {
             ImGui::Spacing();
 
             if (!reservedForMenu) {
-                const std::string replaceText = "Replace " + names.front();
+                const std::string replaceText = count == 0 ? "Use Shortcut" : "Replace " + names.front();
                 if (ImGui::Button(replaceText.c_str())) {
                     KeybindManager::RemoveBinding(entry.pendingConflictKey, entry.keyPtr);
                     *entry.keyPtr = entry.pendingConflictKey;
                     ApplyKey(entry);
                     ImGui::CloseCurrentPopup();
                 }
-                ImGui::SameLine();
-                const char* shareText = count > 1 ? "Use for All" : "Use for Both";
-                if (ImGui::Button(shareText)) {
-                    *entry.keyPtr = entry.pendingConflictKey;
-                    ApplyKey(entry);
-                    ImGui::CloseCurrentPopup();
+                if (count > 0) {
+                    ImGui::SameLine();
+                    const char* shareText = count > 1 ? "Use for All" : "Use for Both";
+                    if (ImGui::Button(shareText)) {
+                        *entry.keyPtr = entry.pendingConflictKey;
+                        ApplyKey(entry);
+                        ImGui::CloseCurrentPopup();
+                    }
                 }
                 ImGui::SameLine();
             }
@@ -861,6 +865,16 @@ void KeybindRuntime::OnRuntimeStart() {
         }
         SetFunctionHooksEnabled(entry, true);
         if (entry->applyOnToggle) (void)QueueEntryCallback(entry, true);
+    }
+}
+
+void KeybindRuntime::PrepareForRuntimeShutdown(const RuntimeContextSnapshot& runtime) noexcept {
+    for (auto* entry : RuntimeEntries()) {
+        try {
+            if (entry->onRuntimeShutdown) entry->onRuntimeShutdown(runtime);
+        } catch (...) {
+            g_keybindRuntimeLogger.Log("Exception while restoring keybind runtime state");
+        }
     }
 }
 
