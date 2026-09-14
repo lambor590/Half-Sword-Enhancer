@@ -6,7 +6,6 @@
 
 #include "Utils/LoadoutPresetSerializer.h"
 
-/// Fully resolved, index-aligned weapon and armor preset snapshots.
 struct ResolvedLoadoutPresetData {
     std::array<std::optional<WeaponPresetData>, LoadoutPresetData::K_WEAPON_SLOT_COUNT> weapons;
     std::array<std::optional<ArmorPresetData>, LoadoutPresetData::K_ARMOR_SLOT_COUNT> armor;

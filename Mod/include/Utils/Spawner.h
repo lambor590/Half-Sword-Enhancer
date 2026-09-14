@@ -21,9 +21,6 @@ namespace Spawner {
 
     ActorType GetActorType(std::string_view classPath);
 
-    /// Deferred spawn helper: begins deferred actor spawn -> runs optional pre-finish callback -> finishes spawning.
-    /// All spawn functions use this internally. Exposed publicly so callers outside Spawner (e.g. MapLoaderSection)
-    /// can use it directly instead of duplicating the pattern.
     SDK::AActor* DeferredSpawn(
         const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& preFinishCallback = nullptr,

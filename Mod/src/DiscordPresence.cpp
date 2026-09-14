@@ -343,7 +343,6 @@ DiscordPresence::Activity DiscordPresence::Describe(const RuntimeContextSnapshot
     auto* mode = authority && modeClass && authority->IsA(modeClass)
         ? static_cast<SDK::ABP_HalfSwordGameMode_C*>(authority) : nullptr;
 
-    // Use the game's match counter; avoid scanning actors or counting allies/NPCs.
     if (map != maps.end() && mode && mode->Enemy_Count >= 0) {
         activity.state = std::to_string(mode->Enemy_Count) + (mode->Enemy_Count == 1 ? " enemy remaining" : " enemies remaining");
     }

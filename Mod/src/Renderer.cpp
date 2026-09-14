@@ -17,7 +17,6 @@ namespace {
     constexpr UINT SYNC_TIMEOUT_MS = 500;
     constexpr UINT64 FENCE_INCREMENT = 1;
 
-    // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
 
     template <typename Function> bool PlaceVtableHook(uintptr_t* entry, Function detour, Function& original) noexcept {

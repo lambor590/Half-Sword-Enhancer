@@ -15,7 +15,6 @@ namespace hse {
         std::size_t endOffset = 0;
     };
 
-    /// Finds and decodes the next JSON string field with the requested key at or after startOffset.
     [[nodiscard]] std::expected<JsonStringField, JsonStringError> FindJsonStringField(
         std::string_view json, std::string_view fieldName, std::size_t startOffset = 0
     );

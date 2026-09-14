@@ -1,6 +1,5 @@
 #pragma once
 
-// Shared dependencies; individual source files retain their own includes.
 #include <algorithm>
 #include <array>
 #include <atomic>

@@ -7,9 +7,7 @@
 
 enum class OverrideFieldType : uint8_t { Double, Int, Bool };
 
-/// Type-erased descriptor for a single override field.
 /// Points into the owning struct's storage -- no copies, no allocations.
-/// Construct via the OverrideField() helpers below.
 struct OverrideDescriptor {
     const char* name; ///< INI key / display name
     bool* enabled;

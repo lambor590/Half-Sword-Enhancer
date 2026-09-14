@@ -180,7 +180,6 @@ namespace PropertyBrowser {
     [[nodiscard]] inline std::string CleanPropertyName(const std::string& raw) {
         std::string cleaned = raw;
 
-        // Strip trailing numeric suffix like "_21"
         if (cleaned.size() > 1) {
             size_t i = cleaned.size();
             while (i > 0 && std::isdigit(static_cast<unsigned char>(cleaned[i - 1])))
