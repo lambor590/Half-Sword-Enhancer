@@ -368,10 +368,11 @@ namespace GuiUtils {
         const char* visibleEnd = VisibleLabelEnd(label);
         const float naturalWidth = ImGui::CalcTextSize(label, visibleEnd).x + ImGui::GetStyle().FramePadding.x * 2.0f;
         const float available = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+        const bool autoResize = (ImGui::GetCurrentWindow()->Flags & ImGuiWindowFlags_AlwaysAutoResize) != 0;
         if (size.x < 0.0f)
             size.x = available;
         else if (size.x == 0.0f)
-            size.x = ResolveControlWidth({0.0f, naturalWidth, FLT_MAX}, naturalWidth);
+            size.x = autoResize ? naturalWidth : ResolveControlWidth({0.0f, naturalWidth, FLT_MAX}, naturalWidth);
         else
             size.x = (std::min)(size.x, available);
 
@@ -1104,7 +1105,8 @@ namespace GuiUtils {
             matches.clear();
             for (int index = 0; index < static_cast<int>(entries.size()); ++index) {
                 const auto& name = entries[static_cast<size_t>(index)].name;
-                if (MatchesFilter(name.data(), name.size(), text, appliedFilter.size())) matches.push_back(index);
+                if (!name.empty() && MatchesFilter(name.data(), name.size(), text, appliedFilter.size()))
+                    matches.push_back(index);
             }
         }
 
@@ -1195,7 +1197,8 @@ namespace GuiUtils {
         }
 
         const char* preview = "None";
-        if (moduleIndex > 0 && moduleIndex <= static_cast<int32_t>(available.size()))
+        if (moduleIndex > 0 && moduleIndex <= static_cast<int32_t>(available.size()) &&
+            !available[moduleIndex - 1].name.empty())
             preview = available[moduleIndex - 1].name.data();
 
         const bool invalidate = cachedWidth == 0.0f;

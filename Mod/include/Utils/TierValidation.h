@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <algorithm>
 #include <cstdint>
 
 #include "Utils/GameConstants.h"
@@ -28,6 +29,7 @@ namespace TierValidation {
     }};
 
     inline int NearestValidTier(uint16_t mask, int tier) noexcept {
+        tier = std::clamp(tier, 0, 8);
         if (mask & (1 << tier)) return tier;
         for (int d = 1; d <= 8; ++d) {
             if (tier + d <= 8 && (mask & (1 << (tier + d)))) return tier + d;

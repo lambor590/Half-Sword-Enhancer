@@ -302,6 +302,7 @@ void NPCEditorSection::RenderBehaviorTab() {
 
     ImGui::Spacing();
     RenderOverrideField(behaviorFields[4]);
+    RenderOverrideField(behaviorFields[5]);
 
     ImGui::PopID();
 }

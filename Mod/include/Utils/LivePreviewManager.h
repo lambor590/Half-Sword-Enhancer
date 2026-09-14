@@ -70,6 +70,7 @@ public:
             if (!IsCurrent(state, token.generation)) return false;
 
             state->previewWorld.store(world, std::memory_order_release);
+            state->previewActorIndex.store(actor ? actor->Index : -1, std::memory_order_release);
             state->previewActor.store(actor, std::memory_order_release);
             shouldRotate = actor && state->autoRotate.load(std::memory_order_acquire);
             yaw = state->yaw.load(std::memory_order_acquire);
@@ -104,14 +105,21 @@ public:
         if (yaw < 0.0) yaw += 360.0;
         state->yaw.store(yaw, std::memory_order_release);
         auto* world = state->previewWorld.load(std::memory_order_acquire);
+        const auto generation = state->generation.load(std::memory_order_acquire);
 
         if (state->rotationQueued.exchange(true, std::memory_order_acq_rel)) return;
 
         auto queuedPreview = previewState;
-        if (!GameHook::QueueAction([actor, world, queuedPreview](const RuntimeContextSnapshot& runtime) {
+        if (!GameHook::QueueAction([actor, world, generation, queuedPreview](const RuntimeContextSnapshot& runtime) {
                 queuedPreview->rotationQueued.store(false, std::memory_order_release);
                 const double y = queuedPreview->yaw.load(std::memory_order_acquire);
-                if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
+                if (runtime.world == world && IsCurrent(queuedPreview, generation) &&
+                    queuedPreview->previewActor.load(std::memory_order_acquire) == actor &&
+                    SDK::UObject::GObjects->GetByIndex(
+                        queuedPreview->previewActorIndex.load(std::memory_order_acquire)
+                    ) == actor &&
+                    SDK::UKismetSystemLibrary::IsValid(actor) && !actor->IsActorBeingDestroyed())
+                    actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
             })) {
             queuedPreview->rotationQueued.store(false, std::memory_order_release);
         }
@@ -129,11 +137,11 @@ public:
 
     template <typename SpawnFn> void Update(bool needsRefresh, SpawnFn&& spawnFn) {
         if (!needsRefresh && !forceRefresh) return;
-        forceRefresh = false;
         auto* state = previewState.get();
         if (state->previewActor.load(std::memory_order_acquire) &&
             (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN))
             return;
+        forceRefresh = false;
         lastChangeTime = ImGui::GetTime();
         spawnFn();
     }
@@ -158,6 +166,7 @@ private:
         std::atomic_bool autoRotate{false};
         std::atomic_bool rotationQueued{false};
         std::atomic<SDK::AActor*> previewActor{nullptr};
+        std::atomic<int> previewActorIndex{-1};
         std::atomic<SDK::UWorld*> previewWorld{nullptr};
         std::atomic<double> yaw{0.0};
         CleanupFn onCleanup;
@@ -172,11 +181,13 @@ private:
     void DestroyPreviewActor() {
         SDK::AActor* actor = nullptr;
         SDK::UWorld* world = nullptr;
+        int actorIndex = -1;
         CleanupFn cleanup;
         auto* state = previewState.get();
         {
             std::lock_guard<std::mutex> lock(state->actorMutex);
             actor = state->previewActor.exchange(nullptr, std::memory_order_acq_rel);
+            actorIndex = state->previewActorIndex.exchange(-1, std::memory_order_acq_rel);
             world = state->previewWorld.exchange(nullptr, std::memory_order_acq_rel);
         }
 
@@ -186,8 +197,10 @@ private:
             cleanup = state->onCleanup;
         }
         if (cleanup) cleanup();
-        GameHook::QueueAction([actor, world](const RuntimeContextSnapshot& runtime) {
-            if (actor && runtime.world == world) actor->K2_DestroyActor();
+        GameHook::QueueAction([actor, world, actorIndex](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world == world && SDK::UObject::GObjects->GetByIndex(actorIndex) == actor &&
+                SDK::UKismetSystemLibrary::IsValid(actor) && !actor->IsActorBeingDestroyed())
+                actor->K2_DestroyActor();
         });
     }
 
