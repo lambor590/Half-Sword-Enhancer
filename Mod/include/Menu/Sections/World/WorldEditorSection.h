@@ -20,9 +20,11 @@ private:
     std::vector<PropertyBrowser::WorldActor> filteredActors;
     int selectedActorIndex = -1;
     SDK::UObject* browseTarget = nullptr;
+    int32_t browseObjectIndex = -1;
     bool browseTargetIsComponent = false;
     bool browseTargetIsActor = false;
     SDK::AActor* selectedActor = nullptr;
+    int32_t selectedObjectIndex = -1;
     SDK::UWorld* cachedWorld = nullptr;
     PropertyBrowser::PanelState propertyPanel;
     char actorSearchBuf[64] = "";
@@ -52,6 +54,8 @@ private:
         SDK::UObject* preferredTarget = nullptr;
         std::string className;
         std::string error;
+        int32_t actorIndex = -1;
+        int32_t preferredTargetIndex = -1;
     };
     std::uint64_t selectionGeneration = 0;
     std::mutex selectionResultMutex;
@@ -62,6 +66,7 @@ private:
         std::string label;
         bool isActor = false;
         bool isComponent = false;
+        int32_t objectIndex = -1;
     };
     std::vector<BrowseTarget> browseTargets;
 
@@ -69,6 +74,8 @@ private:
         SDK::AActor* actor = nullptr;
         SDK::USceneComponent* component = nullptr;
         double endTime = 0.0;
+        int32_t actorIndex = -1;
+        int32_t componentIndex = -1;
     };
     HighlightMarker highlightMarker;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <cstddef>
 #include <cctype>
@@ -22,6 +23,7 @@
 #include "SDK/Engine_classes.hpp"
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/EngineArray.h"
 
 namespace PropertyBrowser {
 
@@ -82,6 +84,7 @@ namespace PropertyBrowser {
 
     struct EnumInfo {
         std::vector<std::string> names;
+        std::vector<std::int64_t> values;
         std::vector<std::string> pendingNames;
         std::mutex pendingNamesMutex;
         std::atomic_bool hasPendingNames{false};
@@ -91,6 +94,7 @@ namespace PropertyBrowser {
 
     struct WorldActor {
         SDK::AActor* actor = nullptr;
+        int32_t objectIndex = -1;
         std::string className;
         std::string instanceName;
         std::string displayLabel;
@@ -129,6 +133,7 @@ namespace PropertyBrowser {
         if (!actor || !actor->Class) return result;
 
         result.actor = actor;
+        result.objectIndex = actor->Index;
         result.className = actor->Class->GetName();
         result.instanceName = actor->GetName();
         if (playerLocation) {
@@ -351,9 +356,11 @@ namespace PropertyBrowser {
             std::string displayName;
             const auto numericValue = enumValue.Value();
             if (queryNative && numericValue >= 0 && numericValue <= 255) {
-                displayName = SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(
-                                  enumPtr, static_cast<SDK::uint8>(numericValue)
-                ).ToString();
+                auto text = SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(
+                    enumPtr, static_cast<SDK::uint8>(numericValue)
+                );
+                displayName = text.ToString();
+                if (text.GetDataPtr()) EngineMemory::freeBuffer(const_cast<wchar_t*>(text.GetDataPtr()));
             }
 
             if (displayName.empty()) {
@@ -391,6 +398,8 @@ namespace PropertyBrowser {
             return cacheIt->second;
         }
         auto& info = cacheIt->second;
+        for (const auto& entry : enumPtr->Names)
+            if (!IsEnumSentinel(entry.Key().GetRawString())) info.values.push_back(entry.Value());
         info.names = BuildEnumNames(enumPtr, false);
         UpdateEnumTextWidth(info);
         (void)GameHook::QueueAction([enumPtr, info = &info](const RuntimeContextSnapshot&) {
@@ -519,9 +528,107 @@ namespace PropertyBrowser {
         return committed;
     }
 
-    inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes);
+    struct PropertyEdit {
+        const PropertyInfo* property = nullptr;
+        std::ptrdiff_t offset = 0;
+        alignas(double) std::array<std::byte, 24> value{};
 
-    inline bool RenderStructWidget(const PropertyInfo& prop, std::byte* structBytes) {
+        [[nodiscard]] int32_t Size() const { return property->type == PropType::Bool ? 1 : property->elementSize; }
+
+        void Write(std::byte* objectBytes) const {
+            if (property->type == PropType::Bool) {
+                auto& byte = objectBytes[offset];
+                const auto mask = static_cast<std::byte>(property->fieldMask);
+                byte = (byte & ~mask) | (value[0] & mask);
+            } else {
+                std::memcpy(objectBytes + offset, value.data(), Size());
+            }
+        }
+    };
+
+    inline bool ApplyPropertyEdit(SDK::UObject* object, const PropertyEdit& edit) {
+        if (!GameHook::Get().IsGameThread() || !IsLiveObject(object) || !edit.property || edit.offset < 0 ||
+            edit.Size() <= 0 || edit.Size() > static_cast<int32_t>(edit.value.size()) ||
+            edit.offset > object->Class->Size - edit.Size())
+            return false;
+        const auto& prop = *edit.property;
+        const bool rootProperty = edit.offset == prop.offset + (prop.type == PropType::Bool ? prop.byteOffset : 0);
+        if (rootProperty && object->IsA(SDK::USceneComponent::StaticClass())) {
+            auto* component = static_cast<SDK::USceneComponent*>(object);
+            if (prop.rawName == "RelativeLocation" && prop.type == PropType::Vector) {
+                SDK::FVector value;
+                std::memcpy(&value, edit.value.data(), sizeof(value));
+                component->K2_SetRelativeLocation(value, false, nullptr, true);
+                return true;
+            }
+            if (prop.rawName == "RelativeRotation" && prop.type == PropType::Rotator) {
+                SDK::FRotator value;
+                std::memcpy(&value, edit.value.data(), sizeof(value));
+                component->K2_SetRelativeRotation(value, false, nullptr, true);
+                return true;
+            }
+            if (prop.rawName == "bVisible" && prop.type == PropType::Bool) {
+                component
+                    ->SetVisibility((edit.value[0] & static_cast<std::byte>(prop.fieldMask)) != std::byte{}, false);
+                return true;
+            }
+            if (prop.rawName == "bHiddenInGame" && prop.type == PropType::Bool) {
+                component
+                    ->SetHiddenInGame((edit.value[0] & static_cast<std::byte>(prop.fieldMask)) != std::byte{}, false);
+                return true;
+            }
+        }
+        if (rootProperty) {
+            if (prop.rawName == "LightColor" && prop.type == PropType::Color &&
+                object->IsA(SDK::ULightComponent::StaticClass())) {
+                SDK::FColor color;
+                std::memcpy(&color, edit.value.data(), sizeof(color));
+                static_cast<SDK::ULightComponent*>(object)
+                    ->SetLightColor(SDK::UKismetMathLibrary::Conv_ColorToLinearColor(color), true);
+                return true;
+            }
+            std::string name = prop.rawName;
+            if (prop.type == PropType::Bool && name.size() > 1 && name[0] == 'b' &&
+                std::isupper(static_cast<unsigned char>(name[1])))
+                name.erase(0, 1);
+            const auto setterName = "Set" + name;
+            SDK::UFunction* setter = nullptr;
+            for (auto* type = static_cast<SDK::UStruct*>(object->Class); type && !setter; type = type->SuperStruct)
+                for (auto* field = type->Children; field; field = field->Next)
+                    if (field->HasTypeFlag(SDK::EClassCastFlags::Function) && field->GetName() == setterName) {
+                        setter = static_cast<SDK::UFunction*>(field);
+                        break;
+                    }
+            auto* parameter = setter ? static_cast<SDK::FProperty*>(setter->ChildProperties) : nullptr;
+            SDK::UEnum* enumType = nullptr;
+            SDK::UStruct* structType = nullptr;
+            SDK::UClass* objectType = nullptr;
+            if (parameter && !parameter->Next && parameter->Offset == 0 &&
+                (setter->FunctionFlags & static_cast<SDK::uint32>(SDK::EFunctionFlags::Native)) &&
+                (static_cast<SDK::EPropertyFlags>(parameter->PropertyFlags) & SDK::EPropertyFlags::Parm) &&
+                !(static_cast<SDK::EPropertyFlags>(parameter->PropertyFlags) &
+                  (SDK::EPropertyFlags::ReturnParm | SDK::EPropertyFlags::OutParm)) &&
+                parameter->ElementSize == edit.Size() && setter->Size == edit.Size() &&
+                ClassifyProperty(parameter, enumType, structType, objectType) == prop.type) {
+                auto value = edit.value;
+                if (prop.type == PropType::Bool)
+                    value[0] =
+                        (value[0] & static_cast<std::byte>(prop.fieldMask)) != std::byte{} ? std::byte{1} : std::byte{};
+                object->ProcessEvent(setter, value.data());
+                return true;
+            }
+        }
+        edit.Write(reinterpret_cast<std::byte*>(object));
+        return true;
+    }
+
+    inline bool RenderPropertyWidget(
+        const PropertyInfo& prop, std::byte* objectBytes, std::vector<PropertyEdit>& edits, int32_t parentOffset = 0
+    );
+
+    inline bool RenderStructWidget(
+        const PropertyInfo& prop, std::byte* objectBytes, std::vector<PropertyEdit>& edits, int32_t parentOffset
+    ) {
         if (!prop.structType) {
             ImGui::TextDisabled("%s: can't be edited", prop.displayName.c_str());
             return false;
@@ -544,7 +651,7 @@ namespace PropertyBrowser {
 
             for (const auto* nested : category.properties) {
                 if (!IsVisible(nested->type)) continue;
-                changed |= RenderPropertyWidget(*nested, structBytes);
+                changed |= RenderPropertyWidget(*nested, objectBytes, edits, parentOffset + prop.offset);
             }
 
             ImGui::TreePop();
@@ -558,8 +665,27 @@ namespace PropertyBrowser {
         ImGui::TextDisabled("%s: %s", prop.displayName.c_str(), value.empty() ? "Empty" : value.c_str());
     }
 
-    inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes) {
-        auto* valuePtr = reinterpret_cast<uint8_t*>(objectBytes + prop.offset);
+    inline bool RenderPropertyWidget(
+        const PropertyInfo& prop, std::byte* objectBytes, std::vector<PropertyEdit>& edits, int32_t parentOffset
+    ) {
+        PropertyEdit draft{
+            .property = &prop,
+            .offset = parentOffset + prop.offset + (prop.type == PropType::Bool ? prop.byteOffset : 0)
+        };
+        auto* valuePtr = reinterpret_cast<uint8_t*>(objectBytes + draft.offset);
+        const bool editableValue = IsEditable(prop.type) && prop.type != PropType::Struct;
+        auto existing = edits.end();
+        if (editableValue) {
+            if (draft.Size() <= 0 || draft.Size() > static_cast<int32_t>(draft.value.size())) return false;
+            existing = std::ranges::find_if(edits, [&](const PropertyEdit& edit) {
+                return edit.property == &prop && edit.offset == draft.offset;
+            });
+            if (existing != edits.end())
+                draft = *existing;
+            else
+                std::memcpy(draft.value.data(), valuePtr, draft.Size());
+            valuePtr = reinterpret_cast<uint8_t*>(draft.value.data());
+        }
         bool changed = false;
 
         ImGui::PushID(prop.rawName.c_str());
@@ -587,7 +713,7 @@ namespace PropertyBrowser {
                 break;
             }
             case PropType::Bool: {
-                uint8_t* byte = valuePtr + prop.byteOffset;
+                uint8_t* byte = valuePtr;
                 bool val = (*byte & prop.fieldMask) != 0;
                 if (ImGui::Checkbox(prop.displayName.c_str(), &val)) {
                     if (val)
@@ -606,40 +732,39 @@ namespace PropertyBrowser {
                 break;
             }
             case PropType::Enum: {
-                int intVal =
-                    (prop.elementSize <= 1) ? static_cast<int>(*valuePtr) : *reinterpret_cast<int32_t*>(valuePtr);
+                if (prop.elementSize != 1 && prop.elementSize != 2 && prop.elementSize != 4 && prop.elementSize != 8)
+                    break;
+                std::uint64_t intVal = 0;
+                std::memcpy(&intVal, valuePtr, prop.elementSize);
+                const auto mask = prop.elementSize == 8 ? UINT64_MAX : (std::uint64_t{1} << (8 * prop.elementSize)) - 1;
 
                 if (prop.enumInfo) ApplyPendingEnumNames(*prop.enumInfo);
                 if (prop.enumInfo && !prop.enumInfo->names.empty()) {
                     const auto& names = prop.enumInfo->names;
-                    const char* preview = (intVal >= 0 && intVal < static_cast<int>(names.size()))
-                                              ? names[static_cast<size_t>(intVal)].c_str()
-                                              : "Unknown";
+                    const auto& values = prop.enumInfo->values;
+                    const auto selected = std::ranges::find_if(values, [&](auto value) {
+                        return (static_cast<std::uint64_t>(value) & mask) == intVal;
+                    });
+                    const char* preview =
+                        selected != values.end() ? names[selected - values.begin()].c_str() : "Unknown";
                     const float comboWidth =
                         (std::max)(K_ENUM_WIDTH,
                                    GuiUtils::ComboWidthFromText(prop.enumInfo->maxTextWidthEm * ImGui::GetFontSize()));
                     if (GuiUtils::BeginSizedCombo(prop.displayName.c_str(), preview, comboWidth)) {
                         for (int i = 0; i < static_cast<int>(names.size()); ++i) {
-                            if (ImGui::Selectable(names[static_cast<size_t>(i)].c_str(), i == intVal)) {
-                                if (prop.elementSize <= 1)
-                                    *valuePtr = static_cast<uint8_t>(i);
-                                else
-                                    *reinterpret_cast<int32_t*>(valuePtr) = i;
+                            const bool isSelected = (static_cast<std::uint64_t>(values[i]) & mask) == intVal;
+                            if (ImGui::Selectable(names[static_cast<size_t>(i)].c_str(), isSelected)) {
+                                std::memcpy(valuePtr, &values[i], prop.elementSize);
                                 changed = true;
                             }
-                            if (i == intVal) ImGui::SetItemDefaultFocus();
+                            if (isSelected) ImGui::SetItemDefaultFocus();
                         }
                         ImGui::EndCombo();
                     }
                 } else {
                     ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                    changed = GuiUtils::DebouncedDragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255);
-                    if (ImGui::IsItemEdited()) {
-                        if (prop.elementSize <= 1)
-                            *valuePtr = static_cast<uint8_t>(intVal);
-                        else
-                            *reinterpret_cast<int32_t*>(valuePtr) = intVal;
-                    }
+                    changed = GuiUtils::DebouncedDragScalar(prop.displayName.c_str(), ImGuiDataType_U64, &intVal, 1.0f);
+                    if (ImGui::IsItemEdited()) std::memcpy(valuePtr, &intVal, prop.elementSize);
                 }
                 break;
             }
@@ -670,7 +795,7 @@ namespace PropertyBrowser {
             case PropType::Rotator:
                 changed = DragDouble3(prop.displayName.c_str(), reinterpret_cast<double*>(valuePtr), 0.5f, "%.1f");
                 break;
-            case PropType::Struct: changed = RenderStructWidget(prop, reinterpret_cast<std::byte*>(valuePtr)); break;
+            case PropType::Struct: changed = RenderStructWidget(prop, objectBytes, edits, parentOffset); break;
             case PropType::Object: {
                 auto* object = *reinterpret_cast<SDK::UObject**>(valuePtr);
                 const bool live = IsLiveObject(object);
@@ -695,12 +820,19 @@ namespace PropertyBrowser {
             case PropType::Unsupported: break;
         }
 
+        if (editableValue && (changed || ImGui::IsItemEdited())) {
+            if (existing == edits.end())
+                edits.push_back(draft);
+            else
+                *existing = draft;
+        }
         ImGui::PopID();
         return changed;
     }
 
     struct PanelState {
         const PropertySchema* schema = nullptr;
+        std::vector<PropertyEdit> edits;
         std::vector<PropertyCategory> visibleCategories;
         std::string visibleFilter;
         char filterBuffer[128] = "";
@@ -709,11 +841,13 @@ namespace PropertyBrowser {
 
         void Clear() {
             schema = nullptr;
+            edits.clear();
             InvalidateVisibleProperties();
         }
 
         void SetType(SDK::UStruct* type) {
             schema = &GetPropertySchema(type);
+            edits.clear();
             InvalidateVisibleProperties();
         }
 
@@ -780,7 +914,7 @@ namespace PropertyBrowser {
             if (state.expandState != 0) ImGui::SetNextItemOpen(state.expandState > 0);
             if (!ImGui::TreeNodeEx(label, filterLength > 0 ? ImGuiTreeNodeFlags_DefaultOpen : 0)) continue;
             for (const auto* property : category.properties)
-                if (RenderPropertyWidget(*property, objectBytes)) onPropertyChanged();
+                if (RenderPropertyWidget(*property, objectBytes, state.edits)) onPropertyChanged();
             ImGui::TreePop();
         }
         state.expandState = 0;
