@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstring>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 
 namespace {
@@ -42,6 +43,25 @@ namespace {
 
     [[nodiscard]] bool IsLiveActor(SDK::AActor* actor) {
         return IsLiveObject(actor) && !actor->IsActorBeingDestroyed();
+    }
+
+    [[nodiscard]] bool IsLiveObject(const SDK::UObject* object, int32_t index) {
+        return object && SDK::UObject::GObjects->GetByIndex(index) == object && IsLiveObject(object);
+    }
+
+    [[nodiscard]] bool IsLiveActor(SDK::AActor* actor, int32_t index) {
+        return IsLiveObject(actor, index) && !actor->IsActorBeingDestroyed();
+    }
+
+    template <typename Object, typename Action>
+    bool QueueObjectAction(SDK::UWorld* world, Object* object, Action action) {
+        return GameHook::QueueAction([world, object, index = object->Index,
+                                      action = std::move(action)](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world != world || !IsLiveObject(object, index)) return;
+            if constexpr (std::is_base_of_v<SDK::AActor, Object>)
+                if (object->IsActorBeingDestroyed()) return;
+            action(object, runtime);
+        });
     }
 
     [[nodiscard]] std::string StripDuplicateAssetObjectSuffix(std::string path) {
@@ -160,14 +180,14 @@ void WorldEditorSection::ClearUnavailableActorSelection() {
 }
 
 void WorldEditorSection::ValidateSelection() {
-    if (selectedActor && !IsLiveActor(selectedActor)) {
+    if (selectedActor && !IsLiveActor(selectedActor, selectedObjectIndex)) {
         ClearUnavailableActorSelection();
         return;
     }
 
     const bool targetUnavailable =
-        browseTarget &&
-        (browseTargetIsActor ? !IsLiveActor(static_cast<SDK::AActor*>(browseTarget)) : !IsLiveObject(browseTarget));
+        browseTarget && (browseTargetIsActor ? !IsLiveActor(static_cast<SDK::AActor*>(browseTarget), browseObjectIndex)
+                                             : !IsLiveObject(browseTarget, browseObjectIndex));
     if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
@@ -191,7 +211,7 @@ void WorldEditorSection::ScanAllActors() {
 }
 
 void WorldEditorSection::ApplyFilter() {
-    auto* restoreActor = IsLiveActor(selectedActor) ? selectedActor : nullptr;
+    auto* restoreActor = IsLiveActor(selectedActor, selectedObjectIndex) ? selectedActor : nullptr;
 
     filteredActors.clear();
     selectedActorIndex = -1;
@@ -205,7 +225,7 @@ void WorldEditorSection::ApplyFilter() {
     size_t filterLen = std::strlen(filter);
 
     for (auto& wa : allActors) {
-        if (!IsLiveActor(wa.actor)) continue;
+        if (!IsLiveActor(wa.actor, wa.objectIndex)) continue;
         if (nearbyMode && (wa.distanceToPlayer < 0.0f || wa.distanceToPlayer > NEARBY_RANGE_METERS)) continue;
         if (filterLen == 0 || GuiUtils::MatchesFilter(wa.className.c_str(), wa.className.size(), filter, filterLen) ||
             GuiUtils::MatchesFilter(wa.instanceName.c_str(), wa.instanceName.size(), filter, filterLen))
@@ -248,7 +268,7 @@ void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* componen
     label += FriendlyObjectName(instanceName.empty() ? className : instanceName);
     if (selectedActor && component == selectedActor->RootComponent) label += " (main)";
 
-    browseTargets.push_back({component, std::move(label), false, true});
+    browseTargets.push_back({component, std::move(label), false, true, component->Index});
 
     auto& children = component->AttachChildren;
     for (int32_t i = 0; i < children.Num(); ++i)
@@ -271,7 +291,7 @@ void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::strin
                     ? *classOverride
                     : (targetActor->Class ? targetActor->Class->GetName() : targetActor->GetName());
             std::string label = std::string(prefix) + ": " + FriendlyObjectName(targetClassName);
-            browseTargets.push_back({targetActor, std::move(label), true, false});
+            browseTargets.push_back({targetActor, std::move(label), true, false, targetActor->Index});
         };
 
     addActorTarget(actor, "Object", &className);
@@ -299,15 +319,16 @@ void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::strin
 SDK::AActor* WorldEditorSection::SelectedTargetActor() const {
     if (!browseTargetIsActor || !browseTarget) return nullptr;
     auto* actor = static_cast<SDK::AActor*>(browseTarget);
-    return IsLiveActor(actor) ? actor : nullptr;
+    return IsLiveActor(actor, browseObjectIndex) ? actor : nullptr;
 }
 
 void WorldEditorSection::SelectTarget(int index) {
     if (index < 0 || index >= static_cast<int>(browseTargets.size())) return;
 
     const auto& target = browseTargets[index];
-    const bool targetUnavailable =
-        target.isActor ? !IsLiveActor(static_cast<SDK::AActor*>(target.object)) : !IsLiveObject(target.object);
+    const bool targetUnavailable = target.isActor
+                                       ? !IsLiveActor(static_cast<SDK::AActor*>(target.object), target.objectIndex)
+                                       : !IsLiveObject(target.object, target.objectIndex);
     if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
@@ -317,6 +338,7 @@ void WorldEditorSection::SelectTarget(int index) {
 
     selectedTargetIndex = index;
     browseTarget = target.object;
+    browseObjectIndex = target.objectIndex;
     browseTargetIsActor = target.isActor;
     browseTargetIsComponent = target.isComponent;
     copyStatus.Clear();
@@ -335,6 +357,7 @@ void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& clas
     }
 
     selectedActor = actor;
+    selectedObjectIndex = actor->Index;
     BuildBrowseTargets(actor, className);
 
     int targetIndex = -1;
@@ -360,6 +383,10 @@ void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& clas
 
 void WorldEditorSection::SelectActor(int index) {
     if (index < 0 || index >= static_cast<int>(filteredActors.size())) return;
+    if (!IsLiveActor(filteredActors[index].actor, filteredActors[index].objectIndex)) {
+        ClearUnavailableActorSelection();
+        return;
+    }
     selectedActorIndex = index;
     selectedActorLabel = filteredActors[index].displayLabel;
     BrowseActor(filteredActors[index].actor, filteredActors[index].className);
@@ -385,6 +412,8 @@ void WorldEditorSection::SelectActorDirect(
 }
 
 void WorldEditorSection::PublishSelectionResult(SelectionResult result) {
+    if (result.actor) result.actorIndex = result.actor->Index;
+    if (result.preferredTarget) result.preferredTargetIndex = result.preferredTarget->Index;
     std::lock_guard lock(selectionResultMutex);
     selectionResults.push_back(std::move(result));
 }
@@ -403,7 +432,7 @@ void WorldEditorSection::DrainSelectionResults(SDK::UWorld* world) {
         else
             findPending = false;
 
-        if (!result.error.empty() || result.world != world || !IsLiveActor(result.actor)) {
+        if (!result.error.empty() || result.world != world || !IsLiveActor(result.actor, result.actorIndex)) {
             if (result.error.empty())
                 status.SetError("The selected object is no longer available");
             else
@@ -411,7 +440,10 @@ void WorldEditorSection::DrainSelectionResults(SDK::UWorld* world) {
             continue;
         }
 
-        SelectActorDirect(result.actor, result.className, result.preferredTarget);
+        SelectActorDirect(
+            result.actor, result.className,
+            IsLiveObject(result.preferredTarget, result.preferredTargetIndex) ? result.preferredTarget : nullptr
+        );
         status.Clear();
     }
 }
@@ -453,8 +485,9 @@ void WorldEditorSection::PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, 
         if (deprojected) {
             const SDK::FVector end = start + direction * PICK_TRACE_DISTANCE;
 
-            SDK::TArray<SDK::AActor*> actorsToIgnore;
-            if (runtime.player) actorsToIgnore.Add(runtime.player);
+            SDK::AActor* ignoredActor = runtime.player;
+            const int ignoredCount = ignoredActor ? 1 : 0;
+            SDK::TArray<SDK::AActor*> actorsToIgnore(&ignoredActor, ignoredCount, ignoredCount);
 
             SDK::FHitResult hitResult;
             if (SDK::UKismetSystemLibrary::LineTraceSingle(
@@ -534,7 +567,7 @@ void WorldEditorSection::HighlightSelected() {
         return;
     }
 
-    highlightMarker = {actor, component, ImGui::GetTime() + 3.0};
+    highlightMarker = {actor, component, ImGui::GetTime() + 3.0, actor->Index, component ? component->Index : -1};
     status.Clear();
 }
 
@@ -548,13 +581,13 @@ void WorldEditorSection::RenderHighlightMarker() {
     }
 
     auto* actor = highlightMarker.actor;
-    if (!IsLiveActor(actor)) {
+    if (!IsLiveActor(actor, highlightMarker.actorIndex)) {
         highlightMarker = {};
         return;
     }
 
     auto* component = highlightMarker.component;
-    if (component && !IsLiveObject(component)) {
+    if (component && !IsLiveObject(component, highlightMarker.componentIndex)) {
         highlightMarker = {};
         return;
     }
@@ -590,9 +623,10 @@ void WorldEditorSection::FindByClassName(const char* className) {
     const auto generation = ++selectionGeneration;
     std::string searchName = className;
     const bool queued =
-        GameHook::QueueAction([this, cls, searchName, generation](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([this, searchName, generation](const RuntimeContextSnapshot& runtime) {
             auto* world = runtime.world;
-            auto* actor = world ? SDK::UGameplayStatics::GetActorOfClass(world, cls) : nullptr;
+            auto* cls = SDK::UObject::FindClassFast(searchName);
+            auto* actor = world && cls ? SDK::UGameplayStatics::GetActorOfClass(world, cls) : nullptr;
             if (actor) {
                 PublishSelectionResult({
                     .operation = SelectionOperation::Find,
@@ -617,63 +651,38 @@ void WorldEditorSection::FindByClassName(const char* className) {
 }
 
 void WorldEditorSection::QueueApply() {
-    if (browseTargetIsActor) {
-        auto* actor = static_cast<SDK::AActor*>(browseTarget);
-        if (!IsLiveActor(actor)) return;
-        GameHook::QueueAction([actor](const RuntimeContextSnapshot&) {
-            if (!IsLiveActor(actor)) return;
-            actor->SetActorHiddenInGame(actor->bHidden);
-            actor->SetActorEnableCollision(actor->GetActorEnableCollision());
-            actor->SetActorScale3D(actor->GetActorScale3D());
-            actor->K2_SetActorLocationAndRotation(
-                actor->K2_GetActorLocation(), actor->K2_GetActorRotation(), false, nullptr, true
-            );
-        });
-        return;
-    }
-
-    if (!browseTargetIsComponent) return;
-    auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
-    if (!IsLiveObject(comp)) return;
-    bool isSkyLight = browseTarget->IsA(SDK::USkyLightComponent::StaticClass());
-    bool hidden = comp->bHiddenInGame;
-    bool visible = comp->bVisible;
-    auto collision = comp->IsA(SDK::UPrimitiveComponent::StaticClass())
-                         ? static_cast<SDK::UPrimitiveComponent*>(comp)->GetCollisionEnabled()
-                         : SDK::ECollisionEnabled::QueryAndPhysics;
-    GameHook::QueueAction([comp, hidden, visible, collision, isSkyLight](const RuntimeContextSnapshot&) {
-        if (!IsLiveObject(comp)) return;
-        comp->SetHiddenInGame(hidden, false);
-        comp->SetVisibility(false, false);
-        comp->SetVisibility(true, false);
-        comp->SetVisibility(visible, false);
-        comp->K2_SetRelativeLocationAndRotation(comp->RelativeLocation, comp->RelativeRotation, false, nullptr, true);
-        comp->SetRelativeScale3D(comp->RelativeScale3D);
-        if (comp->IsA(SDK::UPrimitiveComponent::StaticClass())) {
-            auto* prim = static_cast<SDK::UPrimitiveComponent*>(comp);
-            prim->SetCollisionEnabled(collision);
+    if (!IsLiveObject(browseTarget, browseObjectIndex) || propertyPanel.edits.empty()) return;
+    const bool queued = QueueObjectAction(
+        cachedWorld, browseTarget, [edits = propertyPanel.edits](SDK::UObject* target, const RuntimeContextSnapshot&) {
+            for (const auto& edit : edits)
+                PropertyBrowser::ApplyPropertyEdit(target, edit);
         }
-        if (isSkyLight) static_cast<SDK::USkyLightComponent*>(comp)->RecaptureSky();
-    });
+    );
+    if (queued)
+        propertyPanel.edits.clear();
+    else
+        status.SetError("Could not apply the edited settings");
 }
 
 void WorldEditorSection::QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled) {
-    GameHook::QueueAction([actor, hidden, collision, tickEnabled](const RuntimeContextSnapshot&) {
-        if (!IsLiveActor(actor)) return;
-        actor->SetActorHiddenInGame(hidden);
-        actor->SetActorEnableCollision(collision);
-        actor->SetActorTickEnabled(tickEnabled);
-    });
+    QueueObjectAction(
+        cachedWorld, actor, [hidden, collision, tickEnabled](SDK::AActor* actor, const RuntimeContextSnapshot&) {
+            actor->SetActorHiddenInGame(hidden);
+            actor->SetActorEnableCollision(collision);
+            actor->SetActorTickEnabled(tickEnabled);
+        }
+    );
 }
 
 void WorldEditorSection::QueueActorTransform(
     SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
 ) {
-    GameHook::QueueAction([actor, location, rotation, scale](const RuntimeContextSnapshot&) {
-        if (!IsLiveActor(actor)) return;
-        actor->SetActorScale3D(scale);
-        actor->K2_SetActorLocationAndRotation(location, rotation, false, nullptr, true);
-    });
+    QueueObjectAction(
+        cachedWorld, actor, [location, rotation, scale](SDK::AActor* actor, const RuntimeContextSnapshot&) {
+            actor->SetActorScale3D(scale);
+            actor->K2_SetActorLocationAndRotation(location, rotation, false, nullptr, true);
+        }
+    );
 }
 
 void WorldEditorSection::RenderActorSelector() {
@@ -750,14 +759,12 @@ void WorldEditorSection::RenderActorSelector() {
             ImGui::EndCombo();
         }
         if (browseTarget) {
-            if (!liveMode && browseTargetIsComponent) {
+            if (!liveMode) {
                 (void)GuiUtils::SameLineIfFitsButton("Update Object");
                 if (ImGui::Button("Update Object")) QueueApply();
             }
-            if (browseTargetIsComponent) {
-                (void)GuiUtils::SameLineIfFitsCheckbox("Update Instantly");
-                ImGui::Checkbox("Update Instantly", &liveMode);
-            }
+            (void)GuiUtils::SameLineIfFitsCheckbox("Update Instantly");
+            if (ImGui::Checkbox("Update Instantly", &liveMode) && liveMode) QueueApply();
         }
     }
 
@@ -882,12 +889,12 @@ void WorldEditorSection::RenderActorControls() {
     SDK::FRotator rotation = actor->K2_GetActorRotation();
     SDK::FVector scale = actor->GetActorScale3D();
 
-    if (PropertyBrowser::DragDouble3("Position", &location.X, 1.0f, "%.1f"))
-        QueueActorTransform(actor, location, rotation, scale);
-    if (PropertyBrowser::DragDouble3("Rotation", &rotation.Pitch, 0.5f, "%.1f"))
-        QueueActorTransform(actor, location, rotation, scale);
-    if (PropertyBrowser::DragDouble3("Scale", &scale.X, 0.01f, "%.3f"))
-        QueueActorTransform(actor, location, rotation, scale);
+    PropertyBrowser::DragDouble3("Position", &location.X, 1.0f, "%.1f");
+    if (ImGui::IsItemEdited()) QueueActorTransform(actor, location, rotation, scale);
+    PropertyBrowser::DragDouble3("Rotation", &rotation.Pitch, 0.5f, "%.1f");
+    if (ImGui::IsItemEdited()) QueueActorTransform(actor, location, rotation, scale);
+    PropertyBrowser::DragDouble3("Scale", &scale.X, 0.01f, "%.3f");
+    if (ImGui::IsItemEdited()) QueueActorTransform(actor, location, rotation, scale);
 
     bool hidden = actor->bHidden;
     bool collision = actor->GetActorEnableCollision();
@@ -900,8 +907,8 @@ void WorldEditorSection::RenderActorControls() {
     if (ImGui::Checkbox("Behavior Active", &tickEnabled)) QueueActorState(actor, hidden, collision, tickEnabled);
 
     if (ImGui::SmallButton("Move To Player")) {
-        GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
-            if (!IsLiveActor(actor) || !runtime.player) return;
+        QueueObjectAction(cachedWorld, actor, [](SDK::AActor* actor, const RuntimeContextSnapshot& runtime) {
+            if (!runtime.player) return;
             actor->K2_SetActorLocationAndRotation(
                 runtime.player->K2_GetActorLocation(), runtime.player->K2_GetActorRotation(), false, nullptr, true
             );
@@ -909,8 +916,8 @@ void WorldEditorSection::RenderActorControls() {
     }
     (void)GuiUtils::SameLineIfFitsButton("Bring Player Here");
     if (ImGui::SmallButton("Bring Player Here")) {
-        GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
-            if (!IsLiveActor(actor) || !runtime.player) return;
+        QueueObjectAction(cachedWorld, actor, [](SDK::AActor* actor, const RuntimeContextSnapshot& runtime) {
+            if (!runtime.player) return;
             runtime.player->K2_SetActorLocationAndRotation(
                 actor->K2_GetActorLocation(), actor->K2_GetActorRotation(), false, nullptr, true
             );
@@ -920,25 +927,26 @@ void WorldEditorSection::RenderActorControls() {
 
 void WorldEditorSection::RenderComponentControls() {
     auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
-    if (PropertyBrowser::DragDouble3("Position Within Object", &comp->RelativeLocation.X, 1.0f, "%.1f"))
-        pendingApply = true;
-    if (PropertyBrowser::DragDouble3("Rotation Within Object", &comp->RelativeRotation.Pitch, 0.5f, "%.1f"))
-        pendingApply = true;
-    if (PropertyBrowser::DragDouble3("Scale Within Object", &comp->RelativeScale3D.X, 0.01f, "%.3f"))
-        pendingApply = true;
+    auto location = comp->RelativeLocation;
+    auto rotation = comp->RelativeRotation;
+    auto scale = comp->RelativeScale3D;
+    PropertyBrowser::DragDouble3("Position Within Object", &location.X, 1.0f, "%.1f");
+    bool transformEdited = ImGui::IsItemEdited();
+    PropertyBrowser::DragDouble3("Rotation Within Object", &rotation.Pitch, 0.5f, "%.1f");
+    transformEdited |= ImGui::IsItemEdited();
+    PropertyBrowser::DragDouble3("Scale Within Object", &scale.X, 0.01f, "%.3f");
+    transformEdited |= ImGui::IsItemEdited();
 
     bool visible = comp->bVisible;
     if (ImGui::Checkbox("Visible", &visible)) {
-        GameHook::QueueAction([comp, visible](const RuntimeContextSnapshot&) {
-            if (!IsLiveObject(comp)) return;
+        QueueObjectAction(cachedWorld, comp, [visible](SDK::USceneComponent* comp, const RuntimeContextSnapshot&) {
             comp->SetVisibility(visible, false);
         });
     }
     (void)GuiUtils::SameLineIfFitsCheckbox("Hidden During Play");
     bool hidden = comp->bHiddenInGame;
     if (ImGui::Checkbox("Hidden During Play", &hidden)) {
-        GameHook::QueueAction([comp, hidden](const RuntimeContextSnapshot&) {
-            if (!IsLiveObject(comp)) return;
+        QueueObjectAction(cachedWorld, comp, [hidden](SDK::USceneComponent* comp, const RuntimeContextSnapshot&) {
             comp->SetHiddenInGame(hidden, false);
         });
     }
@@ -951,10 +959,11 @@ void WorldEditorSection::RenderComponentControls() {
             for (int i = 0; i <= static_cast<int>(SDK::ECollisionEnabled::QueryAndProbe); ++i) {
                 auto mode = static_cast<SDK::ECollisionEnabled>(i);
                 if (ImGui::Selectable(CollisionLabel(mode), mode == collision)) {
-                    GameHook::QueueAction([prim, mode](const RuntimeContextSnapshot&) {
-                        if (!IsLiveObject(prim)) return;
-                        prim->SetCollisionEnabled(mode);
-                    });
+                    QueueObjectAction(
+                        cachedWorld, prim, [mode](SDK::UPrimitiveComponent* prim, const RuntimeContextSnapshot&) {
+                            prim->SetCollisionEnabled(mode);
+                        }
+                    );
                 }
                 if (mode == collision) ImGui::SetItemDefaultFocus();
             }
@@ -963,11 +972,18 @@ void WorldEditorSection::RenderComponentControls() {
     }
 
     if (ImGui::SmallButton("Reset Position, Rotation, and Scale")) {
-        comp->RelativeLocation = {};
-        comp->RelativeRotation = {};
-        comp->RelativeScale3D = {1.0, 1.0, 1.0};
-        QueueApply();
+        location = {};
+        rotation = {};
+        scale = {1.0, 1.0, 1.0};
+        transformEdited = true;
     }
+    if (transformEdited)
+        QueueObjectAction(
+            cachedWorld, comp, [location, rotation, scale](SDK::USceneComponent* comp, const RuntimeContextSnapshot&) {
+                comp->K2_SetRelativeLocationAndRotation(location, rotation, false, nullptr, true);
+                comp->SetRelativeScale3D(scale);
+            }
+        );
 }
 
 void WorldEditorSection::Render() {
