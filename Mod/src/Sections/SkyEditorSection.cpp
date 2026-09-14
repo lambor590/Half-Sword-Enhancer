@@ -7,22 +7,20 @@
 #include "SDK/GI_Settings_classes.hpp"
 #include "SDK/Ultra_Dynamic_Sky_classes.hpp"
 
-#include <cmath>
+#include <algorithm>
 #include <string>
 
 namespace {
     struct SkyTimePreset {
         const char* label;
         SDK::Enum_DayTime dayTime;
-        float sunPitch;
-        float sunYaw;
     };
 
     constexpr SkyTimePreset K_TIME_PRESETS[] = {
-        {"Morning", SDK::Enum_DayTime::NewEnumerator0, 24.596f, 125.602f},
-        {"Day", SDK::Enum_DayTime::NewEnumerator1, -54.212f, 53.548f},
-        {"Evening", SDK::Enum_DayTime::NewEnumerator2, -11.875f, 149.903f},
-        {"Night", SDK::Enum_DayTime::NewEnumerator3, -36.412f, 113.579f},
+        {"Morning", SDK::Enum_DayTime::NewEnumerator0},
+        {"Day", SDK::Enum_DayTime::NewEnumerator1},
+        {"Evening", SDK::Enum_DayTime::NewEnumerator2},
+        {"Night", SDK::Enum_DayTime::NewEnumerator3},
     };
 
     constexpr int K_TIME_PRESET_COUNT = static_cast<int>(sizeof(K_TIME_PRESETS) / sizeof(K_TIME_PRESETS[0]));
@@ -192,320 +190,329 @@ namespace {
         return object && object->Index >= 0 && SDK::UObject::GObjects->GetByIndex(object->Index) == object;
     }
 
-    [[nodiscard]] bool IsLiveActor(SDK::AActor* actor) {
-        return IsLiveObject(actor) && !actor->IsActorBeingDestroyed();
-    }
-
-    [[nodiscard]] SDK::AActor* ComponentOwner(SDK::UActorComponent* component) {
-        auto* owner = component ? component->GetOwner() : nullptr;
-        return IsLiveActor(owner) ? owner : nullptr;
-    }
-
-    [[nodiscard]] bool IsVisibleCandidate(SDK::AActor* actor, SDK::USceneComponent* component) {
-        return IsLiveActor(actor) && IsLiveObject(component) && !actor->bHidden && component->bVisible &&
+    [[nodiscard]] bool IsEditableComponent(SDK::USceneComponent* component, int32_t index, SDK::UWorld* world) {
+        if (!component || index < 0 || SDK::UObject::GObjects->GetByIndex(index) != component) return false;
+        auto* actor = component->GetOwner();
+        if (!IsLiveObject(actor) || actor->IsActorBeingDestroyed() || actor->bHidden) return false;
+        auto* level = actor->GetLevel();
+        return level && level->OwningWorld == world && level->bIsVisible && component->bVisible &&
                !component->bHiddenInGame;
     }
 
-    [[nodiscard]] bool ShouldUseComponent(
-        SDK::USceneComponent* current, SDK::AActor* candidateActor, SDK::USceneComponent* candidate
-    ) {
-        if (!candidate) return false;
-        if (!current || !IsLiveObject(current)) return true;
-
-        return !IsVisibleCandidate(ComponentOwner(current), current) && IsVisibleCandidate(candidateActor, candidate);
+    bool CallSkyFunction(SDK::AUltra_Dynamic_Sky_C* sky, const char* name, void* parameters = nullptr) {
+        auto* function = sky->Class->GetFunction("Ultra_Dynamic_Sky_C", name);
+        if (!function) return false;
+        sky->ProcessEvent(function, parameters);
+        return true;
     }
-
-    [[nodiscard]] SDK::UActorComponent* FirstComponentOfClass(SDK::AActor* actor, SDK::UClass* componentClass) {
-        if (!IsLiveActor(actor)) return nullptr;
-
-        EngineArray<SDK::UActorComponent*> components{actor->K2_GetComponentsByClass(componentClass)};
-        for (auto* component : components) {
-            if (IsLiveObject(component) && component->IsA(componentClass)) return component;
-        }
-        return nullptr;
-    }
-
 }
 
 SkyEditorSection::SkyEditorSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
-void SkyEditorSection::ResetState() {
-    sunComp = nullptr;
-    atmoComp = nullptr;
-    skyLightComp = nullptr;
-    fogComp = nullptr;
-    cloudComp = nullptr;
-    cachedWorld = nullptr;
-    searchPending = false;
-    componentsReady.store(false, std::memory_order_release);
-    sunOverrideActive = false;
-    sunOverrideQueued.store(false, std::memory_order_release);
+void SkyEditorSection::ReadInitialValues(State& state) {
+    if (state.lightComp) {
+        auto* base = static_cast<SDK::ULightComponentBase*>(state.lightComp);
+        auto* lightComp = static_cast<SDK::ULightComponent*>(state.lightComp);
+        auto rot = static_cast<SDK::USceneComponent*>(state.lightComp)->K2_GetComponentRotation();
+        state.lightPitch = static_cast<float>(rot.Pitch);
+        state.lightYaw = static_cast<float>(rot.Yaw);
+        state.lightIntensity = base->Intensity;
+        auto lc = SDK::UKismetMathLibrary::Conv_ColorToLinearColor(base->LightColor);
+        state.lightColor[0] = lc.R;
+        state.lightColor[1] = lc.G;
+        state.lightColor[2] = lc.B;
+        state.lightUseTemperature = lightComp->bUseTemperature;
+        state.lightTemperature = lightComp->Temperature;
+        state.lightSize = state.lightComp->LightSourceAngle;
+        state.lightSoftAngle = state.lightComp->LightSourceSoftAngle;
+        state.lightBloomScale = lightComp->BloomScale;
+        state.lightBloomThreshold = lightComp->BloomThreshold;
+        state.lightShadowAmount = state.lightComp->ShadowAmount;
+        state.lightVolumetricScatter = base->VolumetricScatteringIntensity;
+        state.lightIndirectIntensity = base->IndirectLightingIntensity;
+    }
+    if (auto* sky = state.skyActor) {
+        state.lightIntensity = static_cast<float>(state.moon ? sky->Moon_Light_Intensity : sky->Sun_Light_Intensity);
+        const auto color = state.moon ? sky->Moon_Light_Color : sky->Sun_Light_Color;
+        state.lightColor[0] = color.R;
+        state.lightColor[1] = color.G;
+        state.lightColor[2] = color.B;
+        state.lightSize = static_cast<float>(state.moon ? sky->Moon_Scale : sky->Sun_Radius);
+    }
+    if (state.atmoComp) {
+        state.rayleighScale = state.atmoComp->RayleighScatteringScale;
+        auto& rs = state.atmoComp->RayleighScattering;
+        state.rayleighColor[0] = rs.R;
+        state.rayleighColor[1] = rs.G;
+        state.rayleighColor[2] = rs.B;
+        state.mieScale = state.atmoComp->MieScatteringScale;
+        state.mieAnisotropy = state.atmoComp->MieAnisotropy;
+        state.multiScatter = state.atmoComp->MultiScatteringFactor;
+        auto& sl = state.atmoComp->SkyLuminanceFactor;
+        state.skyLuminance[0] = sl.R;
+        state.skyLuminance[1] = sl.G;
+        state.skyLuminance[2] = sl.B;
+        state.skyLuminance[3] = sl.A;
+        state.atmoHeight = state.atmoComp->AtmosphereHeight;
+    }
+    if (state.skyLightComp) {
+        auto* base = static_cast<SDK::ULightComponentBase*>(state.skyLightComp);
+        state.skyLightIntensity = base->Intensity;
+        auto lc = SDK::UKismetMathLibrary::Conv_ColorToLinearColor(base->LightColor);
+        state.skyLightColor[0] = lc.R;
+        state.skyLightColor[1] = lc.G;
+        state.skyLightColor[2] = lc.B;
+        auto& lh = state.skyLightComp->LowerHemisphereColor;
+        state.lowerHemiColor[0] = lh.R;
+        state.lowerHemiColor[1] = lh.G;
+        state.lowerHemiColor[2] = lh.B;
+        state.lowerHemiColor[3] = lh.A;
+    }
+    if (state.fogComp) {
+        state.fogDensity = state.fogComp->FogDensity;
+        state.fogFalloff = state.fogComp->FogHeightFalloff;
+        state.fogMaxOpacity = state.fogComp->FogMaxOpacity;
+        state.fogStartDist = state.fogComp->StartDistance;
+        auto& fc = state.fogComp->FogInscatteringColor;
+        state.fogColor[0] = fc.R;
+        state.fogColor[1] = fc.G;
+        state.fogColor[2] = fc.B;
+    }
+    if (state.cloudComp) {
+        state.cloudBottomAlt = state.cloudComp->LayerBottomAltitude;
+        state.cloudHeight = state.cloudComp->LayerHeight;
+        state.cloudViewSamples = state.cloudComp->ViewSampleCountScale;
+        state.cloudShadowSamples = state.cloudComp->ShadowViewSampleCountScale;
+        state.cloudShadowDist = state.cloudComp->ShadowTracingDistance;
+    }
 }
 
-void SkyEditorSection::ReadInitialValues() {
-    if (sunComp) {
-        auto* base = static_cast<SDK::ULightComponentBase*>(sunComp);
-        auto* lightComp = static_cast<SDK::ULightComponent*>(sunComp);
-        auto rot = static_cast<SDK::USceneComponent*>(sunComp)->K2_GetComponentRotation();
-        sunPitch = static_cast<float>(rot.Pitch);
-        sunYaw = static_cast<float>(rot.Yaw);
-        sunIntensity = base->Intensity;
-        auto lc = base->LightColor;
-        sunColor[0] = static_cast<float>(lc.R) / 255.0f;
-        sunColor[1] = static_cast<float>(lc.G) / 255.0f;
-        sunColor[2] = static_cast<float>(lc.B) / 255.0f;
-        sunUseTemperature = lightComp->bUseTemperature;
-        sunTemperature = lightComp->Temperature;
-        sunSourceAngle = sunComp->LightSourceAngle;
-        sunSoftAngle = sunComp->LightSourceSoftAngle;
-        sunBloomScale = lightComp->BloomScale;
-        sunBloomThreshold = lightComp->BloomThreshold;
-        sunShadowAmount = sunComp->ShadowAmount;
-        sunVolumetricScatter = base->VolumetricScatteringIntensity;
-        sunIndirectIntensity = base->IndirectLightingIntensity;
+
+SkyEditorSection::State SkyEditorSection::ScanComponents(SDK::UWorld* world) {
+    State result;
+    result.world = world;
+    EngineArray<SDK::AActor*> actors;
+    SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
+    for (auto* actor : actors) {
+        if (!IsLiveObject(actor) || actor->IsActorBeingDestroyed() || actor->bHidden) continue;
+        auto* level = actor->GetLevel();
+        if (!level || level->OwningWorld != world || !level->bIsVisible) continue;
+        const bool dynamicSky = actor->IsA(SDK::AUltra_Dynamic_Sky_C::StaticClass());
+        if (dynamicSky) {
+            auto* sky = static_cast<SDK::AUltra_Dynamic_Sky_C*>(actor);
+            double night = 0.0;
+            CallSkyFunction(sky, "Night Filter", &night);
+            const bool moon = night >= 0.5;
+            auto* light = moon ? sky->Moon_LightComponent : sky->Sun_LightComponent;
+            if (light && IsEditableComponent(light, light->Index, world) && light->bAffectsWorld) {
+                result.lightComp = light;
+                result.skyActor = sky;
+                result.moon = moon;
+            }
+        }
+        EngineArray<SDK::UActorComponent*> components{
+            actor->K2_GetComponentsByClass(SDK::USceneComponent::StaticClass())
+        };
+        for (auto* base : components) {
+            auto* component = static_cast<SDK::USceneComponent*>(base);
+            if (!component || !IsEditableComponent(component, component->Index, world)) continue;
+            if (component->IsA(SDK::ULightComponentBase::StaticClass()) &&
+                !static_cast<SDK::ULightComponentBase*>(component)->bAffectsWorld)
+                continue;
+            if (!dynamicSky && !result.lightComp && component->IsA(SDK::UDirectionalLightComponent::StaticClass())) {
+                auto* light = static_cast<SDK::UDirectionalLightComponent*>(component);
+                if (!light->bAtmosphereSunLight) continue;
+                result.lightComp = light;
+                // The game's standalone night lighting also uses atmosphere light index zero.
+                const auto levelName = actor->GetLevel()->GetFullName();
+                result.moon = light->AtmosphereSunLightIndex == 1 || levelName.find("Night") != std::string::npos;
+            } else if (!result.atmoComp && component->IsA(SDK::USkyAtmosphereComponent::StaticClass())) {
+                result.atmoComp = static_cast<SDK::USkyAtmosphereComponent*>(component);
+            } else if (!result.skyLightComp && component->IsA(SDK::USkyLightComponent::StaticClass())) {
+                result.skyLightComp = static_cast<SDK::USkyLightComponent*>(component);
+            } else if (!result.fogComp && component->IsA(SDK::UExponentialHeightFogComponent::StaticClass())) {
+                result.fogComp = static_cast<SDK::UExponentialHeightFogComponent*>(component);
+            } else if (!result.cloudComp && component->IsA(SDK::UVolumetricCloudComponent::StaticClass())) {
+                result.cloudComp = static_cast<SDK::UVolumetricCloudComponent*>(component);
+            }
+        }
     }
-    if (atmoComp) {
-        rayleighScale = atmoComp->RayleighScatteringScale;
-        auto& rs = atmoComp->RayleighScattering;
-        rayleighColor[0] = rs.R;
-        rayleighColor[1] = rs.G;
-        rayleighColor[2] = rs.B;
-        mieScale = atmoComp->MieScatteringScale;
-        mieAnisotropy = atmoComp->MieAnisotropy;
-        multiScatter = atmoComp->MultiScatteringFactor;
-        auto& sl = atmoComp->SkyLuminanceFactor;
-        skyLuminance[0] = sl.R;
-        skyLuminance[1] = sl.G;
-        skyLuminance[2] = sl.B;
-        skyLuminance[3] = sl.A;
-        atmoHeight = atmoComp->AtmosphereHeight;
-    }
-    if (skyLightComp) {
-        auto* base = static_cast<SDK::ULightComponentBase*>(skyLightComp);
-        skyLightIntensity = base->Intensity;
-        auto lc = base->LightColor;
-        skyLightColor[0] = static_cast<float>(lc.R) / 255.0f;
-        skyLightColor[1] = static_cast<float>(lc.G) / 255.0f;
-        skyLightColor[2] = static_cast<float>(lc.B) / 255.0f;
-        auto& lh = skyLightComp->LowerHemisphereColor;
-        lowerHemiColor[0] = lh.R;
-        lowerHemiColor[1] = lh.G;
-        lowerHemiColor[2] = lh.B;
-        lowerHemiColor[3] = lh.A;
-    }
-    if (fogComp) {
-        fogDensity = fogComp->FogDensity;
-        fogFalloff = fogComp->FogHeightFalloff;
-        fogMaxOpacity = fogComp->FogMaxOpacity;
-        fogStartDist = fogComp->StartDistance;
-        auto& fc = fogComp->FogInscatteringColor;
-        fogColor[0] = fc.R;
-        fogColor[1] = fc.G;
-        fogColor[2] = fc.B;
-    }
-    if (cloudComp) {
-        cloudBottomAlt = cloudComp->LayerBottomAltitude;
-        cloudHeight = cloudComp->LayerHeight;
-        cloudViewSamples = cloudComp->ViewSampleCountScale;
-        cloudShadowSamples = cloudComp->ShadowViewSampleCountScale;
-        cloudShadowDist = cloudComp->ShadowTracingDistance;
-    }
+    const auto targets = result.Targets();
+    for (std::size_t i = 0; i < targets.size(); ++i)
+        if (targets[i]) result.indices[i] = targets[i]->Index;
+    ReadInitialValues(result);
+    return result;
 }
 
 void SkyEditorSection::FindComponents() {
-    auto* world = RenderWorld();
-    if (!world) {
-        ResetState();
-        return;
-    }
-
-    if (searchPending && world == cachedWorld) return;
-
-    ResetState();
-    searchPending = true;
-    cachedWorld = world;
-
-    const bool queued = GameHook::QueueAction([this, world](const RuntimeContextSnapshot&) {
-        if (world != cachedWorld) return;
-
-        EngineArray<SDK::AActor*> actors;
-        SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
-
-        for (auto* actor : actors) {
-            if (!IsLiveActor(actor)) continue;
-
-            if (!sunComp && actor->IsA(SDK::AUltra_Dynamic_Sky_C::StaticClass())) {
-                auto* component = static_cast<SDK::AUltra_Dynamic_Sky_C*>(actor)->Sun_LightComponent;
-                if (IsLiveObject(component)) sunComp = component;
-            }
-            if (auto* component = static_cast<SDK::USkyAtmosphereComponent*>(
-                    FirstComponentOfClass(actor, SDK::USkyAtmosphereComponent::StaticClass())
-                )) {
-                if (ShouldUseComponent(atmoComp, actor, component)) atmoComp = component;
-            }
-            if (auto* component = static_cast<SDK::USkyLightComponent*>(
-                    FirstComponentOfClass(actor, SDK::USkyLightComponent::StaticClass())
-                )) {
-                if (ShouldUseComponent(skyLightComp, actor, component)) skyLightComp = component;
-            }
-            if (auto* component = static_cast<SDK::UExponentialHeightFogComponent*>(
-                    FirstComponentOfClass(actor, SDK::UExponentialHeightFogComponent::StaticClass())
-                )) {
-                if (ShouldUseComponent(fogComp, actor, component)) fogComp = component;
-            }
-            if (auto* component = static_cast<SDK::UVolumetricCloudComponent*>(
-                    FirstComponentOfClass(actor, SDK::UVolumetricCloudComponent::StaticClass())
-                )) {
-                if (ShouldUseComponent(cloudComp, actor, component)) cloudComp = component;
-            }
-        }
-
-        ReadInitialValues();
-        componentsReady.store(true, std::memory_order_release);
-    });
-    if (!queued) searchPending = false;
+    generation.fetch_add(1, std::memory_order_acq_rel);
+    state = {};
+    state.world = RenderWorld();
+    pendingLightEdits = 0;
+    nextScan = {};
+    UpdateComponentScan();
 }
 
 void SkyEditorSection::OnOpen() {
     FindComponents();
 }
 
-void SkyEditorSection::QueueApplySunState() {
-    sunOverrideActive = true;
-    if (sunOverrideQueued.exchange(true, std::memory_order_acq_rel)) return;
-
-    auto* queued = &sunOverrideQueued;
-    auto* targetComp = sunComp;
-    float p = sunPitch, y = sunYaw, intensity = sunIntensity, temperature = sunTemperature;
-    bool useTemperature = sunUseTemperature;
-    SDK::FLinearColor color{sunColor[0], sunColor[1], sunColor[2], 1.f};
-    float sa = sunSourceAngle, soft = sunSoftAngle, bs = sunBloomScale;
-    float bt = sunBloomThreshold, sha = sunShadowAmount;
-    float vs = sunVolumetricScatter, ii = sunIndirectIntensity;
-
-    if (!GameHook::QueueAction([targetComp, p, y, intensity, color, temperature, useTemperature, sa, soft, bs, bt, sha,
-                                vs, ii, queued](const RuntimeContextSnapshot&) {
-            if (!IsLiveObject(targetComp)) {
-                queued->store(false, std::memory_order_release);
-                return;
+void SkyEditorSection::QueueApplyLightState(unsigned fields) {
+    pendingLightEdits |= fields;
+    if (!pendingLightEdits || !state.lightComp || lightEditQueued.exchange(true, std::memory_order_acq_rel)) return;
+    const auto edits = pendingLightEdits;
+    const auto values = state;
+    const auto revision = generation.load(std::memory_order_acquire);
+    const bool queued = GameHook::QueueAction([this, values, edits, revision](const RuntimeContextSnapshot& runtime) {
+        auto* light = values.lightComp;
+        if (revision == generation.load(std::memory_order_acquire) && runtime.world == values.world &&
+            IsEditableComponent(light, values.indices[0], runtime.world)) {
+            auto* sky = values.skyActor;
+            if (sky && SDK::UObject::GObjects->GetByIndex(values.indices[5]) != sky) sky = nullptr;
+            const SDK::FRotator rotation{values.lightPitch, values.lightYaw, 0.0};
+            const SDK::FLinearColor color{values.lightColor[0], values.lightColor[1], values.lightColor[2], 1.f};
+            if (sky) {
+                if (edits & POSITION) {
+                    const auto direction = SDK::UKismetMathLibrary::GetForwardVector(rotation);
+                    const SDK::FVector target{-direction.X, -direction.Y, -direction.Z};
+                    if (values.moon) {
+                        sky->Manually_Position_Moon_Target = true;
+                        sky->Moon_Target = target;
+                    } else {
+                        sky->Manually_Position_Sun_Target = true;
+                        sky->Sun_Target = target;
+                    }
+                }
+                if (edits & LIGHTING) {
+                    if (values.moon) {
+                        sky->Moon_Light_Intensity = values.lightIntensity;
+                        sky->Moon_Light_Color = color;
+                    } else {
+                        sky->Sun_Light_Intensity = values.lightIntensity;
+                        sky->Sun_Light_Color = color;
+                    }
+                }
+                if (edits & SIZE) {
+                    if (values.moon)
+                        sky->Moon_Scale = values.lightSize;
+                    else
+                        sky->Sun_Radius = values.lightSize;
+                }
+                if (edits & (POSITION | LIGHTING | SIZE)) {
+                    CallSkyFunction(sky, "Hard Reset Cache");
+                    CallSkyFunction(sky, "Update Active Variables");
+                }
+            } else {
+                if (edits & POSITION) light->K2_SetWorldRotation(rotation, false, nullptr, false);
+                if (edits & LIGHTING) {
+                    light->SetIntensity(values.lightIntensity);
+                    light->SetLightColor(color, true);
+                }
+                if (edits & SIZE) light->SetLightSourceAngle(values.lightSize);
             }
-
-            auto* lightBase = static_cast<SDK::ULightComponentBase*>(targetComp);
-            lightBase->bAffectsWorld = true;
-            if (!lightBase->bAffectGlobalIllumination) lightBase->SetAffectGlobalIllumination(true);
-            if (!lightBase->bAffectReflection) lightBase->SetAffectReflection(true);
-            if (!lightBase->CastShadows) lightBase->SetCastShadows(true);
-            const auto rotation = targetComp->K2_GetComponentRotation();
-            if (std::abs(std::remainder(rotation.Pitch - p, 360.0)) > 0.001 ||
-                std::abs(std::remainder(rotation.Yaw - y, 360.0)) > 0.001 || std::abs(rotation.Roll) > 0.001)
-                targetComp->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
-
-            auto* light = static_cast<SDK::ULightComponent*>(targetComp);
-            if (light->Intensity != intensity) light->SetIntensity(intensity);
-            const auto expectedColor = SDK::UKismetMathLibrary::Conv_LinearColorToColor(color, true);
-            const auto actualColor = lightBase->LightColor;
-            if (actualColor.R != expectedColor.R || actualColor.G != expectedColor.G ||
-                actualColor.B != expectedColor.B || actualColor.A != expectedColor.A)
-                light->SetLightColor(color, true);
-            if (light->bUseTemperature != useTemperature) light->SetUseTemperature(useTemperature);
-            if (useTemperature && light->Temperature != temperature) light->SetTemperature(temperature);
-
-            if (targetComp->LightSourceAngle != sa) targetComp->SetLightSourceAngle(sa);
-            if (targetComp->LightSourceSoftAngle != soft) targetComp->SetLightSourceSoftAngle(soft);
-            if (targetComp->ShadowAmount != sha) targetComp->SetShadowAmount(sha);
-            if (light->BloomScale != bs) light->SetBloomScale(bs);
-            if (light->BloomThreshold != bt) light->SetBloomThreshold(bt);
-            if (light->VolumetricScatteringIntensity != vs) light->SetVolumetricScatteringIntensity(vs);
-            if (light->IndirectLightingIntensity != ii) light->SetIndirectLightingIntensity(ii);
-            queued->store(false, std::memory_order_release);
-        }))
-        queued->store(false, std::memory_order_release);
+            if (edits & LIGHTING) {
+                light->SetUseTemperature(values.lightUseTemperature);
+                if (values.lightUseTemperature) light->SetTemperature(values.lightTemperature);
+            }
+            if (edits & EFFECTS) {
+                light->SetLightSourceSoftAngle(values.lightSoftAngle);
+                light->SetShadowAmount(values.lightShadowAmount);
+                light->SetBloomScale(values.lightBloomScale);
+                light->SetBloomThreshold(values.lightBloomThreshold);
+                light->SetVolumetricScatteringIntensity(values.lightVolumetricScatter);
+                light->SetIndirectLightingIntensity(values.lightIndirectIntensity);
+            }
+        }
+        lightEditQueued.store(false, std::memory_order_release);
+    });
+    if (queued)
+        pendingLightEdits = 0;
+    else
+        lightEditQueued.store(false, std::memory_order_release);
 }
 
 void SkyEditorSection::ApplyPreset(int presetIndex) {
-    const auto preset = K_TIME_PRESETS[presetIndex];
-    sunPitch = preset.sunPitch;
-    sunYaw = preset.sunYaw;
-
-    GameHook::QueueAction([presetIndex, dayTime = preset.dayTime](const RuntimeContextSnapshot& runtime) {
-        if (!runtime.world) return;
+    if (presetIndex < 0 || presetIndex >= K_TIME_PRESET_COUNT) return;
+    GameHook::QueueAction([presetIndex, world = state.world](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world || runtime.world != world) return;
         auto* gameInstance = SDK::UGameplayStatics::GetGameInstance(runtime.world);
-        if (gameInstance && gameInstance->IsA(SDK::UGI_Settings_C::StaticClass())) {
-            static_cast<SDK::UGI_Settings_C*>(gameInstance)->Day_Time = dayTime;
-        }
-
+        if (gameInstance && gameInstance->IsA(SDK::UGI_Settings_C::StaticClass()))
+            static_cast<SDK::UGI_Settings_C*>(gameInstance)->Day_Time = K_TIME_PRESETS[presetIndex].dayTime;
         const auto currentLevel = SDK::UGameplayStatics::GetCurrentLevelName(runtime.world, true).ToString();
         ApplyLightingPresetLevel(runtime.world, LightingLevelForPreset(currentLevel, presetIndex));
     });
-
     FindComponents();
 }
 
-void SkyEditorSection::RenderSunTab() {
-    if (!sunComp) {
-        ImGui::TextDisabled("Sun controls are unavailable in this map.");
-        return;
-    }
-    if (ImGui::DragFloat("Brightness", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f")) QueueApplySunState();
-    float col[3] = {sunColor[0], sunColor[1], sunColor[2]};
-    GuiUtils::SetNextColorFieldWidth("Color");
-    if (ImGui::ColorEdit3("Color", col)) {
-        sunColor[0] = col[0];
-        sunColor[1] = col[1];
-        sunColor[2] = col[2];
-        sunUseTemperature = false;
-        QueueApplySunState();
-    }
-    if (ImGui::DragFloat("Color Temperature", &sunTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
-        sunUseTemperature = true;
-        QueueApplySunState();
-    }
+void SkyEditorSection::RenderLightTab() {
+    const char* height = state.moon ? "Moon Height" : "Sun Height";
+    const char* direction = state.moon ? "Moon Direction" : "Sun Direction";
+    if (ImGui::DragFloat(height, &state.lightPitch, 0.2f, -90.f, 90.f, "%.1f")) QueueApplyLightState(POSITION);
+    if (ImGui::DragFloat(direction, &state.lightYaw, 0.2f, -180.f, 180.f, "%.1f")) QueueApplyLightState(POSITION);
     ImGui::Separator();
-    bool extChanged = false;
-    extChanged |= ImGui::DragFloat("Sun Size", &sunSourceAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Shadow Softness", &sunSoftAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Glow", &sunBloomScale, 0.01f, 0.0f, 0.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Glow Sensitivity", &sunBloomThreshold, 0.1f, 0.0f, 0.0f, "%.1f");
-    extChanged |= ImGui::DragFloat("Shadow Strength", &sunShadowAmount, 0.01f, 0.0f, 1.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Atmospheric Light", &sunVolumetricScatter, 0.01f, 0.0f, 0.0f, "%.2f");
-    extChanged |= ImGui::DragFloat("Indirect Light", &sunIndirectIntensity, 0.01f, 0.0f, 0.0f, "%.2f");
-    if (extChanged) QueueApplySunState();
+    if (ImGui::DragFloat("Brightness", &state.lightIntensity, state.moon ? 0.01f : 0.1f, 0.f, 0.f, "%.3f"))
+        QueueApplyLightState(LIGHTING);
+    GuiUtils::SetNextColorFieldWidth("Color");
+    if (ImGui::ColorEdit3("Color", state.lightColor)) {
+        state.lightUseTemperature = false;
+        QueueApplyLightState(LIGHTING);
+    }
+    if (ImGui::DragFloat("Color Temperature", &state.lightTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
+        state.lightUseTemperature = true;
+        QueueApplyLightState(LIGHTING);
+    }
+    const char* size = state.moon ? "Moon Size" : "Sun Size";
+    if (ImGui::DragFloat(size, &state.lightSize, 0.01f, 0.f, 20.f, "%.2f")) QueueApplyLightState(SIZE);
+    ImGui::Separator();
+    bool changed = false;
+    changed |= ImGui::DragFloat("Shadow Softness", &state.lightSoftAngle, 0.05f, 0.f, 20.f, "%.2f");
+    changed |= ImGui::DragFloat("Glow", &state.lightBloomScale, 0.01f, 0.f, 0.f, "%.2f");
+    changed |= ImGui::DragFloat("Glow Sensitivity", &state.lightBloomThreshold, 0.1f, 0.f, 0.f, "%.1f");
+    changed |= ImGui::DragFloat("Shadow Strength", &state.lightShadowAmount, 0.01f, 0.f, 1.f, "%.2f");
+    changed |= ImGui::DragFloat("Atmospheric Light", &state.lightVolumetricScatter, 0.01f, 0.f, 0.f, "%.2f");
+    changed |= ImGui::DragFloat("Indirect Light", &state.lightIndirectIntensity, 0.01f, 0.f, 0.f, "%.2f");
+    if (changed) QueueApplyLightState(EFFECTS);
 }
 
 void SkyEditorSection::RenderAtmoTab() {
-    if (!atmoComp) {
+    if (!state.atmoComp) {
         ImGui::TextDisabled("Atmosphere controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Sky Color Strength", &rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
-    float rc[3] = {rayleighColor[0], rayleighColor[1], rayleighColor[2]};
+    changed |= GuiUtils::DebouncedDragFloat("Sky Color Strength", &state.rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
+    float rc[3] = {state.rayleighColor[0], state.rayleighColor[1], state.rayleighColor[2]};
     GuiUtils::SetNextColorFieldWidth("Sky Color");
     if (ImGui::ColorEdit3("Sky Color", rc)) {
-        rayleighColor[0] = rc[0];
-        rayleighColor[1] = rc[1];
-        rayleighColor[2] = rc[2];
+        state.rayleighColor[0] = rc[0];
+        state.rayleighColor[1] = rc[1];
+        state.rayleighColor[2] = rc[2];
         changed = true;
     }
-    changed |= GuiUtils::DebouncedDragFloat("Haze Strength", &mieScale, 0.01f, 0.0f, 0.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Haze Focus", &mieAnisotropy, 0.005f, 0.0f, 1.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Light Scattering", &multiScatter, 0.01f, 0.0f, 0.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Atmosphere Height", &atmoHeight, 0.5f, 0.0f, 0.0f, "%.1f km");
-    float sl[4] = {skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
+    changed |= GuiUtils::DebouncedDragFloat("Haze Strength", &state.mieScale, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Haze Focus", &state.mieAnisotropy, 0.005f, 0.0f, 1.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Light Scattering", &state.multiScatter, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Atmosphere Height", &state.atmoHeight, 0.5f, 0.0f, 0.0f, "%.1f km");
+    float sl[4] = {state.skyLuminance[0], state.skyLuminance[1], state.skyLuminance[2], state.skyLuminance[3]};
     GuiUtils::SetNextColorFieldWidth("Sky Tint");
     if (ImGui::ColorEdit4("Sky Tint", sl)) {
-        skyLuminance[0] = sl[0];
-        skyLuminance[1] = sl[1];
-        skyLuminance[2] = sl[2];
-        skyLuminance[3] = sl[3];
+        state.skyLuminance[0] = sl[0];
+        state.skyLuminance[1] = sl[1];
+        state.skyLuminance[2] = sl[2];
+        state.skyLuminance[3] = sl[3];
         changed = true;
     }
     if (changed) {
-        auto* comp = atmoComp;
-        float rs = rayleighScale, ms = mieScale, ma = mieAnisotropy, msc = multiScatter, ah = atmoHeight;
-        SDK::FLinearColor rayleigh{rayleighColor[0], rayleighColor[1], rayleighColor[2], 1.f};
-        SDK::FLinearColor luminance{skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
-        GameHook::QueueAction([comp, rs, rayleigh, ms, ma, msc, luminance, ah](const RuntimeContextSnapshot&) {
+        auto* comp = state.atmoComp;
+        float rs = state.rayleighScale, ms = state.mieScale, ma = state.mieAnisotropy, msc = state.multiScatter,
+              ah = state.atmoHeight;
+        SDK::FLinearColor rayleigh{state.rayleighColor[0], state.rayleighColor[1], state.rayleighColor[2], 1.f};
+        SDK::FLinearColor luminance{
+            state.skyLuminance[0], state.skyLuminance[1], state.skyLuminance[2], state.skyLuminance[3]
+        };
+        GameHook::QueueAction([comp, index = state.indices[1], world = state.world, rs, rayleigh, ms, ma, msc,
+                               luminance, ah](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world != world || !IsEditableComponent(comp, index, world)) return;
             comp->SetRayleighScatteringScale(rs);
             comp->SetRayleighScattering(rayleigh);
             comp->SetMieScatteringScale(ms);
@@ -518,35 +525,39 @@ void SkyEditorSection::RenderAtmoTab() {
 }
 
 void SkyEditorSection::RenderSkyLightTab() {
-    if (!skyLightComp) {
+    if (!state.skyLightComp) {
         ImGui::TextDisabled("Ambient light controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Brightness", &skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
-    float col[3] = {skyLightColor[0], skyLightColor[1], skyLightColor[2]};
+    changed |= GuiUtils::DebouncedDragFloat("Brightness", &state.skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
+    float col[3] = {state.skyLightColor[0], state.skyLightColor[1], state.skyLightColor[2]};
     GuiUtils::SetNextColorFieldWidth("Color");
     if (ImGui::ColorEdit3("Color", col)) {
-        skyLightColor[0] = col[0];
-        skyLightColor[1] = col[1];
-        skyLightColor[2] = col[2];
+        state.skyLightColor[0] = col[0];
+        state.skyLightColor[1] = col[1];
+        state.skyLightColor[2] = col[2];
         changed = true;
     }
-    float lh[4] = {lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
+    float lh[4] = {state.lowerHemiColor[0], state.lowerHemiColor[1], state.lowerHemiColor[2], state.lowerHemiColor[3]};
     GuiUtils::SetNextColorFieldWidth("Ground Light");
     if (ImGui::ColorEdit4("Ground Light", lh)) {
-        lowerHemiColor[0] = lh[0];
-        lowerHemiColor[1] = lh[1];
-        lowerHemiColor[2] = lh[2];
-        lowerHemiColor[3] = lh[3];
+        state.lowerHemiColor[0] = lh[0];
+        state.lowerHemiColor[1] = lh[1];
+        state.lowerHemiColor[2] = lh[2];
+        state.lowerHemiColor[3] = lh[3];
         changed = true;
     }
     if (changed) {
-        auto* comp = skyLightComp;
-        float intensity = skyLightIntensity;
-        SDK::FLinearColor color{skyLightColor[0], skyLightColor[1], skyLightColor[2], 1.f};
-        SDK::FLinearColor lowerHemi{lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
-        GameHook::QueueAction([comp, intensity, color, lowerHemi](const RuntimeContextSnapshot&) {
+        auto* comp = state.skyLightComp;
+        float intensity = state.skyLightIntensity;
+        SDK::FLinearColor color{state.skyLightColor[0], state.skyLightColor[1], state.skyLightColor[2], 1.f};
+        SDK::FLinearColor lowerHemi{
+            state.lowerHemiColor[0], state.lowerHemiColor[1], state.lowerHemiColor[2], state.lowerHemiColor[3]
+        };
+        GameHook::QueueAction([comp, index = state.indices[2], world = state.world, intensity, color,
+                               lowerHemi](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world != world || !IsEditableComponent(comp, index, world)) return;
             comp->SetIntensity(intensity);
             comp->SetLightColor(color);
             comp->SetLowerHemisphereColor(lowerHemi);
@@ -555,28 +566,30 @@ void SkyEditorSection::RenderSkyLightTab() {
 }
 
 void SkyEditorSection::RenderFogTab() {
-    if (!fogComp) {
+    if (!state.fogComp) {
         ImGui::TextDisabled("Fog controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Density", &fogDensity, 0.001f, 0.0f, 0.0f, "%.4f");
-    changed |= GuiUtils::DebouncedDragFloat("Vertical Fade", &fogFalloff, 0.01f, 0.0f, 0.0f, "%.3f");
-    changed |= GuiUtils::DebouncedDragFloat("Start Distance", &fogStartDist, 10.f, 0.0f, 0.0f, "%.0f");
-    changed |= GuiUtils::DebouncedDragFloat("Maximum Thickness", &fogMaxOpacity, 0.01f, 0.0f, 1.0f, "%.2f");
-    float col[3] = {fogColor[0], fogColor[1], fogColor[2]};
+    changed |= GuiUtils::DebouncedDragFloat("Density", &state.fogDensity, 0.001f, 0.0f, 0.0f, "%.4f");
+    changed |= GuiUtils::DebouncedDragFloat("Vertical Fade", &state.fogFalloff, 0.01f, 0.0f, 0.0f, "%.3f");
+    changed |= GuiUtils::DebouncedDragFloat("Start Distance", &state.fogStartDist, 10.f, 0.0f, 0.0f, "%.0f");
+    changed |= GuiUtils::DebouncedDragFloat("Maximum Thickness", &state.fogMaxOpacity, 0.01f, 0.0f, 1.0f, "%.2f");
+    float col[3] = {state.fogColor[0], state.fogColor[1], state.fogColor[2]};
     GuiUtils::SetNextColorFieldWidth("Fog Color");
     if (ImGui::ColorEdit3("Fog Color", col)) {
-        fogColor[0] = col[0];
-        fogColor[1] = col[1];
-        fogColor[2] = col[2];
+        state.fogColor[0] = col[0];
+        state.fogColor[1] = col[1];
+        state.fogColor[2] = col[2];
         changed = true;
     }
     if (changed) {
-        auto* comp = fogComp;
-        float d = fogDensity, f = fogFalloff, s = fogStartDist, m = fogMaxOpacity;
-        SDK::FLinearColor c{fogColor[0], fogColor[1], fogColor[2], 1.f};
-        GameHook::QueueAction([comp, d, f, c, s, m](const RuntimeContextSnapshot&) {
+        auto* comp = state.fogComp;
+        float d = state.fogDensity, f = state.fogFalloff, s = state.fogStartDist, m = state.fogMaxOpacity;
+        SDK::FLinearColor c{state.fogColor[0], state.fogColor[1], state.fogColor[2], 1.f};
+        GameHook::QueueAction([comp, index = state.indices[3], world = state.world, d, f, c, s,
+                               m](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world != world || !IsEditableComponent(comp, index, world)) return;
             comp->SetFogDensity(d);
             comp->SetFogHeightFalloff(f);
             comp->SetFogInscatteringColor(c);
@@ -587,21 +600,23 @@ void SkyEditorSection::RenderFogTab() {
 }
 
 void SkyEditorSection::RenderCloudsTab() {
-    if (!cloudComp) {
+    if (!state.cloudComp) {
         ImGui::TextDisabled("Cloud controls are unavailable in this map.");
         return;
     }
     bool changed = false;
-    changed |= GuiUtils::DebouncedDragFloat("Base Altitude", &cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
-    changed |= GuiUtils::DebouncedDragFloat("Layer Height", &cloudHeight, 0.1f, 0.1f, 100.0f, "%.1f km");
-    changed |= GuiUtils::DebouncedDragFloat("Visual Quality", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    changed |= GuiUtils::DebouncedDragFloat("Shadow Quality", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    changed |= GuiUtils::DebouncedDragFloat("Shadow Range", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
+    changed |= GuiUtils::DebouncedDragFloat("Base Altitude", &state.cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
+    changed |= GuiUtils::DebouncedDragFloat("Layer Height", &state.cloudHeight, 0.1f, 0.1f, 100.0f, "%.1f km");
+    changed |= GuiUtils::DebouncedDragFloat("Visual Quality", &state.cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+    changed |= GuiUtils::DebouncedDragFloat("Shadow Quality", &state.cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+    changed |= GuiUtils::DebouncedDragFloat("Shadow Range", &state.cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
     if (changed) {
-        auto* comp = cloudComp;
-        float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
-        float ss = cloudShadowSamples, sd = cloudShadowDist;
-        GameHook::QueueAction([comp, ba, h, vs, ss, sd](const RuntimeContextSnapshot&) {
+        auto* comp = state.cloudComp;
+        float ba = state.cloudBottomAlt, h = state.cloudHeight, vs = state.cloudViewSamples;
+        float ss = state.cloudShadowSamples, sd = state.cloudShadowDist;
+        GameHook::QueueAction([comp, index = state.indices[4], world = state.world, ba, h, vs, ss,
+                               sd](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world != world || !IsEditableComponent(comp, index, world)) return;
             comp->SetLayerBottomAltitude(ba);
             comp->SetLayerHeight(h);
             comp->SetViewSampleCountScale(vs);
@@ -611,55 +626,84 @@ void SkyEditorSection::RenderCloudsTab() {
     }
 }
 
-bool SkyEditorSection::UpdateComponentScan() {
+
+void SkyEditorSection::UpdateComponentScan() {
     auto* world = RenderWorld();
-    if (world != cachedWorld) FindComponents();
-
-    if (componentsReady.exchange(false, std::memory_order_acquire)) {
-        searchPending = false;
+    if (world != state.world) {
+        generation.fetch_add(1, std::memory_order_acq_rel);
+        state = {};
+        state.world = world;
+        pendingLightEdits = 0;
+        nextScan = {};
     }
-
-    return !searchPending && (sunComp || atmoComp || skyLightComp || fogComp || cloudComp);
+    {
+        const std::scoped_lock lock(scanMutex);
+        if (scanResult) {
+            if (scanResult->generation == generation.load(std::memory_order_acquire) &&
+                (scanResult->Targets() != state.Targets() || scanResult->indices != state.indices ||
+                 scanResult->moon != state.moon)) {
+                state = *scanResult;
+                pendingLightEdits = 0;
+                const auto targets = state.Targets();
+                if (!targets[activeTab]) activeTab = 0;
+                selectTab = true;
+            }
+            scanResult.reset();
+        }
+    }
+    const auto now = std::chrono::steady_clock::now();
+    if (!world || now < nextScan || scanPending.exchange(true, std::memory_order_acq_rel)) return;
+    nextScan = now + std::chrono::seconds(1);
+    const auto revision = generation.load(std::memory_order_acquire);
+    if (!GameHook::QueueAction([this, world, revision](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world == world && revision == generation.load(std::memory_order_acquire)) {
+                auto result = ScanComponents(world);
+                result.generation = revision;
+                const std::scoped_lock lock(scanMutex);
+                scanResult = result;
+            }
+            scanPending.store(false, std::memory_order_release);
+        }))
+        scanPending.store(false, std::memory_order_release);
 }
 
 void SkyEditorSection::Render() {
     ImGui::PushID("SkyEdit");
-
-    if (!UpdateComponentScan()) {
-        ImGui::PopID();
-        return;
-    }
-
-    ImGui::PushItemWidth(GuiUtils::K_DRAG_WIDTH);
-
-    if (sunComp) {
-        if (ImGui::DragFloat("Sun Height", &sunPitch, 0.2f, -90.f, 90.f, "%.1f")) QueueApplySunState();
-        if (ImGui::DragFloat("Sun Direction", &sunYaw, 0.2f, -180.f, 180.f, "%.1f")) QueueApplySunState();
-    }
-    ImGui::PopItemWidth();
-
-    ImGui::Spacing();
+    UpdateComponentScan();
     for (int i = 0; i < K_TIME_PRESET_COUNT; ++i) {
         if (i > 0) (void)GuiUtils::SameLineIfFitsButton(K_TIME_PRESETS[i].label);
         if (GuiUtils::Button(K_TIME_PRESETS[i].label)) ApplyPreset(i);
     }
-
     ImGui::Spacing();
-    GuiUtils::RenderUnderlineTabs("##SkyTabs", activeTab, TAB_LABELS, TAB_COUNT);
-
-    ImGui::BeginChild("##SkyParams", ImVec2(0, 0), ImGuiChildFlags_None);
-    ImGui::PushItemWidth(GuiUtils::K_DRAG_WIDTH);
-    switch (activeTab) {
-        case 0: RenderSunTab(); break;
-        case 1: RenderAtmoTab(); break;
-        case 2: RenderSkyLightTab(); break;
-        case 3: RenderFogTab(); break;
-        case 4: RenderCloudsTab(); break;
-        default: break;
+    const std::array<const char*, 5> labels{
+        state.moon ? "Moon" : "Sun", "Atmosphere", "Ambient Light", "Fog", "Clouds"
+    };
+    const auto targets = state.Targets();
+    if (std::none_of(targets.begin(), targets.begin() + 5, [](auto* object) { return object != nullptr; })) {
+        ImGui::TextDisabled(
+            scanPending.load(std::memory_order_acquire) ? "Detecting sky controls..."
+                                                        : "No editable sky components are active."
+        );
+    } else if (ImGui::BeginTabBar("##SkyTabs", ImGuiTabBarFlags_FittingPolicyResizeDown)) {
+        for (int i = 0; i < 5; ++i) {
+            const auto flags = selectTab && activeTab == i ? ImGuiTabItemFlags_SetSelected : ImGuiTabItemFlags_None;
+            if (!targets[i] || !ImGui::BeginTabItem(labels[i], nullptr, flags)) continue;
+            activeTab = i;
+            ImGui::PushItemWidth(GuiUtils::K_DRAG_WIDTH);
+            switch (i) {
+                case 0: RenderLightTab(); break;
+                case 1: RenderAtmoTab(); break;
+                case 2: RenderSkyLightTab(); break;
+                case 3: RenderFogTab(); break;
+                case 4: RenderCloudsTab(); break;
+                default: break;
+            }
+            ImGui::PopItemWidth();
+            ImGui::EndTabItem();
+        }
+        ImGui::EndTabBar();
+        selectTab = false;
     }
-    ImGui::PopItemWidth();
-    ImGui::EndChild();
-
-    if (sunOverrideActive && sunComp) QueueApplySunState();
+    QueueApplyLightState();
     ImGui::PopID();
 }
