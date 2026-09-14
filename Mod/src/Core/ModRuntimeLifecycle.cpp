@@ -42,6 +42,7 @@ namespace {
 
         if (startedStep >= StartedStep::AssetOverrides &&
             !GameHook::Get().ExecuteOnGameThreadAndWait([](const RuntimeContextSnapshot& runtime) {
+                KeybindRuntime::PrepareForRuntimeShutdown(runtime);
                 if (startedStep >= StartedStep::RuntimeSubsystems) {
                     DiscordPresence::Shutdown();
                     FreeCameraManager::Get().PrepareForRuntimeShutdown(runtime);

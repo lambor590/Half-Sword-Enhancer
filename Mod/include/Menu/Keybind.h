@@ -75,6 +75,7 @@ struct KeybindDefinition {
     std::function<void()> onParamsChanged;
     const char* group = "";
     bool destructive = false;
+    std::function<void(const RuntimeContextSnapshot&)> onRuntimeShutdown;
 };
 
 struct KeybindEntry : KeybindDefinition {
@@ -126,6 +127,8 @@ namespace KeybindRuntime {
     void FlushPendingParamChanges() noexcept;
     // Game-thread only. Rehydrates enabled event/function hooks after GameHook restarts.
     void OnRuntimeStart();
+    // Game-thread only. Restores transient state before dispatch is stopped.
+    void PrepareForRuntimeShutdown(const RuntimeContextSnapshot& runtime) noexcept;
     // Game-thread only. Releases runtime subscriptions without changing persisted enabled state.
     void OnRuntimeShutdown() noexcept;
 }
