@@ -121,6 +121,7 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
         if (bodyOverridesPlayer == p || restartPending) {
             snapshot.heightRate.enabled = false;
             snapshot.muscleRate.enabled = false;
+            snapshot.scaleMutationInhibitor.enabled = false;
         }
         if (!restartPending) bodyOverridesPlayer = p;
     }
@@ -172,7 +173,9 @@ void PlayerEditorSection::PublishOverrides() {
         applyBody =
             enforceOverrides &&
             ((overrides.heightRate.enabled && overrides.heightRate != publishedOverrides.heightRate) ||
-             (overrides.muscleRate.enabled && overrides.muscleRate != publishedOverrides.muscleRate));
+             (overrides.muscleRate.enabled && overrides.muscleRate != publishedOverrides.muscleRate) ||
+             (overrides.scaleMutationInhibitor.enabled &&
+              overrides.scaleMutationInhibitor != publishedOverrides.scaleMutationInhibitor));
         publishedOverrides = overrides;
         if (applyBody) bodyOverridesPlayer = nullptr;
         overridesDirty = false;
