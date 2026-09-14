@@ -28,7 +28,7 @@ namespace PresetApplication {
     // Game-thread only: resolves the armor core and restores its default TMap-backed blocked-slot data.
     [[nodiscard]] bool MaterializeArmorPreset(ArmorPresetData& preset, std::string* error = nullptr);
     [[nodiscard]] float PlayerScaleFromHeight(double heightRate) noexcept;
-    // Runs the complete Blueprint body adaptation once, then normalizes component scales once.
+    // Applies changed body settings through the native character-customization event.
     [[nodiscard]] bool ApplyPlayerOverridesAndRefreshBody(
         SDK::AWillie_BP_C* player, const PlayerEditorOverrides& overrides
     );

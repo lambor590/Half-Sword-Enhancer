@@ -1,17 +1,13 @@
 #include "Utils/PresetApplication.h"
 
 #include <array>
-#include <chrono>
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <optional>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 
-#include "Hooks/GameHook.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -91,116 +87,6 @@ namespace PresetApplication {
             auto* expectedClass = preset.meshType == MeshType::Skeletal ? SDK::USkeletalMesh::StaticClass()
                                                                         : SDK::UStaticMesh::StaticClass();
             return loaded->IsA(expectedClass) ? loaded : nullptr;
-        }
-
-        constexpr double BodyScaleFromHeight(double heightRate) noexcept {
-            return 0.9375 + heightRate * 0.0625;
-        }
-
-        constexpr auto BODY_ADAPTATION_TIMEOUT = std::chrono::seconds(2);
-
-        void WritePlayerHeight(SDK::AWillie_BP_C* player, double heightRate) {
-            player->Height_Rate = heightRate;
-            player->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = heightRate;
-        }
-
-        void WritePlayerWeight(SDK::AWillie_BP_C* player, double muscleRate) {
-            player->Muscle_Rate = muscleRate;
-            player->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = muscleRate;
-        }
-
-        void NormalizePlayerBodyScale(
-            SDK::AWillie_BP_C* player, double heightRate, const SDK::FVector& finalActorScale
-        ) {
-            const double bodyScale = BodyScaleFromHeight(heightRate);
-            player->Character_Scale__Set_in_BP_ = {bodyScale, bodyScale, bodyScale};
-            player->SetActorScale3D(finalActorScale);
-            if (player->SK_Skeleton) player->SK_Skeleton->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
-            if (player->Upper_Body_Mesh)
-                player->Upper_Body_Mesh->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
-            for (auto* armor : player->Worn_Armor)
-                if (armor) armor->SetWorldScale3D({bodyScale, bodyScale, bodyScale});
-        }
-
-        bool ScaleMatches(const SDK::USceneComponent* component, double expected) {
-            if (!component) return false;
-            const auto scale = component->K2_GetComponentScale();
-            return std::fabs(scale.X - expected) <= 0.0001 &&
-                   std::fabs(scale.Y - expected) <= 0.0001 &&
-                   std::fabs(scale.Z - expected) <= 0.0001;
-        }
-
-        struct PendingBodyNormalization {
-            double heightRate = 1.0;
-            std::optional<double> muscleRate;
-            SDK::FVector finalActorScale{1.0, 1.0, 1.0};
-            std::chrono::steady_clock::time_point deadline;
-        };
-
-        struct BodyNormalizationRegistry {
-            std::unordered_map<SDK::AWillie_BP_C*, PendingBodyNormalization> pending;
-            GameHook::HookHandle hook = GameHook::INVALID_HOOK_HANDLE;
-        };
-
-        auto& BodyNormalizations() {
-            static BodyNormalizationRegistry registry;
-            return registry;
-        }
-
-        void RemoveBodyNormalizationHook() {
-            const auto handle = BodyNormalizations().hook;
-            (void)GameHook::QueueAction([handle](const RuntimeContextSnapshot&) {
-                auto& registry = BodyNormalizations();
-                if (!registry.pending.empty() || registry.hook != handle) return;
-                GameHook::Get().Unsubscribe(handle);
-                registry.hook = GameHook::INVALID_HOOK_HANDLE;
-            });
-        }
-
-        void CheckBodyNormalization(GameHook::ProcessEventContext& context) {
-            if (!context.object || !context.object->IsA(SDK::AWillie_BP_C::StaticClass())) return;
-
-            auto* player = static_cast<SDK::AWillie_BP_C*>(context.object);
-            auto& registry = BodyNormalizations();
-            auto pending = registry.pending.find(player);
-            if (pending == registry.pending.end()) return;
-
-            const auto& application = pending->second;
-            const bool unchanged =
-                SDK::UKismetSystemLibrary::IsValid(player) && !player->IsActorBeingDestroyed() &&
-                player->Height_Rate == application.heightRate &&
-                (!application.muscleRate || player->Muscle_Rate == *application.muscleRate);
-            const bool ready =
-                unchanged &&
-                (ScaleMatches(player->Mesh, BodyScaleFromHeight(application.heightRate)) ||
-                 std::chrono::steady_clock::now() >= application.deadline);
-            if (unchanged && !ready) return;
-
-            const auto completed = application;
-            registry.pending.erase(pending);
-            if (ready) NormalizePlayerBodyScale(player, completed.heightRate, completed.finalActorScale);
-            if (registry.pending.empty()) RemoveBodyNormalizationHook();
-        }
-
-        bool WatchBodyNormalization(
-            SDK::AWillie_BP_C* player, double heightRate, const SDK::FVector& finalActorScale,
-            std::optional<double> muscleRate = std::nullopt
-        ) {
-            auto& registry = BodyNormalizations();
-            if (registry.hook == GameHook::INVALID_HOOK_HANDLE) {
-                registry.hook = GameHook::Get().Subscribe(
-                    "ReceiveTick", GameHook::HookPhase::After, CheckBodyNormalization
-                );
-                if (registry.hook == GameHook::INVALID_HOOK_HANDLE) return false;
-            }
-
-            registry.pending[player] = {
-                .heightRate = heightRate,
-                .muscleRate = muscleRate,
-                .finalActorScale = finalActorScale,
-                .deadline = std::chrono::steady_clock::now() + BODY_ADAPTATION_TIMEOUT,
-            };
-            return true;
         }
     }
 
@@ -338,19 +224,26 @@ namespace PresetApplication {
         return static_cast<float>(0.875 + heightRate * 0.125);
     }
 
-    static bool ApplyPlayerOverrides(SDK::AWillie_BP_C* player, const PlayerEditorOverrides& o) {
+    bool ApplyPlayerOverridesAndRefreshBody(SDK::AWillie_BP_C* player, const PlayerEditorOverrides& o) {
         if (!player) return false;
 
+        auto& passport = player->Character_Passport;
+        const bool refreshBody =
+            (o.heightRate.enabled && (player->Height_Rate != o.heightRate.value ||
+                passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B != o.heightRate.value)) ||
+            (o.muscleRate.enabled && (player->Muscle_Rate != o.muscleRate.value ||
+                passport.Weight_23_65E4C6534D14653F96EB739F159E58CD != o.muscleRate.value)) ||
+            (o.scaleMutationInhibitor.enabled && player->Scale_Mutation_Inhibitor != o.scaleMutationInhibitor.value);
         if (o.heightRate.enabled) {
-            WritePlayerHeight(player, o.heightRate.value);
-            player->Set_Character_Height();
-            const double actorScale = PlayerScaleFromHeight(o.heightRate.value);
-            NormalizePlayerBodyScale(
-                player, o.heightRate.value, {actorScale, actorScale, actorScale}
-            );
+            player->Height_Rate = o.heightRate.value;
+            passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = o.heightRate.value;
         }
-        if (o.muscleRate.enabled) WritePlayerWeight(player, o.muscleRate.value);
+        if (o.muscleRate.enabled) {
+            player->Muscle_Rate = o.muscleRate.value;
+            passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = o.muscleRate.value;
+        }
         if (o.scaleMutationInhibitor.enabled) player->Scale_Mutation_Inhibitor = o.scaleMutationInhibitor.value;
+        if (refreshBody) player->Setup_Character_Event();
 
         if (o.health.enabled) player->Health = o.health.value;
         if (o.headHealth.enabled) player->Head_Health = o.headHealth.value;
@@ -415,27 +308,6 @@ namespace PresetApplication {
             player->BitPad_5C_0 = o.invulnerable.value;
         }
         return true;
-    }
-
-    bool ApplyPlayerOverridesAndRefreshBody(SDK::AWillie_BP_C* player, const PlayerEditorOverrides& o) {
-        if (!player) return false;
-        if (!o.heightRate.enabled && !o.muscleRate.enabled) return ApplyPlayerOverrides(player, o);
-
-        const double heightRate = o.heightRate.enabled ? o.heightRate.value : player->Height_Rate;
-        const double actorScale = PlayerScaleFromHeight(heightRate);
-        if (o.heightRate.enabled) WritePlayerHeight(player, heightRate);
-        if (o.muscleRate.enabled) WritePlayerWeight(player, o.muscleRate.value);
-        player->Setup_Character_Event();
-
-        PlayerEditorOverrides nonBodyOverrides = o;
-        nonBodyOverrides.heightRate.enabled = false;
-        nonBodyOverrides.muscleRate.enabled = false;
-        if (!ApplyPlayerOverrides(player, nonBodyOverrides)) return false;
-
-        return WatchBodyNormalization(
-            player, heightRate, {actorScale, actorScale, actorScale},
-            o.muscleRate.enabled ? std::optional{o.muscleRate.value} : std::nullopt
-        );
     }
 
     bool ApplyWeaponRuntimeOverrides(SDK::AActor* actor, const WeaponPresetData::WeaponRuntimeProps& o) {
