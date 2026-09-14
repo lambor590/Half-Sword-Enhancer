@@ -293,11 +293,13 @@ SkyEditorSection::State SkyEditorSection::ScanComponents(SDK::UWorld* world) {
     result.world = world;
     EngineArray<SDK::AActor*> actors;
     SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
+    // StaticClass searches all UObjects on every miss when this optional Blueprint is unloaded.
+    const auto& dynamicSkyName = SDK::AUltra_Dynamic_Sky_C::StaticName();
     for (auto* actor : actors) {
         if (!IsLiveObject(actor) || actor->IsActorBeingDestroyed() || actor->bHidden) continue;
         auto* level = actor->GetLevel();
         if (!level || level->OwningWorld != world || !level->bIsVisible) continue;
-        const bool dynamicSky = actor->IsA(SDK::AUltra_Dynamic_Sky_C::StaticClass());
+        const bool dynamicSky = actor->IsA(dynamicSkyName);
         if (dynamicSky) {
             auto* sky = static_cast<SDK::AUltra_Dynamic_Sky_C*>(actor);
             double night = 0.0;
@@ -315,7 +317,8 @@ SkyEditorSection::State SkyEditorSection::ScanComponents(SDK::UWorld* world) {
         };
         for (auto* base : components) {
             auto* component = static_cast<SDK::USceneComponent*>(base);
-            if (!component || !IsEditableComponent(component, component->Index, world)) continue;
+            // The owning actor and its level were already checked above.
+            if (!IsLiveObject(component) || !component->bVisible || component->bHiddenInGame) continue;
             if (component->IsA(SDK::ULightComponentBase::StaticClass()) &&
                 !static_cast<SDK::ULightComponentBase*>(component)->bAffectsWorld)
                 continue;
@@ -324,7 +327,7 @@ SkyEditorSection::State SkyEditorSection::ScanComponents(SDK::UWorld* world) {
                 if (!light->bAtmosphereSunLight) continue;
                 result.lightComp = light;
                 // The game's standalone night lighting also uses atmosphere light index zero.
-                const auto levelName = actor->GetLevel()->GetFullName();
+                const auto levelName = level->GetFullName();
                 result.moon = light->AtmosphereSunLightIndex == 1 || levelName.find("Night") != std::string::npos;
             } else if (!result.atmoComp && component->IsA(SDK::USkyAtmosphereComponent::StaticClass())) {
                 result.atmoComp = static_cast<SDK::USkyAtmosphereComponent*>(component);
@@ -639,6 +642,7 @@ void SkyEditorSection::UpdateComponentScan() {
     {
         const std::scoped_lock lock(scanMutex);
         if (scanResult) {
+            nextScan = std::chrono::steady_clock::now() + std::chrono::seconds(1);
             if (scanResult->generation == generation.load(std::memory_order_acquire) &&
                 (scanResult->Targets() != state.Targets() || scanResult->indices != state.indices ||
                  scanResult->moon != state.moon)) {
