@@ -175,12 +175,12 @@ void AIDirectorSection::RenderAdvanced() {
     (void)GuiUtils::RenderEnumCombo("Footwork Style", behavior.strafeMode, strafeInfo.names, strafeInfo.maxTextWidthEm);
 
     auto invincibility = static_cast<float>(behavior.aiInvincibility);
-    if (GuiUtils::DebouncedDragFloat("Damage Resistance", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
-        behavior.aiInvincibility = invincibility;
+    GuiUtils::DebouncedDragFloat("Damage Resistance", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::StoreEdited(behavior.aiInvincibility, invincibility);
 
     auto armorInvincibility = static_cast<float>(behavior.aiArmorInvincibility);
-    if (GuiUtils::DebouncedDragFloat("Armor Resistance", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
-        behavior.aiArmorInvincibility = armorInvincibility;
+    GuiUtils::DebouncedDragFloat("Armor Resistance", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f");
+    GuiUtils::StoreEdited(behavior.aiArmorInvincibility, armorInvincibility);
 
     if (ImGui::Button("Use Custom Behavior")) {
         AIDirector::Get().ApplyBehavior(SelectedTargets(), behavior);
