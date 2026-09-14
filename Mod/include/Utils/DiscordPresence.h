@@ -19,16 +19,4 @@ namespace DiscordPresence {
     void Shutdown() noexcept;
 
     [[nodiscard]] Activity Describe(const RuntimeContextSnapshot& runtime);
-
-#ifdef HSE_PRIVATE_AUTOMATION
-    struct Status {
-        bool clientActive = false;
-        bool pending = false;
-        unsigned int accepted = 0;
-        unsigned int rejected = 0;
-        unsigned int outstandingCallbacks = 0;
-        Activity published;
-    };
-    [[nodiscard]] Status GetStatus();
-#endif
 }

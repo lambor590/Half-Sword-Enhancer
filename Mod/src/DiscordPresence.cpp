@@ -89,8 +89,6 @@ namespace {
     std::uint64_t sessionStart = 0;
     bool pending = false;
     bool failed = false;
-    unsigned int accepted = 0;
-    unsigned int rejected = 0;
     HANDLE callbackReleased = nullptr;
     std::optional<DiscordPresence::Activity> published;
     std::optional<DiscordPresence::Activity> submitted;
@@ -232,11 +230,9 @@ namespace {
         if (!pending) return;
         pending = false;
         if (success) {
-            ++accepted;
             published = std::move(submitted);
             if (failed) logger.Log("Presence connection restored");
         } else {
-            ++rejected;
             nextPublish = Clock::now() + std::chrono::seconds(30);
             if (!failed) logger.Log("Discord presence unavailable; will retry");
         }
@@ -394,9 +390,3 @@ void DiscordPresence::Shutdown() noexcept {
         callbackReleased = nullptr;
     }
 }
-
-#ifdef HSE_PRIVATE_AUTOMATION
-DiscordPresence::Status DiscordPresence::GetStatus() {
-    return {client.value != nullptr, pending, accepted, rejected, CallbackPending() ? 1U : 0U, published.value_or(Activity{})};
-}
-#endif
