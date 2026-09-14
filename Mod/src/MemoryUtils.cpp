@@ -3,6 +3,7 @@
 #endif
 
 #include <Windows.h>
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <cstddef>
@@ -96,7 +97,6 @@ namespace {
 
     struct InstructionInfo {
         size_t length = 0;
-        size_t opcodeOffset = 0;
         size_t ripRelativeDispOffset = 0;
         uint8_t opcode = 0;
         bool ripRelative = false;
@@ -108,6 +108,8 @@ namespace {
         if (maxLength < 1) return info;
 
         size_t offset = 0;
+        maxLength = (std::min)(maxLength, size_t{15});
+        bool rexW = false;
         bool hasRex = false;
         bool operandSize16 = false;
 
@@ -115,15 +117,21 @@ namespace {
             uint8_t byte = code[offset];
 
             if (byte >= 0x40 && byte <= 0x4F) {
+                if (hasRex) return {};
                 hasRex = true;
+                rexW = (byte & 8) != 0;
                 offset++;
             } else if (byte == 0x66) {
+                if (hasRex) return {};
                 operandSize16 = true;
                 offset++;
+            } else if (byte == 0x67) {
+                return {}; // Address-size overrides need a different displacement interpretation.
             } else if (
-                byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E ||
-                byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65
+                byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E || byte == 0x36 ||
+                byte == 0x3E || byte == 0x64 || byte == 0x65
             ) {
+                if (hasRex) return {};
                 offset++;
             } else {
                 break;
@@ -132,52 +140,65 @@ namespace {
 
         if (offset >= maxLength) return info;
 
-        info.opcodeOffset = offset;
         info.opcode = code[offset++];
         bool hasModRM = false;
         uint8_t immSize = 0;
+        const uint8_t operandImmediateSize = operandSize16 && !rexW ? 2 : 4;
 
         if (info.opcode == 0x0F) {
             if (offset >= maxLength) return info;
             info.twoByteOpcode = true;
-            info.opcodeOffset = offset;
             info.opcode = code[offset++];
 
-            if (info.opcode >= 0x80 && info.opcode <= 0x8F) {
-                immSize = 4;
-            } else if (
-                (info.opcode >= 0x10 && info.opcode <= 0x17) || (info.opcode >= 0x28 && info.opcode <= 0x2F) ||
+            if ((info.opcode >= 0x10 && info.opcode <= 0x17) || (info.opcode >= 0x28 && info.opcode <= 0x2F) ||
                 (info.opcode >= 0x40 && info.opcode <= 0x76) || info.opcode == 0xAE || info.opcode == 0xAF ||
-                (info.opcode >= 0xB0 && info.opcode <= 0xB7) || (info.opcode >= 0xC2 && info.opcode <= 0xC6)
-            ) {
+                (info.opcode >= 0xB0 && info.opcode <= 0xB7) || (info.opcode >= 0xC2 && info.opcode <= 0xC6) ||
+                info.opcode == 0x1E || info.opcode == 0x1F || (info.opcode >= 0xBA && info.opcode <= 0xBF)) {
                 hasModRM = true;
+                if ((info.opcode >= 0x70 && info.opcode <= 0x73) || info.opcode == 0xBA || info.opcode == 0xC2 ||
+                    (info.opcode >= 0xC4 && info.opcode <= 0xC6))
+                    immSize = 1;
+            } else {
+                return {}; // Unknown instruction families must not be treated as one-byte instructions.
             }
         } else {
             const uint8_t opcode = info.opcode;
+            if (operandSize16 && rexW && (opcode == 0x68 || opcode == 0xC2)) return {};
             if ((opcode >= 0x00 && opcode <= 0x03) || (opcode >= 0x08 && opcode <= 0x0B) ||
                 (opcode >= 0x10 && opcode <= 0x13) || (opcode >= 0x18 && opcode <= 0x1B) ||
                 (opcode >= 0x20 && opcode <= 0x23) || (opcode >= 0x28 && opcode <= 0x2B) ||
-                (opcode >= 0x30 && opcode <= 0x33) || (opcode >= 0x38 && opcode <= 0x3B) ||
-                (opcode >= 0x62 && opcode <= 0x63) || (opcode >= 0x69 && opcode <= 0x6B) ||
-                (opcode >= 0x80 && opcode <= 0x8F) || opcode == 0xC0 || opcode == 0xC1 || opcode == 0xC6 ||
-                opcode == 0xC7 || opcode == 0xD0 || opcode == 0xD1 || opcode == 0xD2 || opcode == 0xD3 ||
-                opcode == 0xF6 || opcode == 0xF7 || opcode == 0xFE || opcode == 0xFF) {
+                (opcode >= 0x30 && opcode <= 0x33) || (opcode >= 0x38 && opcode <= 0x3B) || opcode == 0x63 ||
+                opcode == 0x69 || opcode == 0x6B || ((opcode >= 0x80 && opcode <= 0x8F) && opcode != 0x82) ||
+                opcode == 0xC0 || opcode == 0xC1 || opcode == 0xC6 || opcode == 0xC7 || opcode == 0xD0 ||
+                opcode == 0xD1 || opcode == 0xD2 || opcode == 0xD3 || opcode == 0xF6 || opcode == 0xF7 ||
+                opcode == 0xFE || opcode == 0xFF) {
                 hasModRM = true;
             }
 
-            if (opcode == 0x6A || opcode == 0x6B || opcode == 0xA8 || opcode == 0xEB ||
-                (opcode >= 0x70 && opcode <= 0x7F) || (opcode >= 0xE0 && opcode <= 0xE3) || opcode == 0x80 ||
-                opcode == 0x82 || opcode == 0x83 || opcode == 0xC6 || (opcode >= 0xB0 && opcode <= 0xB7)) {
+            if (opcode == 0x6A || opcode == 0x6B || opcode == 0xA8 || opcode == 0x80 || opcode == 0x83 ||
+                opcode == 0xC6 || opcode == 0xC0 || opcode == 0xC1 || (opcode <= 0x3C && (opcode & 7) == 4) ||
+                (opcode >= 0xB0 && opcode <= 0xB7)) {
                 immSize = 1;
-            } else if (opcode == 0x81 || opcode == 0x69 || opcode == 0xC7) {
+            } else if (
+                opcode == 0x81 || opcode == 0x69 || opcode == 0xC7 || opcode == 0xA9 ||
+                (opcode <= 0x3D && (opcode & 7) == 5)
+            ) {
+                immSize = operandImmediateSize;
+            } else if (opcode == 0x68) {
                 immSize = operandSize16 ? 2 : 4;
-            } else if (opcode == 0x68 || opcode == 0xE8 || opcode == 0xE9) {
+            } else if (opcode == 0xE8 || opcode == 0xE9) {
                 immSize = 4;
             } else if (opcode == 0xA0 || opcode == 0xA1 || opcode == 0xA2 || opcode == 0xA3) {
                 immSize = 8;
             } else if (opcode >= 0xB8 && opcode <= 0xBF) {
-                immSize = hasRex ? 8 : 4;
+                immSize = rexW ? 8 : operandImmediateSize;
+            } else if (opcode == 0xC2) {
+                immSize = 2;
             }
+            if (!hasModRM && !immSize &&
+                !((opcode >= 0x50 && opcode <= 0x5F) || (opcode >= 0x90 && opcode <= 0x99) || opcode == 0x9C ||
+                  opcode == 0x9D || opcode == 0xC3 || opcode == 0xC9 || opcode == 0xFC || opcode == 0xFD))
+                return {};
         }
 
         if (hasModRM) {
@@ -185,6 +206,12 @@ namespace {
             uint8_t modrm = code[offset++];
             uint8_t mod = (modrm >> 6) & 0x03;
             uint8_t rm = modrm & 0x07;
+            if (!info.twoByteOpcode && (info.opcode == 0xF6 || info.opcode == 0xF7)) {
+                const auto group = (modrm >> 3) & 7;
+                if (group == 1) return {};
+                if (group == 0) immSize = info.opcode == 0xF6 ? 1 : operandImmediateSize;
+            }
+            if (!info.twoByteOpcode && info.opcode == 0x8F && (modrm & 0x38) != 0) return {};
 
             if (mod != 0x03 && rm == 0x04) {
                 if (offset >= maxLength) return info;
@@ -221,9 +248,12 @@ namespace {
         }
 
         for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;) {
-            size_t instructionSize = DecodeInstruction(&buffer[byteCount], MAX_ASM_BYTES - byteCount).length;
-            if (instructionSize == 0) return 0;
-            byteCount += instructionSize;
+            const auto instruction = DecodeInstruction(&buffer[byteCount], MAX_ASM_BYTES - byteCount);
+            if (!instruction.length) return 0;
+            byteCount += instruction.length;
+            if (!instruction.twoByteOpcode && (instruction.opcode == 0xC3 || instruction.opcode == 0xC2) &&
+                byteCount < minimumClearance)
+                return 0;
             if (byteCount >= minimumClearance) return byteCount;
         }
         return 0;
@@ -237,7 +267,7 @@ namespace {
         if (!absolute) {
             int64_t rel64 = static_cast<int64_t>(destination) - static_cast<int64_t>(address + REL_JUMP_SIZE);
             if (rel64 < std::numeric_limits<int32_t>::min() || rel64 > std::numeric_limits<int32_t>::max()) {
-                logger.Log("Near jump target out of 32-bit range at {:#x}", address);
+                logger.Log("Near jump target out of 32-bit range at 0x%llx", address);
                 return false;
             }
             offset = static_cast<int32_t>(rel64);
@@ -245,7 +275,7 @@ namespace {
 
         ScopedPageProtection protection(address, clearance);
         if (!protection.IsActive()) {
-            logger.Log("Failed to make code page writable at {:#x}", address);
+            logger.Log("Failed to make code page writable at 0x%llx", address);
             return false;
         }
 
@@ -300,26 +330,20 @@ namespace {
             InstructionInfo instr = DecodeInstruction(code + pos, size - pos);
             size_t instrLen = instr.length;
             if (instrLen == 0) {
-                logger.Log("Failed to decode instruction at trampoline+{:#x}", pos);
-                return false;
-            }
-
-            const bool shortBranch =
-                !instr.twoByteOpcode && (instr.opcode == 0xEB || (instr.opcode >= 0x70 && instr.opcode <= 0x7F) ||
-                                         (instr.opcode >= 0xE0 && instr.opcode <= 0xE3));
-            if (shortBranch || (instr.twoByteOpcode && instr.opcode >= 0x80 && instr.opcode <= 0x8F)) {
-                logger.Log("Unsupported relative branch at trampoline+{:#x}", pos);
+                logger.Log("Failed to decode instruction at trampoline+0x%llx", pos);
                 return false;
             }
 
             if (!instr.twoByteOpcode && (instr.opcode == 0xE9 || instr.opcode == 0xE8)) {
-                auto* rel = reinterpret_cast<int32_t*>(code + pos + instr.opcodeOffset + 1);
+                auto* rel = reinterpret_cast<int32_t*>(code + pos + instrLen - sizeof(int32_t));
                 uintptr_t target = (originalAddr + pos + instrLen) + static_cast<int64_t>(*rel);
+                if (target >= originalAddr && target < originalAddr + size)
+                    target = trampolineAddr + (target - originalAddr);
                 int64_t newRel = static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
                 if (newRel >= std::numeric_limits<int32_t>::min() && newRel <= std::numeric_limits<int32_t>::max()) {
                     *rel = static_cast<int32_t>(newRel);
                 } else {
-                    logger.Log("Relative offset fixup out of 32-bit range at trampoline+{:#x}", pos);
+                    logger.Log("Relative offset fixup out of 32-bit range at trampoline+0x%llx", pos);
                     return false;
                 }
             } else if (instr.ripRelative) {
@@ -329,7 +353,7 @@ namespace {
                 if (newDisp >= std::numeric_limits<int32_t>::min() && newDisp <= std::numeric_limits<int32_t>::max()) {
                     *disp = static_cast<int32_t>(newDisp);
                 } else {
-                    logger.Log("RIP-relative fixup out of 32-bit range at trampoline+{:#x}", pos);
+                    logger.Log("RIP-relative fixup out of 32-bit range at trampoline+0x%llx", pos);
                     return false;
                 }
             }
@@ -351,13 +375,13 @@ namespace MemoryUtils {
         auto& hooks = Hooks();
         *returnAddress = 0;
         if (hooks.contains(addressToHook)) {
-            logger.Log("Hook already installed at {:#x}", addressToHook);
+            logger.Log("Hook already installed at 0x%llx", addressToHook);
             return false;
         }
 
         size_t clearance = CalculateRequiredAsmClearance(addressToHook, REL_JUMP_SIZE);
         if (clearance < REL_JUMP_SIZE) {
-            logger.Log("Failed to calculate hook clearance at {:#x}", addressToHook);
+            logger.Log("Failed to calculate hook clearance at 0x%llx", addressToHook);
             return false;
         }
 
@@ -417,7 +441,7 @@ namespace MemoryUtils {
         *returnAddress = resolvedReturnAddress;
 
         if (!PlaceJump(addressToHook, trampoline, false, clearance)) {
-            *returnAddress = addressToHook;
+            *returnAddress = 0;
             hooks.erase(addressToHook);
             VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
