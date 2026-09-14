@@ -1,7 +1,5 @@
 #pragma once
 
-/// Each section owns its own config struct -- there are no global config instances.
-
 struct SpawnConfig {
     float distanceForward;
     float distanceUp;

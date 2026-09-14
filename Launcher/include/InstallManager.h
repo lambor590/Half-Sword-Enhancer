@@ -18,7 +18,6 @@ namespace hse {
         std::uint32_t minimumFileSize;
     };
 
-    /// Authoritative artifact set for downloading, installing, and completeness checks.
     [[nodiscard]] std::span<const InstallArtifactSpec, 2> GetInstallPlan(InstallMode mode) noexcept;
     [[nodiscard]] std::filesystem::path GetInstallDestination(
         const std::filesystem::path& gameBinPath, InstallArtifact artifact

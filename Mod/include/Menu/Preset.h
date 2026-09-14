@@ -24,7 +24,6 @@
 
 enum class PresetFieldType : uint8_t { String, Int, Double, Bool, Vec3, Rotator, Color };
 
-/// Type-erased descriptor for a single preset data field.
 /// Points into the owning struct's storage -- no copies, no allocations.
 struct PresetFieldDescriptor {
     const char* section;

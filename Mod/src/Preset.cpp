@@ -10,7 +10,6 @@
 #include "SimpleIni.h"
 #include "Utils/PresetUtils.h"
 
-// Preset data types implemented in this translation unit.
 #include "Utils/PlayerPresetSerializer.h"
 #include "Utils/NPCPresetSerializer.h"
 #include "Utils/WeaponPresetSerializer.h"
@@ -136,8 +135,6 @@ namespace {
         return {.success = true};
     }
 }
-
-// Unified field serialize/deserialize
 
 std::string PresetSectionName(std::string_view prefix, std::string_view section) {
     if (prefix.empty()) return std::string(section);
@@ -353,8 +350,6 @@ PresetOperationResult ValidatePresetOverrideValuesForSave(
     return {.success = true};
 }
 
-// PlayerPresetData descriptors
-
 std::array<PresetOverrideDescriptor, 57> PlayerPresetData::GetPresetOverrides(PlayerPresetData& data) {
     auto& o = data.overrides;
     return {{
@@ -422,8 +417,6 @@ PresetOperationResult PlayerPresetData::ValidateForSave() const {
     return ValidatePresetOverrideValuesForSave(GetPresetOverrides(const_cast<PlayerPresetData&>(*this)), "Player");
 }
 
-// NPCPresetData descriptors
-
 std::array<PresetFieldDescriptor, 10> NPCPresetData::GetPresetFields(NPCPresetData& data) {
     return {
         PresetField::Int("Generator", "npcType", &data.npcTypeIndex),
@@ -472,8 +465,6 @@ std::array<PresetOverrideDescriptor, 28> NPCPresetData::GetPresetOverrides(NPCPr
         {"BodyCondition", OverrideField("legLHealth", o.legLHealth)},
     }};
 }
-
-// WeaponPresetData descriptors
 
 std::array<PresetFieldDescriptor, 18> WeaponPresetData::GetPresetFields(WeaponPresetData& data) {
     auto& p = data.passport;
@@ -556,7 +547,6 @@ PresetOperationResult WeaponPresetData::ValidateForSave() const {
 }
 
 void WeaponPresetData::SerializeCustom(const WeaponPresetData& data, CSimpleIniA& ini, std::string_view sectionPrefix) {
-    // Material enums and colors (passport fields that need int/enum casting)
     const auto& p = data.passport;
     const auto passportSection = PresetSectionName(sectionPrefix, "Passport");
     const auto meshSection = PresetSectionName(sectionPrefix, "MeshOverrides");
@@ -596,7 +586,6 @@ void WeaponPresetData::SerializeCustom(const WeaponPresetData& data, CSimpleIniA
         std::to_string(static_cast<int>(p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461)).c_str()
     );
 
-    // Mesh overrides
     static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
     for (int slot = 0; slot < MODULE_SLOT_COUNT; ++slot) {
         const auto& mp = data.meshPresets[slot];
@@ -631,7 +620,6 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     else
         AddInvalidValue(error);
 
-    // Material enums
     p.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
         static_cast<SDK::Enum_MaterialLayer>(ReadRangedInt(error, ini, passportSection, "materialSteel", 3, 0, 15));
     p.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 =
@@ -641,7 +629,6 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     p.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB =
         static_cast<SDK::Enum_MaterialLayer>(ReadRangedInt(error, ini, passportSection, "materialLeather", 10, 0, 15));
 
-    // Colors
     static constexpr SDK::FLinearColor DEFAULT_WOOD_COLOR = {0.4f, 0.26f, 0.13f, 1.0f};
     static constexpr SDK::FLinearColor DEFAULT_LEATHER_COLOR = {0.3f, 0.18f, 0.08f, 1.0f};
     p.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 =
@@ -649,11 +636,9 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     p.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 =
         ReadColor(error, ini, passportSection, "colorLeather", DEFAULT_LEATHER_COLOR);
 
-    // Tier
     p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 =
         static_cast<SDK::Enum_Ranks>(ReadRangedInt(error, ini, passportSection, "tier", 4, 0, 8));
 
-    // Mesh overrides
     static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
     for (int slot = 0; slot < MODULE_SLOT_COUNT; ++slot) {
         const char* raw = ini.GetValue(meshSection.c_str(), MESH_KEYS[slot], nullptr);
@@ -684,8 +669,6 @@ PresetOperationResult WeaponPresetData::DeserializeCustom(
     }
     return error.empty() ? PresetOperationResult{.success = true} : PresetOperationResult{.error = std::move(error)};
 }
-
-// ArmorPresetData descriptors
 
 std::array<PresetFieldDescriptor, 1> ArmorPresetData::GetPresetFields(ArmorPresetData& data) {
     return {
@@ -854,8 +837,6 @@ PresetOperationResult ArmorPresetData::DeserializeCustom(
 
     return error.empty() ? PresetOperationResult{.success = true} : PresetOperationResult{.error = std::move(error)};
 }
-
-// LoadoutPresetData descriptors + utilities
 
 namespace {
     template <typename TWeapons> decltype(auto) ResolveWeaponSlot(TWeapons& weapons, int index) {
