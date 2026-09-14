@@ -679,8 +679,22 @@ void WorldEditorSection::QueueActorTransform(
 ) {
     QueueObjectAction(
         cachedWorld, actor, [location, rotation, scale](SDK::AActor* actor, const RuntimeContextSnapshot&) {
+            PropertyBrowser::EnsureMovable(actor->RootComponent);
             actor->SetActorScale3D(scale);
             actor->K2_SetActorLocationAndRotation(location, rotation, false, nullptr, true);
+        }
+    );
+}
+
+void WorldEditorSection::QueueComponentTransform(
+    SDK::USceneComponent* component, const SDK::FVector& location, const SDK::FRotator& rotation,
+    const SDK::FVector& scale
+) {
+    QueueObjectAction(
+        cachedWorld, component, [location, rotation, scale](SDK::USceneComponent* comp, const RuntimeContextSnapshot&) {
+            PropertyBrowser::EnsureMovable(comp);
+            comp->K2_SetRelativeLocationAndRotation(location, rotation, false, nullptr, true);
+            comp->SetRelativeScale3D(scale);
         }
     );
 }
@@ -909,6 +923,7 @@ void WorldEditorSection::RenderActorControls() {
     if (ImGui::SmallButton("Move To Player")) {
         QueueObjectAction(cachedWorld, actor, [](SDK::AActor* actor, const RuntimeContextSnapshot& runtime) {
             if (!runtime.player) return;
+            PropertyBrowser::EnsureMovable(actor->RootComponent);
             actor->K2_SetActorLocationAndRotation(
                 runtime.player->K2_GetActorLocation(), runtime.player->K2_GetActorRotation(), false, nullptr, true
             );
@@ -977,13 +992,7 @@ void WorldEditorSection::RenderComponentControls() {
         scale = {1.0, 1.0, 1.0};
         transformEdited = true;
     }
-    if (transformEdited)
-        QueueObjectAction(
-            cachedWorld, comp, [location, rotation, scale](SDK::USceneComponent* comp, const RuntimeContextSnapshot&) {
-                comp->K2_SetRelativeLocationAndRotation(location, rotation, false, nullptr, true);
-                comp->SetRelativeScale3D(scale);
-            }
-        );
+    if (transformEdited) QueueComponentTransform(comp, location, rotation, scale);
 }
 
 void WorldEditorSection::Render() {

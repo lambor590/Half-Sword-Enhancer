@@ -120,6 +120,10 @@ private:
     void FindByClassName(const char* className);
     void QueueApply();
     void QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled);
+    void QueueComponentTransform(
+        SDK::USceneComponent* component, const SDK::FVector& location, const SDK::FRotator& rotation,
+        const SDK::FVector& scale
+    );
     void QueueActorTransform(
         SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
     );
