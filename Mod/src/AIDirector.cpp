@@ -78,8 +78,8 @@ namespace {
         if (!willie || !player) return false;
 
         if (ai && ai->Target == player) return true;
-        for (auto* actor : willie->Targeted_By_AI) {
-            if (actor == player) return true;
+        for (auto* actor : player->Targeted_By_AI) {
+            if (actor == willie) return true;
         }
         return false;
     }
@@ -629,7 +629,8 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai || enemy == willie) continue;
 
-                setTeam(willie, ai, (i & 1) ? DIRECTIVE_HOSTILE_ALT_TEAM : DIRECTIVE_HOSTILE_TEAM);
+                const int team = DIRECTIVE_HOSTILE_TEAM + static_cast<int>(i);
+                setTeam(willie, ai, team >= runtime.player->Team_Int ? team + 1 : team);
                 WakeAI(ai, willie, enemy, triggerAttack);
                 SetAggression(willie, ai, 3.0, 0.3, 0.0, 0.8);
                 if (triggerAttack) ai->Attack();
