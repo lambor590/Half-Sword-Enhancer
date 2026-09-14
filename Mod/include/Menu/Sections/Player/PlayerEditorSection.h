@@ -50,7 +50,7 @@ private:
     void ClearRestartApplication();
     void PublishOverrides();
     void ReadFromPlayer();
-    void ClonePlayer(SDK::AWillie_BP_C* player);
+    void ClonePlayer();
     void RenderPhysicalTab();
     void RenderHealthTab();
     void RenderPhysicsTab();

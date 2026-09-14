@@ -356,8 +356,12 @@ void LoadoutManagerSection::RandomizeAllArmor(const RuntimeContextSnapshot* imme
 
     QueueArmorTransaction(
         "Randomize all armor",
-        [tier, options](const RuntimeContextSnapshot& runtime, std::vector<ArmorPresetData>& armor,
-                        std::string& error) {
+        [tier,
+         options](const RuntimeContextSnapshot& runtime, std::vector<ArmorPresetData>& armor, std::string& error) {
+            if (armor.empty()) {
+                error = "no removable armor is equipped";
+                return false;
+            }
             for (auto& current : armor) {
                 const auto slot = current.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
                 const auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, options);
@@ -371,8 +375,7 @@ void LoadoutManagerSection::RandomizeAllArmor(const RuntimeContextSnapshot* imme
             }
             return true;
         },
-        [this](SDK::AWillie_BP_C* player) { QueueClearArmorDraftLinks(player); },
-        immediateRuntime
+        [this](SDK::AWillie_BP_C* player) { QueueClearArmorDraftLinks(player); }, immediateRuntime
     );
 }
 
@@ -870,8 +873,9 @@ void LoadoutManagerSection::RenderArmorTab() {
     ImGui::PushID("actions");
     if (GuiUtils::Button("Remove Removable Armor", GuiUtils::ButtonTone::Danger))
         ImGui::OpenPopup("Remove Removable Armor");
-    (void)GuiUtils::SameLineIfFitsButton("Randomize All Armor");
-    if (GuiUtils::Button("Randomize All Armor", GuiUtils::ButtonTone::Primary)) RandomizeAllArmor();
+    (void)GuiUtils::SameLineIfFitsButton("Randomize Worn Armor");
+    if (GuiUtils::Button("Randomize Worn Armor", GuiUtils::ButtonTone::Primary)) RandomizeAllArmor();
+    GuiUtils::HelpTooltip("Replace the removable armor you are wearing with random pieces of the selected tier");
 
     if (ImGui::BeginPopupModal("Remove Removable Armor", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::TextWrapped("Remove all armor that can be unequipped?");
@@ -962,16 +966,9 @@ void LoadoutManagerSection::RenderArmorTab() {
                 if (editedColor1 || editedColor2) {
                     GameHook::QueueAction([slotEnum, editedColor1,
                                            editedColor2](const RuntimeContextSnapshot& runtime) {
-                        if (!runtime.player) return;
-                        auto& currentArmor = runtime.player->Currently_Equipped_Armor;
-                        for (auto current = begin(currentArmor); current != end(currentArmor); ++current) {
-                            if (current->Key() != slotEnum) continue;
-                            if (editedColor1)
-                                current->Value().FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = *editedColor1;
-                            if (editedColor2)
-                                current->Value().FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = *editedColor2;
-                            break;
-                        }
+                        EquipmentApplication::SetEquippedArmorColors(
+                            runtime.player, slotEnum, editedColor1, editedColor2
+                        );
                     });
                     if (cfg.livePreview && removable) {
                         pendingSlot = slotEnum;
@@ -1214,7 +1211,7 @@ void LoadoutManagerSection::RenderWeaponsTab() {
                 ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
                 auto coa = slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239;
                 ImGui::InputInt("Coat of Arms##coa", &coa);
-                if (ImGui::IsItemDeactivatedAfterEdit()) {
+                if (ImGui::IsItemEdited()) {
                     GameHook::QueueAction([slotIndex = i, coa](const RuntimeContextSnapshot& runtime) {
                         if (!runtime.player) return;
                         auto& weapons = runtime.player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;

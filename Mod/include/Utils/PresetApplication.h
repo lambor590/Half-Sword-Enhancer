@@ -20,7 +20,7 @@ namespace PresetApplication {
     // Removes the SDK blocked-slot map from the returned transport-safe passport.
     [[nodiscard]] std::optional<ArmorPresetData> SnapshotArmorPassport(const SDK::FStr_Passport_Armor1& passport);
     [[nodiscard]] bool ArmorPassportsEqual(
-        const SDK::FStr_Passport_Armor1& left, const SDK::FStr_Passport_Armor1& right
+        const SDK::FStr_Passport_Armor1& left, const SDK::FStr_Passport_Armor1& right, bool compareDerivedFields = true
     ) noexcept;
     // Game-thread only: resolves and type-checks every weapon Blueprint class before
     // publishing the passport to gameplay code.

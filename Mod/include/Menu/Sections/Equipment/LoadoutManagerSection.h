@@ -42,7 +42,7 @@ private:
 
     struct ClassNameCache {
         SDK::UClass* ptr = nullptr;
-        std::string name;
+        std::string name = "(empty)";
         const char* Get(SDK::UClass* cls);
     };
     std::array<ClassNameCache, LoadoutPresetData::K_ARMOR_SLOT_COUNT> armorNameCache{};

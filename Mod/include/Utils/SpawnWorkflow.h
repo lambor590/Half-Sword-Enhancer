@@ -80,4 +80,7 @@ namespace SpawnWorkflow {
     );
     bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnParams& request);
     bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnParams request);
+    bool QueuePlayerClone(
+        const RuntimeContextSnapshot& snapshot, CharacterPhysicalOverrides body, const SpawnCompletion& onComplete = nullptr
+    );
 }
