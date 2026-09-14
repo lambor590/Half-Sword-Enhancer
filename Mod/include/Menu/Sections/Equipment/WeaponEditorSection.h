@@ -65,9 +65,6 @@ private:
     WeaponRuntimeProps runtimeProps{};
 
     LivePreviewManager preview{cfg.preview};
-    SDK::FStr_Passport_Weapon1 lastPreviewedPassport{};
-    WeaponClassPaths lastPreviewedPaths{};
-    WeaponRuntimeProps lastPreviewedProps{};
 
     GuiUtils::ModuleFilterState moduleFilters[6];
     char weaponTypeFilter[64] = {};
@@ -110,11 +107,7 @@ private:
         std::string path;
     };
 
-    struct MeshSnapshotSlot : MeshOverrideSettings {
-        SDK::UObject* mesh = nullptr;
-    };
-
-    using MeshSnapshot = std::array<MeshSnapshotSlot, MODULE_SLOT_COUNT>;
+    using MeshSnapshot = std::array<MeshOverridePreset, MODULE_SLOT_COUNT>;
 
     struct SpawnDraftSnapshot {
         SpawnConfig spawn;
@@ -124,6 +117,7 @@ private:
         WeaponRuntimeProps runtime;
         MeshSnapshot meshes;
     };
+    std::optional<SpawnDraftSnapshot> lastPreviewedDraft;
 
     std::mutex spawnDraftMutex;
     SpawnDraftSnapshot publishedSpawnDraft{};
@@ -191,8 +185,6 @@ private:
     char assetPathBuf[256] = {};
 
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];
-    std::mutex skeletalPreviewMutex;
-    SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
 
@@ -206,17 +198,12 @@ private:
     void ScanAllMeshes();
     void QueueMeshScan();
     bool HasAnyMeshOverride() const;
-    void ApplyMeshOverrides(
-        SDK::AModularWeaponBP_C* weapon, const MeshSnapshot& snap,
-        SDK::USkeletalMeshComponent** outSkeletalComps = nullptr, bool enableSkeletalCollision = false
-    );
     MeshSnapshot BuildMeshSnapshot() const;
     SpawnDraftSnapshot BuildSpawnDraftSnapshot() const;
     bool SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& snapshot) const;
     bool PresetDraftMatchesCurrent(const WeaponPresetData& draft) const;
     void PublishSpawnDraftSnapshot();
     bool PublishAppliedPresetSpawnSnapshot(const PendingDraftUpdate& update);
-    void ApplyMeshToPreview(const MeshSnapshot& snapshot);
     void ResetWeaponPassport();
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
     void RandomizeWeaponPassport();

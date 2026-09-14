@@ -58,7 +58,7 @@ void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
     auto collect = [](std::vector<ModuleEntry>& out, const SDK::TArray<SDK::UClass*>& arr) {
         out.reserve(arr.Num());
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i]) out.push_back({arr[i], BlueprintRegistry::CleanDisplayName(arr[i]->GetName())});
+            out.push_back({arr[i], arr[i] ? BlueprintRegistry::CleanDisplayName(arr[i]->GetName()) : std::string{}});
         }
     };
     collect(armorModules.modules1, cdo->Available_Modules_1);

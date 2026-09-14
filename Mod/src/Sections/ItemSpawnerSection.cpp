@@ -139,7 +139,9 @@ void ItemSpawnerSection::QueueModulesForCore(std::string classPath) {
             const auto collect = [](std::vector<std::string>& out, const SDK::TArray<SDK::UClass*>& source) {
                 out.reserve(source.Num());
                 for (int index = 0; index < source.Num(); ++index) {
-                    if (source[index]) out.push_back(BlueprintRegistry::CleanDisplayName(source[index]->GetName()));
+                    out.push_back(
+                        source[index] ? BlueprintRegistry::CleanDisplayName(source[index]->GetName()) : std::string{}
+                    );
                 }
             };
             collect(batch.slots[0], defaults->Available_Modules_1);
@@ -181,7 +183,8 @@ void ItemSpawnerSection::RenderModuleCombo(const char* label, int slot) {
     if (modules.empty()) return;
 
     const char* preview =
-        (armorModules.selected[slot] > 0 && armorModules.selected[slot] <= static_cast<int32_t>(modules.size()))
+        (armorModules.selected[slot] > 0 && armorModules.selected[slot] <= static_cast<int32_t>(modules.size())) &&
+                !modules[armorModules.selected[slot] - 1].empty()
             ? modules[armorModules.selected[slot] - 1].c_str()
             : "None";
 
@@ -198,6 +201,7 @@ void ItemSpawnerSection::RenderModuleCombo(const char* label, int slot) {
 
     if (ImGui::Selectable("None", armorModules.selected[slot] <= 0)) armorModules.selected[slot] = 0;
     for (int i = 0; i < static_cast<int>(modules.size()); ++i) {
+        if (modules[i].empty()) continue;
         bool sel = (armorModules.selected[slot] == i + 1);
         if (ImGui::Selectable(modules[i].c_str(), sel)) armorModules.selected[slot] = i + 1;
         if (sel) ImGui::SetItemDefaultFocus();

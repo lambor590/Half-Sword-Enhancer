@@ -20,7 +20,6 @@
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/ModularWeaponBP_classes.hpp"
-#include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 
 namespace {
 
@@ -227,76 +226,13 @@ bool WeaponEditorSection::HasAnyMeshOverride() const {
     return false;
 }
 
-void WeaponEditorSection::ApplyMeshOverrides(
-    SDK::AModularWeaponBP_C* weapon, const MeshSnapshot& snap, SDK::USkeletalMeshComponent** outSkeletalComps,
-    bool enableSkeletalCollision
-) {
-    SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
-    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-        if (!comps[i]) continue;
-        const auto& slot = snap[i];
-
-        if (!slot.enabled || !slot.mesh) {
-            comps[i]->SetVisibility(true, true);
-            continue;
-        }
-
-        if (slot.meshType == MeshType::Static) {
-            comps[i]->SetVisibility(true, true);
-            comps[i]->SetStaticMesh(static_cast<SDK::UStaticMesh*>(slot.mesh));
-            comps[i]->SetRelativeScale3D(slot.scale);
-            comps[i]->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
-            comps[i]->K2_SetRelativeLocation(slot.offset, false, nullptr, true);
-            continue;
-        }
-
-        comps[i]->SetVisibility(false, true);
-
-        auto* skMesh = static_cast<SDK::USkeletalMesh*>(slot.mesh);
-
-        auto* added =
-            weapon->AddComponentByClass(SDK::USkeletalMeshComponent::StaticClass(), false, SDK::FTransform{}, false);
-        if (!added) continue;
-
-        auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
-        skelComp->SetSkeletalMeshAsset(skMesh);
-        skelComp->SetAnimationMode(SDK::EAnimationMode::AnimationCustomMode, false);
-        skelComp->SetRenderStatic(true);
-        skelComp->SetSimulatePhysics(false);
-        skelComp->SetEnableGravity(false);
-        skelComp->SetComponentTickEnabled(false);
-        skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-
-        if (enableSkeletalCollision) {
-            comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-            skelComp->bAlwaysCreatePhysicsState = true;
-            skelComp->bEnablePerPolyCollision = true;
-            skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
-            skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
-            skelComp->SetSimulatePhysics(false);
-            skelComp->SetEnableGravity(false);
-        }
-
-        skelComp->K2_AttachToComponent(
-            comps[i], SDK::FName(), SDK::EAttachmentRule::SnapToTarget, SDK::EAttachmentRule::SnapToTarget,
-            SDK::EAttachmentRule::SnapToTarget, !enableSkeletalCollision
-        );
-
-        skelComp->SetRelativeScale3D(slot.scale);
-        skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
-        skelComp->K2_SetRelativeLocation(slot.offset, false, nullptr, true);
-
-        if (outSkeletalComps) outSkeletalComps[i] = skelComp;
-    }
-}
-
 WeaponEditorSection::MeshSnapshot WeaponEditorSection::BuildMeshSnapshot() const {
     MeshSnapshot snapshot;
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         const auto& source = meshOverrides[i];
         auto& target = snapshot[i];
         static_cast<MeshOverrideSettings&>(target) = source;
-        if (source.enabled) target.mesh = source.mesh;
+        target.meshPath = source.path;
     }
     return snapshot;
 }
@@ -326,11 +262,10 @@ bool WeaponEditorSection::SpawnDraftMatchesCurrent(const SpawnDraftSnapshot& sna
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         const auto& source = meshOverrides[i];
         const auto& target = snapshot.meshes[i];
-        auto* mesh = source.enabled ? source.mesh : nullptr;
-        if (target.mesh != mesh) return false;
-        if (!mesh) continue;
-        if (target.meshType != source.meshType || target.scale != source.scale || target.rotation != source.rotation ||
-            target.offset != source.offset)
+        if (target.enabled != source.enabled) return false;
+        if (!source.enabled) continue;
+        if (target.meshPath != source.path || target.meshType != source.meshType || target.scale != source.scale ||
+            target.rotation != source.rotation || target.offset != source.offset)
             return false;
     }
     return true;
@@ -377,26 +312,11 @@ bool WeaponEditorSection::PublishAppliedPresetSpawnSnapshot(const PendingDraftUp
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         const auto& source = update.data.meshPresets[i];
         auto& target = publishedSpawnDraft.meshes[i];
-        target = {};
-        static_cast<MeshOverrideSettings&>(target) = source;
-        if (source.enabled) target.mesh = update.loadedMeshes[i];
+        target = source;
     }
 
     publishedSpawnDraftRevision = update.revision;
     return true;
-}
-
-void WeaponEditorSection::ApplyMeshToPreview(const MeshSnapshot& snapshot) {
-    if (!preview.GetPreviewActor()) return;
-    std::scoped_lock lock(skeletalPreviewMutex);
-    for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-        if (skeletalPreviewComps[i]) {
-            skeletalPreviewComps[i]->K2_DestroyComponent(skeletalPreviewComps[i]);
-            skeletalPreviewComps[i] = nullptr;
-        }
-    }
-    auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(preview.GetPreviewActor());
-    ApplyMeshOverrides(weapon, snapshot, skeletalPreviewComps);
 }
 
 void WeaponEditorSection::ResetWeaponPassport() {
@@ -547,16 +467,14 @@ void WeaponEditorSection::SpawnPreview() {
     auto runtimeSnapshot = runtimeProps;
     SpawnWorkflow::ActorCallback onPreviewReady;
     if (hasOverrides || hasMesh) {
-        onPreviewReady =
-            [this, hasOverrides, hasMesh, meshSnapshot = std::move(meshSnapshot),
-             runtimeSnapshot](SDK::AActor* actor) {
-                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-                if (hasOverrides) (void)PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeSnapshot);
-                if (hasMesh) {
-                    std::scoped_lock lock(skeletalPreviewMutex);
-                    ApplyMeshOverrides(weapon, meshSnapshot, skeletalPreviewComps);
-                }
-            };
+        onPreviewReady = [this, hasOverrides, hasMesh, meshSnapshot = std::move(meshSnapshot),
+                          runtimeSnapshot](SDK::AActor* actor) {
+            if ((hasOverrides && !PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeSnapshot)) ||
+                (hasMesh && !PresetApplication::ApplyWeaponMeshOverrides(actor, meshSnapshot, false))) {
+                PublishFeedback(FeedbackOrigin::Spawn, "The weapon preview could not apply these settings");
+                actor->K2_DestroyActor();
+            }
+        };
     }
 
     if (SpawnWorkflow::QueueWeaponPreview(
@@ -568,10 +486,7 @@ void WeaponEditorSection::SpawnPreview() {
         std::move(onPreviewReady),
         deferredWeaponName
     )) {
-        lastPreviewedPassport = weaponPassport;
-        PresetApplication::NormalizeWeaponPassport(lastPreviewedPassport);
-        lastPreviewedPaths = weaponPaths;
-        lastPreviewedProps = runtimeProps;
+        lastPreviewedDraft = BuildSpawnDraftSnapshot();
     }
 }
 
@@ -593,8 +508,8 @@ void WeaponEditorSection::SpawnWeapon(const RuntimeContextSnapshot& runtime, Spa
         CollectMeshesFromWeapon(weapon);
         if (hasRuntimeOverrides && !PresetApplication::ApplyWeaponRuntimeOverrides(actor, runtimeProps))
             return std::unexpected("Custom weapon stats could not be applied");
-        if (std::any_of(meshes.begin(), meshes.end(), [](const auto& slot) { return slot.mesh != nullptr; }))
-            ApplyMeshOverrides(weapon, meshes, nullptr, true);
+        if (!PresetApplication::ApplyWeaponMeshOverrides(actor, meshes))
+            return std::unexpected("Custom weapon models could not be applied");
         return {};
     };
 
@@ -914,17 +829,17 @@ void WeaponEditorSection::RenderAppearanceTab() {
 
 void WeaponEditorSection::RenderMeshTransformControls(MeshOverride& ovr) {
     float s[3] = {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
-    bool updatePreview = GuiUtils::DebouncedDragFloat3("Size", s, 0.01f, 0.0f, 0.0f, "%.2f");
+    (void)GuiUtils::DebouncedDragFloat3("Size", s, 0.01f, 0.0f, 0.0f, "%.2f");
     GuiUtils::StoreEdited(ovr.scale, s);
 
     float r[3] =
         {static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw),
          static_cast<float>(ovr.rotation.Roll)};
-    updatePreview |= GuiUtils::DebouncedDragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f");
+    (void)GuiUtils::DebouncedDragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f");
     GuiUtils::StoreEdited(ovr.rotation, r);
 
     float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
-    updatePreview |= GuiUtils::DebouncedDragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f");
+    (void)GuiUtils::DebouncedDragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f");
     GuiUtils::StoreEdited(ovr.offset, o);
 
     (void)GuiUtils::SameLineIfFitsButton("Restore Model Adjustments");
@@ -932,11 +847,6 @@ void WeaponEditorSection::RenderMeshTransformControls(MeshOverride& ovr) {
         ovr.scale = {1.0, 1.0, 1.0};
         ovr.rotation = {0.0, 0.0, 0.0};
         ovr.offset = {0.0, 0.0, 0.0};
-        updatePreview = true;
-    }
-    if (updatePreview && preview.GetPreviewActor()) {
-        auto snapshot = BuildMeshSnapshot();
-        GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) { ApplyMeshToPreview(snapshot); });
     }
 }
 
@@ -955,7 +865,7 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
     auto& ovr = meshOverrides[slotIdx];
     ImGui::Checkbox("##meshEn", &ovr.enabled);
     (void)GuiUtils::SameLineIfFits(meshComboWidth);
-    if (!ovr.enabled) ImGui::BeginDisabled();
+    ImGui::BeginDisabled(!ovr.enabled);
 
     const char* comboPreview = (ovr.poolIndex >= 0 && ovr.poolIndex < static_cast<int>(meshPool.size()))
                                    ? meshPool[ovr.poolIndex].name.c_str()
@@ -1001,12 +911,6 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
                 ovr.mesh = meshPool[i].mesh;
                 ovr.meshType = meshPool[i].type;
                 ovr.path = PresetUtils::ObjectToAbsolutePath(ovr.mesh);
-                if (preview.GetPreviewActor()) {
-                    auto snapshot = BuildMeshSnapshot();
-                    GameHook::QueueAction([this, snapshot](const RuntimeContextSnapshot&) {
-                        ApplyMeshToPreview(snapshot);
-                    });
-                }
             }
             if (ovr.poolIndex == i) ImGui::SetItemDefaultFocus();
             ImGui::PopID();
@@ -1026,7 +930,7 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
         RenderMeshTransformControls(ovr);
     }
 
-    if (!ovr.enabled) ImGui::EndDisabled();
+    ImGui::EndDisabled();
 }
 
 void WeaponEditorSection::PublishMeshEntries(std::vector<MeshPoolEntry> entries, bool fullReplace) {
@@ -1592,12 +1496,6 @@ WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, SECTION
     BuildDescriptors();
     PublishSpawnDraftSnapshot();
     InitKeybinds();
-
-    preview.SetCleanupCallback([this]() {
-        std::scoped_lock lock(skeletalPreviewMutex);
-        for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
-            skeletalPreviewComps[i] = nullptr;
-    });
 }
 
 void WeaponEditorSection::OnOpen() {
@@ -1706,9 +1604,7 @@ void WeaponEditorSection::Render() {
     if (editorBusy) ImGui::EndDisabled();
 
     if (!editorBusy && cfg.preview.livePreview && player && world) {
-        bool needsUpdate = weaponPaths != lastPreviewedPaths ||
-                           !WeaponPassportEquals(weaponPassport, lastPreviewedPassport) ||
-                           runtimeProps != lastPreviewedProps;
+        const bool needsUpdate = !lastPreviewedDraft || !SpawnDraftMatchesCurrent(*lastPreviewedDraft);
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }
