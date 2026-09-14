@@ -5,6 +5,10 @@
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <PlatformToolset>v145</PlatformToolset>
+    <!-- Schedule source files across projects and reuse compiler processes. -->
+    <UseMultiToolTask Condition="'$(UseMultiToolTask)'==''">true</UseMultiToolTask>
+    <EnforceProcessCountAcrossBuilds Condition="'$(EnforceProcessCountAcrossBuilds)'==''">true</EnforceProcessCountAcrossBuilds>
+    <EnableClServerMode Condition="'$(EnableClServerMode)'==''">true</EnableClServerMode>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -45,6 +49,8 @@
 
   <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
     <ClCompile>
+      <!-- Release does not link debug symbols; avoid generating the compiler PDB too. -->
+      <DebugInformationFormat Condition="'$(Configuration)'=='Release'">None</DebugInformationFormat>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <FunctionLevelLinking>true</FunctionLevelLinking>

@@ -54,8 +54,6 @@
     <ClCompile>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <PreprocessorDefinitions>_DEBUG;MOD_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir)include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -66,9 +64,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
     <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;MOD_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>NDEBUG;MOD_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
     </ClCompile>
@@ -92,60 +88,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ext\imgui\backends\imgui_impl_dx11.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\backends\imgui_impl_dx12.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\backends\imgui_impl_win32.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\imgui.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\imgui_draw.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\imgui_tables.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="ext\imgui\imgui_widgets.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\AIModule_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\AI_BP_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\BP_Generator_Armor_Random_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\BP_Generator_Characters_Random_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\BP_Generator_Weapons_Random_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\GI_Settings_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\Niagara_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\UMG_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
+    <ClCompile Include="src\Pch.cpp" />
+    <ClCompile Include="src\SdkPch.cpp" />
+    <ClCompile Include="ext\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ext\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="ext\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="ext\imgui\imgui.cpp" />
+    <ClCompile Include="ext\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ext\imgui\imgui_tables.cpp" />
+    <ClCompile Include="ext\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="SDK\SDK\AIModule_functions.cpp" />
+    <ClCompile Include="SDK\SDK\AI_BP_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Generator_Armor_Random_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Generator_Characters_Random_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Generator_Weapons_Random_functions.cpp" />
+    <ClCompile Include="SDK\SDK\GI_Settings_functions.cpp" />
+    <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp" />
+    <ClCompile Include="SDK\SDK\Niagara_functions.cpp" />
+    <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp" />
+    <ClCompile Include="SDK\SDK\UMG_functions.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
     <ClCompile Include="src\DefaultStyle.cpp" />
@@ -153,18 +115,10 @@
     <ClCompile Include="src\MemoryUtils.cpp" />
     <ClCompile Include="src\NotificationManager.cpp" />
     <ClCompile Include="src\Gui.cpp" />
-    <ClCompile Include="SDK\SDK\Basic.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\Engine_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\Willie_BP_functions.cpp">
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
+    <ClCompile Include="SDK\SDK\Basic.cpp" />
+    <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp" />
+    <ClCompile Include="SDK\SDK\Engine_functions.cpp" />
+    <ClCompile Include="SDK\SDK\Willie_BP_functions.cpp" />
     <ClCompile Include="src\Core\ModContext.cpp" />
     <ClCompile Include="src\Core\ModRuntimeLifecycle.cpp" />
     <ClCompile Include="src\MenuManager.cpp" />
@@ -209,11 +163,31 @@
     <ClCompile Include="src\Sections\ArmorEditorSection.cpp" />
     <ClCompile Include="src\Sections\WeaponEditorSection.cpp" />
     <ClCompile Include="src\Sections\LoadoutManagerSection.cpp" />
-    <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
+    <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Update="src\**\*.cpp;SDK\**\*.cpp">
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <ForcedIncludeFiles>Pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+    </ClCompile>
+    <!-- PCH files retain warning settings, so generated SDK code gets its own copy. -->
+    <ClCompile Update="SDK\**\*.cpp;src\SdkPch.cpp">
+      <PrecompiledHeaderFile>SdkPch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName)Sdk.pch</PrecompiledHeaderOutputFile>
+      <ForcedIncludeFiles>SdkPch.h</ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Update="ext\**\*.cpp;SDK\**\*.cpp;src\SdkPch.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Update="src\Pch.cpp;src\SdkPch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Pch.h" />
+    <ClInclude Include="include\SdkPch.h" />
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\Gui.h" />
     <ClInclude Include="include\Hooks\GameHook.h" />
