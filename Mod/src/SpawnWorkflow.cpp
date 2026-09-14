@@ -56,17 +56,18 @@ namespace SpawnWorkflow {
             }
 
             auto rejectedCompletion = onComplete;
-            const bool queued =
-                GameHook::QueueAction([spawnFn = std::forward<SpawnFn>(spawnFn), spawn,
-                                       onComplete =
-                                           std::move(onComplete)](const RuntimeContextSnapshot& runtime) mutable {
+            const bool queued = GameHook::QueueAction(
+                [spawnFn = std::forward<SpawnFn>(spawnFn), spawn, world = snapshot.world, player = snapshot.player,
+                 onComplete = std::move(onComplete)](const RuntimeContextSnapshot& runtime) mutable {
                     SDK::FTransform transform{};
-                    if (!TryBuildSpawnTransform(runtime, spawn, transform)) {
+                    if (runtime.world != world || runtime.player != player ||
+                        !TryBuildSpawnTransform(runtime, spawn, transform)) {
                         CompleteSpawn(onComplete, FailedSpawn("The player is no longer available"));
                         return;
                     }
                     spawnFn(runtime, transform, spawn.snapToGround);
-                });
+                }
+            );
             if (!queued) CompleteSpawn(rejectedCompletion, FailedSpawn("The spawn couldn't be started right now"));
             return queued;
         }
@@ -128,7 +129,7 @@ namespace SpawnWorkflow {
                     if (!EquipmentGenerator::IsPassportValid(passport))
                         return FailedSpawn("The game couldn't create this weapon");
                     auto* actor =
-                        Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround, onSpawned);
+                        Spawner::SpawnWeaponFromPassport(world, passport, transform, snapToGround, onSpawned);
                     return SpawnedActor(actor, "The weapon could not be placed in the world");
                 }
                 case ItemSpawnPresetSource::RandomArmor: {
@@ -315,12 +316,14 @@ namespace SpawnWorkflow {
             }
 
             if (onSpawned) onSpawned(actor);
+            if (!IsUsableActor(actor)) return;
             if (!LivePreviewManager::IsCurrent(token)) {
                 actor->K2_DestroyActor();
                 return;
             }
             prepare(actor);
             if (onReady) onReady(actor);
+            if (!IsUsableActor(actor)) return;
             if (!LivePreviewManager::SetPreviewActor(token, actor, world)) actor->K2_DestroyActor();
         }
 
@@ -336,7 +339,7 @@ namespace SpawnWorkflow {
             preset.deferredWeaponName = std::string(deferredWeaponName);
             if (!PresetApplication::MaterializeWeaponPreset(preset, error)) return nullptr;
             passport = preset.passport;
-            auto* actor = Spawner::SpawnCustomizableFromPassport(
+            auto* actor = Spawner::SpawnWeaponFromPassport(
                 world, passport, transform, snapToGround, std::forward<ActorCallbackFn>(onSpawned)
             );
             if (!actor && error && error->empty()) *error = "The weapon could not be placed in the world";
@@ -544,6 +547,68 @@ namespace SpawnWorkflow {
             return false;
         }
         return SpawnNPCAt(runtime.world, runtime.player->Team_Int, transform, spawn.snapToGround, request);
+    }
+
+    bool QueuePlayerClone(
+        const RuntimeContextSnapshot& snapshot, CharacterPhysicalOverrides body, const SpawnCompletion& onComplete
+    ) {
+        return QueueWithPlacement(
+            snapshot, {.distanceForward = 150.0f}, onComplete,
+            [body, completion = onComplete](const RuntimeContextSnapshot& runtime, SDK::FTransform transform, bool) {
+                auto* player = runtime.player;
+                ResolvedLoadoutPresetData loadout;
+                for (std::size_t index = 0; index < loadout.weapons.size(); ++index) {
+                    WeaponPresetData weapon;
+                    if (EquipmentApplication::CaptureConfiguredWeaponPreset(player, static_cast<int>(index), weapon))
+                        loadout.weapons[index] = std::move(weapon);
+                }
+                for (std::size_t index = 0; index < loadout.armor.size(); ++index) {
+                    ArmorPresetData armor;
+                    if (EquipmentApplication::CaptureEquippedArmorPreset(
+                            player, static_cast<SDK::EArmorSlots_Enum>(index), armor
+                        ))
+                        loadout.armor[index] = std::move(armor);
+                }
+                auto passport = player->Character_Passport;
+                // SDK container copies borrow storage. The clone must construct its own equipment maps.
+                passport.Equipment_26_741A2FC641801842FE691295645C604F = {};
+                passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B =
+                    body.heightRate.enabled ? body.heightRate.value : player->Height_Rate;
+                passport.Weight_23_65E4C6534D14653F96EB739F159E58CD =
+                    body.muscleRate.enabled ? body.muscleRate.value : player->Muscle_Rate;
+                transform.Scale3D = {1.0, 1.0, 1.0};
+                auto* actor = Spawner::DeferredSpawn(
+                    runtime.world, player->Class, transform,
+                    [passport, body, team = player->Team_Int](SDK::AActor* spawned) {
+                        auto* npc = static_cast<SDK::AWillie_BP_C*>(spawned);
+                        npc->Character_Passport = passport;
+                        npc->Height_Rate = passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;
+                        npc->Muscle_Rate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
+                        if (body.scaleMutationInhibitor.enabled)
+                            npc->Scale_Mutation_Inhibitor = body.scaleMutationInhibitor.value;
+                        npc->Team_Int = team;
+                        npc->Spawn_in_Pants = true;
+                    },
+                    SDK::ESpawnActorScaleMethod::OverrideRootScale
+                );
+                if (!IsUsableActor(actor)) {
+                    CompleteSpawn(completion, FailedSpawn("The player clone could not be spawned"));
+                    return;
+                }
+                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                auto finish = [npc, index = npc->Index, completion](bool success) {
+                    const bool alive = SDK::UObject::GObjects->GetByIndex(index) == npc && IsUsableActor(npc);
+                    if (!success || !alive) {
+                        if (alive) npc->K2_DestroyActor();
+                        CompleteSpawn(completion, FailedSpawn("The player clone's equipment could not be prepared"));
+                    } else {
+                        CompleteSpawn(completion, {.success = true, .actor = npc});
+                    }
+                };
+                if (!EquipmentApplication::ApplyNPCLoadout(runtime.world, npc, std::move(loadout), nullptr, finish))
+                    finish(false);
+            }
+        );
     }
 
     bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnParams request) {

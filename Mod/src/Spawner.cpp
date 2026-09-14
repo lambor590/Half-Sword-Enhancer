@@ -13,7 +13,6 @@
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
-#include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
@@ -70,15 +69,21 @@ namespace Spawner {
         }};
 
         SDK::UClass* LoadActorClass(const std::string& classPath) {
-            static std::unordered_map<std::string, SDK::UClass*> classCache;
-            if (const auto cached = classCache.find(classPath); cached != classCache.end()) return cached->second;
+            static std::unordered_map<std::string, std::pair<SDK::UClass*, int>> classCache;
+            if (const auto cached = classCache.find(classPath); cached != classCache.end()) {
+                const auto [actorClass, index] = cached->second;
+                if (SDK::UObject::GObjects->GetByIndex(index) == actorClass &&
+                    SDK::UKismetSystemLibrary::IsValid(actorClass))
+                    return actorClass;
+                classCache.erase(cached);
+            }
 
             std::wstring wideClassPath;
             if (!PresetUtils::TryUtf8ToWide(classPath, wideClassPath)) return nullptr;
             const auto softPath = SDK::UKismetSystemLibrary::MakeSoftClassPath(SDK::FString(wideClassPath.c_str()));
             const auto softClass = SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softPath);
             auto* loaded = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClass);
-            if (loaded) classCache.emplace(classPath, loaded);
+            if (loaded) classCache.emplace(classPath, std::pair{loaded, loaded->Index});
             return loaded;
         }
 
@@ -102,6 +107,7 @@ namespace Spawner {
         const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& preFinishCallback, SDK::ESpawnActorScaleMethod scaleMethod
     ) {
+        if (!world || !actorClass || !actorClass->IsSubclassOf(SDK::AActor::StaticClass())) return nullptr;
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world, actorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
             nullptr, scaleMethod
@@ -133,8 +139,8 @@ namespace Spawner {
         endPos.Z -= traceDistance * 0.5f;
 
         SDK::TArray<SDK::AActor*> actorsToIgnore;
-        SDK::TArray<SDK::EObjectTypeQuery> objectTypes;
-        objectTypes.Add(SDK::EObjectTypeQuery::ObjectTypeQuery1);
+        SDK::EObjectTypeQuery groundType = SDK::EObjectTypeQuery::ObjectTypeQuery1;
+        SDK::TArray<SDK::EObjectTypeQuery> objectTypes(&groundType, 1, 1);
 
         bool hit = SDK::UKismetSystemLibrary::LineTraceSingleForObjects(
             world, startPos, endPos, objectTypes, true, actorsToIgnore, SDK::EDrawDebugTrace::None, &hitResult, true,
@@ -173,7 +179,7 @@ namespace Spawner {
         if (actorType == ActorType::Weapon) {
             if (className.find("Built_Weapons") == std::string::npos) {
                 auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier, weaponSpecificType);
-                return SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
+                return SpawnWeaponFromPassport(world, passport, transform, snapToGround, callback);
             }
 
             constexpr std::string_view ROOT_TEMPLATE_PREFIX = "/Blueprints/Built_Weapons/ModularWeaponBP_";
@@ -251,7 +257,7 @@ namespace Spawner {
         return LoadActorClass(classPath);
     }
 
-    SDK::AActor* SpawnCustomizableFromPassport(
+    SDK::AActor* SpawnWeaponFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
         bool snapToGround, const std::function<void(SDK::AActor*)>& callback
     ) {
@@ -260,8 +266,7 @@ namespace Spawner {
         SDK::FTransform finalTransform = transform;
         if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
-        auto* weaponClass = LoadActorClass(GameConstants::CUSTOMIZABLE_WEAPON_BP_PATH);
-        if (!GameClass::IsSubclassOf(weaponClass, "ModularWeaponBP_Customizable_C")) return nullptr;
+        auto* weaponClass = passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
         auto* actor = DeferredSpawn(world, weaponClass, finalTransform, [&passport](SDK::AActor* a) {
             static_cast<SDK::AModularWeaponBP_C*>(a)->Weapon_Passport = passport;
         });

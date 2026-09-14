@@ -10,7 +10,8 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/GameClass.h"
 #include "Utils/PresetApplication.h"
-#include "Utils/Spawner.h"
+#include "Utils/SpawnWorkflow.h"
+#include "NotificationManager.h"
 
 namespace {
     std::uint64_t OverrideValueBits(const OverrideDescriptor& field) noexcept {
@@ -260,31 +261,13 @@ void PlayerEditorSection::ReadFromPlayer() {
     presets.status.Clear();
 }
 
-void PlayerEditorSection::ClonePlayer(SDK::AWillie_BP_C* player) {
-    auto passport = player->Character_Passport;
-    if (overrides.heightRate.enabled) passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = overrides.heightRate.value;
-    if (overrides.muscleRate.enabled) passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = overrides.muscleRate.value;
-
-    double heightRate = passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;
-    double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
-    const float spawnScale = PresetApplication::PlayerScaleFromHeight(heightRate);
-
-    auto transform = Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale);
-
-    GameHook::QueueAction([passport, heightRate, muscleRate, transform](const RuntimeContextSnapshot& runtime) {
-        if (!runtime.world) return;
-        Spawner::SpawnActor(
-            runtime.world, GameConstants::WILLIE_BP_PATH, transform,
-            [passport, heightRate, muscleRate](SDK::AActor* actor) {
-                if (!GameClass::IsWillie(actor)) return;
-                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-                npc->Character_Passport = passport;
-                npc->Height_Rate = heightRate;
-                npc->Muscle_Rate = muscleRate;
-                npc->Team_Int = 1;
-            }
-        );
-    });
+void PlayerEditorSection::ClonePlayer() {
+    SpawnWorkflow::QueuePlayerClone(
+        RenderSnapshot(), {overrides.heightRate, overrides.muscleRate, overrides.scaleMutationInhibitor},
+        [](const SpawnWorkflow::SpawnResult& result) {
+            NotificationManager::NotifyAction(result.success ? "Player clone spawned" : result.error);
+        }
+    );
 }
 
 void PlayerEditorSection::RenderPhysicalTab() {
@@ -500,10 +483,10 @@ void PlayerEditorSection::Render() {
     if (!player || !world) ImGui::BeginDisabled();
     if (GuiUtils::Button("Spawn Player Clone", GuiUtils::ButtonTone::Primary)) {
         presets.status.Clear();
-        ClonePlayer(player);
+        ClonePlayer();
     }
     if (!player || !world) ImGui::EndDisabled();
-    GuiUtils::HelpTooltip("Spawn a clone with the current body settings");
+    GuiUtils::HelpTooltip("Spawn an ally with your equipment and current body settings");
 
     GuiUtils::RenderOverrideCount(
         CountActive(physicalFields) + CountActive(healthFields) + CountActive(physicsFields) +

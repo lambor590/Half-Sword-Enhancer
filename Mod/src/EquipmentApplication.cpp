@@ -51,6 +51,12 @@ namespace EquipmentApplication {
 
         using TrackedArmorSet = std::array<std::optional<TrackedArmorRuntime>, LoadoutPresetData::K_ARMOR_SLOT_COUNT>;
 
+        struct TrackedArmorState {
+            SDK::UWorld* world;
+            int objectIndex;
+            TrackedArmorSet slots;
+        };
+
         struct ApplyState;
         using ApplyFinish = std::function<void(bool success)>;
 
@@ -59,14 +65,87 @@ namespace EquipmentApplication {
             return applications;
         }
 
-        std::unordered_map<SDK::AWillie_BP_C*, TrackedArmorSet>& ArmorRuntimeState() {
-            static std::unordered_map<SDK::AWillie_BP_C*, TrackedArmorSet> state;
+        std::unordered_map<SDK::AWillie_BP_C*, TrackedArmorState>& ArmorRuntimeState() {
+            static std::unordered_map<SDK::AWillie_BP_C*, TrackedArmorState> state;
             return state;
         }
 
         bool IsUsableActor(SDK::AActor* actor) {
             return actor && SDK::UKismetSystemLibrary::IsValid(actor) && !actor->IsActorBeingDestroyed();
         }
+
+        // Set Up Armor consumes temporary actors returned by FinishSpawningActor. Applying to the
+        // pickup actor alone loses overrides when the Blueprint reconstructs the equipped pieces.
+        class ScopedArmorSpawnOverrides {
+        public:
+            explicit ScopedArmorSpawnOverrides(const ResolvedLoadout& loadout) : loadout(&loadout) { Begin(); }
+            explicit ScopedArmorSpawnOverrides(const TrackedArmorSet& tracked) : tracked(&tracked) { Begin(); }
+            static bool IsActive() { return active != nullptr; }
+
+        private:
+            void Begin() {
+                previous = active;
+                if (!previous) {
+                    function =
+                        SDK::UGameplayStatics::StaticClass()->GetFunction("GameplayStatics", "FinishSpawningActor");
+                    if (!function || !function->ExecFunction) return;
+                    original = std::exchange(function->ExecFunction, FinishSpawn);
+                }
+                active = this;
+            }
+
+        public:
+            ~ScopedArmorSpawnOverrides() {
+                if (active != this) return;
+                active = previous;
+                if (!previous) function->ExecFunction = original;
+            }
+
+            ScopedArmorSpawnOverrides(const ScopedArmorSpawnOverrides&) = delete;
+            ScopedArmorSpawnOverrides& operator=(const ScopedArmorSpawnOverrides&) = delete;
+
+        private:
+            static void FinishSpawn(void* context, void* stack, void* result) {
+                original(context, stack, result);
+                if (!active || !result) return;
+                auto* actor = *static_cast<SDK::AActor**>(result);
+                if (!IsUsableActor(actor) || !GameClass::IsArmor(actor)) return;
+                const auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+                const auto* overrides = active->FindOverrides(*armor);
+                if (overrides) {
+                    auto props = *overrides;
+                    props.pickUp.enabled = false;
+                    (void)PresetApplication::ApplyArmorRuntimeOverrides(actor, props);
+                }
+            }
+
+            const ArmorRuntimeProps* FindOverrides(const SDK::ABP_Armor_Master_C& armor) const {
+                if (loadout) {
+                    for (const auto& slot : loadout->armor)
+                        if (slot.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 == armor.Class &&
+                            slot.passport.Slot_30_7561CB484566A4512003EA96ED44F88D == armor.Armor_Slot)
+                            return &slot.preset.runtimeProps;
+                } else {
+                    const auto index = static_cast<std::size_t>(armor.Armor_Slot);
+                    if (index < tracked->size()) {
+                        const auto& slot = (*tracked)[index];
+                        if (slot && slot->passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 == armor.Class)
+                            return &slot->props;
+                    }
+                }
+                return nullptr;
+            }
+
+            const ResolvedLoadout* loadout = nullptr;
+            const TrackedArmorSet* tracked = nullptr;
+            ScopedArmorSpawnOverrides* previous = nullptr;
+            inline static thread_local ScopedArmorSpawnOverrides* active = nullptr;
+            inline static SDK::UFunction* function = nullptr;
+            inline static SDK::UFunction::FNativeFuncPtr original = nullptr;
+        };
+
+        SDK::UFunction* armorSetupFunction = nullptr;
+        SDK::UFunction::FNativeFuncPtr originalArmorSetup = nullptr;
 
         bool IsIntrinsicArmorClass(const SDK::UClass* armorClass) {
             return armorClass && armorClass->GetName().find("BP_Armor_Legs_Panties") != std::string::npos;
@@ -82,6 +161,27 @@ namespace EquipmentApplication {
             for (auto it = begin(map); it != end(map); ++it)
                 if (it->Key() == slot) return &it->Value();
             return nullptr;
+        }
+
+        void SetupArmorWithOverrides(void* context, void* stack, void* result) {
+            auto* willie = static_cast<SDK::AWillie_BP_C*>(context);
+            const auto found = ArmorRuntimeState().find(willie);
+            if (ScopedArmorSpawnOverrides::IsActive() || found == ArmorRuntimeState().end() ||
+                found->second.objectIndex != willie->Index || found->second.world != SDK::UWorld::GetWorld()) {
+                originalArmorSetup(context, stack, result);
+                return;
+            }
+            auto applicable = found->second.slots;
+            auto& armor = willie->Character_Passport.Equipment_26_741A2FC641801842FE691295645C604F
+                              .ArmorinSlots_5_BD7AC6CB43FBB2FDB943E7864486F358;
+            for (auto& slot : applicable) {
+                if (!slot) continue;
+                const auto* source = FindArmorSlot(armor, slot->passport.Slot_30_7561CB484566A4512003EA96ED44F88D);
+                if (!source || !PresetApplication::ArmorPassportsEqual(*source, slot->passport, false)) slot.reset();
+            }
+            // Match the source before construction recalculates derived fields such as price and tier.
+            const ScopedArmorSpawnOverrides overrides(applicable);
+            originalArmorSetup(context, stack, result);
         }
 
         bool ResolveStaticMeshPath(const std::string& path, SDK::UStaticMesh*& result) {
@@ -464,19 +564,38 @@ namespace EquipmentApplication {
         }
 
         void PublishArmorRuntimeState(SDK::AWillie_BP_C* willie, const ResolvedLoadout& loadout) {
+            const auto* world = SDK::UWorld::GetWorld();
+            std::erase_if(ArmorRuntimeState(), [world](const auto& entry) {
+                return entry.second.world != world ||
+                       SDK::UObject::GObjects->GetByIndex(entry.second.objectIndex) != entry.first ||
+                       !IsUsableActor(entry.first);
+            });
             TrackedArmorSet tracked{};
             for (const auto& armor : loadout.armor) {
+                const auto overrides = ArmorPresetData::GetPresetOverrides(const_cast<ArmorPresetData&>(armor.preset));
+                if (std::ranges::none_of(overrides, [](const auto& entry) { return *entry.field.enabled; })) continue;
                 const int slot = static_cast<int>(armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D);
                 if (slot < 0 || slot >= static_cast<int>(tracked.size())) continue;
-                auto identity = PresetApplication::SnapshotArmorPassport(armor.passport);
+                const auto* equipped = FindArmorSlot(
+                    willie->Currently_Equipped_Armor, armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D
+                );
+                if (!equipped || equipped->ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 !=
+                                     armor.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
+                    continue;
+                auto identity = PresetApplication::SnapshotArmorPassport(*equipped);
                 if (!identity) continue;
                 tracked[static_cast<std::size_t>(slot)] =
                     TrackedArmorRuntime{identity->passport, armor.preset.runtimeProps};
             }
             if (std::ranges::any_of(tracked, [](const auto& value) { return value.has_value(); }))
-                ArmorRuntimeState()[willie] = tracked;
+                ArmorRuntimeState()[willie] = {SDK::UWorld::GetWorld(), willie->Index, tracked};
             else
                 ArmorRuntimeState().erase(willie);
+            if (!armorSetupFunction && !ArmorRuntimeState().empty()) {
+                armorSetupFunction = SDK::AWillie_BP_C::StaticClass()->GetFunction("Willie_BP_C", "Set Up Armor");
+                if (armorSetupFunction && armorSetupFunction->ExecFunction)
+                    originalArmorSetup = std::exchange(armorSetupFunction->ExecFunction, SetupArmorWithOverrides);
+            }
         }
 
         bool EquipResolvedWeaponSlot(SDK::AWillie_BP_C* willie, int slotIndex, const ResolvedWeaponSlot& resolved) {
@@ -550,7 +669,7 @@ namespace EquipmentApplication {
             }
 
             if (rebuildSheaths) {
-                ClearSheathedWeaponActors(willie);
+                if (!editedSlot) ClearSheathedWeaponActors(willie);
                 constexpr std::array<SDK::ESheathSlots_Enum, 5> K_SHEATH_SLOTS = {
                     SDK::ESheathSlots_Enum::NewEnumerator0, SDK::ESheathSlots_Enum::NewEnumerator1,
                     SDK::ESheathSlots_Enum::NewEnumerator2, SDK::ESheathSlots_Enum::NewEnumerator3,
@@ -558,48 +677,77 @@ namespace EquipmentApplication {
                 };
                 const auto transform = willie.GetTransform();
                 for (std::size_t index = 2; index < loadout.weapons.size(); ++index) {
+                    if (editedSlot && index != static_cast<std::size_t>(*editedSlot)) continue;
                     const auto& resolved = loadout.weapons[index];
-                    if (!resolved.preset || !resolved.preset->passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC)
+                    if (!resolved.preset) {
+                        if (editedSlot) {
+                            willie.Sheathe_on_Spawn(nullptr, K_SHEATH_SLOTS[index - 2]);
+                            std::array slots{
+                                &willie.Weapon_Slot_R_1, &willie.Weapon_Slot_R_2, &willie.Weapon_Slot_L_1,
+                                &willie.Weapon_Slot_L_2, &willie.Weapon_Slot_Back
+                            };
+                            *slots[index - 2] = nullptr;
+                        }
                         continue;
+                    }
 
                     auto* actor =
-                        Spawner::SpawnCustomizableFromPassport(world, resolved.preset->passport, transform, false);
+                        Spawner::SpawnWeaponFromPassport(world, resolved.preset->passport, transform, false);
                     if (!IsUsableActor(actor) || !GameClass::IsModularWeapon(actor)) {
                         if (IsUsableActor(actor)) actor->K2_DestroyActor();
                         success = false;
                         continue;
                     }
                     auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-                    willie.Sheathe_on_Spawn(weapon, K_SHEATH_SLOTS[index - 2]);
-                    weapon->Weapon_Passport = resolved.preset->passport;
                     if (!PresetApplication::ApplyWeaponMeshOverrides(actor, resolved.preset->meshPresets) ||
                         !PresetApplication::ApplyWeaponRuntimeOverrides(actor, resolved.preset->runtimeProps)) {
                         if (IsUsableActor(actor)) actor->K2_DestroyActor();
                         success = false;
+                        continue;
                     }
+                    willie.Sheathe_on_Spawn(weapon, K_SHEATH_SLOTS[index - 2]);
+                    success = GetWeaponActors(willie)[index] == actor && success;
                 }
             }
 
-            if (editedSlot) {
+            if (editedSlot && success) {
                 auto& weapons = willie.Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
                 WriteResolvedWeaponSlot(
                     LoadoutPresetData::GetWeaponSlot(weapons, *editedSlot), loadout.weapons[*editedSlot]
                 );
-            } else {
+            } else if (!editedSlot) {
                 WriteWeaponConfiguration(willie, loadout);
             }
-            if (!success && rebuildSheaths) ClearSheathedWeaponActors(willie);
+            if (!success && rebuildSheaths && !editedSlot) ClearSheathedWeaponActors(willie);
             return success;
+        }
+
+        bool PrepareArmorReplacement(SDK::AWillie_BP_C& willie, const ResolvedLoadout& target) {
+            if (!RemoveAllArmor(willie)) return false;
+            ResetLoadEquipmentArmor(willie, target);
+            auto& armor = willie.Character_Passport.Equipment_26_741A2FC641801842FE691295645C604F
+                              .ArmorinSlots_5_BD7AC6CB43FBB2FDB943E7864486F358;
+            // Spawn in Pants leaves generated, unworn pieces in this map. Native pickup owns insertion.
+            for (auto& entry : armor) {
+                if (IsIntrinsicArmorClass(entry.Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)) continue;
+                entry.Value() = {};
+                entry.Value().Slot_30_7561CB484566A4512003EA96ED44F88D = entry.Key();
+            }
+            willie.Spawn_in_Pants = false;
+            return true;
         }
 
         struct ApplyState {
             SDK::UWorld* world = nullptr;
             SDK::AWillie_BP_C* willie = nullptr;
+            int objectIndex = -1;
             ResolvedLoadout target;
+            std::optional<ResolvedLoadout> rollback;
             std::size_t armorIndex = 0;
             bool replaceWeapons = true;
             bool stepQueued = false;
             bool finished = false;
+            bool restoring = false;
             ApplyFinish finish;
         };
 
@@ -608,55 +756,92 @@ namespace EquipmentApplication {
             return active != ActiveApplications().end() && active->second == state;
         }
 
+        void QueueApplyStep(const std::shared_ptr<ApplyState>& state);
+
         void FinishApplication(const std::shared_ptr<ApplyState>& state, bool success) {
             if (state->finished) return;
+            if (!success && state->rollback && IsCurrentApplication(state) && state->world == SDK::UWorld::GetWorld() &&
+                SDK::UObject::GObjects->GetByIndex(state->objectIndex) == state->willie &&
+                IsUsableActor(state->willie)) {
+                state->target = std::move(*state->rollback);
+                state->rollback.reset();
+                state->restoring = true;
+                state->armorIndex = 0;
+                if (PrepareArmorReplacement(*state->willie, state->target)) {
+                    g_logger.Log("Equipment change failed; restoring the player's previous equipment");
+                    QueueApplyStep(state);
+                    return;
+                }
+            }
             state->finished = true;
             const auto active = ActiveApplications().find(state->willie);
             if (active != ActiveApplications().end() && active->second == state) ActiveApplications().erase(active);
             auto finish = std::move(state->finish);
-            if (finish) finish(success);
+            if (finish) finish(success && !state->restoring);
         }
-
-        void QueueApplyStep(const std::shared_ptr<ApplyState>& state);
 
         void QueueApplyStep(const std::shared_ptr<ApplyState>& state) {
             if (state->stepQueued || state->finished) return;
             state->stepQueued = true;
             const bool queued = GameHook::QueueAction([state](const RuntimeContextSnapshot& runtime) {
                 state->stepQueued = false;
-                if (!IsCurrentApplication(state) || runtime.world != state->world || !IsUsableActor(state->willie)) {
+                if (!IsCurrentApplication(state) || runtime.world != state->world ||
+                    SDK::UObject::GObjects->GetByIndex(state->objectIndex) != state->willie ||
+                    !IsUsableActor(state->willie)) {
                     FinishApplication(state, false);
                     return;
                 }
 
                 auto& equipment = state->target;
+                const ScopedArmorSpawnOverrides armorOverrides(equipment);
                 if (state->armorIndex >= equipment.armor.size()) {
                     if (!equipment.armor.empty()) state->willie->Set_Up_Armor(true, false);
+                    const bool armorEquipped = std::all_of(
+                        equipment.armor.begin(), equipment.armor.end(), [&state](const ResolvedArmorSlot& armor) {
+                            const auto* equipped = FindArmorSlot(
+                                state->willie->Currently_Equipped_Armor,
+                                armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D
+                            );
+                            const bool matches =
+                                equipped && PresetApplication::ArmorPassportsEqual(*equipped, armor.passport, false);
+                            if (!matches)
+                                g_logger.Log(
+                                    "armor verification failed: slot=%d",
+                                    static_cast<int>(armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D)
+                                );
+                            return matches;
+                        }
+                    );
                     const bool success =
-                        !state->replaceWeapons || RebuildWeaponActors(state->world, *state->willie, equipment);
+                        armorEquipped &&
+                        (!state->replaceWeapons || RebuildWeaponActors(state->world, *state->willie, equipment));
                     if (success) PublishArmorRuntimeState(state->willie, equipment);
                     FinishApplication(state, success);
                     return;
                 }
 
-                auto& armor = equipment.armor[state->armorIndex];
-                bool runtimeApplied = true;
-                auto prePickupProps = armor.preset.runtimeProps;
-                const bool deferPickupDisable = prePickupProps.pickUp.enabled && !prePickupProps.pickUp.value;
-                if (deferPickupDisable) prePickupProps.pickUp.enabled = false;
+                // Let native arming-point requirements order clothing before the dependent armor.
+                const auto first = equipment.armor.begin() + static_cast<std::ptrdiff_t>(state->armorIndex);
+                const auto ready = std::find_if(first, equipment.armor.end(), [&state](const ResolvedArmorSlot& slot) {
+                    const auto* defaults = static_cast<SDK::ABP_Armor_Master_C*>(
+                        slot.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43->ClassDefaultObject
+                    );
+                    return (!defaults->Requires_Upper_Arming_Points || state->willie->Upper_Arming_Points_Available) &&
+                           (!defaults->Requires_Lower_Arming_Points || state->willie->Lower_Arming_Points_Available);
+                });
+                if (ready == equipment.armor.end()) {
+                    FinishApplication(state, false);
+                    return;
+                }
+                std::iter_swap(first, ready);
+                auto& armor = *first;
+                // Pick Up Armor gates its synchronous equipment path on Player. Restore the flag
+                // before yielding; the final Set Up Armor also refreshes the NPC controller's armor rating.
+                const bool wasPlayer = std::exchange(state->willie->Player, true);
+                const bool pickedUp = Spawner::SpawnAndEquipArmor(runtime.world, state->willie, armor.passport);
+                state->willie->Player = wasPlayer;
 
-                SDK::AActor* spawned = nullptr;
-                const bool pickedUp = Spawner::SpawnAndEquipArmor(
-                    runtime.world, state->willie, armor.passport,
-                    [&runtimeApplied, &spawned, prePickupProps](SDK::AActor* actor) {
-                        spawned = actor;
-                        runtimeApplied = PresetApplication::ApplyArmorRuntimeOverrides(actor, prePickupProps);
-                    }
-                );
-                if (pickedUp && runtimeApplied && deferPickupDisable && IsUsableActor(spawned))
-                    runtimeApplied = PresetApplication::ApplyArmorRuntimeOverrides(spawned, armor.preset.runtimeProps);
-
-                if (pickedUp && runtimeApplied) {
+                if (pickedUp) {
                     ++state->armorIndex;
                     QueueApplyStep(state);
                     return;
@@ -687,101 +872,88 @@ namespace EquipmentApplication {
                 return false;
             }
 
-            if (!RemoveAllArmor(*willie)) {
-                if (error) *error = "The character's current armor could not be removed";
-                return false;
-            }
-            ResetLoadEquipmentArmor(*willie, target);
-
-            auto state = std::make_shared<ApplyState>();
-            state->world = world;
-            state->willie = willie;
-            state->target = std::move(target);
-            state->replaceWeapons = replaceWeapons;
-            state->finish = std::move(finish);
-            ActiveApplications()[willie] = state;
-            QueueApplyStep(state);
-            if (error) error->clear();
-            return true;
-        }
-
-        bool ApplyNPCResolvedLoadout(
-            SDK::UWorld* world, SDK::AWillie_BP_C* npc, const ResolvedLoadoutPresetData& source, std::string& error
-        ) {
-            ResolvedLoadout target;
-            if (!ResolveLoadout(source, target, error)) return false;
-            if (!RemoveAllArmor(*npc)) {
-                error = "The NPC's current armor could not be removed";
-                return false;
-            }
-
-            ResetLoadEquipmentArmor(*npc, target);
-            if (!target.armor.empty()) {
-                auto& passportArmor = npc->Character_Passport.Equipment_26_741A2FC641801842FE691295645C604F
-                                            .ArmorinSlots_5_BD7AC6CB43FBB2FDB943E7864486F358;
-                for (auto it = begin(passportArmor); it != end(passportArmor); ++it) {
-                    it->Value() = {};
-                    it->Value().Slot_30_7561CB484566A4512003EA96ED44F88D = it->Key();
-                }
-                for (const auto& armor : target.armor) {
-                    const auto slot = armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
-                    auto* entry = FindArmorSlot(passportArmor, slot);
-                    if (!entry) {
-                        error = "The NPC does not support a saved armor slot";
-                        return false;
+            std::optional<ResolvedLoadout> rollback;
+            if (willie->Player) {
+                ResolvedLoadoutPresetData previous;
+                if (replaceWeapons)
+                    for (std::size_t index = 0; index < previous.weapons.size(); ++index) {
+                        WeaponPresetData weapon;
+                        if (CaptureConfiguredWeaponPreset(willie, static_cast<int>(index), weapon))
+                            previous.weapons[index] = std::move(weapon);
                     }
-                    *entry = armor.passport;
+                for (std::size_t index = 0; index < previous.armor.size(); ++index) {
+                    ArmorPresetData armor;
+                    if (CaptureEquippedArmorPreset(willie, static_cast<SDK::EArmorSlots_Enum>(index), armor))
+                        previous.armor[index] = std::move(armor);
                 }
-                npc->Spawn_in_Pants = false;
-                npc->Set_Up_Armor(true, false);
-            }
-
-            for (const auto& armor : target.armor) {
-                const auto slot = armor.passport.Slot_30_7561CB484566A4512003EA96ED44F88D;
-                const auto* equipped = FindArmorSlot(npc->Currently_Equipped_Armor, slot);
-                if (!equipped || !PresetApplication::ArmorPassportsEqual(*equipped, armor.passport)) {
-                    error = "The NPC's saved armor could not be equipped";
+                rollback.emplace();
+                std::string resolveError;
+                if (!ResolveLoadout(previous, *rollback, resolveError)) {
+                    if (error) *error = "The current equipment could not be preserved: " + resolveError;
                     return false;
                 }
             }
-
-            if (!RebuildWeaponActors(world, *npc, target)) {
-                error = "The NPC's saved weapons could not be equipped";
-                return false;
-            }
-            PublishArmorRuntimeState(npc, target);
-            error.clear();
+            auto state = std::make_shared<ApplyState>();
+            state->world = world;
+            state->willie = willie;
+            state->objectIndex = willie->Index;
+            state->target = std::move(target);
+            state->rollback = std::move(rollback);
+            state->replaceWeapons = replaceWeapons;
+            state->finish = std::move(finish);
+            ActiveApplications()[willie] = state;
+            if (PrepareArmorReplacement(*willie, state->target))
+                QueueApplyStep(state);
+            else
+                FinishApplication(state, false);
+            if (error) error->clear();
             return true;
         }
 
         struct PendingNPCInitialization {
             SDK::UWorld* world = nullptr;
             SDK::AWillie_BP_C* npc = nullptr;
+            int objectIndex = -1;
             std::optional<ResolvedLoadoutPresetData> loadout;
             LoadoutApplyCallback onComplete;
-            int ticksRemaining = 2;
+            int framesRemaining = 2;
         };
 
         void QueueNPCInitialization(const std::shared_ptr<PendingNPCInitialization>& state) {
-            const bool queued = GameHook::QueueAction([state](const RuntimeContextSnapshot& runtime) {
-                if (runtime.world != state->world || !IsUsableActor(state->npc)) {
-                    if (state->onComplete) state->onComplete(false);
-                    return;
-                }
-                if (--state->ticksRemaining > 0) {
-                    QueueNPCInitialization(state);
-                    return;
-                }
-                if (!state->loadout) {
-                    if (state->onComplete) state->onComplete(true);
-                    return;
-                }
-                std::string error;
-                auto completion = std::move(state->onComplete);
-                const bool success = ApplyNPCResolvedLoadout(state->world, state->npc, *state->loadout, error);
-                if (!success) g_logger.Log("linked NPC loadout failed: %s", error.c_str());
-                if (completion) completion(success);
-            });
+            const bool queued = GameHook::QueueAction(
+                [state](const RuntimeContextSnapshot& runtime) {
+                    if (runtime.world != state->world ||
+                        SDK::UObject::GObjects->GetByIndex(state->objectIndex) != state->npc ||
+                        !IsUsableActor(state->npc)) {
+                        if (state->onComplete) state->onComplete(false);
+                        return;
+                    }
+                    // BeginPlay delays body setup by 1 s (0.1 with Fast Spawn), then sheaths by another 0.5 s.
+                    // Wait in game time so slow motion and pause cannot let these native timers overwrite the loadout.
+                    const float readyAge = state->npc->Fast_Spawn ? 0.9f : 1.8f;
+                    if (state->npc->GetGameTimeSinceCreation() < readyAge) {
+                        QueueNPCInitialization(state);
+                        return;
+                    }
+                    if (--state->framesRemaining > 0) {
+                        QueueNPCInitialization(state);
+                        return;
+                    }
+                    if (!state->loadout) {
+                        if (state->onComplete) state->onComplete(true);
+                        return;
+                    }
+                    std::string error;
+                    auto completion = std::move(state->onComplete);
+                    ResolvedLoadout target;
+                    if (!ResolveLoadout(*state->loadout, target, error) ||
+                        !BeginApplication(state->world, state->npc, std::move(target), true, completion, &error)) {
+                        g_logger.Log("linked NPC loadout failed: %s", error.c_str());
+                        if (completion) completion(false);
+                    }
+                },
+                GameHook::ActionTiming::NextFrame
+            );
             if (!queued) {
                 auto completion = std::move(state->onComplete);
                 if (completion) completion(false);
@@ -856,15 +1028,42 @@ namespace EquipmentApplication {
             const int slotIndex = static_cast<int>(slot);
             const auto owner = ArmorRuntimeState().find(willie);
             if (slotIndex >= 0 && slotIndex < static_cast<int>(LoadoutPresetData::K_ARMOR_SLOT_COUNT) &&
-                owner != ArmorRuntimeState().end()) {
-                const auto& tracked = owner->second[static_cast<std::size_t>(slotIndex)];
-                if (tracked && PresetApplication::ArmorPassportsEqual(tracked->passport, snapshot->passport))
+                owner != ArmorRuntimeState().end() && owner->second.objectIndex == willie->Index &&
+                owner->second.world == SDK::UWorld::GetWorld()) {
+                const auto& tracked = owner->second.slots[static_cast<std::size_t>(slotIndex)];
+                if (tracked && PresetApplication::ArmorPassportsEqual(tracked->passport, snapshot->passport, false))
                     snapshot->runtimeProps = tracked->props;
             }
             result = std::move(*snapshot);
             return true;
         }
         return false;
+    }
+
+    bool SetEquippedArmorColors(
+        SDK::AWillie_BP_C* willie, SDK::EArmorSlots_Enum slot, const std::optional<SDK::FLinearColor>& color1,
+        const std::optional<SDK::FLinearColor>& color2
+    ) {
+        if (!IsUsableActor(willie)) return false;
+        auto* passport = FindArmorSlot(willie->Currently_Equipped_Armor, slot);
+        if (!passport || !passport->ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return false;
+
+        TrackedArmorRuntime* matching = nullptr;
+        const auto owner = ArmorRuntimeState().find(willie);
+        const auto slotIndex = static_cast<std::size_t>(slot);
+        if (owner != ArmorRuntimeState().end() && owner->second.objectIndex == willie->Index &&
+            owner->second.world == SDK::UWorld::GetWorld() && slotIndex < owner->second.slots.size()) {
+            auto& tracked = owner->second.slots[slotIndex];
+            if (tracked && PresetApplication::ArmorPassportsEqual(tracked->passport, *passport, false))
+                matching = &*tracked;
+        }
+        if (color1) passport->FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = *color1;
+        if (color2) passport->FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = *color2;
+        if (matching) {
+            if (color1) matching->passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = *color1;
+            if (color2) matching->passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = *color2;
+        }
+        return true;
     }
 
     bool SynchronizeConfiguredWeaponActors(
@@ -979,6 +1178,7 @@ namespace EquipmentApplication {
         auto state = std::make_shared<PendingNPCInitialization>();
         state->world = world;
         state->npc = npc;
+        state->objectIndex = npc->Index;
         state->onComplete = std::move(onComplete);
         QueueNPCInitialization(state);
         if (error) error->clear();
@@ -996,6 +1196,7 @@ namespace EquipmentApplication {
         auto state = std::make_shared<PendingNPCInitialization>();
         state->world = world;
         state->npc = npc;
+        state->objectIndex = npc->Index;
         state->loadout = std::move(loadout);
         state->onComplete = std::move(onComplete);
         QueueNPCInitialization(state);
@@ -1021,6 +1222,10 @@ namespace EquipmentApplication {
 
     void OnRuntimeShutdown() noexcept {
         AbortRuntimeTransactionsForShutdown();
+        if (armorSetupFunction) {
+            armorSetupFunction->ExecFunction = originalArmorSetup;
+            armorSetupFunction = nullptr;
+        }
         try {
             ArmorRuntimeState().clear();
         } catch (...) {

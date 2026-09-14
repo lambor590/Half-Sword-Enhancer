@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -27,6 +28,11 @@ namespace EquipmentApplication {
     bool CaptureEquippedWeaponPreset(SDK::AWillie_BP_C* willie, int handIndex, WeaponPresetData& result);
     bool CaptureConfiguredWeaponPreset(SDK::AWillie_BP_C* willie, int slotIndex, WeaponPresetData& result);
     bool CaptureEquippedArmorPreset(SDK::AWillie_BP_C* willie, SDK::EArmorSlots_Enum slot, ArmorPresetData& result);
+    // Game-thread appearance edits preserve overrides belonging to the same equipped piece.
+    bool SetEquippedArmorColors(
+        SDK::AWillie_BP_C* willie, SDK::EArmorSlots_Enum slot, const std::optional<SDK::FLinearColor>& color1,
+        const std::optional<SDK::FLinearColor>& color2
+    );
 
     // Rebuilds the edited actor slot from the native configuration while preserving the other runtime actors.
     bool SynchronizeConfiguredWeaponActors(
@@ -47,8 +53,7 @@ namespace EquipmentApplication {
         std::string* error = nullptr, LoadoutApplyCallback onComplete = nullptr
     );
 
-    // NPC spawning already finishes the deferred actor before these helpers run. Two queued ticks are enough for the
-    // normal Blueprint initialization path before applying final overrides/equipment.
+    // Wait for BeginPlay's game-time delays before applying final overrides/equipment.
     bool WaitForNPCInitialization(
         SDK::UWorld* world, SDK::AWillie_BP_C* npc, LoadoutApplyCallback onComplete, std::string* error = nullptr
     );

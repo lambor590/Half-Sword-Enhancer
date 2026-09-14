@@ -14,6 +14,7 @@
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/Modular_Weapon_Part_Master_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
+#include "Utils/EquipmentGenerator.h"
 #include "Utils/GameClass.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
@@ -24,7 +25,6 @@ namespace PresetApplication {
             const std::string WeaponClassPaths::* path;
             std::string_view baseName;
             const char* label;
-            bool required;
             SDK::UClass* SDK::FStr_Passport_Weapon1::* destination;
         };
 
@@ -33,49 +33,42 @@ namespace PresetApplication {
                 &WeaponClassPaths::weaponClass,
                 "ModularWeaponBP_C",
                 "weapon body",
-                true,
                 &SDK::FStr_Passport_Weapon1::WeaponClass_54_B478ECF7499977809745A3973AD678EC,
             },
             {
                 &WeaponClassPaths::headModule,
                 "Modular_Weapon_Part_Master_C",
                 "head",
-                true,
                 &SDK::FStr_Passport_Weapon1::HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
             },
             {
                 &WeaponClassPaths::guardModule,
                 "Modular_Weapon_Part_Master_C",
                 "guard",
-                false,
                 &SDK::FStr_Passport_Weapon1::GuardModule_13_6DD2B06245505E53B529D090333012F0,
             },
             {
                 &WeaponClassPaths::gripModule,
                 "Modular_Weapon_Part_Master_C",
                 "grip",
-                true,
                 &SDK::FStr_Passport_Weapon1::GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
             },
             {
                 &WeaponClassPaths::pommelModule,
                 "Modular_Weapon_Part_Master_C",
                 "pommel",
-                false,
                 &SDK::FStr_Passport_Weapon1::PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
             },
             {
                 &WeaponClassPaths::subModule1,
                 "Modular_Weapon_Part_Master_C",
                 "extra part 1",
-                false,
                 &SDK::FStr_Passport_Weapon1::HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
             },
             {
                 &WeaponClassPaths::subModule2,
                 "Modular_Weapon_Part_Master_C",
                 "extra part 2",
-                false,
                 &SDK::FStr_Passport_Weapon1::HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
             },
         }};
@@ -132,18 +125,29 @@ namespace PresetApplication {
         return snapshot;
     }
 
-    bool ArmorPassportsEqual(const SDK::FStr_Passport_Armor1& left, const SDK::FStr_Passport_Armor1& right) noexcept {
-        static constexpr std::size_t BEFORE_BLOCKED_SLOTS =
-            offsetof(SDK::FStr_Passport_Armor1, SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51);
-        static constexpr std::size_t AFTER_BLOCKED_SLOTS =
-            offsetof(SDK::FStr_Passport_Armor1, RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A);
-        static constexpr std::size_t TAIL_SIZE = sizeof(SDK::FStr_Passport_Armor1) - AFTER_BLOCKED_SLOTS;
-
-        return std::memcmp(&left, &right, BEFORE_BLOCKED_SLOTS) == 0 &&
+    bool ArmorPassportsEqual(
+        const SDK::FStr_Passport_Armor1& left, const SDK::FStr_Passport_Armor1& right, bool compareDerivedFields
+    ) noexcept {
+        // Construction derives price, tier and attachment requirements. Match authored settings at runtime;
+        // editors also compare the derived fields so changing a draft is never silently ignored.
+        using Passport = SDK::FStr_Passport_Armor1;
+        constexpr auto MODULE_OFFSET = offsetof(Passport, Module1_5_46B7198E4341C93CBF6AE989EF9898E4);
+        return std::memcmp(&left, &right, offsetof(Passport, Pad_D)) == 0 &&
                std::memcmp(
-                   reinterpret_cast<const std::byte*>(&left) + AFTER_BLOCKED_SLOTS,
-                   reinterpret_cast<const std::byte*>(&right) + AFTER_BLOCKED_SLOTS, TAIL_SIZE
-               ) == 0;
+                   reinterpret_cast<const std::byte*>(&left) + MODULE_OFFSET,
+                   reinterpret_cast<const std::byte*>(&right) + MODULE_OFFSET,
+                   offsetof(Passport, Price_27_8E3ADD54484EFC4A59FE9381485AC192) - MODULE_OFFSET
+               ) == 0 &&
+               left.Slot_30_7561CB484566A4512003EA96ED44F88D == right.Slot_30_7561CB484566A4512003EA96ED44F88D &&
+               (!compareDerivedFields ||
+                (std::memcmp(
+                     &left.ProvidesUpperAP_34_A85C3E3B4E4EF35DA44FFA960797B6C6,
+                     &right.ProvidesUpperAP_34_A85C3E3B4E4EF35DA44FFA960797B6C6, 4
+                 ) == 0 &&
+                 left.RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A ==
+                     right.RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A &&
+                 left.Tier_50_E497AE434B01B84C559DEE8A863BB42E == right.Tier_50_E497AE434B01B84C559DEE8A863BB42E &&
+                 left.Price_27_8E3ADD54484EFC4A59FE9381485AC192 == right.Price_27_8E3ADD54484EFC4A59FE9381485AC192));
     }
 
     bool MaterializeWeaponPreset(WeaponPresetData& preset, std::string* error) {
@@ -151,11 +155,7 @@ namespace PresetApplication {
         for (std::size_t index = 0; index < K_WEAPON_CLASS_SPECS.size(); ++index) {
             const auto& spec = K_WEAPON_CLASS_SPECS[index];
             const auto& path = preset.classPaths.*spec.path;
-            if (path.empty()) {
-                if (!spec.required) continue;
-                if (error) *error = std::string("The preset is missing its ") + spec.label;
-                return false;
-            }
+            if (path.empty()) continue;
             auto* loadedClass = Spawner::LoadClass(path);
             if (!GameClass::IsSubclassOf(loadedClass, spec.baseName)) {
                 if (error) *error = std::string("The preset's ") + spec.label + " is unavailable";
@@ -164,10 +164,14 @@ namespace PresetApplication {
             resolvedClasses[index] = loadedClass;
         }
 
-        auto& passport = preset.passport;
+        auto passport = preset.passport;
         NormalizeWeaponPassport(passport);
         for (std::size_t index = 0; index < K_WEAPON_CLASS_SPECS.size(); ++index)
             passport.*K_WEAPON_CLASS_SPECS[index].destination = resolvedClasses[index];
+        if (!EquipmentGenerator::IsPassportValid(passport)) {
+            if (error) *error = "The preset is missing its weapon body or required parts";
+            return false;
+        }
         if (!preset.deferredWeaponName.empty()) {
             std::wstring wideName;
             if (!PresetUtils::TryUtf8ToWide(preset.deferredWeaponName, wideName)) {
@@ -177,6 +181,7 @@ namespace PresetApplication {
             passport.Name_57_3729B51148E846FE8DD336B9419BCEE1 =
                 SDK::BasicFilesImplUtils::StringToName(wideName.c_str());
         }
+        preset.passport = passport;
         return true;
     }
 
@@ -417,12 +422,35 @@ namespace PresetApplication {
         if (o.protectionCut.enabled) armor->Protection_Cut = o.protectionCut.value;
         if (o.protectionStab.enabled) armor->Protection_Stab = o.protectionStab.value;
         if (o.materialDensity.enabled) armor->Material_Density = o.materialDensity.value;
-        if (o.massScale.enabled) armor->Mass_Scale = o.massScale.value;
+        if (o.massScale.enabled && armor->Mass_Scale > 0.0) {
+            const double ratio = o.massScale.value / armor->Mass_Scale;
+            for (auto it = begin(armor->Bone_Weights); it != end(armor->Bone_Weights); ++it)
+                it->Value() *= ratio;
+            armor->Mass_Scale = o.massScale.value;
+            if (armor->Armor_Mesh_Primitive)
+                armor->Armor_Mesh_Primitive->SetAllMassScale(static_cast<float>(o.massScale.value));
+            armor->Overall_Weight = 0.0;
+            armor->Recalculate_Weight();
+        }
         if (o.handsRigidity.enabled) armor->Hands_Rigidity__Gauntlets_ = o.handsRigidity.value;
         if (o.strapPower.enabled) armor->Strap_Power__Helmet_ = o.strapPower.value;
         if (o.aiInvincibilityRate.enabled) armor->AI_Invinvcibility_Rate = o.aiInvincibilityRate.value;
         if (o.price.enabled) armor->Price = o.price.value;
         if (o.pickUp.enabled) armor->Pick_Up = o.pickUp.value;
+        if (GameClass::IsModularArmor(actor)) {
+            auto* modular = static_cast<SDK::ABP_Armor_Modular_Core_Master_C*>(actor);
+            for (auto* protection :
+                 {&modular->Protection_Core, &modular->Protection_Module_1, &modular->Protection_Module_2,
+                  &modular->Protection_Module_3}) {
+                if (o.protectionBlunt.enabled)
+                    protection->Blunt_2_0C001DBE4C8B7C85C68641B217A18F10 = o.protectionBlunt.value;
+                if (o.protectionCut.enabled) protection->Cut_9_722ACAC246B5F7600CAC84AFF9188F9D = o.protectionCut.value;
+                if (o.protectionStab.enabled)
+                    protection->Stab_6_C3AA0F1D4B183BE20371069F7FDCA346 = o.protectionStab.value;
+                if (o.materialDensity.enabled)
+                    protection->Density_8_B3D4247C4C7FD0F8EE8F0C8D74E1A90D = o.materialDensity.value;
+            }
+        }
         return true;
     }
 }

@@ -41,7 +41,7 @@ namespace Spawner {
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
         bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
-    SDK::AActor* SpawnCustomizableFromPassport(
+    SDK::AActor* SpawnWeaponFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
         bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
