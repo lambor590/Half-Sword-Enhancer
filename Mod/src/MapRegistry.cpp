@@ -6,6 +6,7 @@
 #include "Hooks/GameHook.h"
 #include "SDK/AssetRegistry_classes.hpp"
 #include "SDK/AssetRegistry_parameters.hpp"
+#include "Utils/AssetRegistryUtils.h"
 #include "imgui/imgui.h"
 #include "Logger.h"
 
@@ -112,26 +113,7 @@ void MapRegistry::PerformScan() {
 
         auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
 
-        static SDK::UFunction* scanPathsFn = nullptr;
-        if (!scanPathsFn) {
-            if (ifaceClass) scanPathsFn = ifaceClass->GetFunction("AssetRegistry", "ScanPathsSynchronous");
-        }
-        if (scanPathsFn) {
-            SDK::FString gamePathString(L"/Game");
-            SDK::Params::AssetRegistry_ScanPathsSynchronous scanParams{};
-            scanParams.InPaths = SDK::TArray<SDK::FString>(&gamePathString, 1, 1);
-            scanParams.bForceRescan = true;
-            scanParams.bIgnoreDenyListScanFilters = true;
-
-            auto flags = scanPathsFn->FunctionFlags;
-            scanPathsFn->FunctionFlags |= 0x400;
-            registryObj->ProcessEvent(scanPathsFn, &scanParams);
-            scanPathsFn->FunctionFlags = flags;
-
-            scanParams.InPaths = SDK::TArray<SDK::FString>(nullptr, 0, 0);
-        } else {
-            g_logger.Log("ScanPathsSynchronous function not found");
-        }
+        AssetRegistryUtils::RefreshGameAssets(registryObj);
 
         static SDK::UFunction* getAssetsFn = nullptr;
         if (!getAssetsFn) {

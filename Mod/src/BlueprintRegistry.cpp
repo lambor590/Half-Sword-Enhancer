@@ -12,6 +12,7 @@
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 #include "SDK/AssetRegistry_classes.hpp"
 #include "SDK/AssetRegistry_parameters.hpp"
+#include "Utils/AssetRegistryUtils.h"
 #include "ConfigManager.h"
 #include "Logger.h"
 
@@ -145,6 +146,7 @@ void BlueprintRegistry::PerformScan() {
         auto* registryObj = si.GetObjectRef();
 
         if (registryObj) {
+            AssetRegistryUtils::RefreshGameAssets(registryObj);
             SDK::TArray<SDK::FAssetData> results;
             GetGameAssets(registryObj, results);
 
