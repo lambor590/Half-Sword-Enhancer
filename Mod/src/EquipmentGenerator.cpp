@@ -138,6 +138,44 @@ namespace EquipmentGenerator {
             return selected.cls;
         }
 
+        void SetWeaponBalance(
+            SDK::FStr_Passport_Weapon1& passport, const SDK::UBP_GameWeapon_Customizable_Master_C& modules,
+            CustomizableWeapon type
+        ) {
+            // Generate Weapon's dimensional and mass rules also apply to explicit forge selections.
+            const int kind = static_cast<int>(modules.Customization_Type);
+            const bool sword = kind == 1;
+            const bool greatsword = type == CustomizableWeapon::SwordGreat;
+            const bool longSword = type == CustomizableWeapon::SwordLong || greatsword;
+            const bool pole = kind == 2 || kind == 4;
+            const double twoHandScale = sword && longSword ? 1.125 : 1.0;
+            const double poleScale = kind == 4 ? 0.85 : 1.0;
+            const double size = std::lerp(kind == 2 ? 0.795 : 0.975, kind == 2 ? 0.8125 : 1.05,
+                SDK::UKismetMathLibrary::RandomFloat());
+            const double bladeWidth = longSword ? 0.6 : 0.5;
+            auto head = SDK::FVector{size, size * ((sword || kind == 3) ? bladeWidth : 1.0), size} * poleScale;
+            auto guard = SDK::FVector{size, size, size} * twoHandScale;
+            auto grip = (sword ? SDK::FVector{0.85, 0.666, 1.0} : SDK::FVector{size, size, size}) * poleScale;
+            auto pommel = guard;
+            if (greatsword) {
+                const auto length = static_cast<float>(SDK::UKismetMathLibrary::RandomFloat());
+                head *= SDK::UKismetMathLibrary::VLerp({1.25, 1.0, 0.9}, {1.125, 0.8, 1.1}, length);
+                guard *= SDK::UKismetMathLibrary::VLerp({1.25, 1.25, 1.25}, {1.5, 1.5, 1.5}, length);
+                grip *= SDK::UKismetMathLibrary::VLerp({1.125, 1.125, 1.75}, {1.5, 1.5, 2.5}, length);
+                pommel *= SDK::UKismetMathLibrary::VLerp({1.1, 1.1, 1.1}, {1.2, 1.2, 1.2}, length);
+            }
+            passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = head;
+            passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = guard;
+            passport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = grip;
+            passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = pommel;
+            passport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 =
+                (pole ? 2.25 : (sword || kind == 3 ? 1.0 : 1.25)) * twoHandScale;
+            passport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = (sword ? 0.75 : 1.0) * twoHandScale;
+            passport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = sword ? 0.25 : 0.7;
+            passport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 =
+                (sword ? 0.75 : (pole ? 2.0 : 1.0)) * twoHandScale * (greatsword ? 0.2125 : (sword ? 0.8 : 1.0));
+        }
+
         template <typename T> T* GetGenerator(const SDK::UWorld* world) {
             static const SDK::UWorld* cachedWorld = nullptr;
             static T* generator = nullptr;
@@ -255,16 +293,14 @@ namespace EquipmentGenerator {
         output.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9 =
             PickModule(cdo->Head_Sub_Module_2_Array, requestedTier, modulePrice);
         totalPrice += modulePrice;
-        output.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = {1.0, 1.0, 1.0};
-        output.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = {1.0, 1.0, 1.0};
-        output.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = {1.0, 1.0, 1.0};
-        output.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = {1.0, 1.0, 1.0};
-        output.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = 1.0;
-        output.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = 1.0;
-        output.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = 1.0;
-        output.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = 1.0;
-        output.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 = static_cast<SDK::Enum_MaterialLayer>(3);
-        output.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 = static_cast<SDK::Enum_MaterialLayer>(0);
+        SetWeaponBalance(output, *cdo, type);
+        output.Name_57_3729B51148E846FE8DD336B9419BCEE1 = type == CustomizableWeapon::SwordGreat ?
+            SDK::BasicFilesImplUtils::StringToName(L"Greatsword") : cdo->Custom_Name;
+        output.ID_70_C02CF656483647A1933EEA96314B78A6 = GameConstants::RandomInt(1, 2147483647);
+        output.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
+            static_cast<SDK::Enum_MaterialLayer>(requestedTier < 4 ? 2 : (requestedTier < 6 ? 1 : 0));
+        output.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 =
+            static_cast<SDK::Enum_MaterialLayer>(requestedTier < 3 ? 4 : 3);
         output.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A = static_cast<SDK::Enum_MaterialLayer>(14);
         output.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB = static_cast<SDK::Enum_MaterialLayer>(10);
         output.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 = {0.4f, 0.26f, 0.13f, 1.0f};
