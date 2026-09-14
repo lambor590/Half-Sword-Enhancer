@@ -30,7 +30,8 @@ namespace EngineMemory {
 // Dumper-7's TArray does not free its storage; CRT free uses the wrong allocator.
 template <typename Element> class EngineArray final : public SDK::TArray<Element> {
     // SDK destructors are absent, so explicitly allow only elements with no owned allocations.
-    static_assert(std::is_pointer_v<Element> || std::is_same_v<Element, SDK::FConstraintInstanceAccessor>);
+    static_assert(std::is_pointer_v<Element> || std::is_same_v<Element, SDK::FConstraintInstanceAccessor> ||
+                  std::is_same_v<Element, SDK::FHitResult>);
 
 public:
     EngineArray() = default;
