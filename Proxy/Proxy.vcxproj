@@ -57,6 +57,14 @@
       <IncludePaths>$(GeneratedExportsDir);%(IncludePaths)</IncludePaths>
     </MASM>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(IsReleaseBuild)'=='true'">
+    <ClCompile>
+      <AdditionalOptions>/Brepro %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/Brepro %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp" />
   </ItemGroup>
