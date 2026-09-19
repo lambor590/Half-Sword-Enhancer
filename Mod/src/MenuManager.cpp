@@ -28,7 +28,7 @@ namespace {
     bool NavigationButton(const char* label, bool selected, bool category = false, const char* location = nullptr) {
         const float width = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
         const float paddingX = SIDEBAR_HPAD + (!category && !location ? SECTION_INDENT : 0.0f);
-        const float paddingY = category ? 8.0f : 6.0f;
+        const float paddingY = category ? 6.0f : 4.0f;
         const float textWidth = (std::max)(1.0f, width - paddingX - SIDEBAR_HPAD);
         const float wrapWidth = location ? textWidth : 0.0f;
         const char* labelEnd = GuiUtils::VisibleLabelEnd(label);
@@ -58,7 +58,7 @@ namespace {
             ImDrawList* drawList = ImGui::GetWindowDrawList();
             if (selected && !category) {
                 drawList->AddRectFilled(
-                    ImVec2(minimum.x + 3, minimum.y + 6), ImVec2(minimum.x + 5, maximum.y - 6),
+                    ImVec2(minimum.x + 3, minimum.y + paddingY), ImVec2(minimum.x + 5, maximum.y - paddingY),
                     ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
                 );
             }
@@ -389,7 +389,7 @@ void MenuManager::RenderSplitter(float maximumSidebarWidth) {
 }
 
 void MenuManager::RenderCategoryHeader(const char* label, MenuTab tab, bool& firstVisible) {
-    if (!firstVisible) ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+    if (!firstVisible) ImGui::SetCursorPosY(ImGui::GetCursorPosY() + CATEGORY_VGAP);
     firstVisible = false;
 
     bool selected = selectedSection && selectedSection->GetTab() == tab;
@@ -461,7 +461,7 @@ void MenuManager::RenderSidebar() {
     ImGui::BeginChild(
         "nav_sections", ImVec2(contentWidth + SIDEBAR_HPAD - 2.0f, -COMMUNITY_BUTTON_SIZE - style.ItemSpacing.y)
     );
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 2));
     if (searchBuffer[0] != '\0') {
         RenderSearchResults();
     } else {
