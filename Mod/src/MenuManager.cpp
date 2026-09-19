@@ -9,10 +9,13 @@
 #include "KeybindManager.h"
 #include "Menu/Keybind.h"
 #include "Menu/SectionStyle.h"
+#include "NotificationManager.h"
+#include "Utils/DiscordPresence.h"
 #include "Utils/GuiUtils.h"
 #include "imgui/imgui.h"
 
 namespace {
+    constexpr float COMMUNITY_BUTTON_SIZE = 32.0f;
     constexpr ImVec4 BRASS_SUBTLE =
         {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.12f};
     constexpr ImVec4 BRASS_MEDIUM =
@@ -58,6 +61,61 @@ namespace {
 
     bool MatchesSearch(const char* text, const char* filter, size_t filterLength) {
         return text && text[0] != '\0' && GuiUtils::MatchesFilter(text, std::strlen(text), filter, filterLength);
+    }
+
+    void RenderDiscordButton() {
+        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::CLEAR);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::CLEAR);
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+        const bool pressed = ImGui::Button("##JoinDiscord", ImVec2(COMMUNITY_BUTTON_SIZE, COMMUNITY_BUTTON_SIZE));
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor(3);
+
+        const bool hovered = ImGui::IsItemHovered();
+        if (hovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        const ImU32 color = ImGui::GetColorU32(
+            hovered || ImGui::IsItemFocused() ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::TEXT_DISABLED
+        );
+        if (ImGui::IsItemVisible()) {
+            const ImVec2 minimum = ImGui::GetItemRectMin();
+            const auto point = [minimum](float x, float y) {
+                return ImVec2(minimum.x + 4.0f + x * 0.375f, minimum.y + 7.0f + y * 0.375f);
+            };
+            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            // Discord's 64 x 48 symbol, with its outline wound clockwise for ImGui.
+            // https://discord.com/branding
+            drawList->PathLineTo(point(40.918f, 0.025f));
+            drawList->PathBezierCubicCurveTo(point(45.426f, 0.783f), point(49.821f, 2.134f), point(53.975f, 4.041f));
+            drawList->PathBezierCubicCurveTo(point(61.136f, 14.510f), point(64.697f, 26.330f), point(63.383f, 39.968f));
+            drawList->PathBezierCubicCurveTo(point(58.547f, 43.542f), point(53.129f, 46.257f), point(47.358f, 48.0f));
+            drawList->PathBezierCubicCurveTo(point(46.057f, 46.257f), point(44.908f, 44.401f), point(43.923f, 42.469f));
+            drawList->PathBezierCubicCurveTo(point(45.805f, 41.762f), point(47.611f, 40.903f), point(49.341f, 39.880f));
+            drawList->PathBezierCubicCurveTo(point(48.886f, 39.577f), point(48.444f, 39.236f), point(48.015f, 38.882f));
+            drawList->PathBezierCubicCurveTo(point(37.862f, 43.656f), point(26.117f, 43.656f), point(15.977f, 38.882f));
+            drawList->PathBezierCubicCurveTo(point(15.548f, 39.211f), point(15.106f, 39.552f), point(14.651f, 39.880f));
+            drawList->PathBezierCubicCurveTo(point(16.381f, 40.890f), point(18.187f, 41.762f), point(20.056f, 42.456f));
+            drawList->PathBezierCubicCurveTo(point(19.071f, 44.388f), point(17.922f, 46.245f), point(16.621f, 47.987f));
+            drawList->PathBezierCubicCurveTo(point(10.850f, 46.245f), point(5.432f, 43.517f), point(0.596f, 39.943f));
+            drawList->PathBezierCubicCurveTo(point(-0.516f, 28.186f), point(1.720f, 16.265f), point(9.978f, 4.028f));
+            drawList->PathBezierCubicCurveTo(point(14.146f, 2.122f), point(18.540f, 0.770f), point(23.049f, 0.0f));
+            drawList->PathBezierCubicCurveTo(point(23.668f, 1.099f), point(24.236f, 2.235f), point(24.728f, 3.397f));
+            drawList->PathBezierCubicCurveTo(point(29.540f, 2.677f), point(34.427f, 2.677f), point(39.226f, 3.397f));
+            drawList->PathBezierCubicCurveTo(point(39.731f, 2.235f), point(40.286f, 1.099f), point(40.905f, 0.0f));
+            drawList->PathFillConcave(color);
+            const ImU32 background = ImGui::GetColorU32(DefaultStyle::DARK_INK);
+            drawList->AddEllipseFilled(point(21.464f, 26.374f), ImVec2(2.14f, 2.375f), background);
+            drawList->AddEllipseFilled(point(42.509f, 26.374f), ImVec2(2.14f, 2.375f), background);
+        }
+        GuiUtils::HelpTooltip("Join our Discord");
+
+        if (pressed) {
+            const auto openInShell = ImGui::GetPlatformIO().Platform_OpenInShellFn;
+            if (!openInShell || !openInShell(ImGui::GetCurrentContext(), DiscordPresence::COMMUNITY_URL)) {
+                ImGui::SetClipboardText(DiscordPresence::COMMUNITY_URL);
+                NotificationManager::NotifyAction("Could not open Discord. Invite copied to clipboard");
+            }
+        }
     }
 
 } // namespace
@@ -373,11 +431,13 @@ void MenuManager::RenderSidebar() {
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
     ImGui::BeginChild(
-        "nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding
+        "nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding,
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
     );
 
     RenderSearchBar();
 
+    ImGui::BeginChild("nav_sections", ImVec2(0, -COMMUNITY_BUTTON_SIZE - style.ItemSpacing.y));
     if (searchBuffer[0] != '\0') {
         RenderSearchResults();
     } else {
@@ -391,6 +451,9 @@ void MenuManager::RenderSidebar() {
             if (selectedSection && selectedSection->GetTab() == tab) RenderCategorySections(tab);
         }
     }
+    ImGui::EndChild();
+
+    RenderDiscordButton();
 
     ImGui::EndChild();
     ImGui::PopStyleVar(3);
