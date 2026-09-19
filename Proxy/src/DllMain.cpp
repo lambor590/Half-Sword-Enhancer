@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <cwchar>
+#include <string>
 #include <string_view>
-#include <vector>
 
 #include "winmm_exports.generated.h"
 
@@ -16,6 +16,7 @@ namespace {
     constexpr LONG PROXY_READY = 1;
     constexpr std::size_t MAX_PATH_CHARACTERS = 32'768;
     constexpr std::wstring_view MOD_FILENAME = L"HSEnhancer.dll";
+    constexpr wchar_t GAME_FILENAME[] = L"HalfSwordUE5-Win64-Shipping.exe";
 
     HANDLE proxyReadyEvent = nullptr;
 
@@ -27,7 +28,7 @@ namespace {
         if (systemDirectoryLength == 0 || systemDirectoryLength + DLL_SUFFIX_CHARACTERS > MAX_PATH) return nullptr;
 
         std::wmemcpy(path + systemDirectoryLength, DLL_SUFFIX, DLL_SUFFIX_CHARACTERS);
-        return LoadLibraryW(path);
+        return LoadLibraryExW(path, nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
     }
 
     void CacheOriginalFunctions(HMODULE originalDll) noexcept {
@@ -43,18 +44,13 @@ namespace {
         if (proxyReadyEvent) SetEvent(proxyReadyEvent);
     }
 
-    [[nodiscard]] std::vector<wchar_t> BuildModPath(HMODULE module) {
-        std::vector<wchar_t> path(MAX_PATH);
+    [[nodiscard]] std::wstring GetModulePath(HMODULE module) {
+        std::wstring path(MAX_PATH, L'\0');
         while (true) {
             const DWORD length = GetModuleFileNameW(module, path.data(), static_cast<DWORD>(path.size()));
             if (length == 0) return {};
             if (length < path.size()) {
-                const wchar_t* separator = std::wcsrchr(path.data(), L'\\');
-                if (!separator) return {};
-                const auto prefixLength = static_cast<std::size_t>(separator - path.data()) + 1;
-                path.resize(prefixLength + MOD_FILENAME.size() + 1);
-                std::wmemcpy(path.data() + prefixLength, MOD_FILENAME.data(), MOD_FILENAME.size());
-                path.back() = L'\0';
+                path.resize(length);
                 return path;
             }
             if (path.size() == MAX_PATH_CHARACTERS) return {};
@@ -63,8 +59,24 @@ namespace {
     }
 
     void LoadModDll(HMODULE proxyModule) {
-        const auto modPath = BuildModPath(proxyModule);
-        HMODULE modDll = modPath.empty() ? nullptr : LoadLibraryW(modPath.data());
+        const auto gamePath = GetModulePath(nullptr);
+        auto modPath = GetModulePath(proxyModule);
+        const auto gameSeparator = gamePath.find_last_of(L'\\');
+        const auto proxySeparator = modPath.find_last_of(L'\\');
+        // This loader belongs to Half Sword. Other hosts still receive winmm
+        // forwarding, but must not initialize the mod or display game dialogs.
+        if (gameSeparator == std::wstring::npos || proxySeparator == std::wstring::npos ||
+            CompareStringOrdinal(gamePath.c_str() + gameSeparator + 1, -1, GAME_FILENAME, -1, TRUE) != CSTR_EQUAL ||
+            CompareStringOrdinal(
+                gamePath.c_str(), static_cast<int>(gameSeparator), modPath.c_str(), static_cast<int>(proxySeparator),
+                TRUE
+            ) != CSTR_EQUAL)
+            return;
+        modPath.resize(proxySeparator + 1);
+        modPath.append(MOD_FILENAME);
+        HMODULE modDll = LoadLibraryExW(
+            modPath.c_str(), nullptr, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32
+        );
         if (modDll) {
             using InitFn = void (*)();
             auto init = reinterpret_cast<InitFn>(GetProcAddress(modDll, "HSE_Initialize"));
