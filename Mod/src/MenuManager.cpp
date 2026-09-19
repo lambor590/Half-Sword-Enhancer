@@ -16,6 +16,8 @@
 
 namespace {
     constexpr float COMMUNITY_BUTTON_SIZE = 32.0f;
+    constexpr float SIDEBAR_HPAD = 12.0f;
+    constexpr float SECTION_INDENT = 10.0f;
     constexpr ImVec4 BRASS_SUBTLE =
         {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.12f};
     constexpr ImVec4 BRASS_MEDIUM =
@@ -23,91 +25,65 @@ namespace {
     constexpr ImVec4 BRASS_STRONG =
         {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.32f};
 
-    bool NavigationButton(const char* label, bool selected, bool category = false) {
+    bool NavigationButton(const char* label, bool selected, bool category = false, const char* location = nullptr) {
         const float width = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12, category ? 8.0f : 6.0f));
+        const float paddingX = SIDEBAR_HPAD + (!category && !location ? SECTION_INDENT : 0.0f);
+        const float paddingY = category ? 8.0f : 6.0f;
+        const float textWidth = (std::max)(1.0f, width - paddingX - SIDEBAR_HPAD);
+        const float wrapWidth = location ? textWidth : 0.0f;
+        const char* labelEnd = GuiUtils::VisibleLabelEnd(label);
+        const ImVec2 titleSize = ImGui::CalcTextSize(label, labelEnd, false, wrapWidth);
+        const float height = paddingY * 2.0f + titleSize.y +
+                             (location ? 4.0f + ImGui::CalcTextSize(location, nullptr, false, textWidth).y : 0.0f);
+        const ImVec4 textColor =
+            selected ? (category ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::PARCHMENT) : DefaultStyle::PARCHMENT_DARK;
+
         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0, 0.5f));
         ImGui::PushStyleColor(
             ImGuiCol_Button, selected ? (category ? BRASS_SUBTLE : BRASS_MEDIUM) : DefaultStyle::CLEAR
         );
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, selected ? BRASS_STRONG : BRASS_SUBTLE);
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
-        ImGui::PushStyleColor(
-            ImGuiCol_Text,
-            selected ? (category ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::PARCHMENT) : DefaultStyle::PARCHMENT_DARK
-        );
-        const bool pressed = ImGui::Button(label, ImVec2(width, 0));
+        // One native hit target, with shared text alignment for navigation and search results.
+        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::CLEAR);
+        const bool pressed = ImGui::Button(label, ImVec2(width, height));
         ImGui::PopStyleColor(4);
-        ImGui::PopStyleVar(4);
+        ImGui::PopStyleVar(2);
 
-        if (selected && !category && ImGui::IsItemVisible()) {
+        if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        if (ImGui::IsItemVisible()) {
             const ImVec2 minimum = ImGui::GetItemRectMin();
             const ImVec2 maximum = ImGui::GetItemRectMax();
-            ImGui::GetWindowDrawList()->AddRectFilled(
-                ImVec2(minimum.x + 3, minimum.y + 6), ImVec2(minimum.x + 5, maximum.y - 6),
-                ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
+            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            if (selected && !category) {
+                drawList->AddRectFilled(
+                    ImVec2(minimum.x + 3, minimum.y + 6), ImVec2(minimum.x + 5, maximum.y - 6),
+                    ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
+                );
+            }
+            drawList->PushClipRect(
+                ImVec2(minimum.x + paddingX, minimum.y), ImVec2(maximum.x - SIDEBAR_HPAD, maximum.y), true
             );
+            drawList->AddText(
+                ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(minimum.x + paddingX, minimum.y + paddingY),
+                ImGui::GetColorU32(textColor), label, labelEnd, wrapWidth
+            );
+            if (location) {
+                drawList->AddText(
+                    ImGui::GetFont(), ImGui::GetFontSize(),
+                    ImVec2(minimum.x + paddingX, minimum.y + paddingY + titleSize.y + 4.0f),
+                    ImGui::GetColorU32(DefaultStyle::TEXT_DISABLED), location, nullptr, textWidth
+                );
+            }
+            drawList->PopClipRect();
         }
-        if (ImGui::CalcTextSize(label, nullptr, true).x > width - 24.0f) GuiUtils::ClippedTextTooltip(label);
+        if (!location && titleSize.x > textWidth) GuiUtils::ClippedTextTooltip(label);
         return pressed;
     }
 
     bool MatchesSearch(const char* text, const char* filter, size_t filterLength) {
         return text && text[0] != '\0' && GuiUtils::MatchesFilter(text, std::strlen(text), filter, filterLength);
-    }
-
-    bool SearchResultButton(const char* label, const char* location, bool selected) {
-        constexpr float PADDING_X = 12.0f;
-        constexpr float PADDING_Y = 10.0f;
-        constexpr float TEXT_GAP = 5.0f;
-        constexpr ImVec4 BACKGROUND =
-            {DefaultStyle::PARCHMENT.x, DefaultStyle::PARCHMENT.y, DefaultStyle::PARCHMENT.z, 0.035f};
-        const float width = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
-        const float textWidth = (std::max)(1.0f, width - PADDING_X * 2.0f);
-        const char* labelEnd = GuiUtils::VisibleLabelEnd(label);
-        const ImVec2 titleSize = ImGui::CalcTextSize(label, labelEnd, false, textWidth);
-        const ImVec2 locationSize = ImGui::CalcTextSize(location, nullptr, false, textWidth);
-        const float height = PADDING_Y * 2.0f + titleSize.y + TEXT_GAP + locationSize.y;
-
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-        ImGui::PushStyleColor(ImGuiCol_Button, selected ? BRASS_MEDIUM : BACKGROUND);
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, selected ? BRASS_STRONG : BRASS_SUBTLE);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
-        ImGui::PushStyleColor(ImGuiCol_Border, selected ? BRASS_STRONG : BRASS_SUBTLE);
-        // Keep a single native button for mouse, keyboard navigation and tooltips; draw both text blocks below.
-        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::CLEAR);
-        const bool pressed = ImGui::Button(label, ImVec2(width, height));
-        ImGui::PopStyleColor(5);
-        ImGui::PopStyleVar(2);
-
-        if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-        if (!ImGui::IsItemVisible()) return pressed;
-
-        const ImVec2 minimum = ImGui::GetItemRectMin();
-        const ImVec2 maximum = ImGui::GetItemRectMax();
-        ImDrawList* drawList = ImGui::GetWindowDrawList();
-        if (selected) {
-            drawList->AddRectFilled(
-                ImVec2(minimum.x + 3, minimum.y + 10), ImVec2(minimum.x + 5, maximum.y - 10),
-                ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
-            );
-        }
-        drawList->PushClipRect(minimum, maximum, true);
-        drawList->AddText(
-            ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(minimum.x + PADDING_X, minimum.y + PADDING_Y),
-            ImGui::GetColorU32(selected ? DefaultStyle::PARCHMENT : DefaultStyle::PARCHMENT_DARK), label, labelEnd,
-            textWidth
-        );
-        drawList->AddText(
-            ImGui::GetFont(), ImGui::GetFontSize(),
-            ImVec2(minimum.x + PADDING_X, minimum.y + PADDING_Y + titleSize.y + TEXT_GAP),
-            ImGui::GetColorU32(DefaultStyle::TEXT_DISABLED), location, nullptr, textWidth
-        );
-        drawList->PopClipRect();
-        return pressed;
     }
 
     void RenderDiscordButton() {
@@ -343,19 +319,16 @@ void MenuManager::RenderSearchBar() {
     if (submitted && !searchResults.empty()) {
         ActivateSearchResult(searchResults[activeSearchResult]);
     }
-
-    ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
 }
 
 void MenuManager::RenderSearchResults() {
     if (searchResults.empty()) {
+        ImGui::Indent(SIDEBAR_HPAD);
         ImGui::TextUnformatted("No matches");
         GuiUtils::TextDisabledWrapped("Try another name or keyword.");
+        ImGui::Unindent(SIDEBAR_HPAD);
         return;
     }
-
-    ImGui::TextDisabled("%zu result%s", searchResults.size(), searchResults.size() == 1 ? "" : "s");
-    ImGui::Dummy(ImVec2(0, 2));
 
     bool activate = false;
     SearchResult activatedResult{SearchResultType::Section, nullptr};
@@ -369,7 +342,7 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::PushID(static_cast<int>(index));
         const bool selected = index == activeSearchResult;
-        if (SearchResultButton(label, result.location.c_str(), selected)) {
+        if (NavigationButton(label, selected, false, result.location.c_str())) {
             activatedResult = result;
             activate = true;
         }
@@ -384,7 +357,6 @@ void MenuManager::RenderSearchResults() {
         ImGui::PopID();
 
         if (activate) break;
-        ImGui::Spacing();
     }
 
     scrollToActiveSearchResult = false;
@@ -451,14 +423,10 @@ void MenuManager::RenderCategoryHeader(const char* label, MenuTab tab, bool& fir
 }
 
 void MenuManager::RenderCategorySections(MenuTab tab) {
-    ImGui::Indent(SECTION_INDENT);
-
     for (auto& section : sections[static_cast<size_t>(tab)]) {
         const bool selected = selectedSection == section.get();
         if (NavigationButton(section->GetName(), selected)) SelectSection(section.get());
     }
-
-    ImGui::Unindent(SECTION_INDENT);
 }
 
 void MenuManager::RenderSidebar() {
@@ -475,9 +443,10 @@ void MenuManager::RenderSidebar() {
     );
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(SIDEBAR_HPAD, 10));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 7));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 8));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(SIDEBAR_HPAD, 7));
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarSize, SIDEBAR_HPAD - 4.0f);
     ImGui::PushStyleColor(ImGuiCol_Border, BRASS_MEDIUM);
     ImGui::BeginChild(
         "nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding,
@@ -486,7 +455,13 @@ void MenuManager::RenderSidebar() {
 
     RenderSearchBar();
 
-    ImGui::BeginChild("nav_sections", ImVec2(0, -COMMUNITY_BUTTON_SIZE - style.ItemSpacing.y));
+    const float contentWidth = ImGui::GetContentRegionAvail().x;
+    // Keep the scroll track in the outer gutter so rows retain the search field's width.
+    ImGui::SetNextWindowContentSize(ImVec2(contentWidth, 0));
+    ImGui::BeginChild(
+        "nav_sections", ImVec2(contentWidth + SIDEBAR_HPAD - 2.0f, -COMMUNITY_BUTTON_SIZE - style.ItemSpacing.y)
+    );
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
     if (searchBuffer[0] != '\0') {
         RenderSearchResults();
     } else {
@@ -500,11 +475,13 @@ void MenuManager::RenderSidebar() {
             if (selectedSection && selectedSection->GetTab() == tab) RenderCategorySections(tab);
         }
     }
+    ImGui::PopStyleVar();
     ImGui::EndChild();
 
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + SIDEBAR_HPAD - 4.0f);
     RenderDiscordButton();
 
     ImGui::EndChild();
     ImGui::PopStyleColor();
-    ImGui::PopStyleVar(4);
+    ImGui::PopStyleVar(5);
 }
