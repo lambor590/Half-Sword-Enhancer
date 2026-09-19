@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Section.h"
@@ -51,6 +52,7 @@ private:
         SearchResultType type;
         Section* section;
         KeybindEntry* entry = nullptr;
+        std::string location;
     };
 
     std::array<std::vector<std::unique_ptr<Section>>, TAB_COUNT> sections;

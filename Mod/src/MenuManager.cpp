@@ -58,6 +58,58 @@ namespace {
         return text && text[0] != '\0' && GuiUtils::MatchesFilter(text, std::strlen(text), filter, filterLength);
     }
 
+    bool SearchResultButton(const char* label, const char* location, bool selected) {
+        constexpr float PADDING_X = 12.0f;
+        constexpr float PADDING_Y = 10.0f;
+        constexpr float TEXT_GAP = 5.0f;
+        constexpr ImVec4 BACKGROUND =
+            {DefaultStyle::PARCHMENT.x, DefaultStyle::PARCHMENT.y, DefaultStyle::PARCHMENT.z, 0.035f};
+        const float width = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+        const float textWidth = (std::max)(1.0f, width - PADDING_X * 2.0f);
+        const char* labelEnd = GuiUtils::VisibleLabelEnd(label);
+        const ImVec2 titleSize = ImGui::CalcTextSize(label, labelEnd, false, textWidth);
+        const ImVec2 locationSize = ImGui::CalcTextSize(location, nullptr, false, textWidth);
+        const float height = PADDING_Y * 2.0f + titleSize.y + TEXT_GAP + locationSize.y;
+
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+        ImGui::PushStyleColor(ImGuiCol_Button, selected ? BRASS_MEDIUM : BACKGROUND);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, selected ? BRASS_STRONG : BRASS_SUBTLE);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
+        ImGui::PushStyleColor(ImGuiCol_Border, selected ? BRASS_STRONG : BRASS_SUBTLE);
+        // Keep a single native button for mouse, keyboard navigation and tooltips; draw both text blocks below.
+        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::CLEAR);
+        const bool pressed = ImGui::Button(label, ImVec2(width, height));
+        ImGui::PopStyleColor(5);
+        ImGui::PopStyleVar(2);
+
+        if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        if (!ImGui::IsItemVisible()) return pressed;
+
+        const ImVec2 minimum = ImGui::GetItemRectMin();
+        const ImVec2 maximum = ImGui::GetItemRectMax();
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        if (selected) {
+            drawList->AddRectFilled(
+                ImVec2(minimum.x + 3, minimum.y + 10), ImVec2(minimum.x + 5, maximum.y - 10),
+                ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
+            );
+        }
+        drawList->PushClipRect(minimum, maximum, true);
+        drawList->AddText(
+            ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(minimum.x + PADDING_X, minimum.y + PADDING_Y),
+            ImGui::GetColorU32(selected ? DefaultStyle::PARCHMENT : DefaultStyle::PARCHMENT_DARK), label, labelEnd,
+            textWidth
+        );
+        drawList->AddText(
+            ImGui::GetFont(), ImGui::GetFontSize(),
+            ImVec2(minimum.x + PADDING_X, minimum.y + PADDING_Y + titleSize.y + TEXT_GAP),
+            ImGui::GetColorU32(DefaultStyle::TEXT_DISABLED), location, nullptr, textWidth
+        );
+        drawList->PopClipRect();
+        return pressed;
+    }
+
     void RenderDiscordButton() {
         ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::CLEAR);
@@ -200,13 +252,13 @@ void MenuManager::UpdateSearchResults() {
         if (tabSections.empty()) continue;
 
         if (MatchesSearch(TAB_LABELS[tabIndex], searchBuffer, filterLength)) {
-            searchResults.push_back({SearchResultType::Category, tabSections.front().get()});
+            searchResults.push_back({SearchResultType::Category, tabSections.front().get(), nullptr, "Group"});
         }
 
         for (auto& section : tabSections) {
             if (MatchesSearch(section->GetName(), searchBuffer, filterLength) ||
                 MatchesSearch(section->GetDescription(), searchBuffer, filterLength)) {
-                searchResults.push_back({SearchResultType::Section, section.get()});
+                searchResults.push_back({SearchResultType::Section, section.get(), nullptr, TAB_LABELS[tabIndex]});
             }
 
             auto* keybinds = section->GetSearchKeybinds();
@@ -221,11 +273,15 @@ void MenuManager::UpdateSearchResults() {
                               MatchesSearch(param.tooltip, searchBuffer, filterLength);
                 }
                 if (matches) {
-                    searchResults.push_back({SearchResultType::Action, section.get(), &entry});
+                    searchResults.push_back(
+                        {SearchResultType::Action, section.get(), &entry,
+                         std::string(TAB_LABELS[tabIndex]) + " / " + section->GetName()}
+                    );
                 }
             }
         }
     }
+    scrollToActiveSearchResult = !searchResults.empty();
 }
 
 void MenuManager::ActivateSearchResult(SearchResult result) {
@@ -262,8 +318,12 @@ void MenuManager::RenderSearchBar() {
     );
     const bool searchInputActive = ImGui::IsItemActive();
     const bool searchInputEdited = ImGui::IsItemEdited();
-    if (!searchInputActive)
+    if (searchInputActive) {
+        ImGui::SetItemKeyOwner(ImGuiKey_UpArrow);
+        ImGui::SetItemKeyOwner(ImGuiKey_DownArrow);
+    } else {
         GuiUtils::HelpTooltip("Find a section or action (Ctrl+K). Use the arrow keys and Enter to open it.");
+    }
     if (searchInputEdited) UpdateSearchResults();
 
     if (!searchResults.empty()) {
@@ -289,9 +349,13 @@ void MenuManager::RenderSearchBar() {
 
 void MenuManager::RenderSearchResults() {
     if (searchResults.empty()) {
-        ImGui::TextDisabled("No results");
+        ImGui::TextUnformatted("No matches");
+        GuiUtils::TextDisabledWrapped("Try another name or keyword.");
         return;
     }
+
+    ImGui::TextDisabled("%zu result%s", searchResults.size(), searchResults.size() == 1 ? "" : "s");
+    ImGui::Dummy(ImVec2(0, 2));
 
     bool activate = false;
     SearchResult activatedResult{SearchResultType::Section, nullptr};
@@ -305,7 +369,7 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::PushID(static_cast<int>(index));
         const bool selected = index == activeSearchResult;
-        if (NavigationButton(label, selected)) {
+        if (SearchResultButton(label, result.location.c_str(), selected)) {
             activatedResult = result;
             activate = true;
         }
@@ -318,20 +382,6 @@ void MenuManager::RenderSearchResults() {
         }
 
         ImGui::PopID();
-
-        ImGui::Indent(12.0f);
-        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::TEXT_DISABLED);
-        ImGui::PushTextWrapPos(0);
-        if (result.type == SearchResultType::Category) {
-            ImGui::TextUnformatted("Group");
-        } else if (result.type == SearchResultType::Section) {
-            ImGui::TextUnformatted(GetTabLabel(result.section->GetTab()));
-        } else {
-            ImGui::Text("%s / %s", GetTabLabel(result.section->GetTab()), result.section->GetName());
-        }
-        ImGui::PopTextWrapPos();
-        ImGui::PopStyleColor();
-        ImGui::Unindent(12.0f);
 
         if (activate) break;
         ImGui::Spacing();
