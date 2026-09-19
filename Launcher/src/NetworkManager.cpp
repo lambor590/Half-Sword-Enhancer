@@ -19,7 +19,6 @@ namespace hse {
             std::wstring host;
             std::wstring path;
             INTERNET_PORT port;
-            bool secure = true;
         };
 
         struct WinHttpSession {
@@ -76,6 +75,8 @@ namespace hse {
         }
 
         [[nodiscard]] std::expected<HttpConnection, NetworkError> ParseUrl(std::string_view url) {
+            if (url.empty() || url.size() > 8'192 || url.find('\0') != std::string_view::npos)
+                return std::unexpected(NetworkError::InvalidUrl);
             const std::wstring wUrl(url.begin(), url.end());
 
             std::array<wchar_t, 256> hostBuffer{};
@@ -89,8 +90,12 @@ namespace hse {
             urlComp.dwUrlPathLength = static_cast<DWORD>(pathBuffer.size());
             urlComp.lpszExtraInfo = extraBuffer.data();
             urlComp.dwExtraInfoLength = static_cast<DWORD>(extraBuffer.size());
+            urlComp.dwUserNameLength = static_cast<DWORD>(-1);
+            urlComp.dwPasswordLength = static_cast<DWORD>(-1);
 
-            if (!WinHttpCrackUrl(wUrl.c_str(), 0, 0, &urlComp)) {
+            if (!WinHttpCrackUrl(wUrl.c_str(), static_cast<DWORD>(wUrl.size()), 0, &urlComp) ||
+                urlComp.nScheme != INTERNET_SCHEME_HTTPS || urlComp.dwHostNameLength == 0 ||
+                urlComp.dwUserNameLength != 0 || urlComp.dwPasswordLength != 0) {
                 return std::unexpected(NetworkError::InvalidUrl);
             }
 
@@ -103,7 +108,6 @@ namespace hse {
                 .host = std::wstring(hostBuffer.data(), urlComp.dwHostNameLength),
                 .path = std::move(path),
                 .port = urlComp.nPort,
-                .secure = (urlComp.nScheme == INTERNET_SCHEME_HTTPS)
             };
         }
 
@@ -127,12 +131,18 @@ namespace hse {
 
             session.requestHandle = WinHttpOpenRequest(
                 session.connectionHandle, L"GET", connection.path.c_str(), nullptr, nullptr,
-                WINHTTP_DEFAULT_ACCEPT_TYPES, connection.secure ? WINHTTP_FLAG_SECURE : 0
+                WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE
             );
 
             if (!session) {
                 return std::unexpected(NetworkError::RequestFailed);
             }
+
+            DWORD redirectPolicy = WINHTTP_OPTION_REDIRECT_POLICY_DISALLOW_HTTPS_TO_HTTP;
+            if (!WinHttpSetOption(
+                    session.requestHandle, WINHTTP_OPTION_REDIRECT_POLICY, &redirectPolicy, sizeof(redirectPolicy)
+                ))
+                return std::unexpected(NetworkError::RequestFailed);
 
             return session;
         }
