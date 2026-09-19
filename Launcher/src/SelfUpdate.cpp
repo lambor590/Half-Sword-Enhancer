@@ -240,7 +240,8 @@ namespace hse {
             if (!parent || !ready || !SetEvent(ready.Get())) return 1;
             if (WaitForSingleObject(parent.Get(), PARENT_WAIT_MILLISECONDS) != WAIT_OBJECT_0) return 1;
             return ApplySelfUpdateWorker(
-                       workerExecutable, arguments[2], version, *buildId, std::chrono::seconds(30),
+                       stagingDirectory / L"launcher-update.exe", arguments[2], version, *buildId,
+                       std::chrono::seconds(30),
                        GetCurrentProcessId()
                    )
                        ? 0
@@ -431,12 +432,18 @@ namespace hse {
         const ScopedHandle ready(CreateEventW(nullptr, TRUE, FALSE, eventName.c_str()));
         if (!ready || GetLastError() == ERROR_ALREADY_EXISTS) return std::unexpected(SelfUpdateError::LaunchFailed);
 
+        // The installed launcher performs replacement; the download is only run
+        // from its final location after package validation and atomic installation.
+        const auto workerPath = staging.PayloadPath().parent_path() / L"update-worker.exe";
+        if (!CopyFileW(staging.TargetPath().c_str(), workerPath.c_str(), TRUE))
+            return std::unexpected(SelfUpdateError::FileSystemError);
+
         const auto version = expectedVersion.ToString();
         std::wstring command;
         command.reserve(
-            staging.PayloadPath().native().size() + staging.TargetPath().native().size() + eventName.size() + 96
+            workerPath.native().size() + staging.TargetPath().native().size() + eventName.size() + 96
         );
-        AppendQuoted(command, staging.PayloadPath().native());
+        AppendQuoted(command, workerPath.native());
         command.append(L" --hse-apply-update ");
         AppendQuoted(command, staging.TargetPath().native());
         command.push_back(L' ');
@@ -447,7 +454,7 @@ namespace hse {
         command.append(std::to_wstring(launcherProcessId));
         command.push_back(L' ');
         AppendQuoted(command, eventName);
-        auto worker = StartProcess(staging.PayloadPath(), std::move(command), CREATE_NO_WINDOW);
+        auto worker = StartProcess(workerPath, std::move(command), CREATE_NO_WINDOW);
         if (!worker) return std::unexpected(SelfUpdateError::LaunchFailed);
         if (WaitForSingleObject(ready.Get(), WORKER_READY_MILLISECONDS) != WAIT_OBJECT_0) {
             TerminateProcess(worker->Get(), 1);
