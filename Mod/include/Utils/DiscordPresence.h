@@ -6,6 +6,8 @@
 #include "Core/ModContext.h"
 
 namespace DiscordPresence {
+    inline constexpr char COMMUNITY_URL[] = "https://discord.gg/x3KmgsQYMp";
+
     struct Activity {
         std::string details;
         std::string state;

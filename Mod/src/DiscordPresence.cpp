@@ -23,7 +23,6 @@
 namespace {
     using Clock = std::chrono::steady_clock;
     constexpr std::uint64_t APPLICATION_ID = 1440132640333103207ULL;
-    constexpr std::string_view COMMUNITY_URL = "https://discord.gg/x3KmgsQYMp";
     constexpr std::string_view DOWNLOAD_URL = "https://halfswordenhancer.com";
     constexpr std::string_view COMMUNITY_IMAGE =
         "https://cdn.discordapp.com/icons/1322288077275795458/fafcb72b235c99eac63bfc9e5f616a79.png";
@@ -271,7 +270,7 @@ namespace {
         api.setSmallImage(&assets.handle, &communityImage);
         api.setSmallText(&assets.handle, &communityText);
         api.setAssets(&activity.handle, &assets.handle);
-        AddButton(&activity.handle, "Join HSE Discord", COMMUNITY_URL);
+        AddButton(&activity.handle, "Join HSE Discord", DiscordPresence::COMMUNITY_URL);
         AddButton(&activity.handle, "Get Half Sword Enhancer", DOWNLOAD_URL);
 
         submitted = std::move(description);
