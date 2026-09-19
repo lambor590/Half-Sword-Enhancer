@@ -38,11 +38,10 @@ private:
     static constexpr float SIDEBAR_MAX_WIDTH = 360.0f;
     static constexpr float CONTENT_MIN_WIDTH = 320.0f;
     static constexpr float SPLITTER_THICKNESS = 4.0f;
-    static constexpr float SECTION_INDENT = 14.0f;
-    static constexpr float SIDEBAR_HPAD = 10.0f;
-    static constexpr float CATEGORY_VGAP = 4.0f;
-    static constexpr float ARROW_SIZE = 4.0f;
-    static constexpr float ARROW_INDENT = 8.0f;
+    static constexpr float SECTION_INDENT = 10.0f;
+    static constexpr float SIDEBAR_HPAD = 12.0f;
+    static constexpr float CATEGORY_VGAP = 6.0f;
+    static constexpr float ARROW_SIZE = 3.0f;
 
     MenuManager() = default;
 
