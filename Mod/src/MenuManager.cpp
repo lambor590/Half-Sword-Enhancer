@@ -40,6 +40,7 @@ namespace {
         if (ImGui::IsItemVisible()) {
             const ImVec2 minimum = ImGui::GetItemRectMin();
             const ImVec2 maximum = ImGui::GetItemRectMax();
+            const ImVec2 textPosition(minimum.x + paddingX, minimum.y + paddingY);
             ImDrawList* drawList = ImGui::GetWindowDrawList();
             if (selected || hovered) {
                 const ImVec4 background =
@@ -51,7 +52,7 @@ namespace {
             }
             if (selected && !category) {
                 drawList->AddRectFilled(
-                    ImVec2(minimum.x + 3, minimum.y + paddingY), ImVec2(minimum.x + 5, maximum.y - paddingY),
+                    ImVec2(minimum.x + 3, textPosition.y), ImVec2(minimum.x + 5, maximum.y - paddingY),
                     ImGui::GetColorU32(DefaultStyle::BRIGHT_BRASS), 1.0f
                 );
             }
@@ -59,13 +60,13 @@ namespace {
                 ImVec2(minimum.x + paddingX, minimum.y), ImVec2(maximum.x - SIDEBAR_HPAD, maximum.y), true
             );
             drawList->AddText(
-                ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(minimum.x + paddingX, minimum.y + paddingY),
+                ImGui::GetFont(), ImGui::GetFontSize(), textPosition,
                 ImGui::GetColorU32(textColor), label, labelEnd, wrapWidth
             );
             if (location) {
                 drawList->AddText(
                     ImGui::GetFont(), ImGui::GetFontSize(),
-                    ImVec2(minimum.x + paddingX, minimum.y + paddingY + titleSize.y + 4.0f),
+                    ImVec2(textPosition.x, textPosition.y + titleSize.y + 4.0f),
                     ImGui::GetColorU32(DefaultStyle::TEXT_DISABLED), location, nullptr, textWidth
                 );
             }
