@@ -14,7 +14,7 @@ public:
     static void Render();
 
     static void NotifyStateChange(std::string_view actionName, bool enabled);
-    static void NotifyAction(std::string_view actionName);
+    static void NotifyAction(std::string_view actionName, float duration = 2.0f);
 
     [[nodiscard]] static bool IsEnabled() noexcept { return s_enabled.load(std::memory_order_acquire); }
     static void SetEnabled(bool enabled);

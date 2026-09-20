@@ -14,7 +14,6 @@ namespace {
     constexpr ImVec4 NOTIFICATION_TEXT{0.95f, 0.92f, 0.85f, 1.0f};
     constexpr ImVec4 NOTIFICATION_BORDER{0.71f, 0.57f, 0.25f, 1.0f};
     constexpr float DEFAULT_DURATION = 2.5f;
-    constexpr float ACTION_DURATION = 2.0f;
 }
 
 std::vector<NotificationManager::Notification> NotificationManager::s_notifications;
@@ -170,8 +169,8 @@ void NotificationManager::NotifyStateChange(std::string_view actionName, bool en
     AddNotification(actionName, enabled ? ENABLED_SUFFIX : DISABLED_SUFFIX, DEFAULT_DURATION);
 }
 
-void NotificationManager::NotifyAction(std::string_view actionName) {
-    AddNotification(actionName, {}, ACTION_DURATION);
+void NotificationManager::NotifyAction(std::string_view actionName, float duration) {
+    AddNotification(actionName, {}, duration);
 }
 
 constexpr float NotificationManager::CalculateAlpha(float elapsed, float duration) noexcept {

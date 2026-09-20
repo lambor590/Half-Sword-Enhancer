@@ -31,6 +31,7 @@
 
 #include <algorithm>
 #include <bit>
+#include <format>
 
 WNDPROC Gui::originalWndProc = nullptr;
 std::atomic<std::uint64_t> Gui::wndProcState{Gui::WndProcState(Gui::WndProcPhase::Inactive)};
@@ -43,6 +44,7 @@ void Gui::Init(HWND newWindow) noexcept {
 }
 
 namespace {
+    bool s_showStartupNotification = true;
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;
     bool s_popupOpened = false;
@@ -304,7 +306,7 @@ void Gui::Shutdown() noexcept {
 }
 
 bool Gui::NeedsRendering() noexcept {
-
+    if (s_showStartupNotification) [[unlikely]] return true;
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
 
     const bool hasNotifications = NotificationManager::Update();
@@ -326,6 +328,17 @@ void Gui::Render() {
 
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    if (s_showStartupNotification) {
+        NotificationManager::NotifyAction(
+            std::format(
+                "Half Sword Enhancer\nPress [{}] to show or hide the menu.",
+                KeybindManager::GetKeyName(KeybindManager::GetToggleGuiKey())
+            ),
+            8.0f
+        );
+        s_showStartupNotification = false;
+    }
 
     ImGuiIO& io = ImGui::GetIO();
     io.MouseDrawCursor = visible;
