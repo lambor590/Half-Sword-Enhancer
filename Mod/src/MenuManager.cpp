@@ -18,12 +18,8 @@ namespace {
     constexpr float COMMUNITY_BUTTON_SIZE = 32.0f;
     constexpr float SIDEBAR_HPAD = 12.0f;
     constexpr float SECTION_INDENT = 10.0f;
-    constexpr ImVec4 BRASS_SUBTLE =
-        {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.12f};
-    constexpr ImVec4 BRASS_MEDIUM =
-        {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.22f};
-    constexpr ImVec4 BRASS_STRONG =
-        {DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.32f};
+    constexpr ImVec4 SIDEBAR_BACKGROUND =
+        MakeColor(DefaultStyle::BLACK.x, DefaultStyle::BLACK.y, DefaultStyle::BLACK.z);
 
     bool NavigationButton(const char* label, bool selected, bool category = false, const char* location = nullptr) {
         const float width = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
@@ -38,18 +34,18 @@ namespace {
         const ImVec4 textColor =
             selected ? (category ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::PARCHMENT) : DefaultStyle::PARCHMENT_DARK;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
         ImGui::PushStyleColor(
-            ImGuiCol_Button, selected ? (category ? BRASS_SUBTLE : BRASS_MEDIUM) : DefaultStyle::CLEAR
+            ImGuiCol_Button,
+            selected ? (category ? DefaultStyle::DARK_WOOD : DefaultStyle::HEADER) : DefaultStyle::CLEAR
         );
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, selected ? BRASS_STRONG : BRASS_SUBTLE);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::HEADER_HOVERED);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::HEADER_ACTIVE);
         // One native hit target, with shared text alignment for navigation and search results.
         ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::CLEAR);
         const bool pressed = ImGui::Button(label, ImVec2(width, height));
         ImGui::PopStyleColor(4);
-        ImGui::PopStyleVar(2);
+        ImGui::PopStyleVar();
 
         if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::IsItemVisible()) {
@@ -126,7 +122,7 @@ namespace {
             drawList->PathBezierCubicCurveTo(point(29.540f, 2.677f), point(34.427f, 2.677f), point(39.226f, 3.397f));
             drawList->PathBezierCubicCurveTo(point(39.731f, 2.235f), point(40.286f, 1.099f), point(40.905f, 0.0f));
             drawList->PathFillConcave(color);
-            const ImU32 background = ImGui::GetColorU32(DefaultStyle::DARK_INK);
+            const ImU32 background = ImGui::GetColorU32(SIDEBAR_BACKGROUND);
             drawList->AddEllipseFilled(point(21.464f, 26.374f), ImVec2(2.14f, 2.375f), background);
             drawList->AddEllipseFilled(point(42.509f, 26.374f), ImVec2(2.14f, 2.375f), background);
         }
@@ -364,9 +360,9 @@ void MenuManager::RenderSearchResults() {
 }
 
 void MenuManager::RenderSplitter(float maximumSidebarWidth) {
-    ImGui::PushStyleColor(ImGuiCol_Button, BRASS_SUBTLE);
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, BRASS_STRONG);
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::OLD_BRASS);
+    ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::HEADER_HOVERED);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::HEADER_ACTIVE);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -380,6 +376,14 @@ void MenuManager::RenderSplitter(float maximumSidebarWidth) {
 
     ImGui::PopStyleVar(2);
     ImGui::PopStyleColor(3);
+
+    const ImVec2 minimum = ImGui::GetItemRectMin();
+    const ImVec2 maximum = ImGui::GetItemRectMax();
+    const float middleX = (minimum.x + maximum.x) * 0.5f;
+    ImGui::GetWindowDrawList()->AddLine(
+        ImVec2(middleX, minimum.y), ImVec2(middleX, maximum.y),
+        ImGui::GetColorU32(ImGui::IsItemActive() ? ImGuiCol_SeparatorActive : ImGuiCol_Separator)
+    );
 
     if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
     if (ImGui::IsItemActive()) {
@@ -439,15 +443,13 @@ void MenuManager::RenderSidebar() {
     ImGui::GetWindowDrawList()->AddRectFilled(
         ImVec2(backgroundLeft, backgroundTop),
         ImVec2(backgroundLeft + sidebarWidth + style.WindowPadding.x, backgroundBottom),
-        ImGui::ColorConvertFloat4ToU32(DefaultStyle::DARK_INK), style.WindowRounding, ImDrawFlags_RoundCornersBottomLeft
+        ImGui::ColorConvertFloat4ToU32(SIDEBAR_BACKGROUND), style.WindowRounding, ImDrawFlags_RoundCornersBottomLeft
     );
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(SIDEBAR_HPAD, 10));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 8));
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(SIDEBAR_HPAD, 7));
-    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(SIDEBAR_HPAD, SectionStyle::FRAME_PADDING.y));
     ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarSize, SIDEBAR_HPAD - 4.0f);
-    ImGui::PushStyleColor(ImGuiCol_Border, BRASS_MEDIUM);
     ImGui::BeginChild(
         "nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding,
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
@@ -482,6 +484,5 @@ void MenuManager::RenderSidebar() {
     RenderDiscordButton();
 
     ImGui::EndChild();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleVar(5);
+    ImGui::PopStyleVar(4);
 }
