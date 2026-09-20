@@ -66,7 +66,7 @@ private:
 
     static constexpr const char* GetTabLabel(MenuTab tab) noexcept { return TAB_LABELS[static_cast<size_t>(tab)]; }
     void UpdateSearchResults();
-    void ActivateSearchResult(SearchResult result);
+    void ActivateSearchResult(const SearchResult& result);
     void SelectSection(Section* section);
 
     void RenderContent();

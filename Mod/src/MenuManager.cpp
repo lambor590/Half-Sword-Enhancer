@@ -34,24 +34,21 @@ namespace {
         const ImVec4 textColor =
             selected ? (category ? DefaultStyle::BRIGHT_BRASS : DefaultStyle::PARCHMENT) : DefaultStyle::PARCHMENT_DARK;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
-        ImGui::PushStyleColor(
-            ImGuiCol_Button,
-            selected ? (category ? DefaultStyle::DARK_WOOD : DefaultStyle::HEADER) : DefaultStyle::CLEAR
-        );
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::HEADER_HOVERED);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::HEADER_ACTIVE);
-        // One native hit target, with shared text alignment for navigation and search results.
-        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::CLEAR);
-        const bool pressed = ImGui::Button(label, ImVec2(width, height));
-        ImGui::PopStyleColor(4);
-        ImGui::PopStyleVar();
-
-        if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        const bool pressed = ImGui::InvisibleButton(label, ImVec2(width, height), ImGuiButtonFlags_EnableNav);
+        const bool hovered = ImGui::IsItemHovered();
+        if (hovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::IsItemVisible()) {
             const ImVec2 minimum = ImGui::GetItemRectMin();
             const ImVec2 maximum = ImGui::GetItemRectMax();
             ImDrawList* drawList = ImGui::GetWindowDrawList();
+            if (selected || hovered) {
+                const ImVec4 background =
+                    hovered ? (ImGui::IsItemActive() ? DefaultStyle::HEADER_ACTIVE : DefaultStyle::HEADER_HOVERED)
+                            : (category ? DefaultStyle::DARK_WOOD : DefaultStyle::HEADER);
+                drawList->AddRectFilled(
+                    minimum, maximum, ImGui::GetColorU32(background), ImGui::GetStyle().FrameRounding
+                );
+            }
             if (selected && !category) {
                 drawList->AddRectFilled(
                     ImVec2(minimum.x + 3, minimum.y + paddingY), ImVec2(minimum.x + 5, maximum.y - paddingY),
@@ -83,13 +80,9 @@ namespace {
     }
 
     void RenderDiscordButton() {
-        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::CLEAR);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::CLEAR);
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
-        const bool pressed = ImGui::Button("##JoinDiscord", ImVec2(COMMUNITY_BUTTON_SIZE, COMMUNITY_BUTTON_SIZE));
-        ImGui::PopStyleVar();
-        ImGui::PopStyleColor(3);
+        const bool pressed = ImGui::InvisibleButton(
+            "##JoinDiscord", ImVec2(COMMUNITY_BUTTON_SIZE, COMMUNITY_BUTTON_SIZE), ImGuiButtonFlags_EnableNav
+        );
 
         const bool hovered = ImGui::IsItemHovered();
         if (hovered) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
@@ -256,7 +249,7 @@ void MenuManager::UpdateSearchResults() {
     scrollToActiveSearchResult = !searchResults.empty();
 }
 
-void MenuManager::ActivateSearchResult(SearchResult result) {
+void MenuManager::ActivateSearchResult(const SearchResult& result) {
     SelectSection(result.section);
     if (result.type == SearchResultType::Action && result.entry) {
         if (auto* keybinds = result.section->GetSearchKeybinds()) keybinds->RequestHighlight(result.entry);
@@ -326,9 +319,6 @@ void MenuManager::RenderSearchResults() {
         return;
     }
 
-    bool activate = false;
-    SearchResult activatedResult{SearchResultType::Section, nullptr};
-
     for (size_t index = 0; index < searchResults.size(); ++index) {
         const auto& result = searchResults[index];
         const char* label =
@@ -338,10 +328,7 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::PushID(static_cast<int>(index));
         const bool selected = index == activeSearchResult;
-        if (NavigationButton(label, selected, false, result.location.c_str())) {
-            activatedResult = result;
-            activate = true;
-        }
+        const bool activate = NavigationButton(label, selected, false, result.location.c_str());
         if (scrollToActiveSearchResult && index == activeSearchResult) ImGui::SetScrollHereY(0.5f);
 
         if (result.type != SearchResultType::Category) {
@@ -352,41 +339,38 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::PopID();
 
-        if (activate) break;
+        if (activate) {
+            ActivateSearchResult(result);
+            break;
+        }
     }
 
     scrollToActiveSearchResult = false;
-    if (activate) ActivateSearchResult(activatedResult);
 }
 
 void MenuManager::RenderSplitter(float maximumSidebarWidth) {
-    ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::HEADER_HOVERED);
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::HEADER_ACTIVE);
-    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
-
     const float paddingY = ImGui::GetStyle().WindowPadding.y;
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - paddingY);
     const float splitterHeight = ImGui::GetContentRegionAvail().y + paddingY;
 
-    ImGui::PushItemFlag(ImGuiItemFlags_NoNav, true);
-    ImGui::Button("##splitter", ImVec2(SPLITTER_THICKNESS, splitterHeight));
-    ImGui::PopItemFlag();
-
-    ImGui::PopStyleVar(2);
-    ImGui::PopStyleColor(3);
+    ImGui::InvisibleButton("##splitter", ImVec2(SPLITTER_THICKNESS, splitterHeight));
 
     const ImVec2 minimum = ImGui::GetItemRectMin();
     const ImVec2 maximum = ImGui::GetItemRectMax();
     const float middleX = (minimum.x + maximum.x) * 0.5f;
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+        ImGui::GetWindowDrawList()->AddRectFilled(
+            minimum, maximum,
+            ImGui::GetColorU32(ImGui::IsItemActive() ? DefaultStyle::HEADER_ACTIVE : DefaultStyle::HEADER_HOVERED)
+        );
+    }
     ImGui::GetWindowDrawList()->AddLine(
         ImVec2(middleX, minimum.y), ImVec2(middleX, maximum.y),
         ImGui::GetColorU32(ImGui::IsItemActive() ? ImGuiCol_SeparatorActive : ImGuiCol_Separator)
     );
 
-    if (ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
-    if (ImGui::IsItemActive()) {
+    if (ImGui::IsItemActive() && !ImGui::IsItemActivated()) {
         sidebarWidth = std::clamp(sidebarWidth + ImGui::GetIO().MouseDelta.x, SIDEBAR_MIN_WIDTH, maximumSidebarWidth);
     }
     if (ImGui::IsItemDeactivated()) ConfigManager::Get().SetFloat("GUI", "navigation_width", sidebarWidth);
