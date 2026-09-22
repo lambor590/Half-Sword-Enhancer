@@ -37,7 +37,7 @@ $sourceFiles = @(
     (Join-Path $repositoryRoot "bin/HSEnhancer.dll")
     (Join-Path $repositoryRoot "bin/winmm.dll")
     (Join-Path $repositoryRoot "bin/main.dll")
-    (Join-Path $repositoryRoot "Manual_Install.txt")
+    (Join-Path $repositoryRoot "README.txt")
     (Join-Path $repositoryRoot "Linux-Guide.md")
 )
 foreach ($sourceFile in $sourceFiles) {
@@ -58,7 +58,7 @@ Copy-Item -LiteralPath $launcherSource -Destination (Join-Path $bundleDirectory 
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/HSEnhancer.dll") -Destination $manualDirectory
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/winmm.dll") -Destination $manualDirectory
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "bin/main.dll") -Destination $manualDirectory
-Copy-Item -LiteralPath (Join-Path $repositoryRoot "Manual_Install.txt") -Destination $manualDirectory
+Copy-Item -LiteralPath (Join-Path $repositoryRoot "README.txt") -Destination $bundleDirectory
 Copy-Item -LiteralPath (Join-Path $repositoryRoot "Linux-Guide.md") -Destination $bundleDirectory
 
 $hashes = [ordered]@{
