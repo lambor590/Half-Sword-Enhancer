@@ -1,4 +1,4 @@
-[![Join the Half Sword Enhancer Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/x3KmgsQYMp)
+[![Join the Half Sword Enhancer Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://halfswordenhancer.com/discord)
 
 # Half Sword Enhancer
 
@@ -88,7 +88,7 @@ HSE saves your settings and presets in `%APPDATA%\Half Sword Enhancer\`.
 - If the menu does not appear, press `Insert`, check your mod version, and install the Visual C++ Redistributable. If needed, repeat the [installation steps for your game](#installation).
 - If the game will not start, [uninstall HSE](#uninstalling), then reinstall the correct version using the steps above.
 - If the launcher cannot find the game, right-click Half Sword in Steam and select Manage, then Browse local files. Give the launcher that folder.
-- For help, join [Discord](https://discord.gg/x3KmgsQYMp). Include your HSE version, game version, and a short description of the problem.
+- For help, join [Discord](https://halfswordenhancer.com/discord). Include your HSE version, game version, and a short description of the problem.
 
 ## Uninstalling
 
