@@ -101,7 +101,9 @@ function Import-VisualStudioEnvironment {
         throw "VsDevCmd.bat not found at $devCmd."
     }
 
-    $environment = cmd.exe /s /c "`"$devCmd`" -arch=x64 -host_arch=x64 >nul && set"
+    # VsDevCmd helpers call vswhere by name, so expose the installer directory to avoid a spurious error.
+    $installerDir = Split-Path -Parent $vswhere
+    $environment = cmd.exe /s /c "set `"PATH=%PATH%;$installerDir`" && `"$devCmd`" -arch=x64 -host_arch=x64 >nul && set"
     foreach ($line in $environment) {
         $separator = $line.IndexOf("=")
         if ($separator -le 0) {
@@ -166,7 +168,7 @@ function Invoke-TidyForProject {
             -DefinitionFile (Join-Path $repoRoot "Proxy/src/winmm.def") `
             -CppOutput (Join-Path $generatedDir "winmm_exports.generated.h") `
             -AsmOutput (Join-Path $generatedDir "winmm_exports.generated.inc") `
-            -ModuleDefinitionOutput (Join-Path $generatedDir "winmm.generated.def") | Out-Null
+            -ModuleDefinitionOutput (Join-Path $generatedDir "winmm.generated.def") 6>$null | Out-Null
     }
 
     $sources = @(Get-SourceFiles $Spec)
