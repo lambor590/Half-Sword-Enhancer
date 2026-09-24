@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
@@ -181,7 +182,7 @@ namespace PresetApplication {
             passport.Name_57_3729B51148E846FE8DD336B9419BCEE1 =
                 SDK::BasicFilesImplUtils::StringToName(wideName.c_str());
         }
-        preset.passport = passport;
+        preset.passport = std::move(passport);
         return true;
     }
 

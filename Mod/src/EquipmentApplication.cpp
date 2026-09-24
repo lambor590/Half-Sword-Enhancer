@@ -619,7 +619,7 @@ namespace EquipmentApplication {
             auto* actor = slotIndex == 0 ? static_cast<SDK::AActor*>(willie->Weapon_R)
                                          : static_cast<SDK::AActor*>(willie->Weapon_L);
             if (!IsUsableActor(actor) || !GameClass::IsModularWeapon(actor)) return false;
-            static_cast<SDK::AModularWeaponBP_C*>(actor)->Weapon_Passport = passport;
+            static_cast<SDK::AModularWeaponBP_C*>(actor)->Weapon_Passport = std::move(passport);
             if (PresetApplication::ApplyWeaponMeshOverrides(actor, preset->meshPresets) &&
                 PresetApplication::ApplyWeaponRuntimeOverrides(actor, preset->runtimeProps))
                 return true;

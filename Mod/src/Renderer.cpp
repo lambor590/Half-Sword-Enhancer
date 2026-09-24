@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <bit>
+#include <utility>
 #include "Render/Renderer.h"
 #include "MemoryUtils.h"
 #include "Gui.h"
@@ -607,7 +608,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
 
     ComPtr<ID3D11Device> newD3D11Device;
     if (SUCCEEDED(sc->GetDevice(IID_PPV_ARGS(&newD3D11Device)))) [[likely]] {
-        d3d11Device = newD3D11Device;
+        d3d11Device = std::move(newD3D11Device);
         state.backend = RenderBackend::D3D11;
         return InitD3D11();
     }
@@ -619,7 +620,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
             ReleaseImGuiRenderer();
             d3d12SrvHeap.Reset();
         }
-        d3d12Device = newD3D12Device;
+        d3d12Device = std::move(newD3D12Device);
         state.backend = RenderBackend::D3D12;
         return InitD3D12();
     }
