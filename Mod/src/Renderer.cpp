@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bit>
 #include "Render/Renderer.h"
 #include "MemoryUtils.h"
@@ -97,10 +98,10 @@ HRESULT __fastcall HookOnResizeBuffers(
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers();
+    const bool overlayResized = callback.DispatchHooks() && renderer.BeforeResizeBuffers(pThis);
     const auto original = renderer.originalResizeBuffers;
     const HRESULT result = original ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags) : E_FAIL;
-    if (callback.DispatchHooks()) renderer.AfterResizeBuffers(result);
+    if (overlayResized) renderer.AfterResizeBuffers(result);
     return result;
 }
 
@@ -110,16 +111,16 @@ HRESULT __fastcall HookOnResizeBuffers1(
 ) noexcept {
     auto& renderer = *g_Renderer;
     const Renderer::CallbackLease callback{renderer};
-    if (callback.DispatchHooks()) renderer.BeforeResizeBuffers();
+    const bool overlayResized = callback.DispatchHooks() && renderer.BeforeResizeBuffers(pThis);
     const auto original = renderer.originalResizeBuffers1;
     const HRESULT result =
         original
             ? original(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue)
             : E_FAIL;
     if (callback.DispatchHooks() && SUCCEEDED(result) && presentQueue && bufferCount > 0) {
-        renderer.CaptureCommandQueue(presentQueue[0]);
+        renderer.RememberSwapChainQueue(pThis, presentQueue[0]);
     }
-    if (callback.DispatchHooks()) renderer.AfterResizeBuffers(result);
+    if (overlayResized) renderer.AfterResizeBuffers(result);
     return result;
 }
 
@@ -132,7 +133,8 @@ HRESULT __fastcall HookOnCreateSwapChain(
         renderer.createSwapChainReturnAddress ? renderer.createSwapChainReturnAddress : renderer.createSwapChainAddress
     );
     const HRESULT result = original ? original(pThis, pDevice, pDesc, ppSwapChain) : E_FAIL;
-    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
+    if (callback.DispatchHooks() && SUCCEEDED(result) && ppSwapChain)
+        renderer.RememberSwapChainQueue(*ppSwapChain, pDevice);
     return result;
 }
 
@@ -149,7 +151,8 @@ HRESULT __fastcall HookOnCreateSwapChainForHwnd(
     );
     const HRESULT result =
         original ? original(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain) : E_FAIL;
-    if (callback.DispatchHooks() && SUCCEEDED(result)) renderer.CaptureCommandQueue(pDevice);
+    if (callback.DispatchHooks() && SUCCEEDED(result) && ppSwapChain)
+        renderer.RememberSwapChainQueue(*ppSwapChain, pDevice);
     return result;
 }
 
@@ -329,44 +332,31 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
     }
 }
 
-bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
-    if (!newQueue) [[unlikely]]
-        return false;
+void Renderer::RememberSwapChainQueue(IDXGISwapChain* owner, IUnknown* queueCandidate) noexcept {
+    ComPtr<ID3D12CommandQueue> queue;
+    if (!owner || !queueCandidate || FAILED(queueCandidate->QueryInterface(IID_PPV_ARGS(&queue))) ||
+        queue->GetDesc().Type != D3D12_COMMAND_LIST_TYPE_DIRECT)
+        return;
 
-    const D3D12_COMMAND_QUEUE_DESC desc = newQueue->GetDesc();
-    if (desc.Type != D3D12_COMMAND_LIST_TYPE_DIRECT) return false;
-
-    ComPtr<ID3D12Device> queueDevice;
-    if (FAILED(newQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) ||
-        (d3d12Device.Get() && queueDevice.Get() != d3d12Device.Get())) {
-        if (!state.dx12QueueMismatchLogged) {
-            logger.Log("D3D12 command queue ignored: device mismatch");
-            state.dx12QueueMismatchLogged = true;
-        }
-        return false;
-    }
-
-    if (commandQueue.Get() == newQueue) [[likely]]
-        return false;
-
-    commandQueue = newQueue;
-    state.dx12QueueMismatchLogged = false;
-    state.dx12QueueMissingLogged = false;
-    return true;
+    const std::scoped_lock lock(swapChainQueueMutex);
+    auto slot = std::ranges::find(swapChainQueues, owner, &SwapChainQueue::swapChain);
+    if (slot == swapChainQueues.end()) slot = std::ranges::min_element(swapChainQueues, {}, &SwapChainQueue::sequence);
+    *slot = {owner, std::move(queue), ++swapChainQueueSequence};
 }
 
-bool Renderer::CaptureCommandQueue(IUnknown* queueCandidate) noexcept {
-    if (!queueCandidate) return false;
-
-    ComPtr<ID3D12CommandQueue> newQueue;
-    if (FAILED(queueCandidate->QueryInterface(IID_PPV_ARGS(&newQueue)))) return false;
-    return CaptureCommandQueue(newQueue.Get());
+ComPtr<ID3D12CommandQueue> Renderer::FindSwapChainQueue(IDXGISwapChain* owner) noexcept {
+    const std::scoped_lock lock(swapChainQueueMutex);
+    const auto match = std::ranges::find(swapChainQueues, owner, &SwapChainQueue::swapChain);
+    if (match != swapChainQueues.end()) return match->queue;
+    return std::ranges::max_element(swapChainQueues, {}, &SwapChainQueue::sequence)->queue;
 }
 
-void Renderer::BeforeResizeBuffers() noexcept {
+bool Renderer::BeforeResizeBuffers(IDXGISwapChain* resized) noexcept {
+    if (!resized || resized != overlaySwapChain.load(std::memory_order_acquire)) return false;
     state.inResize = true;
 
     ReleaseD3DResourcesForResize();
+    return true;
 }
 
 void Renderer::AfterResizeBuffers(HRESULT result) noexcept {
@@ -504,6 +494,7 @@ bool Renderer::InitOrReinitImGui() noexcept {
             if (rendererReady) {
                 imguiD3D12RenderTargetFormat = d3d12RenderTargetFormat;
                 imguiD3D12BufferCount = state.bufferCount;
+                imguiD3D12CommandQueue = commandQueue.Get();
             }
         }
         if (!rendererReady) [[unlikely]] {
@@ -579,11 +570,11 @@ void Renderer::ReleaseRenderTargets() noexcept {
     d3d12FrameTargets.clear();
     d3d12RtvHeap.Reset();
     d3d12SkipLogCount = 0;
-    state.dx12QueueMismatchLogged = false;
 }
 
 bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
     swapChain = sc;
+    overlaySwapChain.store(sc, std::memory_order_release);
 
     ComPtr<ID3D11Device> newD3D11Device;
     if (SUCCEEDED(sc->GetDevice(IID_PPV_ARGS(&newD3D11Device)))) [[likely]] {
@@ -630,13 +621,11 @@ bool Renderer::InitD3D11() {
 }
 
 bool Renderer::InitD3D12() {
-    if (commandQueue.Get()) {
-        ComPtr<ID3D12Device> queueDevice;
-        if (FAILED(commandQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) || queueDevice.Get() != d3d12Device.Get()) {
-            logger.Log("D3D12 command queue reset: device changed");
-            commandQueue.Reset();
-            state.dx12QueueMismatchLogged = false;
-        }
+    commandQueue = FindSwapChainQueue(swapChain.Get());
+    ComPtr<ID3D12Device> queueDevice;
+    if (commandQueue.Get() &&
+        (FAILED(commandQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) || queueDevice.Get() != d3d12Device.Get())) {
+        commandQueue.Reset();
     }
 
     if (!commandQueue.Get()) {
@@ -646,6 +635,7 @@ bool Renderer::InitD3D12() {
         }
         return false;
     }
+    state.dx12QueueMissingLogged = false;
 
     if (!fence.Get() && FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))))
         [[unlikely]] {
@@ -679,7 +669,8 @@ bool Renderer::InitD3D12() {
     d3d12RenderTargetFormat = desc.BufferDesc.Format;
     const bool imguiBackendNeedsReset =
         state.imguiRendererReady &&
-        (imguiD3D12RenderTargetFormat != d3d12RenderTargetFormat || imguiD3D12BufferCount != state.bufferCount);
+        (imguiD3D12RenderTargetFormat != d3d12RenderTargetFormat || imguiD3D12BufferCount != state.bufferCount ||
+         imguiD3D12CommandQueue != commandQueue.Get());
     if (imguiBackendNeedsReset) ReleaseImGuiRenderer();
 
     if (!d3d12SrvHeap.Get() && !CreateD3D12SrvHeap()) [[unlikely]] {
@@ -739,6 +730,7 @@ void Renderer::ReleaseGraphicsResources() noexcept {
     d3d12SrvHeap.Reset();
     imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     imguiD3D12BufferCount = 0;
+    imguiD3D12CommandQueue = nullptr;
     fence.Reset();
     if (fenceEvent) {
         CloseHandle(fenceEvent);
@@ -767,6 +759,7 @@ void Renderer::ReleaseD3DResourcesForResize() noexcept {
 
     swapChain.Reset();
     swapChain3.Reset();
+    overlaySwapChain.store(nullptr, std::memory_order_release);
 
     state.backend = RenderBackend::Unknown;
     state.bufferCount = 0;
@@ -780,6 +773,7 @@ void Renderer::ReleaseImGuiRenderer() noexcept {
         ImGui_ImplDX12_Shutdown();
         imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
         imguiD3D12BufferCount = 0;
+        imguiD3D12CommandQueue = nullptr;
     } else {
         ImGui_ImplDX11_Shutdown();
     }
@@ -846,6 +840,10 @@ void Renderer::Cleanup() noexcept {
     createSwapChainForHwndAddress = 0;
 
     ReleaseGraphicsResources();
+    {
+        const std::scoped_lock queueLock(swapChainQueueMutex);
+        swapChainQueues = {};
+    }
 
     if (state.imguiContextReady) [[likely]] {
         Gui::Get().Shutdown();

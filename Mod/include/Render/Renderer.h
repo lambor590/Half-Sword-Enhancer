@@ -78,7 +78,6 @@ private:
         bool imguiContextReady = false;
         bool imguiRendererReady = false;
         bool inResize = false;
-        bool dx12QueueMismatchLogged = false;
         bool dx12QueueMissingLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
         RenderBackend imguiBackend = RenderBackend::Unknown;
@@ -91,6 +90,13 @@ private:
         D3D12_CPU_DESCRIPTOR_HANDLE renderTarget = {};
         UINT64 fenceValue = 0;
     };
+
+    struct SwapChainQueue {
+        IDXGISwapChain* swapChain = nullptr;
+        Microsoft::WRL::ComPtr<ID3D12CommandQueue> queue;
+        std::uint64_t sequence = 0;
+    };
+    static constexpr std::size_t SWAP_CHAIN_QUEUE_SLOTS = 4;
 
     Logger logger{"Renderer", Logger::FlushMode::Immediate};
     std::mutex hookMutex;
@@ -116,10 +122,14 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+    std::atomic<IDXGISwapChain*> overlaySwapChain{nullptr};
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> d3d11RenderTarget;
 
     Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
+    std::mutex swapChainQueueMutex;
+    std::array<SwapChainQueue, SWAP_CHAIN_QUEUE_SLOTS> swapChainQueues;
+    std::uint64_t swapChainQueueSequence = 0;
     Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain3;
     Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> d3d12CommandList;
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> d3d12RtvHeap;
@@ -136,6 +146,7 @@ private:
     DXGI_FORMAT d3d12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     DXGI_FORMAT imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     uint8_t imguiD3D12BufferCount = 0;
+    ID3D12CommandQueue* imguiD3D12CommandQueue = nullptr;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
     std::array<UINT, D3D12_SRV_DESCRIPTOR_COUNT> d3d12FreeSrvDescriptors{};
     UINT d3d12FreeSrvDescriptorCount = 0;
@@ -171,10 +182,10 @@ private:
     static void FreeD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
     );
-    void BeforeResizeBuffers() noexcept;
+    [[nodiscard]] bool BeforeResizeBuffers(IDXGISwapChain* resized) noexcept;
     void AfterResizeBuffers(HRESULT result) noexcept;
-    bool CaptureCommandQueue(IUnknown* queueCandidate) noexcept;
-    bool CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
+    void RememberSwapChainQueue(IDXGISwapChain* owner, IUnknown* queueCandidate) noexcept;
+    [[nodiscard]] Microsoft::WRL::ComPtr<ID3D12CommandQueue> FindSwapChainQueue(IDXGISwapChain* owner) noexcept;
 
     friend HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept;
     friend HRESULT __fastcall HookOnResizeBuffers(
