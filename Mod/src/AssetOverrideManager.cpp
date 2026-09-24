@@ -47,7 +47,7 @@ namespace {
         rel.replace_extension();
         auto target = std::string(GAME_PREFIX);
         target += rel.generic_string();
-        target += ".";
+        target += '.';
         target += file.stem().string();
         return target;
     }
