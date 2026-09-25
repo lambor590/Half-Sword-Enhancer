@@ -18,6 +18,8 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
+// HSE: locally patched to record texture uploads into the frame's command list; keep the "HSE patch" parts when updating.
+
 // CHANGELOG
 // (minor and older changes stripped away, please see git history for details)
 //  2025-10-11: DirectX12: Reuse texture upload buffer and grow it only when necessary. (#9002)
@@ -135,7 +137,13 @@ struct ImGui_ImplDX12_RenderBuffers
     ID3D12Resource*     VertexBuffer;
     int                 IndexBufferSize;
     int                 VertexBufferSize;
+    // HSE patch: staging for texture uploads recorded into this frame's command list.
+    ID3D12Resource*     TexUploadBuffer;
+    UINT64              TexUploadBufferSize;
+    void*               TexUploadBufferMapped;
 };
+
+static void ImGui_ImplDX12_UpdateTextureImpl(ImTextureData* tex, ID3D12GraphicsCommandList* frame_cmd_list, ImGui_ImplDX12_RenderBuffers* fr, UINT64* frame_upload_offset);
 
 struct VERTEX_CONSTANT_BUFFER_DX12
 {
@@ -227,17 +235,54 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
     if (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f)
         return;
 
-    // Catch up with texture updates. Most of the times, the list will have 1 element with an OK status, aka nothing to do.
-    // (This almost always points to ImGui::GetPlatformIO().Textures[] but is part of ImDrawData to allow overriding or disabling texture updates).
-    if (draw_data->Textures != nullptr)
-        for (ImTextureData* tex : *draw_data->Textures)
-            if (tex->Status != ImTextureStatus_OK)
-                ImGui_ImplDX12_UpdateTexture(tex);
-
     // FIXME: We are assuming that this only gets called once per frame!
     ImGui_ImplDX12_Data* bd = ImGui_ImplDX12_GetBackendData();
     bd->frameIndex = bd->frameIndex + 1;
     ImGui_ImplDX12_RenderBuffers* fr = &bd->pFrameResources[bd->frameIndex % bd->numFramesInFlight];
+
+    // Catch up with texture updates. Most of the times, the list will have 1 element with an OK status, aka nothing to do.
+    // (This almost always points to ImGui::GetPlatformIO().Textures[] but is part of ImDrawData to allow overriding or disabling texture updates).
+    // HSE patch: uploads are recorded into this frame's command list ahead of the draws. Submitting them separately
+    // made the Present thread wait for the GPU to finish the game's queued frames on every glyph or image update.
+    if (draw_data->Textures != nullptr)
+    {
+        UINT64 upload_size = 0;
+        for (ImTextureData* tex : *draw_data->Textures)
+            if (tex->Status == ImTextureStatus_WantCreate || tex->Status == ImTextureStatus_WantUpdates)
+            {
+                const int upload_w = (tex->Status == ImTextureStatus_WantCreate) ? tex->Width : tex->UpdateRect.w;
+                const int upload_h = (tex->Status == ImTextureStatus_WantCreate) ? tex->Height : tex->UpdateRect.h;
+                const UINT upload_pitch = (upload_w * tex->BytesPerPixel + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u) & ~(D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u);
+                upload_size += (UINT64)upload_pitch * upload_h + D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT;
+            }
+        if (upload_size > fr->TexUploadBufferSize)
+        {
+            if (fr->TexUploadBufferMapped)
+                fr->TexUploadBuffer->Unmap(0, nullptr);
+            SafeRelease(fr->TexUploadBuffer);
+            fr->TexUploadBufferMapped = nullptr;
+            fr->TexUploadBufferSize = 0;
+            D3D12_HEAP_PROPERTIES props = {};
+            props.Type = D3D12_HEAP_TYPE_UPLOAD;
+            D3D12_RESOURCE_DESC desc = {};
+            desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+            desc.Width = upload_size;
+            desc.Height = 1;
+            desc.DepthOrArraySize = 1;
+            desc.MipLevels = 1;
+            desc.Format = DXGI_FORMAT_UNKNOWN;
+            desc.SampleDesc.Count = 1;
+            desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+            if (bd->pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&fr->TexUploadBuffer)) >= 0 &&
+                fr->TexUploadBuffer->Map(0, nullptr, &fr->TexUploadBufferMapped) >= 0)
+                fr->TexUploadBufferSize = upload_size;
+        }
+        const bool record = fr->TexUploadBufferSize >= upload_size;
+        UINT64 upload_offset = 0;
+        for (ImTextureData* tex : *draw_data->Textures)
+            if (tex->Status != ImTextureStatus_OK)
+                ImGui_ImplDX12_UpdateTextureImpl(tex, record ? command_list : nullptr, fr, &upload_offset);
+    }
 
     // Create and grow vertex/index buffers if needed
     if (fr->VertexBuffer == nullptr || fr->VertexBufferSize < draw_data->TotalVtxCount)
@@ -385,6 +430,13 @@ static void ImGui_ImplDX12_DestroyTexture(ImTextureData* tex)
 
 void ImGui_ImplDX12_UpdateTexture(ImTextureData* tex)
 {
+    ImGui_ImplDX12_UpdateTextureImpl(tex, nullptr, nullptr, nullptr);
+}
+
+// HSE patch: with a frame command list, the copy is recorded there from the frame's upload buffer; without one it is
+// submitted to the queue and waited for, as upstream does.
+static void ImGui_ImplDX12_UpdateTextureImpl(ImTextureData* tex, ID3D12GraphicsCommandList* frame_cmd_list, ImGui_ImplDX12_RenderBuffers* fr, UINT64* frame_upload_offset)
+{
     ImGui_ImplDX12_Data* bd = ImGui_ImplDX12_GetBackendData();
     bool need_barrier_before_copy = true; // Do we need a resource barrier before we copy new data in?
 
@@ -459,7 +511,18 @@ void ImGui_ImplDX12_UpdateTexture(ImTextureData* tex)
         UINT upload_pitch_dst = (upload_pitch_src + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u) & ~(D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u);
         UINT upload_size = upload_pitch_dst * upload_h;
 
-        if (bd->pTexUploadBuffer == nullptr || upload_size > bd->pTexUploadBufferSize)
+        ID3D12GraphicsCommandList* cmdList = frame_cmd_list;
+        ID3D12Resource* upload_buffer = nullptr;
+        UINT64 upload_offset = 0;
+        void* upload_mapped = nullptr;
+        if (frame_cmd_list)
+        {
+            upload_offset = (*frame_upload_offset + D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT - 1) & ~(UINT64)(D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT - 1);
+            *frame_upload_offset = upload_offset + upload_size;
+            upload_buffer = fr->TexUploadBuffer;
+            upload_mapped = (void*)((uintptr_t)fr->TexUploadBufferMapped + upload_offset);
+        }
+        else if (bd->pTexUploadBuffer == nullptr || upload_size > bd->pTexUploadBufferSize)
         {
             if (bd->pTexUploadBufferMapped)
             {
@@ -498,14 +561,18 @@ void ImGui_ImplDX12_UpdateTexture(ImTextureData* tex)
             IM_ASSERT(SUCCEEDED(hr));
             bd->pTexUploadBufferSize = upload_size;
         }
-
-        bd->pTexCmdAllocator->Reset();
-        bd->pTexCmdList->Reset(bd->pTexCmdAllocator, nullptr);
-        ID3D12GraphicsCommandList* cmdList = bd->pTexCmdList;
+        if (!frame_cmd_list)
+        {
+            bd->pTexCmdAllocator->Reset();
+            bd->pTexCmdList->Reset(bd->pTexCmdAllocator, nullptr);
+            cmdList = bd->pTexCmdList;
+            upload_buffer = bd->pTexUploadBuffer;
+            upload_mapped = bd->pTexUploadBufferMapped;
+        }
 
         // Copy to upload buffer
         for (int y = 0; y < upload_h; y++)
-            memcpy((void*)((uintptr_t)bd->pTexUploadBufferMapped + y * upload_pitch_dst), tex->GetPixelsAt(upload_x, upload_y + y), upload_pitch_src);
+            memcpy((void*)((uintptr_t)upload_mapped + y * upload_pitch_dst), tex->GetPixelsAt(upload_x, upload_y + y), upload_pitch_src);
 
         if (need_barrier_before_copy)
         {
@@ -522,8 +589,9 @@ void ImGui_ImplDX12_UpdateTexture(ImTextureData* tex)
         D3D12_TEXTURE_COPY_LOCATION srcLocation = {};
         D3D12_TEXTURE_COPY_LOCATION dstLocation = {};
         {
-            srcLocation.pResource = bd->pTexUploadBuffer;
+            srcLocation.pResource = upload_buffer;
             srcLocation.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+            srcLocation.PlacedFootprint.Offset = upload_offset;
             srcLocation.PlacedFootprint.Footprint.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             srcLocation.PlacedFootprint.Footprint.Width = upload_w;
             srcLocation.PlacedFootprint.Footprint.Height = upload_h;
@@ -546,19 +614,22 @@ void ImGui_ImplDX12_UpdateTexture(ImTextureData* tex)
             cmdList->ResourceBarrier(1, &barrier);
         }
 
-        HRESULT hr = cmdList->Close();
-        IM_ASSERT(SUCCEEDED(hr));
-        ID3D12CommandQueue* cmdQueue = bd->pCommandQueue;
-        cmdQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&cmdList);
-        hr = cmdQueue->Signal(bd->Fence, ++bd->FenceLastSignaledValue);
-        IM_ASSERT(SUCCEEDED(hr));
+        if (!frame_cmd_list)
+        {
+            HRESULT hr = cmdList->Close();
+            IM_ASSERT(SUCCEEDED(hr));
+            ID3D12CommandQueue* cmdQueue = bd->pCommandQueue;
+            cmdQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&cmdList);
+            hr = cmdQueue->Signal(bd->Fence, ++bd->FenceLastSignaledValue);
+            IM_ASSERT(SUCCEEDED(hr));
 
-        // FIXME-OPT: Suboptimal?
-        // - To remove this may need to create NumFramesInFlight x ImGui_ImplDX12_FrameContext in backend data (mimick docking version)
-        // - Store per-frame in flight: upload buffer?
-        // - Where do cmdList and cmdAlloc fit?
-        bd->Fence->SetEventOnCompletion(bd->FenceLastSignaledValue, bd->FenceEvent);
-        ::WaitForSingleObject(bd->FenceEvent, INFINITE);
+            // FIXME-OPT: Suboptimal?
+            // - To remove this may need to create NumFramesInFlight x ImGui_ImplDX12_FrameContext in backend data (mimick docking version)
+            // - Store per-frame in flight: upload buffer?
+            // - Where do cmdList and cmdAlloc fit?
+            bd->Fence->SetEventOnCompletion(bd->FenceLastSignaledValue, bd->FenceEvent);
+            ::WaitForSingleObject(bd->FenceEvent, INFINITE);
+        }
 
         tex->SetStatus(ImTextureStatus_OK);
     }
@@ -877,6 +948,11 @@ void    ImGui_ImplDX12_InvalidateDeviceObjects()
         ImGui_ImplDX12_RenderBuffers* fr = &bd->pFrameResources[i];
         SafeRelease(fr->IndexBuffer);
         SafeRelease(fr->VertexBuffer);
+        if (fr->TexUploadBufferMapped)
+            fr->TexUploadBuffer->Unmap(0, nullptr);
+        SafeRelease(fr->TexUploadBuffer);
+        fr->TexUploadBufferSize = 0;
+        fr->TexUploadBufferMapped = nullptr;
     }
 }
 
@@ -943,6 +1019,9 @@ bool ImGui_ImplDX12_Init(ImGui_ImplDX12_InitInfo* init_info)
         fr->VertexBuffer = nullptr;
         fr->IndexBufferSize = 10000;
         fr->VertexBufferSize = 5000;
+        fr->TexUploadBuffer = nullptr;
+        fr->TexUploadBufferSize = 0;
+        fr->TexUploadBufferMapped = nullptr;
     }
 
     return true;
