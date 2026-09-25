@@ -134,17 +134,32 @@ namespace BoneControl {
             return item;
         }
 
+        void SetBreakable(
+            SDK::UPhysicsConstraintComponent* component, bool linearBreakable, float linearThreshold,
+            bool angularBreakable, float angularThreshold
+        ) {
+            // This runs on every Willie tick: skip the engine calls (and the physics update) when the constraint
+            // already holds these values.
+            const auto& profile = component->ConstraintInstance.ProfileInstance;
+            if (profile.bLinearBreakable != linearBreakable || profile.LinearBreakThreshold != linearThreshold)
+                component->SetLinearBreakable(linearBreakable, linearThreshold);
+            if (profile.bAngularBreakable != angularBreakable || profile.AngularBreakThreshold != angularThreshold)
+                component->SetAngularBreakable(angularBreakable, angularThreshold);
+        }
+
         void ApplyDislocationConstraints(
             SDK::AWillie_BP_C* willie, std::vector<ConstraintBaseline>& baseline, bool blockBreak
         ) {
             ForEachDislocationConstraint(willie, [&](SDK::UPhysicsConstraintComponent* component) {
                 const auto& original = CaptureConstraint(component, baseline);
+                constexpr float UNBREAKABLE = (std::numeric_limits<float>::max)();
                 if (blockBreak) {
-                    component->SetLinearBreakable(false, (std::numeric_limits<float>::max)());
-                    component->SetAngularBreakable(false, (std::numeric_limits<float>::max)());
+                    SetBreakable(component, false, UNBREAKABLE, false, UNBREAKABLE);
                 } else {
-                    component->SetLinearBreakable(original.linearBreakable, original.linearThreshold);
-                    component->SetAngularBreakable(original.angularBreakable, original.angularThreshold);
+                    SetBreakable(
+                        component, original.linearBreakable, original.linearThreshold, original.angularBreakable,
+                        original.angularThreshold
+                    );
                 }
             });
         }
