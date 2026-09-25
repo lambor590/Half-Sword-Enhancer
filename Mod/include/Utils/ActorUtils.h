@@ -2,13 +2,16 @@
 
 #include "Utils/EngineArray.h"
 
+#include <cstdint>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "Hooks/GameHook.h"
 #include "SDK/AI_BP_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "Utils/EngineFrame.h"
 #include "Utils/GameConstants.h"
 #include "Utils/PossessState.h"
 
@@ -155,10 +158,28 @@ namespace ActorUtils {
         return delta.Dot(delta);
     }
 
-    template <typename Func>
-    void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
+    // Willies in the world this frame. Abilities, bone control and the AI director iterate them several times per
+    // frame, and actors are only garbage collected between frames, so they share one engine query.
+    inline const std::vector<SDK::AWillie_BP_C*>& FrameWillies(SDK::UWorld* world) {
+        static std::vector<SDK::AWillie_BP_C*> willies;
+        static SDK::UWorld* cachedWorld = nullptr;
+        static std::int64_t cachedFrame = -1;
+        const auto frame = EngineFrame::Current();
+        if (world == cachedWorld && frame == cachedFrame) return willies;
+
         EngineArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+        willies.clear();
+        for (auto* actor : actors)
+            willies.push_back(static_cast<SDK::AWillie_BP_C*>(actor));
+        cachedWorld = world;
+        cachedFrame = frame;
+        return willies;
+    }
+
+    template <typename Func>
+    void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
+        const auto& willies = FrameWillies(world);
 
         auto* originalPawn = PossessState::GetOriginalPawn();
         const bool limited = radius != GameConstants::MAX_DISTANCE;
@@ -166,9 +187,9 @@ namespace ActorUtils {
         const auto origin = limited ? player->K2_GetActorLocation() : SDK::FVector{};
         const double radiusSquared = static_cast<double>(radius) * radius;
 
-        for (auto* actor : actors) {
-            auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-            if (willie == player || willie == originalPawn || !willie) continue;
+        for (auto* willie : willies) {
+            // Destroyed earlier this frame, after the query.
+            if (willie == player || willie == originalPawn || !willie || willie->bActorIsBeingDestroyed) continue;
 
             if (!limited || DistanceSquared(origin, willie->K2_GetActorLocation()) <= radiusSquared) {
                 func(willie);
