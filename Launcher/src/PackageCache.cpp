@@ -270,13 +270,12 @@ namespace hse {
             return std::optional<CachedPackage>{};
         }
 
-        auto manifest = ValidateBundle(bundlePath, channel, version, {});
-        if (!manifest) {
+        auto cached = CacheBundle(bundlePath, channel, version);
+        if (!cached) {
+            if (cached.error() == PackageCacheError::FileSystemError) return std::unexpected(cached.error());
             Logger::warn("The bundled installation files do not belong to this launcher and will be ignored");
             return std::optional<CachedPackage>{};
         }
-        auto cached = CacheBundle(bundlePath, channel, version, manifest->package.buildId);
-        if (!cached) return std::unexpected(cached.error());
         Logger::info("Bundled installation files cached successfully");
         return std::optional<CachedPackage>{std::move(*cached)};
     }
