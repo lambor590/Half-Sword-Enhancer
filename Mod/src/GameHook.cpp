@@ -86,7 +86,8 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
 
     if (queued && slot.nameHash == RECEIVE_TICK_HASH) [[unlikely]] {
         const ScopedHookSuppression suppressHooks;
-        hook.gameThreadId.store(GetCurrentThreadId(), std::memory_order_release);
+        if (const auto threadId = GetCurrentThreadId(); hook.gameThreadId.load(std::memory_order_relaxed) != threadId)
+            hook.gameThreadId.store(threadId, std::memory_order_release);
 
         const auto frame = EngineFrame::Current();
         const bool newFrame = frame != hook.lastQueueFrame;
