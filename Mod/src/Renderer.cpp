@@ -306,9 +306,12 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
         if (flags & DXGI_PRESENT_TEST) [[unlikely]]
             return;
 
-        if (swapChain.Get() && pThis != swapChain.Get()) [[unlikely]] {
-            logger.Log("Swap chain changed, recreating overlay resources");
-            ReleaseD3DResourcesForResize();
+        if (pThis != swapChain.Get()) [[unlikely]] {
+            if (!IsOverlaySwapChain(pThis)) return;
+            if (swapChain.Get()) {
+                logger.Log("Swap chain changed, recreating overlay resources");
+                ReleaseD3DResourcesForResize();
+            }
         }
 
         if (state.needsInit) [[unlikely]] {
@@ -332,7 +335,23 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
     }
 }
 
+bool Renderer::IsOverlaySwapChain(IDXGISwapChain* candidate) noexcept {
+    if (candidate == ignoredSwapChain.load(std::memory_order_relaxed)) return false;
+
+    // Slate popups such as notifications present their own swap chains every frame; following them would rebuild
+    // the overlay twice per frame.
+    DXGI_SWAP_CHAIN_DESC desc{};
+    const bool overlayWindow = !windowHandle || !IsWindow(windowHandle) ||
+                               (SUCCEEDED(candidate->GetDesc(&desc)) && desc.OutputWindow == windowHandle);
+    if (!overlayWindow) ignoredSwapChain.store(candidate, std::memory_order_relaxed);
+    return overlayWindow;
+}
+
 void Renderer::RememberSwapChainQueue(IDXGISwapChain* owner, IUnknown* queueCandidate) noexcept {
+    // A new swap chain can reuse the address of an ignored one.
+    if (owner && owner == ignoredSwapChain.load(std::memory_order_relaxed))
+        ignoredSwapChain.store(nullptr, std::memory_order_relaxed);
+
     ComPtr<ID3D12CommandQueue> queue;
     if (!owner || !queueCandidate || FAILED(queueCandidate->QueryInterface(IID_PPV_ARGS(&queue))) ||
         queue->GetDesc().Type != D3D12_COMMAND_LIST_TYPE_DIRECT)

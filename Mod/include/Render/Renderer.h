@@ -123,6 +123,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
     std::atomic<IDXGISwapChain*> overlaySwapChain{nullptr};
+    std::atomic<IDXGISwapChain*> ignoredSwapChain{nullptr};
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> d3d11RenderTarget;
 
     Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
@@ -175,6 +176,7 @@ private:
     bool SignalAndWait() noexcept;
 
     void OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept;
+    [[nodiscard]] bool IsOverlaySwapChain(IDXGISwapChain* candidate) noexcept;
     static void AllocateD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE* outCpuHandle,
         D3D12_GPU_DESCRIPTOR_HANDLE* outGpuHandle
