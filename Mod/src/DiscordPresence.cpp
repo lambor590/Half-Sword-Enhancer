@@ -95,8 +95,8 @@ namespace {
     Text View(std::string_view text) { return {text.data(), text.size()}; }
 
     std::vector<std::string> EnumLabels(const char* name) {
-        const std::string path = "UserDefinedEnum " + std::string(name) + "." + name;
-        auto* definition = SDK::UObject::FindObject<SDK::UEnum>(path);
+        // The cast flag limits the scan to enums; a full-name search formats every object's path (~80 ms).
+        auto* definition = SDK::UObject::FindObjectFast<SDK::UEnum>(name, SDK::EClassCastFlags::Enum);
         if (!definition || !EngineMemory::freeBuffer) return {};
         std::vector<std::string> labels;
         for (const auto& entry : definition->Names) {
