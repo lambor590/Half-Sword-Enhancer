@@ -61,5 +61,5 @@ private:
     std::array<std::vector<Subscriber>, EVENT_COUNT> subscribers;
     std::array<GameHook::HookHandle, EVENT_COUNT> eventHookHandles{};
     std::atomic<SubscriptionHandle> nextHandle{1};
-    std::int64_t lastTickFrame = -1;
+    std::array<std::int64_t, EVENT_COUNT> lastDispatchFrames{-1, -1};
 };

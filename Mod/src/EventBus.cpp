@@ -47,11 +47,13 @@ void EventBus::SubscriptionGroup::Clear() {
 }
 
 void EventBus::Dispatch(GameEvent event) {
-    if (event == GameEvent::OnTick) {
-        const auto frame = EngineFrame::Current();
-        if (lastTickFrame == frame) return;
-        lastTickFrame = frame;
-    }
+    // ReceiveTick fires for every ticking actor and OnWalkingOffLedge for every walking character, while
+    // subscribers apply per-frame state; with many Willies that multiplied every ability by the crowd size.
+    auto& lastFrame = lastDispatchFrames[static_cast<size_t>(event)];
+    const auto frame = EngineFrame::Current();
+    if (lastFrame == frame) return;
+    lastFrame = frame;
+
     const auto runtime = ModContext::Get().RefreshGameThreadCache();
     auto& list = subscribers[static_cast<size_t>(event)];
     for (auto& subscriber : list) {
@@ -60,7 +62,7 @@ void EventBus::Dispatch(GameEvent event) {
 }
 
 void EventBus::Clear() {
-    lastTickFrame = -1;
+    lastDispatchFrames.fill(-1);
     for (auto& hookHandle : eventHookHandles) {
         GameHook::Get().Unsubscribe(hookHandle);
         hookHandle = GameHook::INVALID_HOOK_HANDLE;
