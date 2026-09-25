@@ -340,6 +340,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
     } catch (...) {
         state.needsInit = true;
         ReleaseD3DResourcesForResize();
+        ReleaseImGuiRenderer();
     }
 }
 
@@ -510,6 +511,7 @@ bool Renderer::InitOrReinitImGui() noexcept {
         bool rendererReady = false;
         if (state.backend == RenderBackend::D3D11) {
             rendererReady = ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
+            if (rendererReady) imguiD3D11Device = d3d11Device.Get();
         } else {
             ImGui_ImplDX12_InitInfo initInfo{};
             initInfo.Device = d3d12Device.Get();
@@ -645,6 +647,7 @@ bool Renderer::InitD3D11() {
         return false;
     }
 
+    if (state.imguiRendererReady && imguiD3D11Device != d3d11Device.Get()) ReleaseImGuiRenderer();
     if (!InitOrReinitImGui()) [[unlikely]]
         return false;
     return true;
@@ -769,15 +772,10 @@ void Renderer::ReleaseGraphicsResources() noexcept {
 }
 
 void Renderer::ReleaseD3DResourcesForResize() noexcept {
+    // ImGui's pipeline and textures do not reference the back buffers, so they survive resizes; Init* resets them
+    // only when the device, format, buffer count or queue changes.
     const RenderBackend backend = state.backend;
     if (backend == RenderBackend::D3D12) SignalAndWait();
-
-    if (state.imguiRendererReady && backend == RenderBackend::D3D12) {
-        ImGui_ImplDX12_InvalidateDeviceObjects();
-    } else if (state.imguiRendererReady) {
-        ReleaseImGuiRenderer();
-    }
-
     if (backend == RenderBackend::D3D11) ReleaseContextState();
 
     ReleaseRenderTargets();
@@ -806,6 +804,7 @@ void Renderer::ReleaseImGuiRenderer() noexcept {
         imguiD3D12CommandQueue = nullptr;
     } else {
         ImGui_ImplDX11_Shutdown();
+        imguiD3D11Device = nullptr;
     }
     state.imguiRendererReady = false;
     state.imguiBackend = RenderBackend::Unknown;

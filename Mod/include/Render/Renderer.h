@@ -148,6 +148,7 @@ private:
     DXGI_FORMAT imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     uint8_t imguiD3D12BufferCount = 0;
     ID3D12CommandQueue* imguiD3D12CommandQueue = nullptr;
+    ID3D11Device* imguiD3D11Device = nullptr;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
     std::array<UINT, D3D12_SRV_DESCRIPTOR_COUNT> d3d12FreeSrvDescriptors{};
     UINT d3d12FreeSrvDescriptorCount = 0;
