@@ -81,15 +81,6 @@ namespace {
         return lowered;
     }
 
-    bool IsBlueprintAsset(const SDK::FAssetData& asset) {
-        const std::string assetClass = asset.AssetClass.ToString();
-        if (assetClass == "Blueprint" || assetClass == "BlueprintGeneratedClass") return true;
-
-        return asset.AssetClassPath.PackageName.GetRawString() == "/Script/Engine" &&
-               (asset.AssetClassPath.AssetName.ToString() == "Blueprint" ||
-                asset.AssetClassPath.AssetName.ToString() == "BlueprintGeneratedClass");
-    }
-
     void GetGameAssets(SDK::UObject* registryObj, SDK::TArray<SDK::FAssetData>& results) {
         if (!registryObj) return;
 
@@ -98,10 +89,18 @@ namespace {
         if (!getAssetsFn) return;
 
         SDK::FName gamePath = SDK::BasicFilesImplUtils::StringToName(L"/Game");
+        // Filtering by class in the registry avoids returning (and name-checking) every other /Game asset.
+        const auto engine = SDK::BasicFilesImplUtils::StringToName(L"/Script/Engine");
+        SDK::FTopLevelAssetPath blueprintClasses[] = {
+            {.PackageName = engine, .AssetName = SDK::BasicFilesImplUtils::StringToName(L"Blueprint")},
+            {.PackageName = engine, .AssetName = SDK::BasicFilesImplUtils::StringToName(L"BlueprintGeneratedClass")},
+        };
 
         SDK::Params::AssetRegistry_GetAssets params{};
         params.Filter.PackagePaths = SDK::TArray<SDK::FName>(&gamePath, 1, 1);
+        params.Filter.ClassPaths = SDK::TArray<SDK::FTopLevelAssetPath>(blueprintClasses, 2, 2);
         params.Filter.bRecursivePaths = true;
+        params.Filter.bRecursiveClasses = false;
         params.bSkipARFilteredAssets = false;
 
         auto flags = getAssetsFn->FunctionFlags;
@@ -147,7 +146,7 @@ void BlueprintRegistry::PerformScan(bool forceRefresh) {
         auto* registryObj = si.GetObjectRef();
 
         if (registryObj) {
-            AssetRegistryUtils::RefreshGameAssets(registryObj);
+            AssetRegistryUtils::RefreshGameAssets(registryObj, forceRefresh);
             SDK::TArray<SDK::FAssetData> results;
             GetGameAssets(registryObj, results);
 
@@ -157,8 +156,6 @@ void BlueprintRegistry::PerformScan(bool forceRefresh) {
             seenIds.reserve(static_cast<size_t>(results.Num()));
             for (int32_t i = 0; i < results.Num(); ++i) {
                 auto& asset = results[i];
-                if (!IsBlueprintAsset(asset)) continue;
-
                 std::string packagePath = asset.PackagePath.GetRawString();
                 if (!packagePath.starts_with("/Game/")) continue;
 
