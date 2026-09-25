@@ -110,6 +110,7 @@ namespace {
         getAssetsFn->FunctionFlags = flags;
 
         params.Filter.PackagePaths = SDK::TArray<SDK::FName>(nullptr, 0, 0);
+        params.Filter.ClassPaths = SDK::TArray<SDK::FTopLevelAssetPath>(nullptr, 0, 0);
 
         results = params.OutAssetData;
     }
@@ -118,7 +119,7 @@ namespace {
 void BlueprintRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(false); }))
             state.store(ScanState::NotStarted, std::memory_order_release);
     }
 }
@@ -129,11 +130,11 @@ void BlueprintRegistry::RequestRescan() {
         !state.compare_exchange_strong(previous, ScanState::Scanning, std::memory_order_acq_rel))
         return;
     tierScanDone = false;
-    if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+    if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(true); }))
         state.store(previous, std::memory_order_release);
 }
 
-void BlueprintRegistry::PerformScan() {
+void BlueprintRegistry::PerformScan(bool forceRefresh) {
     items.clear();
     categories.clear();
     itemLocations.clear();

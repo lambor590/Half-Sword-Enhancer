@@ -52,7 +52,7 @@ private:
     };
     std::vector<SearchEntry> searchIndex;
 
-    void PerformScan();
+    void PerformScan(bool forceRefresh);
     void ScanWeaponTiers();
     void InjectCustomizableWeapons();
     void InjectCustomPaths();

@@ -21,7 +21,7 @@ class MapRegistry {
     float maxDisplayNameWidth = 0.0f;
     bool displayWidthDirty = true;
 
-    void PerformScan();
+    void PerformScan(bool forceRefresh);
 
 public:
     [[nodiscard]] static MapRegistry& Get() {

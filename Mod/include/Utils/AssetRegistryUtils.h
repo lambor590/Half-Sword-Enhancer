@@ -4,8 +4,12 @@
 #include "SDK/AssetRegistry_parameters.hpp"
 
 namespace AssetRegistryUtils {
-    inline bool RefreshGameAssets(SDK::UObject* registry) {
+    // The rescan blocks the game thread for a few hundred milliseconds, so the Item Spawner and Map Setup share one
+    // per session; their Rescan buttons force another.
+    inline bool RefreshGameAssets(SDK::UObject* registry, bool force) {
+        static bool refreshed = false;
         if (!registry) return false;
+        if (refreshed && !force) return true;
         static auto* function = SDK::IAssetRegistry::StaticClass()->GetFunction("AssetRegistry", "ScanPathsSynchronous");
         if (!function) return false;
 
@@ -16,6 +20,7 @@ namespace AssetRegistryUtils {
         params.bForceRescan = true;
         params.bIgnoreDenyListScanFilters = true;
         registry->ProcessEvent(function, &params);
+        refreshed = true;
         return true;
     }
 }

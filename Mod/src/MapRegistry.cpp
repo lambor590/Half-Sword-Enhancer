@@ -98,7 +98,7 @@ namespace {
     }
 }
 
-void MapRegistry::PerformScan() {
+void MapRegistry::PerformScan(bool forceRefresh) {
     maps.clear();
     categories.clear();
 
@@ -113,7 +113,7 @@ void MapRegistry::PerformScan() {
 
         auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
 
-        AssetRegistryUtils::RefreshGameAssets(registryObj);
+        AssetRegistryUtils::RefreshGameAssets(registryObj, forceRefresh);
 
         static SDK::UFunction* getAssetsFn = nullptr;
         if (!getAssetsFn) {
@@ -188,7 +188,7 @@ void MapRegistry::PerformScan() {
 void MapRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+        if (!GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(false); }))
             state.store(ScanState::NotStarted, std::memory_order_release);
     }
 }
@@ -197,7 +197,7 @@ void MapRegistry::RequestRescan() {
     auto current = state.load(std::memory_order_acquire);
     if (current != ScanState::Complete && current != ScanState::Failed) return;
     if (state.compare_exchange_strong(current, ScanState::Scanning, std::memory_order_acq_rel) &&
-        !GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); }))
+        !GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(true); }))
         state.store(current, std::memory_order_release);
 }
 
