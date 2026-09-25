@@ -7,6 +7,7 @@
 #include "MemoryUtils.h"
 #include "Menu/EventBus.h"
 #include "Utils/CompileTimeHash.h"
+#include "Utils/EngineFrame.h"
 #include "Utils/GameBuildInfo.h"
 
 #include "SDK/Basic.hpp"
@@ -87,7 +88,7 @@ void __stdcall OnProcessEvent(SDK::UObject* object, SDK::UFunction* function, vo
         const ScopedHookSuppression suppressHooks;
         hook.gameThreadId.store(GetCurrentThreadId(), std::memory_order_release);
 
-        const auto frame = SDK::UKismetSystemLibrary::GetFrameCount();
+        const auto frame = EngineFrame::Current();
         const bool newFrame = frame != hook.lastQueueFrame;
         hook.lastQueueFrame = frame;
         static thread_local std::vector<GameHook::QueuedAction> localQueue;

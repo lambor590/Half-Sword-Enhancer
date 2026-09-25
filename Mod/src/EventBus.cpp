@@ -2,7 +2,7 @@
 
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
-#include "SDK/Engine_classes.hpp"
+#include "Utils/EngineFrame.h"
 
 #include <algorithm>
 #include <utility>
@@ -48,7 +48,7 @@ void EventBus::SubscriptionGroup::Clear() {
 
 void EventBus::Dispatch(GameEvent event) {
     if (event == GameEvent::OnTick) {
-        const auto frame = SDK::UKismetSystemLibrary::GetFrameCount();
+        const auto frame = EngineFrame::Current();
         if (lastTickFrame == frame) return;
         lastTickFrame = frame;
     }
