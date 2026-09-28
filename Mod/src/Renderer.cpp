@@ -51,6 +51,13 @@ namespace {
         VirtualProtect(entry, sizeof(*entry), oldProtection, &unused);
     }
 
+    [[nodiscard]] bool IsUnrealWindow(HWND window) noexcept {
+        constexpr std::wstring_view UNREAL_WINDOW_CLASS = L"UnrealWindow";
+        wchar_t className[UNREAL_WINDOW_CLASS.size() + 2]{};
+        const int length = GetClassNameW(window, className, static_cast<int>(std::size(className)));
+        return std::wstring_view(className, length > 0 ? static_cast<std::size_t>(length) : 0) == UNREAL_WINDOW_CLASS;
+    }
+
     struct D3D11OutputStateGuard {
         ID3D11DeviceContext* context = nullptr;
         ID3D11RenderTargetView* renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT] = {};
@@ -339,10 +346,13 @@ bool Renderer::IsOverlaySwapChain(IDXGISwapChain* candidate) noexcept {
     if (candidate == ignoredSwapChain.load(std::memory_order_relaxed)) return false;
 
     // Slate popups such as notifications present their own swap chains every frame; following them would rebuild
-    // the overlay twice per frame.
+    // the overlay twice per frame. Other in-process windows, such as the UE4SS GUI console, share the hooked DXGI
+    // vtable and must never own the overlay.
     DXGI_SWAP_CHAIN_DESC desc{};
-    const bool overlayWindow = !windowHandle || !IsWindow(windowHandle) ||
-                               (SUCCEEDED(candidate->GetDesc(&desc)) && desc.OutputWindow == windowHandle);
+    const bool knownWindow = windowHandle && IsWindow(windowHandle);
+    const bool overlayWindow =
+        SUCCEEDED(candidate->GetDesc(&desc)) &&
+        (knownWindow ? desc.OutputWindow == windowHandle : IsUnrealWindow(desc.OutputWindow));
     if (!overlayWindow) ignoredSwapChain.store(candidate, std::memory_order_relaxed);
     return overlayWindow;
 }
