@@ -91,6 +91,16 @@ namespace {
         }
     }
 
+    // Static analyzers such as UEVR decode a hooked function by following its branches to find references in its
+    // body. A never-taken `cmp rsp, 0; je` keeps the relocated original instructions reachable for them; clobbering
+    // flags is safe because hooks are only placed at function entries.
+    static void WriteDecoderPath(uintptr_t stub, uintptr_t originalInstructions) noexcept {
+        constexpr uint8_t CMP_RSP_ZERO_JE[] = {0x48, 0x83, 0xFC, 0x00, 0x0F, 0x84};
+        const auto rel = static_cast<int32_t>(originalInstructions - (stub + sizeof(CMP_RSP_ZERO_JE) + sizeof(int32_t)));
+        std::memcpy(Ptr<void>(stub), CMP_RSP_ZERO_JE, sizeof(CMP_RSP_ZERO_JE));
+        std::memcpy(Ptr<void>(stub + sizeof(CMP_RSP_ZERO_JE)), &rel, sizeof(rel));
+    }
+
     static bool IsAbsoluteJumpStub(const uint8_t* code, size_t size) noexcept {
         return size >= ABS_JUMP_HEADER_SIZE && std::memcmp(code, ABS_JUMP_HEADER, ABS_JUMP_HEADER_SIZE) == 0;
     }
@@ -400,6 +410,7 @@ namespace MemoryUtils {
         hookInfo.originalBytesSize = clearance;
         hookInfo.trampolineBase = trampoline;
         std::memcpy(hookInfo.originalBytes.data(), Ptr<const void>(originalInstructions), clearance);
+        WriteDecoderPath(trampoline, originalInstructions);
 
         if (!PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, ABS_JUMP_SIZE) ||
             !PlaceJump(
