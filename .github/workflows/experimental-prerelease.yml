@@ -45,6 +45,7 @@ jobs:
           msbuild "Half Sword Enhancer.sln" /t:Rebuild /m
           "/p:Configuration=Release Experimental" /p:Platform=x64 /p:SkipGameInstall=true
           "/p:LauncherBuildId=$env:LAUNCHER_BUILD_ID"
+          "/p:PackageBuildId=${{ github.sha }}"
 
       - name: Package
         run: >-

@@ -77,10 +77,11 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(ExperimentalBuild)'=='true'">
     <DefineConstants>EXPERIMENTAL_VERSION</DefineConstants>
+    <PackageBuildId Condition="'$(PackageBuildId)'==''">local</PackageBuildId>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(ExperimentalBuild)'=='true'">
     <ClCompile>
-      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;HSE_PACKAGE_BUILD_ID=$(PackageBuildId);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>

@@ -320,7 +320,7 @@ void Gui::Shutdown() noexcept {
 bool Gui::NeedsRendering() noexcept {
     if (s_showStartupNotification) [[unlikely]] return true;
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
-    if (!s_updateAnnounced && UpdateChecker::AvailableVersion()) [[unlikely]]
+    if (!s_updateAnnounced && UpdateChecker::AvailableUpdate()) [[unlikely]]
         return true;
 
     const bool hasNotifications = NotificationManager::Update();
@@ -360,9 +360,9 @@ void Gui::Render() {
         s_showStartupNotification = false;
     }
     if (!s_updateAnnounced) {
-        if (const char* version = UpdateChecker::AvailableVersion()) {
+        if (const char* update = UpdateChecker::AvailableUpdate()) {
             NotificationManager::NotifyAction(
-                std::format("Half Sword Enhancer v{} is available\nRun the launcher to update", version), 12.0f
+                std::format("Half Sword Enhancer: {} available\nRun the launcher to update", update), 12.0f
             );
             s_updateAnnounced = true;
         }
