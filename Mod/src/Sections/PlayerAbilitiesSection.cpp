@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cmath>
@@ -330,17 +331,21 @@ namespace {
         QueuePossessionCameraActivation(activation);
     }
 
-    [[nodiscard]] bool HasTag(const SDK::UActorComponent* component, const SDK::FName& tag) {
-        for (const auto& componentTag : component->ComponentTags)
-            if (componentTag == tag) return true;
+    [[nodiscard]] bool IsHelmetMesh(const SDK::UActorComponent* component) {
+        // The game tags every worn armor mesh with the enumerator name of its slot. Modular helmets use the first
+        // of these slots and the older one-piece helmets the second.
+        static const std::array HELMET_SLOT_TAGS{
+            SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator14"),
+            SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator0"),
+        };
+        for (const auto& tag : component->ComponentTags)
+            if (std::ranges::find(HELMET_SLOT_TAGS, tag) != HELMET_SLOT_TAGS.end()) return true;
         return false;
     }
 
     void SetHelmetHiddenFromOwner(SDK::AWillie_BP_C* willie, bool hidden) {
-        // The game tags every worn armor mesh with the enumerator name of its slot.
-        static const auto HELMET_SLOT_TAG = SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator0");
         for (auto* mesh : willie->Worn_Armor) {
-            if (!mesh || (mesh->bOwnerNoSee != 0) == hidden || !HasTag(mesh, HELMET_SLOT_TAG)) continue;
+            if (!mesh || (mesh->bOwnerNoSee != 0) == hidden || !IsHelmetMesh(mesh)) continue;
             mesh->SetOwnerNoSee(hidden);
             // An owner-hidden mesh stops casting shadows unless it is told to keep them.
             mesh->SetCastHiddenShadow(hidden);
