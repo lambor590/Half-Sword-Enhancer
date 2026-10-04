@@ -31,6 +31,7 @@
 
 #include <algorithm>
 #include <bit>
+#include <bitset>
 #include <format>
 
 WNDPROC Gui::originalWndProc = nullptr;
@@ -46,6 +47,7 @@ void Gui::Init(HWND newWindow) noexcept {
 namespace {
     bool s_showStartupNotification = true;
     std::atomic<bool> s_resetInput = false;
+    std::bitset<256> s_keysHeldByGame;
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;
     bool s_popupOpened = false;
@@ -219,11 +221,17 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (KeybindManager::ProcessRebindEvent(msg, wParam, lParam)) return true;
 
+    const bool keyboardPress = msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN;
+    const bool keyboardRelease = msg == WM_KEYUP || msg == WM_SYSKEYUP;
+    const auto forwardToGame = [&] {
+        if (keyboardPress || keyboardRelease) s_keysHeldByGame.set(wParam & 0xFF, keyboardPress);
+        return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
+    };
     if (!isVisible.load(std::memory_order_relaxed)) [[likely]] {
         if (msg == WM_MOUSEWHEEL)
             KeybindRuntime::DispatchMouseWheel(static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA);
         if (KeybindManager::ProcessKeyEvent(msg, wParam, lParam)) return true;
-        return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
+        return forwardToGame();
     }
 
     if (msg == WM_INPUT) [[likely]]
@@ -234,16 +242,16 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplWin32_WndProcHandlerEx(hWnd, msg, wParam, lParam, io);
 
-    const bool keyboardPress = msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN;
     const bool searchShortcut = keyboardPress && wParam == 'K' && (GetKeyState(VK_CONTROL) & 0x8000) != 0;
     if ((!keyboardPress || (!io.WantTextInput && !searchShortcut)) &&
         KeybindManager::ProcessKeyEvent(msg, wParam, lParam))
         return true;
+    if (keyboardRelease && s_keysHeldByGame.test(wParam & 0xFF)) return forwardToGame();
 
     if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST))) return true;
     if ((io.WantTextInput || io.WantCaptureKeyboard) && msg >= WM_KEYFIRST && msg <= WM_KEYLAST) return true;
 
-    return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
+    return forwardToGame();
 }
 
 void Gui::Setup() {
