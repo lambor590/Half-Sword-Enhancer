@@ -20,6 +20,7 @@
 #include "Utils/DiscordPresence.h"
 #include "Utils/EquipmentApplication.h"
 #include "Utils/FreeCameraManager.h"
+#include "Utils/UpdateChecker.h"
 
 namespace {
     enum class StartedStep : std::uint8_t { None, GameHook, Renderer, AssetOverrides, RuntimeSubsystems };
@@ -126,6 +127,8 @@ namespace {
             FailStartup("deferred renderer hook");
             return;
         }
+
+        UpdateChecker::CheckOnStartup();
 
         try {
             for (;;) {
