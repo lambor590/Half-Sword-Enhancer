@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <vector>
 #include <string>
@@ -45,6 +46,18 @@ struct GlobalModulePool {
     GlobalModuleSet& ForType(int type) {
         if (type < 1 || type > GameConstants::WEAPON_TYPE_COUNT) return byType[0];
         return byType[static_cast<size_t>(type)];
+    }
+
+    // The weapon type a head belongs to, keeping `current` when it is one of them.
+    [[nodiscard]] int TypeOfHead(std::string_view headPath, int current) {
+        auto hasHead = [&](int type) {
+            const auto& heads = ForType(type).heads;
+            return std::ranges::any_of(heads, [&](const GlobalModuleEntry& entry) { return entry.path == headPath; });
+        };
+        if (headPath.empty() || !populated.load(std::memory_order_acquire) || hasHead(current)) return current;
+        for (int type = 1; type <= GameConstants::WEAPON_TYPE_COUNT; ++type)
+            if (hasHead(type)) return type;
+        return current;
     }
 
     void Populate() {

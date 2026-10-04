@@ -1002,6 +1002,7 @@ void WeaponEditorSection::ApplyDraftUpdate(PendingDraftUpdate update) {
     gripMeshPath = std::move(update.data.gripMeshPath);
     coaInt = update.data.coaInt;
     deferredWeaponName = std::move(update.data.deferredWeaponName);
+    cfg.weaponType = globalModules.TypeOfHead(weaponPaths.headModule, cfg.weaponType);
     if (!update.replaceAll) return;
 
     runtimeProps = update.data.runtimeProps;
