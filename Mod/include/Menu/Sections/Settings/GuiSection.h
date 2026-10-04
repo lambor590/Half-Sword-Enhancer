@@ -23,6 +23,9 @@ private:
         "Show a brief message when a shortcut runs an action or turns it on or off.";
     static constexpr const char* TOOLTIPS_LABEL = "Help Tooltips";
     static constexpr const char* TOOLTIPS_TOOLTIP = "Show helpful explanations when hovering over controls.";
+    static constexpr const char* UPDATE_CHECK_LABEL = "Check for Updates";
+    static constexpr const char* UPDATE_CHECK_TOOLTIP =
+        "Show a message at startup when a newer version is available.";
     static constexpr const char* UE_CONSOLE_LABEL = "Game Console";
     static constexpr const char* UE_CONSOLE_TOOLTIP = "Open the game's command console with F2.";
     static constexpr const char* SCREEN_OVERLAYS_CONFIG = "ScreenOverlays";
@@ -39,6 +42,7 @@ private:
 
     bool notificationsEnabled;
     bool tooltipsEnabled = true;
+    bool updateCheckEnabled;
     bool ueConsoleEnabled = false;
     bool discordEnabled = true;
     int toggleGuiKey = 0;

@@ -7,9 +7,11 @@
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/UpdateChecker.h"
 
 GuiSection::GuiSection(ModContext& ctx)
-    : Section(ctx, SECTION), notificationsEnabled(NotificationManager::IsEnabled()) {
+    : Section(ctx, SECTION), notificationsEnabled(NotificationManager::IsEnabled()),
+      updateCheckEnabled(UpdateChecker::IsEnabled()) {
     auto& config = ConfigManager::Get();
     tooltipsEnabled = config.GetBool("GUI", "tooltips_enabled", true);
     ueConsoleEnabled = config.GetBool("UE", "console_enabled", false);
@@ -52,6 +54,10 @@ void GuiSection::Render() {
         auto& config = ConfigManager::Get();
         config.SetBool("GUI", "tooltips_enabled", tooltipsEnabled);
         GuiUtils::SetHelpTooltipsEnabled(tooltipsEnabled);
+    }
+
+    if (GuiUtils::CheckboxWithTooltip(UPDATE_CHECK_LABEL, &updateCheckEnabled, UPDATE_CHECK_TOOLTIP)) {
+        UpdateChecker::SetEnabled(updateCheckEnabled);
     }
 
     RenderScreenOverlaySettings();
