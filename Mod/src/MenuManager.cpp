@@ -469,11 +469,13 @@ void MenuManager::RenderSidebar() {
 
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + SIDEBAR_HPAD - 4.0f);
     RenderDiscordButton();
+    ImGui::SameLine();
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (COMMUNITY_BUTTON_SIZE - ImGui::GetFontSize()) * 0.5f);
     if (const char* update = UpdateChecker::AvailableUpdate()) {
-        ImGui::SameLine();
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (COMMUNITY_BUTTON_SIZE - ImGui::GetFontSize()) * 0.5f);
         ImGui::TextColored(DefaultStyle::BRIGHT_BRASS, "%s available", update);
         ImGui::SetItemTooltip("Installed: v" HSE_VERSION ". Run the launcher to update");
+    } else {
+        ImGui::TextDisabled("v" HSE_VERSION);
     }
 
     ImGui::EndChild();

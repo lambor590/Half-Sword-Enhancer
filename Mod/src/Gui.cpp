@@ -392,9 +392,9 @@ void Gui::Render() {
             ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 #ifndef HSE_WINDOW_TITLE
 #ifdef EXPERIMENTAL_VERSION
-#define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION " - Experimental Build###HSEMain"
+#define HSE_WINDOW_TITLE "Half Sword Enhancer  \xC2\xB7  Experimental###HSEMain"
 #else
-#define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION "###HSEMain"
+#define HSE_WINDOW_TITLE "Half Sword Enhancer###HSEMain"
 #endif
 #endif
         constexpr const char* WINDOW_TITLE = HSE_WINDOW_TITLE;
