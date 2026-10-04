@@ -47,6 +47,7 @@ public:
         int enemyBreakBonesKey = -1;
         int consciousnessMultiplierKey = -1;
         int enemyConsciousnessMultiplierKey = -1;
+        int hideHelmetFirstPersonKey = -1;
 
         float jumpForce = 5000.0f;
         float playerRunMultiplier = 1.0f;

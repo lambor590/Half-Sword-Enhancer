@@ -330,6 +330,23 @@ namespace {
         QueuePossessionCameraActivation(activation);
     }
 
+    [[nodiscard]] bool HasTag(const SDK::UActorComponent* component, const SDK::FName& tag) {
+        for (const auto& componentTag : component->ComponentTags)
+            if (componentTag == tag) return true;
+        return false;
+    }
+
+    void SetHelmetHiddenFromOwner(SDK::AWillie_BP_C* willie, bool hidden) {
+        // The game tags every worn armor mesh with the enumerator name of its slot.
+        static const auto HELMET_SLOT_TAG = SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator0");
+        for (auto* mesh : willie->Worn_Armor) {
+            if (!mesh || (mesh->bOwnerNoSee != 0) == hidden || !HasTag(mesh, HELMET_SLOT_TAG)) continue;
+            mesh->SetOwnerNoSee(hidden);
+            // An owner-hidden mesh stops casting shadows unless it is told to keep them.
+            mesh->SetCastHiddenShadow(hidden);
+        }
+    }
+
     SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
         auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
         return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
@@ -1315,5 +1332,20 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.possessWillieKey,
         .callback = [](bool, const RuntimeContextSnapshot& runtime) { TogglePossession(runtime); },
         .group = "Special Abilities",
+    });
+
+    keybinds.Add({
+        .name = "Hide Helmet in First Person",
+        .tooltip = "Clears your view. Others still see the helmet",
+        .configSection = "HideHelmetFirstPerson",
+        .keyPtr = &cfg.hideHelmetFirstPersonKey,
+        .callback =
+            [](bool active, const RuntimeContextSnapshot& runtime) {
+                if (auto* p = runtime.player) SetHelmetHiddenFromOwner(p, active && p->First_Person);
+            },
+        .kind = KeybindKind::State,
+        .applyOnToggle = true,
+        .events = {GameEvent::OffLedge},
+        .group = "Camera",
     });
 }
