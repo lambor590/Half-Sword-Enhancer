@@ -45,6 +45,7 @@ void Gui::Init(HWND newWindow) noexcept {
 
 namespace {
     bool s_showStartupNotification = true;
+    std::atomic<bool> s_resetInput = false;
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;
     bool s_popupOpened = false;
@@ -100,6 +101,7 @@ void Gui::ToggleVisibility() noexcept {
         pendingParamFlush.store(true, std::memory_order_release);
         KeybindManager::CancelRebind();
     } else {
+        s_resetInput.store(true, std::memory_order_relaxed);
         (void)GameHook::QueueAction([](const RuntimeContextSnapshot&) {});
     }
     isVisible.store(!wasVisible, std::memory_order_relaxed);
@@ -326,6 +328,12 @@ void Gui::Render() {
     }
     const bool visible = isVisible.load(std::memory_order_relaxed);
 
+    ImGuiIO& io = ImGui::GetIO();
+    if (s_resetInput.exchange(false, std::memory_order_relaxed)) {
+        io.ClearInputKeys();
+        io.ClearInputMouse();
+    }
+
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
@@ -340,7 +348,6 @@ void Gui::Render() {
         s_showStartupNotification = false;
     }
 
-    ImGuiIO& io = ImGui::GetIO();
     io.MouseDrawCursor = visible;
 
     if (visible) {
