@@ -12,6 +12,8 @@
 #include "NotificationManager.h"
 #include "Utils/DiscordPresence.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/UpdateChecker.h"
+#include "Version.h"
 #include "imgui/imgui.h"
 
 namespace {
@@ -467,6 +469,12 @@ void MenuManager::RenderSidebar() {
 
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() + SIDEBAR_HPAD - 4.0f);
     RenderDiscordButton();
+    if (const char* update = UpdateChecker::AvailableVersion()) {
+        ImGui::SameLine();
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (COMMUNITY_BUTTON_SIZE - ImGui::GetFontSize()) * 0.5f);
+        ImGui::TextColored(DefaultStyle::BRIGHT_BRASS, "v%s available", update);
+        ImGui::SetItemTooltip("Installed: v" HSE_VERSION ". Run the launcher to update");
+    }
 
     ImGui::EndChild();
     ImGui::PopStyleVar(4);

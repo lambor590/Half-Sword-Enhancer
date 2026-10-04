@@ -26,6 +26,7 @@
 #include "NotificationManager.h"
 #include "Version.h"
 #include "Utils/GameBuildInfo.h"
+#include "Utils/UpdateChecker.h"
 
 #include <imgui/imgui_internal.h>
 
@@ -46,6 +47,7 @@ void Gui::Init(HWND newWindow) noexcept {
 
 namespace {
     bool s_showStartupNotification = true;
+    bool s_updateAnnounced = false;
     std::atomic<bool> s_resetInput = false;
     std::bitset<256> s_keysHeldByGame;
     bool s_showMismatchPopup = false;
@@ -318,6 +320,8 @@ void Gui::Shutdown() noexcept {
 bool Gui::NeedsRendering() noexcept {
     if (s_showStartupNotification) [[unlikely]] return true;
     if (pendingParamFlush.load(std::memory_order_acquire)) return true;
+    if (!s_updateAnnounced && UpdateChecker::AvailableVersion()) [[unlikely]]
+        return true;
 
     const bool hasNotifications = NotificationManager::Update();
     if (isVisible.load(std::memory_order_relaxed) || hasNotifications) [[unlikely]] return true;
@@ -354,6 +358,14 @@ void Gui::Render() {
             8.0f
         );
         s_showStartupNotification = false;
+    }
+    if (!s_updateAnnounced) {
+        if (const char* version = UpdateChecker::AvailableVersion()) {
+            NotificationManager::NotifyAction(
+                std::format("Half Sword Enhancer v{} is available\nRun the launcher to update", version), 12.0f
+            );
+            s_updateAnnounced = true;
+        }
     }
 
     io.MouseDrawCursor = visible;
