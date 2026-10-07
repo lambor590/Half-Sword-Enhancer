@@ -239,9 +239,13 @@ namespace SpawnWorkflow {
                 }
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
 
-                auto finalizeSpawn = [npc, overrides, hasLoadout = loadout.has_value(), completion](bool success) {
-                    if (!success || !IsUsableActor(npc)) {
-                        if (IsUsableActor(npc)) npc->K2_DestroyActor();
+                // Setup reports back frames later. A level change in between frees the NPC, and its address can then
+                // hold something else, so it is only touched while the object table still has it there.
+                auto finalizeSpawn = [npc, index = npc->Index, overrides, hasLoadout = loadout.has_value(),
+                                      completion](bool success) {
+                    const bool usable = SDK::UObject::GObjects->GetByIndex(index) == npc && IsUsableActor(npc);
+                    if (!success || !usable) {
+                        if (usable) npc->K2_DestroyActor();
                         CompleteSpawn(
                             completion,
                             FailedSpawn(
