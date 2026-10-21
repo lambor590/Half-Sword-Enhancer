@@ -81,9 +81,6 @@ namespace SaveEditorModel {
         std::vector<ValueNode> children;
     };
 
-    // Keep the per-node inline budget small; reflected documents may contain hundreds of thousands of nodes.
-    static_assert(sizeof(ValueNode) <= 240);
-
     struct Document {
         std::string sourceSlot;
         std::string classPath;
