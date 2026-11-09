@@ -75,6 +75,8 @@ private:
 
     struct RenderState {
         bool needsInit = true;
+        // After a failed init the overlay tries again once a second, not on every frame and log line.
+        ULONGLONG initRetryAtMs = 0;
         bool imguiContextReady = false;
         bool imguiRendererReady = false;
         bool inResize = false;

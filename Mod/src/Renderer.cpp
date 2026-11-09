@@ -323,8 +323,12 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
         }
 
         if (state.needsInit) [[unlikely]] {
-            if (!InitD3DResources(pThis)) [[unlikely]]
+            const ULONGLONG nowMs = GetTickCount64();
+            if (nowMs < state.initRetryAtMs) return;
+            if (!InitD3DResources(pThis)) [[unlikely]] {
+                state.initRetryAtMs = nowMs + 1000;
                 return;
+            }
             state.needsInit = false;
         }
 
@@ -393,6 +397,7 @@ bool Renderer::BeforeResizeBuffers(IDXGISwapChain* resized) noexcept {
 void Renderer::AfterResizeBuffers(HRESULT result) noexcept {
     state.inResize = false;
     state.needsInit = true;
+    state.initRetryAtMs = 0;
 
     if (FAILED(result)) [[unlikely]] {
         logger.Log("ResizeBuffers failed: 0x%08X", result);
