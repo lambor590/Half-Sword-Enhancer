@@ -130,8 +130,10 @@ namespace {
 
         UpdateChecker::CheckOnStartup();
 
-        try {
-            for (;;) {
+        // A failed round must not end maintenance: the runtime stays active until Stop, so it keeps flushing.
+        bool failureLogged = false;
+        for (;;) {
+            try {
                 {
                     std::unique_lock lock(maintenanceMutex);
                     if (maintenanceWake.wait_for(lock, std::chrono::milliseconds(500), [] {
@@ -142,10 +144,10 @@ namespace {
                 (void)ConfigManager::Get().Flush();
                 DiscordPresence::Poll();
                 Logger::Flush();
+            } catch (...) {
+                if (!failureLogged) logger.Log("Maintenance round failed; later failures are not logged");
+                failureLogged = true;
             }
-        } catch (...) {
-            logger.Log("Maintenance worker failed");
-            Logger::Flush();
         }
     }
 }
