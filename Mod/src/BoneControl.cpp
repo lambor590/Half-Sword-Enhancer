@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <cmath>
 #include <limits>
 #include <utility>
@@ -11,6 +12,7 @@
 #include "SDK/Engine_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Utils/ActorUtils.h"
+#include "Utils/EngineFrame.h"
 #include "Utils/PossessState.h"
 
 namespace BoneControl {
@@ -19,6 +21,8 @@ namespace BoneControl {
         // Bone Strength's slider reaches 0; a bone this much weaker than the game's already breaks at a touch.
         constexpr double WEAKEST_STRENGTH = 0.05;
         constexpr std::size_t DISLOCATION_PARTS = 6;
+        // Bone Control runs on every tick of a character it covers; a longer gap means it was off meanwhile.
+        constexpr std::int64_t MOST_FRAMES_BETWEEN_TICKS = 2;
 
         struct ConstraintBaseline {
             SDK::UPhysicsConstraintComponent* component = nullptr;
@@ -36,6 +40,7 @@ namespace BoneControl {
             double boneSnapping = -1.0;
             double appliedSnapping = -1.0;
             std::array<double, DISLOCATION_PARTS> dislocation{};
+            std::int64_t seenFrame = -1;
             bool blockedDislocation = false;
             float mass = -1.0f;
         };
@@ -150,8 +155,12 @@ namespace BoneControl {
             baseline.appliedSnapping = willie->Bone_Snapping;
         }
 
-        // Strained joints dislocate as their dislocation state fills; a stronger bone fills it slower.
+        // Strained joints dislocate as their dislocation state fills; a stronger bone fills it slower. Only what filled
+        // since the last tick is scaled, so a character first seen, or seen again after a pause, keeps its state.
         void SlowDislocation(SDK::AWillie_BP_C* willie, WillieBaseline& baseline, double scale) {
+            const auto frame = EngineFrame::Current();
+            if (baseline.seenFrame < 0 || frame - baseline.seenFrame > MOST_FRAMES_BETWEEN_TICKS) scale = 1.0;
+            baseline.seenFrame = frame;
             const std::array<double*, DISLOCATION_PARTS> states{
                 &willie->Neck_Dislocation_State, &willie->Arm_R_Dislocation_State, &willie->Arm_L_Dislocation_State,
                 &willie->Back_Dislocation_State, &willie->Leg_R_Dislocation_State, &willie->Leg_L_Dislocation_State
