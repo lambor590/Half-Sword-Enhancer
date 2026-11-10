@@ -1,6 +1,8 @@
 #include "Utils/BoneControl.h"
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
 #include <cmath>
 #include <limits>
 #include <utility>
@@ -13,8 +15,10 @@
 
 namespace BoneControl {
     namespace {
-        constexpr double NO_DISLOCATION_STRENGTH_MULTIPLIER = 1'000'000.0;
         constexpr float MASS_SCALE_EPSILON = 0.001f;
+        // Bone Strength's slider reaches 0; a bone this much weaker than the game's already breaks at a touch.
+        constexpr double WEAKEST_STRENGTH = 0.05;
+        constexpr std::size_t DISLOCATION_PARTS = 6;
 
         struct ConstraintBaseline {
             SDK::UPhysicsConstraintComponent* component = nullptr;
@@ -24,14 +28,15 @@ namespace BoneControl {
             float angularThreshold = 0.0f;
         };
 
-        using ThresholdBaseline = std::vector<std::pair<SDK::FName, double>>;
-
+        // A character's own Bone Snapping, which the game copies from its settings and scales the damage that breaks
+        // a bone by, the value the mod last gave it, and how dislocated each part was when last seen.
         struct WillieBaseline {
             int objectIndex = -1;
-            ThresholdBaseline linear;
-            ThresholdBaseline angular;
             std::vector<ConstraintBaseline> constraints;
-            double strength = -1.0;
+            double boneSnapping = -1.0;
+            double appliedSnapping = -1.0;
+            std::array<double, DISLOCATION_PARTS> dislocation{};
+            bool blockedDislocation = false;
             float mass = -1.0f;
         };
 
@@ -88,32 +93,6 @@ namespace BoneControl {
             });
         }
 
-        double BaselineValueFor(const ThresholdBaseline& baseline, const SDK::FName& bone, double fallback) noexcept {
-            for (const auto& entry : baseline) {
-                if (entry.first == bone) return entry.second;
-            }
-            return fallback;
-        }
-
-        bool CaptureThresholds(SDK::TMap<SDK::FName, double>& map, ThresholdBaseline& baseline) {
-            bool changed = false;
-            for (auto& entry : map) {
-                const auto bone = entry.Key();
-                bool known = false;
-                for (const auto& baselineEntry : baseline) {
-                    if (baselineEntry.first == bone) {
-                        known = true;
-                        break;
-                    }
-                }
-                if (!known) {
-                    baseline.emplace_back(bone, entry.Value());
-                    changed = true;
-                }
-            }
-            return changed;
-        }
-
         ConstraintBaseline& CaptureConstraint(
             SDK::UPhysicsConstraintComponent* component, std::vector<ConstraintBaseline>& baseline
         ) {
@@ -163,33 +142,25 @@ namespace BoneControl {
             });
         }
 
-        void ApplyThresholds(
-            SDK::AWillie_BP_C* willie, SDK::TMap<SDK::FName, double>& map, const ThresholdBaseline& baseline,
-            double multiplier, bool linear, bool breakable
-        ) {
-            for (auto& entry : map) {
-                const double scaled = BaselineValueFor(baseline, entry.Key(), entry.Value()) * multiplier;
-                entry.Value() = scaled;
-                if (entry.Key().IsNone()) continue;
+        // The game breaks a bone when a blow's damage, scaled by the character's Bone Snapping, passes the bone's
+        // limit. The game sets Bone Snapping from its settings, so a value the mod did not give is the game's own.
+        void ApplyBoneSnapping(SDK::AWillie_BP_C* willie, WillieBaseline& baseline, double scale) {
+            if (willie->Bone_Snapping != baseline.appliedSnapping) baseline.boneSnapping = willie->Bone_Snapping;
+            willie->Bone_Snapping = baseline.boneSnapping * scale;
+            baseline.appliedSnapping = willie->Bone_Snapping;
+        }
 
-                const auto threshold = static_cast<float>(
-                    std::clamp(scaled, 0.0, static_cast<double>((std::numeric_limits<float>::max)()))
-                );
-                ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
-                    EngineArray<SDK::FConstraintInstanceAccessor> constraints;
-                    mesh->GetConstraintsFromBody(entry.Key(), true, true, false, &constraints);
-                    for (auto& constraint : constraints) {
-                        if (linear) {
-                            SDK::UConstraintInstanceBlueprintLibrary::SetLinearBreakable(
-                                constraint, breakable, threshold
-                            );
-                        } else {
-                            SDK::UConstraintInstanceBlueprintLibrary::SetAngularBreakable(
-                                constraint, breakable, threshold
-                            );
-                        }
-                    }
-                });
+        // Strained joints dislocate as their dislocation state fills; a stronger bone fills it slower.
+        void SlowDislocation(SDK::AWillie_BP_C* willie, WillieBaseline& baseline, double scale) {
+            const std::array<double*, DISLOCATION_PARTS> states{
+                &willie->Neck_Dislocation_State, &willie->Arm_R_Dislocation_State, &willie->Arm_L_Dislocation_State,
+                &willie->Back_Dislocation_State, &willie->Leg_R_Dislocation_State, &willie->Leg_L_Dislocation_State
+            };
+            for (std::size_t part = 0; part < DISLOCATION_PARTS; ++part) {
+                auto& state = *states[part];
+                const double previous = baseline.dislocation[part];
+                if (state > previous) state = previous + (state - previous) * scale;
+                baseline.dislocation[part] = state;
             }
         }
 
@@ -209,12 +180,6 @@ namespace BoneControl {
             ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
                 mesh->SetAllMassScale(multiplier);
                 ForEachMassScaleBone(willie, [&](const SDK::FName& bone) { mesh->SetMassScale(bone, multiplier); });
-                for (auto* limits :
-                     {&willie->Bones_Linear_Breakable_Limits, &willie->Bones_Angular_Breakable_Limits}) {
-                    for (auto& entry : *limits) {
-                        if (!entry.Key().IsNone()) mesh->SetMassScale(entry.Key(), multiplier);
-                    }
-                }
             });
         }
 
@@ -303,21 +268,12 @@ namespace BoneControl {
         if (baseline.objectIndex != willie->Index) {
             baseline = WillieBaseline{.objectIndex = willie->Index};
         }
-        force |= CaptureThresholds(willie->Bones_Linear_Breakable_Limits, baseline.linear);
-        force |= CaptureThresholds(willie->Bones_Angular_Breakable_Limits, baseline.angular);
-
         const bool blockBreak = settings.blockDislocation;
-        const double strength =
-            blockBreak ? NO_DISLOCATION_STRENGTH_MULTIPLIER
-                       : static_cast<double>(settings.breakStrengthMultiplier);
-
-        if (force || baseline.strength != strength) {
-            ApplyThresholds(willie, willie->Bones_Linear_Breakable_Limits, baseline.linear, strength, true, !blockBreak);
-            ApplyThresholds(
-                willie, willie->Bones_Angular_Breakable_Limits, baseline.angular, strength, false, !blockBreak
-            );
-            baseline.strength = strength;
-        }
+        const double strength = (std::max)(static_cast<double>(settings.breakStrengthMultiplier), WEAKEST_STRENGTH);
+        ApplyBoneSnapping(willie, baseline, blockBreak ? 0.0 : 1.0 / strength);
+        SlowDislocation(willie, baseline, blockBreak ? 0.0 : 1.0 / strength);
+        if (blockBreak || baseline.blockedDislocation) willie->Dislocation_Blocked = blockBreak;
+        baseline.blockedDislocation = blockBreak;
         ApplyDislocationConstraints(willie, baseline.constraints, blockBreak);
 
         const float mass = settings.massMultiplier;
