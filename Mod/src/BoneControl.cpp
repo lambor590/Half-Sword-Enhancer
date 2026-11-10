@@ -72,7 +72,6 @@ namespace BoneControl {
         template <typename Fn>
         void ForEachBoneMesh(SDK::AWillie_BP_C* willie, Fn&& fn) {
             if (willie->Mesh) fn(willie->Mesh);
-            if (willie->BoneCore && willie->BoneCore != willie->Mesh) fn(willie->BoneCore);
         }
 
         PendingSpawnMass* FindPendingSpawnMass(SDK::AWillie_BP_C* willie) {
