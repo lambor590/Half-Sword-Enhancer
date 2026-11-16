@@ -31,7 +31,6 @@ namespace ActorUtils {
             (willie->Fallen || willie->Downed || willie->Give_Up || willie->Give_Up_2__Temp_ || willie->L_Kneel ||
              willie->R_Kneel || willie->Gurgling || willie->Consciousness < GameConstants::DEFAULT_HEALTH ||
              willie->Consciousness_2__Legs_ < GameConstants::DEFAULT_HEALTH);
-        willie->Fearless = true;
         willie->Fear = 0.0;
         willie->Give_Up = false;
         willie->Give_Up_2__Temp_ = false;

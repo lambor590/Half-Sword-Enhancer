@@ -17,6 +17,7 @@ namespace {
     constexpr double DIRECTIVE_INTERVAL_SECONDS = 0.25;
     constexpr int DIRECTIVE_HOSTILE_TEAM = 31;
     constexpr int DIRECTIVE_HOSTILE_ALT_TEAM = 32;
+    constexpr double PROVOKED_REACTION_SECONDS = 0.5;
 
     enum ProfileOption : std::uint8_t {
         ApplyAiStyle = 1u << 0,
@@ -143,10 +144,19 @@ namespace {
 
         ai->My_Pawn = willie;
         ai->Target = target;
-        ai->Target_Found = target != nullptr;
+        ai->Target_Engaged = target != nullptr;
         ai->Lost_Interest = false;
         ai->SetActorTickEnabled(true);
-        if (target && provoke) ai->Get_Insulted(target);
+        if (target && provoke)
+            ai->Event_Get_Into_Combat_State(PROVOKED_REACTION_SECONDS, target, target->K2_GetActorLocation(), 1.0);
+    }
+
+    // The brain has no attack order of its own; it attacks like this when grabbed.
+    void StartAttack(SDK::AAI_BP_C* ai) {
+        if (!ai->Target) return;
+        ai->Behavior_State = static_cast<SDK::Enum_AI_Behavior_State>(2);
+        ai->Combat_Behavior = static_cast<SDK::EAI_CombatBehavior_Enum>(5);
+        ai->Target_Engaged = true;
     }
 
     void SetAggression(
@@ -174,7 +184,6 @@ namespace {
         if (ai) ai->SetActorTickEnabled(true);
 
         const auto& settings = PROFILE_SETTINGS[static_cast<size_t>(profile)];
-        willie->Fearless = settings.fearless;
         willie->Drunk = settings.skills.drunk;
         willie->Body_Skill__Temp_ = settings.skills.body;
         willie->Weapon_Skill__Temp_ = settings.skills.weapon;
@@ -195,13 +204,13 @@ namespace {
             }
             if (HasOption(settings, ClearTarget)) {
                 ai->Target = nullptr;
-                ai->Target_Found = false;
+                ai->Target_Engaged = false;
             }
             if (HasOption(settings, Duelist)) ai->NPC_Dualist = true;
             if (HasOption(settings, DisableTick)) ai->SetActorTickEnabled(false);
         }
 
-        if (willie->Fearless || (ai && ai->Fearless)) ActorUtils::ApplyFearlessEffect(willie);
+        if (settings.fearless || (ai && ai->Fearless)) ActorUtils::ApplyFearlessEffect(willie);
 
         if (ai) {
             ai->Combat_Behavior = SDK::EAI_CombatBehavior_Enum::NewEnumerator0;
@@ -498,13 +507,12 @@ bool AIDirector::RestoreDirectiveState(const RuntimeContextSnapshot& runtime) {
         willie->Dodge_Rate = it->second.dodgeRate;
         willie->Running_Speed_Rate = it->second.runningSpeed;
         willie->Drunk = it->second.drunk;
-        willie->Fearless = it->second.willieFearless;
         willie->AI_Immediate_Threat = it->second.willieImmediateThreat;
         willie->NPC_Dualist = it->second.willieDualist;
         if (auto* ai = ActorUtils::GetAIController(willie)) {
             ai->Team_Int = it->second.aiTeam;
             ai->Target = isCurrentTarget(it->second.target) ? it->second.target : nullptr;
-            ai->Target_Found = ai->Target ? it->second.targetFound : false;
+            ai->Target_Engaged = ai->Target ? it->second.targetFound : false;
             ai->Attack_Intent = it->second.attackIntent;
             ai->Defend_Intent = it->second.defendIntent;
             ai->Retreat_Intent = it->second.retreatIntent;
@@ -555,7 +563,6 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
         state.dodgeRate = willie->Dodge_Rate;
         state.runningSpeed = willie->Running_Speed_Rate;
         state.drunk = willie->Drunk;
-        state.willieFearless = willie->Fearless;
         state.willieImmediateThreat = willie->AI_Immediate_Threat;
         state.willieDualist = willie->NPC_Dualist;
         if (ai) {
@@ -570,7 +577,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
             state.drunkness = ai->Drunkness;
             state.combatBehavior = static_cast<int>(ai->Combat_Behavior);
             state.strafeMode = static_cast<int>(ai->Strafe_Enum);
-            state.targetFound = ai->Target_Found;
+            state.targetFound = ai->Target_Engaged;
             state.tickEnabled = ai->IsActorTickEnabled();
             state.aiFearless = ai->Fearless;
             state.beingThreatened = ai->Being_Threatened;
@@ -610,7 +617,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 setTeam(willie, ai, DIRECTIVE_HOSTILE_TEAM);
                 WakeAI(ai, willie, player, triggerAttack);
                 SetAggression(willie, ai, 3.0, 0.5, 0.0, 0.4);
-                if (triggerAttack) ai->Attack();
+                if (triggerAttack) StartAttack(ai);
             });
             if (publishResult) PublishDirectiveResult(changed);
             break;
@@ -633,7 +640,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 setTeam(willie, ai, team >= runtime.player->Team_Int ? team + 1 : team);
                 WakeAI(ai, willie, enemy, triggerAttack);
                 SetAggression(willie, ai, 3.0, 0.3, 0.0, 0.8);
-                if (triggerAttack) ai->Attack();
+                if (triggerAttack) StartAttack(ai);
                 ++changed;
             }
             if (publishResult) PublishDirectiveResult(changed);
@@ -679,7 +686,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 setTeam(willie, ai, playerTeam);
                 ApplyProfileToWillie(willie, ai, Profile::Bodyguard, playerTeam);
                 WakeAI(ai, willie, nearestEnemy, triggerAttack);
-                if (triggerAttack && nearestEnemy) ai->Attack();
+                if (triggerAttack && nearestEnemy) StartAttack(ai);
                 ++changed;
             }
             if (publishResult) PublishDirectiveResult(changed);
@@ -692,7 +699,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 saveState(willie, ai);
                 if (ai->Target == runtime.player) {
                     ai->Target = nullptr;
-                    ai->Target_Found = false;
+                    ai->Target_Engaged = false;
                 }
                 SetAggression(willie, ai, 0.0, 0.0, 0.4, 0.0);
             });
@@ -707,7 +714,6 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                 WakeAI(ai, willie, runtime.player, false);
                 SetAggression(willie, ai, 0.0, 0.2, 4.0, 0.0);
                 ai->Fearless = false;
-                willie->Fearless = false;
             });
             if (publishResult) PublishDirectiveResult(changed);
             break;
@@ -718,7 +724,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
 
                 saveState(willie, ai);
                 ai->Target = nullptr;
-                ai->Target_Found = false;
+                ai->Target_Engaged = false;
                 ai->SetActorTickEnabled(false);
                 SetAggression(willie, ai, 0.0, 0.0, 0.0, 0.0);
             });
@@ -750,7 +756,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
                     WakeAI(ai, willie, first, triggerAttack);
                 } else {
                     ai->Target = nullptr;
-                    ai->Target_Found = false;
+                    ai->Target_Engaged = false;
                     ai->SetActorTickEnabled(false);
                 }
                 ++changed;
@@ -825,7 +831,7 @@ void AIDirector::StopAI(const RuntimeContextSnapshot& runtime, TargetFilter quer
         if (!ai) return;
         SetAggression(willie, ai, 0.0, 0.0, 0.0, 0.0);
         ai->Target = nullptr;
-        ai->Target_Found = false;
+        ai->Target_Engaged = false;
         ai->SetActorTickEnabled(false);
         ++result.affected;
     });
@@ -850,11 +856,7 @@ void AIDirector::ApplyBehavior(
             willie, ai, settings.attackIntent, settings.defendIntent, settings.retreatIntent, settings.strafeIntent
         );
         ActorUtils::SetFearlessReinforced(willie, settings.fearless);
-        if (settings.fearless) {
-            ActorUtils::ApplyFearlessEffect(willie);
-        } else {
-            willie->Fearless = false;
-        }
+        if (settings.fearless) ActorUtils::ApplyFearlessEffect(willie);
 
         if (ai) {
             ai->Drunkness = settings.drunkLevel;
@@ -919,7 +921,7 @@ void AIDirector::SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter q
 
         if (mode == TargetMode::Clear) {
             ai->Target = nullptr;
-            ai->Target_Found = false;
+            ai->Target_Engaged = false;
             ai->Lost_Interest = true;
             ++result.affected;
             return;
@@ -953,9 +955,9 @@ void AIDirector::TriggerImpulse(const RuntimeContextSnapshot& runtime, TargetFil
     MutationResult result;
     result.matched = ForEachTarget(runtime, query, [&](SDK::AWillie_BP_C*, SDK::AAI_BP_C* ai) {
         if (!ai) return;
-        if (impulse == Impulse::Attack) ai->Attack();
+        if (impulse == Impulse::Attack) StartAttack(ai);
         if (impulse == Impulse::Dash) ai->Dash_Event();
-        if (impulse == Impulse::StopBlade) ai->Stop_That_Blade();
+        if (impulse == Impulse::StopBlade) ai->Reset_Attack();
         ++result.affected;
     });
 

@@ -156,7 +156,6 @@ private:
         int strafeMode = 0;
         bool targetFound = false;
         bool tickEnabled = false;
-        bool willieFearless = false;
         bool aiFearless = false;
         bool willieImmediateThreat = false;
         bool beingThreatened = false;
