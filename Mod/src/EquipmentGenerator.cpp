@@ -10,6 +10,7 @@
 #include "Utils/GameConstants.h"
 #include "Utils/Spawner.h"
 #include "SDK/Engine_classes.hpp"
+#include "SDK/GI_Settings_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/Modular_Weapon_Part_Master_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
@@ -192,6 +193,23 @@ namespace EquipmentGenerator {
             objectIndex = generator ? generator->Index : -1;
             return generator;
         }
+
+        SDK::UGI_Settings_C* SettingsOf(const SDK::UWorld* world) {
+            auto* instance = world->OwningGameInstance;
+            return instance && instance->IsA(SDK::UGI_Settings_C::StaticClass()) ? static_cast<SDK::UGI_Settings_C*>(instance)
+                                                                                  : nullptr;
+        }
+
+        // The character generator dresses characters only through the game instance's armor generator, which the
+        // game creates on its first armor request of a level.
+        void EnsureSettingsArmorGenerator(SDK::UGI_Settings_C* settings, SDK::Enum_Ranks tier) {
+            if (!settings || SDK::UKismetSystemLibrary::IsValid(settings->Armor_Spawner)) return;
+            SDK::FStr_Passport_Armor1 unused{};
+            settings->Generate_Armor(
+                tier, static_cast<SDK::EArmorSlots_Enum>(0), 0.0, false, false, static_cast<SDK::ESteel_Type>(0),
+                static_cast<SDK::ESecondaryMetal_Type>(0), false, &unused
+            );
+        }
     }
 
     bool IsPassportValid(const SDK::FStr_Passport_Weapon1& passport) {
@@ -331,6 +349,7 @@ namespace EquipmentGenerator {
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetGenerator<SDK::ABP_Generator_Characters_Random_C>(world);
         if (gen) {
+            EnsureSettingsArmorGenerator(SettingsOf(world), tier);
             gen->Generate_Character(
                 actorClass, nationality, static_cast<SDK::Enum_Factions>(0), tier, mercenary, false, false, false, false, &output
             );
