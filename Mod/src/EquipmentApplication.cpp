@@ -1024,6 +1024,8 @@ namespace EquipmentApplication {
             if (it->Key() != slot || !IsRemovableArmor(it->Value())) continue;
             auto snapshot = PresetApplication::SnapshotArmorPassport(it->Value());
             if (!snapshot) return false;
+            // The game's starting clothes are worn in one slot while their passports name another.
+            snapshot->passport.Slot_30_7561CB484566A4512003EA96ED44F88D = slot;
 
             const int slotIndex = static_cast<int>(slot);
             const auto owner = ArmorRuntimeState().find(willie);
