@@ -318,7 +318,7 @@ namespace EquipmentGenerator {
         if (gen) {
             gen->Generate_Armor(
                 tier, slot, options.moduleChance, false, options.forceMetalMaterial, options.steelType,
-                options.metalPiecesType, &output
+                options.metalPiecesType, false, &output
             );
         }
         return output;
@@ -331,7 +331,9 @@ namespace EquipmentGenerator {
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetGenerator<SDK::ABP_Generator_Characters_Random_C>(world);
         if (gen) {
-            gen->Generate_Character(actorClass, nationality, tier, mercenary, false, &output);
+            gen->Generate_Character(
+                actorClass, nationality, static_cast<SDK::Enum_Factions>(0), tier, mercenary, false, false, false, false, &output
+            );
         }
         return output;
     }

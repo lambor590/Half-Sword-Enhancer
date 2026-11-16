@@ -509,7 +509,7 @@ void MapLoaderSection::AdvancePendingAutoSpawn(const RuntimeContextSnapshot& run
 
     if (spawnedPlayer) {
         controller->Possess(willie);
-        willie->Set_Up_Armor(true, false);
+        willie->Set_Up_Armor(true, false, false);
     }
     ApplyPreparedAutoSpawn(world, willie, pending.prepared, pending.generation);
 }

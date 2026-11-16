@@ -604,17 +604,17 @@ namespace EquipmentApplication {
             auto* weaponClass = preset ? preset->passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC : nullptr;
             if (!weaponClass) {
                 if (slotIndex == 0)
-                    willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {});
+                    willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {}, false);
                 else
-                    willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {});
+                    willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {}, false);
                 return true;
             }
 
             auto passport = preset->passport;
             if (slotIndex == 0)
-                willie->Set_Up_Right_Hand_Weapon(weaponClass, willie->Weapon_R, false, true, passport);
+                willie->Set_Up_Right_Hand_Weapon(weaponClass, willie->Weapon_R, false, true, passport, false);
             else
-                willie->Set_Up_Left_Hand_Weapon(weaponClass, willie->Weapon_L, false, true, passport);
+                willie->Set_Up_Left_Hand_Weapon(weaponClass, willie->Weapon_L, false, true, passport, false);
 
             auto* actor = slotIndex == 0 ? static_cast<SDK::AActor*>(willie->Weapon_R)
                                          : static_cast<SDK::AActor*>(willie->Weapon_L);
@@ -625,9 +625,9 @@ namespace EquipmentApplication {
                 return true;
 
             if (slotIndex == 0)
-                willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {});
+                willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {}, false);
             else
-                willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {});
+                willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {}, false);
             return false;
         }
 
@@ -795,7 +795,7 @@ namespace EquipmentApplication {
                 auto& equipment = state->target;
                 const ScopedArmorSpawnOverrides armorOverrides(equipment);
                 if (state->armorIndex >= equipment.armor.size()) {
-                    if (!equipment.armor.empty()) state->willie->Set_Up_Armor(true, false);
+                    if (!equipment.armor.empty()) state->willie->Set_Up_Armor(true, false, false);
                     const bool armorEquipped = std::all_of(
                         equipment.armor.begin(), equipment.armor.end(), [&state](const ResolvedArmorSlot& armor) {
                             const auto* equipped = FindArmorSlot(
@@ -1112,8 +1112,8 @@ namespace EquipmentApplication {
 
     void ClearWeaponActors(SDK::AWillie_BP_C* willie) {
         if (!IsUsableActor(willie)) return;
-        willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {});
-        willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {});
+        willie->Set_Up_Right_Hand_Weapon(nullptr, willie->Weapon_R, false, true, {}, false);
+        willie->Set_Up_Left_Hand_Weapon(nullptr, willie->Weapon_L, false, true, {}, false);
         ClearSheathedWeaponActors(*willie);
     }
 
