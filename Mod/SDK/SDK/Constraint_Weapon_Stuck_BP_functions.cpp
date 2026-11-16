@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AConstraint_Weapon_Stuck_BP_C::Add_Out_Point_Scene(const struct FVector& Location)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Add Out Point Scene");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Out Point Scene", FnName));
 
 	Params::Constraint_Weapon_Stuck_BP_C_Add_Out_Point_Scene Parms{};
 
@@ -48,10 +46,8 @@ void AConstraint_Weapon_Stuck_BP_C::Add_Out_Point_Scene(const struct FVector& Lo
 
 void AConstraint_Weapon_Stuck_BP_C::BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Constraint_Weapon_Stuck_BP_C_BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -76,10 +72,8 @@ void AConstraint_Weapon_Stuck_BP_C::BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Nod
 
 void AConstraint_Weapon_Stuck_BP_C::BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature", FnName));
 
 	Params::Constraint_Weapon_Stuck_BP_C_BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature Parms{};
 
@@ -97,10 +91,8 @@ void AConstraint_Weapon_Stuck_BP_C::BndEvt__Constraint_Weapon_Stuck_BP_Box_K2Nod
 
 void AConstraint_Weapon_Stuck_BP_C::Call_Dismember()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Call Dismember");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Call Dismember", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -111,32 +103,52 @@ void AConstraint_Weapon_Stuck_BP_C::Call_Dismember()
 
 void AConstraint_Weapon_Stuck_BP_C::Check_Dismember_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Check Dismember 2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Dismember 2", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
 // Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.Dismemberment Check
-// (Public, BlueprintCallable, BlueprintEvent)
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // double                                  Damage                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AConstraint_Weapon_Stuck_BP_C::Dismemberment_Check(double Damage)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Dismemberment Check");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dismemberment Check", FnName));
 
 	Params::Constraint_Weapon_Stuck_BP_C_Dismemberment_Check Parms{};
 
 	Parms.Damage = Damage;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.Event Destroy Self
+// (BlueprintCallable, BlueprintEvent)
+
+void AConstraint_Weapon_Stuck_BP_C::Event_Destroy_Self()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Destroy Self", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.Event Lock and Unlock Constraint
+// (BlueprintCallable, BlueprintEvent)
+
+void AConstraint_Weapon_Stuck_BP_C::Event_Lock_and_Unlock_Constraint()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Lock and Unlock Constraint", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -147,10 +159,8 @@ void AConstraint_Weapon_Stuck_BP_C::Dismemberment_Check(double Damage)
 
 void AConstraint_Weapon_Stuck_BP_C::ExecuteUbergraph_Constraint_Weapon_Stuck_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "ExecuteUbergraph_Constraint_Weapon_Stuck_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Constraint_Weapon_Stuck_BP_C", "ExecuteUbergraph_Constraint_Weapon_Stuck_BP", FuncInfo);
 
 	Params::Constraint_Weapon_Stuck_BP_C_ExecuteUbergraph_Constraint_Weapon_Stuck_BP Parms{};
 
@@ -165,10 +175,20 @@ void AConstraint_Weapon_Stuck_BP_C::ExecuteUbergraph_Constraint_Weapon_Stuck_BP(
 
 void AConstraint_Weapon_Stuck_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "ReceiveBeginPlay");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.ReceiveDestroyed
+// (Event, Public, BlueprintEvent)
+
+void AConstraint_Weapon_Stuck_BP_C::ReceiveDestroyed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveDestroyed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -181,10 +201,8 @@ void AConstraint_Weapon_Stuck_BP_C::ReceiveBeginPlay()
 
 void AConstraint_Weapon_Stuck_BP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Constraint_Weapon_Stuck_BP_C_ReceiveTick Parms{};
 
@@ -199,10 +217,8 @@ void AConstraint_Weapon_Stuck_BP_C::ReceiveTick(float DeltaSeconds)
 
 void AConstraint_Weapon_Stuck_BP_C::Release_Constraint()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Release Constraint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Constraint", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -213,10 +229,8 @@ void AConstraint_Weapon_Stuck_BP_C::Release_Constraint()
 
 void AConstraint_Weapon_Stuck_BP_C::Renew_Costrained_Bone()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Renew Costrained Bone");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Renew Costrained Bone", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

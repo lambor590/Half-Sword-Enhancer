@@ -14,7 +14,7 @@
 SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_GameMode.Enum_GameMode
-// NumValues: 0x0007
+// NumValues: 0x0008
 enum class Enum_GameMode : uint8
 {
 	NewEnumerator0                           = 0,
@@ -23,7 +23,8 @@ enum class Enum_GameMode : uint8
 	NewEnumerator3                           = 3,
 	NewEnumerator5                           = 4,
 	NewEnumerator4                           = 5,
-	Enum_MAX                                 = 6,
+	NewEnumerator6                           = 6,
+	Enum_MAX                                 = 7,
 };
 
 SDK_NAMESPACE_END

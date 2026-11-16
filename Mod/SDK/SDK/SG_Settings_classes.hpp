@@ -20,7 +20,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Settings.SG_Settings_C
-// 0x0110 (0x0138 - 0x0028)
+// 0x0118 (0x0140 - 0x0028)
 class USG_Settings_C final : public USaveGame
 {
 public:
@@ -75,6 +75,9 @@ public:
 	double                                        Dead_Weight_Scale;                                 // 0x0128(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	EUpscaler                                     SelectedUpscaler;                                  // 0x0130(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	EUpscalerMode                                 UpscalerMode;                                      // 0x0131(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Disable_Revenants;                                 // 0x0132(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_133[0x5];                                      // 0x0133(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Weapon_Weight_Scale;                               // 0x0138(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	static class UClass* StaticClass()

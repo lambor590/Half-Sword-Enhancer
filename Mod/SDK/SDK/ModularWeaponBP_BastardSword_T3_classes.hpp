@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_BastardSword_T3.ModularWeaponBP_BastardSword_T3_C
-// 0x0000 (0x0BF8 - 0x0BF8)
+// 0x0000 (0x0C48 - 0x0C48)
 class AModularWeaponBP_BastardSword_T3_C final : public AModularWeaponBP_C
 {
 public:

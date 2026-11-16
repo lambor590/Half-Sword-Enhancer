@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AHDRIBackdrop_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("HDRIBackdrop_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void AHDRIBackdrop_C::UserConstructionScript()
 
 void AHDRIBackdrop_C::CreateMaterial()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("HDRIBackdrop_C", "CreateMaterial");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CreateMaterial", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

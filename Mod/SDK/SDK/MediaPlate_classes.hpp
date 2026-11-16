@@ -12,6 +12,7 @@
 
 #include "Engine_classes.hpp"
 #include "MediaAssets_structs.hpp"
+#include "MediaAssets_classes.hpp"
 #include "CoreUObject_structs.hpp"
 #include "MediaPlate_structs.hpp"
 
@@ -65,10 +66,9 @@ public:
 
 // Class MediaPlate.MediaPlateComponent
 // 0x00E8 (0x0188 - 0x00A0)
-class UMediaPlateComponent final : public UActorComponent
+class UMediaPlateComponent final : public UActorComponent, public IMediaPlayerProxyInterface
 {
 public:
-	uint8                                         Pad_A0[0x8];                                       // 0x00A0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	bool                                          bPlayOnOpen;                                       // 0x00A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bAutoPlay;                                         // 0x00A9(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bEnableAudio;                                      // 0x00AA(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Falchion_Grip_12_L_T2.Weapon_Falchion_Grip_12_L_T2_C
-// 0x0000 (0x0670 - 0x0670)
+// 0x0000 (0x0678 - 0x0678)
 class AWeapon_Falchion_Grip_12_L_T2_C final : public AWeapon_Sword_Grip_Master_C
 {
 public:

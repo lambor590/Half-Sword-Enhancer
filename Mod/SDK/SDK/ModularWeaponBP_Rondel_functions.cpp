@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Rondel_C::BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Rondel_C", "BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_Rondel_C_BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AModularWeaponBP_Rondel_C::BndEvt__ModularWeaponBP_Axe_Blade_K2Node_Compone
 
 void AModularWeaponBP_Rondel_C::ExecuteUbergraph_ModularWeaponBP_Rondel(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Rondel_C", "ExecuteUbergraph_ModularWeaponBP_Rondel");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Rondel_C", "ExecuteUbergraph_ModularWeaponBP_Rondel", FuncInfo);
 
 	Params::ModularWeaponBP_Rondel_C_ExecuteUbergraph_ModularWeaponBP_Rondel Parms{};
 
@@ -69,10 +65,8 @@ void AModularWeaponBP_Rondel_C::ExecuteUbergraph_ModularWeaponBP_Rondel(int32 En
 
 void AModularWeaponBP_Rondel_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Rondel_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +77,8 @@ void AModularWeaponBP_Rondel_C::ReceiveBeginPlay()
 
 void AModularWeaponBP_Rondel_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Rondel_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

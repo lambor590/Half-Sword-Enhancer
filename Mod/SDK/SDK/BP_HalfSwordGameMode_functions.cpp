@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_HalfSwordGameMode_C::Add_Rank_Points()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Add Rank Points");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Rank Points", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_HalfSwordGameMode_C::Add_Rank_Points()
 
 void ABP_HalfSwordGameMode_C::Clear_Proxy_Model_Locations()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Clear Proxy Model Locations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clear Proxy Model Locations", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void ABP_HalfSwordGameMode_C::Clear_Proxy_Model_Locations()
 
 void ABP_HalfSwordGameMode_C::DED()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "DED");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DED", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void ABP_HalfSwordGameMode_C::DED()
 
 void ABP_HalfSwordGameMode_C::Event_Spawn_DED_UI()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Event Spawn DED UI");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Spawn DED UI", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void ABP_HalfSwordGameMode_C::Event_Spawn_DED_UI()
 
 void ABP_HalfSwordGameMode_C::ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "ExecuteUbergraph_BP_HalfSwordGameMode");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_HalfSwordGameMode_C", "ExecuteUbergraph_BP_HalfSwordGameMode", FuncInfo);
 
 	Params::BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode Parms{};
 
@@ -97,10 +87,8 @@ void ABP_HalfSwordGameMode_C::ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryP
 
 void ABP_HalfSwordGameMode_C::Minus_Enemy()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Minus Enemy");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Minus Enemy", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -111,10 +99,8 @@ void ABP_HalfSwordGameMode_C::Minus_Enemy()
 
 void ABP_HalfSwordGameMode_C::Multiplayer_Match_Win_Check()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Multiplayer Match Win Check");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Multiplayer Match Win Check", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -125,10 +111,20 @@ void ABP_HalfSwordGameMode_C::Multiplayer_Match_Win_Check()
 
 void ABP_HalfSwordGameMode_C::OnAudioFinished_Event()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnAudioFinished_Event", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "OnAudioFinished_Event");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Plus Enemy
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_HalfSwordGameMode_C::Plus_Enemy()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Plus Enemy", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -139,10 +135,8 @@ void ABP_HalfSwordGameMode_C::OnAudioFinished_Event()
 
 void ABP_HalfSwordGameMode_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -155,10 +149,8 @@ void ABP_HalfSwordGameMode_C::ReceiveBeginPlay()
 
 void ABP_HalfSwordGameMode_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_HalfSwordGameMode_C_ReceiveTick Parms{};
 
@@ -173,10 +165,8 @@ void ABP_HalfSwordGameMode_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_HalfSwordGameMode_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

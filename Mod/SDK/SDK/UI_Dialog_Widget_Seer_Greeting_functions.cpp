@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welco
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Merchant_Button
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_B
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_B
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_B
 
 void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_B
 
 void UUI_Dialog_Widget_Seer_Greeting_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -149,10 +131,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::Construct()
 
 void UUI_Dialog_Widget_Seer_Greeting_C::ExecuteUbergraph_UI_Dialog_Widget_Seer_Greeting(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "ExecuteUbergraph_UI_Dialog_Widget_Seer_Greeting");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Seer_Greeting_C", "ExecuteUbergraph_UI_Dialog_Widget_Seer_Greeting", FuncInfo);
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_ExecuteUbergraph_UI_Dialog_Widget_Seer_Greeting Parms{};
 
@@ -169,10 +149,8 @@ void UUI_Dialog_Widget_Seer_Greeting_C::ExecuteUbergraph_UI_Dialog_Widget_Seer_G
 
 class FText UUI_Dialog_Widget_Seer_Greeting_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_GetText Parms{};
 
@@ -189,10 +167,8 @@ class FText UUI_Dialog_Widget_Seer_Greeting_C::GetText()
 
 class FText UUI_Dialog_Widget_Seer_Greeting_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_GetText_0 Parms{};
 
@@ -209,10 +185,8 @@ class FText UUI_Dialog_Widget_Seer_Greeting_C::GetText_0()
 
 ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_GetVisibility_0 Parms{};
 
@@ -229,10 +203,8 @@ ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_0()
 
 ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_GetVisibility_1 Parms{};
 
@@ -249,10 +221,8 @@ ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_1()
 
 ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_GetVisibility_2 Parms{};
 
@@ -269,10 +239,8 @@ ESlateVisibility UUI_Dialog_Widget_Seer_Greeting_C::GetVisibility_2()
 
 void UUI_Dialog_Widget_Seer_Greeting_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_Greeting_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Seer_Greeting_C_PreConstruct Parms{};
 

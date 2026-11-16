@@ -266,10 +266,8 @@ void UBlendSpaceLibrary::SnapToPosition(const struct FBlendSpaceReference& Blend
 
 bool ISequencerAnimationOverride::AllowsCinematicOverride() const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("SequencerAnimationOverride", "AllowsCinematicOverride");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"AllowsCinematicOverride", FnName));
 
 	Params::SequencerAnimationOverride_AllowsCinematicOverride Parms{};
 
@@ -291,10 +289,8 @@ bool ISequencerAnimationOverride::AllowsCinematicOverride() const
 
 TArray<class FName> ISequencerAnimationOverride::GetSequencerAnimSlotNames() const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("SequencerAnimationOverride", "GetSequencerAnimSlotNames");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"GetSequencerAnimSlotNames", FnName));
 
 	Params::SequencerAnimationOverride_GetSequencerAnimSlotNames Parms{};
 

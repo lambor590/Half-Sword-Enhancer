@@ -18,7 +18,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Polearm_Haft_Master.Weapon_Module_Polearm_Haft_Master_C
-// 0x0000 (0x05F8 - 0x05F8)
+// 0x0000 (0x0600 - 0x0600)
 class AWeapon_Module_Polearm_Haft_Master_C : public AModular_Weapon_Grip_C
 {
 public:

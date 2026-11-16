@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_Tier_Mid_M.Weapon_Part_Mace_Grip_Tier_Mid_M_C
-// 0x0000 (0x0610 - 0x0610)
+// 0x0000 (0x0618 - 0x0618)
 class AWeapon_Part_Mace_Grip_Tier_Mid_M_C final : public AWeapon_Part_Mace_Grip_Tier_Master_C
 {
 public:

@@ -113,10 +113,8 @@ float UMotionControllerComponent::GetParameterValue(class FName InName, bool* bV
 
 void UMotionControllerComponent::OnMotionControllerUpdated()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("MotionControllerComponent", "OnMotionControllerUpdated");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMotionControllerUpdated", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

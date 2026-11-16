@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Unlock_Item_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Item_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_Unlock_Item_C::Construct()
 
 void UUI_Unlock_Item_C::ExecuteUbergraph_UI_Unlock_Item(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Item_C", "ExecuteUbergraph_UI_Unlock_Item");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Unlock_Item_C", "ExecuteUbergraph_UI_Unlock_Item", FuncInfo);
 
 	Params::UI_Unlock_Item_C_ExecuteUbergraph_UI_Unlock_Item Parms{};
 
@@ -57,10 +53,8 @@ void UUI_Unlock_Item_C::ExecuteUbergraph_UI_Unlock_Item(int32 EntryPoint)
 
 struct FSlateBrush UUI_Unlock_Item_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Item_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_Unlock_Item_C_GetBrush Parms{};
 
@@ -77,10 +71,8 @@ struct FSlateBrush UUI_Unlock_Item_C::GetBrush()
 
 class FText UUI_Unlock_Item_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Item_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Unlock_Item_C_GetText Parms{};
 
@@ -98,10 +90,8 @@ class FText UUI_Unlock_Item_C::GetText()
 
 void UUI_Unlock_Item_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Item_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Unlock_Item_C_Tick Parms{};
 

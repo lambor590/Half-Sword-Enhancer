@@ -59,10 +59,9 @@ public:
 
 // Class MRMesh.MRMeshBodyHolder
 // 0x0210 (0x0238 - 0x0028)
-class UMRMeshBodyHolder final : public UObject
+class UMRMeshBodyHolder final : public UObject, public IInterface_CollisionDataProvider
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UBodySetup*                             BodySetup;                                         // 0x0030(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	struct FBodyInstance                          BodyInstance;                                      // 0x0038(0x0198)(Transient, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1D0[0x68];                                     // 0x01D0(0x0068)(Fixing Struct Size After Last Property [ Dumper-7 ])

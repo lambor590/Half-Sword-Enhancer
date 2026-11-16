@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_HUD_C::Aim_Lock_Is_Off()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "Aim Lock Is Off");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Aim Lock Is Off", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_HUD_C::Aim_Lock_Is_Off()
 
 void UUI_HUD_C::Aim_Lock_Is_On()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "Aim Lock Is On");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Aim Lock Is On", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_HUD_C::Aim_Lock_Is_On()
 
 void UUI_HUD_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,16 +59,86 @@ void UUI_HUD_C::Construct()
 
 void UUI_HUD_C::ExecuteUbergraph_UI_HUD(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "ExecuteUbergraph_UI_HUD");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_HUD_C", "ExecuteUbergraph_UI_HUD", FuncInfo);
 
 	Params::UI_HUD_C_ExecuteUbergraph_UI_HUD Parms{};
 
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_ArmLSta_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_ArmLSta_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ArmLSta_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_ArmLSta_ColorAndOpacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_ArmRSta_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_ArmRSta_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ArmRSta_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_ArmRSta_ColorAndOpacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_DeathPic_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_DeathPic_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DeathPic_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_DeathPic_ColorAndOpacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_LowerBodySta_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_LowerBodySta_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_LowerBodySta_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_LowerBodySta_ColorAndOpacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 
@@ -85,12 +149,46 @@ void UUI_HUD_C::ExecuteUbergraph_UI_HUD(int32 EntryPoint)
 
 class FText UUI_HUD_C::Get_TextDisabled_1_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "Get_TextDisabled_1_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextDisabled_1_Text", FnName));
 
 	Params::UI_HUD_C_Get_TextDisabled_1_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_Vignette_Cold_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_Vignette_Cold_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Vignette_Cold_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_Vignette_Cold_ColorAndOpacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_HUD.UI_HUD_C.Get_Vignette_Hot_ColorAndOpacity
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor UUI_HUD_C::Get_Vignette_Hot_ColorAndOpacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Vignette_Hot_ColorAndOpacity", FnName));
+
+	Params::UI_HUD_C_Get_Vignette_Hot_ColorAndOpacity Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -105,10 +203,8 @@ class FText UUI_HUD_C::Get_TextDisabled_1_Text()
 
 void UUI_HUD_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_HUD_C_PreConstruct Parms{};
 
@@ -126,10 +222,8 @@ void UUI_HUD_C::PreConstruct(bool IsDesignTime)
 
 void UUI_HUD_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_HUD_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_HUD_C_Tick Parms{};
 

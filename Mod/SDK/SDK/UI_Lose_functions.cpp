@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Lose_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_Lose_C::Construct()
 
 void UUI_Lose_C::ExecuteUbergraph_UI_Lose(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "ExecuteUbergraph_UI_Lose");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Lose_C", "ExecuteUbergraph_UI_Lose", FuncInfo);
 
 	Params::UI_Lose_C_ExecuteUbergraph_UI_Lose Parms{};
 
@@ -57,10 +53,8 @@ void UUI_Lose_C::ExecuteUbergraph_UI_Lose(int32 EntryPoint)
 
 class FText UUI_Lose_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Lose_C_GetText Parms{};
 
@@ -77,10 +71,8 @@ class FText UUI_Lose_C::GetText()
 
 class FText UUI_Lose_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Lose_C_GetText_0 Parms{};
 
@@ -97,10 +89,8 @@ class FText UUI_Lose_C::GetText_0()
 
 void UUI_Lose_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Lose_C_PreConstruct Parms{};
 
@@ -118,10 +108,8 @@ void UUI_Lose_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Lose_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Lose_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Lose_C_Tick Parms{};
 

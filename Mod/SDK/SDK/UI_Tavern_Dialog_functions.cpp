@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Tavern_Dialog_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Tavern_Dialog_C::Construct()
 
 void UUI_Tavern_Dialog_C::Destroy_Self()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "Destroy Self");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Self", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void UUI_Tavern_Dialog_C::Destroy_Self()
 
 void UUI_Tavern_Dialog_C::ExecuteUbergraph_UI_Tavern_Dialog(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "ExecuteUbergraph_UI_Tavern_Dialog");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Tavern_Dialog_C", "ExecuteUbergraph_UI_Tavern_Dialog", FuncInfo);
 
 	Params::UI_Tavern_Dialog_C_ExecuteUbergraph_UI_Tavern_Dialog Parms{};
 
@@ -71,10 +65,8 @@ void UUI_Tavern_Dialog_C::ExecuteUbergraph_UI_Tavern_Dialog(int32 EntryPoint)
 
 struct FSlateBrush UUI_Tavern_Dialog_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_Tavern_Dialog_C_GetBrush Parms{};
 
@@ -91,10 +83,8 @@ struct FSlateBrush UUI_Tavern_Dialog_C::GetBrush()
 
 class FText UUI_Tavern_Dialog_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Tavern_Dialog_C_GetText Parms{};
 
@@ -111,10 +101,8 @@ class FText UUI_Tavern_Dialog_C::GetText()
 
 class FText UUI_Tavern_Dialog_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Tavern_Dialog_C_GetText_0 Parms{};
 
@@ -131,10 +119,8 @@ class FText UUI_Tavern_Dialog_C::GetText_0()
 
 ESlateVisibility UUI_Tavern_Dialog_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Tavern_Dialog_C_GetVisibility_0 Parms{};
 
@@ -151,10 +137,8 @@ ESlateVisibility UUI_Tavern_Dialog_C::GetVisibility_0()
 
 void UUI_Tavern_Dialog_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Tavern_Dialog_C_PreConstruct Parms{};
 
@@ -172,10 +156,8 @@ void UUI_Tavern_Dialog_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Tavern_Dialog_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Dialog_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Tavern_Dialog_C_Tick Parms{};
 

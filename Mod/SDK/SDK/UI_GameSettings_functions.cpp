@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_GameSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_GameSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBound
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBound
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -177,10 +155,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -197,12 +173,28 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoun
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoundEvent_2_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_CheckBox_2_K2Node_ComponentBoundEvent_9_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_2_K2Node_ComponentBoundEvent_9_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_CheckBox_2_K2Node_ComponentBoundEvent_9_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
+
+	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_2_K2Node_ComponentBoundEvent_9_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
 	Parms.bIsChecked = bIsChecked;
 
@@ -217,10 +209,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_1_K2Node_ComponentBoun
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -237,12 +227,28 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundE
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_DamageNPC_2_K2Node_ComponentBoundEvent_25_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_DamageNPC_2_K2Node_ComponentBoundEvent_25_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_DamageNPC_2_K2Node_ComponentBoundEvent_25_OnFloatValueChangedEvent__DelegateSignature", FnName));
+
+	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_DamageNPC_2_K2Node_ComponentBoundEvent_25_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
 	Parms.Value = Value;
 
@@ -255,10 +261,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_DamageNPC_1_K2Node_ComponentBou
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -269,10 +273,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -283,10 +285,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -297,10 +297,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -311,10 +309,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Componen
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -325,10 +321,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Componen
 
 void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -339,10 +333,8 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Componen
 
 void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -353,10 +345,8 @@ void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBound
 
 void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -369,10 +359,8 @@ void UUI_GameSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoun
 
 void UUI_GameSettings_C::BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -389,10 +377,8 @@ void UUI_GameSettings_C::BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent
 
 void UUI_GameSettings_C::BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GameSettings_C_BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -407,10 +393,8 @@ void UUI_GameSettings_C::BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9
 
 void UUI_GameSettings_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -421,10 +405,8 @@ void UUI_GameSettings_C::Construct()
 
 void UUI_GameSettings_C::Destruct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Destruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -435,10 +417,8 @@ void UUI_GameSettings_C::Destruct()
 
 void UUI_GameSettings_C::Event_Force_Apply_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Event Force Apply Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Force Apply Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -451,10 +431,8 @@ void UUI_GameSettings_C::Event_Force_Apply_Settings()
 
 void UUI_GameSettings_C::ExecuteUbergraph_UI_GameSettings(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "ExecuteUbergraph_UI_GameSettings");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_GameSettings_C", "ExecuteUbergraph_UI_GameSettings", FuncInfo);
 
 	Params::UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings Parms{};
 
@@ -471,12 +449,28 @@ void UUI_GameSettings_C::ExecuteUbergraph_UI_GameSettings(int32 EntryPoint)
 
 float UUI_GameSettings_C::Get_DamageNPC_1_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Get_DamageNPC_1_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_1_Value", FnName));
 
 	Params::UI_GameSettings_C_Get_DamageNPC_1_Value Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.Get_DamageNPC_2_Value
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+float UUI_GameSettings_C::Get_DamageNPC_2_Value()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_2_Value", FnName));
+
+	Params::UI_GameSettings_C_Get_DamageNPC_2_Value Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -491,10 +485,8 @@ float UUI_GameSettings_C::Get_DamageNPC_1_Value()
 
 float UUI_GameSettings_C::Get_Slider_DamagePlayer_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Get_Slider_DamagePlayer_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_DamagePlayer_Value", FnName));
 
 	Params::UI_GameSettings_C_Get_Slider_DamagePlayer_Value Parms{};
 
@@ -511,10 +503,8 @@ float UUI_GameSettings_C::Get_Slider_DamagePlayer_Value()
 
 float UUI_GameSettings_C::Get_Slider_LockOnSlider_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Get_Slider_LockOnSlider_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_LockOnSlider_Value", FnName));
 
 	Params::UI_GameSettings_C_Get_Slider_LockOnSlider_Value Parms{};
 
@@ -531,10 +521,8 @@ float UUI_GameSettings_C::Get_Slider_LockOnSlider_Value()
 
 ECheckBoxState UUI_GameSettings_C::GetCheckedState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState", FnName));
 
 	Params::UI_GameSettings_C_GetCheckedState Parms{};
 
@@ -551,10 +539,8 @@ ECheckBoxState UUI_GameSettings_C::GetCheckedState()
 
 ECheckBoxState UUI_GameSettings_C::GetCheckedState_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_0", FnName));
 
 	Params::UI_GameSettings_C_GetCheckedState_0 Parms{};
 
@@ -571,12 +557,28 @@ ECheckBoxState UUI_GameSettings_C::GetCheckedState_0()
 
 ECheckBoxState UUI_GameSettings_C::GetCheckedState_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_1", FnName));
 
 	Params::UI_GameSettings_C_GetCheckedState_1 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.GetCheckedState_2
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_GameSettings_C::GetCheckedState_2()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_2", FnName));
+
+	Params::UI_GameSettings_C_GetCheckedState_2 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -591,10 +593,8 @@ ECheckBoxState UUI_GameSettings_C::GetCheckedState_1()
 
 float UUI_GameSettings_C::GetValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue", FnName));
 
 	Params::UI_GameSettings_C_GetValue Parms{};
 
@@ -611,10 +611,8 @@ float UUI_GameSettings_C::GetValue()
 
 float UUI_GameSettings_C::GetValue_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetValue_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_0", FnName));
 
 	Params::UI_GameSettings_C_GetValue_0 Parms{};
 
@@ -631,10 +629,8 @@ float UUI_GameSettings_C::GetValue_0()
 
 float UUI_GameSettings_C::GetValue_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetValue_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_1", FnName));
 
 	Params::UI_GameSettings_C_GetValue_1 Parms{};
 
@@ -651,10 +647,8 @@ float UUI_GameSettings_C::GetValue_1()
 
 float UUI_GameSettings_C::GetValue_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetValue_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_2", FnName));
 
 	Params::UI_GameSettings_C_GetValue_2 Parms{};
 
@@ -671,10 +665,8 @@ float UUI_GameSettings_C::GetValue_2()
 
 float UUI_GameSettings_C::GetValue_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetValue_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_3", FnName));
 
 	Params::UI_GameSettings_C_GetValue_3 Parms{};
 
@@ -691,10 +683,8 @@ float UUI_GameSettings_C::GetValue_3()
 
 void UUI_GameSettings_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_GameSettings_C_PreConstruct Parms{};
 
@@ -712,10 +702,8 @@ void UUI_GameSettings_C::PreConstruct(bool IsDesignTime)
 
 void UUI_GameSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_GameSettings_C_Tick Parms{};
 

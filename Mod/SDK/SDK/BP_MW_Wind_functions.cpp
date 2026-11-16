@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_MW_Wind_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MW_Wind_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ABP_MW_Wind_C::UserConstructionScript()
 
 void ABP_MW_Wind_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MW_Wind_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_MW_Wind_C_ReceiveTick Parms{};
 
@@ -57,10 +53,8 @@ void ABP_MW_Wind_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void ABP_MW_Wind_C::ExecuteUbergraph_BP_MW_Wind(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MW_Wind_C", "ExecuteUbergraph_BP_MW_Wind");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_MW_Wind_C", "ExecuteUbergraph_BP_MW_Wind", FuncInfo);
 
 	Params::BP_MW_Wind_C_ExecuteUbergraph_BP_MW_Wind Parms{};
 

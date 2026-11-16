@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UUI_Video_Intro_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Video_Intro_C_Tick Parms{};
 
@@ -45,10 +43,8 @@ void UUI_Video_Intro_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDe
 
 void UUI_Video_Intro_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Video_Intro_C_PreConstruct Parms{};
 
@@ -65,10 +61,8 @@ void UUI_Video_Intro_C::PreConstruct(bool IsDesignTime_PreConstruct)
 
 void UUI_Video_Intro_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_AnyKey_K2Node_InputKeyEvent_0", FnName));
 
 	Params::UI_Video_Intro_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
 
@@ -85,10 +79,8 @@ void UUI_Video_Intro_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKe
 
 void UUI_Video_Intro_C::ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "ExecuteUbergraph_UI_Video_Intro");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Video_Intro_C", "ExecuteUbergraph_UI_Video_Intro", FuncInfo);
 
 	Params::UI_Video_Intro_C_ExecuteUbergraph_UI_Video_Intro Parms{};
 
@@ -103,10 +95,8 @@ void UUI_Video_Intro_C::ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint)
 
 void UUI_Video_Intro_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

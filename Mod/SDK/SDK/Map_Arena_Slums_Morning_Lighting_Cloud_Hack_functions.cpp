@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_Slums_Morning_Lighting_Cloud_Hack_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_Morning_Lighting_Cloud_Hack_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AMap_Arena_Slums_Morning_Lighting_Cloud_Hack_C::ReceiveBeginPlay()
 
 void AMap_Arena_Slums_Morning_Lighting_Cloud_Hack_C::ExecuteUbergraph_Map_Arena_Slums_Morning_Lighting_Cloud_Hack(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_Morning_Lighting_Cloud_Hack_C", "ExecuteUbergraph_Map_Arena_Slums_Morning_Lighting_Cloud_Hack");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_Slums_Morning_Lighting_Cloud_Hack_C", "ExecuteUbergraph_Map_Arena_Slums_Morning_Lighting_Cloud_Hack", FuncInfo);
 
 	Params::Map_Arena_Slums_Morning_Lighting_Cloud_Hack_C_ExecuteUbergraph_Map_Arena_Slums_Morning_Lighting_Cloud_Hack Parms{};
 

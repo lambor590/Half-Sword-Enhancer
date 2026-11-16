@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AAbyss_Map_Open_EA_C::TL_MusicChange__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "TL_MusicChange__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL_MusicChange__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void AAbyss_Map_Open_EA_C::TL_MusicChange__UpdateFunc()
 
 void AAbyss_Map_Open_EA_C::TL_MusicChange__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "TL_MusicChange__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL_MusicChange__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void AAbyss_Map_Open_EA_C::TL_MusicChange__FinishedFunc()
 
 void AAbyss_Map_Open_EA_C::Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void AAbyss_Map_Open_EA_C::Timeline__UpdateFunc()
 
 void AAbyss_Map_Open_EA_C::Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void AAbyss_Map_Open_EA_C::Timeline__FinishedFunc()
 
 void AAbyss_Map_Open_EA_C::Spawn_Tile(const struct FVector& Spawn_Location)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Spawn Tile");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Tile", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Spawn_Tile Parms{};
 
@@ -100,10 +90,8 @@ void AAbyss_Map_Open_EA_C::Spawn_Tile(const struct FVector& Spawn_Location)
 
 class AWillie_BP_C* AAbyss_Map_Open_EA_C::Spawn_NPC(const struct FTransform& SpawnTransform)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Spawn NPC");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn NPC", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Spawn_NPC Parms{};
 
@@ -122,10 +110,8 @@ class AWillie_BP_C* AAbyss_Map_Open_EA_C::Spawn_NPC(const struct FTransform& Spa
 
 void AAbyss_Map_Open_EA_C::Spawn_Loot(const struct FVector& Location)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Spawn Loot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Loot", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Spawn_Loot Parms{};
 
@@ -142,10 +128,8 @@ void AAbyss_Map_Open_EA_C::Spawn_Loot(const struct FVector& Location)
 
 void AAbyss_Map_Open_EA_C::Spawn_Boss_Arena(class ABossFight_Arena_BP_C** Boss_Arena)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Spawn Boss Arena");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Boss Arena", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Spawn_Boss_Arena Parms{};
 
@@ -163,10 +147,8 @@ void AAbyss_Map_Open_EA_C::Spawn_Boss_Arena(class ABossFight_Arena_BP_C** Boss_A
 
 void AAbyss_Map_Open_EA_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Abyss_Map_Open_EA_C_ReceiveTick Parms{};
 
@@ -181,24 +163,8 @@ void AAbyss_Map_Open_EA_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AAbyss_Map_Open_EA_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Abyss_Map_Open_EA.Abyss_Map_Open_EA_C.GREAT ENEMY FELLED
-// (BlueprintCallable, BlueprintEvent)
-
-void AAbyss_Map_Open_EA_C::GREAT_ENEMY_FELLED()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "GREAT ENEMY FELLED");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -211,10 +177,8 @@ void AAbyss_Map_Open_EA_C::GREAT_ENEMY_FELLED()
 
 void AAbyss_Map_Open_EA_C::Give_Start_Weapons_Ignore_Tag(class AModularWeaponBP_C* InputPin)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Give Start Weapons Ignore Tag");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Start Weapons Ignore Tag", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Give_Start_Weapons_Ignore_Tag Parms{};
 
@@ -231,10 +195,8 @@ void AAbyss_Map_Open_EA_C::Give_Start_Weapons_Ignore_Tag(class AModularWeaponBP_
 
 void AAbyss_Map_Open_EA_C::Give_Looted_Weapons_to_Inventory(class AModularWeaponBP_C* InputPin)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Give Looted Weapons to Inventory");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Looted Weapons to Inventory", FnName));
 
 	Params::Abyss_Map_Open_EA_C_Give_Looted_Weapons_to_Inventory Parms{};
 
@@ -249,10 +211,8 @@ void AAbyss_Map_Open_EA_C::Give_Looted_Weapons_to_Inventory(class AModularWeapon
 
 void AAbyss_Map_Open_EA_C::Fog_Turn_On()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Fog Turn On");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Turn On", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -263,10 +223,8 @@ void AAbyss_Map_Open_EA_C::Fog_Turn_On()
 
 void AAbyss_Map_Open_EA_C::Fog_Turn_Off()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Fog Turn Off");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Turn Off", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -279,10 +237,8 @@ void AAbyss_Map_Open_EA_C::Fog_Turn_Off()
 
 void AAbyss_Map_Open_EA_C::ExecuteUbergraph_Abyss_Map_Open_EA(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "ExecuteUbergraph_Abyss_Map_Open_EA");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Abyss_Map_Open_EA_C", "ExecuteUbergraph_Abyss_Map_Open_EA", FuncInfo);
 
 	Params::Abyss_Map_Open_EA_C_ExecuteUbergraph_Abyss_Map_Open_EA Parms{};
 
@@ -297,10 +253,8 @@ void AAbyss_Map_Open_EA_C::ExecuteUbergraph_Abyss_Map_Open_EA(int32 EntryPoint)
 
 void AAbyss_Map_Open_EA_C::Create_Boss_Passport()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Create Boss Passport");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Boss Passport", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -311,10 +265,8 @@ void AAbyss_Map_Open_EA_C::Create_Boss_Passport()
 
 void AAbyss_Map_Open_EA_C::Change_Music()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Change Music");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Change Music", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -325,10 +277,20 @@ void AAbyss_Map_Open_EA_C::Change_Music()
 
 void AAbyss_Map_Open_EA_C::Auto_Save()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Auto Save", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Abyss_Map_Open_EA_C", "Auto Save");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Abyss_Map_Open_EA.Abyss_Map_Open_EA_C.GREAT ENEMY FELLED
+// (BlueprintCallable, BlueprintEvent)
+
+void AAbyss_Map_Open_EA_C::GREAT_ENEMY_FELLED()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GREAT ENEMY FELLED", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

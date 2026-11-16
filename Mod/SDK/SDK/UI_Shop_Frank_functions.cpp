@@ -16,15 +16,45 @@
 
 SDK_NAMESPACE_START
 
+// Function UI_Shop_Frank.UI_Shop_Frank_C.AnimateFilterButton
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UButton*                          FilterButton                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool                                    IsHovered_0                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::AnimateFilterButton(class UButton* FilterButton, bool IsHovered_0)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AnimateFilterButton", FnName));
+
+	Params::UI_Shop_Frank_C_AnimateFilterButton Parms{};
+
+	Parms.FilterButton = FilterButton;
+	Parms.IsHovered_0 = IsHovered_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_BarterConfirm_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_BarterConfirm_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_BarterConfirm_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +65,8 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +77,8 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +89,380 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_8
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_39_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_39_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_39_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_Face_Btn_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_Face_Btn_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_Face_Btn_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -80,35 +476,13 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_9
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
 	Parms.Item = Item;
 	Parms.Widget = Widget;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_6_SimpleListItemEventDynamic__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// class UObject*                          Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_6_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_6_SimpleListItemEventDynamic__DelegateSignature");
-
-	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_6_SimpleListItemEventDynamic__DelegateSignature Parms{};
-
-	Parms.Item = Item;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -122,10 +496,8 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentB
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -133,6 +505,90 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentB
 	Parms.bIsHovered = bIsHovered;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_PlayerOrigin_Shield_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_PlayerOrigin_Shield_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_PlayerOrigin_Shield_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -144,35 +600,13 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentB
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
 	Parms.Item = Item;
 	Parms.Widget = Widget;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_Shop_Frank.UI_Shop_Frank_C.BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// class UObject*                          Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature");
-
-	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature Parms{};
-
-	Parms.Item = Item;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -186,10 +620,8 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentB
 
 void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_Frank_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -200,6 +632,18 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentB
 }
 
 
+// Function UI_Shop_Frank.UI_Shop_Frank_C.CheckIfBarterCancelled
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Shop_Frank_C::CheckIfBarterCancelled()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CheckIfBarterCancelled", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Shop_Frank.UI_Shop_Frank_C.ExecuteUbergraph_UI_Shop_Frank
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -207,10 +651,8 @@ void UUI_Shop_Frank_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentB
 
 void UUI_Shop_Frank_C::ExecuteUbergraph_UI_Shop_Frank(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "ExecuteUbergraph_UI_Shop_Frank");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Shop_Frank_C", "ExecuteUbergraph_UI_Shop_Frank", FuncInfo);
 
 	Params::UI_Shop_Frank_C_ExecuteUbergraph_UI_Shop_Frank Parms{};
 
@@ -220,23 +662,219 @@ void UUI_Shop_Frank_C::ExecuteUbergraph_UI_Shop_Frank(int32 EntryPoint)
 }
 
 
-// Function UI_Shop_Frank.UI_Shop_Frank_C.GetText
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+// Function UI_Shop_Frank.UI_Shop_Frank_C.FillMerchantItemsList
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-class FText UUI_Shop_Frank_C::GetText()
+void UUI_Shop_Frank_C::FillMerchantItemsList()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FillMerchantItemsList", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "GetText");
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Params::UI_Shop_Frank_C_GetText Parms{};
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.FillPlayerItemsList
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Shop_Frank_C::FillPlayerItemsList()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FillPlayerItemsList", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.FinalizeBarter
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Shop_Frank_C::FinalizeBarter()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FinalizeBarter", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.Get_BarterConfirm_Btn_Visibility
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Shop_Frank_C::Get_BarterConfirm_Btn_Visibility()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_BarterConfirm_Btn_Visibility", FnName));
+
+	Params::UI_Shop_Frank_C_Get_BarterConfirm_Btn_Visibility Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetArmorType
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FStr_Passport_Armor1&      Passport                                               (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// EInventory_ItemFilter_Enum*             ArmorType                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::GetArmorType(const struct FStr_Passport_Armor1& Passport, EInventory_ItemFilter_Enum* ArmorType)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetArmorType", FnName));
+
+	Params::UI_Shop_Frank_C_GetArmorType Parms{};
+
+	Parms.Passport = std::move(Passport);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (ArmorType != nullptr)
+		*ArmorType = Parms.ArmorType;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetBarterMoneyText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Shop_Frank_C::GetBarterMoneyText()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBarterMoneyText", FnName));
+
+	Params::UI_Shop_Frank_C_GetBarterMoneyText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetItemPrice
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UBP_GameItem_C*                   Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool                                    Trader                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  SpawnedItemPrice                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 FinalPrice                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::GetItemPrice(class UBP_GameItem_C* Item, bool Trader, double SpawnedItemPrice, double* FinalPrice)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetItemPrice", FnName));
+
+	Params::UI_Shop_Frank_C_GetItemPrice Parms{};
+
+	Parms.Item = Item;
+	Parms.Trader = Trader;
+	Parms.SpawnedItemPrice = SpawnedItemPrice;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (FinalPrice != nullptr)
+		*FinalPrice = Parms.FinalPrice;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetPlayerMoneyText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Shop_Frank_C::GetPlayerMoneyText()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPlayerMoneyText", FnName));
+
+	Params::UI_Shop_Frank_C_GetPlayerMoneyText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetRestockBtnEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Shop_Frank_C::GetRestockBtnEnabled()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetRestockBtnEnabled", FnName));
+
+	Params::UI_Shop_Frank_C_GetRestockBtnEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetTraderMoneyText
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Shop_Frank_C::GetTraderMoneyText()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTraderMoneyText", FnName));
+
+	Params::UI_Shop_Frank_C_GetTraderMoneyText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.GetWeaponType
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FStr_Passport_Weapon1&     Passport                                               (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
+// EInventory_ItemFilter_Enum*             WeaponType                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::GetWeaponType(const struct FStr_Passport_Weapon1& Passport, EInventory_ItemFilter_Enum* WeaponType)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetWeaponType", FnName));
+
+	Params::UI_Shop_Frank_C_GetWeaponType Parms{};
+
+	Parms.Passport = std::move(Passport);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (WeaponType != nullptr)
+		*WeaponType = Parms.WeaponType;
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.OnItemSelected
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    TraderItemSelected                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UBP_GameItem_C*                   Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::OnItemSelected(bool TraderItemSelected, class UBP_GameItem_C* Item)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnItemSelected", FnName));
+
+	Params::UI_Shop_Frank_C_OnItemSelected Parms{};
+
+	Parms.TraderItemSelected = TraderItemSelected;
+	Parms.Item = Item;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -247,10 +885,8 @@ class FText UUI_Shop_Frank_C::GetText()
 
 void UUI_Shop_Frank_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Shop_Frank_C_PreConstruct Parms{};
 
@@ -265,34 +901,68 @@ void UUI_Shop_Frank_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Shop_Frank_C::Renew_Stock_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "Renew Stock Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Renew Stock Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Shop_Frank.UI_Shop_Frank_C.Set Up Trader Item
+// Function UI_Shop_Frank.UI_Shop_Frank_C.SetItemsFilter
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EInventory_ItemFilter_Enum              PressedFilterType                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    SetForPlayer                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::SetItemsFilter(EInventory_ItemFilter_Enum PressedFilterType, bool SetForPlayer)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetItemsFilter", FnName));
+
+	Params::UI_Shop_Frank_C_SetItemsFilter Parms{};
+
+	Parms.PressedFilterType = PressedFilterType;
+	Parms.SetForPlayer = SetForPlayer;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.SetupItem
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UObject*                          Item                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          Widget                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // bool                                    Trader                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Shop_Frank_C::Set_Up_Trader_Item(class UObject* Item, class UObject* Widget, bool Trader)
+void UUI_Shop_Frank_C::SetupItem(class UObject* Item, class UObject* Widget, bool Trader)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetupItem", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "Set Up Trader Item");
-
-	Params::UI_Shop_Frank_C_Set_Up_Trader_Item Parms{};
+	Params::UI_Shop_Frank_C_SetupItem Parms{};
 
 	Parms.Item = Item;
 	Parms.Widget = Widget;
 	Parms.Trader = Trader;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Shop_Frank.UI_Shop_Frank_C.SortBarteredItemsOnTop
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UListView*                        ItemList                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Shop_Frank_C::SortBarteredItemsOnTop(class UListView* ItemList)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SortBarteredItemsOnTop", FnName));
+
+	Params::UI_Shop_Frank_C_SortBarteredItemsOnTop Parms{};
+
+	Parms.ItemList = ItemList;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -305,10 +975,8 @@ void UUI_Shop_Frank_C::Set_Up_Trader_Item(class UObject* Item, class UObject* Wi
 
 void UUI_Shop_Frank_C::Spawn_Hovered_Item(class UObject* Object)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_Frank_C", "Spawn Hovered Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Hovered Item", FnName));
 
 	Params::UI_Shop_Frank_C_Spawn_Hovered_Item Parms{};
 

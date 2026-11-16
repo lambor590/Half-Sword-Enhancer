@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_ApplySettings.BPI_ApplySettings_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_ApplySettings_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_ApplySettings_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Apply_Gameplay_Settings();
 	void Apply_Settings();

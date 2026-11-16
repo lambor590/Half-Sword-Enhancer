@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UUI_MainMenuSNF_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_MainMenuSNF_C_Tick Parms{};
 
@@ -43,10 +41,8 @@ void UUI_MainMenuSNF_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDe
 
 void UUI_MainMenuSNF_C::Switch_Mode_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Switch Mode Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Switch Mode Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void UUI_MainMenuSNF_C::Switch_Mode_Event()
 
 void UUI_MainMenuSNF_C::Random_Armor_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Random Armor Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Random Armor Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -71,10 +65,8 @@ void UUI_MainMenuSNF_C::Random_Armor_Event()
 
 void UUI_MainMenuSNF_C::Pick_Gauntlet_Character_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Pick Gauntlet Character Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Pick Gauntlet Character Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -89,10 +81,8 @@ void UUI_MainMenuSNF_C::Pick_Gauntlet_Character_Event()
 
 struct FEventReply UUI_MainMenuSNF_C::OnMouseButtonUp(const struct FGeometry& MyGeometry_OnMouseButtonUp, const struct FPointerEvent& MouseEvent_OnMouseButtonUp)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "OnMouseButtonUp");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonUp", FnName));
 
 	Params::UI_MainMenuSNF_C_OnMouseButtonUp Parms{};
 
@@ -114,10 +104,8 @@ struct FEventReply UUI_MainMenuSNF_C::OnMouseButtonUp(const struct FGeometry& My
 
 struct FEventReply UUI_MainMenuSNF_C::OnMouseButtonDown(const struct FGeometry& MyGeometry_OnMouseButtonDown, const struct FPointerEvent& MouseEvent_OnMouseButtonDown)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "OnMouseButtonDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonDown", FnName));
 
 	Params::UI_MainMenuSNF_C_OnMouseButtonDown Parms{};
 
@@ -135,10 +123,8 @@ struct FEventReply UUI_MainMenuSNF_C::OnMouseButtonDown(const struct FGeometry& 
 
 void UUI_MainMenuSNF_C::Mouse_Button_Up_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Mouse Button Up Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Mouse Button Up Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -149,10 +135,8 @@ void UUI_MainMenuSNF_C::Mouse_Button_Up_Event()
 
 void UUI_MainMenuSNF_C::Mouse_Button_Down_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Mouse Button Down Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Mouse Button Down Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -163,10 +147,8 @@ void UUI_MainMenuSNF_C::Mouse_Button_Down_Event()
 
 void UUI_MainMenuSNF_C::Initialize_New_Gauntlet_Character()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Initialize New Gauntlet Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize New Gauntlet Character", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -177,10 +159,8 @@ void UUI_MainMenuSNF_C::Initialize_New_Gauntlet_Character()
 
 void UUI_MainMenuSNF_C::Go_To_Free_Mode_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Go To Free Mode Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Go To Free Mode Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -193,10 +173,8 @@ void UUI_MainMenuSNF_C::Go_To_Free_Mode_Event()
 
 ESlateVisibility UUI_MainMenuSNF_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_MainMenuSNF_C_GetVisibility_0 Parms{};
 
@@ -213,10 +191,8 @@ ESlateVisibility UUI_MainMenuSNF_C::GetVisibility_0()
 
 class FText UUI_MainMenuSNF_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_MainMenuSNF_C_GetText Parms{};
 
@@ -233,10 +209,8 @@ class FText UUI_MainMenuSNF_C::GetText()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_TextFreeMode_1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_TextFreeMode_1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextFreeMode_1_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility Parms{};
 
@@ -253,10 +227,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_TextFreeMode_1_Visibility()
 
 class FText UUI_MainMenuSNF_C::Get_RankProgressText_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RankProgressText_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RankProgressText_Text", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RankProgressText_Text Parms{};
 
@@ -273,10 +245,8 @@ class FText UUI_MainMenuSNF_C::Get_RankProgressText_Text()
 
 class FText UUI_MainMenuSNF_C::Get_RankProgressText_2_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RankProgressText_2_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RankProgressText_2_Text", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RankProgressText_2_Text Parms{};
 
@@ -293,10 +263,8 @@ class FText UUI_MainMenuSNF_C::Get_RankProgressText_2_Text()
 
 float UUI_MainMenuSNF_C::Get_RankProgress_Percent()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RankProgress_Percent");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RankProgress_Percent", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RankProgress_Percent Parms{};
 
@@ -313,10 +281,8 @@ float UUI_MainMenuSNF_C::Get_RankProgress_Percent()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_RandBodyButton_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RandBodyButton_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RandBodyButton_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RandBodyButton_Visibility Parms{};
 
@@ -333,10 +299,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_RandBodyButton_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_RandBodyButton_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RandBodyButton_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RandBodyButton_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled Parms{};
 
@@ -353,10 +317,8 @@ bool UUI_MainMenuSNF_C::Get_RandBodyButton_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_RandArmourButton_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RandArmourButton_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RandArmourButton_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RandArmourButton_Visibility Parms{};
 
@@ -373,10 +335,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_RandArmourButton_Visibility()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_RandArmourButton_Free_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RandArmourButton_Free_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RandArmourButton_Free_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility Parms{};
 
@@ -393,10 +353,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_RandArmourButton_Free_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_RandArmourButton_Cost_1_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_RandArmourButton_Cost_1_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RandArmourButton_Cost_1_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled Parms{};
 
@@ -413,10 +371,8 @@ bool UUI_MainMenuSNF_C::Get_RandArmourButton_Cost_1_bIsEnabled()
 
 struct FSlateBrush UUI_MainMenuSNF_C::Get_PortraitImage_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_PortraitImage_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_PortraitImage_Brush", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_PortraitImage_Brush Parms{};
 
@@ -433,10 +389,8 @@ struct FSlateBrush UUI_MainMenuSNF_C::Get_PortraitImage_Brush()
 
 struct FSlateBrush UUI_MainMenuSNF_C::Get_PortraitImage_1_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_PortraitImage_1_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_PortraitImage_1_Brush", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_PortraitImage_1_Brush Parms{};
 
@@ -453,10 +407,8 @@ struct FSlateBrush UUI_MainMenuSNF_C::Get_PortraitImage_1_Brush()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_FactionText_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_FactionText_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FactionText_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_FactionText_Visibility Parms{};
 
@@ -473,10 +425,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_FactionText_Visibility()
 
 class FText UUI_MainMenuSNF_C::Get_FactionBonusText_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_FactionBonusText_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FactionBonusText_Text", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_FactionBonusText_Text Parms{};
 
@@ -493,10 +443,8 @@ class FText UUI_MainMenuSNF_C::Get_FactionBonusText_Text()
 
 bool UUI_MainMenuSNF_C::Get_Faction1_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Faction1_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Faction1_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Faction1_bIsEnabled Parms{};
 
@@ -513,10 +461,8 @@ bool UUI_MainMenuSNF_C::Get_Faction1_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_9_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_9_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_9_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility Parms{};
 
@@ -533,10 +479,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_9_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_9_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_9_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_9_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled Parms{};
 
@@ -553,10 +497,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_9_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_8_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_8_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_8_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility Parms{};
 
@@ -573,10 +515,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_8_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_8_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_8_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_8_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled Parms{};
 
@@ -593,10 +533,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_8_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_7_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_7_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_7_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility Parms{};
 
@@ -613,10 +551,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_7_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_7_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_7_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_7_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled Parms{};
 
@@ -633,10 +569,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_7_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_6_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_6_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_6_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility Parms{};
 
@@ -653,10 +587,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_6_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_6_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_6_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_6_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled Parms{};
 
@@ -673,10 +605,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_6_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_5_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_5_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_5_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility Parms{};
 
@@ -693,10 +623,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_5_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_5_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_5_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_5_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled Parms{};
 
@@ -713,10 +641,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_5_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_4_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_4_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_4_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility Parms{};
 
@@ -733,10 +659,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_4_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_4_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_4_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_4_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled Parms{};
 
@@ -753,12 +677,28 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_4_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_3_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_3_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_3_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Gau_bIsEnabled
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_MainMenuSNF_C::Get_Button_Rank_3_Gau_bIsEnabled()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_3_Gau_bIsEnabled", FnName));
+
+	Params::UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -773,10 +713,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_3_Visibility()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_2_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_2_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_2_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility Parms{};
 
@@ -793,10 +731,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_2_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_2_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_2_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_2_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled Parms{};
 
@@ -813,10 +749,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_2_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_1_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility Parms{};
 
@@ -833,10 +767,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_Rank_1_Visibility()
 
 bool UUI_MainMenuSNF_C::Get_Button_Rank_1_Gau_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_1_Gau_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Rank_1_Gau_bIsEnabled", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled Parms{};
 
@@ -853,10 +785,8 @@ bool UUI_MainMenuSNF_C::Get_Button_Rank_1_Gau_bIsEnabled()
 
 ESlateVisibility UUI_MainMenuSNF_C::Get_Button_GauntletMode_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_GauntletMode_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_GauntletMode_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility Parms{};
 
@@ -873,10 +803,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Get_Button_GauntletMode_Visibility()
 
 ESlateVisibility UUI_MainMenuSNF_C::Free_Mode_Text_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Free_Mode_Text_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Free_Mode_Text_Visibility", FnName));
 
 	Params::UI_MainMenuSNF_C_Free_Mode_Text_Visibility Parms{};
 
@@ -893,10 +821,8 @@ ESlateVisibility UUI_MainMenuSNF_C::Free_Mode_Text_Visibility()
 
 void UUI_MainMenuSNF_C::ExecuteUbergraph_UI_MainMenuSNF(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "ExecuteUbergraph_UI_MainMenuSNF");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_MainMenuSNF_C", "ExecuteUbergraph_UI_MainMenuSNF", FuncInfo);
 
 	Params::UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF Parms{};
 
@@ -911,10 +837,8 @@ void UUI_MainMenuSNF_C::ExecuteUbergraph_UI_MainMenuSNF(int32 EntryPoint)
 
 void UUI_MainMenuSNF_C::Enter_Gauntlet_Mode_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Enter Gauntlet Mode Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Enter Gauntlet Mode Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -925,10 +849,8 @@ void UUI_MainMenuSNF_C::Enter_Gauntlet_Mode_Event()
 
 void UUI_MainMenuSNF_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -939,10 +861,8 @@ void UUI_MainMenuSNF_C::Construct()
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -953,10 +873,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -967,10 +885,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -981,10 +897,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -995,10 +909,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1009,10 +921,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1023,10 +933,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1037,10 +945,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1051,10 +957,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1065,10 +969,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_Comp
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1079,10 +981,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_Comp
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1093,10 +993,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_Comp
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1107,10 +1005,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1121,10 +1017,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1135,10 +1029,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1149,10 +1041,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1163,10 +1053,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1177,10 +1065,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1191,10 +1077,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1205,10 +1089,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1219,10 +1101,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1233,10 +1113,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1247,10 +1125,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1261,10 +1137,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1275,10 +1149,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1289,10 +1161,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEve
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1303,10 +1173,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundE
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1317,10 +1185,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundE
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1331,10 +1197,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundE
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1345,10 +1209,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1359,10 +1221,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1373,10 +1233,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1387,10 +1245,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBound
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1401,10 +1257,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBou
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1415,10 +1269,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1429,10 +1281,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1443,10 +1293,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBou
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1457,10 +1305,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBou
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1471,10 +1317,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1485,10 +1329,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1499,520 +1341,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBou
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Gau_bIsEnabled
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool UUI_MainMenuSNF_C::Get_Button_Rank_3_Gau_bIsEnabled()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "Get_Button_Rank_3_Gau_bIsEnabled");
-
-	Params::UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2023,10 +1353,428 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2037,10 +1785,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2051,10 +1797,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_
 
 void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2065,10 +1809,8 @@ void UUI_MainMenuSNF_C::BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Start_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_Start_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_Start_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2079,10 +1821,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Start_K2Node_Component
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2093,10 +1833,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentB
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2107,10 +1845,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundE
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2121,10 +1857,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundE
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2135,10 +1869,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_Componen
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2149,10 +1881,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2163,10 +1893,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBo
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2177,10 +1905,8 @@ void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoun
 
 void UUI_MainMenuSNF_C::BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_MainMenuSNF_C", "BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

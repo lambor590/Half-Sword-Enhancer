@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_List_MapSelect_C::BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_List_MapSelect_C::BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBo
 
 void UUI_List_MapSelect_C::BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_List_MapSelect_C::BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBo
 
 void UUI_List_MapSelect_C::BP_OnEntryReleased()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "BP_OnEntryReleased");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnEntryReleased", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void UUI_List_MapSelect_C::BP_OnEntryReleased()
 
 void UUI_List_MapSelect_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "BP_OnItemExpansionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemExpansionChanged", FnName));
 
 	Params::UI_List_MapSelect_C_BP_OnItemExpansionChanged Parms{};
 
@@ -85,10 +77,8 @@ void UUI_List_MapSelect_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 
 void UUI_List_MapSelect_C::BP_OnItemSelectionChanged(bool bIsSelected)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "BP_OnItemSelectionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemSelectionChanged", FnName));
 
 	Params::UI_List_MapSelect_C_BP_OnItemSelectionChanged Parms{};
 
@@ -103,10 +93,8 @@ void UUI_List_MapSelect_C::BP_OnItemSelectionChanged(bool bIsSelected)
 
 void UUI_List_MapSelect_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +107,8 @@ void UUI_List_MapSelect_C::Construct()
 
 void UUI_List_MapSelect_C::ExecuteUbergraph_UI_List_MapSelect(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "ExecuteUbergraph_UI_List_MapSelect");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_List_MapSelect_C", "ExecuteUbergraph_UI_List_MapSelect", FuncInfo);
 
 	Params::UI_List_MapSelect_C_ExecuteUbergraph_UI_List_MapSelect Parms{};
 
@@ -139,10 +125,8 @@ void UUI_List_MapSelect_C::ExecuteUbergraph_UI_List_MapSelect(int32 EntryPoint)
 
 class FText UUI_List_MapSelect_C::Get_Name_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Get_Name_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Name_Text", FnName));
 
 	Params::UI_List_MapSelect_C_Get_Name_Text Parms{};
 
@@ -159,10 +143,8 @@ class FText UUI_List_MapSelect_C::Get_Name_Text()
 
 class FText UUI_List_MapSelect_C::Get_TextBlock_1_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Get_TextBlock_1_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextBlock_1_Text", FnName));
 
 	Params::UI_List_MapSelect_C_Get_TextBlock_1_Text Parms{};
 
@@ -179,10 +161,8 @@ class FText UUI_List_MapSelect_C::Get_TextBlock_1_Text()
 
 class FText UUI_List_MapSelect_C::Get_TextBlock_3_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Get_TextBlock_3_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextBlock_3_Text", FnName));
 
 	Params::UI_List_MapSelect_C_Get_TextBlock_3_Text Parms{};
 
@@ -199,10 +179,8 @@ class FText UUI_List_MapSelect_C::Get_TextBlock_3_Text()
 
 class FText UUI_List_MapSelect_C::Get_TextBlock_4_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Get_TextBlock_4_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextBlock_4_Text", FnName));
 
 	Params::UI_List_MapSelect_C_Get_TextBlock_4_Text Parms{};
 
@@ -219,10 +197,8 @@ class FText UUI_List_MapSelect_C::Get_TextBlock_4_Text()
 
 struct FSlateBrush UUI_List_MapSelect_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_List_MapSelect_C_GetBrush Parms{};
 
@@ -239,10 +215,8 @@ struct FSlateBrush UUI_List_MapSelect_C::GetBrush()
 
 struct FSlateBrush UUI_List_MapSelect_C::GetBrush_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetBrush_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_0", FnName));
 
 	Params::UI_List_MapSelect_C_GetBrush_0 Parms{};
 
@@ -259,10 +233,8 @@ struct FSlateBrush UUI_List_MapSelect_C::GetBrush_0()
 
 class FText UUI_List_MapSelect_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_List_MapSelect_C_GetText Parms{};
 
@@ -279,10 +251,8 @@ class FText UUI_List_MapSelect_C::GetText()
 
 class FText UUI_List_MapSelect_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_List_MapSelect_C_GetText_0 Parms{};
 
@@ -299,10 +269,8 @@ class FText UUI_List_MapSelect_C::GetText_0()
 
 class FText UUI_List_MapSelect_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_List_MapSelect_C_GetText_1 Parms{};
 
@@ -319,10 +287,8 @@ class FText UUI_List_MapSelect_C::GetText_1()
 
 class FText UUI_List_MapSelect_C::GetText_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "GetText_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_2", FnName));
 
 	Params::UI_List_MapSelect_C_GetText_2 Parms{};
 
@@ -339,10 +305,8 @@ class FText UUI_List_MapSelect_C::GetText_2()
 
 void UUI_List_MapSelect_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_List_MapSelect_C_PreConstruct Parms{};
 
@@ -360,10 +324,8 @@ void UUI_List_MapSelect_C::PreConstruct(bool IsDesignTime)
 
 void UUI_List_MapSelect_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_List_MapSelect_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_List_MapSelect_C_Tick Parms{};
 

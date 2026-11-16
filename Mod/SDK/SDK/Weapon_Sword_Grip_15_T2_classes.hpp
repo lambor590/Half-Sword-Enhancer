@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Grip_15_T2.Weapon_Sword_Grip_15_T2_C
-// 0x0000 (0x0670 - 0x0670)
+// 0x0000 (0x0678 - 0x0678)
 class AWeapon_Sword_Grip_15_T2_C final : public AWeapon_Sword_Grip_Master_C
 {
 public:

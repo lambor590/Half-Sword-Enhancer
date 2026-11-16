@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_2_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2
 
 void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -163,10 +143,8 @@ void UUI_Dialog_Widget_Innkeeper_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_K2
 
 void UUI_Dialog_Widget_Innkeeper_C::ExecuteUbergraph_UI_Dialog_Widget_Innkeeper(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Innkeeper_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper", FuncInfo);
 
 	Params::UI_Dialog_Widget_Innkeeper_C_ExecuteUbergraph_UI_Dialog_Widget_Innkeeper Parms{};
 
@@ -183,10 +161,8 @@ void UUI_Dialog_Widget_Innkeeper_C::ExecuteUbergraph_UI_Dialog_Widget_Innkeeper(
 
 class FText UUI_Dialog_Widget_Innkeeper_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_C_GetText Parms{};
 
@@ -203,10 +179,8 @@ class FText UUI_Dialog_Widget_Innkeeper_C::GetText()
 
 ESlateVisibility UUI_Dialog_Widget_Innkeeper_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_C_GetVisibility_0 Parms{};
 
@@ -223,10 +197,8 @@ ESlateVisibility UUI_Dialog_Widget_Innkeeper_C::GetVisibility_0()
 
 ESlateVisibility UUI_Dialog_Widget_Innkeeper_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_C_GetVisibility_1 Parms{};
 
@@ -243,10 +215,8 @@ ESlateVisibility UUI_Dialog_Widget_Innkeeper_C::GetVisibility_1()
 
 void UUI_Dialog_Widget_Innkeeper_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_C_PreConstruct Parms{};
 
@@ -261,10 +231,8 @@ void UUI_Dialog_Widget_Innkeeper_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Dialog_Widget_Innkeeper_C::Propose_Errand_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_C", "Propose Errand Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Propose Errand Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

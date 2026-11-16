@@ -10,19 +10,19 @@
 
 #include "Basic.hpp"
 
-#include "BP_GameItem_classes.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "BP_GameItem_classes.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameItem_Weapon.BP_GameItem_Weapon_C
-// 0x0108 (0x0170 - 0x0068)
+// 0x0108 (0x0178 - 0x0070)
 class UBP_GameItem_Weapon_C final : public UBP_GameItem_C
 {
 public:
-	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x0068(0x0100)(Edit, BlueprintVisible, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	class UClass*                                 Weapon_to_Spawn;                                   // 0x0168(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x0070(0x0100)(Edit, BlueprintVisible, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	class UClass*                                 Weapon_to_Spawn;                                   // 0x0170(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Initialize();

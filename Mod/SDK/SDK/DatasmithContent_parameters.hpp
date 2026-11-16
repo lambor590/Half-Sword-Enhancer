@@ -10,6 +10,8 @@
 
 #include "Basic.hpp"
 
+#include "Engine_parameters.hpp"
+
 
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START

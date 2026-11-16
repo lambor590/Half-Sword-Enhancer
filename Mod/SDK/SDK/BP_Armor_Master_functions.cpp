@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "BndEvt__BP_Armor_Master_Armor Mesh Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Armor_Master_Armor Mesh Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Armor_Master_C_BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -55,10 +53,8 @@ void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_Comp
 
 void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "BndEvt__BP_Armor_Master_Armor Mesh Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Armor_Master_Armor Mesh Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Armor_Master_C_BndEvt__BP_Armor_Master_Armor_Mesh_Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -79,10 +75,8 @@ void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Static_K2Node_Compon
 
 void ABP_Armor_Master_C::ExecuteUbergraph_BP_Armor_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "ExecuteUbergraph_BP_Armor_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Armor_Master_C", "ExecuteUbergraph_BP_Armor_Master", FuncInfo);
 
 	Params::BP_Armor_Master_C_ExecuteUbergraph_BP_Armor_Master Parms{};
 
@@ -97,10 +91,8 @@ void ABP_Armor_Master_C::ExecuteUbergraph_BP_Armor_Master(int32 EntryPoint)
 
 void ABP_Armor_Master_C::Recalculate_Weight()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "Recalculate Weight");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Recalculate Weight", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -111,10 +103,8 @@ void ABP_Armor_Master_C::Recalculate_Weight()
 
 void ABP_Armor_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -126,19 +116,19 @@ void ABP_Armor_Master_C::ReceiveBeginPlay()
 // class USkeletalMeshComponent*           AddedArmorMesh                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_Passport_Armor1&      Passport                                               (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 // class UMaterialInstanceDynamic*         SetupArmorDynamicMaterial                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool                                    Core                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Armor_Master_C::Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial)
+void ABP_Armor_Master_C::Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial, bool Core)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "Setup Armor Material");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Setup Armor Material", FnName));
 
 	Params::BP_Armor_Master_C_Setup_Armor_Material Parms{};
 
 	Parms.AddedArmorMesh = AddedArmorMesh;
 	Parms.Passport = std::move(Passport);
 	Parms.SetupArmorDynamicMaterial = SetupArmorDynamicMaterial;
+	Parms.Core = Core;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -149,10 +139,8 @@ void ABP_Armor_Master_C::Setup_Armor_Material(class USkeletalMeshComponent* Adde
 
 void ABP_Armor_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

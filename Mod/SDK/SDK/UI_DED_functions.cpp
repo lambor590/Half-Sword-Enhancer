@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonH
 
 void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_1_OnButtonH
 
 void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_DED_C::BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_2_OnButtonC
 
 void UUI_DED_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_DED_C::Construct()
 
 void UUI_DED_C::ExecuteUbergraph_UI_DED(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "ExecuteUbergraph_UI_DED");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_DED_C", "ExecuteUbergraph_UI_DED", FuncInfo);
 
 	Params::UI_DED_C_ExecuteUbergraph_UI_DED Parms{};
 
@@ -99,10 +89,8 @@ void UUI_DED_C::ExecuteUbergraph_UI_DED(int32 EntryPoint)
 
 class FText UUI_DED_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_DED_C_GetText Parms{};
 
@@ -119,10 +107,8 @@ class FText UUI_DED_C::GetText()
 
 class FText UUI_DED_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_DED_C_GetText_0 Parms{};
 
@@ -139,10 +125,8 @@ class FText UUI_DED_C::GetText_0()
 
 void UUI_DED_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_DED_C_PreConstruct Parms{};
 
@@ -160,10 +144,8 @@ void UUI_DED_C::PreConstruct(bool IsDesignTime)
 
 void UUI_DED_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DED_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_DED_C_Tick Parms{};
 

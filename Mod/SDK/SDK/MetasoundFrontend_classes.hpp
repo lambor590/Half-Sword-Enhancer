@@ -17,9 +17,12 @@
 SDK_NAMESPACE_START
 
 // Class MetasoundFrontend.MetaSoundDocumentInterface
-// 0x0000 (0x0000 - 0x0000)
-class IMetaSoundDocumentInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IMetaSoundDocumentInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -88,10 +91,9 @@ public:
 
 // Class MetasoundFrontend.MetaSoundBuilderDocument
 // 0x01E0 (0x0208 - 0x0028)
-class UMetaSoundBuilderDocument final : public UObject
+class UMetaSoundBuilderDocument final : public UObject, public IMetaSoundDocumentInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FMetasoundFrontendDocument             Document;                                          // 0x0030(0x01D0)(Transient, NativeAccessSpecifierPrivate)
 	TSubclassOf<class UObject>                    MetaSoundUClass;                                   // 0x0200(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 

@@ -23,34 +23,12 @@ SDK_NAMESPACE_START
 
 void ABP_Container_Chest_002_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_002_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Container_Chest_002_C_ReceiveTick Parms{};
 
 	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Container_Chest_002.BP_Container_Chest_002_C.ExecuteUbergraph_BP_Container_Chest_002
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Container_Chest_002_C::ExecuteUbergraph_BP_Container_Chest_002(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_002_C", "ExecuteUbergraph_BP_Container_Chest_002");
-
-	Params::BP_Container_Chest_002_C_ExecuteUbergraph_BP_Container_Chest_002 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -61,12 +39,28 @@ void ABP_Container_Chest_002_C::ExecuteUbergraph_BP_Container_Chest_002(int32 En
 
 void ABP_Container_Chest_002_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_002_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Container_Chest_002.BP_Container_Chest_002_C.ExecuteUbergraph_BP_Container_Chest_002
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Container_Chest_002_C::ExecuteUbergraph_BP_Container_Chest_002(int32 EntryPoint)
+{
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Container_Chest_002_C", "ExecuteUbergraph_BP_Container_Chest_002", FuncInfo);
+
+	Params::BP_Container_Chest_002_C_ExecuteUbergraph_BP_Container_Chest_002 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

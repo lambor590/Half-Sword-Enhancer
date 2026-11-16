@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_DaggerRondel_C::BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_DaggerRondel_C", "BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_DaggerRondel_C_BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AModularWeaponBP_DaggerRondel_C::BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node
 
 void AModularWeaponBP_DaggerRondel_C::ExecuteUbergraph_ModularWeaponBP_DaggerRondel(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_DaggerRondel_C", "ExecuteUbergraph_ModularWeaponBP_DaggerRondel");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_DaggerRondel_C", "ExecuteUbergraph_ModularWeaponBP_DaggerRondel", FuncInfo);
 
 	Params::ModularWeaponBP_DaggerRondel_C_ExecuteUbergraph_ModularWeaponBP_DaggerRondel Parms{};
 
@@ -69,10 +65,8 @@ void AModularWeaponBP_DaggerRondel_C::ExecuteUbergraph_ModularWeaponBP_DaggerRon
 
 void AModularWeaponBP_DaggerRondel_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_DaggerRondel_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

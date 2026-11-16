@@ -11,46 +11,127 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
+#include "Inventory_ItemFilter_Enum_structs.hpp"
+#include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Shop_Frank.UI_Shop_Frank_C
-// 0x0060 (0x0340 - 0x02E0)
+// 0x0108 (0x03E8 - 0x02E0)
 class UUI_Shop_Frank_C final : public UUserWidget
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x02E0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UButton*                                Button;                                            // 0x02E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_0;                                          // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image;                                             // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_0;                                           // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UListView*                              Player_Items_List;                                 // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_2;                                       // 0x0310(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UListView*                              Trader_Items_List;                                 // 0x0318(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UClass*                                 ItemPrices;                                        // 0x0320(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class AMerchantTable_BP_C*                    My_MerchantTable;                                  // 0x0328(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 Currently_Spawned_Item;                            // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0338(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UButton*                                BarterConfirm_Btn;                                 // 0x02E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             BarterMoney_Txt;                                   // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_0;                                           // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Leave_Btn;                                         // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_1HWeaponFilter_Btn;                       // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_2HWeaponFilter_Btn;                       // 0x0310(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_ChainArmorFilter_Btn;                     // 0x0318(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_ClothArmorFilter_Btn;                     // 0x0320(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_Face_Btn;                                 // 0x0328(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UListView*                              Merchant_Items_List;                               // 0x0330(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_MetalArmorFilter_Btn;                     // 0x0338(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Merchant_RangedAndShieldsFilter_Btn;               // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_1HWeaponFilter_Btn;                         // 0x0348(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_2HWeaponFilter_Btn;                         // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_ChainArmorFilter_Btn;                       // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_ClothArmorFilter_Btn;                       // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UListView*                              Player_Items_List;                                 // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_MetalArmorFilter_Btn;                       // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Player_RangedAndShieldsFilter_Btn;                 // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             PlayerMoney_Txt;                                   // 0x0380(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 PlayerName_Img;                                    // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             PlayerName_Txt;                                    // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                PlayerOrigin_Shield;                               // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Restock_Btn;                                       // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TraderMoney_Txt;                                   // 0x03A8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UClass*                                 ItemPrices;                                        // 0x03B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AMerchantTable_BP_C*                    My_MerchantTable;                                  // 0x03B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 Currently_Spawned_Item;                            // 0x03C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x03C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          PlayerUseFilter;                                   // 0x03D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          MerchantUseFilter;                                 // 0x03D1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EInventory_ItemFilter_Enum                    PlayerItemFilter;                                  // 0x03D2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EInventory_ItemFilter_Enum                    MerchantItemFilter;                                // 0x03D3(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3D4[0x4];                                      // 0x03D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CurrentBarterAmount;                               // 0x03D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsBarterActive;                                    // 0x03E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3E1[0x3];                                      // 0x03E1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         LastSortedIndex;                                   // 0x03E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
+	void AnimateFilterButton(class UButton* FilterButton, bool IsHovered_0);
+	void BndEvt__UI_Shop_Frank_BarterConfirm_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Button_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_39_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_Face_Btn_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Merchant_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_1HWeaponFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_2HWeaponFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ChainArmorFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_ClothArmorFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget);
-	void BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_6_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item);
 	void BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered);
+	void BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_MetalArmorFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_Player_RangedAndShieldsFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Shop_Frank_PlayerOrigin_Shield_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget);
-	void BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item);
 	void BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered);
+	void CheckIfBarterCancelled();
 	void ExecuteUbergraph_UI_Shop_Frank(int32 EntryPoint);
-	class FText GetText();
+	void FillMerchantItemsList();
+	void FillPlayerItemsList();
+	void FinalizeBarter();
+	ESlateVisibility Get_BarterConfirm_Btn_Visibility();
+	void GetArmorType(const struct FStr_Passport_Armor1& Passport, EInventory_ItemFilter_Enum* ArmorType);
+	class FText GetBarterMoneyText();
+	void GetItemPrice(class UBP_GameItem_C* Item, bool Trader, double SpawnedItemPrice, double* FinalPrice);
+	class FText GetPlayerMoneyText();
+	bool GetRestockBtnEnabled();
+	class FText GetTraderMoneyText();
+	void GetWeaponType(const struct FStr_Passport_Weapon1& Passport, EInventory_ItemFilter_Enum* WeaponType);
+	void OnItemSelected(bool TraderItemSelected, class UBP_GameItem_C* Item);
 	void PreConstruct(bool IsDesignTime);
 	void Renew_Stock_Event();
-	void Set_Up_Trader_Item(class UObject* Item, class UObject* Widget, bool Trader);
+	void SetItemsFilter(EInventory_ItemFilter_Enum PressedFilterType, bool SetForPlayer);
+	void SetupItem(class UObject* Item, class UObject* Widget, bool Trader);
+	void SortBarteredItemsOnTop(class UListView* ItemList);
 	void Spawn_Hovered_Item(class UObject* Object);
 
 public:

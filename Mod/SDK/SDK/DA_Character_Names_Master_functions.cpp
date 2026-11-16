@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UDA_Character_Names_Master_C::Generate_Name(class FName* Name_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("DA_Character_Names_Master_C", "Generate Name");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Name", FnName));
 
 	Params::DA_Character_Names_Master_C_Generate_Name Parms{};
 

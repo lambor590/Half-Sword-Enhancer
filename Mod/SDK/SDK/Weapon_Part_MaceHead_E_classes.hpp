@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_MaceHead_E.Weapon_Part_MaceHead_E_C
-// 0x0000 (0x0428 - 0x0428)
+// 0x0000 (0x0430 - 0x0430)
 class AWeapon_Part_MaceHead_E_C final : public AModular_MaceHead_Master_C
 {
 public:

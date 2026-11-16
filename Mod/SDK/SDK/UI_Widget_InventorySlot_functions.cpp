@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Widget_InventorySlot_C::BndEvt__ABUBUBA_Button_117_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_InventorySlot_C", "BndEvt__ABUBUBA_Button_117_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ABUBUBA_Button_117_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Widget_InventorySlot_C::BndEvt__ABUBUBA_Button_117_K2Node_ComponentBoun
 
 void UUI_Widget_InventorySlot_C::BndEvt__UI_Widget_InventorySlot_Button_117_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_InventorySlot_C", "BndEvt__UI_Widget_InventorySlot_Button_117_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Widget_InventorySlot_Button_117_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void UUI_Widget_InventorySlot_C::BndEvt__UI_Widget_InventorySlot_Button_117_K2No
 
 void UUI_Widget_InventorySlot_C::ExecuteUbergraph_UI_Widget_InventorySlot(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_InventorySlot_C", "ExecuteUbergraph_UI_Widget_InventorySlot");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Widget_InventorySlot_C", "ExecuteUbergraph_UI_Widget_InventorySlot", FuncInfo);
 
 	Params::UI_Widget_InventorySlot_C_ExecuteUbergraph_UI_Widget_InventorySlot Parms{};
 

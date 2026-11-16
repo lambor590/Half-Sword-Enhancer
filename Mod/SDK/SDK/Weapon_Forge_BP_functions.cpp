@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AWeapon_Forge_BP_C::ExecuteUbergraph_Weapon_Forge_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "ExecuteUbergraph_Weapon_Forge_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Weapon_Forge_BP_C", "ExecuteUbergraph_Weapon_Forge_BP", FuncInfo);
 
 	Params::Weapon_Forge_BP_C_ExecuteUbergraph_Weapon_Forge_BP Parms{};
 
@@ -41,10 +39,8 @@ void AWeapon_Forge_BP_C::ExecuteUbergraph_Weapon_Forge_BP(int32 EntryPoint)
 
 void AWeapon_Forge_BP_C::Hide_Alt_Grip()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Hide Alt Grip");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Hide Alt Grip", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void AWeapon_Forge_BP_C::Hide_Alt_Grip()
 
 void AWeapon_Forge_BP_C::Hide_Default_Grip()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Hide Default Grip");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Hide Default Grip", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +63,8 @@ void AWeapon_Forge_BP_C::Hide_Default_Grip()
 
 void AWeapon_Forge_BP_C::Move_Camera_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Move Camera Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Move Camera Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +75,8 @@ void AWeapon_Forge_BP_C::Move_Camera_Event()
 
 void AWeapon_Forge_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -99,10 +89,8 @@ void AWeapon_Forge_BP_C::ReceiveBeginPlay()
 
 void AWeapon_Forge_BP_C::ReceivePossessed(class AController* NewController)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "ReceivePossessed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceivePossessed", FnName));
 
 	Params::Weapon_Forge_BP_C_ReceivePossessed Parms{};
 
@@ -119,10 +107,8 @@ void AWeapon_Forge_BP_C::ReceivePossessed(class AController* NewController)
 
 void AWeapon_Forge_BP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Weapon_Forge_BP_C_ReceiveTick Parms{};
 
@@ -139,10 +125,8 @@ void AWeapon_Forge_BP_C::ReceiveTick(float DeltaSeconds)
 
 void AWeapon_Forge_BP_C::ReceiveUnpossessed(class AController* OldController)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "ReceiveUnpossessed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveUnpossessed", FnName));
 
 	Params::Weapon_Forge_BP_C_ReceiveUnpossessed Parms{};
 
@@ -159,10 +143,8 @@ void AWeapon_Forge_BP_C::ReceiveUnpossessed(class AController* OldController)
 
 void AWeapon_Forge_BP_C::Refresh_Weapon(bool Reset_Position)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Refresh Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Refresh Weapon", FnName));
 
 	Params::Weapon_Forge_BP_C_Refresh_Weapon Parms{};
 
@@ -177,10 +159,8 @@ void AWeapon_Forge_BP_C::Refresh_Weapon(bool Reset_Position)
 
 void AWeapon_Forge_BP_C::Show_Alt_Grip()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Show Alt Grip");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Show Alt Grip", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -191,10 +171,8 @@ void AWeapon_Forge_BP_C::Show_Alt_Grip()
 
 void AWeapon_Forge_BP_C::Show_Default_Grip()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "Show Default Grip");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Show Default Grip", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -205,10 +183,8 @@ void AWeapon_Forge_BP_C::Show_Default_Grip()
 
 void AWeapon_Forge_BP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Forge_BP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GBP_Chest_Cuirass_Plackard.GBP_Chest_Cuirass_Plackard_C
-// 0x0000 (0x00C8 - 0x00C8)
+// 0x0000 (0x00D0 - 0x00D0)
 class UGBP_Chest_Cuirass_Plackard_C final : public UBP_GameArmor_C
 {
 public:

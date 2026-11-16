@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GBP_TestCouter_R.GBP_TestCouter_R_C
-// 0x0000 (0x00C8 - 0x00C8)
+// 0x0000 (0x00D0 - 0x00D0)
 class UGBP_TestCouter_R_C final : public UBP_GameArmor_C
 {
 public:

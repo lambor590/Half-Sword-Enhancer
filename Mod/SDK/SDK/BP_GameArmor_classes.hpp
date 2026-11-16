@@ -17,24 +17,24 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameArmor.BP_GameArmor_C
-// 0x0060 (0x00C8 - 0x0068)
+// 0x0060 (0x00D0 - 0x0070)
 class UBP_GameArmor_C : public UBP_GameItem_C
 {
 public:
-	TArray<class UBP_GameArmor_C*>                CurrentPieces;                                     // 0x0068(0x0010)(Edit, BlueprintVisible, SaveGame)
-	TArray<class UClass*>                         ArmorParts;                                        // 0x0078(0x0010)(Edit, BlueprintVisible)
-	class UBP_GameArmor_C*                        AttachedTo;                                        // 0x0088(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 SkeletalMesh;                                      // 0x0090(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              ArmorSlot;                                         // 0x0098(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_99[0x7];                                       // 0x0099(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UClass*                                 AvailableAttachment;                               // 0x00A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          HasFirstAttachment;                                // 0x00A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          HasSecondAttachment;                               // 0x00A9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          HasThirdAttachment;                                // 0x00AA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_AB[0x5];                                       // 0x00AB(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	class UBP_GameArmor_C*                        FirstAttachment;                                   // 0x00B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
-	class UBP_GameArmor_C*                        SecondAttachment;                                  // 0x00B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
-	class UBP_GameArmor_C*                        ThirdAttachment;                                   // 0x00C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
+	TArray<class UBP_GameArmor_C*>                CurrentPieces;                                     // 0x0070(0x0010)(Edit, BlueprintVisible, SaveGame)
+	TArray<class UClass*>                         ArmorParts;                                        // 0x0080(0x0010)(Edit, BlueprintVisible)
+	class UBP_GameArmor_C*                        AttachedTo;                                        // 0x0090(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 SkeletalMesh;                                      // 0x0098(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              ArmorSlot;                                         // 0x00A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A1[0x7];                                       // 0x00A1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 AvailableAttachment;                               // 0x00A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          HasFirstAttachment;                                // 0x00B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          HasSecondAttachment;                               // 0x00B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          HasThirdAttachment;                                // 0x00B2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B3[0x5];                                       // 0x00B3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class UBP_GameArmor_C*                        FirstAttachment;                                   // 0x00B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
+	class UBP_GameArmor_C*                        SecondAttachment;                                  // 0x00C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
+	class UBP_GameArmor_C*                        ThirdAttachment;                                   // 0x00C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Initialize();

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameWeapon_Customizable_Sword_Long.BP_GameWeapon_Customizable_Sword_Long_C
-// 0x0000 (0x01F0 - 0x01F0)
+// 0x0000 (0x01F8 - 0x01F8)
 class UBP_GameWeapon_Customizable_Sword_Long_C final : public UBP_GameWeapon_Customizable_Sword_Arming_C
 {
 public:

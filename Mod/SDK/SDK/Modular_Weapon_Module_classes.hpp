@@ -11,19 +11,21 @@
 #include "Basic.hpp"
 
 #include "Modular_Weapon_Part_Master_classes.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Module.Modular_Weapon_Module_C
-// 0x0028 (0x0420 - 0x03F8)
+// 0x0028 (0x0428 - 0x0400)
 #pragma pack(push, 0x1)
 class SDK_ALIGN(0x08) AModular_Weapon_Module_C : public AModular_Weapon_Part_Master_C
 {
 public:
-	TArray<class UClass*>                         Sub_Module_1_Array;                                // 0x03F8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Sub_Module_2_Array;                                // 0x0408(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	bool                                          Is_Sub_Module;                                     // 0x0418(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class UClass*>                         Sub_Module_1_Array;                                // 0x0400(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Sub_Module_2_Array;                                // 0x0410(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	bool                                          Is_Sub_Module;                                     // 0x0420(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

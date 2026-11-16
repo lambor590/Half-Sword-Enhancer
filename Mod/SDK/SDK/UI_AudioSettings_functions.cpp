@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBo
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBo
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBo
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoun
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_1_K2Node_ComponentBoun
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBou
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_27_K2Node_ComponentBou
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundE
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundE
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_Compon
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_Compon
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -191,10 +167,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_Compon
 
 void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_AudioSettings_C_BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -209,10 +183,8 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentB
 
 void UUI_AudioSettings_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -223,10 +195,8 @@ void UUI_AudioSettings_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEve
 
 void UUI_AudioSettings_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -237,10 +207,8 @@ void UUI_AudioSettings_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_
 
 void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -251,10 +219,8 @@ void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Component
 
 void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -265,10 +231,8 @@ void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Component
 
 void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -279,10 +243,8 @@ void UUI_AudioSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Component
 
 void UUI_AudioSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -295,10 +257,8 @@ void UUI_AudioSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoun
 
 void UUI_AudioSettings_C::BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_AudioSettings_C_BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -315,10 +275,8 @@ void UUI_AudioSettings_C::BndEvt__UI_Settings_Slider_0_K2Node_ComponentBoundEven
 
 void UUI_AudioSettings_C::BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_AudioSettings_C_BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -333,10 +291,8 @@ void UUI_AudioSettings_C::BndEvt__UI_Settings_Slider_K2Node_ComponentBoundEvent_
 
 void UUI_AudioSettings_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -349,10 +305,8 @@ void UUI_AudioSettings_C::Construct()
 
 void UUI_AudioSettings_C::ExecuteUbergraph_UI_AudioSettings(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "ExecuteUbergraph_UI_AudioSettings");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_AudioSettings_C", "ExecuteUbergraph_UI_AudioSettings", FuncInfo);
 
 	Params::UI_AudioSettings_C_ExecuteUbergraph_UI_AudioSettings Parms{};
 
@@ -369,10 +323,8 @@ void UUI_AudioSettings_C::ExecuteUbergraph_UI_AudioSettings(int32 EntryPoint)
 
 float UUI_AudioSettings_C::Get_SliderMusic_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "Get_SliderMusic_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_SliderMusic_Value", FnName));
 
 	Params::UI_AudioSettings_C_Get_SliderMusic_Value Parms{};
 
@@ -389,10 +341,8 @@ float UUI_AudioSettings_C::Get_SliderMusic_Value()
 
 float UUI_AudioSettings_C::Get_SliderSFX_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "Get_SliderSFX_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_SliderSFX_Value", FnName));
 
 	Params::UI_AudioSettings_C_Get_SliderSFX_Value Parms{};
 
@@ -409,10 +359,8 @@ float UUI_AudioSettings_C::Get_SliderSFX_Value()
 
 float UUI_AudioSettings_C::Get_SliderVOice_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "Get_SliderVOice_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_SliderVOice_Value", FnName));
 
 	Params::UI_AudioSettings_C_Get_SliderVOice_Value Parms{};
 
@@ -430,10 +378,8 @@ float UUI_AudioSettings_C::Get_SliderVOice_Value()
 
 void UUI_AudioSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_AudioSettings_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_AudioSettings_C_Tick Parms{};
 

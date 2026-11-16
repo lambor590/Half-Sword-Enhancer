@@ -16,21 +16,21 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Grip_Master.Weapon_Sword_Grip_Master_C
-// 0x0078 (0x0670 - 0x05F8)
+// 0x0078 (0x0678 - 0x0600)
 class AWeapon_Sword_Grip_Master_C : public AModular_Weapon_Grip_C
 {
 public:
-	TArray<class UStaticMesh*>                    Random_Mesh;                                       // 0x05F8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	double                                        Start_Mass;                                        // 0x0608(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Blade_Length__Unscaled_;                           // 0x0610(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TArray<class UClass*>                         Blades_1;                                          // 0x0618(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Blades_2;                                          // 0x0628(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Blades_3;                                          // 0x0638(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	double                                        Blade_Length_Notch_1;                              // 0x0648(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Blade_Length_Notch_2;                              // 0x0650(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Blade_Length_Notch_3;                              // 0x0658(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Blade_Length_Min;                                  // 0x0660(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Blade_Length_Max;                                  // 0x0668(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class UStaticMesh*>                    Random_Mesh;                                       // 0x0600(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	double                                        Start_Mass;                                        // 0x0610(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Blade_Length__Unscaled_;                           // 0x0618(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<class UClass*>                         Blades_1;                                          // 0x0620(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Blades_2;                                          // 0x0630(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Blades_3;                                          // 0x0640(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	double                                        Blade_Length_Notch_1;                              // 0x0650(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Blade_Length_Notch_2;                              // 0x0658(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Blade_Length_Notch_3;                              // 0x0660(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Blade_Length_Min;                                  // 0x0668(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Blade_Length_Max;                                  // 0x0670(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

@@ -74,9 +74,12 @@ public:
 };
 
 // Class GameplayTags.GameplayTagAssetInterface
-// 0x0000 (0x0000 - 0x0000)
-class IGameplayTagAssetInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IGameplayTagAssetInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void GetOwnedGameplayTags(struct FGameplayTagContainer* TagContainer) const;
 	bool HasAllMatchingGameplayTags(const struct FGameplayTagContainer& TagContainer) const;

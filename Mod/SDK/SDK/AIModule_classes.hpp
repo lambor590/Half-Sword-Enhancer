@@ -50,9 +50,12 @@ public:
 };
 
 // Class AIModule.AIResourceInterface
-// 0x0000 (0x0000 - 0x0000)
-class IAIResourceInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IAIResourceInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -325,9 +328,12 @@ public:
 };
 
 // Class AIModule.CrowdAgentInterface
-// 0x0000 (0x0000 - 0x0000)
-class ICrowdAgentInterface final
+// 0x0008 (0x0008 - 0x0000)
+class ICrowdAgentInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -372,9 +378,12 @@ public:
 };
 
 // Class AIModule.EQSQueryResultSourceInterface
-// 0x0000 (0x0000 - 0x0000)
-class IEQSQueryResultSourceInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IEQSQueryResultSourceInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -400,9 +409,12 @@ public:
 };
 
 // Class AIModule.GenericTeamAgentInterface
-// 0x0000 (0x0000 - 0x0000)
-class IGenericTeamAgentInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IGenericTeamAgentInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -427,12 +439,43 @@ public:
 	}
 };
 
-// Class AIModule.AIController
-// 0x0090 (0x03B8 - 0x0328)
-class AAIController : public AController
+// Class AIModule.AIPerceptionListenerInterface
+// 0x0008 (0x0008 - 0x0000)
+class IAIPerceptionListenerInterface
 {
 public:
-	uint8                                         Pad_328[0x38];                                     // 0x0328(0x0038)(Fixing Size After Last Property [ Dumper-7 ])
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("AIPerceptionListenerInterface")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"AIPerceptionListenerInterface")
+	}
+	static class IAIPerceptionListenerInterface* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<IAIPerceptionListenerInterface>();
+	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
+};
+
+// Class AIModule.AIController
+// 0x0090 (0x03B8 - 0x0328)
+class AAIController : public AController, public IAIPerceptionListenerInterface, public IGameplayTaskOwnerInterface, public IGenericTeamAgentInterface, public IVisualLoggerDebugSnapshotInterface
+{
+public:
+	uint8                                         Pad_348[0x18];                                     // 0x0348(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	uint8                                         bStartAILogicOnPossess : 1;                        // 0x0360(0x0001)(BitIndex: 0x00, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected))
 	uint8                                         bStopAILogicOnUnposses : 1;                        // 0x0360(0x0001)(BitIndex: 0x01, PropSize: 0x0001 (Edit, BlueprintVisible, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected))
 	uint8                                         bLOSflag : 1;                                      // 0x0360(0x0001)(BitIndex: 0x02, PropSize: 0x0001 (NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic))
@@ -605,10 +648,9 @@ public:
 
 // Class AIModule.BrainComponent
 // 0x0058 (0x00F8 - 0x00A0)
-class UBrainComponent : public UActorComponent
+class UBrainComponent : public UActorComponent, public IAIResourceInterface
 {
 public:
-	uint8                                         Pad_A0[0x8];                                       // 0x00A0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UBlackboardComponent*                   BlackboardComp;                                    // 0x00A8(0x0008)(ExportObject, ZeroConstructor, Transient, InstancedReference, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class AAIController*                          AIOwner;                                           // 0x00B0(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_B8[0x40];                                      // 0x00B8(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -898,12 +940,45 @@ public:
 	}
 };
 
-// Class AIModule.BehaviorTree
-// 0x0040 (0x0068 - 0x0028)
-class UBehaviorTree final : public UObject
+// Class AIModule.BlackboardAssetProvider
+// 0x0008 (0x0008 - 0x0000)
+class IBlackboardAssetProvider
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
+public:
+	class UBlackboardData* GetBlackboardAsset() const;
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("BlackboardAssetProvider")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"BlackboardAssetProvider")
+	}
+	static class IBlackboardAssetProvider* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<IBlackboardAssetProvider>();
+	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
+};
+
+// Class AIModule.BehaviorTree
+// 0x0040 (0x0068 - 0x0028)
+class UBehaviorTree final : public UObject, public IBlackboardAssetProvider
+{
+public:
 	class UBTCompositeNode*                       RootNode;                                          // 0x0030(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UBlackboardData*                        BlackboardAsset;                                   // 0x0038(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<class UBTDecorator*>                   RootDecorators;                                    // 0x0040(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
@@ -923,6 +998,9 @@ public:
 	{
 		return GetDefaultObjImpl<UBehaviorTree>();
 	}
+
+public:
+	class UBlackboardData* GetBlackboardAsset() const;
 };
 
 // Class AIModule.BehaviorTreeComponent
@@ -998,37 +1076,6 @@ public:
 	static class UBehaviorTreeTypes* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UBehaviorTreeTypes>();
-	}
-};
-
-// Class AIModule.BlackboardAssetProvider
-// 0x0000 (0x0000 - 0x0000)
-class IBlackboardAssetProvider final
-{
-public:
-	class UBlackboardData* GetBlackboardAsset() const;
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("BlackboardAssetProvider")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"BlackboardAssetProvider")
-	}
-	static class IBlackboardAssetProvider* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<IBlackboardAssetProvider>();
-	}
-
-	class UObject* AsUObject()
-	{
-		return reinterpret_cast<UObject*>(this);
-	}
-	const class UObject* AsUObject() const
-	{
-		return reinterpret_cast<const UObject*>(this);
 	}
 };
 
@@ -1113,10 +1160,9 @@ public:
 
 // Class AIModule.BTNode
 // 0x0030 (0x0058 - 0x0028)
-class UBTNode : public UObject
+class UBTNode : public UObject, public IGameplayTaskOwnerInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 NodeName;                                          // 0x0030(0x0010)(Edit, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UBehaviorTree*                          TreeAsset;                                         // 0x0040(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	class UBTCompositeNode*                       ParentNode;                                        // 0x0048(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -2888,10 +2934,9 @@ public:
 
 // Class AIModule.EnvQueryInstanceBlueprintWrapper
 // 0x0050 (0x0078 - 0x0028)
-class UEnvQueryInstanceBlueprintWrapper final : public UObject
+class UEnvQueryInstanceBlueprintWrapper final : public UObject, public IEQSQueryResultSourceInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         QueryID;                                           // 0x0030(0x0004)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_34[0x24];                                      // 0x0034(0x0024)(Fixing Size After Last Property [ Dumper-7 ])
 	TSubclassOf<class UEnvQueryItemType>          ItemType;                                          // 0x0058(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
@@ -3053,10 +3098,9 @@ public:
 
 // Class AIModule.EQSTestingPawn
 // 0x00A0 (0x0710 - 0x0670)
-class AEQSTestingPawn final : public ACharacter
+class AEQSTestingPawn final : public ACharacter, public IEQSQueryResultSourceInterface
 {
 public:
-	uint8                                         Pad_668[0x8];                                      // 0x0668(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UEnvQuery*                              QueryTemplate;                                     // 0x0670(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<struct FEnvNamedValue>                 QueryParams;                                       // 0x0678(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FAIDynamicParam>                QueryConfig;                                       // 0x0688(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
@@ -3834,10 +3878,10 @@ public:
 
 // Class AIModule.PathFollowingComponent
 // 0x0240 (0x02E0 - 0x00A0)
-class UPathFollowingComponent : public UActorComponent
+class UPathFollowingComponent : public UActorComponent, public IAIResourceInterface, public IPathFollowingAgentInterface
 {
 public:
-	uint8                                         Pad_A0[0x38];                                      // 0x00A0(0x0038)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_B0[0x28];                                      // 0x00B0(0x0028)(Fixing Size After Last Property [ Dumper-7 ])
 	class UNavMovementComponent*                  MovementComp;                                      // 0x00D8(0x0008)(ExportObject, ZeroConstructor, Transient, InstancedReference, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_E0[0x10];                                      // 0x00E0(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class ANavigationData*                        MyNavData;                                         // 0x00F0(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -3867,10 +3911,10 @@ public:
 
 // Class AIModule.CrowdFollowingComponent
 // 0x0050 (0x0330 - 0x02E0)
-class UCrowdFollowingComponent final : public UPathFollowingComponent
+class UCrowdFollowingComponent final : public UPathFollowingComponent, public ICrowdAgentInterface
 {
 public:
-	uint8                                         Pad_2E0[0x18];                                     // 0x02E0(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_2E8[0x10];                                     // 0x02E8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FVector                                CrowdAgentMoveDirection;                           // 0x02F8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_310[0x20];                                     // 0x0310(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -3971,10 +4015,9 @@ public:
 
 // Class AIModule.NavLinkProxy
 // 0x0050 (0x02E0 - 0x0290)
-class ANavLinkProxy final : public AActor
+class ANavLinkProxy final : public AActor, public INavLinkHostInterface, public INavRelevantInterface
 {
 public:
-	uint8                                         Pad_290[0x10];                                     // 0x0290(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FNavigationLink>                PointLinks;                                        // 0x02A0(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FNavigationSegmentLink>         SegmentLinks;                                      // 0x02B0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	class UNavLinkCustomComponent*                SmartLinkComp;                                     // 0x02C0(0x0008)(Edit, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -4095,34 +4138,6 @@ public:
 	static class UAIPerceptionComponent* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UAIPerceptionComponent>();
-	}
-};
-
-// Class AIModule.AIPerceptionListenerInterface
-// 0x0000 (0x0000 - 0x0000)
-class IAIPerceptionListenerInterface final
-{
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("AIPerceptionListenerInterface")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"AIPerceptionListenerInterface")
-	}
-	static class IAIPerceptionListenerInterface* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<IAIPerceptionListenerInterface>();
-	}
-
-	class UObject* AsUObject()
-	{
-		return reinterpret_cast<UObject*>(this);
-	}
-	const class UObject* AsUObject() const
-	{
-		return reinterpret_cast<const UObject*>(this);
 	}
 };
 
@@ -4434,9 +4449,12 @@ public:
 };
 
 // Class AIModule.AISightTargetInterface
-// 0x0000 (0x0000 - 0x0000)
-class IAISightTargetInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IAISightTargetInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{

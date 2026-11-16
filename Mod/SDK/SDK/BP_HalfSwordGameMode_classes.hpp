@@ -73,6 +73,7 @@ public:
 	void Minus_Enemy();
 	void Multiplayer_Match_Win_Check();
 	void OnAudioFinished_Event();
+	void Plus_Enemy();
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();

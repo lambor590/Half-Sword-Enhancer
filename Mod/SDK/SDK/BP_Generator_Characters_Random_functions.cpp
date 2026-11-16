@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Generator_Characters_Random_C::ExecuteUbergraph_BP_Generator_Characters_Random(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Characters_Random_C", "ExecuteUbergraph_BP_Generator_Characters_Random");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Generator_Characters_Random_C", "ExecuteUbergraph_BP_Generator_Characters_Random", FuncInfo);
 
 	Params::BP_Generator_Characters_Random_C_ExecuteUbergraph_BP_Generator_Characters_Random Parms{};
 
@@ -41,25 +39,31 @@ void ABP_Generator_Characters_Random_C::ExecuteUbergraph_BP_Generator_Characters
 // Parameters:
 // class UClass*                           Actor_Class                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // Enum_Nationalities                      Nationality                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Enum_Factions                           Faction                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // Enum_Ranks                              Tier                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Is_Mercenary                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Ignore_Budget                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FStr_Passport_Character1*        Character_Passport                                     (Parm, OutParm, HasGetValueTypeHash)
+// bool                                    Black_Knight                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Boss                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Is_Champion                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FStr_Passport_Character1*        Character_Passport                                     (Parm, OutParm, ContainsInstancedReference, HasGetValueTypeHash)
 
-void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Ranks Tier, bool Is_Mercenary, bool Ignore_Budget, struct FStr_Passport_Character1* Character_Passport)
+void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Factions Faction, Enum_Ranks Tier, bool Is_Mercenary, bool Ignore_Budget, bool Black_Knight, bool Boss, bool Is_Champion, struct FStr_Passport_Character1* Character_Passport)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Characters_Random_C", "Generate Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Character", FnName));
 
 	Params::BP_Generator_Characters_Random_C_Generate_Character Parms{};
 
 	Parms.Actor_Class = Actor_Class;
 	Parms.Nationality = Nationality;
+	Parms.Faction = Faction;
 	Parms.Tier = Tier;
 	Parms.Is_Mercenary = Is_Mercenary;
 	Parms.Ignore_Budget = Ignore_Budget;
+	Parms.Black_Knight = Black_Knight;
+	Parms.Boss = Boss;
+	Parms.Is_Champion = Is_Champion;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -73,10 +77,8 @@ void ABP_Generator_Characters_Random_C::Generate_Character(class UClass* Actor_C
 
 void ABP_Generator_Characters_Random_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Characters_Random_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

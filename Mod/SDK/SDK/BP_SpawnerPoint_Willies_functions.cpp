@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_SpawnerPoint_Willies_C::ExecuteUbergraph_BP_SpawnerPoint_Willies(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SpawnerPoint_Willies_C", "ExecuteUbergraph_BP_SpawnerPoint_Willies");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_SpawnerPoint_Willies_C", "ExecuteUbergraph_BP_SpawnerPoint_Willies", FuncInfo);
 
 	Params::BP_SpawnerPoint_Willies_C_ExecuteUbergraph_BP_SpawnerPoint_Willies Parms{};
 
@@ -41,10 +39,8 @@ void ABP_SpawnerPoint_Willies_C::ExecuteUbergraph_BP_SpawnerPoint_Willies(int32 
 
 void ABP_SpawnerPoint_Willies_C::Purge_Locations()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SpawnerPoint_Willies_C", "Purge Locations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Purge Locations", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,20 @@ void ABP_SpawnerPoint_Willies_C::Purge_Locations()
 
 void ABP_SpawnerPoint_Willies_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SpawnerPoint_Willies_C", "ReceiveBeginPlay");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_SpawnerPoint_Willies.BP_SpawnerPoint_Willies_C.ReceiveDestroyed
+// (Event, Public, BlueprintEvent)
+
+void ABP_SpawnerPoint_Willies_C::ReceiveDestroyed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveDestroyed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -71,10 +77,8 @@ void ABP_SpawnerPoint_Willies_C::ReceiveBeginPlay()
 
 void ABP_SpawnerPoint_Willies_C::Spawn_Willies(int32 NPC_Amount)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SpawnerPoint_Willies_C", "Spawn Willies");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Willies", FnName));
 
 	Params::BP_SpawnerPoint_Willies_C_Spawn_Willies Parms{};
 
@@ -89,10 +93,8 @@ void ABP_SpawnerPoint_Willies_C::Spawn_Willies(int32 NPC_Amount)
 
 void ABP_SpawnerPoint_Willies_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SpawnerPoint_Willies_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

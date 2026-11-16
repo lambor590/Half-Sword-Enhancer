@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void USG_GameProgress_C::ExecuteUbergraph_SG_GameProgress(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("SG_GameProgress_C", "ExecuteUbergraph_SG_GameProgress");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "SG_GameProgress_C", "ExecuteUbergraph_SG_GameProgress", FuncInfo);
 
 	Params::SG_GameProgress_C_ExecuteUbergraph_SG_GameProgress Parms{};
 

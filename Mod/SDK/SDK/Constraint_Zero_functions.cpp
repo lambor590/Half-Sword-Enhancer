@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AConstraint_Zero_C::Destroy_Self()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Zero_C", "Destroy Self");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Self", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AConstraint_Zero_C::Destroy_Self()
 
 void AConstraint_Zero_C::ExecuteUbergraph_Constraint_Zero(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Zero_C", "ExecuteUbergraph_Constraint_Zero");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Constraint_Zero_C", "ExecuteUbergraph_Constraint_Zero", FuncInfo);
 
 	Params::Constraint_Zero_C_ExecuteUbergraph_Constraint_Zero Parms{};
 
@@ -55,10 +51,8 @@ void AConstraint_Zero_C::ExecuteUbergraph_Constraint_Zero(int32 EntryPoint)
 
 void AConstraint_Zero_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Zero_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -71,10 +65,8 @@ void AConstraint_Zero_C::ReceiveBeginPlay()
 
 void AConstraint_Zero_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Zero_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Constraint_Zero_C_ReceiveTick Parms{};
 
@@ -89,10 +81,8 @@ void AConstraint_Zero_C::ReceiveTick(float DeltaSeconds)
 
 void AConstraint_Zero_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Zero_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Core_Neck_Bevor_17.BP_Armor_Modular_Core_Neck_Bevor_17_C
-// 0x0000 (0x0A70 - 0x0A70)
+// 0x0000 (0x0A90 - 0x0A90)
 class ABP_Armor_Modular_Core_Neck_Bevor_17_C final : public ABP_Armor_Modular_Core_Master_C
 {
 public:

@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_VertexPaint_C", "Box Vertex Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Box Vertex Paint", FnName));
 
 	Params::BPI_VertexPaint_C_Box_Vertex_Paint Parms{};
 

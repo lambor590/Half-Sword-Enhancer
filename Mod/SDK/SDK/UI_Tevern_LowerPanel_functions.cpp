@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Tevern_LowerPanel_C::BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Tevern_LowerPanel_C::BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2No
 
 void UUI_Tevern_LowerPanel_C::BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void UUI_Tevern_LowerPanel_C::BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2No
 
 void UUI_Tevern_LowerPanel_C::ExecuteUbergraph_UI_Tevern_LowerPanel(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "ExecuteUbergraph_UI_Tevern_LowerPanel");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Tevern_LowerPanel_C", "ExecuteUbergraph_UI_Tevern_LowerPanel", FuncInfo);
 
 	Params::UI_Tevern_LowerPanel_C_ExecuteUbergraph_UI_Tevern_LowerPanel Parms{};
 
@@ -71,10 +65,8 @@ void UUI_Tevern_LowerPanel_C::ExecuteUbergraph_UI_Tevern_LowerPanel(int32 EntryP
 
 struct FSlateBrush UUI_Tevern_LowerPanel_C::Get_Image_Time_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "Get_Image_Time_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Image_Time_Brush", FnName));
 
 	Params::UI_Tevern_LowerPanel_C_Get_Image_Time_Brush Parms{};
 
@@ -91,10 +83,8 @@ struct FSlateBrush UUI_Tevern_LowerPanel_C::Get_Image_Time_Brush()
 
 ESlateVisibility UUI_Tevern_LowerPanel_C::Get_Image_Time_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "Get_Image_Time_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Image_Time_Visibility", FnName));
 
 	Params::UI_Tevern_LowerPanel_C_Get_Image_Time_Visibility Parms{};
 
@@ -111,10 +101,8 @@ ESlateVisibility UUI_Tevern_LowerPanel_C::Get_Image_Time_Visibility()
 
 class FText UUI_Tevern_LowerPanel_C::Get_Text_Date_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "Get_Text_Date_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Text_Date_Text", FnName));
 
 	Params::UI_Tevern_LowerPanel_C_Get_Text_Date_Text Parms{};
 
@@ -131,10 +119,8 @@ class FText UUI_Tevern_LowerPanel_C::Get_Text_Date_Text()
 
 class FText UUI_Tevern_LowerPanel_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Tevern_LowerPanel_C_GetText Parms{};
 
@@ -151,10 +137,8 @@ class FText UUI_Tevern_LowerPanel_C::GetText()
 
 void UUI_Tevern_LowerPanel_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tevern_LowerPanel_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Tevern_LowerPanel_C_PreConstruct Parms{};
 

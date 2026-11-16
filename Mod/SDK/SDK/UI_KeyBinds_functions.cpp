@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_BackButton_1_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_10_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_3_O
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_1_K2Node_ComponentBoundEvent_9_O
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_0_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_5_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_27_K2Node_ComponentBoundEvent_6_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_11_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_12_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_2_K2Node_ComponentBoundEvent_13_
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_ArrowTime_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_ArrowTime_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_ArrowTime_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_ArrowTime_K2Node_ComponentBoundE
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Crouch_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Crouch_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Crouch_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Crouch_K2Node_ComponentBoundEven
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Giveup_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Giveup_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Giveup_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Giveup_K2Node_ComponentBoundEven
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Inventory_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Inventory_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Inventory_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Inventory_K2Node_ComponentBoundE
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_2_OnB
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_7_OnB
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -287,10 +249,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_K2Node_ComponentBoundEvent_8_OnB
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LeftHandGrab_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_LeftHandGrab_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_LeftHandGrab_K2Node_ComponentBoundEvent_20_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +261,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LeftHandGrab_K2Node_ComponentBou
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LeftHandSwing_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_LeftHandSwing_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_LeftHandSwing_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -315,10 +273,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LeftHandSwing_K2Node_ComponentBo
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LockOnTarget_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_LockOnTarget_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_LockOnTarget_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -329,10 +285,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_LockOnTarget_K2Node_ComponentBou
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_PhotoMode_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_PhotoMode_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_PhotoMode_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -343,10 +297,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_PhotoMode_K2Node_ComponentBoundE
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_RightHandGrab_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_RightHandGrab_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_RightHandGrab_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -357,10 +309,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_RightHandGrab_K2Node_ComponentBo
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_RightHandSwing_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_RightHandSwing_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_RightHandSwing_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -371,10 +321,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_RightHandSwing_K2Node_ComponentB
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_1_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Run_1_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Run_1_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -385,10 +333,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_1_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_2_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Run_2_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Run_2_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -399,10 +345,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_2_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_3_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Run_3_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Run_3_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -413,10 +357,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_3_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_4_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Run_4_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Run_4_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -427,10 +369,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_4_K2Node_ComponentBoundEvent
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_Run_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_Run_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -441,10 +381,20 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_Run_K2Node_ComponentBoundEvent_4
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_SwapHands_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_SwapHands_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_SwapHands_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_KeyBinds.UI_KeyBinds_C.BndEvt__UI_KeyBinds_Button_SwitchView_1_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_SwitchView_1_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_SwitchView_1_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -455,10 +405,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_SwapHands_K2Node_ComponentBoundE
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_SwitchView_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_SwitchView_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_SwitchView_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -469,10 +417,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_SwitchView_K2Node_ComponentBound
 
 void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_ThrustMode_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "BndEvt__UI_KeyBinds_Button_ThrustMode_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_KeyBinds_Button_ThrustMode_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -483,10 +429,8 @@ void UUI_KeyBinds_C::BndEvt__UI_KeyBinds_Button_ThrustMode_K2Node_ComponentBound
 
 void UUI_KeyBinds_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -499,10 +443,8 @@ void UUI_KeyBinds_C::Construct()
 
 void UUI_KeyBinds_C::ExecuteUbergraph_UI_KeyBinds(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "ExecuteUbergraph_UI_KeyBinds");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_KeyBinds_C", "ExecuteUbergraph_UI_KeyBinds", FuncInfo);
 
 	Params::UI_KeyBinds_C_ExecuteUbergraph_UI_KeyBinds Parms{};
 
@@ -519,10 +461,8 @@ void UUI_KeyBinds_C::ExecuteUbergraph_UI_KeyBinds(int32 EntryPoint)
 
 class FText UUI_KeyBinds_C::Get_Arrow_Time_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Arrow Time Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Arrow Time Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Arrow_Time_Text Parms{};
 
@@ -539,10 +479,8 @@ class FText UUI_KeyBinds_C::Get_Arrow_Time_Text()
 
 class FText UUI_KeyBinds_C::Get_Crouch_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Crouch Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Crouch Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Crouch_Text Parms{};
 
@@ -559,10 +497,8 @@ class FText UUI_KeyBinds_C::Get_Crouch_Text()
 
 class FText UUI_KeyBinds_C::Get_Give_Up_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Give Up Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Give Up Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Give_Up_Text Parms{};
 
@@ -579,10 +515,8 @@ class FText UUI_KeyBinds_C::Get_Give_Up_Text()
 
 class FText UUI_KeyBinds_C::Get_Inventory_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Inventory Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Inventory Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Inventory_Text Parms{};
 
@@ -599,10 +533,8 @@ class FText UUI_KeyBinds_C::Get_Inventory_Text()
 
 class FText UUI_KeyBinds_C::Get_Left_Hand_Grab_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Left Hand Grab Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Left Hand Grab Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Left_Hand_Grab_Text Parms{};
 
@@ -619,10 +551,8 @@ class FText UUI_KeyBinds_C::Get_Left_Hand_Grab_Text()
 
 class FText UUI_KeyBinds_C::Get_Left_Hand_Swing_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Left Hand Swing Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Left Hand Swing Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Left_Hand_Swing_Text Parms{};
 
@@ -639,10 +569,8 @@ class FText UUI_KeyBinds_C::Get_Left_Hand_Swing_Text()
 
 class FText UUI_KeyBinds_C::Get_Lock_On_Target_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Lock On Target Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Lock On Target Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Lock_On_Target_Text Parms{};
 
@@ -659,10 +587,8 @@ class FText UUI_KeyBinds_C::Get_Lock_On_Target_Text()
 
 class FText UUI_KeyBinds_C::Get_Photo_Mode_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Photo Mode Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Photo Mode Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Photo_Mode_Text Parms{};
 
@@ -679,10 +605,8 @@ class FText UUI_KeyBinds_C::Get_Photo_Mode_Text()
 
 class FText UUI_KeyBinds_C::Get_Right_Hand_Grab_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Right Hand Grab Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Right Hand Grab Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Right_Hand_Grab_Text Parms{};
 
@@ -699,10 +623,8 @@ class FText UUI_KeyBinds_C::Get_Right_Hand_Grab_Text()
 
 class FText UUI_KeyBinds_C::Get_Right_Hand_Swing_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Right Hand Swing Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Right Hand Swing Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Right_Hand_Swing_Text Parms{};
 
@@ -719,10 +641,8 @@ class FText UUI_KeyBinds_C::Get_Right_Hand_Swing_Text()
 
 class FText UUI_KeyBinds_C::Get_Run_Key_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Run Key Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Run Key Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Run_Key_Text Parms{};
 
@@ -739,10 +659,8 @@ class FText UUI_KeyBinds_C::Get_Run_Key_Text()
 
 class FText UUI_KeyBinds_C::Get_Sheathe_Left_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Sheathe Left Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Sheathe Left Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Sheathe_Left_Text Parms{};
 
@@ -759,10 +677,8 @@ class FText UUI_KeyBinds_C::Get_Sheathe_Left_Text()
 
 class FText UUI_KeyBinds_C::Get_Sheathe_Right_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Sheathe Right Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Sheathe Right Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Sheathe_Right_Text Parms{};
 
@@ -779,10 +695,8 @@ class FText UUI_KeyBinds_C::Get_Sheathe_Right_Text()
 
 class FText UUI_KeyBinds_C::Get_Swap_Hands_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Swap Hands Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Swap Hands Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Swap_Hands_Text Parms{};
 
@@ -799,10 +713,8 @@ class FText UUI_KeyBinds_C::Get_Swap_Hands_Text()
 
 class FText UUI_KeyBinds_C::Get_Switch_View_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Switch View Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Switch View Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Switch_View_Text Parms{};
 
@@ -820,10 +732,8 @@ class FText UUI_KeyBinds_C::Get_Switch_View_Text()
 
 class FText UUI_KeyBinds_C::Get_Text_From_Action_Mapping(class FName ActionName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Text From Action Mapping");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Text From Action Mapping", FnName));
 
 	Params::UI_KeyBinds_C_Get_Text_From_Action_Mapping Parms{};
 
@@ -842,10 +752,8 @@ class FText UUI_KeyBinds_C::Get_Text_From_Action_Mapping(class FName ActionName)
 
 class FText UUI_KeyBinds_C::Get_Thrust_Mode_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Thrust Mode Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Thrust Mode Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Thrust_Mode_Text Parms{};
 
@@ -862,10 +770,8 @@ class FText UUI_KeyBinds_C::Get_Thrust_Mode_Text()
 
 class FText UUI_KeyBinds_C::Get_Thrust_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get Thrust Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Thrust Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_Thrust_Text Parms{};
 
@@ -882,10 +788,8 @@ class FText UUI_KeyBinds_C::Get_Thrust_Text()
 
 class FText UUI_KeyBinds_C::Get_RunText_1_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get_RunText_1_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RunText_1_Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_RunText_1_Text Parms{};
 
@@ -902,10 +806,8 @@ class FText UUI_KeyBinds_C::Get_RunText_1_Text()
 
 class FText UUI_KeyBinds_C::Get_RunText_2_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get_RunText_2_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RunText_2_Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_RunText_2_Text Parms{};
 
@@ -922,10 +824,8 @@ class FText UUI_KeyBinds_C::Get_RunText_2_Text()
 
 class FText UUI_KeyBinds_C::Get_RunText_3_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get_RunText_3_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RunText_3_Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_RunText_3_Text Parms{};
 
@@ -942,12 +842,28 @@ class FText UUI_KeyBinds_C::Get_RunText_3_Text()
 
 class FText UUI_KeyBinds_C::Get_RunText_4_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Get_RunText_4_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_RunText_4_Text", FnName));
 
 	Params::UI_KeyBinds_C_Get_RunText_4_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_KeyBinds.UI_KeyBinds_C.Get_SwitchViewText_1_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_KeyBinds_C::Get_SwitchViewText_1_Text()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_SwitchViewText_1_Text", FnName));
+
+	Params::UI_KeyBinds_C_Get_SwitchViewText_1_Text Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -964,10 +880,8 @@ class FText UUI_KeyBinds_C::Get_RunText_4_Text()
 
 struct FEventReply UUI_KeyBinds_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "OnKeyDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyDown", FnName));
 
 	Params::UI_KeyBinds_C_OnKeyDown Parms{};
 
@@ -989,10 +903,8 @@ struct FEventReply UUI_KeyBinds_C::OnKeyDown(const struct FGeometry& MyGeometry,
 
 struct FEventReply UUI_KeyBinds_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "OnMouseButtonDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonDown", FnName));
 
 	Params::UI_KeyBinds_C_OnMouseButtonDown Parms{};
 
@@ -1014,10 +926,8 @@ struct FEventReply UUI_KeyBinds_C::OnMouseButtonDown(const struct FGeometry& MyG
 
 void UUI_KeyBinds_C::Start_Rebind(class FName ActionName, class UButton* ActionButton, class UTextBlock* ActionButtonText)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Start Rebind");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Start Rebind", FnName));
 
 	Params::UI_KeyBinds_C_Start_Rebind Parms{};
 
@@ -1037,10 +947,8 @@ void UUI_KeyBinds_C::Start_Rebind(class FName ActionName, class UButton* ActionB
 
 void UUI_KeyBinds_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_KeyBinds_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_KeyBinds_C_Tick Parms{};
 

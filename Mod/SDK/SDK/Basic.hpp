@@ -37,6 +37,11 @@
 #define SDK_PARAM_NAMESPACE_END }
 
 
+#define DUMPER_7_UE_VERSION_MAJOR 5
+#define DUMPER_7_UE_VERSION_MINOR 4
+#define DUMPER_7_UE_VERSION_STRING "5.4.4-2980+++Halfsword+Main"
+#define DUMPER_7_GAME_NAME "HalfswordUE5"
+
 #include <string>
 #include <functional>
 #include <type_traits>
@@ -47,7 +52,9 @@
 
 SDK_NAMESPACE_START
 
+#ifndef IMPORT_CPP_SDK_INTO_IDA
 using namespace UC;
+#endif // IMPORT_CPP_SDK_INTO_IDA
 
 #include "../NameCollisions.inl"
 
@@ -58,12 +65,26 @@ using namespace UC;
 */
 namespace Offsets
 {
-	constexpr int32 GObjects          = 0x08BFD240;
-	constexpr int32 AppendString      = 0x012C1CB0;
-	constexpr int32 GNames            = 0x08AE2CD8;
-	constexpr int32 GWorld            = 0x08D67CE8;
-	constexpr int32 ProcessEvent      = 0x014A43E0;
-	constexpr int32 ProcessEventIdx   = 0x0000004D;
+	constexpr int32 GObjects             = 0x08BFD240;
+	constexpr int32 AppendString         = 0x012C1CB0;
+	constexpr int32 GNames               = 0x08AE2CD8;
+	constexpr int32 GWorld               = 0x08D67CE8;
+	constexpr int32 ProcessEvent         = 0x014A43E0;
+	constexpr int32 ProcessEventIdx      = 0x0000004D;
+	constexpr int32 FindFunctionChecked  = 0x014A3890;
+}
+
+// Forward declarations because in-line forward declarations make the compiler think 'GetStaticClass()' is a class template
+class UClass;
+class UObject;
+class UFunction;
+class UScriptStruct;
+class FName;
+
+namespace MIPad
+{
+	template<unsigned long long N, unsigned long long Tag>
+	struct alignas(1) Pad { unsigned char _pad[N]; };
 }
 
 namespace InSDKUtils
@@ -84,15 +105,16 @@ namespace InSDKUtils
 	{
 		return Function(std::forward<ParamTypes>(Args)...);
 	}
+
+	inline UFunction* FindFunctionChecked(const UObject* Obj, const FName& Name)
+	{
+		using FFindFunctionCheckedType = UFunction*(__fastcall*)(const UObject*, uint64);
+		auto FindFunctionCheckedAddress = reinterpret_cast<FFindFunctionCheckedType>(GetImageBase() + Offsets::FindFunctionChecked);
+
+		return CallGameFunction(FindFunctionCheckedAddress, Obj, *reinterpret_cast<const uint64*>(&Name));
+	}
 }
 
-
-// Forward declarations because in-line forward declarations make the compiler think 'GetStaticClass()' is a class template
-class UClass;
-class UObject;
-class UFunction;
-class UScriptStruct;
-class FName;
 
 namespace BasicFilesImplUtils
 {
@@ -109,6 +131,10 @@ namespace BasicFilesImplUtils
 	UObject* GetObjectByIndex(int32 Index);
 
 	UFunction* FindFunctionByFName(const FName* Name);
+
+	UFunction* FindFunctionViaClass(UClass* SearchClass, const char* OuterClassName, const char* FuncName);
+
+	uint64 GetObjectOuterFNameAsUInt64(UObject* Obj);
 
 	FName StringToName(const wchar_t* Name);
 
@@ -214,6 +240,10 @@ ClassType* GetDefaultObjImpl()
     static FName Name = FName(); \
     return GetStaticName(NameString, Name); \
 }
+
+struct ReloadableFuncInfo;
+
+UFunction* GetStaticFunction(UClass* SearchClass, const char* OuterClassName, const char* FuncName, ReloadableFuncInfo& FuncInfo);
 
 // Predefined struct FUObjectItem
 // 0x0018 (0x0018 - 0x0000)
@@ -434,7 +464,7 @@ public:
 		return ClassPtr;
 	}
 
-	template<typename Target, typename = std::enable_if<std::is_base_of_v<Target, ClassType>, bool>::type>
+	template<typename Target, typename = typename std::enable_if<std::is_base_of_v<Target, ClassType>, bool>::type>
 	inline operator TSubclassOf<Target>() const
 	{
 		return ClassPtr;
@@ -522,6 +552,7 @@ public:
 	int32                                         ObjectSerialNumber;                                // 0x0004(0x0004)(NOT AUTO-GENERATED PROPERTY)
 
 public:
+	bool IsValid() const;
 	class UObject* Get() const;
 	class UObject* operator->() const;
 	bool operator==(const FWeakObjectPtr& Other) const;
@@ -770,7 +801,6 @@ template<typename FunctionSignature>
 class TDelegate
 {
 public:
-	static_assert(false, "TDelegate should be used with a function signature. Something might be wrong in the SDK-Generator.");
 	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
@@ -789,7 +819,6 @@ template<typename FunctionSignature>
 class TMulticastInlineDelegate
 {
 public:
-	static_assert(false, "TMulticastInlineDelegate should be used with a function signature. Something might be wrong in the SDK-Generator.");
 	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
@@ -844,6 +873,16 @@ public:
 	{
 		return EnumValue <=> static_cast<UnderlyingType>(Other);
 	}
+
+	constexpr operator EnumType() const
+	{
+		return static_cast<EnumType>(EnumValue);
+	}
+
+	constexpr explicit operator UnderlyingType() const
+	{
+		return EnumValue;
+	}
 };
 
 template<typename EnumType>
@@ -872,28 +911,36 @@ using T8ByteEnum = TFixedSizeEnum<EnumType, uint64>;
 
 
 #define UE_ENUM_OPERATORS(EEnumClassType)																													\
-																																							\
+																																										\
 inline constexpr EEnumClassType operator|(EEnumClassType Left, EEnumClassType Right)															 			\
-{																																							\
+{																																										\
 	using EnumUnderlayingType = std::underlying_type<EEnumClassType>::type;																					\
 																																							\
 	return static_cast<EEnumClassType>(static_cast<EnumUnderlayingType>(Left) | static_cast<EnumUnderlayingType>(Right));									\
-}																																							\
-																																							\
+}																																										\
+																																										\
 inline EEnumClassType& operator|=(EEnumClassType& Left, EEnumClassType Right)																				\
-{																																							\
+{																																										\
     using EnumUnderlayingType = std::underlying_type<EEnumClassType>::type;																					\
 																																							\
     reinterpret_cast<EnumUnderlayingType&>(Left) |= static_cast<EnumUnderlayingType>(Right);																\
 	return Left;																																			\
-}																																							\
+}																																										\
+																																										\
+inline EEnumClassType& operator|=(EEnumClassType& Left, std::underlying_type<EEnumClassType>::type Right)													\
+{																																										\
+	using EnumUnderlayingType = std::underlying_type<EEnumClassType>::type;																					\
 																																							\
+	reinterpret_cast<EnumUnderlayingType&>(Left) |= Right;																									\
+	return Left;																																			\
+}																																										\
+																																										\
 inline bool operator&(EEnumClassType Left, EEnumClassType Right)																							\
-{																																							\
+{																																										\
 	using EnumUnderlayingType = std::underlying_type<EEnumClassType>::type;																					\
 																																							\
 	return ((static_cast<EnumUnderlayingType>(Left) & static_cast<EnumUnderlayingType>(Right)) == static_cast<EnumUnderlayingType>(Right));					\
-}
+}																																										
 
 enum class EObjectFlags : uint32
 {
@@ -1298,6 +1345,30 @@ class FOptionalProperty final : public FProperty
 public:
 	class FProperty*                              ValueProperty;                                     // 0x0070(0x0008)(NOT AUTO-GENERATED PROPERTY)
 };
+
+struct ReloadableFuncInfo
+{
+    int32 Index = 0;
+    FName Name;
+    FName OuterName;
+};
+
+
+/* Workaround for clang not supporting the statement from #else. */
+template<typename Derived, typename Interface>
+consteval size_t GetInterfaceOffset()
+{
+#if defined(__clang__)
+    return __builtin_constant_p(0)
+        ? reinterpret_cast<const char*>(
+              &static_cast<const Interface*>(
+                  reinterpret_cast<const Derived*>(0x1000))->VTable)
+            - reinterpret_cast<const char*>(0x1000)
+        : 0;
+#else
+    return offsetof(Derived, Interface::VTable);
+#endif
+}
 
 namespace CyclicDependencyFixupImpl
 {

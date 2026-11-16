@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnB
 
 void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnB
 
 void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnB
 
 void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnBut
 
 void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnBut
 
 void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButto
 
 void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -121,10 +107,8 @@ void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButto
 
 void UCreditWid_C::ExecuteUbergraph_CreditWid(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "ExecuteUbergraph_CreditWid");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "CreditWid_C", "ExecuteUbergraph_CreditWid", FuncInfo);
 
 	Params::CreditWid_C_ExecuteUbergraph_CreditWid Parms{};
 
@@ -141,10 +125,8 @@ void UCreditWid_C::ExecuteUbergraph_CreditWid(int32 EntryPoint)
 
 struct FSlateBrush UCreditWid_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::CreditWid_C_GetBrush Parms{};
 
@@ -159,10 +141,8 @@ struct FSlateBrush UCreditWid_C::GetBrush()
 
 void UCreditWid_C::GetLastOpenedWidget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "GetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLastOpenedWidget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +155,8 @@ void UCreditWid_C::GetLastOpenedWidget()
 
 ESlateVisibility UCreditWid_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::CreditWid_C_GetVisibility_0 Parms{};
 
@@ -195,10 +173,8 @@ ESlateVisibility UCreditWid_C::GetVisibility_0()
 
 ESlateVisibility UCreditWid_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::CreditWid_C_GetVisibility_1 Parms{};
 
@@ -215,10 +191,8 @@ ESlateVisibility UCreditWid_C::GetVisibility_1()
 
 void UCreditWid_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::CreditWid_C_PreConstruct Parms{};
 
@@ -235,10 +209,8 @@ void UCreditWid_C::PreConstruct(bool IsDesignTime)
 
 void UCreditWid_C::SetLastOpenedWidget(class UClass* UW)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "SetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetLastOpenedWidget", FnName));
 
 	Params::CreditWid_C_SetLastOpenedWidget Parms{};
 

@@ -16,110 +16,153 @@
 
 SDK_NAMESPACE_START
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Apply State
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Weather Settings from UDS
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FUDS_and_UDW_State&        State                                                  (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// double                                  Cloud_Coverage                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Fog                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Dust                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Apply_State(const struct FUDS_and_UDW_State& State)
+void IUltra_Dynamic_Weather_Interface_C::Update_Weather_Settings_from_UDS(double Cloud_Coverage, double Fog, double Dust)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Update Weather Settings from UDS", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Apply State");
+	Params::Ultra_Dynamic_Weather_Interface_C_Update_Weather_Settings_from_UDS Parms{};
 
-	Params::Ultra_Dynamic_Weather_Interface_C_Apply_State Parms{};
-
-	Parms.State = std::move(State);
+	Parms.Cloud_Coverage = Cloud_Coverage;
+	Parms.Fog = Fog;
+	Parms.Dust = Dust;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Destroy Close Thunder Component
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Rainbow
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void IUltra_Dynamic_Weather_Interface_C::Update_Rainbow()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Update Rainbow", FnName));
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Material Effects
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void IUltra_Dynamic_Weather_Interface_C::Update_Material_Effects()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Update Material Effects", FnName));
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Up Rainbow MID
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void IUltra_Dynamic_Weather_Interface_C::Set_Up_Rainbow_MID()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Set Up Rainbow MID", FnName));
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Season
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void IUltra_Dynamic_Weather_Interface_C::Set_Season()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Set Season", FnName));
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Project Mode
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class USceneComponent*                  Component                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// EUDS_Project_Mode                       Mode                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Destroy_Close_Thunder_Component(class USceneComponent* Component)
+void IUltra_Dynamic_Weather_Interface_C::Set_Project_Mode(EUDS_Project_Mode Mode)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Set Project Mode", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Destroy Close Thunder Component");
+	Params::Ultra_Dynamic_Weather_Interface_C_Set_Project_Mode Parms{};
 
-	Params::Ultra_Dynamic_Weather_Interface_C_Destroy_Close_Thunder_Component Parms{};
-
-	Parms.Component = Component;
+	Parms.Mode = Mode;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Close Thunder Sound Occlusion
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double*                                 Volume                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 LPF                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Initialize Weather
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void IUltra_Dynamic_Weather_Interface_C::Get_Close_Thunder_Sound_Occlusion(double* Volume, double* LPF)
+void IUltra_Dynamic_Weather_Interface_C::Initialize_Weather()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Initialize Weather", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Close Thunder Sound Occlusion");
-
-	Params::Ultra_Dynamic_Weather_Interface_C_Get_Close_Thunder_Sound_Occlusion Parms{};
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	if (Volume != nullptr)
-		*Volume = Parms.Volume;
-
-	if (LPF != nullptr)
-		*LPF = Parms.LPF;
+	AsUObject()->ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Intended Cloud Direction
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double*                                 Intended_Cloud_Direction                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Hard Refresh Cached Properties
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Cloud_Direction(double* Intended_Cloud_Direction)
+void IUltra_Dynamic_Weather_Interface_C::Hard_Refresh_Cached_Properties()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Hard Refresh Cached Properties", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Intended Cloud Direction");
-
-	Params::Ultra_Dynamic_Weather_Interface_C_Get_Intended_Cloud_Direction Parms{};
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	if (Intended_Cloud_Direction != nullptr)
-		*Intended_Cloud_Direction = Parms.Intended_Cloud_Direction;
+	AsUObject()->ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Intended Cloud Speed
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Weather Particle Collision Channel
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double*                                 Intended_Cloud_Speed                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ECollisionChannel*                      Channel                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Cloud_Speed(double* Intended_Cloud_Speed)
+void IUltra_Dynamic_Weather_Interface_C::Get_Weather_Particle_Collision_Channel(ECollisionChannel* Channel)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Weather Particle Collision Channel", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Intended Cloud Speed");
-
-	Params::Ultra_Dynamic_Weather_Interface_C_Get_Intended_Cloud_Speed Parms{};
+	Params::Ultra_Dynamic_Weather_Interface_C_Get_Weather_Particle_Collision_Channel Parms{};
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (Intended_Cloud_Speed != nullptr)
-		*Intended_Cloud_Speed = Parms.Intended_Cloud_Speed;
+	if (Channel != nullptr)
+		*Channel = Parms.Channel;
+}
+
+
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get State for Saving
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FUDS_and_UDW_State*              UDW_State                                              (Parm, OutParm, HasGetValueTypeHash)
+
+void IUltra_Dynamic_Weather_Interface_C::Get_State_for_Saving(struct FUDS_and_UDW_State* UDW_State)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get State for Saving", FnName));
+
+	Params::Ultra_Dynamic_Weather_Interface_C_Get_State_for_Saving Parms{};
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	if (UDW_State != nullptr)
+		*UDW_State = std::move(Parms.UDW_State);
 }
 
 
@@ -131,10 +174,8 @@ void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Cloud_Speed(double* Intend
 
 void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Water_Level(bool* Using_Water_Level, double* Water_Level)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Intended Water Level");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Intended Water Level", FnName));
 
 	Params::Ultra_Dynamic_Weather_Interface_C_Get_Intended_Water_Level Parms{};
 
@@ -148,171 +189,98 @@ void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Water_Level(bool* Using_Wa
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get State for Saving
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Intended Cloud Speed
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FUDS_and_UDW_State*              UDW_State                                              (Parm, OutParm, HasGetValueTypeHash)
+// double*                                 Intended_Cloud_Speed                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Get_State_for_Saving(struct FUDS_and_UDW_State* UDW_State)
+void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Cloud_Speed(double* Intended_Cloud_Speed)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Intended Cloud Speed", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get State for Saving");
-
-	Params::Ultra_Dynamic_Weather_Interface_C_Get_State_for_Saving Parms{};
+	Params::Ultra_Dynamic_Weather_Interface_C_Get_Intended_Cloud_Speed Parms{};
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (UDW_State != nullptr)
-		*UDW_State = std::move(Parms.UDW_State);
+	if (Intended_Cloud_Speed != nullptr)
+		*Intended_Cloud_Speed = Parms.Intended_Cloud_Speed;
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Weather Particle Collision Channel
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Intended Cloud Direction
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// ECollisionChannel*                      Channel                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Intended_Cloud_Direction                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Get_Weather_Particle_Collision_Channel(ECollisionChannel* Channel)
+void IUltra_Dynamic_Weather_Interface_C::Get_Intended_Cloud_Direction(double* Intended_Cloud_Direction)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Intended Cloud Direction", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Weather Particle Collision Channel");
-
-	Params::Ultra_Dynamic_Weather_Interface_C_Get_Weather_Particle_Collision_Channel Parms{};
+	Params::Ultra_Dynamic_Weather_Interface_C_Get_Intended_Cloud_Direction Parms{};
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (Channel != nullptr)
-		*Channel = Parms.Channel;
+	if (Intended_Cloud_Direction != nullptr)
+		*Intended_Cloud_Direction = Parms.Intended_Cloud_Direction;
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Hard Refresh Cached Properties
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Get Close Thunder Sound Occlusion
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double*                                 Volume                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 LPF                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Hard_Refresh_Cached_Properties()
+void IUltra_Dynamic_Weather_Interface_C::Get_Close_Thunder_Sound_Occlusion(double* Volume, double* LPF)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Close Thunder Sound Occlusion", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Hard Refresh Cached Properties");
+	Params::Ultra_Dynamic_Weather_Interface_C_Get_Close_Thunder_Sound_Occlusion Parms{};
 
-	AsUObject()->ProcessEvent(Func, nullptr);
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	if (Volume != nullptr)
+		*Volume = Parms.Volume;
+
+	if (LPF != nullptr)
+		*LPF = Parms.LPF;
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Initialize Weather
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void IUltra_Dynamic_Weather_Interface_C::Initialize_Weather()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Initialize Weather");
-
-	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Project Mode
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Destroy Close Thunder Component
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EUDS_Project_Mode                       Mode                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class USceneComponent*                  Component                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Set_Project_Mode(EUDS_Project_Mode Mode)
+void IUltra_Dynamic_Weather_Interface_C::Destroy_Close_Thunder_Component(class USceneComponent* Component)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Destroy Close Thunder Component", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Set Project Mode");
+	Params::Ultra_Dynamic_Weather_Interface_C_Destroy_Close_Thunder_Component Parms{};
 
-	Params::Ultra_Dynamic_Weather_Interface_C_Set_Project_Mode Parms{};
-
-	Parms.Mode = Mode;
+	Parms.Component = Component;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Season
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void IUltra_Dynamic_Weather_Interface_C::Set_Season()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Set Season");
-
-	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Set Up Rainbow MID
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void IUltra_Dynamic_Weather_Interface_C::Set_Up_Rainbow_MID()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Set Up Rainbow MID");
-
-	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Material Effects
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void IUltra_Dynamic_Weather_Interface_C::Update_Material_Effects()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Update Material Effects");
-
-	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Rainbow
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void IUltra_Dynamic_Weather_Interface_C::Update_Rainbow()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Update Rainbow");
-
-	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Update Weather Settings from UDS
+// Function Ultra_Dynamic_Weather_Interface.Ultra_Dynamic_Weather_Interface_C.Apply State
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  Cloud_Coverage                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Fog                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Dust                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FUDS_and_UDW_State&        State                                                  (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void IUltra_Dynamic_Weather_Interface_C::Update_Weather_Settings_from_UDS(double Cloud_Coverage, double Fog, double Dust)
+void IUltra_Dynamic_Weather_Interface_C::Apply_State(const struct FUDS_and_UDW_State& State)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Apply State", FnName));
 
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Update Weather Settings from UDS");
+	Params::Ultra_Dynamic_Weather_Interface_C_Apply_State Parms{};
 
-	Params::Ultra_Dynamic_Weather_Interface_C_Update_Weather_Settings_from_UDS Parms{};
-
-	Parms.Cloud_Coverage = Cloud_Coverage;
-	Parms.Fog = Fog;
-	Parms.Dust = Dust;
+	Parms.State = std::move(State);
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
@@ -326,10 +294,8 @@ void IUltra_Dynamic_Weather_Interface_C::Update_Weather_Settings_from_UDS(double
 
 void IUltra_Dynamic_Weather_Interface_C::Get_Rainbow_MID(bool* Rainbow_Enabled, class UMaterialInstanceDynamic** Mid) const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("Ultra_Dynamic_Weather_Interface_C", "Get Rainbow MID");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Rainbow MID", FnName));
 
 	Params::Ultra_Dynamic_Weather_Interface_C_Get_Rainbow_MID Parms{};
 

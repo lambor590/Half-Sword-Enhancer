@@ -17,17 +17,17 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C
-// 0x0018 (0x0610 - 0x05F8)
+// 0x0018 (0x0618 - 0x0600)
 class AWeapon_Part_Mace_Grip_Tier_Master_C : public AModular_Weapon_Shaft_Master_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Weapon_Part_Mace_Grip_Tier_Master_C; // 0x05F8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	TArray<class UStaticMesh*>                    Random_Mesh;                                       // 0x0600(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Weapon_Part_Mace_Grip_Tier_Master_C; // 0x0600(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	TArray<class UStaticMesh*>                    Random_Mesh;                                       // 0x0608(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 
 public:
-	void ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

@@ -17,11 +17,19 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Chest_Coffin_001.BP_Container_Chest_Coffin_001_C
-// 0x0008 (0x0A58 - 0x0A50)
+// 0x0040 (0x0A70 - 0x0A30)
 class ABP_Container_Chest_Coffin_001_C final : public ABP_Container_Chest_001_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Container_Chest_Coffin_001_C;    // 0x0A50(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	uint8                                         Pad_A21[0x7];                                      // 0x0A21(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Container_Chest_Coffin_001_C;    // 0x0A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class UStaticMeshComponent*                   pelvis;                                            // 0x0A30(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Shoulder1;                                         // 0x0A38(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Arm1;                                              // 0x0A40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Leg2;                                              // 0x0A48(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Leg1;                                              // 0x0A50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Ribcage;                                           // 0x0A58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Skull;                                             // 0x0A60(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ReceiveBeginPlay();

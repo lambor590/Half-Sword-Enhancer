@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
-#include "UMG_classes.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Enum_Weapon_Customization_Type_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "UMG_structs.hpp"
+#include "UMG_classes.hpp"
+#include "Enum_Weapon_Customization_Type_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -425,9 +425,9 @@ public:
 	void InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4(const struct FKey& Key);
 	void InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key);
 	void InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key);
-	void NewFunction(class UClass* Class_0, double Value, double Value1);
 	void PreConstruct(bool IsDesignTime);
 	void Refresh_Weapon_Event(bool Reset_Position);
+	void Set_Up_Module(class UClass* Class_0, double Value, double Value1);
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_WinScreen_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WinScreen_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_WinScreen_C::Construct()
 
 void UUI_WinScreen_C::ExecuteUbergraph_UI_WinScreen(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WinScreen_C", "ExecuteUbergraph_UI_WinScreen");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_WinScreen_C", "ExecuteUbergraph_UI_WinScreen", FuncInfo);
 
 	Params::UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen Parms{};
 
@@ -57,10 +53,8 @@ void UUI_WinScreen_C::ExecuteUbergraph_UI_WinScreen(int32 EntryPoint)
 
 void UUI_WinScreen_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WinScreen_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_WinScreen_C_PreConstruct Parms{};
 

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_FadeOut_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeOut_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_FadeOut_C::Construct()
 
 void UUI_FadeOut_C::ExecuteUbergraph_UI_FadeOut(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeOut_C", "ExecuteUbergraph_UI_FadeOut");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_FadeOut_C", "ExecuteUbergraph_UI_FadeOut", FuncInfo);
 
 	Params::UI_FadeOut_C_ExecuteUbergraph_UI_FadeOut Parms{};
 
@@ -58,10 +54,8 @@ void UUI_FadeOut_C::ExecuteUbergraph_UI_FadeOut(int32 EntryPoint)
 
 void UUI_FadeOut_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeOut_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_FadeOut_C_Tick Parms{};
 

@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UUI_Cards_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Cards_C_Tick Parms{};
 
@@ -45,10 +43,8 @@ void UUI_Cards_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTim
 
 void UUI_Cards_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Cards_C_PreConstruct Parms{};
 
@@ -65,10 +61,8 @@ void UUI_Cards_C::PreConstruct(bool IsDesignTime_PreConstruct)
 
 ESlateVisibility UUI_Cards_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Cards_C_GetVisibility_0 Parms{};
 
@@ -85,10 +79,8 @@ ESlateVisibility UUI_Cards_C::GetVisibility_0()
 
 class FText UUI_Cards_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Cards_C_GetText_0 Parms{};
 
@@ -105,10 +97,8 @@ class FText UUI_Cards_C::GetText_0()
 
 class FText UUI_Cards_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Cards_C_GetText Parms{};
 
@@ -125,10 +115,8 @@ class FText UUI_Cards_C::GetText()
 
 float UUI_Cards_C::GetPercent()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "GetPercent");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPercent", FnName));
 
 	Params::UI_Cards_C_GetPercent Parms{};
 
@@ -145,10 +133,8 @@ float UUI_Cards_C::GetPercent()
 
 void UUI_Cards_C::ExecuteUbergraph_UI_Cards(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "ExecuteUbergraph_UI_Cards");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Cards_C", "ExecuteUbergraph_UI_Cards", FuncInfo);
 
 	Params::UI_Cards_C_ExecuteUbergraph_UI_Cards Parms{};
 
@@ -163,10 +149,8 @@ void UUI_Cards_C::ExecuteUbergraph_UI_Cards(int32 EntryPoint)
 
 void UUI_Cards_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -177,10 +161,8 @@ void UUI_Cards_C::Construct()
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -191,10 +173,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_6_OnButtonC
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -205,10 +185,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_5_OnButtonH
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -219,10 +197,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_2_K2Node_ComponentBoundEvent_4_OnButtonH
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -233,10 +209,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonH
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -247,10 +221,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonH
 
 void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -261,10 +233,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonC
 
 void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -275,10 +245,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButt
 
 void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -289,10 +257,8 @@ void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButt
 
 void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

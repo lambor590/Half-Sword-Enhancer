@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn
 
 void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn
 
 void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Shop_TraderItemWidget_C::BndEvt__UI_Shop_TraderItemWidget_Clickable_Btn
 
 void UUI_Shop_TraderItemWidget_C::BP_OnEntryReleased()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BP_OnEntryReleased");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnEntryReleased", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_Shop_TraderItemWidget_C::BP_OnEntryReleased()
 
 void UUI_Shop_TraderItemWidget_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BP_OnItemExpansionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemExpansionChanged", FnName));
 
 	Params::UI_Shop_TraderItemWidget_C_BP_OnItemExpansionChanged Parms{};
 
@@ -99,10 +89,8 @@ void UUI_Shop_TraderItemWidget_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 
 void UUI_Shop_TraderItemWidget_C::BP_OnItemSelectionChanged(bool bIsSelected)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "BP_OnItemSelectionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemSelectionChanged", FnName));
 
 	Params::UI_Shop_TraderItemWidget_C_BP_OnItemSelectionChanged Parms{};
 
@@ -117,10 +105,8 @@ void UUI_Shop_TraderItemWidget_C::BP_OnItemSelectionChanged(bool bIsSelected)
 
 void UUI_Shop_TraderItemWidget_C::Deselect()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "Deselect");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Deselect", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +119,8 @@ void UUI_Shop_TraderItemWidget_C::Deselect()
 
 void UUI_Shop_TraderItemWidget_C::ExecuteUbergraph_UI_Shop_TraderItemWidget(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "ExecuteUbergraph_UI_Shop_TraderItemWidget");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Shop_TraderItemWidget_C", "ExecuteUbergraph_UI_Shop_TraderItemWidget", FuncInfo);
 
 	Params::UI_Shop_TraderItemWidget_C_ExecuteUbergraph_UI_Shop_TraderItemWidget Parms{};
 
@@ -153,10 +137,8 @@ void UUI_Shop_TraderItemWidget_C::ExecuteUbergraph_UI_Shop_TraderItemWidget(int3
 
 struct FLinearColor UUI_Shop_TraderItemWidget_C::Get_Back_ColorAndOpacity()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "Get_Back_ColorAndOpacity");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Back_ColorAndOpacity", FnName));
 
 	Params::UI_Shop_TraderItemWidget_C_Get_Back_ColorAndOpacity Parms{};
 
@@ -173,10 +155,8 @@ struct FLinearColor UUI_Shop_TraderItemWidget_C::Get_Back_ColorAndOpacity()
 
 class FText UUI_Shop_TraderItemWidget_C::Get_ItemWeight_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "Get_ItemWeight_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ItemWeight_Text", FnName));
 
 	Params::UI_Shop_TraderItemWidget_C_Get_ItemWeight_Text Parms{};
 
@@ -193,10 +173,8 @@ class FText UUI_Shop_TraderItemWidget_C::Get_ItemWeight_Text()
 
 ESlateVisibility UUI_Shop_TraderItemWidget_C::Get_ItemWeight_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_TraderItemWidget_C", "Get_ItemWeight_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ItemWeight_Visibility", FnName));
 
 	Params::UI_Shop_TraderItemWidget_C_Get_ItemWeight_Visibility Parms{};
 

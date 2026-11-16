@@ -152,9 +152,12 @@ public:
 };
 
 // Class AudioExtensions.AudioParameterControllerInterface
-// 0x0000 (0x0000 - 0x0000)
-class IAudioParameterControllerInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IAudioParameterControllerInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void ResetParameters();
 	void SetBoolArrayParameter(class FName InName, const TArray<bool>& InValue);

@@ -13,6 +13,7 @@
 #include "CoreUObject_structs.hpp"
 #include "Niagara_structs.hpp"
 #include "Engine_structs.hpp"
+#include "Engine_parameters.hpp"
 
 
 SDK_NAMESPACE_START

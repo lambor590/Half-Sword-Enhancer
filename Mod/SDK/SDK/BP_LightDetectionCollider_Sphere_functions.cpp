@@ -16,23 +16,15 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_LightDetectionCollider_Sphere.BP_LightDetectionCollider_Sphere_C.ExecuteUbergraph_BP_LightDetectionCollider_Sphere
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_LightDetectionCollider_Sphere.BP_LightDetectionCollider_Sphere_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_LightDetectionCollider_Sphere_C::ExecuteUbergraph_BP_LightDetectionCollider_Sphere(int32 EntryPoint)
+void ABP_LightDetectionCollider_Sphere_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightDetectionCollider_Sphere_C", "ExecuteUbergraph_BP_LightDetectionCollider_Sphere");
-
-	Params::BP_LightDetectionCollider_Sphere_C_ExecuteUbergraph_BP_LightDetectionCollider_Sphere Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -41,26 +33,28 @@ void ABP_LightDetectionCollider_Sphere_C::ExecuteUbergraph_BP_LightDetectionColl
 
 void ABP_LightDetectionCollider_Sphere_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightDetectionCollider_Sphere_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_LightDetectionCollider_Sphere.BP_LightDetectionCollider_Sphere_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function BP_LightDetectionCollider_Sphere.BP_LightDetectionCollider_Sphere_C.ExecuteUbergraph_BP_LightDetectionCollider_Sphere
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_LightDetectionCollider_Sphere_C::UserConstructionScript()
+void ABP_LightDetectionCollider_Sphere_C::ExecuteUbergraph_BP_LightDetectionCollider_Sphere(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_LightDetectionCollider_Sphere_C", "ExecuteUbergraph_BP_LightDetectionCollider_Sphere", FuncInfo);
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightDetectionCollider_Sphere_C", "UserConstructionScript");
+	Params::BP_LightDetectionCollider_Sphere_C_ExecuteUbergraph_BP_LightDetectionCollider_Sphere Parms{};
 
-	UObject::ProcessEvent(Func, nullptr);
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

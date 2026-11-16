@@ -66,6 +66,270 @@ void UGizmoBaseComponent::UpdateWorldLocalState(bool bWorldIn)
 }
 
 
+// Function InteractiveToolsFramework.GizmoTransformSource.SetTransform
+// (Native, Public, HasOutParams, HasDefaults)
+// Parameters:
+// const struct FTransform&                NewTransform                                           (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void IGizmoTransformSource::SetTransform(const struct FTransform& NewTransform)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoTransformSource", "SetTransform");
+
+	Params::GizmoTransformSource_SetTransform Parms{};
+
+	Parms.NewTransform = std::move(NewTransform);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoTransformSource.GetTransform
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FTransform                       ReturnValue                                            (Parm, OutParm, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FTransform IGizmoTransformSource::GetTransform() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoTransformSource", "GetTransform");
+
+	Params::GizmoTransformSource_GetTransform Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoTransformSource.SetTransform
+// (Native, Public, HasOutParams, HasDefaults)
+// Parameters:
+// const struct FTransform&                NewTransform                                           (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoBaseTransformSource::SetTransform(const struct FTransform& NewTransform)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetTransform", FnName));
+
+	Params::GizmoTransformSource_SetTransform Parms{};
+
+	Parms.NewTransform = std::move(NewTransform);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoTransformSource.GetTransform
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FTransform                       ReturnValue                                            (Parm, OutParm, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FTransform UGizmoBaseTransformSource::GetTransform() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTransform", FnName));
+
+	Params::GizmoTransformSource_GetTransform Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.BeginModify
+// (Native, Public)
+
+void IGizmoVec2ParameterSource::BeginModify()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "BeginModify");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.EndModify
+// (Native, Public)
+
+void IGizmoVec2ParameterSource::EndModify()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "EndModify");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.SetParameter
+// (Native, Public, HasOutParams, HasDefaults)
+// Parameters:
+// const struct FVector2D&                 NewValue                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void IGizmoVec2ParameterSource::SetParameter(const struct FVector2D& NewValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "SetParameter");
+
+	Params::GizmoVec2ParameterSource_SetParameter Parms{};
+
+	Parms.NewValue = std::move(NewValue);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.GetParameter
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector2D IGizmoVec2ParameterSource::GetParameter() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "GetParameter");
+
+	Params::GizmoVec2ParameterSource_GetParameter Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.BeginModify
+// (Native, Public)
+
+void UGizmoBaseVec2ParameterSource::BeginModify()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginModify", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.EndModify
+// (Native, Public)
+
+void UGizmoBaseVec2ParameterSource::EndModify()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndModify", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.SetParameter
+// (Native, Public, HasOutParams, HasDefaults)
+// Parameters:
+// const struct FVector2D&                 NewValue                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoBaseVec2ParameterSource::SetParameter(const struct FVector2D& NewValue)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetParameter", FnName));
+
+	Params::GizmoVec2ParameterSource_SetParameter Parms{};
+
+	Parms.NewValue = std::move(NewValue);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoVec2ParameterSource.GetParameter
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector2D UGizmoBaseVec2ParameterSource::GetParameter() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetParameter", FnName));
+
+	Params::GizmoVec2ParameterSource_GetParameter Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function InteractiveToolsFramework.GizmoClickMultiTarget.UpdateHittableState
 // (Native, Public)
 // Parameters:
@@ -235,49 +499,79 @@ float IGizmoFloatParameterSource::GetParameter() const
 }
 
 
-// Function InteractiveToolsFramework.GizmoTransformSource.SetTransform
-// (Native, Public, HasOutParams, HasDefaults)
-// Parameters:
-// const struct FTransform&                NewTransform                                           (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function InteractiveToolsFramework.GizmoFloatParameterSource.BeginModify
+// (Native, Public)
 
-void IGizmoTransformSource::SetTransform(const struct FTransform& NewTransform)
+void UGizmoBaseFloatParameterSource::BeginModify()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoTransformSource", "SetTransform");
-
-	Params::GizmoTransformSource_SetTransform Parms{};
-
-	Parms.NewTransform = std::move(NewTransform);
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginModify", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
 
 
-// Function InteractiveToolsFramework.GizmoTransformSource.GetTransform
-// (Native, Public, HasDefaults, Const)
-// Parameters:
-// struct FTransform                       ReturnValue                                            (Parm, OutParm, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function InteractiveToolsFramework.GizmoFloatParameterSource.EndModify
+// (Native, Public)
 
-struct FTransform IGizmoTransformSource::GetTransform() const
+void UGizmoBaseFloatParameterSource::EndModify()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoTransformSource", "GetTransform");
-
-	Params::GizmoTransformSource_GetTransform Parms{};
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndModify", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoFloatParameterSource.SetParameter
+// (Native, Public)
+// Parameters:
+// float                                   NewValue                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoBaseFloatParameterSource::SetParameter(float NewValue)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetParameter", FnName));
+
+	Params::GizmoFloatParameterSource_SetParameter Parms{};
+
+	Parms.NewValue = NewValue;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoFloatParameterSource.GetParameter
+// (Native, Public, Const)
+// Parameters:
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+float UGizmoBaseFloatParameterSource::GetParameter() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetParameter", FnName));
+
+	Params::GizmoFloatParameterSource_GetParameter Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -390,6 +684,394 @@ bool IGizmoAxisSource::HasTangentVectors() const
 }
 
 
+// Function InteractiveToolsFramework.GizmoAxisSource.GetDirection
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoConstantAxisSource::GetDirection() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDirection", FnName));
+
+	Params::GizmoAxisSource_GetDirection Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetOrigin
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoConstantAxisSource::GetOrigin() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetOrigin", FnName));
+
+	Params::GizmoAxisSource_GetOrigin Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetTangentVectors
+// (Native, Public, HasOutParams, HasDefaults, Const)
+// Parameters:
+// struct FVector*                         TangentXOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         TangentYOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoConstantAxisSource::GetTangentVectors(struct FVector* TangentXOut, struct FVector* TangentYOut) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTangentVectors", FnName));
+
+	Params::GizmoAxisSource_GetTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (TangentXOut != nullptr)
+		*TangentXOut = std::move(Parms.TangentXOut);
+
+	if (TangentYOut != nullptr)
+		*TangentYOut = std::move(Parms.TangentYOut);
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.HasTangentVectors
+// (Native, Public, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UGizmoConstantAxisSource::HasTangentVectors() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasTangentVectors", FnName));
+
+	Params::GizmoAxisSource_HasTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetDirection
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoConstantFrameAxisSource::GetDirection() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDirection", FnName));
+
+	Params::GizmoAxisSource_GetDirection Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetOrigin
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoConstantFrameAxisSource::GetOrigin() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetOrigin", FnName));
+
+	Params::GizmoAxisSource_GetOrigin Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetTangentVectors
+// (Native, Public, HasOutParams, HasDefaults, Const)
+// Parameters:
+// struct FVector*                         TangentXOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         TangentYOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoConstantFrameAxisSource::GetTangentVectors(struct FVector* TangentXOut, struct FVector* TangentYOut) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTangentVectors", FnName));
+
+	Params::GizmoAxisSource_GetTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (TangentXOut != nullptr)
+		*TangentXOut = std::move(Parms.TangentXOut);
+
+	if (TangentYOut != nullptr)
+		*TangentYOut = std::move(Parms.TangentYOut);
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.HasTangentVectors
+// (Native, Public, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UGizmoConstantFrameAxisSource::HasTangentVectors() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasTangentVectors", FnName));
+
+	Params::GizmoAxisSource_HasTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetDirection
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoWorldAxisSource::GetDirection() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDirection", FnName));
+
+	Params::GizmoAxisSource_GetDirection Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetOrigin
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoWorldAxisSource::GetOrigin() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetOrigin", FnName));
+
+	Params::GizmoAxisSource_GetOrigin Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetTangentVectors
+// (Native, Public, HasOutParams, HasDefaults, Const)
+// Parameters:
+// struct FVector*                         TangentXOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         TangentYOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoWorldAxisSource::GetTangentVectors(struct FVector* TangentXOut, struct FVector* TangentYOut) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTangentVectors", FnName));
+
+	Params::GizmoAxisSource_GetTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (TangentXOut != nullptr)
+		*TangentXOut = std::move(Parms.TangentXOut);
+
+	if (TangentYOut != nullptr)
+		*TangentYOut = std::move(Parms.TangentYOut);
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.HasTangentVectors
+// (Native, Public, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UGizmoWorldAxisSource::HasTangentVectors() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasTangentVectors", FnName));
+
+	Params::GizmoAxisSource_HasTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetDirection
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoComponentAxisSource::GetDirection() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDirection", FnName));
+
+	Params::GizmoAxisSource_GetDirection Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetOrigin
+// (Native, Public, HasDefaults, Const)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FVector UGizmoComponentAxisSource::GetOrigin() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetOrigin", FnName));
+
+	Params::GizmoAxisSource_GetOrigin Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.GetTangentVectors
+// (Native, Public, HasOutParams, HasDefaults, Const)
+// Parameters:
+// struct FVector*                         TangentXOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         TangentYOut                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoComponentAxisSource::GetTangentVectors(struct FVector* TangentXOut, struct FVector* TangentYOut) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTangentVectors", FnName));
+
+	Params::GizmoAxisSource_GetTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (TangentXOut != nullptr)
+		*TangentXOut = std::move(Parms.TangentXOut);
+
+	if (TangentYOut != nullptr)
+		*TangentYOut = std::move(Parms.TangentYOut);
+}
+
+
+// Function InteractiveToolsFramework.GizmoAxisSource.HasTangentVectors
+// (Native, Public, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UGizmoComponentAxisSource::HasTangentVectors() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasTangentVectors", FnName));
+
+	Params::GizmoAxisSource_HasTangentVectors Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function InteractiveToolsFramework.GizmoClickTarget.UpdateHoverState
 // (Native, Public)
 // Parameters:
@@ -435,6 +1117,127 @@ void IGizmoClickTarget::UpdateInteractingState(bool bInteracting)
 	Func->FunctionFlags |= 0x400;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateHoverState
+// (Native, Public)
+// Parameters:
+// bool                                    bHovering                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoElementHitTarget::UpdateHoverState(bool bHovering)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateHoverState", FnName));
+
+	Params::GizmoClickTarget_UpdateHoverState Parms{};
+
+	Parms.bHovering = bHovering;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateInteractingState
+// (Native, Public)
+// Parameters:
+// bool                                    bInteracting                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoElementHitTarget::UpdateInteractingState(bool bInteracting)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateInteractingState", FnName));
+
+	Params::GizmoClickTarget_UpdateInteractingState Parms{};
+
+	Parms.bInteracting = bInteracting;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickMultiTarget.UpdateHittableState
+// (Native, Public)
+// Parameters:
+// bool                                    bHittable                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// uint32                                  InPartIdentifier                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoElementHitMultiTarget::UpdateHittableState(bool bHittable, uint32 InPartIdentifier)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateHittableState", FnName));
+
+	Params::GizmoClickMultiTarget_UpdateHittableState Parms{};
+
+	Parms.bHittable = bHittable;
+	Parms.InPartIdentifier = InPartIdentifier;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickMultiTarget.UpdateHoverState
+// (Native, Public)
+// Parameters:
+// bool                                    bHovering                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// uint32                                  InPartIdentifier                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoElementHitMultiTarget::UpdateHoverState(bool bHovering, uint32 InPartIdentifier)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateHoverState", FnName));
+
+	Params::GizmoClickMultiTarget_UpdateHoverState Parms{};
+
+	Parms.bHovering = bHovering;
+	Parms.InPartIdentifier = InPartIdentifier;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickMultiTarget.UpdateInteractingState
+// (Native, Public)
+// Parameters:
+// bool                                    bInteracting                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// uint32                                  InPartIdentifier                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoElementHitMultiTarget::UpdateInteractingState(bool bInteracting, uint32 InPartIdentifier)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateInteractingState", FnName));
+
+	Params::GizmoClickMultiTarget_UpdateInteractingState Parms{};
+
+	Parms.bInteracting = bInteracting;
+	Parms.InPartIdentifier = InPartIdentifier;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -505,91 +1308,231 @@ void IGizmoStateTarget::EndUpdate()
 }
 
 
-// Function InteractiveToolsFramework.GizmoVec2ParameterSource.BeginModify
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateHoverState
+// (Native, Public)
+// Parameters:
+// bool                                    bHovering                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoLambdaHitTarget::UpdateHoverState(bool bHovering)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateHoverState", FnName));
+
+	Params::GizmoClickTarget_UpdateHoverState Parms{};
+
+	Parms.bHovering = bHovering;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateInteractingState
+// (Native, Public)
+// Parameters:
+// bool                                    bInteracting                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoLambdaHitTarget::UpdateInteractingState(bool bInteracting)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateInteractingState", FnName));
+
+	Params::GizmoClickTarget_UpdateInteractingState Parms{};
+
+	Parms.bInteracting = bInteracting;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateHoverState
+// (Native, Public)
+// Parameters:
+// bool                                    bHovering                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoComponentHitTarget::UpdateHoverState(bool bHovering)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateHoverState", FnName));
+
+	Params::GizmoClickTarget_UpdateHoverState Parms{};
+
+	Parms.bHovering = bHovering;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoClickTarget.UpdateInteractingState
+// (Native, Public)
+// Parameters:
+// bool                                    bInteracting                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UGizmoComponentHitTarget::UpdateInteractingState(bool bInteracting)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateInteractingState", FnName));
+
+	Params::GizmoClickTarget_UpdateInteractingState Parms{};
+
+	Parms.bInteracting = bInteracting;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoStateTarget.BeginUpdate
 // (Native, Public)
 
-void IGizmoVec2ParameterSource::BeginModify()
+void UGizmoNilStateTarget::BeginUpdate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "BeginModify");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginUpdate", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, nullptr);
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
 
 
-// Function InteractiveToolsFramework.GizmoVec2ParameterSource.EndModify
+// Function InteractiveToolsFramework.GizmoStateTarget.EndUpdate
 // (Native, Public)
 
-void IGizmoVec2ParameterSource::EndModify()
+void UGizmoNilStateTarget::EndUpdate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "EndModify");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndUpdate", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, nullptr);
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
 
 
-// Function InteractiveToolsFramework.GizmoVec2ParameterSource.SetParameter
-// (Native, Public, HasOutParams, HasDefaults)
-// Parameters:
-// const struct FVector2D&                 NewValue                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function InteractiveToolsFramework.GizmoStateTarget.BeginUpdate
+// (Native, Public)
 
-void IGizmoVec2ParameterSource::SetParameter(const struct FVector2D& NewValue)
+void UGizmoLambdaStateTarget::BeginUpdate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "SetParameter");
-
-	Params::GizmoVec2ParameterSource_SetParameter Parms{};
-
-	Parms.NewValue = std::move(NewValue);
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginUpdate", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
 
 
-// Function InteractiveToolsFramework.GizmoVec2ParameterSource.GetParameter
-// (Native, Public, HasDefaults, Const)
-// Parameters:
-// struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function InteractiveToolsFramework.GizmoStateTarget.EndUpdate
+// (Native, Public)
 
-struct FVector2D IGizmoVec2ParameterSource::GetParameter() const
+void UGizmoLambdaStateTarget::EndUpdate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("GizmoVec2ParameterSource", "GetParameter");
-
-	Params::GizmoVec2ParameterSource_GetParameter Parms{};
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndUpdate", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	AsUObject()->ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
+}
 
-	return Parms.ReturnValue;
+
+// Function InteractiveToolsFramework.GizmoStateTarget.BeginUpdate
+// (Native, Public)
+
+void UGizmoObjectModifyStateTarget::BeginUpdate()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginUpdate", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoStateTarget.EndUpdate
+// (Native, Public)
+
+void UGizmoObjectModifyStateTarget::EndUpdate()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndUpdate", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoStateTarget.BeginUpdate
+// (Native, Public)
+
+void UGizmoTransformChangeStateTarget::BeginUpdate()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BeginUpdate", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function InteractiveToolsFramework.GizmoStateTarget.EndUpdate
+// (Native, Public)
+
+void UGizmoTransformChangeStateTarget::EndUpdate()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EndUpdate", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
 }
 
 

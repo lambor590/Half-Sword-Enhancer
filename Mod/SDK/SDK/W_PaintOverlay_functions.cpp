@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UW_PaintOverlay_C::PlayHintMsg(const class FText& Text)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintOverlay_C", "PlayHintMsg");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PlayHintMsg", FnName));
 
 	Params::W_PaintOverlay_C_PlayHintMsg Parms{};
 
@@ -43,10 +41,8 @@ void UW_PaintOverlay_C::PlayHintMsg(const class FText& Text)
 
 void UW_PaintOverlay_C::ExecuteUbergraph_W_PaintOverlay(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintOverlay_C", "ExecuteUbergraph_W_PaintOverlay");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "W_PaintOverlay_C", "ExecuteUbergraph_W_PaintOverlay", FuncInfo);
 
 	Params::W_PaintOverlay_C_ExecuteUbergraph_W_PaintOverlay Parms{};
 
@@ -61,10 +57,8 @@ void UW_PaintOverlay_C::ExecuteUbergraph_W_PaintOverlay(int32 EntryPoint)
 
 void UW_PaintOverlay_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintOverlay_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

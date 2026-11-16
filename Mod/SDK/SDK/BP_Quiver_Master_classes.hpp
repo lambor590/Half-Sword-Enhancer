@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Quiver_Master.BP_Quiver_Master_C
-// 0x0040 (0x02D0 - 0x0290)
+// 0x0048 (0x02D8 - 0x0290)
 class ABP_Quiver_Master_C : public AActor
 {
 public:
@@ -29,8 +29,10 @@ public:
 	class UClass*                                 Projectile_Type;                                   // 0x02B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UStaticMesh*                            Projectile_Mesh;                                   // 0x02B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	TArray<class UStaticMeshComponent*>           Projectiles_Array;                                 // 0x02C0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	class AWillie_BP_C*                           MyWillie;                                          // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
+	void BndEvt__BP_Quiver_Master_BaseMesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 	void ExecuteUbergraph_BP_Quiver_Master(int32 EntryPoint);
 	void Rearrange_Projectiles();
 	void ReceiveBeginPlay();

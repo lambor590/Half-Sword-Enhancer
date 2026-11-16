@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Warning_Multiplayer_C::BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Warning_Multiplayer_C", "BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Warning_Multiplayer_C::BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_C
 
 void UUI_Warning_Multiplayer_C::BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Warning_Multiplayer_C", "BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void UUI_Warning_Multiplayer_C::BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_C
 
 void UUI_Warning_Multiplayer_C::ExecuteUbergraph_UI_Warning_Multiplayer(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Warning_Multiplayer_C", "ExecuteUbergraph_UI_Warning_Multiplayer");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Warning_Multiplayer_C", "ExecuteUbergraph_UI_Warning_Multiplayer", FuncInfo);
 
 	Params::UI_Warning_Multiplayer_C_ExecuteUbergraph_UI_Warning_Multiplayer Parms{};
 

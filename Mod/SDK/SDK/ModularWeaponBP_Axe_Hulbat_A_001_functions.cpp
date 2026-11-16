@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Axe_Hulbat_A_001_C::BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Axe_Hulbat_A_001_C", "BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_Axe_Hulbat_A_001_C_BndEvt__ModularWeaponBP_Axe_Blade_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AModularWeaponBP_Axe_Hulbat_A_001_C::BndEvt__ModularWeaponBP_Axe_Blade_K2No
 
 void AModularWeaponBP_Axe_Hulbat_A_001_C::ExecuteUbergraph_ModularWeaponBP_Axe_Hulbat_A_001(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Axe_Hulbat_A_001_C", "ExecuteUbergraph_ModularWeaponBP_Axe_Hulbat_A_001");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Axe_Hulbat_A_001_C", "ExecuteUbergraph_ModularWeaponBP_Axe_Hulbat_A_001", FuncInfo);
 
 	Params::ModularWeaponBP_Axe_Hulbat_A_001_C_ExecuteUbergraph_ModularWeaponBP_Axe_Hulbat_A_001 Parms{};
 
@@ -69,10 +65,8 @@ void AModularWeaponBP_Axe_Hulbat_A_001_C::ExecuteUbergraph_ModularWeaponBP_Axe_H
 
 void AModularWeaponBP_Axe_Hulbat_A_001_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Axe_Hulbat_A_001_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

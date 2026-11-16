@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AWillie_BP_NoBrain_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Willie_BP_NoBrain_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void AWillie_BP_NoBrain_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AWillie_BP_NoBrain_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AWillie_BP_NoBrain_C::ReceiveBeginPlay()
 
 void AWillie_BP_NoBrain_C::ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ExecuteUbergraph_Willie_BP_NoBrain");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Willie_BP_NoBrain_C", "ExecuteUbergraph_Willie_BP_NoBrain", FuncInfo);
 
 	Params::Willie_BP_NoBrain_C_ExecuteUbergraph_Willie_BP_NoBrain Parms{};
 

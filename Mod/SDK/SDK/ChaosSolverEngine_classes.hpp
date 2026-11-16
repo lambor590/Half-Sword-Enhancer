@@ -92,9 +92,12 @@ public:
 };
 
 // Class ChaosSolverEngine.ChaosNotifyHandlerInterface
-// 0x0000 (0x0000 - 0x0000)
-class IChaosNotifyHandlerInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IChaosNotifyHandlerInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{

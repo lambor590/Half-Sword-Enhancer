@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AWasp_Nest_BP_C::Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void AWasp_Nest_BP_C::Timeline__UpdateFunc()
 
 void AWasp_Nest_BP_C::Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void AWasp_Nest_BP_C::Timeline__FinishedFunc()
 
 void AWasp_Nest_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Wasp_Nest_BP_C_ReceiveTick Parms{};
 
@@ -69,10 +63,8 @@ void AWasp_Nest_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AWasp_Nest_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -85,10 +77,8 @@ void AWasp_Nest_BP_C::ReceiveBeginPlay()
 
 void AWasp_Nest_BP_C::ExecuteUbergraph_Wasp_Nest_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ExecuteUbergraph_Wasp_Nest_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Wasp_Nest_BP_C", "ExecuteUbergraph_Wasp_Nest_BP", FuncInfo);
 
 	Params::Wasp_Nest_BP_C_ExecuteUbergraph_Wasp_Nest_BP Parms{};
 
@@ -109,10 +99,8 @@ void AWasp_Nest_BP_C::ExecuteUbergraph_Wasp_Nest_BP(int32 EntryPoint)
 
 void AWasp_Nest_BP_C::BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::Wasp_Nest_BP_C_BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 

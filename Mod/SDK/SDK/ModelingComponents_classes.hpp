@@ -76,9 +76,12 @@ public:
 };
 
 // Class ModelingComponents.DynamicMeshCommitter
-// 0x0000 (0x0000 - 0x0000)
-class IDynamicMeshCommitter final
+// 0x0008 (0x0008 - 0x0000)
+class IDynamicMeshCommitter
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -104,9 +107,12 @@ public:
 };
 
 // Class ModelingComponents.DynamicMeshProvider
-// 0x0000 (0x0000 - 0x0000)
-class IDynamicMeshProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IDynamicMeshProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -132,9 +138,12 @@ public:
 };
 
 // Class ModelingComponents.PersistentDynamicMeshSource
-// 0x0000 (0x0000 - 0x0000)
-class IPersistentDynamicMeshSource final
+// 0x0008 (0x0008 - 0x0000)
+class IPersistentDynamicMeshSource
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -223,9 +232,12 @@ public:
 };
 
 // Class ModelingComponents.ToolActivityHost
-// 0x0000 (0x0000 - 0x0000)
-class IToolActivityHost final
+// 0x0008 (0x0008 - 0x0000)
+class IToolActivityHost
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -351,9 +363,12 @@ public:
 };
 
 // Class ModelingComponents.ToolHostCustomizationAPI
-// 0x0000 (0x0000 - 0x0000)
-class IToolHostCustomizationAPI final
+// 0x0008 (0x0008 - 0x0000)
+class IToolHostCustomizationAPI
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -535,10 +550,9 @@ public:
 
 // Class ModelingComponents.PreviewMesh
 // 0x0118 (0x0140 - 0x0028)
-class alignas(0x10) UPreviewMesh : public UObject
+class alignas(0x10) UPreviewMesh : public UObject, public IMeshVertexCommandChangeTarget, public IMeshCommandChangeTarget, public IMeshReplacementCommandChangeTarget
 {
 public:
-	uint8                                         Pad_28[0x18];                                      // 0x0028(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	bool                                          bBuildSpatialDataStructure;                        // 0x0040(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_41[0xF];                                       // 0x0041(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDynamicMeshComponent*                  DynamicMeshComponent;                              // 0x0050(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -933,10 +947,10 @@ public:
 
 // Class ModelingComponents.DynamicMeshReplacementChangeTarget
 // 0x0030 (0x0058 - 0x0028)
-class UDynamicMeshReplacementChangeTarget final : public UObject
+class UDynamicMeshReplacementChangeTarget final : public UObject, public IMeshReplacementCommandChangeTarget
 {
 public:
-	uint8                                         Pad_28[0x30];                                      // 0x0028(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x28];                                      // 0x0030(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -958,7 +972,7 @@ public:
 class UOctreeDynamicMeshComponent final : public UBaseDynamicMeshComponent
 {
 public:
-	uint8                                         Pad_5C0[0x50];                                     // 0x05C0(0x0050)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_5B8[0x58];                                     // 0x05B8(0x0058)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDynamicMesh*                           MeshObject;                                        // 0x0610(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	uint8                                         Pad_618[0xB8];                                     // 0x0618(0x00B8)(Fixing Struct Size After Last Property [ Dumper-7 ])
 

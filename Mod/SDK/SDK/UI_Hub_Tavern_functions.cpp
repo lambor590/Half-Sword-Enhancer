@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBound
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBound
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBo
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Innkeeper_K2Node_ComponentBo
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBo
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Inventory_K2Node_ComponentBo
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBound
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Jester_K2Node_ComponentBound
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_Component
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Mercenaries_K2Node_Component
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBou
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Merchant_K2Node_ComponentBou
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEv
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Seer_K2Node_ComponentBoundEv
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoun
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_1_K2Node_ComponentBoun
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoun
 
 void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_Hub_Tavern_C::BndEvt__UI_Hub_Tavern_Button_Smith_2_K2Node_ComponentBoun
 
 void UUI_Hub_Tavern_C::Change_Time_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Change Time Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Change Time Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -287,10 +249,8 @@ void UUI_Hub_Tavern_C::Change_Time_Event()
 
 void UUI_Hub_Tavern_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -303,10 +263,8 @@ void UUI_Hub_Tavern_C::Construct()
 
 void UUI_Hub_Tavern_C::ExecuteUbergraph_UI_Hub_Tavern(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "ExecuteUbergraph_UI_Hub_Tavern");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Hub_Tavern_C", "ExecuteUbergraph_UI_Hub_Tavern", FuncInfo);
 
 	Params::UI_Hub_Tavern_C_ExecuteUbergraph_UI_Hub_Tavern Parms{};
 
@@ -323,10 +281,8 @@ void UUI_Hub_Tavern_C::ExecuteUbergraph_UI_Hub_Tavern(int32 EntryPoint)
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Brestplate_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Brestplate_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Brestplate_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Brestplate_Visibility Parms{};
 
@@ -343,10 +299,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Brestplate_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Fencer_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Fencer_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Fencer_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Fencer_Visibility Parms{};
 
@@ -363,10 +317,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Fencer_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Innkeeper_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Innkeeper_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Innkeeper_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Innkeeper_Visibility Parms{};
 
@@ -383,10 +335,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Innkeeper_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Inventory_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Inventory_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Inventory_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Inventory_Visibility Parms{};
 
@@ -403,10 +353,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Inventory_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Jester_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Jester_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Jester_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Jester_Visibility Parms{};
 
@@ -423,10 +371,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Jester_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Mercenaries_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Mercenaries_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Mercenaries_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Mercenaries_Visibility Parms{};
 
@@ -443,10 +389,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Mercenaries_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Merchant_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Merchant_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Merchant_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Merchant_Visibility Parms{};
 
@@ -463,10 +407,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Merchant_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Patrons_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Patrons_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Patrons_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Patrons_Visibility Parms{};
 
@@ -483,10 +425,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Patrons_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Seer_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Seer_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Seer_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Seer_Visibility Parms{};
 
@@ -503,10 +443,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Seer_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Smith_1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Smith_1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Smith_1_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Smith_1_Visibility Parms{};
 
@@ -523,10 +461,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Smith_1_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Smith_2_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Button_Smith_2_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Smith_2_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Button_Smith_2_Visibility Parms{};
 
@@ -543,10 +479,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Button_Smith_2_Visibility()
 
 struct FSlateBrush UUI_Hub_Tavern_C::Get_Image_Time_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Image_Time_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Image_Time_Brush", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Image_Time_Brush Parms{};
 
@@ -563,10 +497,8 @@ struct FSlateBrush UUI_Hub_Tavern_C::Get_Image_Time_Brush()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Patrons_1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Patrons_1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Patrons_1_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Patrons_1_Visibility Parms{};
 
@@ -583,10 +515,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Patrons_1_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Patrons_2_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Patrons_2_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Patrons_2_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Patrons_2_Visibility Parms{};
 
@@ -603,10 +533,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Patrons_2_Visibility()
 
 ESlateVisibility UUI_Hub_Tavern_C::Get_Poleaxe_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Poleaxe_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Poleaxe_Visibility", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Poleaxe_Visibility Parms{};
 
@@ -623,10 +551,8 @@ ESlateVisibility UUI_Hub_Tavern_C::Get_Poleaxe_Visibility()
 
 class FText UUI_Hub_Tavern_C::Get_Text_Date_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Get_Text_Date_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Text_Date_Text", FnName));
 
 	Params::UI_Hub_Tavern_C_Get_Text_Date_Text Parms{};
 
@@ -643,10 +569,8 @@ class FText UUI_Hub_Tavern_C::Get_Text_Date_Text()
 
 class FText UUI_Hub_Tavern_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Hub_Tavern_C_GetText Parms{};
 
@@ -663,10 +587,8 @@ class FText UUI_Hub_Tavern_C::GetText()
 
 ESlateVisibility UUI_Hub_Tavern_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Hub_Tavern_C_GetVisibility_0 Parms{};
 
@@ -683,10 +605,8 @@ ESlateVisibility UUI_Hub_Tavern_C::GetVisibility_0()
 
 void UUI_Hub_Tavern_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Hub_Tavern_C_PreConstruct Parms{};
 
@@ -704,10 +624,8 @@ void UUI_Hub_Tavern_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Hub_Tavern_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Hub_Tavern_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Hub_Tavern_C_Tick Parms{};
 

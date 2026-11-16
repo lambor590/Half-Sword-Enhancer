@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_CloudMask_Object_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMask_Object_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_CloudMask_Object_C::UserConstructionScript()
 
 void ABP_CloudMask_Object_C::Update_Mask_Generator()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMask_Object_C", "Update Mask Generator");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Mask Generator", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

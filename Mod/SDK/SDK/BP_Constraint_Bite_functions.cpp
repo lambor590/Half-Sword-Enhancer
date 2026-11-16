@@ -16,6 +16,18 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Constraint_Bite.BP_Constraint_Bite_C.Event Stop Bite
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Constraint_Bite_C::Event_Stop_Bite()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Stop Bite", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_Constraint_Bite.BP_Constraint_Bite_C.ExecuteUbergraph_BP_Constraint_Bite
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -23,10 +35,8 @@ SDK_NAMESPACE_START
 
 void ABP_Constraint_Bite_C::ExecuteUbergraph_BP_Constraint_Bite(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Constraint_Bite_C", "ExecuteUbergraph_BP_Constraint_Bite");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Constraint_Bite_C", "ExecuteUbergraph_BP_Constraint_Bite", FuncInfo);
 
 	Params::BP_Constraint_Bite_C_ExecuteUbergraph_BP_Constraint_Bite Parms{};
 
@@ -41,10 +51,8 @@ void ABP_Constraint_Bite_C::ExecuteUbergraph_BP_Constraint_Bite(int32 EntryPoint
 
 void ABP_Constraint_Bite_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Constraint_Bite_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,16 +65,38 @@ void ABP_Constraint_Bite_C::ReceiveBeginPlay()
 
 void ABP_Constraint_Bite_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Constraint_Bite_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Constraint_Bite_C_ReceiveTick Parms{};
 
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Constraint_Bite.BP_Constraint_Bite_C.Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_Constraint_Bite_C::Timeline__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Constraint_Bite.BP_Constraint_Bite_C.Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_Constraint_Bite_C::Timeline__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

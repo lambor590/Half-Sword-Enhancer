@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_LevelManager_C::Check_Availabe_Mercenaries()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Check Availabe Mercenaries");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Availabe Mercenaries", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_LevelManager_C::Check_Availabe_Mercenaries()
 
 void ABP_LevelManager_C::Clean_Up_and_Spawn_Actors()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Clean Up and Spawn Actors");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clean Up and Spawn Actors", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void ABP_LevelManager_C::Clean_Up_and_Spawn_Actors()
 
 void ABP_LevelManager_C::Clean_Up_Map()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Clean Up Map");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clean Up Map", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void ABP_LevelManager_C::Clean_Up_Map()
 
 void ABP_LevelManager_C::Event_Respawn_Respawnable_Objects_With_Delay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Event Respawn Respawnable Objects With Delay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Respawn Respawnable Objects With Delay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void ABP_LevelManager_C::Event_Respawn_Respawnable_Objects_With_Delay()
 
 void ABP_LevelManager_C::ExecuteUbergraph_BP_LevelManager(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "ExecuteUbergraph_BP_LevelManager");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_LevelManager_C", "ExecuteUbergraph_BP_LevelManager", FuncInfo);
 
 	Params::BP_LevelManager_C_ExecuteUbergraph_BP_LevelManager Parms{};
 
@@ -99,10 +89,8 @@ void ABP_LevelManager_C::ExecuteUbergraph_BP_LevelManager(int32 EntryPoint)
 
 void ABP_LevelManager_C::Fade_Out_Event(double Delay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Fade Out Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fade Out Event", FnName));
 
 	Params::BP_LevelManager_C_Fade_Out_Event Parms{};
 
@@ -117,10 +105,8 @@ void ABP_LevelManager_C::Fade_Out_Event(double Delay)
 
 void ABP_LevelManager_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -131,10 +117,8 @@ void ABP_LevelManager_C::ReceiveBeginPlay()
 
 void ABP_LevelManager_C::Spawn_Combatants()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Spawn Combatants");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Combatants", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -145,10 +129,8 @@ void ABP_LevelManager_C::Spawn_Combatants()
 
 void ABP_LevelManager_C::Spawn_Combatants_Mock()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LevelManager_C", "Spawn Combatants_Mock");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Combatants_Mock", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

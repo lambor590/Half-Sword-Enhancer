@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GBP_TestCuisse.GBP_TestCuisse_C
-// 0x0000 (0x00C8 - 0x00C8)
+// 0x0000 (0x00D0 - 0x00D0)
 class UGBP_TestCuisse_C final : public UBP_GameArmor_C
 {
 public:

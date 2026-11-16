@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ITurnBasedMatchInterface::OnMatchEnded(const class FString& Match)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("TurnBasedMatchInterface", "OnMatchEnded");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OnMatchEnded", FnName));
 
 	Params::TurnBasedMatchInterface_OnMatchEnded Parms{};
 
@@ -44,10 +42,8 @@ void ITurnBasedMatchInterface::OnMatchEnded(const class FString& Match)
 
 void ITurnBasedMatchInterface::OnMatchReceivedTurn(const class FString& Match, bool bDidBecomeActive)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("TurnBasedMatchInterface", "OnMatchReceivedTurn");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OnMatchReceivedTurn", FnName));
 
 	Params::TurnBasedMatchInterface_OnMatchReceivedTurn Parms{};
 

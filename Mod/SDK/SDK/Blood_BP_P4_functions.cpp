@@ -28,10 +28,8 @@ SDK_NAMESPACE_START
 
 void ABlood_BP_P4_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature", FnName));
 
 	Params::Blood_BP_P4_C_BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature Parms{};
 
@@ -46,6 +44,30 @@ void ABlood_BP_P4_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionCompone
 }
 
 
+// Function Blood_BP_P4.Blood_BP_P4_C.Event Destroy Self
+// (BlueprintCallable, BlueprintEvent)
+
+void ABlood_BP_P4_C::Event_Destroy_Self()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Destroy Self", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Blood_BP_P4.Blood_BP_P4_C.Event VP Find Paint Area
+// (BlueprintCallable, BlueprintEvent)
+
+void ABlood_BP_P4_C::Event_VP_Find_Paint_Area()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event VP Find Paint Area", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Blood_BP_P4.Blood_BP_P4_C.ExecuteUbergraph_Blood_BP_P4
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -53,10 +75,8 @@ void ABlood_BP_P4_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionCompone
 
 void ABlood_BP_P4_C::ExecuteUbergraph_Blood_BP_P4(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "ExecuteUbergraph_Blood_BP_P4");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Blood_BP_P4_C", "ExecuteUbergraph_Blood_BP_P4", FuncInfo);
 
 	Params::Blood_BP_P4_C_ExecuteUbergraph_Blood_BP_P4 Parms{};
 
@@ -74,10 +94,8 @@ void ABlood_BP_P4_C::ExecuteUbergraph_Blood_BP_P4(int32 EntryPoint)
 
 void ABlood_BP_P4_C::Get_Vertex_Color_On_Surface_Event(class UPrimitiveComponent* MeshComponent, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataStruct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "Get Vertex Color On Surface Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Vertex Color On Surface Event", FnName));
 
 	Params::Blood_BP_P4_C_Get_Vertex_Color_On_Surface_Event Parms{};
 
@@ -93,10 +111,8 @@ void ABlood_BP_P4_C::Get_Vertex_Color_On_Surface_Event(class UPrimitiveComponent
 
 void ABlood_BP_P4_C::NewBloodBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "NewBloodBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewBloodBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -109,10 +125,8 @@ void ABlood_BP_P4_C::NewBloodBeginPlay()
 
 void ABlood_BP_P4_C::NewBloodMainDrawToCanvas(TArray<struct FBasicParticleData>& Data)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "NewBloodMainDrawToCanvas");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewBloodMainDrawToCanvas", FnName));
 
 	Params::Blood_BP_P4_C_NewBloodMainDrawToCanvas Parms{};
 
@@ -129,10 +143,8 @@ void ABlood_BP_P4_C::NewBloodMainDrawToCanvas(TArray<struct FBasicParticleData>&
 
 void ABlood_BP_P4_C::NewBloodNiagara()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "NewBloodNiagara");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewBloodNiagara", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -145,10 +157,8 @@ void ABlood_BP_P4_C::NewBloodNiagara()
 
 void ABlood_BP_P4_C::NewBloodNiagaraDecals(TArray<struct FBasicParticleData>& Data)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "NewBloodNiagaraDecals");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewBloodNiagaraDecals", FnName));
 
 	Params::Blood_BP_P4_C_NewBloodNiagaraDecals Parms{};
 
@@ -167,10 +177,8 @@ void ABlood_BP_P4_C::NewBloodNiagaraDecals(TArray<struct FBasicParticleData>& Da
 
 void ABlood_BP_P4_C::NewBloodReadbackTech(TArray<struct FBasicParticleData>& Data)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "NewBloodReadbackTech");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewBloodReadbackTech", FnName));
 
 	Params::Blood_BP_P4_C_NewBloodReadbackTech Parms{};
 
@@ -187,10 +195,8 @@ void ABlood_BP_P4_C::NewBloodReadbackTech(TArray<struct FBasicParticleData>& Dat
 
 void ABlood_BP_P4_C::OldBloodBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "OldBloodBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OldBloodBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -201,10 +207,8 @@ void ABlood_BP_P4_C::OldBloodBeginPlay()
 
 void ABlood_BP_P4_C::OldBloodEventTick()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "OldBloodEventTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OldBloodEventTick", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +221,8 @@ void ABlood_BP_P4_C::OldBloodEventTick()
 
 void ABlood_BP_P4_C::OldBloodMain_VertexPaint_(TArray<struct FBasicParticleData>& Data)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "OldBloodMain(VertexPaint)");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OldBloodMain(VertexPaint)", FnName));
 
 	Params::Blood_BP_P4_C_OldBloodMain_VertexPaint_ Parms{};
 
@@ -237,10 +239,8 @@ void ABlood_BP_P4_C::OldBloodMain_VertexPaint_(TArray<struct FBasicParticleData>
 
 void ABlood_BP_P4_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -255,10 +255,8 @@ void ABlood_BP_P4_C::ReceiveBeginPlay()
 
 void ABlood_BP_P4_C::ReceiveParticleData(const TArray<struct FBasicParticleData>& Data, class UNiagaraSystem* NiagaraSystem, const struct FVector& SimulationPositionOffset)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "ReceiveParticleData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveParticleData", FnName));
 
 	Params::Blood_BP_P4_C_ReceiveParticleData Parms{};
 
@@ -277,10 +275,8 @@ void ABlood_BP_P4_C::ReceiveParticleData(const TArray<struct FBasicParticleData>
 
 void ABlood_BP_P4_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Blood_BP_P4_C_ReceiveTick Parms{};
 
@@ -297,10 +293,8 @@ void ABlood_BP_P4_C::ReceiveTick(float DeltaSeconds)
 
 void ABlood_BP_P4_C::RTDraw(TArray<struct FBasicParticleData>& Data)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "RTDraw");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RTDraw", FnName));
 
 	Params::Blood_BP_P4_C_RTDraw Parms{};
 
@@ -322,10 +316,8 @@ void ABlood_BP_P4_C::RTDraw(TArray<struct FBasicParticleData>& Data)
 
 void ABlood_BP_P4_C::SpawnDecalFallback(const struct FVector& ImpactPoint, const struct FVector& ImpactNormal, class UPrimitiveComponent*& HitComponent, double Size_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "SpawnDecalFallback");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SpawnDecalFallback", FnName));
 
 	Params::Blood_BP_P4_C_SpawnDecalFallback Parms{};
 
@@ -351,10 +343,8 @@ void ABlood_BP_P4_C::SpawnDecalFallback(const struct FVector& ImpactPoint, const
 
 void ABlood_BP_P4_C::SpawnDecalVelocitySplatter(const struct FVector& ImpactPoint, const struct FVector& ImpactNormal, class UPrimitiveComponent*& HitComponent, double Size_0, const struct FVector& Velocity_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "SpawnDecalVelocitySplatter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SpawnDecalVelocitySplatter", FnName));
 
 	Params::Blood_BP_P4_C_SpawnDecalVelocitySplatter Parms{};
 
@@ -375,10 +365,8 @@ void ABlood_BP_P4_C::SpawnDecalVelocitySplatter(const struct FVector& ImpactPoin
 
 void ABlood_BP_P4_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Blood_BP_P4_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

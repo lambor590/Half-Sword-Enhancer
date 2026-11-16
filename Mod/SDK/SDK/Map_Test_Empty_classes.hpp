@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Map_Test_Empty.Map_Test_Empty_C
-// 0x0120 (0x03B8 - 0x0298)
+// 0x0220 (0x04B8 - 0x0298)
 class AMap_Test_Empty_C final : public ALevelScriptActor
 {
 public:
@@ -28,8 +28,10 @@ public:
 	uint8                                         Pad_2A1[0x7];                                      // 0x02A1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class ABP_Trash_ColoredBall_C*>        Balls_Shuffled;                                    // 0x02A8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
 	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x02B8(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Weapon_Passport_0;                                 // 0x03B8(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
 	void ExecuteUbergraph_Map_Test_Empty(int32 EntryPoint);
 

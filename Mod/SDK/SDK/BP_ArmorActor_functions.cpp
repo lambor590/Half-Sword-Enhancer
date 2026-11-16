@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_ArmorActor_C::ExecuteUbergraph_BP_ArmorActor(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ArmorActor_C", "ExecuteUbergraph_BP_ArmorActor");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_ArmorActor_C", "ExecuteUbergraph_BP_ArmorActor", FuncInfo);
 
 	Params::BP_ArmorActor_C_ExecuteUbergraph_BP_ArmorActor Parms{};
 
@@ -41,10 +39,8 @@ void ABP_ArmorActor_C::ExecuteUbergraph_BP_ArmorActor(int32 EntryPoint)
 
 void ABP_ArmorActor_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ArmorActor_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void ABP_ArmorActor_C::ReceiveBeginPlay()
 
 void ABP_ArmorActor_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ArmorActor_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

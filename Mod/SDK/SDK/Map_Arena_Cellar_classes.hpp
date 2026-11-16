@@ -12,14 +12,14 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_GameMode_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Map_Arena_Cellar.Map_Arena_Cellar_C
-// 0x0138 (0x03D0 - 0x0298)
+// 0x0118 (0x03B0 - 0x0298)
 class AMap_Arena_Cellar_C final : public ALevelScriptActor
 {
 public:
@@ -27,10 +27,6 @@ public:
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x02A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class ABP_Barrel_Destructable_Constraits_C*   Boss_Barrel;                                       // 0x02A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	struct FStr_Passport_Weapon1                  Forged_Weapon_Pass;                                // 0x02B0(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class ABP_Prop_Training_Dummy_001_C*          BP_Prop_Training_Dummy_001_C_0_ExecuteUbergraph_Map_Arena_Cellar_RefProperty; // 0x03B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AStaticMeshActor*                       StaticMeshActor_2_ExecuteUbergraph_Map_Arena_Cellar_RefProperty; // 0x03B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AStaticMeshActor*                       StaticMeshActor_8_ExecuteUbergraph_Map_Arena_Cellar_RefProperty; // 0x03C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AStaticMeshActor*                       StaticMeshActor_1_ExecuteUbergraph_Map_Arena_Cellar_RefProperty; // 0x03C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ReceiveTick(float DeltaSeconds_ReceiveTick);

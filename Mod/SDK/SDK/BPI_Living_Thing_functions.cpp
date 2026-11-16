@@ -25,10 +25,8 @@ SDK_NAMESPACE_START
 
 void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Living_Thing_C", "Attach Decal");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Attach Decal", FnName));
 
 	Params::BPI_Living_Thing_C_Attach_Decal Parms{};
 
@@ -67,10 +65,8 @@ void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struc
 
 void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double Draw_Cut, double* Damage_Out)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Living_Thing_C", "Get Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Damage", FnName));
 
 	Params::BPI_Living_Thing_C_Get_Damage Parms{};
 

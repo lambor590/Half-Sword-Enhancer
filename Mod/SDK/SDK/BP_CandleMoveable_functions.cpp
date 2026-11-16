@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_CandleMoveable_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_CandleMoveable_C::UserConstructionScript()
 
 void ABP_CandleMoveable_C::StopFlameMovementUpdates()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "StopFlameMovementUpdates");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"StopFlameMovementUpdates", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void ABP_CandleMoveable_C::StopFlameMovementUpdates()
 
 void ABP_CandleMoveable_C::SetInitialFlameState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "SetInitialFlameState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetInitialFlameState", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -67,10 +61,8 @@ void ABP_CandleMoveable_C::SetInitialFlameState()
 
 void ABP_CandleMoveable_C::Remap_Velocity(const struct FVector& InVelocity, double VelocityMax, struct FVector* OutVelocity)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "Remap Velocity");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Remap Velocity", FnName));
 
 	Params::BP_CandleMoveable_C_Remap_Velocity Parms{};
 
@@ -89,10 +81,8 @@ void ABP_CandleMoveable_C::Remap_Velocity(const struct FVector& InVelocity, doub
 
 void ABP_CandleMoveable_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -103,10 +93,8 @@ void ABP_CandleMoveable_C::ReceiveBeginPlay()
 
 void ABP_CandleMoveable_C::PhysicsOnFlameMovement()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "PhysicsOnFlameMovement");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PhysicsOnFlameMovement", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -117,10 +105,8 @@ void ABP_CandleMoveable_C::PhysicsOnFlameMovement()
 
 void ABP_CandleMoveable_C::MovementWindTurbulence__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "MovementWindTurbulence__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MovementWindTurbulence__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -131,10 +117,8 @@ void ABP_CandleMoveable_C::MovementWindTurbulence__UpdateFunc()
 
 void ABP_CandleMoveable_C::MovementWindTurbulence__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "MovementWindTurbulence__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MovementWindTurbulence__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +131,8 @@ void ABP_CandleMoveable_C::MovementWindTurbulence__FinishedFunc()
 
 void ABP_CandleMoveable_C::ExecuteUbergraph_BP_CandleMoveable(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "ExecuteUbergraph_BP_CandleMoveable");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_CandleMoveable_C", "ExecuteUbergraph_BP_CandleMoveable", FuncInfo);
 
 	Params::BP_CandleMoveable_C_ExecuteUbergraph_BP_CandleMoveable Parms{};
 
@@ -165,10 +147,8 @@ void ABP_CandleMoveable_C::ExecuteUbergraph_BP_CandleMoveable(int32 EntryPoint)
 
 void ABP_CandleMoveable_C::CandleUnlit()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "CandleUnlit");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CandleUnlit", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -181,10 +161,8 @@ void ABP_CandleMoveable_C::CandleUnlit()
 
 void ABP_CandleMoveable_C::CandleLit(double Delay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "CandleLit");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CandleLit", FnName));
 
 	Params::BP_CandleMoveable_C_CandleLit Parms{};
 
@@ -202,10 +180,8 @@ void ABP_CandleMoveable_C::CandleLit(double Delay)
 
 void ABP_CandleMoveable_C::BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_1_ComponentSleepSignature__DelegateSignature(class UPrimitiveComponent* SleepingComponent, class FName BoneName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_1_ComponentSleepSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_1_ComponentSleepSignature__DelegateSignature", FnName));
 
 	Params::BP_CandleMoveable_C_BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_1_ComponentSleepSignature__DelegateSignature Parms{};
 
@@ -224,10 +200,8 @@ void ABP_CandleMoveable_C::BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_1
 
 void ABP_CandleMoveable_C::BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_0_ComponentWakeSignature__DelegateSignature(class UPrimitiveComponent* WakingComponent, class FName BoneName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_0_ComponentWakeSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_0_ComponentWakeSignature__DelegateSignature", FnName));
 
 	Params::BP_CandleMoveable_C_BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_0_ComponentWakeSignature__DelegateSignature Parms{};
 
@@ -245,10 +219,8 @@ void ABP_CandleMoveable_C::BndEvt__BP_Candle_Candle_K2Node_ComponentBoundEvent_0
 
 void ABP_CandleMoveable_C::BlownOut(double Delay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleMoveable_C", "BlownOut");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlownOut", FnName));
 
 	Params::BP_CandleMoveable_C_BlownOut Parms{};
 

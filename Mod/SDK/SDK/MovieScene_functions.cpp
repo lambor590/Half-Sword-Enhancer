@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 class UObject* IMovieSceneBoundObjectProxy::BP_GetBoundObjectForSequencer(class UObject* ResolvedObject)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("MovieSceneBoundObjectProxy", "BP_GetBoundObjectForSequencer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"BP_GetBoundObjectForSequencer", FnName));
 
 	Params::MovieSceneBoundObjectProxy_BP_GetBoundObjectForSequencer Parms{};
 
@@ -47,10 +45,8 @@ class UObject* IMovieSceneBoundObjectProxy::BP_GetBoundObjectForSequencer(class 
 
 void IMovieSceneBindingEventReceiverInterface::OnObjectBoundBySequencer(class UMovieSceneSequencePlayer* Player, const struct FMovieSceneObjectBindingID& BindingID)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("MovieSceneBindingEventReceiverInterface", "OnObjectBoundBySequencer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OnObjectBoundBySequencer", FnName));
 
 	Params::MovieSceneBindingEventReceiverInterface_OnObjectBoundBySequencer Parms{};
 
@@ -74,10 +70,8 @@ void IMovieSceneBindingEventReceiverInterface::OnObjectBoundBySequencer(class UM
 
 void IMovieSceneBindingEventReceiverInterface::OnObjectUnboundBySequencer(class UMovieSceneSequencePlayer* Player, const struct FMovieSceneObjectBindingID& BindingID)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("MovieSceneBindingEventReceiverInterface", "OnObjectUnboundBySequencer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OnObjectUnboundBySequencer", FnName));
 
 	Params::MovieSceneBindingEventReceiverInterface_OnObjectUnboundBySequencer Parms{};
 
@@ -101,10 +95,8 @@ void IMovieSceneBindingEventReceiverInterface::OnObjectUnboundBySequencer(class 
 
 float IMovieSceneEasingFunction::OnEvaluate(float Interp) const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("MovieSceneEasingFunction", "OnEvaluate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OnEvaluate", FnName));
 
 	Params::MovieSceneEasingFunction_OnEvaluate Parms{};
 
@@ -1871,6 +1863,48 @@ void IMovieSceneCustomClockSource::OnTick(float DeltaSeconds, float InPlayRate)
 	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function MovieScene.MovieSceneEasingFunction.OnEvaluate
+// (RequiredAPI, Event, Protected, BlueprintCallable, BlueprintEvent, BlueprintPure, Const)
+// Parameters:
+// float                                   Interp                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+float UMovieSceneBuiltInEasingFunction::OnEvaluate(float Interp) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnEvaluate", FnName));
+
+	Params::MovieSceneEasingFunction_OnEvaluate Parms{};
+
+	Parms.Interp = Interp;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function MovieScene.MovieSceneEasingFunction.OnEvaluate
+// (RequiredAPI, Event, Protected, BlueprintCallable, BlueprintEvent, BlueprintPure, Const)
+// Parameters:
+// float                                   Interp                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+float UMovieSceneEasingExternalCurve::OnEvaluate(float Interp) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnEvaluate", FnName));
+
+	Params::MovieSceneEasingFunction_OnEvaluate Parms{};
+
+	Parms.Interp = Interp;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 

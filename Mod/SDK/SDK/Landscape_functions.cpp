@@ -624,10 +624,8 @@ TArray<class USplineMeshComponent*> ULandscapeSplinesComponent::GetSplineMeshCom
 
 void ALandscapeBlueprintBrushBase::GetBlueprintRenderDependencies(TArray<class UObject*>* OutStreamableAssets)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LandscapeBlueprintBrushBase", "GetBlueprintRenderDependencies");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBlueprintRenderDependencies", FnName));
 
 	Params::LandscapeBlueprintBrushBase_GetBlueprintRenderDependencies Parms{};
 
@@ -647,10 +645,8 @@ void ALandscapeBlueprintBrushBase::GetBlueprintRenderDependencies(TArray<class U
 
 void ALandscapeBlueprintBrushBase::Initialize(const struct FTransform& InLandscapeTransform, const struct FIntPoint& InLandscapeSize, const struct FIntPoint& InLandscapeRenderTargetSize)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LandscapeBlueprintBrushBase", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::LandscapeBlueprintBrushBase_Initialize Parms{};
 
@@ -677,10 +673,8 @@ void ALandscapeBlueprintBrushBase::Initialize(const struct FTransform& InLandsca
 
 class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::Render(bool InIsHeightmap, class UTextureRenderTarget2D* InCombinedResult, const class FName& InWeightmapLayerName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LandscapeBlueprintBrushBase", "Render");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Render", FnName));
 
 	Params::LandscapeBlueprintBrushBase_Render Parms{};
 
@@ -707,10 +701,8 @@ class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::Render(bool InIsHeig
 
 class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::RenderLayer(const struct FLandscapeBrushParameters& InParameters)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LandscapeBlueprintBrushBase", "RenderLayer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RenderLayer", FnName));
 
 	Params::LandscapeBlueprintBrushBase_RenderLayer Parms{};
 

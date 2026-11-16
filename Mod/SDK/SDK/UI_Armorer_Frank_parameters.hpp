@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
+#include "UMG_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "UMG_structs.hpp"
-#include "STR_ArmorTierColorSwatch_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Swatch_Type_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "STR_ArmorTierColorSwatch_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "STR_ArmorTextureSwatch_structs.hpp"
@@ -160,7 +160,7 @@ public:
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.ExecuteUbergraph_UI_Armorer_Frank
-// 0x0EC0 (0x0EC0 - 0x0000)
+// 0x0ED0 (0x0ED0 - 0x0000)
 struct UI_Armorer_Frank_C_ExecuteUbergraph_UI_Armorer_Frank final
 {
 public:
@@ -189,21 +189,22 @@ public:
 	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x00F8(0x00D8)(HasGetValueTypeHash)
 	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue;          // 0x01D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_1;           // 0x01D8(0x00D8)(HasGetValueTypeHash)
-	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1;  // 0x02B0(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1; // 0x02B0(0x0010)(ReferenceParm)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x02C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_1;                         // 0x02C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_1;                         // 0x02C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x02D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x02D8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2D9[0x7];                                      // 0x02D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_2;           // 0x02E0(0x00D8)(HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x03B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_3B9[0x3];                                      // 0x03B9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          CallFunc_Map_Remove_ReturnValue;                   // 0x03B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x03B9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3BA[0x2];                                      // 0x03BA(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x03BC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_1;          // 0x03C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_3C1[0x3];                                      // 0x03C1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         CallFunc_SelectInt_ReturnValue_1;                  // 0x03C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         CallFunc_SelectInt_ReturnValue_2;                  // 0x03C8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Map_Remove_ReturnValue;                   // 0x03CC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Remove_ReturnValue_1;                 // 0x03CC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_2;          // 0x03CD(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_3CE[0x2];                                      // 0x03CE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         CallFunc_SelectInt_ReturnValue_3;                  // 0x03D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -314,14 +315,16 @@ public:
 	struct FVector                                CallFunc_K2_GetActorLocation_ReturnValue;          // 0x0DD8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                CallFunc_Add_VectorVector_ReturnValue;             // 0x0DF0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                CallFunc_Add_VectorVector_ReturnValue_1;           // 0x0E08(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_2;  // 0x0E20(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_2; // 0x0E20(0x0010)(ReferenceParm)
 	struct FTransform                             CallFunc_Conv_VectorToTransform_ReturnValue;       // 0x0E30(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_4;                         // 0x0E90(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_4;                         // 0x0E90(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x0E98(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class AModularWeaponBP_C*                     CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x0EA0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_3; // 0x0EA8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_3;        // 0x0EB0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0EB8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Remove_ReturnValue_2;                 // 0x0EC0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Remove_ReturnValue_3;                 // 0x0EC1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function UI_Armorer_Frank.UI_Armorer_Frank_C.FillItemsList

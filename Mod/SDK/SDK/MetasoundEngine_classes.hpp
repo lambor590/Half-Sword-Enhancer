@@ -14,6 +14,7 @@
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 #include "MetasoundFrontend_structs.hpp"
+#include "MetasoundFrontend_classes.hpp"
 #include "MetasoundEngine_structs.hpp"
 #include "DeveloperSettings_classes.hpp"
 
@@ -241,10 +242,9 @@ public:
 
 // Class MetasoundEngine.MetaSoundPatch
 // 0x0320 (0x0348 - 0x0028)
-class UMetaSoundPatch final : public UObject
+class UMetaSoundPatch final : public UObject, public MIPad::Pad<0x40, 0x68>, public IMetaSoundDocumentInterface
 {
 public:
-	uint8                                         Pad_28[0x48];                                      // 0x0028(0x0048)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FMetasoundFrontendDocument             RootMetaSoundDocument;                             // 0x0070(0x01D0)(Edit, Protected, NativeAccessSpecifierProtected)
 	TSet<class FString>                           ReferencedAssetClassKeys;                          // 0x0240(0x0050)(Protected, NativeAccessSpecifierProtected)
 	TSet<class UObject*>                          ReferencedAssetClassObjects;                       // 0x0290(0x0050)(Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
@@ -483,10 +483,9 @@ public:
 
 // Class MetasoundEngine.MetaSoundSource
 // 0x0410 (0x0880 - 0x0470)
-class alignas(0x10) UMetaSoundSource final : public USoundWaveProcedural
+class alignas(0x10) UMetaSoundSource final : public USoundWaveProcedural, public MIPad::Pad<0x40, 0x4B0>, public IMetaSoundDocumentInterface
 {
 public:
-	uint8                                         Pad_470[0x48];                                     // 0x0470(0x0048)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FMetasoundFrontendDocument             RootMetaSoundDocument;                             // 0x04B8(0x01D0)(Edit, Protected, NativeAccessSpecifierProtected)
 	TSet<class FString>                           ReferencedAssetClassKeys;                          // 0x0688(0x0050)(Protected, NativeAccessSpecifierProtected)
 	TSet<class UObject*>                          ReferencedAssetClassObjects;                       // 0x06D8(0x0050)(Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)

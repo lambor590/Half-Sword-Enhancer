@@ -20,10 +20,8 @@ SDK_NAMESPACE_START
 
 void IBPI_ApplySettings_C::Apply_Gameplay_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_ApplySettings_C", "Apply Gameplay Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Apply Gameplay Settings", FnName));
 
 	AsUObject()->ProcessEvent(Func, nullptr);
 }
@@ -34,10 +32,8 @@ void IBPI_ApplySettings_C::Apply_Gameplay_Settings()
 
 void IBPI_ApplySettings_C::Apply_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_ApplySettings_C", "Apply Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Apply Settings", FnName));
 
 	AsUObject()->ProcessEvent(Func, nullptr);
 }

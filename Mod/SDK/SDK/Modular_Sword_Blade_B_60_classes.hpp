@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Sword_Blade_B_60.Modular_Sword_Blade_B_60_C
-// 0x0000 (0x0448 - 0x0448)
+// 0x0000 (0x0450 - 0x0450)
 class AModular_Sword_Blade_B_60_C final : public AModular_Sword_Blade_Master_C
 {
 public:

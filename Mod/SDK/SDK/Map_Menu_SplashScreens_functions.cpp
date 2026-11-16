@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AMap_Menu_SplashScreens_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Menu_SplashScreens_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AMap_Menu_SplashScreens_C::ReceiveBeginPlay()
 
 void AMap_Menu_SplashScreens_C::ExecuteUbergraph_Map_Menu_SplashScreens(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Menu_SplashScreens_C", "ExecuteUbergraph_Map_Menu_SplashScreens");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Menu_SplashScreens_C", "ExecuteUbergraph_Map_Menu_SplashScreens", FuncInfo);
 
 	Params::Map_Menu_SplashScreens_C_ExecuteUbergraph_Map_Menu_SplashScreens Parms{};
 

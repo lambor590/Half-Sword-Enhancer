@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Button_1_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Button_1_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Button_1_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_0_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_CheckBox_0_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_CheckBox_0_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_0_K2Node_ComponentBoundEvent_5_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -99,10 +89,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_0_K2Node_Compone
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_ComponentBoundEvent_10_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_ComponentBoundEvent_10_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_ComponentBoundEvent_10_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_ComponentBoundEvent_10_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -119,10 +107,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_Compone
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -139,10 +125,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_Compone
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -159,10 +143,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -179,10 +161,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -199,10 +179,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -219,10 +197,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -239,10 +215,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_5_K2Node_ComponentBoundEvent_12_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_5_K2Node_ComponentBoundEvent_12_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_5_K2Node_ComponentBoundEvent_12_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_5_K2Node_ComponentBoundEvent_12_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -259,10 +233,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_5_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -279,10 +251,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_Component
 
 void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Jester_FreeMode_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -297,10 +267,8 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_K2Node_ComponentBo
 
 void UUI_Jester_FreeMode_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -313,10 +281,8 @@ void UUI_Jester_FreeMode_C::Construct()
 
 void UUI_Jester_FreeMode_C::ExecuteUbergraph_UI_Jester_FreeMode(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "ExecuteUbergraph_UI_Jester_FreeMode");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Jester_FreeMode_C", "ExecuteUbergraph_UI_Jester_FreeMode", FuncInfo);
 
 	Params::UI_Jester_FreeMode_C_ExecuteUbergraph_UI_Jester_FreeMode Parms{};
 
@@ -333,10 +299,8 @@ void UUI_Jester_FreeMode_C::ExecuteUbergraph_UI_Jester_FreeMode(int32 EntryPoint
 
 ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetCheckedState Parms{};
 
@@ -353,10 +317,8 @@ ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState()
 
 ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_0", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetCheckedState_0 Parms{};
 
@@ -373,10 +335,8 @@ ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_0()
 
 ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_1", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetCheckedState_1 Parms{};
 
@@ -393,10 +353,8 @@ ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_1()
 
 ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_2", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetCheckedState_2 Parms{};
 
@@ -413,10 +371,8 @@ ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_2()
 
 class FText UUI_Jester_FreeMode_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText Parms{};
 
@@ -433,10 +389,8 @@ class FText UUI_Jester_FreeMode_C::GetText()
 
 class FText UUI_Jester_FreeMode_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_0 Parms{};
 
@@ -453,10 +407,8 @@ class FText UUI_Jester_FreeMode_C::GetText_0()
 
 class FText UUI_Jester_FreeMode_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_1 Parms{};
 
@@ -473,10 +425,8 @@ class FText UUI_Jester_FreeMode_C::GetText_1()
 
 class FText UUI_Jester_FreeMode_C::GetText_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_2", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_2 Parms{};
 
@@ -493,10 +443,8 @@ class FText UUI_Jester_FreeMode_C::GetText_2()
 
 class FText UUI_Jester_FreeMode_C::GetText_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_3", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_3 Parms{};
 
@@ -513,10 +461,8 @@ class FText UUI_Jester_FreeMode_C::GetText_3()
 
 class FText UUI_Jester_FreeMode_C::GetText_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_4", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_4 Parms{};
 
@@ -533,10 +479,8 @@ class FText UUI_Jester_FreeMode_C::GetText_4()
 
 class FText UUI_Jester_FreeMode_C::GetText_5()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_5", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_5 Parms{};
 
@@ -553,10 +497,8 @@ class FText UUI_Jester_FreeMode_C::GetText_5()
 
 class FText UUI_Jester_FreeMode_C::GetText_6()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_6", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_6 Parms{};
 
@@ -573,10 +515,8 @@ class FText UUI_Jester_FreeMode_C::GetText_6()
 
 class FText UUI_Jester_FreeMode_C::GetText_7()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_7", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetText_7 Parms{};
 
@@ -593,10 +533,8 @@ class FText UUI_Jester_FreeMode_C::GetText_7()
 
 ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetVisibility_0 Parms{};
 
@@ -613,10 +551,8 @@ ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_0()
 
 ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetVisibility_1 Parms{};
 
@@ -633,10 +569,8 @@ ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_1()
 
 ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_Jester_FreeMode_C_GetVisibility_2 Parms{};
 
@@ -653,10 +587,8 @@ ESlateVisibility UUI_Jester_FreeMode_C::GetVisibility_2()
 
 void UUI_Jester_FreeMode_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Jester_FreeMode_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Jester_FreeMode_C_PreConstruct Parms{};
 

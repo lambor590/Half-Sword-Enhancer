@@ -17,6 +17,7 @@
 #include "CoreUObject_classes.hpp"
 #include "GeometryCollectionEngine_structs.hpp"
 #include "ChaosSolverEngine_structs.hpp"
+#include "ChaosSolverEngine_classes.hpp"
 
 
 SDK_NAMESPACE_START
@@ -44,9 +45,12 @@ public:
 };
 
 // Class GeometryCollectionEngine.GeometryCollectionExternalRenderInterface
-// 0x0000 (0x0000 - 0x0000)
-class IGeometryCollectionExternalRenderInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IGeometryCollectionExternalRenderInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -206,10 +210,9 @@ public:
 
 // Class GeometryCollectionEngine.GeometryCollectionComponent
 // 0x0500 (0x0A50 - 0x0550)
-class UGeometryCollectionComponent final : public UMeshComponent
+class UGeometryCollectionComponent final : public UMeshComponent, public IChaosNotifyHandlerInterface
 {
 public:
-	uint8                                         Pad_550[0x8];                                      // 0x0550(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class AChaosSolverActor*                      ChaosSolverActor;                                  // 0x0558(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	uint8                                         Pad_560[0x8];                                      // 0x0560(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UGeometryCollection*                    RestCollection;                                    // 0x0568(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NoClear, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
@@ -535,10 +538,9 @@ public:
 
 // Class GeometryCollectionEngine.GeometryCollectionISMPoolRenderer
 // 0x00B8 (0x00E0 - 0x0028)
-class alignas(0x10) UGeometryCollectionISMPoolRenderer final : public UObject
+class alignas(0x10) UGeometryCollectionISMPoolRenderer final : public UObject, public IGeometryCollectionExternalRenderInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class AGeometryCollectionISMPoolActor*        ISMPoolActor;                                      // 0x0030(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_38[0xA8];                                      // 0x0038(0x00A8)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -559,10 +561,10 @@ public:
 
 // Class GeometryCollectionEngine.GeometryCollection
 // 0x01F0 (0x0218 - 0x0028)
-class UGeometryCollection final : public UObject
+class UGeometryCollection final : public UObject, public IInterface_AssetUserData
 {
 public:
-	uint8                                         Pad_28[0x10];                                      // 0x0028(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	bool                                          EnableClustering;                                  // 0x0038(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_39[0x3];                                       // 0x0039(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         ClusterGroupIndex;                                 // 0x003C(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -643,6 +645,11 @@ public:
 	{
 		return GetDefaultObjImpl<UGeometryCollection>();
 	}
+
+public:
+	bool AddAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	class UAssetUserData* GetAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	bool HasAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
 };
 
 // Class GeometryCollectionEngine.GeometryCollectionRenderLevelSetActor

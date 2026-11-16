@@ -16,35 +16,13 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_Container_Chest_001.BP_Container_Chest_001_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Container_Chest_001_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_001_C", "ReceiveTick");
-
-	Params::BP_Container_Chest_001_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Container_Chest_001.BP_Container_Chest_001_C.ReceiveBeginPlay
 // (Event, Protected, BlueprintEvent)
 
 void ABP_Container_Chest_001_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_001_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +35,8 @@ void ABP_Container_Chest_001_C::ReceiveBeginPlay()
 
 void ABP_Container_Chest_001_C::ExecuteUbergraph_BP_Container_Chest_001(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_001_C", "ExecuteUbergraph_BP_Container_Chest_001");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Container_Chest_001_C", "ExecuteUbergraph_BP_Container_Chest_001", FuncInfo);
 
 	Params::BP_Container_Chest_001_C_ExecuteUbergraph_BP_Container_Chest_001 Parms{};
 
@@ -81,10 +57,8 @@ void ABP_Container_Chest_001_C::ExecuteUbergraph_BP_Container_Chest_001(int32 En
 
 void ABP_Container_Chest_001_C::BndEvt__BP_Container_Chest_001_Lid_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_001_C", "BndEvt__BP_Container_Chest_001_Lid_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Container_Chest_001_Lid_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Container_Chest_001_C_BndEvt__BP_Container_Chest_001_Lid_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -109,10 +83,8 @@ void ABP_Container_Chest_001_C::BndEvt__BP_Container_Chest_001_Lid_K2Node_Compon
 
 void ABP_Container_Chest_001_C::BndEvt__BP_Container_Chest_001_Box_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_001_C", "BndEvt__BP_Container_Chest_001_Box_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Container_Chest_001_Box_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Container_Chest_001_C_BndEvt__BP_Container_Chest_001_Box_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 

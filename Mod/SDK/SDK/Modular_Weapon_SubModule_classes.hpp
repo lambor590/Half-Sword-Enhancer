@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_SubModule.Modular_Weapon_SubModule_C
-// 0x0000 (0x0420 - 0x0420)
+// 0x0000 (0x0428 - 0x0428)
 #pragma pack(push, 0x1)
 class SDK_ALIGN(0x08) AModular_Weapon_SubModule_C : public AModular_Weapon_Module_C
 {

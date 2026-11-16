@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UW_UV_Switch_C::SwitchOnSave()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "SwitchOnSave");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchOnSave", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UW_UV_Switch_C::SwitchOnSave()
 
 void UW_UV_Switch_C::SetStyle(struct FButtonStyle* Style)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "SetStyle");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetStyle", FnName));
 
 	Params::W_UV_Switch_C_SetStyle Parms{};
 
@@ -58,10 +54,8 @@ void UW_UV_Switch_C::SetStyle(struct FButtonStyle* Style)
 
 void UW_UV_Switch_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::W_UV_Switch_C_PreConstruct Parms{};
 
@@ -78,10 +72,8 @@ void UW_UV_Switch_C::PreConstruct(bool IsDesignTime_PreConstruct)
 
 void UW_UV_Switch_C::ExecuteUbergraph_W_UV_Switch(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "ExecuteUbergraph_W_UV-Switch");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "W_UV-Switch_C", "ExecuteUbergraph_W_UV-Switch", FuncInfo);
 
 	Params::W_UV_Switch_C_ExecuteUbergraph_W_UV_Switch Parms{};
 
@@ -96,10 +88,8 @@ void UW_UV_Switch_C::ExecuteUbergraph_W_UV_Switch(int32 EntryPoint)
 
 void UW_UV_Switch_C::BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

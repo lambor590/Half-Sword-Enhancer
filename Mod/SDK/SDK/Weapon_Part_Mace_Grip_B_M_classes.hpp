@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Modular_Weapon_Shaft_Master_classes.hpp"
+#include "Weapon_Part_Mace_Grip_A_M_classes.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Grip_B_M.Weapon_Part_Mace_Grip_B_M_C
-// 0x0000 (0x05F8 - 0x05F8)
-class AWeapon_Part_Mace_Grip_B_M_C final : public AModular_Weapon_Shaft_Master_C
+// 0x0000 (0x0600 - 0x0600)
+class AWeapon_Part_Mace_Grip_B_M_C final : public AWeapon_Part_Mace_Grip_A_M_C
 {
 public:
 	void UserConstructionScript();

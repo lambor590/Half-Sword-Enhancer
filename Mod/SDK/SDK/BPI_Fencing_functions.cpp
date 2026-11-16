@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void IBPI_Fencing_C::StopThatBlade(double Power, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Fencing_C", "StopThatBlade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"StopThatBlade", FnName));
 
 	Params::BPI_Fencing_C_StopThatBlade Parms{};
 

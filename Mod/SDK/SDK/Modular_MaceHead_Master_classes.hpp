@@ -10,21 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "Modular_Weapon_Module_classes.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
+#include "Modular_Weapon_Module_classes.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_MaceHead_Master.Modular_MaceHead_Master_C
-// 0x0008 (0x0428 - 0x0420)
+// 0x0008 (0x0430 - 0x0428)
 class AModular_MaceHead_Master_C : public AModular_Weapon_Module_C
 {
 public:
-	uint8                                         Pad_419[0x3];                                      // 0x0419(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Materian_Int_Min;                                  // 0x041C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Materian_Int_Max;                                  // 0x0420(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_421[0x3];                                      // 0x0421(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Materian_Int_Min;                                  // 0x0424(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Materian_Int_Max;                                  // 0x0428(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

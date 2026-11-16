@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Destructible.BPI_Destructible_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_Destructible_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_Destructible_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Temporarily_Disable_Destruction();
 

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Briefing_Text_Fade_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Briefing_Text_Fade_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_Briefing_Text_Fade_C::Construct()
 
 void UUI_Briefing_Text_Fade_C::ExecuteUbergraph_UI_Briefing_Text_Fade(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Briefing_Text_Fade_C", "ExecuteUbergraph_UI_Briefing_Text_Fade");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Briefing_Text_Fade_C", "ExecuteUbergraph_UI_Briefing_Text_Fade", FuncInfo);
 
 	Params::UI_Briefing_Text_Fade_C_ExecuteUbergraph_UI_Briefing_Text_Fade Parms{};
 
@@ -57,10 +53,8 @@ void UUI_Briefing_Text_Fade_C::ExecuteUbergraph_UI_Briefing_Text_Fade(int32 Entr
 
 class FText UUI_Briefing_Text_Fade_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Briefing_Text_Fade_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Briefing_Text_Fade_C_GetText Parms{};
 

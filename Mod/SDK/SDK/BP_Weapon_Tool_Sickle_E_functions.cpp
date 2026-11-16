@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void ABP_Weapon_Tool_Sickle_E_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Weapon_Tool_Sickle_E_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void ABP_Weapon_Tool_Sickle_E_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEv
 
 void ABP_Weapon_Tool_Sickle_E_C::ExecuteUbergraph_BP_Weapon_Tool_Sickle_E(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "ExecuteUbergraph_BP_Weapon_Tool_Sickle_E");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Weapon_Tool_Sickle_E_C", "ExecuteUbergraph_BP_Weapon_Tool_Sickle_E", FuncInfo);
 
 	Params::BP_Weapon_Tool_Sickle_E_C_ExecuteUbergraph_BP_Weapon_Tool_Sickle_E Parms{};
 
@@ -69,10 +65,8 @@ void ABP_Weapon_Tool_Sickle_E_C::ExecuteUbergraph_BP_Weapon_Tool_Sickle_E(int32 
 
 void ABP_Weapon_Tool_Sickle_E_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Tool_Flail_C::ExecuteUbergraph_ModularWeaponBP_Tool_Flail(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Tool_Flail_C", "ExecuteUbergraph_ModularWeaponBP_Tool_Flail");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Tool_Flail_C", "ExecuteUbergraph_ModularWeaponBP_Tool_Flail", FuncInfo);
 
 	Params::ModularWeaponBP_Tool_Flail_C_ExecuteUbergraph_ModularWeaponBP_Tool_Flail Parms{};
 
@@ -43,10 +41,8 @@ void AModularWeaponBP_Tool_Flail_C::ExecuteUbergraph_ModularWeaponBP_Tool_Flail(
 
 void AModularWeaponBP_Tool_Flail_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Tool_Flail_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::ModularWeaponBP_Tool_Flail_C_ReceiveTick Parms{};
 
@@ -61,10 +57,8 @@ void AModularWeaponBP_Tool_Flail_C::ReceiveTick(float DeltaSeconds)
 
 void AModularWeaponBP_Tool_Flail_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Tool_Flail_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

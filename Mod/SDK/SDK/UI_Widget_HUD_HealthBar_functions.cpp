@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_Widget_HUD_HealthBar_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Widget_HUD_HealthBar_C_PreConstruct Parms{};
 
@@ -43,10 +41,8 @@ void UUI_Widget_HUD_HealthBar_C::PreConstruct(bool IsDesignTime_PreConstruct)
 
 float UUI_Widget_HUD_HealthBar_C::GetPercent()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "GetPercent");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPercent", FnName));
 
 	Params::UI_Widget_HUD_HealthBar_C_GetPercent Parms{};
 
@@ -63,10 +59,8 @@ float UUI_Widget_HUD_HealthBar_C::GetPercent()
 
 void UUI_Widget_HUD_HealthBar_C::ExecuteUbergraph_UI_Widget_HUD_HealthBar(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "ExecuteUbergraph_UI_Widget_HUD_HealthBar");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Widget_HUD_HealthBar_C", "ExecuteUbergraph_UI_Widget_HUD_HealthBar", FuncInfo);
 
 	Params::UI_Widget_HUD_HealthBar_C_ExecuteUbergraph_UI_Widget_HUD_HealthBar Parms{};
 

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Haft_Mid_Tier_Short.Weapon_Part_Hafted_Haft_Mid_Tier_Short_C
-// 0x0000 (0x05F8 - 0x05F8)
+// 0x0000 (0x0600 - 0x0600)
 class AWeapon_Part_Hafted_Haft_Mid_Tier_Short_C final : public AModular_Weapon_Hafted_Haft_Master_C
 {
 public:

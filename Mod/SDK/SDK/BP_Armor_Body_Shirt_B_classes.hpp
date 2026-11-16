@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Shirt_B.BP_Armor_Body_Shirt_B_C
-// 0x0000 (0x0920 - 0x0920)
+// 0x0000 (0x0940 - 0x0940)
 class ABP_Armor_Body_Shirt_B_C final : public ABP_Armor_Master_C
 {
 public:

@@ -10,19 +10,19 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Abyss_Map_Open_EA.Abyss_Map_Open_EA_C
-// 0x0458 (0x06F0 - 0x0298)
+// 0x0558 (0x07F0 - 0x0298)
 class AAbyss_Map_Open_EA_C final : public ALevelScriptActor
 {
 public:
@@ -104,17 +104,17 @@ public:
 	bool                                          Boss_Assault_in_Progress;                          // 0x0511(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_512[0x2];                                      // 0x0512(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         Defeated_Opponents_on_Current_TIer;                // 0x0514(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Character1               Current_Boss_Passport;                             // 0x0518(0x0140)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	TMap<EArmorSlots_Enum, struct FStr_Passport_Armor1> Armor_on_Startup;                            // 0x0658(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<struct FStr_Passport_Character1>       Current_Opponents;                                 // 0x06A8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	int32                                         Score_Integer;                                     // 0x06B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_6BC[0x4];                                      // 0x06BC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class ANavMeshBoundsVolume*                   NavMeshBoundsVolume_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AAudioVolume*                           AudioVolume_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AExponentialHeightFog*                  ExponentialHeightFog_0_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AStaticMeshActor*                       StaticMeshActor_3_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AStaticMeshActor*                       StaticMeshActor_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ATriggerSphere*                         TriggerSphere_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x06E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Character1               Current_Boss_Passport;                             // 0x0518(0x0240)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference, HasGetValueTypeHash)
+	TMap<EArmorSlots_Enum, struct FStr_Passport_Armor1> Armor_on_Startup;                            // 0x0758(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<struct FStr_Passport_Character1>       Current_Opponents;                                 // 0x07A8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	int32                                         Score_Integer;                                     // 0x07B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7BC[0x4];                                      // 0x07BC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class ANavMeshBoundsVolume*                   NavMeshBoundsVolume_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AAudioVolume*                           AudioVolume_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AExponentialHeightFog*                  ExponentialHeightFog_0_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AStaticMeshActor*                       StaticMeshActor_3_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AStaticMeshActor*                       StaticMeshActor_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ATriggerSphere*                         TriggerSphere_1_ExecuteUbergraph_Abyss_Map_Open_EA_RefProperty; // 0x07E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void TL_MusicChange__UpdateFunc();

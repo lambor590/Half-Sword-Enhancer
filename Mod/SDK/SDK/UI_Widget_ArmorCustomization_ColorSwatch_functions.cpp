@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::BndEvt__UI_Widget_ArmorCustomi
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::BndEvt__UI_Widget_ArmorCustomi
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnEntryReleased()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "BP_OnEntryReleased");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnEntryReleased", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnEntryReleased()
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "BP_OnItemExpansionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemExpansionChanged", FnName));
 
 	Params::UI_Widget_ArmorCustomization_ColorSwatch_C_BP_OnItemExpansionChanged Parms{};
 
@@ -85,10 +77,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnItemExpansionChanged(bool
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnItemSelectionChanged(bool bIsSelected)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "BP_OnItemSelectionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemSelectionChanged", FnName));
 
 	Params::UI_Widget_ArmorCustomization_ColorSwatch_C_BP_OnItemSelectionChanged Parms{};
 
@@ -105,10 +95,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::BP_OnItemSelectionChanged(bool
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::ExecuteUbergraph_UI_Widget_ArmorCustomization_ColorSwatch(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "ExecuteUbergraph_UI_Widget_ArmorCustomization_ColorSwatch");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Widget_ArmorCustomization_ColorSwatch_C", "ExecuteUbergraph_UI_Widget_ArmorCustomization_ColorSwatch", FuncInfo);
 
 	Params::UI_Widget_ArmorCustomization_ColorSwatch_C_ExecuteUbergraph_UI_Widget_ArmorCustomization_ColorSwatch Parms{};
 
@@ -123,10 +111,8 @@ void UUI_Widget_ArmorCustomization_ColorSwatch_C::ExecuteUbergraph_UI_Widget_Arm
 
 void UUI_Widget_ArmorCustomization_ColorSwatch_C::Initialize()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_ColorSwatch_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

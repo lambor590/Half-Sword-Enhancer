@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UBPC_RuntimeVertexPaintAndDetectionComponent_C::ExecuteUbergraph_BPC_RuntimeVertexPaintAndDetectionComponent(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_RuntimeVertexPaintAndDetectionComponent_C", "ExecuteUbergraph_BPC_RuntimeVertexPaintAndDetectionComponent");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BPC_RuntimeVertexPaintAndDetectionComponent_C", "ExecuteUbergraph_BPC_RuntimeVertexPaintAndDetectionComponent", FuncInfo);
 
 	Params::BPC_RuntimeVertexPaintAndDetectionComponent_C_ExecuteUbergraph_BPC_RuntimeVertexPaintAndDetectionComponent Parms{};
 

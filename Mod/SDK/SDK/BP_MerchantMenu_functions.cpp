@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_MerchantMenu_C::CloseMenu()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MerchantMenu_C", "CloseMenu");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CloseMenu", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_MerchantMenu_C::CloseMenu()
 
 void ABP_MerchantMenu_C::OpenMenu()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MerchantMenu_C", "OpenMenu");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OpenMenu", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

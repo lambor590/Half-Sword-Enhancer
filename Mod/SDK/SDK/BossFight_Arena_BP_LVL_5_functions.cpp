@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABossFight_Arena_BP_LVL_5_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BossFight_Arena_BP_LVL_5_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void ABossFight_Arena_BP_LVL_5_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void ABossFight_Arena_BP_LVL_5_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void ABossFight_Arena_BP_LVL_5_C::ReceiveBeginPlay()
 
 void ABossFight_Arena_BP_LVL_5_C::ExecuteUbergraph_BossFight_Arena_BP_LVL_5(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ExecuteUbergraph_BossFight_Arena_BP_LVL_5");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BossFight_Arena_BP_LVL_5_C", "ExecuteUbergraph_BossFight_Arena_BP_LVL_5", FuncInfo);
 
 	Params::BossFight_Arena_BP_LVL_5_C_ExecuteUbergraph_BossFight_Arena_BP_LVL_5 Parms{};
 

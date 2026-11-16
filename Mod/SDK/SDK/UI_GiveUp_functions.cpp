@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_GiveUp_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_GiveUp_C::Construct()
 
 void UUI_GiveUp_C::ExecuteUbergraph_UI_GiveUp(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "ExecuteUbergraph_UI_GiveUp");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_GiveUp_C", "ExecuteUbergraph_UI_GiveUp", FuncInfo);
 
 	Params::UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp Parms{};
 
@@ -57,10 +53,8 @@ void UUI_GiveUp_C::ExecuteUbergraph_UI_GiveUp(int32 EntryPoint)
 
 float UUI_GiveUp_C::GetPercent()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "GetPercent");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPercent", FnName));
 
 	Params::UI_GiveUp_C_GetPercent Parms{};
 
@@ -77,10 +71,8 @@ float UUI_GiveUp_C::GetPercent()
 
 class FText UUI_GiveUp_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_GiveUp_C_GetText Parms{};
 
@@ -97,10 +89,8 @@ class FText UUI_GiveUp_C::GetText()
 
 class FText UUI_GiveUp_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_GiveUp_C_GetText_0 Parms{};
 
@@ -117,10 +107,8 @@ class FText UUI_GiveUp_C::GetText_0()
 
 void UUI_GiveUp_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_GiveUp_C_PreConstruct Parms{};
 
@@ -138,10 +126,8 @@ void UUI_GiveUp_C::PreConstruct(bool IsDesignTime)
 
 void UUI_GiveUp_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GiveUp_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_GiveUp_C_Tick Parms{};
 

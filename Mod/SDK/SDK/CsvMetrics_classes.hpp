@@ -18,10 +18,10 @@ SDK_NAMESPACE_START
 
 // Class CsvMetrics.CsvActorCountMetric
 // 0x0060 (0x0088 - 0x0028)
-class UCsvActorCountMetric final : public UWorldMetricInterface
+class UCsvActorCountMetric final : public UWorldMetricInterface, public IWorldMetricsActorTrackerSubscriber
 {
 public:
-	uint8                                         Pad_28[0x60];                                      // 0x0028(0x0060)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x58];                                      // 0x0030(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()

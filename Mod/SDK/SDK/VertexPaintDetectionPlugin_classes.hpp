@@ -80,12 +80,60 @@ public:
 	}
 };
 
-// Class VertexPaintDetectionPlugin.AutoAddColorComponent
-// 0x0410 (0x08B8 - 0x04A8)
-class UAutoAddColorComponent : public UVertexPaintDetectionComponent
+// Class VertexPaintDetectionPlugin.VertexPaintDetectionInterface
+// 0x0008 (0x0008 - 0x0000)
+class IVertexPaintDetectionInterface
 {
 public:
-	uint8                                         Pad_4A8[0x8];                                      // 0x04A8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
+public:
+	void ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
+	void ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
+	void ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor);
+	void OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith);
+	void PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("VertexPaintDetectionInterface")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"VertexPaintDetectionInterface")
+	}
+	static class IVertexPaintDetectionInterface* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<IVertexPaintDetectionInterface>();
+	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
+};
+
+// Class VertexPaintDetectionPlugin.AutoAddColorComponent
+// 0x0410 (0x08B8 - 0x04A8)
+class UAutoAddColorComponent : public UVertexPaintDetectionComponent, public IVertexPaintDetectionInterface
+{
+public:
 	TMulticastInlineDelegate<void(const struct FRVPDPStartNewRoundOfTasksInfo& StartedNewRoundOfTasksOnMeshes)> StartedNewRoundOfTasksDelegate; // 0x04B0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void(class UPrimitiveComponent* MeshComponent)> StartedAutoPaintingMeshDelegate; // 0x04C0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              VerifiedAutoPaintingMeshesDelegate;                // 0x04D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
@@ -140,6 +188,24 @@ public:
 	{
 		return GetDefaultObjImpl<UAutoAddColorComponent>();
 	}
+
+public:
+	void ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
+	void ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
+	void ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor);
+	void OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith);
+	void PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
 };
 
 // Class VertexPaintDetectionPlugin.AutoAddColorEntireMeshComponent
@@ -370,52 +436,6 @@ public:
 	static class UVertexPaintDetectionGISubSystem* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UVertexPaintDetectionGISubSystem>();
-	}
-};
-
-// Class VertexPaintDetectionPlugin.VertexPaintDetectionInterface
-// 0x0000 (0x0000 - 0x0000)
-class IVertexPaintDetectionInterface final
-{
-public:
-	void ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
-	void ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
-	void ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor);
-	void OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith);
-	void PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("VertexPaintDetectionInterface")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"VertexPaintDetectionInterface")
-	}
-	static class IVertexPaintDetectionInterface* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<IVertexPaintDetectionInterface>();
-	}
-
-	class UObject* AsUObject()
-	{
-		return reinterpret_cast<UObject*>(this);
-	}
-	const class UObject* AsUObject() const
-	{
-		return reinterpret_cast<const UObject*>(this);
 	}
 };
 

@@ -20,10 +20,8 @@ SDK_NAMESPACE_START
 
 void IBPI_Destructible_C::Temporarily_Disable_Destruction()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Destructible_C", "Temporarily Disable Destruction");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Temporarily Disable Destruction", FnName));
 
 	AsUObject()->ProcessEvent(Func, nullptr);
 }

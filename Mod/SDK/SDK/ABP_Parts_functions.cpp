@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UABP_Parts_C::AnimGraph(struct FPoseLink* AnimGraph_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "AnimGraph");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AnimGraph", FnName));
 
 	Params::ABP_Parts_C_AnimGraph Parms{};
 
@@ -42,10 +40,8 @@ void UABP_Parts_C::AnimGraph(struct FPoseLink* AnimGraph_0)
 
 void UABP_Parts_C::BlueprintBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "BlueprintBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -56,10 +52,8 @@ void UABP_Parts_C::BlueprintBeginPlay()
 
 void UABP_Parts_C::BlueprintInitializeAnimation()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "BlueprintInitializeAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintInitializeAnimation", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -72,10 +66,8 @@ void UABP_Parts_C::BlueprintInitializeAnimation()
 
 void UABP_Parts_C::BlueprintUpdateAnimation(float DeltaTimeX)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "BlueprintUpdateAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintUpdateAnimation", FnName));
 
 	Params::ABP_Parts_C_BlueprintUpdateAnimation Parms{};
 
@@ -90,10 +82,8 @@ void UABP_Parts_C::BlueprintUpdateAnimation(float DeltaTimeX)
 
 void UABP_Parts_C::EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_4F1E5A824D23E69605A424860020F3BF()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_4F1E5A824D23E69605A424860020F3BF");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_4F1E5A824D23E69605A424860020F3BF", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -104,10 +94,8 @@ void UABP_Parts_C::EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGra
 
 void UABP_Parts_C::EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_8891B42B473E6ED5862E26A9705F4AC6()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_8891B42B473E6ED5862E26A9705F4AC6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGraphNode_TwoWayBlend_8891B42B473E6ED5862E26A9705F4AC6", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -120,10 +108,8 @@ void UABP_Parts_C::EvaluateGraphExposedInputs_ExecuteUbergraph_ABP_Parts_AnimGra
 
 void UABP_Parts_C::ExecuteUbergraph_ABP_Parts(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_Parts_C", "ExecuteUbergraph_ABP_Parts");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ABP_Parts_C", "ExecuteUbergraph_ABP_Parts", FuncInfo);
 
 	Params::ABP_Parts_C_ExecuteUbergraph_ABP_Parts Parms{};
 

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Langmesser_Blade_O_80.Weapon_Module_Langmesser_Blade_O_80_C
-// 0x0000 (0x0458 - 0x0458)
+// 0x0000 (0x0460 - 0x0460)
 class AWeapon_Module_Langmesser_Blade_O_80_C final : public AModular_Falchion_Blade_Master_C
 {
 public:

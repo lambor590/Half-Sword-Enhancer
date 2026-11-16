@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_BloodDecal_C::ExecuteUbergraph_BP_BloodDecal(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_BloodDecal_C", "ExecuteUbergraph_BP_BloodDecal");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_BloodDecal_C", "ExecuteUbergraph_BP_BloodDecal", FuncInfo);
 
 	Params::BP_BloodDecal_C_ExecuteUbergraph_BP_BloodDecal Parms{};
 
@@ -41,10 +39,8 @@ void ABP_BloodDecal_C::ExecuteUbergraph_BP_BloodDecal(int32 EntryPoint)
 
 void ABP_BloodDecal_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_BloodDecal_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

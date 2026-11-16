@@ -10,11 +10,12 @@
 
 #include "Basic.hpp"
 
+#include "Str_Passport_Character1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Enum_Nationalities_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -31,17 +32,19 @@ public:
 	bool                                          Tourney_Spawned_Today;                             // 0x02B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Nemesis_Combat_Event_Spawned;                      // 0x02B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2B2[0x6];                                      // 0x02B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FStr_Passport_Character1>       Nemesis_Opponents_to_Purge;                        // 0x02B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<struct FStr_Passport_Character1>       Nemesis_Opponents_to_Purge;                        // 0x02B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 
 public:
 	void Create_Pre_Made_Weapon(const struct FStr_Passport_Weapon1& Str_Passport_Weapon, struct FStr_Passport_Weapon1* Weapon_Passport);
 	void ExecuteUbergraph_BP_GameManager(int32 EntryPoint);
 	void Generate_Combat_Events();
-	void Generate_Random_Characters(int32 Amount_of_Characters_to_Spawn, double Equipment_Budget, bool Champion, Enum_Ranks Tier);
+	void Generate_Random_Characters(int32 Amount_of_Characters_to_Spawn, double Equipment_Budget, Enum_Ranks Tier, Enum_Nationalities Nationality, bool Champion, bool Boss);
 	void Generate_Random_Combat_Event(int32 Amount);
 	void Generate_Random_Equipment();
 	void Rearrange_Combat_Events();
 	void ReceiveBeginPlay();
+	void ReceiveDestroyed();
+	void ReceiveTick(float DeltaSeconds);
 
 public:
 	static class UClass* StaticClass()

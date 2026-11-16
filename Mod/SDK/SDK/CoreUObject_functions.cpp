@@ -143,10 +143,8 @@ bool UObject::IsDefaultObject() const
 
 void UObject::ExecuteUbergraph(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Object", "ExecuteUbergraph");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ExecuteUbergraph", FnName));
 
 	Params::Object_ExecuteUbergraph Parms{};
 
@@ -184,6 +182,45 @@ bool UStruct::IsSubclassOf(const FName& BaseClassName) const
 	}
 
 	return false;
+}
+
+
+// Predefined Function
+// Gets a UFunction from this UClasses' 'Children' list
+
+class UFunction* UClass::GetFunction(const FName& ClassName, const FName& FuncName) const
+{
+	for (const UStruct* Clss = this; Clss; Clss = Clss->SuperStruct)
+	{
+		if (Clss->Name != ClassName)
+			continue;
+
+		for (UField* Field = Clss->Children; Field; Field = Field->Next)
+		{
+			if (Field->HasTypeFlag(EClassCastFlags::Function) && Field->Name == FuncName)
+				return static_cast<class UFunction*>(Field);
+		}
+	}
+
+	return nullptr;
+}
+
+
+// Predefined Function
+// Gets the first UFunction from the UClass inheritance hierarchy
+
+class UFunction* UClass::GetFunction(const FName& FuncName) const
+{
+	for (const UStruct* Clss = this; Clss; Clss = Clss->SuperStruct)
+	{
+		for (UField* Field = Clss->Children; Field; Field = Field->Next)
+		{
+			if (Field->HasTypeFlag(EClassCastFlags::Function) && Field->Name == FuncName)
+				return static_cast<class UFunction*>(Field);
+		}
+	}
+
+	return nullptr;
 }
 
 

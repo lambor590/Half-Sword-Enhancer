@@ -16,17 +16,41 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Quiver_Master.BP_Quiver_Master_C.BndEvt__BP_Quiver_Master_BaseMesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Quiver_Master_C::BndEvt__BP_Quiver_Master_BaseMesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Quiver_Master_BaseMesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Quiver_Master_C_BndEvt__BP_Quiver_Master_BaseMesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Quiver_Master.BP_Quiver_Master_C.ExecuteUbergraph_BP_Quiver_Master
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void ABP_Quiver_Master_C::ExecuteUbergraph_BP_Quiver_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Quiver_Master_C", "ExecuteUbergraph_BP_Quiver_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Quiver_Master_C", "ExecuteUbergraph_BP_Quiver_Master", FuncInfo);
 
 	Params::BP_Quiver_Master_C_ExecuteUbergraph_BP_Quiver_Master Parms{};
 
@@ -41,10 +65,8 @@ void ABP_Quiver_Master_C::ExecuteUbergraph_BP_Quiver_Master(int32 EntryPoint)
 
 void ABP_Quiver_Master_C::Rearrange_Projectiles()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Quiver_Master_C", "Rearrange Projectiles");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Rearrange Projectiles", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +77,8 @@ void ABP_Quiver_Master_C::Rearrange_Projectiles()
 
 void ABP_Quiver_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Quiver_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +89,8 @@ void ABP_Quiver_Master_C::ReceiveBeginPlay()
 
 void ABP_Quiver_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Quiver_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

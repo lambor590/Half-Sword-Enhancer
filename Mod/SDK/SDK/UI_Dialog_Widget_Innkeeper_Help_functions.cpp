@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Innkeeper_Help_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Help_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Innkeeper_Help_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welc
 
 void UUI_Dialog_Widget_Innkeeper_Help_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Help_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Innkeeper_Help_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welc
 
 void UUI_Dialog_Widget_Innkeeper_Help_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Help_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void UUI_Dialog_Widget_Innkeeper_Help_C::Construct()
 
 void UUI_Dialog_Widget_Innkeeper_Help_C::ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Help(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Help_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Help");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Innkeeper_Help_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Help", FuncInfo);
 
 	Params::UI_Dialog_Widget_Innkeeper_Help_C_ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Help Parms{};
 
@@ -85,10 +77,8 @@ void UUI_Dialog_Widget_Innkeeper_Help_C::ExecuteUbergraph_UI_Dialog_Widget_Innke
 
 void UUI_Dialog_Widget_Innkeeper_Help_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Help_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_Help_C_PreConstruct Parms{};
 

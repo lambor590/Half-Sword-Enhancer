@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Innkeeper_Welco
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Merchant_Button
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Merchant_Button
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Seer_GoToHell_Slider_5_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "BndEvt__UI_Dialog_Widget_Seer_GoToHell_Slider_5_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_GoToHell_Slider_5_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_BndEvt__UI_Dialog_Widget_Seer_GoToHell_Slider_5_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -83,10 +75,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Seer_GoToHell_S
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Seer_Greeting_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -97,10 +87,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::BndEvt__UI_Dialog_Widget_Seer_Greeting_B
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -113,10 +101,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::Construct()
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::ExecuteUbergraph_UI_Dialog_Widget_Seer_GoToHell(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "ExecuteUbergraph_UI_Dialog_Widget_Seer_GoToHell");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Seer_GoToHell_C", "ExecuteUbergraph_UI_Dialog_Widget_Seer_GoToHell", FuncInfo);
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_ExecuteUbergraph_UI_Dialog_Widget_Seer_GoToHell Parms{};
 
@@ -133,10 +119,8 @@ void UUI_Dialog_Widget_Seer_GoToHell_C::ExecuteUbergraph_UI_Dialog_Widget_Seer_G
 
 class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetText Parms{};
 
@@ -153,10 +137,8 @@ class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText()
 
 class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetText_0 Parms{};
 
@@ -173,10 +155,8 @@ class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText_0()
 
 class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetText_1 Parms{};
 
@@ -193,10 +173,8 @@ class FText UUI_Dialog_Widget_Seer_GoToHell_C::GetText_1()
 
 float UUI_Dialog_Widget_Seer_GoToHell_C::GetValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetValue Parms{};
 
@@ -213,10 +191,8 @@ float UUI_Dialog_Widget_Seer_GoToHell_C::GetValue()
 
 ESlateVisibility UUI_Dialog_Widget_Seer_GoToHell_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetVisibility_0 Parms{};
 
@@ -233,10 +209,8 @@ ESlateVisibility UUI_Dialog_Widget_Seer_GoToHell_C::GetVisibility_0()
 
 ESlateVisibility UUI_Dialog_Widget_Seer_GoToHell_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_GetVisibility_1 Parms{};
 
@@ -253,10 +227,8 @@ ESlateVisibility UUI_Dialog_Widget_Seer_GoToHell_C::GetVisibility_1()
 
 void UUI_Dialog_Widget_Seer_GoToHell_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Seer_GoToHell_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Seer_GoToHell_C_PreConstruct Parms{};
 

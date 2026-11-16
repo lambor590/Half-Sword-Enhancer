@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AWeapon_Part_Mace_Grip_Tier_Master_C::ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Weapon_Part_Mace_Grip_Tier_Master_C", "ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master", FuncInfo);
 
 	Params::Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master Parms{};
 
@@ -43,10 +41,8 @@ void AWeapon_Part_Mace_Grip_Tier_Master_C::ExecuteUbergraph_Weapon_Part_Mace_Gri
 
 void AWeapon_Part_Mace_Grip_Tier_Master_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick Parms{};
 
@@ -61,10 +57,8 @@ void AWeapon_Part_Mace_Grip_Tier_Master_C::ReceiveTick(float DeltaSeconds)
 
 void AWeapon_Part_Mace_Grip_Tier_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

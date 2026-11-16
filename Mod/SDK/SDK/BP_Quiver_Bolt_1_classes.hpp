@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Quiver_Bolt_1.BP_Quiver_Bolt_1_C
-// 0x0000 (0x02D0 - 0x02D0)
+// 0x0000 (0x02D8 - 0x02D8)
 class ABP_Quiver_Bolt_1_C final : public ABP_Quiver_Master_C
 {
 public:

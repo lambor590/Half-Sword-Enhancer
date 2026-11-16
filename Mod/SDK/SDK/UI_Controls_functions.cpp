@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Controls_C::BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_1
 
 void UUI_Controls_C::BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_1
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_0_
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_2_
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_27_K2Node_ComponentBoundEvent_4_
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_10_
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_O
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_9_O
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_3_K2Node_ComponentBoundEvent_5_O
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_1_OnB
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_7_OnB
 
 void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -191,10 +167,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Button_K2Node_ComponentBoundEvent_8_OnB
 
 void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_18_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_18_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_18_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_18_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -211,10 +185,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_0_K2Node_ComponentBoundEvent_1
 
 void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_19_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -231,10 +203,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_1_K2Node_ComponentBoundEvent_1
 
 void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_20_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -251,10 +221,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_2_K2Node_ComponentBoundEvent_2
 
 void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Controls_C_BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -269,10 +237,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_CheckBox_K2Node_ComponentBoundEvent_13_
 
 void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -283,10 +249,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEv
 
 void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -297,10 +261,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEv
 
 void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -313,10 +275,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Language_Button_K2Node_ComponentBoundEv
 
 void UUI_Controls_C::BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoundEvent_17_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoundEvent_17_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoundEvent_17_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Controls_C_BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoundEvent_17_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -331,10 +291,8 @@ void UUI_Controls_C::BndEvt__UI_Controls_Slider_Sensitivity_K2Node_ComponentBoun
 
 void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -345,10 +303,8 @@ void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBound
 
 void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -359,10 +315,8 @@ void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBound
 
 void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -373,10 +327,8 @@ void UUI_Controls_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBound
 
 void UUI_Controls_C::BndEvt__UI_Settings_GraphicsReturn_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "BndEvt__UI_Settings_GraphicsReturn_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_GraphicsReturn_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -387,10 +339,8 @@ void UUI_Controls_C::BndEvt__UI_Settings_GraphicsReturn_K2Node_ComponentBoundEve
 
 void UUI_Controls_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -403,10 +353,8 @@ void UUI_Controls_C::Construct()
 
 void UUI_Controls_C::ExecuteUbergraph_UI_Controls(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "ExecuteUbergraph_UI_Controls");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Controls_C", "ExecuteUbergraph_UI_Controls", FuncInfo);
 
 	Params::UI_Controls_C_ExecuteUbergraph_UI_Controls Parms{};
 
@@ -423,10 +371,8 @@ void UUI_Controls_C::ExecuteUbergraph_UI_Controls(int32 EntryPoint)
 
 float UUI_Controls_C::Get_Slider_Sensitivity_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "Get_Slider_Sensitivity_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_Sensitivity_Value", FnName));
 
 	Params::UI_Controls_C_Get_Slider_Sensitivity_Value Parms{};
 
@@ -443,10 +389,8 @@ float UUI_Controls_C::Get_Slider_Sensitivity_Value()
 
 ECheckBoxState UUI_Controls_C::GetCheckedState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState", FnName));
 
 	Params::UI_Controls_C_GetCheckedState Parms{};
 
@@ -463,10 +407,8 @@ ECheckBoxState UUI_Controls_C::GetCheckedState()
 
 ECheckBoxState UUI_Controls_C::GetCheckedState_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_0", FnName));
 
 	Params::UI_Controls_C_GetCheckedState_0 Parms{};
 
@@ -483,10 +425,8 @@ ECheckBoxState UUI_Controls_C::GetCheckedState_0()
 
 ECheckBoxState UUI_Controls_C::GetCheckedState_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_1", FnName));
 
 	Params::UI_Controls_C_GetCheckedState_1 Parms{};
 
@@ -503,10 +443,8 @@ ECheckBoxState UUI_Controls_C::GetCheckedState_1()
 
 ECheckBoxState UUI_Controls_C::GetCheckedState_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "GetCheckedState_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_2", FnName));
 
 	Params::UI_Controls_C_GetCheckedState_2 Parms{};
 
@@ -524,10 +462,8 @@ ECheckBoxState UUI_Controls_C::GetCheckedState_2()
 
 void UUI_Controls_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Controls_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Controls_C_Tick Parms{};
 

@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void ABP_GameManager_C::Create_Pre_Made_Weapon(const struct FStr_Passport_Weapon1& Str_Passport_Weapon, struct FStr_Passport_Weapon1* Weapon_Passport)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Create Pre-Made Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Pre-Made Weapon", FnName));
 
 	Params::BP_GameManager_C_Create_Pre_Made_Weapon Parms{};
 
@@ -47,10 +45,8 @@ void ABP_GameManager_C::Create_Pre_Made_Weapon(const struct FStr_Passport_Weapon
 
 void ABP_GameManager_C::ExecuteUbergraph_BP_GameManager(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "ExecuteUbergraph_BP_GameManager");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_GameManager_C", "ExecuteUbergraph_BP_GameManager", FuncInfo);
 
 	Params::BP_GameManager_C_ExecuteUbergraph_BP_GameManager Parms{};
 
@@ -65,10 +61,8 @@ void ABP_GameManager_C::ExecuteUbergraph_BP_GameManager(int32 EntryPoint)
 
 void ABP_GameManager_C::Generate_Combat_Events()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Generate Combat Events");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Combat Events", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,22 +73,24 @@ void ABP_GameManager_C::Generate_Combat_Events()
 // Parameters:
 // int32                                   Amount_of_Characters_to_Spawn                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Equipment_Budget                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Champion                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // Enum_Ranks                              Tier                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Enum_Nationalities                      Nationality                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Champion                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Boss                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_GameManager_C::Generate_Random_Characters(int32 Amount_of_Characters_to_Spawn, double Equipment_Budget, bool Champion, Enum_Ranks Tier)
+void ABP_GameManager_C::Generate_Random_Characters(int32 Amount_of_Characters_to_Spawn, double Equipment_Budget, Enum_Ranks Tier, Enum_Nationalities Nationality, bool Champion, bool Boss)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Generate Random Characters");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Random Characters", FnName));
 
 	Params::BP_GameManager_C_Generate_Random_Characters Parms{};
 
 	Parms.Amount_of_Characters_to_Spawn = Amount_of_Characters_to_Spawn;
 	Parms.Equipment_Budget = Equipment_Budget;
-	Parms.Champion = Champion;
 	Parms.Tier = Tier;
+	Parms.Nationality = Nationality;
+	Parms.Champion = Champion;
+	Parms.Boss = Boss;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -107,10 +103,8 @@ void ABP_GameManager_C::Generate_Random_Characters(int32 Amount_of_Characters_to
 
 void ABP_GameManager_C::Generate_Random_Combat_Event(int32 Amount)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Generate Random Combat Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Random Combat Event", FnName));
 
 	Params::BP_GameManager_C_Generate_Random_Combat_Event Parms{};
 
@@ -125,10 +119,8 @@ void ABP_GameManager_C::Generate_Random_Combat_Event(int32 Amount)
 
 void ABP_GameManager_C::Generate_Random_Equipment()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Generate Random Equipment");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Random Equipment", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -139,10 +131,8 @@ void ABP_GameManager_C::Generate_Random_Equipment()
 
 void ABP_GameManager_C::Rearrange_Combat_Events()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "Rearrange Combat Events");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Rearrange Combat Events", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -153,12 +143,40 @@ void ABP_GameManager_C::Rearrange_Combat_Events()
 
 void ABP_GameManager_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameManager_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_GameManager.BP_GameManager_C.ReceiveDestroyed
+// (Event, Public, BlueprintEvent)
+
+void ABP_GameManager_C::ReceiveDestroyed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveDestroyed", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_GameManager.BP_GameManager_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_GameManager_C::ReceiveTick(float DeltaSeconds)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
+
+	Params::BP_GameManager_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds = DeltaSeconds;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

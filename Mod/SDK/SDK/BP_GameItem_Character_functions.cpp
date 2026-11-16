@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UBP_GameItem_Character_C::Initialize()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_GameItem_Character_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

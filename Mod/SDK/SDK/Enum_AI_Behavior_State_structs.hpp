@@ -14,14 +14,15 @@
 SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_AI_Behavior_State.Enum_AI_Behavior_State
-// NumValues: 0x0005
+// NumValues: 0x0006
 enum class Enum_AI_Behavior_State : uint8
 {
 	NewEnumerator0                           = 0,
 	NewEnumerator1                           = 1,
 	NewEnumerator2                           = 2,
 	NewEnumerator3                           = 3,
-	Enum_AI_Behavior_MAX                     = 4,
+	NewEnumerator4                           = 4,
+	Enum_AI_Behavior_MAX                     = 5,
 };
 
 SDK_NAMESPACE_END

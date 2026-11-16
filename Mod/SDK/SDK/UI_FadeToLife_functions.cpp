@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_FadeToLife_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeToLife_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_FadeToLife_C::Construct()
 
 void UUI_FadeToLife_C::ExecuteUbergraph_UI_FadeToLife(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeToLife_C", "ExecuteUbergraph_UI_FadeToLife");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_FadeToLife_C", "ExecuteUbergraph_UI_FadeToLife", FuncInfo);
 
 	Params::UI_FadeToLife_C_ExecuteUbergraph_UI_FadeToLife Parms{};
 

@@ -21,9 +21,12 @@
 SDK_NAMESPACE_START
 
 // Class InterchangeImport.InterchangeAnimationPayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeAnimationPayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeAnimationPayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -49,9 +52,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeBlockedTexturePayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeBlockedTexturePayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeBlockedTexturePayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -156,9 +162,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeMeshPayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeMeshPayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeMeshPayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -225,9 +234,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeSlicedTexturePayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeSlicedTexturePayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeSlicedTexturePayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -253,9 +265,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeTextureLightProfilePayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeTextureLightProfilePayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeTextureLightProfilePayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -281,9 +296,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeTexturePayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeTexturePayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeTexturePayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -309,9 +327,12 @@ public:
 };
 
 // Class InterchangeImport.InterchangeVariantSetPayloadInterface
-// 0x0000 (0x0000 - 0x0000)
-class IInterchangeVariantSetPayloadInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IInterchangeVariantSetPayloadInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -413,10 +434,10 @@ public:
 
 // Class InterchangeImport.InterchangeFbxTranslator
 // 0x0040 (0x0078 - 0x0038)
-class UInterchangeFbxTranslator final : public UInterchangeTranslatorBase
+class UInterchangeFbxTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface, public IInterchangeMeshPayloadInterface, public IInterchangeAnimationPayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x40];                                      // 0x0038(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_50[0x28];                                      // 0x0050(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -435,10 +456,10 @@ public:
 
 // Class InterchangeImport.InterchangeGLTFTranslator
 // 0x0258 (0x0290 - 0x0038)
-class UInterchangeGLTFTranslator final : public UInterchangeTranslatorBase
+class UInterchangeGLTFTranslator final : public UInterchangeTranslatorBase, public IInterchangeMeshPayloadInterface, public IInterchangeTexturePayloadInterface, public IInterchangeAnimationPayloadInterface, public IInterchangeVariantSetPayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x258];                                     // 0x0038(0x0258)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_58[0x238];                                     // 0x0058(0x0238)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -501,10 +522,9 @@ public:
 
 // Class InterchangeImport.InterchangeMaterialXTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangeMaterialXTranslator final : public UInterchangeTranslatorBase
+class UInterchangeMaterialXTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1259,10 +1279,10 @@ public:
 
 // Class InterchangeImport.InterchangeOBJTranslator
 // 0x0018 (0x0050 - 0x0038)
-class UInterchangeOBJTranslator final : public UInterchangeTranslatorBase
+class UInterchangeOBJTranslator final : public UInterchangeTranslatorBase, public IInterchangeMeshPayloadInterface, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x18];                                      // 0x0038(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_48[0x8];                                       // 0x0048(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1439,10 +1459,9 @@ public:
 
 // Class InterchangeImport.InterchangeDDSTranslator
 // 0x0010 (0x0048 - 0x0038)
-class UInterchangeDDSTranslator final : public UInterchangeTranslatorBase
+class UInterchangeDDSTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface, public IInterchangeSlicedTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x10];                                      // 0x0038(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1461,10 +1480,9 @@ public:
 
 // Class InterchangeImport.InterchangeIESTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangeIESTranslator final : public UInterchangeTranslatorBase
+class UInterchangeIESTranslator final : public UInterchangeTranslatorBase, public IInterchangeTextureLightProfilePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1483,10 +1501,10 @@ public:
 
 // Class InterchangeImport.InterchangeImageWrapperTranslator
 // 0x0010 (0x0048 - 0x0038)
-class UInterchangeImageWrapperTranslator final : public UInterchangeTranslatorBase
+class UInterchangeImageWrapperTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x10];                                      // 0x0038(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_40[0x8];                                       // 0x0040(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1505,10 +1523,9 @@ public:
 
 // Class InterchangeImport.InterchangeJPGTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangeJPGTranslator final : public UInterchangeTranslatorBase
+class UInterchangeJPGTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1527,10 +1544,9 @@ public:
 
 // Class InterchangeImport.InterchangePCXTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangePCXTranslator final : public UInterchangeTranslatorBase
+class UInterchangePCXTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1549,10 +1565,9 @@ public:
 
 // Class InterchangeImport.InterchangePSDTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangePSDTranslator final : public UInterchangeTranslatorBase
+class UInterchangePSDTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -1593,10 +1608,9 @@ public:
 
 // Class InterchangeImport.InterchangeUEJPEGTranslator
 // 0x0008 (0x0040 - 0x0038)
-class UInterchangeUEJPEGTranslator final : public UInterchangeTranslatorBase
+class UInterchangeUEJPEGTranslator final : public UInterchangeTranslatorBase, public IInterchangeTexturePayloadInterface
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()

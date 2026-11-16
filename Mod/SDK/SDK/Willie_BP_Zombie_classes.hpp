@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_Zombie.Willie_BP_Zombie_C
-// 0x0000 (0x4750 - 0x4750)
+// 0x0000 (0x5150 - 0x5150)
 class AWillie_BP_Zombie_C final : public AWillie_BP_C
 {
+public:
+	void UserConstructionScript();
+
 public:
 	static class UClass* StaticClass()
 	{

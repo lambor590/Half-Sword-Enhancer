@@ -21,10 +21,20 @@ SDK_NAMESPACE_START
 
 void ABP_Structure_Plank_Destructible_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "UserConstructionScript");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Unblock Sound
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Structure_Plank_Destructible_Master_C::Unblock_Sound()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unblock Sound", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,12 +45,50 @@ void ABP_Structure_Plank_Destructible_Master_C::UserConstructionScript()
 
 void ABP_Structure_Plank_Destructible_Master_C::Temporarily_Disable_Destruction()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "Temporarily Disable Destruction");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Temporarily Disable Destruction", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Spawn Sound Detector
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USceneComponent*                  Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Structure_Plank_Destructible_Master_C::Spawn_Sound_Detector(class USceneComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Sound Detector", FnName));
+
+	Params::BP_Structure_Plank_Destructible_Master_C_Spawn_Sound_Detector Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Spawn Sound
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USceneComponent*                  Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   A                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Structure_Plank_Destructible_Master_C::Spawn_Sound(class USceneComponent* Target, const struct FVector& A, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Sound", FnName));
+
+	Params::BP_Structure_Plank_Destructible_Master_C_Spawn_Sound Parms{};
+
+	Parms.Target = Target;
+	Parms.A = std::move(A);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -51,10 +99,8 @@ void ABP_Structure_Plank_Destructible_Master_C::Temporarily_Disable_Destruction(
 
 void ABP_Structure_Plank_Destructible_Master_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Structure_Plank_Destructible_Master_C_ReceiveTick Parms{};
 
@@ -69,10 +115,8 @@ void ABP_Structure_Plank_Destructible_Master_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_Structure_Plank_Destructible_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -85,14 +129,76 @@ void ABP_Structure_Plank_Destructible_Master_C::ReceiveBeginPlay()
 
 void ABP_Structure_Plank_Destructible_Master_C::ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ExecuteUbergraph_BP_Structure_Plank_Destructible_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Structure_Plank_Destructible_Master_C", "ExecuteUbergraph_BP_Structure_Plank_Destructible_Master", FuncInfo);
 
 	Params::BP_Structure_Plank_Destructible_Master_C_ExecuteUbergraph_BP_Structure_Plank_Destructible_Master Parms{};
 
 	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Count Hit Count
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Structure_Plank_Destructible_Master_C::Count_Hit_Count()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Count Hit Count", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.BndEvt__BP_Structure_Plank_Destructible_Master_Plank Part 2_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Structure_Plank_Destructible_Master_C::BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_2_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Structure_Plank_Destructible_Master_Plank Part 2_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Structure_Plank_Destructible_Master_C_BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_2_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.BndEvt__BP_Structure_Plank_Destructible_Master_Plank Part 1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Structure_Plank_Destructible_Master_C::BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Structure_Plank_Destructible_Master_Plank Part 1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Structure_Plank_Destructible_Master_C_BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
 }

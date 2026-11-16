@@ -16,300 +16,20 @@
 
 SDK_NAMESPACE_START
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.2D Clouds Base Texture
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UTexture2D>*       Tex                                                    (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::TwoD_Clouds_Base_Texture(TSoftObjectPtr<class UTexture2D>* Tex)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "2D Clouds Base Texture");
-
-	Params::Ultra_Dynamic_Sky_C_TwoD_Clouds_Base_Texture Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Tex != nullptr)
-		*Tex = Parms.Tex;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Absent Directional Lights Brightness
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.World Space to Drawn Target Pixel Space
 // (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector2D&                 In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector2D*                       Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Absent_Directional_Lights_Brightness()
+void AUltra_Dynamic_Sky_C::World_Space_to_Drawn_Target_Pixel_Space(const struct FVector2D& In, struct FVector2D* Out)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"World Space to Drawn Target Pixel Space", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Absent Directional Lights Brightness");
+	Params::Ultra_Dynamic_Sky_C_World_Space_to_Drawn_Target_Pixel_Space Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Absent_Directional_Lights_Brightness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Add Object to Async Loading Queue
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// TSoftObjectPtr<class UObject>           Object                                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-// bool                                    High_Priority                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Add_Object_to_Async_Loading_Queue(TSoftObjectPtr<class UObject> Object, bool High_Priority)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Add Object to Async Loading Queue");
-
-	Params::Ultra_Dynamic_Sky_C_Add_Object_to_Async_Loading_Queue Parms{};
-
-	Parms.Object = Object;
-	Parms.High_Priority = High_Priority;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Adjust Base Sun Light Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector&                   Sun_Vector                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Multiplier                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Adjust_Base_Sun_Light_Intensity(const struct FVector& Sun_Vector, double* Intensity, double* Multiplier)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Adjust Base Sun Light Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Adjust_Base_Sun_Light_Intensity Parms{};
-
-	Parms.Sun_Vector = std::move(Sun_Vector);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Intensity != nullptr)
-		*Intensity = Parms.Intensity;
-
-	if (Multiplier != nullptr)
-		*Multiplier = Parms.Multiplier;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.All Volumetric Cloud MIDs
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    Shadows                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// TArray<class UMaterialInstanceDynamic*>*MIDs                                                   (Parm, OutParm)
-
-void AUltra_Dynamic_Sky_C::All_Volumetric_Cloud_MIDs(bool Shadows, TArray<class UMaterialInstanceDynamic*>* MIDs)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "All Volumetric Cloud MIDs");
-
-	Params::Ultra_Dynamic_Sky_C_All_Volumetric_Cloud_MIDs Parms{};
-
-	Parms.Shadows = Shadows;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (MIDs != nullptr)
-		*MIDs = std::move(Parms.MIDs);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Console Variable with Check
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const class FString&                    Cvar                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// double                                  setting                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Type                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Apply_Console_Variable_with_Check(const class FString& Cvar, double setting, int32 Type)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Apply Console Variable with Check");
-
-	Params::Ultra_Dynamic_Sky_C_Apply_Console_Variable_with_Check Parms{};
-
-	Parms.Cvar = std::move(Cvar);
-	Parms.setting = setting;
-	Parms.Type = Type;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Light Shaft Settings
-// (Protected, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UDirectionalLightComponent*       Light                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// const struct FVector2D&                 Max_Brightness                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector2D&                 Bloom_Threshold                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector2D&                 Bloom_Scale                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Forward_Vector                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Apply_Light_Shaft_Settings(class UDirectionalLightComponent* Light, const struct FVector2D& Max_Brightness, const struct FVector2D& Bloom_Threshold, const struct FVector2D& Bloom_Scale, const struct FVector& Forward_Vector)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Apply Light Shaft Settings");
-
-	Params::Ultra_Dynamic_Sky_C_Apply_Light_Shaft_Settings Parms{};
-
-	Parms.Light = Light;
-	Parms.Max_Brightness = std::move(Max_Brightness);
-	Parms.Bloom_Threshold = std::move(Bloom_Threshold);
-	Parms.Bloom_Scale = std::move(Bloom_Scale);
-	Parms.Forward_Vector = std::move(Forward_Vector);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Location Preset
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EUDS_CityPresets                        Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Apply_Location_Preset(EUDS_CityPresets Location)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Apply Location Preset");
-
-	Params::Ultra_Dynamic_Sky_C_Apply_Location_Preset Parms{};
-
-	Parms.Location = Location;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Saved UDS And UDW State
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FUDS_and_UDW_State&        State                                                  (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Apply_Saved_UDS_And_UDW_State(const struct FUDS_and_UDW_State& State)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Apply Saved UDS And UDW State");
-
-	Params::Ultra_Dynamic_Sky_C_Apply_Saved_UDS_And_UDW_State Parms{};
-
-	Parms.State = std::move(State);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Volumetric Mode
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EUDS_VolRT_Mode                         Mode                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Apply_Volumetric_Mode(EUDS_VolRT_Mode Mode)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Apply Volumetric Mode");
-
-	Params::Ultra_Dynamic_Sky_C_Apply_Volumetric_Mode Parms{};
-
-	Parms.Mode = Mode;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Approximate Real Sun Moon and Stars
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// int32                                   Month_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   DAY_0                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Year_0                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Time_of_Day_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Time_Zone_0                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Only_Calculate_Sun                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Sun_Vector                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Moon_Vector                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Real_Phase                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Phase_Alignment                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Celestial_Orbit                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Celestial_Yaw                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Approximate_Real_Sun_Moon_and_Stars(int32 Month_0, int32 DAY_0, int32 Year_0, double Time_of_Day_0, double Time_Zone_0, bool Only_Calculate_Sun, struct FVector* Sun_Vector, struct FVector* Moon_Vector, double* Real_Phase, struct FVector* Phase_Alignment, double* Celestial_Orbit, struct FLinearColor* Celestial_Yaw)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Approximate Real Sun Moon and Stars");
-
-	Params::Ultra_Dynamic_Sky_C_Approximate_Real_Sun_Moon_and_Stars Parms{};
-
-	Parms.Month_0 = Month_0;
-	Parms.DAY_0 = DAY_0;
-	Parms.Year_0 = Year_0;
-	Parms.Time_of_Day_0 = Time_of_Day_0;
-	Parms.Time_Zone_0 = Time_Zone_0;
-	Parms.Only_Calculate_Sun = Only_Calculate_Sun;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Sun_Vector != nullptr)
-		*Sun_Vector = std::move(Parms.Sun_Vector);
-
-	if (Moon_Vector != nullptr)
-		*Moon_Vector = std::move(Parms.Moon_Vector);
-
-	if (Real_Phase != nullptr)
-		*Real_Phase = Parms.Real_Phase;
-
-	if (Phase_Alignment != nullptr)
-		*Phase_Alignment = std::move(Parms.Phase_Alignment);
-
-	if (Celestial_Orbit != nullptr)
-		*Celestial_Orbit = Parms.Celestial_Orbit;
-
-	if (Celestial_Yaw != nullptr)
-		*Celestial_Yaw = std::move(Parms.Celestial_Yaw);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Both Cloud Shadows MIDs
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TArray<class UMaterialInstanceDynamic*>*Out                                                    (Parm, OutParm)
-
-void AUltra_Dynamic_Sky_C::Both_Cloud_Shadows_MIDs(TArray<class UMaterialInstanceDynamic*>* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Both Cloud Shadows MIDs");
-
-	Params::Ultra_Dynamic_Sky_C_Both_Cloud_Shadows_MIDs Parms{};
+	Parms.In = std::move(In);
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -318,116 +38,578 @@ void AUltra_Dynamic_Sky_C::Both_Cloud_Shadows_MIDs(TArray<class UMaterialInstanc
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Color
-// (Protected, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds SubNoise Scales
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FLinearColor&              Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    High                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Low                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Cache_Color(EUDS_CachedProperties Property, const struct FLinearColor& Set_Value)
+void AUltra_Dynamic_Sky_C::Volumetric_Clouds_SubNoise_Scales(struct FLinearColor* High, struct FLinearColor* Low)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Clouds SubNoise Scales", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cache Color");
-
-	Params::Ultra_Dynamic_Sky_C_Cache_Color Parms{};
-
-	Parms.Property = Property;
-	Parms.Set_Value = std::move(Set_Value);
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_SubNoise_Scales Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (High != nullptr)
+		*High = std::move(Parms.High);
+
+	if (Low != nullptr)
+		*Low = std::move(Parms.Low);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Float
-// (Protected, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds Parent Materials
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TSoftObjectPtr<class UMaterialInterface>*Simplified                                             (Parm, OutParm, HasGetValueTypeHash)
+// TSoftObjectPtr<class UMaterialInterface>*Complex                                                (Parm, OutParm, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Cache_Float(EUDS_CachedProperties Property, double Set_Value)
+void AUltra_Dynamic_Sky_C::Volumetric_Clouds_Parent_Materials(TSoftObjectPtr<class UMaterialInterface>* Simplified, TSoftObjectPtr<class UMaterialInterface>* Complex)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Clouds Parent Materials", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cache Float");
-
-	Params::Ultra_Dynamic_Sky_C_Cache_Float Parms{};
-
-	Parms.Property = Property;
-	Parms.Set_Value = Set_Value;
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_Parent_Materials Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (Simplified != nullptr)
+		*Simplified = Parms.Simplified;
+
+	if (Complex != nullptr)
+		*Complex = Parms.Complex;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Properties
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Cache_Properties()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cache Properties");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Sun and Moon Orientation
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Cache_Sun_and_Moon_Orientation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cache Sun and Moon Orientation");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Vector
-// (Protected, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds Base Clouds Texture
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TSoftObjectPtr<class UTexture2D>*       Tex                                                    (Parm, OutParm, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Cache_Vector(EUDS_CachedProperties Property, const struct FVector& Set_Value)
+void AUltra_Dynamic_Sky_C::Volumetric_Clouds_Base_Clouds_Texture(TSoftObjectPtr<class UTexture2D>* Tex)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Clouds Base Clouds Texture", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cache Vector");
-
-	Params::Ultra_Dynamic_Sky_C_Cache_Vector Parms{};
-
-	Parms.Property = Property;
-	Parms.Set_Value = std::move(Set_Value);
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_Base_Clouds_Texture Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (Tex != nullptr)
+		*Tex = Parms.Tex;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cancel Shadows Value
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Top Altitude
 // (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// const struct FVector&                   Light_Vector                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Cloud_Top_Altitude                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Top_Altitude(double* Cloud_Top_Altitude)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Top Altitude", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Top_Altitude Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Cloud_Top_Altitude != nullptr)
+		*Cloud_Top_Altitude = Parms.Cloud_Top_Altitude;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Shadows Altitude
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Cloud_Shadows_Altitude                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Shadows_Altitude(double* Cloud_Shadows_Altitude)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Shadows Altitude", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Shadows_Altitude Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Cloud_Shadows_Altitude != nullptr)
+		*Cloud_Shadows_Altitude = Parms.Cloud_Shadows_Altitude;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Layer Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Layer_Scale                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Layer_Scale(double* Layer_Scale)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Layer Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Layer_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Layer_Scale != nullptr)
+		*Layer_Scale = Parms.Layer_Scale;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Layer Height
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Base_Cloud_Height                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Layer_Height                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Layer_Height(double Base_Cloud_Height, double* Layer_Height)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Layer Height", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Layer_Height Parms{};
+
+	Parms.Base_Cloud_Height = Base_Cloud_Height;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Layer_Height != nullptr)
+		*Layer_Height = Parms.Layer_Height;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Floor Variation
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Height_Clear                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Height_Cloudy                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Color                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Floor_Variation(double* Height_Clear, double* Height_Cloudy, double* Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Floor Variation", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Floor_Variation Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Height_Clear != nullptr)
+		*Height_Clear = Parms.Height_Clear;
+
+	if (Height_Cloudy != nullptr)
+		*Height_Cloudy = Parms.Height_Cloudy;
+
+	if (Color != nullptr)
+		*Color = Parms.Color;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Base Cloud Height
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Base_Cloud_Height                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Base_Cloud_Height(double* Base_Cloud_Height)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Base Cloud Height", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Base_Cloud_Height Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Base_Cloud_Height != nullptr)
+		*Base_Cloud_Height = Parms.Base_Cloud_Height;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Ambient Light Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Bottom                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Ambient_Light_Color(struct FLinearColor* Bottom, struct FLinearColor* Top)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Volumetric Cloud Ambient Light Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Ambient_Light_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Bottom != nullptr)
+		*Bottom = std::move(Parms.Bottom);
+
+	if (Top != nullptr)
+		*Top = std::move(Parms.Top);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Using 2D Clouds
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool AUltra_Dynamic_Sky_C::Using_2D_Clouds()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Using 2D Clouds", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Using_2D_Clouds Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::UserConstructionScript()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Use Sky Atmosphere
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool AUltra_Dynamic_Sky_C::Use_Sky_Atmosphere()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Use Sky Atmosphere", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Use_Sky_Atmosphere Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Volumetric Cloud Light Rays Movement
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Volumetric_Cloud_Light_Rays_Movement()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Volumetric Cloud Light Rays Movement", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Volumetric Cloud Light Rays
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Volumetric_Cloud_Light_Rays()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Volumetric Cloud Light Rays", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Variables Controlled By Weather
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Variables_Controlled_By_Weather()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Variables Controlled By Weather", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Static Variables
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Static_Variables()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Static Variables", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Static Clouds
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Static_Clouds()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Static Clouds", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Space Planet Vectors
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Space_Planet_Vectors()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Space Planet Vectors", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Sky Atmosphere Location
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Update_Sky_Atmosphere_Location(const struct FVector& Location)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Sky Atmosphere Location", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Update_Sky_Atmosphere_Location Parms{};
+
+	Parms.Location = std::move(Location);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Settings Based on Platform and Scalability
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Settings_Based_on_Platform_and_Scalability()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Settings Based on Platform and Scalability", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Replicated ToD
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Replicated_ToD()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Replicated ToD", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Replicated Time
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Replicated_Time()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Replicated Time", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Post Process Blend Weights
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Post_Process_Blend_Weights()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Post Process Blend Weights", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Painted Cloud Coverage Target
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Painted_Cloud_Coverage_Target()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Painted Cloud Coverage Target", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Overcast Turbulence
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Overcast_Turbulence()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Overcast Turbulence", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Moon Parameters
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Moon_Parameters()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Moon Parameters", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Lens Flare
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Lens_Flare()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Lens Flare", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update from UDW Construction Script
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_from_UDW_Construction_Script()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update from UDW Construction Script", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Forced Active Variables
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Forced_Active_Variables()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Forced Active Variables", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Exposure Bias
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Exposure_Bias()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Exposure Bias", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Dynamic Sky Light Multiplier
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Dynamic_Sky_Light_Multiplier()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Dynamic Sky Light Multiplier", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Distance to Sample Max Count
+// (Protected, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Shut_Down                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Update_Distance_to_Sample_Max_Count(bool Shut_Down)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Distance to Sample Max Count", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Update_Distance_to_Sample_Max_Count Parms{};
+
+	Parms.Shut_Down = Shut_Down;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Directional Light Rotations
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Directional_Light_Rotations()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Directional Light Rotations", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Current Volumetric Clouds MID
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Current_Volumetric_Clouds_MID()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Current Volumetric Clouds MID", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Cloud Coverage After Painting
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Cloud_Coverage_After_Painting()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Cloud Coverage After Painting", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Active Variables
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Update_Active_Variables()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Active Variables", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Unfiltered Moon Light Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
 // double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Cancel_Shadows_Value(const struct FVector& Light_Vector, double* Out)
+void AUltra_Dynamic_Sky_C::Unfiltered_Moon_Light_Intensity(double* Out)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unfiltered Moon Light Intensity", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cancel Shadows Value");
-
-	Params::Ultra_Dynamic_Sky_C_Cancel_Shadows_Value Parms{};
-
-	Parms.Light_Vector = std::move(Light_Vector);
+	Params::Ultra_Dynamic_Sky_C_Unfiltered_Moon_Light_Intensity Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -436,49 +618,3056 @@ void AUltra_Dynamic_Sky_C::Cancel_Shadows_Value(const struct FVector& Light_Vect
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Change Sky Mode at Runtime
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Twilight Brightness Falloff
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// EUDS_SkyMode                            New_Sky_Mode                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Z                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Scale                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Change_Sky_Mode_at_Runtime(EUDS_SkyMode New_Sky_Mode)
+void AUltra_Dynamic_Sky_C::Twilight_Brightness_Falloff(double Z, double* Scale)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Twilight Brightness Falloff", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Change Sky Mode at Runtime");
+	Params::Ultra_Dynamic_Sky_C_Twilight_Brightness_Falloff Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Change_Sky_Mode_at_Runtime Parms{};
+	Parms.Z = Z;
 
-	Parms.New_Sky_Mode = New_Sky_Mode;
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Scale != nullptr)
+		*Scale = Parms.Scale;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Transition Time of Day
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  New_Time_of_Day                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Transition_Duration__Seconds_                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EEasingFunc                             Easing_Function                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Easing_Exponent                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Allow_Time_Going_Backwards                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Transition_Time_of_Day(double New_Time_of_Day, double Transition_Duration__Seconds_, EEasingFunc Easing_Function, double Easing_Exponent, bool Allow_Time_Going_Backwards)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Transition Time of Day", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Transition_Time_of_Day Parms{};
+
+	Parms.New_Time_of_Day = New_Time_of_Day;
+	Parms.Transition_Duration__Seconds_ = Transition_Duration__Seconds_;
+	Parms.Easing_Function = Easing_Function;
+	Parms.Easing_Exponent = Easing_Exponent;
+	Parms.Allow_Time_Going_Backwards = Allow_Time_Going_Backwards;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check for Cloud Coverage Target Recenter
-// (Protected, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Transition Sky Light Intensity
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  New_Sky_Light_Intensity_Multiplier                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Transition_Time                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Check_for_Cloud_Coverage_Target_Recenter()
+void AUltra_Dynamic_Sky_C::Transition_Sky_Light_Intensity(double New_Sky_Light_Intensity_Multiplier, double Transition_Time)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Transition Sky Light Intensity", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Check for Cloud Coverage Target Recenter");
+	Params::Ultra_Dynamic_Sky_C_Transition_Sky_Light_Intensity Parms{};
+
+	Parms.New_Sky_Light_Intensity_Multiplier = New_Sky_Light_Intensity_Multiplier;
+	Parms.Transition_Time = Transition_Time;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Total Time Elapsed
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Total_Time_Elapsed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Total Time Elapsed", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Total_Time_Elapsed Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Timed Override with New Changes
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Timed_Override_with_New_Changes()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timed Override with New Changes", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check for Daylight Savings Time
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Time of Day Offset
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Time_of_Day_Offset()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Time of Day Offset", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Time_of_Day_Offset Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Tick Time Transition
 // (Protected, BlueprintCallable, BlueprintEvent)
 
-void AUltra_Dynamic_Sky_C::Check_for_Daylight_Savings_Time()
+void AUltra_Dynamic_Sky_C::Tick_Time_Transition()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick Time Transition", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Check for Daylight Savings Time");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Three Time Floats
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  DAY                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Dusk                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  NIGHT                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Three_Time_Floats(double DAY, double Dusk, double NIGHT, double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Three Time Floats", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Three_Time_Floats Parms{};
+
+	Parms.DAY = DAY;
+	Parms.Dusk = Dusk;
+	Parms.NIGHT = NIGHT;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Test Point for Painted Cloud Coverage
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Cloud_Coverage_with_Painting                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Test_Point_for_Painted_Cloud_Coverage(const struct FVector& Location, double* Cloud_Coverage_with_Painting)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Test Point for Painted Cloud Coverage", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Test_Point_for_Painted_Cloud_Coverage Parms{};
+
+	Parms.Location = std::move(Location);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Cloud_Coverage_with_Painting != nullptr)
+		*Cloud_Coverage_with_Painting = Parms.Cloud_Coverage_with_Painting;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Swap with Cinematic Runtime Value
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Cine                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    User_Higher                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Swap_with_Cinematic_Runtime_Value(double In, double Cine, bool User_Higher, double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Swap with Cinematic Runtime Value", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Swap_with_Cinematic_Runtime_Value Parms{};
+
+	Parms.In = In;
+	Parms.Cine = Cine;
+	Parms.User_Higher = User_Higher;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun Z Vector
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FVector*                         Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Sun_Z_Vector(struct FVector* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sun Z Vector", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Sun_Z_Vector Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun Shadows MIDs
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TArray<class UMaterialInstanceDynamic*>*Out                                                    (Parm, OutParm)
+
+void AUltra_Dynamic_Sky_C::Sun_Shadows_MIDs(TArray<class UMaterialInstanceDynamic*>* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sun Shadows MIDs", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Sun_Shadows_MIDs Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun height
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Z                                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Sun_height(double* Z)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sun height", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Sun_height Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Z != nullptr)
+		*Z = Parms.Z;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Static Clouds XYZ Masks
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FLinearColor*                    XY_Mask                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Z_Mask                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Static_Clouds_XYZ_Masks(struct FLinearColor* XY_Mask, double* Z_Mask)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Static Clouds XYZ Masks", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Static_Clouds_XYZ_Masks Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (XY_Mask != nullptr)
+		*XY_Mask = std::move(Parms.XY_Mask);
+
+	if (Z_Mask != nullptr)
+		*Z_Mask = Parms.Z_Mask;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Static Clouds Parent Material
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TSoftObjectPtr<class UMaterialInterface>*Material                                               (Parm, OutParm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Static_Clouds_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Material)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Static Clouds Parent Material", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Static_Clouds_Parent_Material Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Material != nullptr)
+		*Material = Parms.Material;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Starting Cloud Formation
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Starting_Cloud_Formation()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Starting Cloud Formation", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Start Async Loader
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Start_Async_Loader()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Start Async Loader", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Space Planet Parent MID
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FUDS_Space_Planet&         Planet                                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// TSoftObjectPtr<class UMaterialInterface>*Out                                                    (Parm, OutParm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Space_Planet_Parent_MID(const struct FUDS_Space_Planet& Planet, TSoftObjectPtr<class UMaterialInterface>* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Space Planet Parent MID", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Space_Planet_Parent_MID Parms{};
+
+	Parms.Planet = std::move(Planet);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Solar Eclipse Circle Mask
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Sun_Angular_Radius                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Moon_Angular_Radius                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Moon_Vector                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Moon_Softness                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Fraction_Showing                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Solar_Eclipse_Circle_Mask(double Sun_Angular_Radius, double Moon_Angular_Radius, const struct FVector& Moon_Vector, double Moon_Softness, double* Fraction_Showing)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Solar Eclipse Circle Mask", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Solar_Eclipse_Circle_Mask Parms{};
+
+	Parms.Sun_Angular_Radius = Sun_Angular_Radius;
+	Parms.Moon_Angular_Radius = Moon_Angular_Radius;
+	Parms.Moon_Vector = std::move(Moon_Vector);
+	Parms.Moon_Softness = Moon_Softness;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Fraction_Showing != nullptr)
+		*Fraction_Showing = Parms.Fraction_Showing;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sky MID Cloud Density
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Sky_MID_Cloud_Density()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sky MID Cloud Density", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Sky_MID_Cloud_Density Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sky Atmosphere Fog Contribution
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Output                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Sky_Atmosphere_Fog_Contribution(double* Output)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sky Atmosphere Fog Contribution", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Sky_Atmosphere_Fog_Contribution Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Output != nullptr)
+		*Output = Parms.Output;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Size Cache Arrays
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Size_Cache_Arrays()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Size Cache Arrays", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Simplified Sun Glow Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Simplified_Sun_Glow_Color(struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Simplified Sun Glow Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Simplified_Sun_Glow_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Simplified Current Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FLinearColor&              Day_Color                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FLinearColor&              Dusk_Color                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FLinearColor&              Night_Color                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Simplified_Current_Color(const struct FLinearColor& Day_Color, const struct FLinearColor& Dusk_Color, const struct FLinearColor& Night_Color, struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Simplified Current Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Simplified_Current_Color Parms{};
+
+	Parms.Day_Color = std::move(Day_Color);
+	Parms.Dusk_Color = std::move(Dusk_Color);
+	Parms.Night_Color = std::move(Night_Color);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Volumetric Cloud Light Rays
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Up_Volumetric_Cloud_Light_Rays()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Volumetric Cloud Light Rays", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Overcast Turbulence
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Up_Overcast_Turbulence()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Overcast Turbulence", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Lens Flare
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Up_Lens_Flare()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Lens Flare", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Time of Day using Time Code
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FTimecode&                 Time_Code                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Set_Time_of_Day_using_Time_Code(const struct FTimecode& Time_Code)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Time of Day using Time Code", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Set_Time_of_Day_using_Time_Code Parms{};
+
+	Parms.Time_Code = std::move(Time_Code);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Sun and Moon Root Rotation
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Sun_and_Moon_Root_Rotation()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Sun and Moon Root Rotation", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Date and Time
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FDateTime&                 Date_Time                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Set_Date_and_Time(const struct FDateTime& Date_Time)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Date and Time", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Set_Date_and_Time Parms{};
+
+	Parms.Date_Time = std::move(Date_Time);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Cloud Timing
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Cloud_Timing()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Cloud Timing", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Cache Alpha
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Set_Cache_Alpha()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Cache Alpha", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Scaled Cache Period
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Period                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Scaled_Cache_Period(double* Period)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Scaled Cache Period", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Scaled_Cache_Period Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Period != nullptr)
+		*Period = Parms.Period;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Scale Sample Count
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Scale_Sample_Count(double In, double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Scale Sample Count", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Scale_Sample_Count Parms{};
+
+	Parms.In = In;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Restart Real Time Sky Light Capture
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Restart_Real_Time_Sky_Light_Capture()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Restart Real Time Sky Light Capture", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Restart Inside Cloud Fog
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Restart_Inside_Cloud_Fog()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Restart Inside Cloud Fog", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Release Async Loaded Object
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// TSoftObjectPtr<class UObject>           Object                                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Release_Async_Loaded_Object(TSoftObjectPtr<class UObject> Object)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Async Loaded Object", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Release_Async_Loaded_Object Parms{};
+
+	Parms.Object = Object;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason_ReceiveEndPlay                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveEndPlay", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason_ReceiveEndPlay = EndPlayReason_ReceiveEndPlay;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::ReceiveBeginPlay()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Recapture Sky Light
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Recapture_Sky_Light()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Recapture Sky Light", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Query Project Settings And UDS Version
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Query_Project_Settings_And_UDS_Version()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Query Project Settings And UDS Version", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Luminance Boost
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Multiplier                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Overcast_Luminance_Boost(double Multiplier, double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Overcast Luminance Boost", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Overcast_Luminance_Boost Parms{};
+
+	Parms.Multiplier = Multiplier;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Light Contribution
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    For_Volumetric_Clouds                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Overcast_Light_Contribution(bool For_Volumetric_Clouds)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Overcast Light Contribution", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Overcast_Light_Contribution Parms{};
+
+	Parms.For_Volumetric_Clouds = For_Volumetric_Clouds;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Brightness
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Overcast_Brightness()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Overcast Brightness", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Overcast_Brightness Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.OnRep_Replicated Time of Day
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::OnRep_Replicated_Time_of_Day()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnRep_Replicated Time of Day", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.OnLoaded_AA91001A446E22425F2F54AAB2159C50
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UObject*                          Loaded                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::OnLoaded_AA91001A446E22425F2F54AAB2159C50(class UObject* Loaded)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnLoaded_AA91001A446E22425F2F54AAB2159C50", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_OnLoaded_AA91001A446E22425F2F54AAB2159C50 Parms{};
+
+	Parms.Loaded = Loaded;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Notify of Removed Cloud Paint Container
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Notify_of_Removed_Cloud_Paint_Container()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Notify of Removed Cloud Paint Container", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Night Filter
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Night_Filter()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Night Filter", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Night_Filter Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Z Vector
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FVector*                         Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Moon_Z_Vector(struct FVector* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Moon Z Vector", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Moon_Z_Vector Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Phase Multiplier
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Without_Light_Brightness                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Moon_Phase_Multiplier(double* Without_Light_Brightness)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Moon Phase Multiplier", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Moon_Phase_Multiplier Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Without_Light_Brightness != nullptr)
+		*Without_Light_Brightness = Parms.Without_Light_Brightness;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Light Volumetric Scattering Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Moon_Light_Volumetric_Scattering_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Moon Light Volumetric Scattering Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Moon_Light_Volumetric_Scattering_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Light Specular Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Moon_Light_Specular_Scale()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Moon Light Specular Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Moon_Light_Specular_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Monitor for Changes
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Monitor_for_Changes()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Monitor for Changes", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Load Required Assets
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Load_Required_Assets()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Load Required Assets", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Lens Flare Parent Material
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TSoftObjectPtr<class UMaterialInterface>*Mat                                                    (Parm, OutParm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Lens_Flare_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Mat)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Lens Flare Parent Material", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Lens_Flare_Parent_Material Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Mat != nullptr)
+		*Mat = Parms.Mat;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Sun Light Casting Shadows
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Is_Sun_Light_Casting_Shadows(bool* Yes)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Is Sun Light Casting Shadows", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Is_Sun_Light_Casting_Shadows Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Yes != nullptr)
+		*Yes = Parms.Yes;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Moon Light Casting Shadows
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Is_Moon_Light_Casting_Shadows(bool* Yes)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Is Moon Light Casting Shadows", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Is_Moon_Light_Casting_Shadows Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Yes != nullptr)
+		*Yes = Parms.Yes;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Location Inside Cloud Layer
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Inside                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Is_Location_Inside_Cloud_Layer(const struct FVector& Location, bool* Inside)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Is Location Inside Cloud Layer", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Is_Location_Inside_Cloud_Layer Parms{};
+
+	Parms.Location = std::move(Location);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Inside != nullptr)
+		*Inside = Parms.Inside;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Lens Flare Enabled
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Is_Lens_Flare_Enabled(bool* Yes)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Is Lens Flare Enabled", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Is_Lens_Flare_Enabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Yes != nullptr)
+		*Yes = Parms.Yes;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is it Daytime?
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Is_it_Daytime_(bool* Yes)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Is it Daytime?", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Is_it_Daytime_ Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Yes != nullptr)
+		*Yes = Parms.Yes;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Inside Outside Cloud Layer
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Inside_Outside_Cloud_Layer()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Inside Outside Cloud Layer", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Inside_Outside_Cloud_Layer Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Initialize Occlusion
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Initialize_Occlusion()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize Occlusion", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increment Day
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Increment_Day()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Increment Day", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increment Cache Timer
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Increment_Cache_Timer()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Increment Cache Timer", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increase Tick Frequency
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool AUltra_Dynamic_Sky_C::Increase_Tick_Frequency()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Increase Tick Frequency", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Increase_Tick_Frequency Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Hard Reset Cache
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Hard_Reset_Cache()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Hard Reset Cache", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.MS to Time of Day
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// int32                                   Hours                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Minutes                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Seconds                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Miliseconds                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Time                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::MS_to_Time_of_Day(int32 Hours, int32 Minutes, int32 Seconds, int32 Miliseconds, double* Time)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MS to Time of Day", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_MS_to_Time_of_Day Parms{};
+
+	Parms.Hours = Hours;
+	Parms.Minutes = Minutes;
+	Parms.Seconds = Seconds;
+	Parms.Miliseconds = Miliseconds;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Time != nullptr)
+		*Time = Parms.Time;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Volumetric Cloud Emissive Colors
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FLinearColor*                    Bottom                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Volumetric_Cloud_Emissive_Colors(struct FLinearColor* Bottom, struct FLinearColor* Top)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Volumetric Cloud Emissive Colors", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Volumetric_Cloud_Emissive_Colors Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Bottom != nullptr)
+		*Bottom = std::move(Parms.Bottom);
+
+	if (Top != nullptr)
+		*Top = std::move(Parms.Top);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Time of Day in Real Time Format
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FTimecode*                       Time                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Time_of_Day_in_Real_Time_Format(struct FTimecode* Time)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Time of Day in Real Time Format", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Time_of_Day_in_Real_Time_Format Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Time != nullptr)
+		*Time = std::move(Parms.Time);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Sky MID Parent Material Instance
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TSoftObjectPtr<class UMaterialInterface>ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash)
+
+TSoftObjectPtr<class UMaterialInterface> AUltra_Dynamic_Sky_C::Get_Sky_MID_Parent_Material_Instance()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Sky MID Parent Material Instance", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Sky_MID_Parent_Material_Instance Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Nearby Cloud Cells To Load Asynchronously
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Get_Nearby_Cloud_Cells_To_Load_Asynchronously()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Nearby Cloud Cells To Load Asynchronously", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Volumetric Cloud Extinction Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Current_Volumetric_Cloud_Extinction_Scale(double* Top)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Current Volumetric Cloud Extinction Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Current_Volumetric_Cloud_Extinction_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Top != nullptr)
+		*Top = Parms.Top;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Sky Light Color and Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double*                                 Out_Intensity                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Out_Color                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Current_Sky_Light_Color_and_Intensity(double* Out_Intensity, struct FLinearColor* Out_Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Current Sky Light Color and Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Current_Sky_Light_Color_and_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out_Intensity != nullptr)
+		*Out_Intensity = Parms.Out_Intensity;
+
+	if (Out_Color != nullptr)
+		*Out_Color = std::move(Parms.Out_Color);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Fog Base Colors
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FLinearColor*                    Ambient_Fog_Color                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Directional_Base_Color                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Scaled_Directional_Base_Color                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Sun_Fog_Base                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Moon_Fog_Base                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Current_Fog_Base_Colors(struct FLinearColor* Ambient_Fog_Color, struct FLinearColor* Directional_Base_Color, struct FLinearColor* Scaled_Directional_Base_Color, struct FLinearColor* Sun_Fog_Base, struct FLinearColor* Moon_Fog_Base)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Current Fog Base Colors", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Current_Fog_Base_Colors Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Ambient_Fog_Color != nullptr)
+		*Ambient_Fog_Color = std::move(Parms.Ambient_Fog_Color);
+
+	if (Directional_Base_Color != nullptr)
+		*Directional_Base_Color = std::move(Parms.Directional_Base_Color);
+
+	if (Scaled_Directional_Base_Color != nullptr)
+		*Scaled_Directional_Base_Color = std::move(Parms.Scaled_Directional_Base_Color);
+
+	if (Sun_Fog_Base != nullptr)
+		*Sun_Fog_Base = std::move(Parms.Sun_Fog_Base);
+
+	if (Moon_Fog_Base != nullptr)
+		*Moon_Fog_Base = std::move(Parms.Moon_Fog_Base);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Date and Time
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FDateTime*                       Current_Date_and_Time                                  (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Current_Date_and_Time(struct FDateTime* Current_Date_and_Time)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Current Date and Time", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Current_Date_and_Time Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Current_Date_and_Time != nullptr)
+		*Current_Date_and_Time = std::move(Parms.Current_Date_and_Time);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Cloud Shadows Intensity and Softness
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Softness                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Current_Cloud_Shadows_Intensity_and_Softness(double* Intensity, double* Softness)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Current Cloud Shadows Intensity and Softness", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Current_Cloud_Shadows_Intensity_and_Softness Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Intensity != nullptr)
+		*Intensity = Parms.Intensity;
+
+	if (Softness != nullptr)
+		*Softness = Parms.Softness;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Camera Location and Camera Relative Heights
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Get_Camera_Location_and_Camera_Relative_Heights()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Camera Location and Camera Relative Heights", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Vector
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Cached_Vector(EUDS_CachedProperties Property, struct FVector* Value)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Cached Vector", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Cached_Vector Parms{};
+
+	Parms.Property = Property;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Value != nullptr)
+		*Value = std::move(Parms.Value);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Float
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Cached_Float(EUDS_CachedProperties Property, double* Value)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Cached Float", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Cached_Float Parms{};
+
+	Parms.Property = Property;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Value != nullptr)
+		*Value = Parms.Value;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Get_Cached_Color(EUDS_CachedProperties Property, struct FLinearColor* Value)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Cached Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Get_Cached_Color Parms{};
+
+	Parms.Property = Property;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Value != nullptr)
+		*Value = std::move(Parms.Value);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Gate With Current Changes
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    Clouds_Changing                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Fog_Changing                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Dust_Changing                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool AUltra_Dynamic_Sky_C::Gate_With_Current_Changes(bool Clouds_Changing, bool Fog_Changing, bool Dust_Changing)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Gate With Current Changes", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Gate_With_Current_Changes Parms{};
+
+	Parms.Clouds_Changing = Clouds_Changing;
+	Parms.Fog_Changing = Fog_Changing;
+	Parms.Dust_Changing = Dust_Changing;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Force Valid Day
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Force_Valid_Day()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Force Valid Day", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Force Startup
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Force_Startup()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Force Startup", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fog Start Distance
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Fog_Start_Distance()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Start Distance", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Fog_Start_Distance Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fog Height Falloff
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Fog_Height_Falloff()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Height Falloff", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Fog_Height_Falloff Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Flat Cloudiness
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool*                                   on                                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Flat_Cloudiness(bool* on)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flat Cloudiness", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Flat_Cloudiness Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (on != nullptr)
+		*on = Parms.on;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fire Editor Dispatchers
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Fire_Editor_Dispatchers()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fire Editor Dispatchers", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Finish Time Transition
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Finish_Time_Transition()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Finish Time Transition", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sunrise Times
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Sunrise_Times()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sunrise Times", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Find Overall Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Cloud_Darkening                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Find_Overall_Intensity(double Cloud_Darkening)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Overall Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Find_Overall_Intensity Parms{};
+
+	Parms.Cloud_Darkening = Cloud_Darkening;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Filtered Moon Light Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Unfiltered                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Filtered_Moon_Light_Intensity(double Unfiltered, double* Intensity)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Filtered Moon Light Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Filtered_Moon_Light_Intensity Parms{};
+
+	Parms.Unfiltered = Unfiltered;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Intensity != nullptr)
+		*Intensity = Parms.Intensity;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ExecuteUbergraph_Ultra_Dynamic_Sky
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::ExecuteUbergraph_Ultra_Dynamic_Sky(int32 EntryPoint)
+{
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Ultra_Dynamic_Sky_C", "ExecuteUbergraph_Ultra_Dynamic_Sky", FuncInfo);
+
+	Params::Ultra_Dynamic_Sky_C_ExecuteUbergraph_Ultra_Dynamic_Sky Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Directional Light Dimming
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Directional_Light_Dimming(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Directional Light Dimming", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Directional_Light_Dimming Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Directional Inscattering Multiplier
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Multiplier                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Directional_Inscattering_Multiplier(double* Multiplier)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Directional Inscattering Multiplier", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Directional_Inscattering_Multiplier Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Multiplier != nullptr)
+		*Multiplier = Parms.Multiplier;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Dimming Directional Lights
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool AUltra_Dynamic_Sky_C::Dimming_Directional_Lights()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dimming Directional Lights", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Dimming_Directional_Lights Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Days Since J2000
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// int32                                   Input_Year                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Day_of_Year                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32*                                  Days                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Days_Since_J2000(int32 Input_Year, int32 Day_of_Year, int32* Days)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Days Since J2000", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Days_Since_J2000 Parms{};
+
+	Parms.Input_Year = Input_Year;
+	Parms.Day_of_Year = Day_of_Year;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Days != nullptr)
+		*Days = Parms.Days;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Day Ended
+// (BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Day_Ended()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Day Ended", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Wisps Opacity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Wisps_Opacity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Wisps Opacity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Wisps_Opacity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Clouds Density
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double*                                 Layer1                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Cloud_Layer_Visible                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Layer2                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Volumetric_Clouds_Density(double* Layer1, bool* Cloud_Layer_Visible, double* Layer2)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Clouds Density", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Clouds_Density Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Layer1 != nullptr)
+		*Layer1 = Parms.Layer1;
+
+	if (Cloud_Layer_Visible != nullptr)
+		*Cloud_Layer_Visible = Parms.Cloud_Layer_Visible;
+
+	if (Layer2 != nullptr)
+		*Layer2 = Parms.Layer2;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Sky Atmo Contribution
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Sky_Atmo_Contribution()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Sky Atmo Contribution", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Sky_Atmo_Contribution Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Shadow Tracing Distance
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Shadow_Tracing_Distance(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Shadow Tracing Distance", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Shadow_Tracing_Distance Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Multiscattering Occlusion
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Occlusion                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Multiscattering_Occlusion(double* Occlusion)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Multiscattering Occlusion", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Multiscattering_Occlusion Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Occlusion != nullptr)
+		*Occlusion = Parms.Occlusion;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Multiscattering Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Multiscattering_Intensity(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Multiscattering Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Multiscattering_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Macro Variation
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Macro_Variation()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Macro Variation", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Macro_Variation Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Inner Emit Limit
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Inner_Emit_Limit(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Inner Emit Limit", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Inner_Emit_Limit Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Albedo
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Albedo()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Volumetric Cloud Albedo", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Albedo Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current View Sample Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_View_Sample_Scale(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current View Sample Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_View_Sample_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sunset Event Time
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Sunset_Event_Time()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sunset Event Time", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sunset_Event_Time Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sunrise Event Time
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Sunrise_Event_Time()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sunrise Event Time", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sunrise_Event_Time Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Source Angle
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Sun_Source_Angle(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Source Angle", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Source_Angle Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Radius
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Sun_Radius()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Radius", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Radius Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Light Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Sun_Light_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Light Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Light_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Light Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sun_Light_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Light Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Light_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Disk Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Sun_Disk_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Disk Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Disk_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Disk Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sun_Disk_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sun Disk Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sun_Disk_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Stars Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Stars_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Stars Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Stars_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Space Layer Brightness
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Space_Layer_Brightness()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Space Layer Brightness", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Space_Layer_Brightness Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Solar Eclipse Values
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Tint_Color                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Eclipse_Percent                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Solar_Eclipse_Values(struct FLinearColor* Tint_Color, double* Eclipse_Percent)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Solar Eclipse Values", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Solar_Eclipse_Values Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Tint_Color != nullptr)
+		*Tint_Color = std::move(Parms.Tint_Color);
+
+	if (Eclipse_Percent != nullptr)
+		*Eclipse_Percent = Parms.Eclipse_Percent;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Light Lower Hemisphere Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sky_Light_Lower_Hemisphere_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sky Light Lower Hemisphere Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sky_Light_Lower_Hemisphere_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Atmosphere Luminance
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sky_Atmosphere_Luminance()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sky Atmosphere Luminance", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sky_Atmosphere_Luminance Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Atmosphere Absorption Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Sky_Atmosphere_Absorption_Color(struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sky Atmosphere Absorption Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sky_Atmosphere_Absorption_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Ambient Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Sky_Ambient_Color                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Sky_Ambient_Color(struct FLinearColor* Sky_Ambient_Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Sky Ambient Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Sky_Ambient_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Sky_Ambient_Color != nullptr)
+		*Sky_Ambient_Color = std::move(Parms.Sky_Ambient_Color);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Saturation
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Saturation()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Saturation", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Saturation Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Rayleigh Scattering Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Rayleigh_Scattering_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Rayleigh Scattering Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Rayleigh_Scattering_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Overcast Swirl
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Overcast_Swirl()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Overcast Swirl", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Overcast_Swirl Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Overall Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Overall_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Overall Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Overall_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Night Sky Glow
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Night_Sky_Glow()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Night Sky Glow", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Night_Sky_Glow Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moons Cloud Mask
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Moons_Cloud_Mask()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moons Cloud Mask", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moons_Cloud_Mask Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Source Angle
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Moon_Source_Angle(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Source Angle", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Source_Angle Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Scale and Cutout Value
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Scale                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Cutout                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Moon_Scale_and_Cutout_Value(double* Scale, double* Cutout)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Scale and Cutout Value", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Scale_and_Cutout_Value Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Scale != nullptr)
+		*Scale = Parms.Scale;
+
+	if (Cutout != nullptr)
+		*Cutout = Parms.Cutout;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Phase Angle
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Moon_Phase_Angle()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Phase Angle", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Phase_Angle Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Material Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Moon_Material_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Material Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Material_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Lit Percent
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Moon_Lit_Percent()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Lit Percent", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Lit_Percent Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Light Material Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Moon_Light_Material_Color()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Light Material Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Light_Material_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Light Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Color                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Moon_Light_Color(struct FLinearColor* Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Moon Light Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Moon_Light_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Color != nullptr)
+		*Color = std::move(Parms.Color);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Mie Scattering Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Mie_Scattering_Scale()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Mie Scattering Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Mie_Scattering_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Mie Anisotropy
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Mie_Anisotropy()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Mie Anisotropy", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Mie_Anisotropy Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Max Trace Distance
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Max_Trace_Distance(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Max Trace Distance", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Max_Trace_Distance Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Lit Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Lit_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Lit Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Lit_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Light Pollution
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_Light_Pollution()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Light Pollution", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Light_Pollution Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Lerp to Simplified Clouds
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Alpha                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Lerp_to_Simplified_Clouds(double* Alpha)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Lerp to Simplified Clouds", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Lerp_to_Simplified_Clouds Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Alpha != nullptr)
+		*Alpha = Parms.Alpha;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Inscattering Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Inscattering_Color                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Fog_Inscattering_Color(struct FLinearColor* Inscattering_Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Fog Inscattering Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Fog_Inscattering_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Inscattering_Color != nullptr)
+		*Inscattering_Color = std::move(Parms.Inscattering_Color);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Directional Inscattering Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Directional_Inscattering_Color                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Fog_Directional_Inscattering_Color(struct FLinearColor* Directional_Inscattering_Color)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Fog Directional Inscattering Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Fog_Directional_Inscattering_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Directional_Inscattering_Color != nullptr)
+		*Directional_Inscattering_Color = std::move(Parms.Directional_Inscattering_Color);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Density
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Fog_Density()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Fog Density", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Fog_Density Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Exposure Bias
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Bias                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Exposure_Bias(double* Bias)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Exposure Bias", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Exposure_Bias Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Bias != nullptr)
+		*Bias = Parms.Bias;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Directional Inscattering Exponent
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Directional_Inscattering_Exponent()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Directional Inscattering Exponent", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Directional_Inscattering_Exponent Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Cloud Wisps Color
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Current_Cloud_Wisps_Color(struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Cloud Wisps Color", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Cloud_Wisps_Color Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Base Clouds Scale
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Base_Clouds_Scale()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Base Clouds Scale", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Base_Clouds_Scale Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Aurora Intensity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Current_Aurora_Intensity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Aurora Intensity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_Aurora_Intensity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current 2D Cloud Tint
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor AUltra_Dynamic_Sky_C::Current_2D_Cloud_Tint()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current 2D Cloud Tint", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Current_2D_Cloud_Tint Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Create UDS and UDW State for Saving
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// struct FUDS_and_UDW_State*              Packaged_State                                         (Parm, OutParm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Create_UDS_and_UDW_State_for_Saving(struct FUDS_and_UDW_State* Packaged_State)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create UDS and UDW State for Saving", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Create_UDS_and_UDW_State_for_Saving Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Packaged_State != nullptr)
+		*Packaged_State = std::move(Parms.Packaged_State);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Create Post Process Components
+// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Create_Post_Process_Components()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Post Process Components", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Convert Time of Day to Time Code
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  Time                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FTimecode*                       Timecode                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Convert_Time_of_Day_to_Time_Code(double Time, struct FTimecode* Timecode)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Convert Time of Day to Time Code", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Convert_Time_of_Day_to_Time_Code Parms{};
+
+	Parms.Time = Time;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Timecode != nullptr)
+		*Timecode = std::move(Parms.Timecode);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Control UDW Weather State
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Control_UDW_Weather_State()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Control UDW Weather State", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Construction Script Function
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Run_By_Counterpart                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Move_Static_Lights                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Construction_Script_Function(bool Run_By_Counterpart, bool Move_Static_Lights)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construction Script Function", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Construction_Script_Function Parms{};
+
+	Parms.Run_By_Counterpart = Run_By_Counterpart;
+	Parms.Move_Static_Lights = Move_Static_Lights;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Construct Space Layer
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Construct_Space_Layer()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct Space Layer", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Combined Night Brightness
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Combined_Night_Brightness(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Combined Night Brightness", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Combined_Night_Brightness Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Clouds Time of Day Factor
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Clouds_Time_of_Day_Factor()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clouds Time of Day Factor", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Clouds_Time_of_Day_Factor Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Wisp Gradient Vector
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Wisp_Gradient_Vector(struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Wisp Gradient Vector", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Wisp_Gradient_Vector Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Texture Velocity
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FVector AUltra_Dynamic_Sky_C::Cloud_Texture_Velocity()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Texture Velocity", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Texture_Velocity Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Parent Material
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TSoftObjectPtr<class UMaterialInterface>*Mat                                                    (Parm, OutParm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Shadows_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Mat)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Shadows Parent Material", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Parent_Material Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Mat != nullptr)
+		*Mat = Parms.Mat;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Light Vector Process
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FVector&                   Vector                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Shadows_Light_Vector_Process(const struct FVector& Vector, struct FLinearColor* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Shadows Light Vector Process", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Light_Vector_Process Parms{};
+
+	Parms.Vector = std::move(Vector);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = std::move(Parms.Out);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Cloud Density
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Cloud_Shadows_Cloud_Density()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Shadows Cloud Density", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Cloud_Density Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Layer Top and Bottom World Height
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Bottom_World_Height                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Top_World_Height                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Layer_Top_and_Bottom_World_Height(double* Bottom_World_Height, double* Top_World_Height)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Layer Top and Bottom World Height", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Layer_Top_and_Bottom_World_Height Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Bottom_World_Height != nullptr)
+		*Bottom_World_Height = Parms.Bottom_World_Height;
+
+	if (Top_World_Height != nullptr)
+		*Top_World_Height = Parms.Top_World_Height;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Darkening
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+double AUltra_Dynamic_Sky_C::Cloud_Darkening()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Darkening", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Darkening Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Coverage Target Mapping
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FVector*                         Mapping                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Coverage_Target_Mapping(struct FVector* Mapping)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Coverage Target Mapping", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Coverage_Target_Mapping Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Mapping != nullptr)
+		*Mapping = std::move(Parms.Mapping);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Coverage Local
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Cloud_Coverage_Local(double* Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cloud Coverage Local", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Cloud_Coverage_Local Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Out != nullptr)
+		*Out = Parms.Out;
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check To Use Existing MIDs
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AUltra_Dynamic_Sky_C::Check_To_Use_Existing_MIDs()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check To Use Existing MIDs", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -497,10 +3686,8 @@ void AUltra_Dynamic_Sky_C::Check_for_Daylight_Savings_Time()
 
 void AUltra_Dynamic_Sky_C::Check_if_Point_is_Exposed_to_Sun_or_Moon_Light(const struct FVector& Location, double Distance_to_Trace, TArray<class AActor*>& Actors_to_Ignore_in_Trace, bool* Exposed_to_Sun, bool* Exposed_to_Moon, bool* Exposed_to_Either, double* Light_Intensity__Lux_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Check if Point is Exposed to Sun or Moon Light");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check if Point is Exposed to Sun or Moon Light", FnName));
 
 	Params::Ultra_Dynamic_Sky_C_Check_if_Point_is_Exposed_to_Sun_or_Moon_Light Parms{};
 
@@ -526,621 +3713,62 @@ void AUltra_Dynamic_Sky_C::Check_if_Point_is_Exposed_to_Sun_or_Moon_Light(const 
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check To Use Existing MIDs
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Check_To_Use_Existing_MIDs()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Check To Use Existing MIDs");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Coverage Local
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Coverage_Local(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Coverage Local");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Coverage_Local Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Coverage Target Mapping
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FVector*                         Mapping                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Coverage_Target_Mapping(struct FVector* Mapping)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Coverage Target Mapping");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Coverage_Target_Mapping Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Mapping != nullptr)
-		*Mapping = std::move(Parms.Mapping);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Darkening
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Cloud_Darkening()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Darkening");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Darkening Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Layer Top and Bottom World Height
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Bottom_World_Height                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Top_World_Height                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Layer_Top_and_Bottom_World_Height(double* Bottom_World_Height, double* Top_World_Height)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Layer Top and Bottom World Height");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Layer_Top_and_Bottom_World_Height Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Bottom_World_Height != nullptr)
-		*Bottom_World_Height = Parms.Bottom_World_Height;
-
-	if (Top_World_Height != nullptr)
-		*Top_World_Height = Parms.Top_World_Height;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Cloud Density
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Cloud_Shadows_Cloud_Density()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Shadows Cloud Density");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Cloud_Density Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Light Vector Process
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector&                   Vector                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Shadows_Light_Vector_Process(const struct FVector& Vector, struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Shadows Light Vector Process");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Light_Vector_Process Parms{};
-
-	Parms.Vector = std::move(Vector);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Shadows Parent Material
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UMaterialInterface>*Mat                                                    (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Shadows_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Mat)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Shadows Parent Material");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Shadows_Parent_Material Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Mat != nullptr)
-		*Mat = Parms.Mat;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Texture Velocity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FVector AUltra_Dynamic_Sky_C::Cloud_Texture_Velocity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Texture Velocity");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Texture_Velocity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cloud Wisp Gradient Vector
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Cloud_Wisp_Gradient_Vector(struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Cloud Wisp Gradient Vector");
-
-	Params::Ultra_Dynamic_Sky_C_Cloud_Wisp_Gradient_Vector Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Clouds Time of Day Factor
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Clouds_Time_of_Day_Factor()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Clouds Time of Day Factor");
-
-	Params::Ultra_Dynamic_Sky_C_Clouds_Time_of_Day_Factor Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Combined Night Brightness
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Combined_Night_Brightness(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Combined Night Brightness");
-
-	Params::Ultra_Dynamic_Sky_C_Combined_Night_Brightness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Construct Space Layer
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Construct_Space_Layer()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Construct Space Layer");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Construction Script Function
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// bool                                    Run_By_Counterpart                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Move_Static_Lights                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Construction_Script_Function(bool Run_By_Counterpart, bool Move_Static_Lights)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Construction Script Function");
-
-	Params::Ultra_Dynamic_Sky_C_Construction_Script_Function Parms{};
-
-	Parms.Run_By_Counterpart = Run_By_Counterpart;
-	Parms.Move_Static_Lights = Move_Static_Lights;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Control UDW Weather State
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check for Daylight Savings Time
 // (Protected, BlueprintCallable, BlueprintEvent)
 
-void AUltra_Dynamic_Sky_C::Control_UDW_Weather_State()
+void AUltra_Dynamic_Sky_C::Check_for_Daylight_Savings_Time()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Control UDW Weather State");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check for Daylight Savings Time", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Convert Time of Day to Time Code
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Time                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FTimecode*                       Timecode                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Check for Cloud Coverage Target Recenter
+// (Protected, BlueprintCallable, BlueprintEvent)
 
-void AUltra_Dynamic_Sky_C::Convert_Time_of_Day_to_Time_Code(double Time, struct FTimecode* Timecode)
+void AUltra_Dynamic_Sky_C::Check_for_Cloud_Coverage_Target_Recenter()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Convert Time of Day to Time Code");
-
-	Params::Ultra_Dynamic_Sky_C_Convert_Time_of_Day_to_Time_Code Parms{};
-
-	Parms.Time = Time;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Timecode != nullptr)
-		*Timecode = std::move(Parms.Timecode);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Create Post Process Components
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Create_Post_Process_Components()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Create Post Process Components");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check for Cloud Coverage Target Recenter", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Create UDS and UDW State for Saving
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Change Sky Mode at Runtime
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FUDS_and_UDW_State*              Packaged_State                                         (Parm, OutParm, HasGetValueTypeHash)
+// EUDS_SkyMode                            New_Sky_Mode                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Create_UDS_and_UDW_State_for_Saving(struct FUDS_and_UDW_State* Packaged_State)
+void AUltra_Dynamic_Sky_C::Change_Sky_Mode_at_Runtime(EUDS_SkyMode New_Sky_Mode)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Change Sky Mode at Runtime", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Create UDS and UDW State for Saving");
+	Params::Ultra_Dynamic_Sky_C_Change_Sky_Mode_at_Runtime Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Create_UDS_and_UDW_State_for_Saving Parms{};
+	Parms.New_Sky_Mode = New_Sky_Mode;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	if (Packaged_State != nullptr)
-		*Packaged_State = std::move(Parms.Packaged_State);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current 2D Cloud Tint
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cancel Shadows Value
 // (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_2D_Cloud_Tint()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current 2D Cloud Tint");
-
-	Params::Ultra_Dynamic_Sky_C_Current_2D_Cloud_Tint Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Aurora Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Aurora_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Aurora Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Aurora_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Base Clouds Scale
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Base_Clouds_Scale()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Base Clouds Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Base_Clouds_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Cloud Wisps Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Cloud_Wisps_Color(struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Cloud Wisps Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Cloud_Wisps_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Directional Inscattering Exponent
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Directional_Inscattering_Exponent()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Directional Inscattering Exponent");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Directional_Inscattering_Exponent Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Exposure Bias
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Bias                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Exposure_Bias(double* Bias)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Exposure Bias");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Exposure_Bias Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Bias != nullptr)
-		*Bias = Parms.Bias;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Density
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Fog_Density()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Fog Density");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Fog_Density Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Directional Inscattering Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Directional_Inscattering_Color                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Fog_Directional_Inscattering_Color(struct FLinearColor* Directional_Inscattering_Color)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Fog Directional Inscattering Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Fog_Directional_Inscattering_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Directional_Inscattering_Color != nullptr)
-		*Directional_Inscattering_Color = std::move(Parms.Directional_Inscattering_Color);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Fog Inscattering Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Inscattering_Color                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Fog_Inscattering_Color(struct FLinearColor* Inscattering_Color)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Fog Inscattering Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Fog_Inscattering_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Inscattering_Color != nullptr)
-		*Inscattering_Color = std::move(Parms.Inscattering_Color);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Lerp to Simplified Clouds
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Alpha                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Lerp_to_Simplified_Clouds(double* Alpha)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Lerp to Simplified Clouds");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Lerp_to_Simplified_Clouds Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Alpha != nullptr)
-		*Alpha = Parms.Alpha;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Light Pollution
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Light_Pollution()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Light Pollution");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Light_Pollution Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Lit Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Lit_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Lit Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Lit_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Max Trace Distance
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
+// const struct FVector&                   Light_Vector                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Current_Max_Trace_Distance(double* Out)
+void AUltra_Dynamic_Sky_C::Cancel_Shadows_Value(const struct FVector& Light_Vector, double* Out)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cancel Shadows Value", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Max Trace Distance");
+	Params::Ultra_Dynamic_Sky_C_Cancel_Shadows_Value Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Max_Trace_Distance Parms{};
+	Parms.Light_Vector = std::move(Light_Vector);
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -1149,2356 +3777,342 @@ void AUltra_Dynamic_Sky_C::Current_Max_Trace_Distance(double* Out)
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Mie Anisotropy
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Vector
+// (Protected, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Current_Mie_Anisotropy()
+void AUltra_Dynamic_Sky_C::Cache_Vector(EUDS_CachedProperties Property, const struct FVector& Set_Value)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cache Vector", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Mie Anisotropy");
+	Params::Ultra_Dynamic_Sky_C_Cache_Vector Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Mie_Anisotropy Parms{};
+	Parms.Property = Property;
+	Parms.Set_Value = std::move(Set_Value);
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Mie Scattering Scale
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Sun and Moon Orientation
+// (Protected, BlueprintCallable, BlueprintEvent)
 
-double AUltra_Dynamic_Sky_C::Current_Mie_Scattering_Scale()
+void AUltra_Dynamic_Sky_C::Cache_Sun_and_Moon_Orientation()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cache Sun and Moon Orientation", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Mie Scattering Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Mie_Scattering_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Light Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Color                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Properties
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void AUltra_Dynamic_Sky_C::Current_Moon_Light_Color(struct FLinearColor* Color)
+void AUltra_Dynamic_Sky_C::Cache_Properties()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cache Properties", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Light Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Light_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Color != nullptr)
-		*Color = std::move(Parms.Color);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Light Material Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Float
+// (Protected, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Moon_Light_Material_Color()
+void AUltra_Dynamic_Sky_C::Cache_Float(EUDS_CachedProperties Property, double Set_Value)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cache Float", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Light Material Color");
+	Params::Ultra_Dynamic_Sky_C_Cache_Float Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Light_Material_Color Parms{};
+	Parms.Property = Property;
+	Parms.Set_Value = Set_Value;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Lit Percent
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Cache Color
+// (Protected, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FLinearColor&              Set_Value                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Current_Moon_Lit_Percent()
+void AUltra_Dynamic_Sky_C::Cache_Color(EUDS_CachedProperties Property, const struct FLinearColor& Set_Value)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cache Color", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Lit Percent");
+	Params::Ultra_Dynamic_Sky_C_Cache_Color Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Lit_Percent Parms{};
+	Parms.Property = Property;
+	Parms.Set_Value = std::move(Set_Value);
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Material Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Moon_Material_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Material Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Material_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Phase Angle
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Moon_Phase_Angle()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Phase Angle");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Phase_Angle Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Scale and Cutout Value
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Scale                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Cutout                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Moon_Scale_and_Cutout_Value(double* Scale, double* Cutout)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Scale and Cutout Value");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Scale_and_Cutout_Value Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Scale != nullptr)
-		*Scale = Parms.Scale;
-
-	if (Cutout != nullptr)
-		*Cutout = Parms.Cutout;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moon Source Angle
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Moon_Source_Angle(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moon Source Angle");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moon_Source_Angle Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Moons Cloud Mask
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Moons_Cloud_Mask()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Moons Cloud Mask");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Moons_Cloud_Mask Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Night Sky Glow
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Night_Sky_Glow()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Night Sky Glow");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Night_Sky_Glow Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Overall Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Overall_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Overall Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Overall_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Overcast Swirl
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Overcast_Swirl()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Overcast Swirl");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Overcast_Swirl Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Rayleigh Scattering Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Rayleigh_Scattering_Color()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Rayleigh Scattering Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Rayleigh_Scattering_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Saturation
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Saturation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Saturation");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Saturation Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Ambient Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Sky_Ambient_Color                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Sky_Ambient_Color(struct FLinearColor* Sky_Ambient_Color)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sky Ambient Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sky_Ambient_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Sky_Ambient_Color != nullptr)
-		*Sky_Ambient_Color = std::move(Parms.Sky_Ambient_Color);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Atmosphere Absorption Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Sky_Atmosphere_Absorption_Color(struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sky Atmosphere Absorption Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sky_Atmosphere_Absorption_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Atmosphere Luminance
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sky_Atmosphere_Luminance()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sky Atmosphere Luminance");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sky_Atmosphere_Luminance Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sky Light Lower Hemisphere Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sky_Light_Lower_Hemisphere_Color()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sky Light Lower Hemisphere Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sky_Light_Lower_Hemisphere_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Solar Eclipse Values
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Both Cloud Shadows MIDs
 // (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FLinearColor*                    Tint_Color                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Eclipse_Percent                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TArray<class UMaterialInstanceDynamic*>*Out                                                    (Parm, OutParm)
 
-void AUltra_Dynamic_Sky_C::Current_Solar_Eclipse_Values(struct FLinearColor* Tint_Color, double* Eclipse_Percent)
+void AUltra_Dynamic_Sky_C::Both_Cloud_Shadows_MIDs(TArray<class UMaterialInstanceDynamic*>* Out)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Both Cloud Shadows MIDs", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Solar Eclipse Values");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Solar_Eclipse_Values Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Tint_Color != nullptr)
-		*Tint_Color = std::move(Parms.Tint_Color);
-
-	if (Eclipse_Percent != nullptr)
-		*Eclipse_Percent = Parms.Eclipse_Percent;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Space Layer Brightness
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Space_Layer_Brightness()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Space Layer Brightness");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Space_Layer_Brightness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Stars Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Stars_Color()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Stars Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Stars_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Disk Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sun_Disk_Color()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Disk Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Disk_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Disk Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Sun_Disk_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Disk Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Disk_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Light Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Sun_Light_Color()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Light Color");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Light_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Light Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Sun_Light_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Light Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Light_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Radius
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Sun_Radius()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Radius");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Radius Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sun Source Angle
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Sun_Source_Angle(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sun Source Angle");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Sun_Source_Angle Parms{};
+	Params::Ultra_Dynamic_Sky_C_Both_Cloud_Shadows_MIDs Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	if (Out != nullptr)
-		*Out = Parms.Out;
+		*Out = std::move(Parms.Out);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sunrise Event Time
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Approximate Real Sun Moon and Stars
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Month                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   DAY                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Year                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Time_of_Day                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Time_Zone                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Only_Calculate_Sun                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Sun_Vector                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Moon_Vector                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Real_Phase                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Phase_Alignment                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Celestial_Orbit                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor*                    Celestial_Yaw                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Current_Sunrise_Event_Time()
+void AUltra_Dynamic_Sky_C::Approximate_Real_Sun_Moon_and_Stars(int32 Month, int32 DAY, int32 Year, double Time_of_Day, double Time_Zone, bool Only_Calculate_Sun, struct FVector* Sun_Vector, struct FVector* Moon_Vector, double* Real_Phase, struct FVector* Phase_Alignment, double* Celestial_Orbit, struct FLinearColor* Celestial_Yaw)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Approximate Real Sun Moon and Stars", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sunrise Event Time");
+	Params::Ultra_Dynamic_Sky_C_Approximate_Real_Sun_Moon_and_Stars Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Sunrise_Event_Time Parms{};
+	Parms.Month = Month;
+	Parms.DAY = DAY;
+	Parms.Year = Year;
+	Parms.Time_of_Day = Time_of_Day;
+	Parms.Time_Zone = Time_Zone;
+	Parms.Only_Calculate_Sun = Only_Calculate_Sun;
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	return Parms.ReturnValue;
+	if (Sun_Vector != nullptr)
+		*Sun_Vector = std::move(Parms.Sun_Vector);
+
+	if (Moon_Vector != nullptr)
+		*Moon_Vector = std::move(Parms.Moon_Vector);
+
+	if (Real_Phase != nullptr)
+		*Real_Phase = Parms.Real_Phase;
+
+	if (Phase_Alignment != nullptr)
+		*Phase_Alignment = std::move(Parms.Phase_Alignment);
+
+	if (Celestial_Orbit != nullptr)
+		*Celestial_Orbit = Parms.Celestial_Orbit;
+
+	if (Celestial_Yaw != nullptr)
+		*Celestial_Yaw = std::move(Parms.Celestial_Yaw);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Sunset Event Time
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Volumetric Mode
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EUDS_VolRT_Mode                         Mode                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Current_Sunset_Event_Time()
+void AUltra_Dynamic_Sky_C::Apply_Volumetric_Mode(EUDS_VolRT_Mode Mode)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Volumetric Mode", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Sunset Event Time");
+	Params::Ultra_Dynamic_Sky_C_Apply_Volumetric_Mode Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Current_Sunset_Event_Time Parms{};
+	Parms.Mode = Mode;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Saved UDS And UDW State
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FUDS_and_UDW_State&        State                                                  (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Apply_Saved_UDS_And_UDW_State(const struct FUDS_and_UDW_State& State)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Saved UDS And UDW State", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Apply_Saved_UDS_And_UDW_State Parms{};
+
+	Parms.State = std::move(State);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Location Preset
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EUDS_CityPresets                        Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Apply_Location_Preset(EUDS_CityPresets Location)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Location Preset", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Apply_Location_Preset Parms{};
+
+	Parms.Location = Location;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Light Shaft Settings
+// (Protected, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UDirectionalLightComponent*       Light                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector2D&                 Max_Brightness                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector2D&                 Bloom_Threshold                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector2D&                 Bloom_Scale                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Forward_Vector                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Apply_Light_Shaft_Settings(class UDirectionalLightComponent* Light, const struct FVector2D& Max_Brightness, const struct FVector2D& Bloom_Threshold, const struct FVector2D& Bloom_Scale, const struct FVector& Forward_Vector)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Light Shaft Settings", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Apply_Light_Shaft_Settings Parms{};
+
+	Parms.Light = Light;
+	Parms.Max_Brightness = std::move(Max_Brightness);
+	Parms.Bloom_Threshold = std::move(Bloom_Threshold);
+	Parms.Bloom_Scale = std::move(Bloom_Scale);
+	Parms.Forward_Vector = std::move(Forward_Vector);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Apply Console Variable with Check
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FString&                    Cvar                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// double                                  setting                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Type                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AUltra_Dynamic_Sky_C::Apply_Console_Variable_with_Check(const class FString& Cvar, double setting, int32 Type)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Console Variable with Check", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_Apply_Console_Variable_with_Check Parms{};
+
+	Parms.Cvar = std::move(Cvar);
+	Parms.setting = setting;
+	Parms.Type = Type;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.All Volumetric Cloud MIDs
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    Shadows                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TArray<class UMaterialInstanceDynamic*>*MIDs                                                   (Parm, OutParm)
+
+void AUltra_Dynamic_Sky_C::All_Volumetric_Cloud_MIDs(bool Shadows, TArray<class UMaterialInstanceDynamic*>* MIDs)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"All Volumetric Cloud MIDs", FnName));
+
+	Params::Ultra_Dynamic_Sky_C_All_Volumetric_Cloud_MIDs Parms{};
+
+	Parms.Shadows = Shadows;
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	return Parms.ReturnValue;
+	if (MIDs != nullptr)
+		*MIDs = std::move(Parms.MIDs);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current View Sample Scale
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Adjust Base Sun Light Intensity
 // (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_View_Sample_Scale(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current View Sample Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Current_View_Sample_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Albedo
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Albedo()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Albedo");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Albedo Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Inner Emit Limit
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Inner_Emit_Limit(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Inner Emit Limit");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Inner_Emit_Limit Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Macro Variation
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Macro_Variation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Macro Variation");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Macro_Variation Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Multiscattering Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Multiscattering_Intensity(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Multiscattering Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Multiscattering_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Multiscattering Occlusion
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Occlusion                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Multiscattering_Occlusion(double* Occlusion)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Multiscattering Occlusion");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Multiscattering_Occlusion Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Occlusion != nullptr)
-		*Occlusion = Parms.Occlusion;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Shadow Tracing Distance
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Shadow_Tracing_Distance(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Shadow Tracing Distance");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Shadow_Tracing_Distance Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Cloud Sky Atmo Contribution
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Volumetric_Cloud_Sky_Atmo_Contribution()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Cloud Sky Atmo Contribution");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Cloud_Sky_Atmo_Contribution Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Volumetric Clouds Density
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double*                                 Layer1                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Cloud_Layer_Visible                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Layer2                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Current_Volumetric_Clouds_Density(double* Layer1, bool* Cloud_Layer_Visible, double* Layer2)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Volumetric Clouds Density");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Volumetric_Clouds_Density Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Layer1 != nullptr)
-		*Layer1 = Parms.Layer1;
-
-	if (Cloud_Layer_Visible != nullptr)
-		*Cloud_Layer_Visible = Parms.Cloud_Layer_Visible;
-
-	if (Layer2 != nullptr)
-		*Layer2 = Parms.Layer2;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Current Wisps Opacity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Current_Wisps_Opacity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Current Wisps Opacity");
-
-	Params::Ultra_Dynamic_Sky_C_Current_Wisps_Opacity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Day Ended
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Day_Ended()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Day Ended");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Days Since J2000
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// int32                                   Input_Year                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Day_of_Year                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32*                                  Days                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Days_Since_J2000(int32 Input_Year, int32 Day_of_Year, int32* Days)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Days Since J2000");
-
-	Params::Ultra_Dynamic_Sky_C_Days_Since_J2000 Parms{};
-
-	Parms.Input_Year = Input_Year;
-	Parms.Day_of_Year = Day_of_Year;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Days != nullptr)
-		*Days = Parms.Days;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Dimming Directional Lights
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool AUltra_Dynamic_Sky_C::Dimming_Directional_Lights()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Dimming Directional Lights");
-
-	Params::Ultra_Dynamic_Sky_C_Dimming_Directional_Lights Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Directional Inscattering Multiplier
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
+// const struct FVector&                   Sun_Vector                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Multiplier                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Directional_Inscattering_Multiplier(double* Multiplier)
+void AUltra_Dynamic_Sky_C::Adjust_Base_Sun_Light_Intensity(const struct FVector& Sun_Vector, double* Intensity, double* Multiplier)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Adjust Base Sun Light Intensity", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Directional Inscattering Multiplier");
+	Params::Ultra_Dynamic_Sky_C_Adjust_Base_Sun_Light_Intensity Parms{};
 
-	Params::Ultra_Dynamic_Sky_C_Directional_Inscattering_Multiplier Parms{};
+	Parms.Sun_Vector = std::move(Sun_Vector);
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (Intensity != nullptr)
+		*Intensity = Parms.Intensity;
 
 	if (Multiplier != nullptr)
 		*Multiplier = Parms.Multiplier;
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Directional Light Dimming
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Directional_Light_Dimming(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Directional Light Dimming");
-
-	Params::Ultra_Dynamic_Sky_C_Directional_Light_Dimming Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ExecuteUbergraph_Ultra_Dynamic_Sky
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::ExecuteUbergraph_Ultra_Dynamic_Sky(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "ExecuteUbergraph_Ultra_Dynamic_Sky");
-
-	Params::Ultra_Dynamic_Sky_C_ExecuteUbergraph_Ultra_Dynamic_Sky Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Filtered Moon Light Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Unfiltered                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Filtered_Moon_Light_Intensity(double Unfiltered, double* Intensity)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Filtered Moon Light Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Filtered_Moon_Light_Intensity Parms{};
-
-	Parms.Unfiltered = Unfiltered;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Intensity != nullptr)
-		*Intensity = Parms.Intensity;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Find Overall Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Cloud_Darkening                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Find_Overall_Intensity(double Cloud_Darkening)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Find Overall Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Find_Overall_Intensity Parms{};
-
-	Parms.Cloud_Darkening = Cloud_Darkening;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sunrise Times
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Sunrise_Times()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sunrise Times");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Finish Time Transition
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Finish_Time_Transition()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Finish Time Transition");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fire Editor Dispatchers
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Fire_Editor_Dispatchers()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Fire Editor Dispatchers");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Flat Cloudiness
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool*                                   on                                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Flat_Cloudiness(bool* on)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Flat Cloudiness");
-
-	Params::Ultra_Dynamic_Sky_C_Flat_Cloudiness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (on != nullptr)
-		*on = Parms.on;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fog Height Falloff
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Fog_Height_Falloff()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Fog Height Falloff");
-
-	Params::Ultra_Dynamic_Sky_C_Fog_Height_Falloff Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Fog Start Distance
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Fog_Start_Distance()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Fog Start Distance");
-
-	Params::Ultra_Dynamic_Sky_C_Fog_Start_Distance Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Force Startup
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Force_Startup()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Force Startup");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Force Valid Day
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Force_Valid_Day()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Force Valid Day");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Gate With Current Changes
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    Clouds_Changing                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Fog_Changing                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Dust_Changing                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool AUltra_Dynamic_Sky_C::Gate_With_Current_Changes(bool Clouds_Changing, bool Fog_Changing, bool Dust_Changing)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Gate With Current Changes");
-
-	Params::Ultra_Dynamic_Sky_C_Gate_With_Current_Changes Parms{};
-
-	Parms.Clouds_Changing = Clouds_Changing;
-	Parms.Fog_Changing = Fog_Changing;
-	Parms.Dust_Changing = Dust_Changing;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Cached_Color(EUDS_CachedProperties Property, struct FLinearColor* Value)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Cached Color");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Cached_Color Parms{};
-
-	Parms.Property = Property;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Value != nullptr)
-		*Value = std::move(Parms.Value);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Float
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Cached_Float(EUDS_CachedProperties Property, double* Value)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Cached Float");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Cached_Float Parms{};
-
-	Parms.Property = Property;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Value != nullptr)
-		*Value = Parms.Value;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Cached Vector
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EUDS_CachedProperties                   Property                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Cached_Vector(EUDS_CachedProperties Property, struct FVector* Value)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Cached Vector");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Cached_Vector Parms{};
-
-	Parms.Property = Property;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Value != nullptr)
-		*Value = std::move(Parms.Value);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Camera Location and Camera Relative Heights
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Get_Camera_Location_and_Camera_Relative_Heights()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Camera Location and Camera Relative Heights");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Cloud Shadows Intensity and Softness
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double*                                 Intensity                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Softness                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Current_Cloud_Shadows_Intensity_and_Softness(double* Intensity, double* Softness)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Current Cloud Shadows Intensity and Softness");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Current_Cloud_Shadows_Intensity_and_Softness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Intensity != nullptr)
-		*Intensity = Parms.Intensity;
-
-	if (Softness != nullptr)
-		*Softness = Parms.Softness;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Date and Time
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FDateTime*                       Current_Date_and_Time                                  (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Current_Date_and_Time(struct FDateTime* Current_Date_and_Time)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Current Date and Time");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Current_Date_and_Time Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Current_Date_and_Time != nullptr)
-		*Current_Date_and_Time = std::move(Parms.Current_Date_and_Time);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Fog Base Colors
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FLinearColor*                    Ambient_Fog_Color_0                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Directional_Base_Color                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Scaled_Directional_Base_Color                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Sun_Fog_Base                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Moon_Fog_Base                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Current_Fog_Base_Colors(struct FLinearColor* Ambient_Fog_Color_0, struct FLinearColor* Directional_Base_Color, struct FLinearColor* Scaled_Directional_Base_Color, struct FLinearColor* Sun_Fog_Base, struct FLinearColor* Moon_Fog_Base)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Current Fog Base Colors");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Current_Fog_Base_Colors Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Ambient_Fog_Color_0 != nullptr)
-		*Ambient_Fog_Color_0 = std::move(Parms.Ambient_Fog_Color_0);
-
-	if (Directional_Base_Color != nullptr)
-		*Directional_Base_Color = std::move(Parms.Directional_Base_Color);
-
-	if (Scaled_Directional_Base_Color != nullptr)
-		*Scaled_Directional_Base_Color = std::move(Parms.Scaled_Directional_Base_Color);
-
-	if (Sun_Fog_Base != nullptr)
-		*Sun_Fog_Base = std::move(Parms.Sun_Fog_Base);
-
-	if (Moon_Fog_Base != nullptr)
-		*Moon_Fog_Base = std::move(Parms.Moon_Fog_Base);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Sky Light Color and Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double*                                 Out_Intensity                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Out_Color                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Current_Sky_Light_Color_and_Intensity(double* Out_Intensity, struct FLinearColor* Out_Color)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Current Sky Light Color and Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Current_Sky_Light_Color_and_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out_Intensity != nullptr)
-		*Out_Intensity = Parms.Out_Intensity;
-
-	if (Out_Color != nullptr)
-		*Out_Color = std::move(Parms.Out_Color);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Current Volumetric Cloud Extinction Scale
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Current_Volumetric_Cloud_Extinction_Scale(double* Top)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Current Volumetric Cloud Extinction Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Current_Volumetric_Cloud_Extinction_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Top != nullptr)
-		*Top = Parms.Top;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Nearby Cloud Cells To Load Asynchronously
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Get_Nearby_Cloud_Cells_To_Load_Asynchronously()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Nearby Cloud Cells To Load Asynchronously");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Sky MID Parent Material Instance
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UMaterialInterface>ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash)
-
-TSoftObjectPtr<class UMaterialInterface> AUltra_Dynamic_Sky_C::Get_Sky_MID_Parent_Material_Instance()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Sky MID Parent Material Instance");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Sky_MID_Parent_Material_Instance Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Time of Day in Real Time Format
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FTimecode*                       Time                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Time_of_Day_in_Real_Time_Format(struct FTimecode* Time)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Time of Day in Real Time Format");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Time_of_Day_in_Real_Time_Format Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Time != nullptr)
-		*Time = std::move(Parms.Time);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Get Volumetric Cloud Emissive Colors
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FLinearColor*                    Bottom                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Get_Volumetric_Cloud_Emissive_Colors(struct FLinearColor* Bottom, struct FLinearColor* Top)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Get Volumetric Cloud Emissive Colors");
-
-	Params::Ultra_Dynamic_Sky_C_Get_Volumetric_Cloud_Emissive_Colors Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Bottom != nullptr)
-		*Bottom = std::move(Parms.Bottom);
-
-	if (Top != nullptr)
-		*Top = std::move(Parms.Top);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.MS to Time of Day
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// int32                                   Hours                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Minutes                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Seconds                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   Miliseconds                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Time                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::MS_to_Time_of_Day(int32 Hours, int32 Minutes, int32 Seconds, int32 Miliseconds, double* Time)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "MS to Time of Day");
-
-	Params::Ultra_Dynamic_Sky_C_MS_to_Time_of_Day Parms{};
-
-	Parms.Hours = Hours;
-	Parms.Minutes = Minutes;
-	Parms.Seconds = Seconds;
-	Parms.Miliseconds = Miliseconds;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Time != nullptr)
-		*Time = Parms.Time;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Hard Reset Cache
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Hard_Reset_Cache()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Hard Reset Cache");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increase Tick Frequency
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool AUltra_Dynamic_Sky_C::Increase_Tick_Frequency()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Increase Tick Frequency");
-
-	Params::Ultra_Dynamic_Sky_C_Increase_Tick_Frequency Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increment Cache Timer
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Increment_Cache_Timer()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Increment Cache Timer");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Increment Day
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Increment_Day()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Increment Day");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Initialize Occlusion
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Initialize_Occlusion()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Initialize Occlusion");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Inside Outside Cloud Layer
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Inside_Outside_Cloud_Layer()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Inside Outside Cloud Layer");
-
-	Params::Ultra_Dynamic_Sky_C_Inside_Outside_Cloud_Layer Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is it Daytime?
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Is_it_Daytime_(bool* Yes)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Is it Daytime?");
-
-	Params::Ultra_Dynamic_Sky_C_Is_it_Daytime_ Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Yes != nullptr)
-		*Yes = Parms.Yes;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Lens Flare Enabled
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Is_Lens_Flare_Enabled(bool* Yes)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Is Lens Flare Enabled");
-
-	Params::Ultra_Dynamic_Sky_C_Is_Lens_Flare_Enabled Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Yes != nullptr)
-		*Yes = Parms.Yes;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Location Inside Cloud Layer
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Inside                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Is_Location_Inside_Cloud_Layer(const struct FVector& Location, bool* Inside)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Is Location Inside Cloud Layer");
-
-	Params::Ultra_Dynamic_Sky_C_Is_Location_Inside_Cloud_Layer Parms{};
-
-	Parms.Location = std::move(Location);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Inside != nullptr)
-		*Inside = Parms.Inside;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Moon Light Casting Shadows
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Is_Moon_Light_Casting_Shadows(bool* Yes)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Is Moon Light Casting Shadows");
-
-	Params::Ultra_Dynamic_Sky_C_Is_Moon_Light_Casting_Shadows Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Yes != nullptr)
-		*Yes = Parms.Yes;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Is Sun Light Casting Shadows
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool*                                   Yes                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Is_Sun_Light_Casting_Shadows(bool* Yes)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Is Sun Light Casting Shadows");
-
-	Params::Ultra_Dynamic_Sky_C_Is_Sun_Light_Casting_Shadows Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Yes != nullptr)
-		*Yes = Parms.Yes;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Lens Flare Parent Material
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UMaterialInterface>*Mat                                                    (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Lens_Flare_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Mat)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Lens Flare Parent Material");
-
-	Params::Ultra_Dynamic_Sky_C_Lens_Flare_Parent_Material Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Mat != nullptr)
-		*Mat = Parms.Mat;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Load Required Assets
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Load_Required_Assets()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Load Required Assets");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Monitor for Changes
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Monitor_for_Changes()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Monitor for Changes");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Light Specular Scale
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Moon_Light_Specular_Scale()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Moon Light Specular Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Moon_Light_Specular_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Light Volumetric Scattering Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Moon_Light_Volumetric_Scattering_Intensity()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Moon Light Volumetric Scattering Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Moon_Light_Volumetric_Scattering_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Phase Multiplier
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Without_Light_Brightness                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Moon_Phase_Multiplier(double* Without_Light_Brightness)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Moon Phase Multiplier");
-
-	Params::Ultra_Dynamic_Sky_C_Moon_Phase_Multiplier Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Without_Light_Brightness != nullptr)
-		*Without_Light_Brightness = Parms.Without_Light_Brightness;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Moon Z Vector
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FVector*                         Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Moon_Z_Vector(struct FVector* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Moon Z Vector");
-
-	Params::Ultra_Dynamic_Sky_C_Moon_Z_Vector Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Night Filter
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Night_Filter()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Night Filter");
-
-	Params::Ultra_Dynamic_Sky_C_Night_Filter Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Notify of Removed Cloud Paint Container
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Notify_of_Removed_Cloud_Paint_Container()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Notify of Removed Cloud Paint Container");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.OnLoaded_AA91001A446E22425F2F54AAB2159C50
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UObject*                          Loaded                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::OnLoaded_AA91001A446E22425F2F54AAB2159C50(class UObject* Loaded)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "OnLoaded_AA91001A446E22425F2F54AAB2159C50");
-
-	Params::Ultra_Dynamic_Sky_C_OnLoaded_AA91001A446E22425F2F54AAB2159C50 Parms{};
-
-	Parms.Loaded = Loaded;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.OnRep_Replicated Time of Day
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::OnRep_Replicated_Time_of_Day()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "OnRep_Replicated Time of Day");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Brightness
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Overcast_Brightness()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Overcast Brightness");
-
-	Params::Ultra_Dynamic_Sky_C_Overcast_Brightness Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Light Contribution
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    For_Volumetric_Clouds                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor AUltra_Dynamic_Sky_C::Overcast_Light_Contribution(bool For_Volumetric_Clouds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Overcast Light Contribution");
-
-	Params::Ultra_Dynamic_Sky_C_Overcast_Light_Contribution Parms{};
-
-	Parms.For_Volumetric_Clouds = For_Volumetric_Clouds;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Overcast Luminance Boost
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Multiplier                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Overcast_Luminance_Boost(double Multiplier, double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Overcast Luminance Boost");
-
-	Params::Ultra_Dynamic_Sky_C_Overcast_Luminance_Boost Parms{};
-
-	Parms.Multiplier = Multiplier;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Query Project Settings And UDS Version
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Query_Project_Settings_And_UDS_Version()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Query Project Settings And UDS Version");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Recapture Sky Light
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Recapture_Sky_Light()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Recapture Sky Light");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
-// Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "ReceiveEndPlay");
-
-	Params::Ultra_Dynamic_Sky_C_ReceiveEndPlay Parms{};
-
-	Parms.EndPlayReason = EndPlayReason;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "ReceiveTick");
-
-	Params::Ultra_Dynamic_Sky_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Release Async Loaded Object
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Add Object to Async Loading Queue
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // TSoftObjectPtr<class UObject>           Object                                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// bool                                    High_Priority                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Release_Async_Loaded_Object(TSoftObjectPtr<class UObject> Object)
+void AUltra_Dynamic_Sky_C::Add_Object_to_Async_Loading_Queue(TSoftObjectPtr<class UObject> Object, bool High_Priority)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Object to Async Loading Queue", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Release Async Loaded Object");
-
-	Params::Ultra_Dynamic_Sky_C_Release_Async_Loaded_Object Parms{};
+	Params::Ultra_Dynamic_Sky_C_Add_Object_to_Async_Loading_Queue Parms{};
 
 	Parms.Object = Object;
+	Parms.High_Priority = High_Priority;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Restart Inside Cloud Fog
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Restart_Inside_Cloud_Fog()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Restart Inside Cloud Fog");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Restart Real Time Sky Light Capture
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Restart_Real_Time_Sky_Light_Capture()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Restart Real Time Sky Light Capture");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Scale Sample Count
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Scale_Sample_Count(double In, double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Scale Sample Count");
-
-	Params::Ultra_Dynamic_Sky_C_Scale_Sample_Count Parms{};
-
-	Parms.In = In;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Scaled Cache Period
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Period                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Scaled_Cache_Period(double* Period)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Scaled Cache Period");
-
-	Params::Ultra_Dynamic_Sky_C_Scaled_Cache_Period Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Period != nullptr)
-		*Period = Parms.Period;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Cache Alpha
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Cache_Alpha()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Cache Alpha");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Cloud Timing
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Cloud_Timing()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Cloud Timing");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Date and Time
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FDateTime&                 Date_Time                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Set_Date_and_Time(const struct FDateTime& Date_Time)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Date and Time");
-
-	Params::Ultra_Dynamic_Sky_C_Set_Date_and_Time Parms{};
-
-	Parms.Date_Time = std::move(Date_Time);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Sun and Moon Root Rotation
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Sun_and_Moon_Root_Rotation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Sun and Moon Root Rotation");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Time of Day using Time Code
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FTimecode&                 Time_Code                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Set_Time_of_Day_using_Time_Code(const struct FTimecode& Time_Code)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Time of Day using Time Code");
-
-	Params::Ultra_Dynamic_Sky_C_Set_Time_of_Day_using_Time_Code Parms{};
-
-	Parms.Time_Code = std::move(Time_Code);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Lens Flare
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Up_Lens_Flare()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Up Lens Flare");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Overcast Turbulence
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Up_Overcast_Turbulence()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Up Overcast Turbulence");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Set Up Volumetric Cloud Light Rays
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Set_Up_Volumetric_Cloud_Light_Rays()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Set Up Volumetric Cloud Light Rays");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Simplified Current Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FLinearColor&              Day_Color                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FLinearColor&              Dusk_Color                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FLinearColor&              Night_Color                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Simplified_Current_Color(const struct FLinearColor& Day_Color, const struct FLinearColor& Dusk_Color, const struct FLinearColor& Night_Color, struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Simplified Current Color");
-
-	Params::Ultra_Dynamic_Sky_C_Simplified_Current_Color Parms{};
-
-	Parms.Day_Color = std::move(Day_Color);
-	Parms.Dusk_Color = std::move(Dusk_Color);
-	Parms.Night_Color = std::move(Night_Color);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Simplified Sun Glow Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Simplified_Sun_Glow_Color(struct FLinearColor* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Simplified Sun Glow Color");
-
-	Params::Ultra_Dynamic_Sky_C_Simplified_Sun_Glow_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Size Cache Arrays
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Size_Cache_Arrays()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Size Cache Arrays");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sky Atmosphere Fog Contribution
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Output                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Sky_Atmosphere_Fog_Contribution(double* Output)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sky Atmosphere Fog Contribution");
-
-	Params::Ultra_Dynamic_Sky_C_Sky_Atmosphere_Fog_Contribution Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Output != nullptr)
-		*Output = Parms.Output;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sky MID Cloud Density
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Absent Directional Lights Brightness
 // (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-double AUltra_Dynamic_Sky_C::Sky_MID_Cloud_Density()
+double AUltra_Dynamic_Sky_C::Absent_Directional_Lights_Brightness()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Absent Directional Lights Brightness", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sky MID Cloud Density");
-
-	Params::Ultra_Dynamic_Sky_C_Sky_MID_Cloud_Density Parms{};
+	Params::Ultra_Dynamic_Sky_C_Absent_Directional_Lights_Brightness Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -3506,1096 +4120,22 @@ double AUltra_Dynamic_Sky_C::Sky_MID_Cloud_Density()
 }
 
 
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Solar Eclipse Circle Mask
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Sun_Angular_Radius                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Moon_Angular_Radius                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Moon_Vector                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Moon_Softness                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Fraction_Showing                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Solar_Eclipse_Circle_Mask(double Sun_Angular_Radius, double Moon_Angular_Radius, const struct FVector& Moon_Vector, double Moon_Softness, double* Fraction_Showing)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Solar Eclipse Circle Mask");
-
-	Params::Ultra_Dynamic_Sky_C_Solar_Eclipse_Circle_Mask Parms{};
-
-	Parms.Sun_Angular_Radius = Sun_Angular_Radius;
-	Parms.Moon_Angular_Radius = Moon_Angular_Radius;
-	Parms.Moon_Vector = std::move(Moon_Vector);
-	Parms.Moon_Softness = Moon_Softness;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Fraction_Showing != nullptr)
-		*Fraction_Showing = Parms.Fraction_Showing;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Space Planet Parent MID
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FUDS_Space_Planet&         Planet                                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-// TSoftObjectPtr<class UMaterialInterface>*Out                                                    (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Space_Planet_Parent_MID(const struct FUDS_Space_Planet& Planet, TSoftObjectPtr<class UMaterialInterface>* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Space Planet Parent MID");
-
-	Params::Ultra_Dynamic_Sky_C_Space_Planet_Parent_MID Parms{};
-
-	Parms.Planet = std::move(Planet);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Start Async Loader
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Start_Async_Loader()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Start Async Loader");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Starting Cloud Formation
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Starting_Cloud_Formation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Starting Cloud Formation");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Static Clouds Parent Material
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UMaterialInterface>*Material                                               (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Static_Clouds_Parent_Material(TSoftObjectPtr<class UMaterialInterface>* Material)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Static Clouds Parent Material");
-
-	Params::Ultra_Dynamic_Sky_C_Static_Clouds_Parent_Material Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Material != nullptr)
-		*Material = Parms.Material;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Static Clouds XYZ Masks
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FLinearColor*                    XY_Mask                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Z_Mask                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Static_Clouds_XYZ_Masks(struct FLinearColor* XY_Mask, double* Z_Mask)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Static Clouds XYZ Masks");
-
-	Params::Ultra_Dynamic_Sky_C_Static_Clouds_XYZ_Masks Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (XY_Mask != nullptr)
-		*XY_Mask = std::move(Parms.XY_Mask);
-
-	if (Z_Mask != nullptr)
-		*Z_Mask = Parms.Z_Mask;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun Height
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Z                                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Sun_Height(double* Z)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sun Height");
-
-	Params::Ultra_Dynamic_Sky_C_Sun_Height Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Z != nullptr)
-		*Z = Parms.Z;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun Shadows MIDs
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TArray<class UMaterialInstanceDynamic*>*Out                                                    (Parm, OutParm)
-
-void AUltra_Dynamic_Sky_C::Sun_Shadows_MIDs(TArray<class UMaterialInstanceDynamic*>* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sun Shadows MIDs");
-
-	Params::Ultra_Dynamic_Sky_C_Sun_Shadows_MIDs Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Sun Z Vector
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FVector*                         Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Sun_Z_Vector(struct FVector* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Sun Z Vector");
-
-	Params::Ultra_Dynamic_Sky_C_Sun_Z_Vector Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Swap with Cinematic Runtime Value
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Cine                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    User_Higher                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Swap_with_Cinematic_Runtime_Value(double In, double Cine, bool User_Higher, double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Swap with Cinematic Runtime Value");
-
-	Params::Ultra_Dynamic_Sky_C_Swap_with_Cinematic_Runtime_Value Parms{};
-
-	Parms.In = In;
-	Parms.Cine = Cine;
-	Parms.User_Higher = User_Higher;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Test Point for Painted Cloud Coverage
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Cloud_Coverage_with_Painting                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Test_Point_for_Painted_Cloud_Coverage(const struct FVector& Location, double* Cloud_Coverage_with_Painting)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Test Point for Painted Cloud Coverage");
-
-	Params::Ultra_Dynamic_Sky_C_Test_Point_for_Painted_Cloud_Coverage Parms{};
-
-	Parms.Location = std::move(Location);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Cloud_Coverage_with_Painting != nullptr)
-		*Cloud_Coverage_with_Painting = Parms.Cloud_Coverage_with_Painting;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Three Time Floats
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  DAY_0                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Dusk                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  NIGHT                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Three_Time_Floats(double DAY_0, double Dusk, double NIGHT, double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Three Time Floats");
-
-	Params::Ultra_Dynamic_Sky_C_Three_Time_Floats Parms{};
-
-	Parms.DAY_0 = DAY_0;
-	Parms.Dusk = Dusk;
-	Parms.NIGHT = NIGHT;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Tick Time Transition
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Tick_Time_Transition()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Tick Time Transition");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Time of Day Offset
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Time_of_Day_Offset()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Time of Day Offset");
-
-	Params::Ultra_Dynamic_Sky_C_Time_of_Day_Offset Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Timed Override with New Changes
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Timed_Override_with_New_Changes()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Timed Override with New Changes");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Total Time Elapsed
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AUltra_Dynamic_Sky_C::Total_Time_Elapsed()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Total Time Elapsed");
-
-	Params::Ultra_Dynamic_Sky_C_Total_Time_Elapsed Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Transition Sky Light Intensity
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  New_Sky_Light_Intensity_Multiplier                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Transition_Time                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Transition_Sky_Light_Intensity(double New_Sky_Light_Intensity_Multiplier, double Transition_Time)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Transition Sky Light Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Transition_Sky_Light_Intensity Parms{};
-
-	Parms.New_Sky_Light_Intensity_Multiplier = New_Sky_Light_Intensity_Multiplier;
-	Parms.Transition_Time = Transition_Time;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Transition Time of Day
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  New_Time_of_Day                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Transition_Duration__Seconds_                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// EEasingFunc                             Easing_Function                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Easing_Exponent                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Allow_Time_Going_Backwards                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Transition_Time_of_Day(double New_Time_of_Day, double Transition_Duration__Seconds_, EEasingFunc Easing_Function, double Easing_Exponent, bool Allow_Time_Going_Backwards)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Transition Time of Day");
-
-	Params::Ultra_Dynamic_Sky_C_Transition_Time_of_Day Parms{};
-
-	Parms.New_Time_of_Day = New_Time_of_Day;
-	Parms.Transition_Duration__Seconds_ = Transition_Duration__Seconds_;
-	Parms.Easing_Function = Easing_Function;
-	Parms.Easing_Exponent = Easing_Exponent;
-	Parms.Allow_Time_Going_Backwards = Allow_Time_Going_Backwards;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Twilight Brightness Falloff
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Z                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Scale                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Twilight_Brightness_Falloff(double Z, double* Scale)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Twilight Brightness Falloff");
-
-	Params::Ultra_Dynamic_Sky_C_Twilight_Brightness_Falloff Parms{};
-
-	Parms.Z = Z;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Scale != nullptr)
-		*Scale = Parms.Scale;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Unfiltered Moon Light Intensity
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Unfiltered_Moon_Light_Intensity(double* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Unfiltered Moon Light Intensity");
-
-	Params::Ultra_Dynamic_Sky_C_Unfiltered_Moon_Light_Intensity Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = Parms.Out;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Active Variables
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Active_Variables()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Active Variables");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Cloud Coverage After Painting
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Cloud_Coverage_After_Painting()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Cloud Coverage After Painting");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Current Volumetric Clouds MID
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Current_Volumetric_Clouds_MID()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Current Volumetric Clouds MID");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Directional Light Rotations
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Directional_Light_Rotations()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Directional Light Rotations");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Distance to Sample Max Count
-// (Protected, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// bool                                    Shut_Down                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Update_Distance_to_Sample_Max_Count(bool Shut_Down)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Distance to Sample Max Count");
-
-	Params::Ultra_Dynamic_Sky_C_Update_Distance_to_Sample_Max_Count Parms{};
-
-	Parms.Shut_Down = Shut_Down;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Dynamic Sky Light Multiplier
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Dynamic_Sky_Light_Multiplier()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Dynamic Sky Light Multiplier");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Exposure Bias
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Exposure_Bias()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Exposure Bias");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Forced Active Variables
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Forced_Active_Variables()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Forced Active Variables");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update from UDW Construction Script
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_from_UDW_Construction_Script()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update from UDW Construction Script");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Lens Flare
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Lens_Flare()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Lens Flare");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Moon Parameters
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Moon_Parameters()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Moon Parameters");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Overcast Turbulence
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Overcast_Turbulence()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Overcast Turbulence");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Painted Cloud Coverage Target
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Painted_Cloud_Coverage_Target()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Painted Cloud Coverage Target");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Post Process Blend Weights
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Post_Process_Blend_Weights()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Post Process Blend Weights");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Replicated Time
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Replicated_Time()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Replicated Time");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Replicated ToD
-// (BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Replicated_ToD()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Replicated ToD");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Settings Based on Platform and Scalability
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Settings_Based_on_Platform_and_Scalability()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Settings Based on Platform and Scalability");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Sky Atmosphere Location
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Update_Sky_Atmosphere_Location(const struct FVector& Location)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Sky Atmosphere Location");
-
-	Params::Ultra_Dynamic_Sky_C_Update_Sky_Atmosphere_Location Parms{};
-
-	Parms.Location = std::move(Location);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Space Planet Vectors
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Space_Planet_Vectors()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Space Planet Vectors");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Static Clouds
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Static_Clouds()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Static Clouds");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Static Variables
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Static_Variables()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Static Variables");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Variables Controlled By Weather
-// (Protected, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Variables_Controlled_By_Weather()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Variables Controlled By Weather");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Volumetric Cloud Light Rays
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Volumetric_Cloud_Light_Rays()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Volumetric Cloud Light Rays");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Update Volumetric Cloud Light Rays Movement
-// (Protected, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::Update_Volumetric_Cloud_Light_Rays_Movement()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Update Volumetric Cloud Light Rays Movement");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Use Sky Atmosphere
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool AUltra_Dynamic_Sky_C::Use_Sky_Atmosphere()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Use Sky Atmosphere");
-
-	Params::Ultra_Dynamic_Sky_C_Use_Sky_Atmosphere Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void AUltra_Dynamic_Sky_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Using 2D Clouds
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-bool AUltra_Dynamic_Sky_C::Using_2D_Clouds()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Using 2D Clouds");
-
-	Params::Ultra_Dynamic_Sky_C_Using_2D_Clouds Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Ambient Light Color
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// struct FLinearColor*                    Bottom                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Top                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Ambient_Light_Color(struct FLinearColor* Bottom, struct FLinearColor* Top)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Ambient Light Color");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Ambient_Light_Color Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Bottom != nullptr)
-		*Bottom = std::move(Parms.Bottom);
-
-	if (Top != nullptr)
-		*Top = std::move(Parms.Top);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Base Cloud Height
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Base_Cloud_Height_0                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Base_Cloud_Height(double* Base_Cloud_Height_0)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Base Cloud Height");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Base_Cloud_Height Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Base_Cloud_Height_0 != nullptr)
-		*Base_Cloud_Height_0 = Parms.Base_Cloud_Height_0;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Floor Variation
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Height_Clear                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Height_Cloudy                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Color                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Floor_Variation(double* Height_Clear, double* Height_Cloudy, double* Color)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Floor Variation");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Floor_Variation Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Height_Clear != nullptr)
-		*Height_Clear = Parms.Height_Clear;
-
-	if (Height_Cloudy != nullptr)
-		*Height_Cloudy = Parms.Height_Cloudy;
-
-	if (Color != nullptr)
-		*Color = Parms.Color;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Layer Height
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Base_Cloud_Height_0                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double*                                 Layer_Height                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Layer_Height(double Base_Cloud_Height_0, double* Layer_Height)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Layer Height");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Layer_Height Parms{};
-
-	Parms.Base_Cloud_Height_0 = Base_Cloud_Height_0;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Layer_Height != nullptr)
-		*Layer_Height = Parms.Layer_Height;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Layer Scale
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Layer_Scale                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Layer_Scale(double* Layer_Scale)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Layer Scale");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Layer_Scale Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Layer_Scale != nullptr)
-		*Layer_Scale = Parms.Layer_Scale;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Shadows Altitude
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Cloud_Shadows_Altitude                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Shadows_Altitude(double* Cloud_Shadows_Altitude)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Shadows Altitude");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Shadows_Altitude Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Cloud_Shadows_Altitude != nullptr)
-		*Cloud_Shadows_Altitude = Parms.Cloud_Shadows_Altitude;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Cloud Top Altitude
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double*                                 Cloud_Top_Altitude                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Cloud_Top_Altitude(double* Cloud_Top_Altitude)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Cloud Top Altitude");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Cloud_Top_Altitude Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Cloud_Top_Altitude != nullptr)
-		*Cloud_Top_Altitude = Parms.Cloud_Top_Altitude;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds Base Clouds Texture
+// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.2D Clouds Base Texture
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // TSoftObjectPtr<class UTexture2D>*       Tex                                                    (Parm, OutParm, HasGetValueTypeHash)
 
-void AUltra_Dynamic_Sky_C::Volumetric_Clouds_Base_Clouds_Texture(TSoftObjectPtr<class UTexture2D>* Tex)
+void AUltra_Dynamic_Sky_C::TwoD_Clouds_Base_Texture(TSoftObjectPtr<class UTexture2D>* Tex)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"2D Clouds Base Texture", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Clouds Base Clouds Texture");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_Base_Clouds_Texture Parms{};
+	Params::Ultra_Dynamic_Sky_C_TwoD_Clouds_Base_Texture Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	if (Tex != nullptr)
 		*Tex = Parms.Tex;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds Parent Materials
-// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// TSoftObjectPtr<class UMaterialInterface>*Simplified                                             (Parm, OutParm, HasGetValueTypeHash)
-// TSoftObjectPtr<class UMaterialInterface>*Complex                                                (Parm, OutParm, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Clouds_Parent_Materials(TSoftObjectPtr<class UMaterialInterface>* Simplified, TSoftObjectPtr<class UMaterialInterface>* Complex)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Clouds Parent Materials");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_Parent_Materials Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Simplified != nullptr)
-		*Simplified = Parms.Simplified;
-
-	if (Complex != nullptr)
-		*Complex = Parms.Complex;
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.Volumetric Clouds SubNoise Scales
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// struct FLinearColor*                    High                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor*                    Low                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::Volumetric_Clouds_SubNoise_Scales(struct FLinearColor* High, struct FLinearColor* Low)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "Volumetric Clouds SubNoise Scales");
-
-	Params::Ultra_Dynamic_Sky_C_Volumetric_Clouds_SubNoise_Scales Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (High != nullptr)
-		*High = std::move(Parms.High);
-
-	if (Low != nullptr)
-		*Low = std::move(Parms.Low);
-}
-
-
-// Function Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C.World Space to Drawn Target Pixel Space
-// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector2D&                 In                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector2D*                       Out                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AUltra_Dynamic_Sky_C::World_Space_to_Drawn_Target_Pixel_Space(const struct FVector2D& In, struct FVector2D* Out)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Ultra_Dynamic_Sky_C", "World Space to Drawn Target Pixel Space");
-
-	Params::Ultra_Dynamic_Sky_C_World_Space_to_Drawn_Target_Pixel_Space Parms{};
-
-	Parms.In = std::move(In);
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Out != nullptr)
-		*Out = std::move(Parms.Out);
 }
 
 

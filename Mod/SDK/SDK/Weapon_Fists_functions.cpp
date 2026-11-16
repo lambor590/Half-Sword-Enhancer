@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AWeapon_Fists_C::BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Fists_C", "BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::Weapon_Fists_C_BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AWeapon_Fists_C::BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_C
 
 void AWeapon_Fists_C::ExecuteUbergraph_Weapon_Fists(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Fists_C", "ExecuteUbergraph_Weapon_Fists");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Weapon_Fists_C", "ExecuteUbergraph_Weapon_Fists", FuncInfo);
 
 	Params::Weapon_Fists_C_ExecuteUbergraph_Weapon_Fists Parms{};
 
@@ -69,10 +65,8 @@ void AWeapon_Fists_C::ExecuteUbergraph_Weapon_Fists(int32 EntryPoint)
 
 void AWeapon_Fists_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Fists_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +77,8 @@ void AWeapon_Fists_C::ReceiveBeginPlay()
 
 void AWeapon_Fists_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Fists_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -867,10 +867,9 @@ public:
 
 // Class DatasmithContent.DatasmithScene
 // 0x0008 (0x0030 - 0x0028)
-class UDatasmithScene final : public UObject
+class UDatasmithScene final : public UObject, public IInterface_AssetUserData
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -885,6 +884,11 @@ public:
 	{
 		return GetDefaultObjImpl<UDatasmithScene>();
 	}
+
+public:
+	bool AddAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	class UAssetUserData* GetAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	bool HasAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
 };
 
 // Class DatasmithContent.DatasmithSceneActor

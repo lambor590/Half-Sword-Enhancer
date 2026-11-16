@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AModular_Falchion_Blade_Master_C::ExecuteUbergraph_Modular_Falchion_Blade_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ExecuteUbergraph_Modular_Falchion_Blade_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Modular_Falchion_Blade_Master_C", "ExecuteUbergraph_Modular_Falchion_Blade_Master", FuncInfo);
 
 	Params::Modular_Falchion_Blade_Master_C_ExecuteUbergraph_Modular_Falchion_Blade_Master Parms{};
 
@@ -41,10 +39,8 @@ void AModular_Falchion_Blade_Master_C::ExecuteUbergraph_Modular_Falchion_Blade_M
 
 void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
 
 void AModular_Falchion_Blade_Master_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Modular_Falchion_Blade_Master_C_ReceiveTick Parms{};
 
@@ -75,10 +69,8 @@ void AModular_Falchion_Blade_Master_C::ReceiveTick(float DeltaSeconds)
 
 void AModular_Falchion_Blade_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

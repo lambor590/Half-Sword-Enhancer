@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Fence_Flimsy_Small_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Flimsy_Small_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Fence_Flimsy_Small_C_ReceiveTick Parms{};
 
@@ -43,10 +41,8 @@ void ABP_Fence_Flimsy_Small_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_Fence_Flimsy_Small_C::ExecuteUbergraph_BP_Fence_Flimsy_Small(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Flimsy_Small_C", "ExecuteUbergraph_BP_Fence_Flimsy_Small");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Fence_Flimsy_Small_C", "ExecuteUbergraph_BP_Fence_Flimsy_Small", FuncInfo);
 
 	Params::BP_Fence_Flimsy_Small_C_ExecuteUbergraph_BP_Fence_Flimsy_Small Parms{};
 

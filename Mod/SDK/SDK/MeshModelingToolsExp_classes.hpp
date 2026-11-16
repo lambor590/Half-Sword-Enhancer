@@ -1622,10 +1622,9 @@ public:
 
 // Class MeshModelingToolsExp.PhysicsInspectorTool
 // 0x0040 (0x00F8 - 0x00B8)
-class UPhysicsInspectorTool final : public UMultiSelectionMeshEditingTool
+class UPhysicsInspectorTool final : public UMultiSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x8];                                       // 0x00B8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UCollisionGeometryVisualizationProperties* VizSettings;                                    // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	TArray<class UPhysicsObjectToolPropertySet*>  ObjectData;                                        // 0x00C8(0x0010)(ZeroConstructor, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
 	TArray<class UPreviewGeometry*>               PreviewElements;                                   // 0x00D8(0x0010)(ZeroConstructor, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
@@ -1702,10 +1701,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshSpaceDeformerTool
 // 0x0210 (0x02C0 - 0x00B0)
-class alignas(0x10) UMeshSpaceDeformerTool final : public USingleSelectionMeshEditingTool
+class alignas(0x10) UMeshSpaceDeformerTool final : public USingleSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B0[0x8];                                       // 0x00B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMeshSpaceDeformerToolProperties*       Settings;                                          // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UMeshSpaceDeformerToolActionPropertySet* ToolActions;                                      // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UGizmoTransformChangeStateTarget*       StateTarget;                                       // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -2067,10 +2065,10 @@ public:
 
 // Class MeshModelingToolsExp.RevolveSplineTool
 // 0x00E0 (0x0178 - 0x0098)
-class URevolveSplineTool final : public UInteractiveTool
+class URevolveSplineTool final : public UInteractiveTool, public IInteractiveToolEditorGizmoAPI
 {
 public:
-	uint8                                         Pad_98[0x10];                                      // 0x0098(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_A0[0x8];                                       // 0x00A0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class URevolveSplineToolProperties*           Settings;                                          // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	class UNewMeshMaterialProperties*             MaterialProperties;                                // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	class UCreateMeshObjectTypeProperties*        OutputTypeProperties;                              // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -2382,10 +2380,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshVertexSculptTool
 // 0x0960 (0x1500 - 0x0BA0)
-class UMeshVertexSculptTool final : public UMeshSculptToolBase
+class UMeshVertexSculptTool final : public UMeshSculptToolBase, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_BA0[0x8];                                      // 0x0BA0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UVertexBrushSculptProperties*           SculptProperties;                                  // 0x0BA8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UVertexBrushAlphaProperties*            AlphaProperties;                                   // 0x0BB0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UTexture2D*                             BrushAlpha;                                        // 0x0BB8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
@@ -2446,10 +2443,9 @@ public:
 
 // Class MeshModelingToolsExp.BakeMeshAttributeTool
 // 0x00F0 (0x01A8 - 0x00B8)
-class UBakeMeshAttributeTool : public UMultiSelectionMeshEditingTool
+class UBakeMeshAttributeTool : public UMultiSelectionMeshEditingTool, public IInteractiveToolExclusiveToolAPI, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x10];                                      // 0x00B8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class UBakeOcclusionMapToolProperties*        OcclusionSettings;                                 // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UBakeCurvatureMapToolProperties*        CurvatureSettings;                                 // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UBakeTexture2DProperties*               TextureSettings;                                   // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -2503,7 +2499,7 @@ public:
 	class UMaterialInstanceDynamic*               PreviewMaterial;                                   // 0x01C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UMaterialInstanceDynamic*               BentNormalPreviewMaterial;                         // 0x01C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_1D0[0x50];                                     // 0x01D0(0x0050)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<EBakeMapType, class UTexture2D*>         CachedMaps;                                        // 0x0220(0x0050)(Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
+	TMap<T4ByteEnum<EBakeMapType>, class UTexture2D*> CachedMaps;                                    // 0x0220(0x0050)(Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_270[0x98];                                     // 0x0270(0x0098)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTexture2D*                             EmptyNormalMap;                                    // 0x0308(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UTexture2D*                             EmptyColorMapBlack;                                // 0x0310(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -2573,7 +2569,7 @@ public:
 class UBakeMeshAttributeMapsResultToolProperties final : public UInteractiveToolPropertySet
 {
 public:
-	TMap<EBakeMapType, class UTexture2D*>         Result;                                            // 0x00A8(0x0050)(Edit, EditConst, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
+	TMap<T4ByteEnum<EBakeMapType>, class UTexture2D*> Result;                                        // 0x00A8(0x0050)(Edit, EditConst, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
 
 public:
 	static class UClass* StaticClass()
@@ -2956,10 +2952,9 @@ public:
 
 // Class MeshModelingToolsExp.BakeTransformTool
 // 0x0020 (0x00D8 - 0x00B8)
-class UBakeTransformTool final : public UMultiSelectionMeshEditingTool
+class UBakeTransformTool final : public UMultiSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x8];                                       // 0x00B8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UBakeTransformToolProperties*           BasicProperties;                                   // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_C8[0x10];                                      // 0x00C8(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -3024,10 +3019,9 @@ public:
 
 // Class MeshModelingToolsExp.ConvertMeshesTool
 // 0x0030 (0x00C8 - 0x0098)
-class UConvertMeshesTool final : public UInteractiveTool
+class UConvertMeshesTool final : public UInteractiveTool, public IInteractiveToolExclusiveToolAPI
 {
 public:
-	uint8                                         Pad_98[0x8];                                       // 0x0098(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UConvertMeshesToolProperties*           BasicProperties;                                   // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UCreateMeshObjectTypeProperties*        OutputTypeProperties;                              // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<TWeakObjectPtr<class UPrimitiveComponent>> Inputs;                                        // 0x00B0(0x0010)(ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPrivate)
@@ -3050,10 +3044,10 @@ public:
 
 // Class MeshModelingToolsExp.TriangulateSplinesTool
 // 0x0060 (0x00F8 - 0x0098)
-class UTriangulateSplinesTool final : public UInteractiveTool
+class UTriangulateSplinesTool final : public UInteractiveTool, public IInteractiveToolEditorGizmoAPI
 {
 public:
-	uint8                                         Pad_98[0x10];                                      // 0x0098(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_A0[0x8];                                       // 0x00A0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTriangulateSplinesToolProperties*      TriangulateProperties;                             // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	class UCreateMeshObjectTypeProperties*        OutputTypeProperties;                              // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	class UMeshOpPreviewWithBackgroundCompute*    Preview;                                           // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -3371,10 +3365,9 @@ public:
 
 // Class MeshModelingToolsExp.CubeGridTool
 // 0x0588 (0x0620 - 0x0098)
-class alignas(0x10) UCubeGridTool final : public UInteractiveTool
+class alignas(0x10) UCubeGridTool final : public UInteractiveTool, public MIPad::Pad<0x18, 0xB0>, public IInteractiveToolNestedAcceptCancelAPI, public IInteractiveToolCameraFocusAPI
 {
 public:
-	uint8                                         Pad_98[0x28];                                      // 0x0098(0x0028)(Fixing Size After Last Property [ Dumper-7 ])
 	class UCombinedTransformGizmo*                GridGizmo;                                         // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UDragAlignmentMechanic*                 GridGizmoAlignmentMechanic;                        // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UTransformProxy*                        GridGizmoTransformProxy;                           // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -3480,10 +3473,10 @@ public:
 
 // Class MeshModelingToolsExp.DeformMeshPolygonsTool
 // 0x1700 (0x1800 - 0x0100)
-class alignas(0x10) UDeformMeshPolygonsTool final : public UMeshSurfacePointTool
+class alignas(0x10) UDeformMeshPolygonsTool final : public UMeshSurfacePointTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_100[0x10];                                     // 0x0100(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_108[0x8];                                      // 0x0108(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class AInternalToolFrameworkActor*            PreviewMeshActor;                                  // 0x0110(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UDynamicMeshComponent*                  DynamicMeshComponent;                              // 0x0118(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UDeformMeshPolygonsTransformProperties* TransformProps;                                    // 0x0120(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -3926,10 +3919,9 @@ public:
 
 // Class MeshModelingToolsExp.TransformMeshesTool
 // 0x00E8 (0x01A0 - 0x00B8)
-class alignas(0x10) UTransformMeshesTool final : public UMultiSelectionMeshEditingTool
+class alignas(0x10) UTransformMeshesTool final : public UMultiSelectionMeshEditingTool, public MIPad::Pad<0x8, 0xC0>, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x10];                                      // 0x00B8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTransformMeshesToolProperties*         TransformProps;                                    // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	TArray<struct FTransformMeshesTarget>         ActiveGizmos;                                      // 0x00D0(0x0010)(ZeroConstructor, Protected, NativeAccessSpecifierProtected)
 	class UDragAlignmentMechanic*                 DragAlignmentMechanic;                             // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -4009,10 +4001,9 @@ public:
 
 // Class MeshModelingToolsExp.SmoothMeshTool
 // 0x0030 (0x0430 - 0x0400)
-class USmoothMeshTool final : public UBaseMeshProcessingTool
+class USmoothMeshTool final : public UBaseMeshProcessingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_400[0x8];                                      // 0x0400(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class USmoothMeshToolProperties*              SmoothProperties;                                  // 0x0408(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UIterativeSmoothProperties*             IterativeProperties;                               // 0x0410(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UDiffusionSmoothProperties*             DiffusionProperties;                               // 0x0418(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -4309,10 +4300,9 @@ public:
 
 // Class MeshModelingToolsExp.EditNormalsTool
 // 0x0208 (0x02C0 - 0x00B8)
-class alignas(0x10) UEditNormalsTool final : public UMultiSelectionMeshEditingTool
+class alignas(0x10) UEditNormalsTool final : public UMultiSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x8];                                       // 0x00B8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UEditNormalsToolProperties*             BasicProperties;                                   // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UPolygroupLayersProperties*             PolygroupLayerProperties;                          // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	TArray<class UMeshOpPreviewWithBackgroundCompute*> Previews;                                     // 0x00D0(0x0010)(ZeroConstructor, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
@@ -4460,10 +4450,9 @@ public:
 
 // Class MeshModelingToolsExp.EditPivotTool
 // 0x0188 (0x0240 - 0x00B8)
-class alignas(0x10) UEditPivotTool final : public UMultiSelectionMeshEditingTool
+class alignas(0x10) UEditPivotTool final : public UMultiSelectionMeshEditingTool, public MIPad::Pad<0x8, 0xC0>, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x10];                                      // 0x00B8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class UEditPivotToolProperties*               TransformProps;                                    // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UEditPivotToolActionPropertySet*        EditPivotActions;                                  // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	uint8                                         Pad_D8[0xD8];                                      // 0x00D8(0x00D8)(Fixing Size After Last Property [ Dumper-7 ])
@@ -4507,10 +4496,9 @@ public:
 
 // Class MeshModelingToolsExp.EditUVIslandsTool
 // 0x03E0 (0x04E0 - 0x0100)
-class alignas(0x10) UEditUVIslandsTool final : public UMeshSurfacePointTool
+class alignas(0x10) UEditUVIslandsTool final : public UMeshSurfacePointTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_100[0x8];                                      // 0x0100(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UExistingMeshMaterialProperties*        MaterialSettings;                                  // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UMaterialInstanceDynamic*               CheckerMaterial;                                   // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class AInternalToolFrameworkActor*            PreviewMeshActor;                                  // 0x0118(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -4957,10 +4945,10 @@ public:
 
 // Class MeshModelingToolsExp.LatticeDeformerTool
 // 0x00B0 (0x0160 - 0x00B0)
-class ULatticeDeformerTool final : public USingleSelectionMeshEditingTool
+class ULatticeDeformerTool final : public USingleSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B0[0x28];                                      // 0x00B0(0x0028)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_B8[0x20];                                      // 0x00B8(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	class ULatticeControlPointsMechanic*          ControlPointsMechanic;                             // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class ULatticeDeformerToolProperties*         Settings;                                          // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UMeshOpPreviewWithBackgroundCompute*    Preview;                                           // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -5101,10 +5089,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshAttributePaintTool
 // 0x0520 (0x0800 - 0x02E0)
-class alignas(0x10) UMeshAttributePaintTool final : public UDynamicMeshBrushTool
+class alignas(0x10) UMeshAttributePaintTool final : public UDynamicMeshBrushTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_2E0[0x8];                                      // 0x02E0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMeshAttributePaintBrushOperationProperties* BrushActionProps;                             // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UMeshAttributePaintToolProperties*      AttribProps;                                       // 0x02F0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_2F8[0x508];                                    // 0x02F8(0x0508)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -5126,10 +5113,9 @@ public:
 
 // Class MeshModelingToolsExp.SimpleCollisionEditorTool
 // 0x0030 (0x00E0 - 0x00B0)
-class USimpleCollisionEditorTool final : public USingleSelectionMeshEditingTool
+class USimpleCollisionEditorTool final : public USingleSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B0[0x8];                                       // 0x00B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class USimpleCollisionEditorToolActionProperties* ActionProperties;                              // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_C0[0x20];                                      // 0x00C0(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -5391,10 +5377,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshInspectorTool
 // 0x01A0 (0x0250 - 0x00B0)
-class alignas(0x10) UMeshInspectorTool final : public USingleSelectionMeshEditingTool
+class alignas(0x10) UMeshInspectorTool final : public USingleSelectionMeshEditingTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B0[0x8];                                       // 0x00B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMeshInspectorProperties*               Settings;                                          // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UPolygroupLayersProperties*             PolygroupLayerProperties;                          // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UMeshInspectorMaterialProperties*       MaterialSettings;                                  // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -5449,10 +5434,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshSelectionTool
 // 0x0448 (0x0728 - 0x02E0)
-class UMeshSelectionTool final : public UDynamicMeshBrushTool
+class UMeshSelectionTool final : public UDynamicMeshBrushTool, public IInteractiveToolNestedAcceptCancelAPI
 {
 public:
-	uint8                                         Pad_2E0[0x8];                                      // 0x02E0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMeshSelectionToolProperties*           SelectionProps;                                    // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UMeshSelectionEditActions*              SelectionActions;                                  // 0x02F0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UMeshSelectionToolActionPropertySet*    EditActions;                                       // 0x02F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
@@ -5619,10 +5603,9 @@ public:
 
 // Class MeshModelingToolsExp.MeshVertexPaintTool
 // 0x05A0 (0x1140 - 0x0BA0)
-class UMeshVertexPaintTool final : public UMeshSculptToolBase
+class UMeshVertexPaintTool final : public UMeshSculptToolBase, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_BA0[0x8];                                      // 0x0BA0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UPolygroupLayersProperties*             PolygroupLayerProperties;                          // 0x0BA8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UVertexPaintBasicProperties*            BasicProperties;                                   // 0x0BB0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UVertexPaintBrushFilterProperties*      FilterProperties;                                  // 0x0BB8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
@@ -6161,10 +6144,9 @@ public:
 
 // Class MeshModelingToolsExp.SeamSculptTool
 // 0x0100 (0x03E0 - 0x02E0)
-class alignas(0x10) USeamSculptTool final : public UDynamicMeshBrushTool
+class alignas(0x10) USeamSculptTool final : public UDynamicMeshBrushTool, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_2E0[0x8];                                      // 0x02E0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class USeamSculptToolProperties*              Settings;                                          // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UPreviewGeometry*                       PreviewGeom;                                       // 0x02F0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_2F8[0xE8];                                     // 0x02F8(0x00E8)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -6342,10 +6324,9 @@ public:
 
 // Class MeshModelingToolsExp.TransferMeshTool
 // 0x0010 (0x00C8 - 0x00B8)
-class UTransferMeshTool final : public UMultiSelectionMeshEditingTool
+class UTransferMeshTool final : public UMultiSelectionMeshEditingTool, public IInteractiveToolExclusiveToolAPI
 {
 public:
-	uint8                                         Pad_B8[0x8];                                       // 0x00B8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTransferMeshToolProperties*            BasicProperties;                                   // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 
 public:
@@ -6840,10 +6821,9 @@ public:
 
 // Class MeshModelingToolsExp.SetCollisionGeometryTool
 // 0x02C8 (0x0380 - 0x00B8)
-class alignas(0x10) USetCollisionGeometryTool final : public UMultiSelectionMeshEditingTool
+class alignas(0x10) USetCollisionGeometryTool final : public UMultiSelectionMeshEditingTool, public MIPad::Pad<0x8, 0xC0>, public IInteractiveToolManageGeometrySelectionAPI
 {
 public:
-	uint8                                         Pad_B8[0x10];                                      // 0x00B8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class USetCollisionGeometryToolProperties*    Settings;                                          // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UPolygroupLayersProperties*             PolygroupLayerProperties;                          // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UCollisionGeometryVisualizationProperties* VizSettings;                                    // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)

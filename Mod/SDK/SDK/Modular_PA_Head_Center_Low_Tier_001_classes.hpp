@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Head_Center_Low_Tier_001.Modular_PA_Head_Center_Low_Tier_001_C
-// 0x0000 (0x0428 - 0x0428)
+// 0x0000 (0x0430 - 0x0430)
 class AModular_PA_Head_Center_Low_Tier_001_C final : public AModular_PA_Head_Center_Master_C
 {
 public:

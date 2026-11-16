@@ -25,10 +25,8 @@ SDK_NAMESPACE_START
 
 void UUI_Shop_C::AddItem(class UBP_GameItem_C* Item, class UWidget* Widget, bool TraderItem)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "AddItem");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddItem", FnName));
 
 	Params::UI_Shop_C_AddItem Parms{};
 
@@ -45,10 +43,8 @@ void UUI_Shop_C::AddItem(class UBP_GameItem_C* Item, class UWidget* Widget, bool
 
 void UUI_Shop_C::BndEvt__UI_Shop_Btn_ConfirmTrade_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "BndEvt__UI_Shop_Btn_ConfirmTrade_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Btn_ConfirmTrade_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -59,10 +55,8 @@ void UUI_Shop_C::BndEvt__UI_Shop_Btn_ConfirmTrade_K2Node_ComponentBoundEvent_1_O
 
 void UUI_Shop_C::BndEvt__UI_Shop_CloseButton_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "BndEvt__UI_Shop_CloseButton_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_CloseButton_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -76,10 +70,8 @@ void UUI_Shop_C::BndEvt__UI_Shop_CloseButton_K2Node_ComponentBoundEvent_3_OnButt
 
 void UUI_Shop_C::BndEvt__UI_Shop_Player_Items_List_K2Node_ComponentBoundEvent_2_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "BndEvt__UI_Shop_Player_Items_List_K2Node_ComponentBoundEvent_2_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Player_Items_List_K2Node_ComponentBoundEvent_2_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_C_BndEvt__UI_Shop_Player_Items_List_K2Node_ComponentBoundEvent_2_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -98,10 +90,8 @@ void UUI_Shop_C::BndEvt__UI_Shop_Player_Items_List_K2Node_ComponentBoundEvent_2_
 
 void UUI_Shop_C::BndEvt__UI_Shop_Trader_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "BndEvt__UI_Shop_Trader_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Trader_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Shop_C_BndEvt__UI_Shop_Trader_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -117,10 +107,8 @@ void UUI_Shop_C::BndEvt__UI_Shop_Trader_Items_List_K2Node_ComponentBoundEvent_0_
 
 void UUI_Shop_C::ConfirmTrade()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "ConfirmTrade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ConfirmTrade", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -131,10 +119,8 @@ void UUI_Shop_C::ConfirmTrade()
 
 void UUI_Shop_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -149,10 +135,8 @@ void UUI_Shop_C::Construct()
 
 void UUI_Shop_C::DoInitializeEntry(class UObject* Item, class UUserWidget* Widget, bool IsTrader)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "DoInitializeEntry");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DoInitializeEntry", FnName));
 
 	Params::UI_Shop_C_DoInitializeEntry Parms{};
 
@@ -171,10 +155,8 @@ void UUI_Shop_C::DoInitializeEntry(class UObject* Item, class UUserWidget* Widge
 
 void UUI_Shop_C::ExecuteUbergraph_UI_Shop(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "ExecuteUbergraph_UI_Shop");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Shop_C", "ExecuteUbergraph_UI_Shop", FuncInfo);
 
 	Params::UI_Shop_C_ExecuteUbergraph_UI_Shop Parms{};
 
@@ -192,10 +174,8 @@ void UUI_Shop_C::ExecuteUbergraph_UI_Shop(int32 EntryPoint)
 
 void UUI_Shop_C::GetItemPrice(class UBP_GameItem_C* Item, int32* Price)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "GetItemPrice");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetItemPrice", FnName));
 
 	Params::UI_Shop_C_GetItemPrice Parms{};
 
@@ -215,10 +195,8 @@ void UUI_Shop_C::GetItemPrice(class UBP_GameItem_C* Item, int32* Price)
 
 void UUI_Shop_C::InitializeItemsList(class UClass* Items)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "InitializeItemsList");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InitializeItemsList", FnName));
 
 	Params::UI_Shop_C_InitializeItemsList Parms{};
 
@@ -233,10 +211,8 @@ void UUI_Shop_C::InitializeItemsList(class UClass* Items)
 
 void UUI_Shop_C::RefreshItemsList()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "RefreshItemsList");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RefreshItemsList", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -247,10 +223,8 @@ void UUI_Shop_C::RefreshItemsList()
 
 void UUI_Shop_C::RefreshMoneyText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "RefreshMoneyText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RefreshMoneyText", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -261,10 +235,8 @@ void UUI_Shop_C::RefreshMoneyText()
 
 void UUI_Shop_C::RefreshTotalPrice()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "RefreshTotalPrice");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RefreshTotalPrice", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -278,10 +250,8 @@ void UUI_Shop_C::RefreshTotalPrice()
 
 void UUI_Shop_C::RemoveItem(class UBP_GameItem_C* Item, class UWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Shop_C", "RemoveItem");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RemoveItem", FnName));
 
 	Params::UI_Shop_C_RemoveItem Parms{};
 

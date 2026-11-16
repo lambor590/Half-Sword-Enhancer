@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Generator_CombatEvent_Random_C::ExecuteUbergraph_BP_Generator_CombatEvent_Random(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_CombatEvent_Random_C", "ExecuteUbergraph_BP_Generator_CombatEvent_Random");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Generator_CombatEvent_Random_C", "ExecuteUbergraph_BP_Generator_CombatEvent_Random", FuncInfo);
 
 	Params::BP_Generator_CombatEvent_Random_C_ExecuteUbergraph_BP_Generator_CombatEvent_Random Parms{};
 
@@ -44,10 +42,8 @@ void ABP_Generator_CombatEvent_Random_C::ExecuteUbergraph_BP_Generator_CombatEve
 
 void ABP_Generator_CombatEvent_Random_C::Generate_Combat_Event(bool Tourney, struct FStr_Passport_CombatEvent1* Passport)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_CombatEvent_Random_C", "Generate Combat Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Combat Event", FnName));
 
 	Params::BP_Generator_CombatEvent_Random_C_Generate_Combat_Event Parms{};
 
@@ -65,10 +61,8 @@ void ABP_Generator_CombatEvent_Random_C::Generate_Combat_Event(bool Tourney, str
 
 void ABP_Generator_CombatEvent_Random_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_CombatEvent_Random_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

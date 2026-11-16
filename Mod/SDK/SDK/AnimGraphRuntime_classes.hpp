@@ -91,9 +91,12 @@ public:
 };
 
 // Class AnimGraphRuntime.SequencerAnimationOverride
-// 0x0000 (0x0000 - 0x0000)
-class ISequencerAnimationOverride final
+// 0x0008 (0x0008 - 0x0000)
+class ISequencerAnimationOverride
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	bool AllowsCinematicOverride() const;
 	TArray<class FName> GetSequencerAnimSlotNames() const;
@@ -153,9 +156,40 @@ public:
 	}
 };
 
+// Class AnimGraphRuntime.SequencerAnimationSupport
+// 0x0008 (0x0008 - 0x0000)
+class ISequencerAnimationSupport
+{
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("SequencerAnimationSupport")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"SequencerAnimationSupport")
+	}
+	static class ISequencerAnimationSupport* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<ISequencerAnimationSupport>();
+	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
+};
+
 // Class AnimGraphRuntime.AnimSequencerInstance
 // 0x0000 (0x0370 - 0x0370)
-class UAnimSequencerInstance final : public UAnimInstance
+class UAnimSequencerInstance final : public UAnimInstance, public ISequencerAnimationSupport
 {
 public:
 	static class UClass* StaticClass()
@@ -517,34 +551,6 @@ public:
 	static class USequencePlayerLibrary* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<USequencePlayerLibrary>();
-	}
-};
-
-// Class AnimGraphRuntime.SequencerAnimationSupport
-// 0x0000 (0x0000 - 0x0000)
-class ISequencerAnimationSupport final
-{
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("SequencerAnimationSupport")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"SequencerAnimationSupport")
-	}
-	static class ISequencerAnimationSupport* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<ISequencerAnimationSupport>();
-	}
-
-	class UObject* AsUObject()
-	{
-		return reinterpret_cast<UObject*>(this);
-	}
-	const class UObject* AsUObject() const
-	{
-		return reinterpret_cast<const UObject*>(this);
 	}
 };
 

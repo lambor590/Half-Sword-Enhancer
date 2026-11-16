@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_0_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_0_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_K2Node_Compone
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Button_K2Node_Compone
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_EditableText_0_K2Node_ComponentBoundEvent_6_OnEditableTextChangedEvent__DelegateSignature(const class FText& Text)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_EditableText_0_K2Node_ComponentBoundEvent_6_OnEditableTextChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_EditableText_0_K2Node_ComponentBoundEvent_6_OnEditableTextChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_EditableText_0_K2Node_ComponentBoundEvent_6_OnEditableTextChangedEvent__DelegateSignature Parms{};
 
@@ -100,10 +90,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_EditableText_0_K2Node
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Player_Items_List_K2Node_ComponentBoundEvent_8_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Player_Items_List_K2Node_ComponentBoundEvent_8_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Player_Items_List_K2Node_ComponentBoundEvent_8_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Player_Items_List_K2Node_ComponentBoundEvent_8_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -121,10 +109,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Player_Items_List_K2N
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_1_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_1_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_1_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_1_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -141,10 +127,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_1_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_2_K2Node_ComponentBoundEvent_3_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_2_K2Node_ComponentBoundEvent_3_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_2_K2Node_ComponentBoundEvent_3_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_2_K2Node_ComponentBoundEvent_3_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -161,10 +145,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_2_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_3_K2Node_ComponentBoundEvent_4_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_3_K2Node_ComponentBoundEvent_4_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_3_K2Node_ComponentBoundEvent_4_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_3_K2Node_ComponentBoundEvent_4_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -181,10 +163,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_3_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_4_K2Node_ComponentBoundEvent_5_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_4_K2Node_ComponentBoundEvent_5_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_4_K2Node_ComponentBoundEvent_5_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_4_K2Node_ComponentBoundEvent_5_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -201,10 +181,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_4_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_5_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_5_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_5_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_5_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -221,10 +199,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_5_K2Node_Compo
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -241,10 +217,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Slider_K2Node_Compone
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_11_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_11_SimpleListItemEventDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_11_SimpleListItemEventDynamic__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_11_SimpleListItemEventDynamic__DelegateSignature Parms{};
 
@@ -262,10 +236,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2N
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_12_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_12_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_12_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_12_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -284,10 +256,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2N
 
 void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_9_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_9_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_9_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_CharacterCreation_C_BndEvt__UI_CharacterCreation_Trader_Items_List_K2Node_ComponentBoundEvent_9_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -303,10 +273,8 @@ void UUI_CharacterCreation_C::BndEvt__UI_CharacterCreation_Trader_Items_List_K2N
 
 void UUI_CharacterCreation_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -319,10 +287,8 @@ void UUI_CharacterCreation_C::Construct()
 
 void UUI_CharacterCreation_C::ExecuteUbergraph_UI_CharacterCreation(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "ExecuteUbergraph_UI_CharacterCreation");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_CharacterCreation_C", "ExecuteUbergraph_UI_CharacterCreation", FuncInfo);
 
 	Params::UI_CharacterCreation_C_ExecuteUbergraph_UI_CharacterCreation Parms{};
 
@@ -340,10 +306,8 @@ void UUI_CharacterCreation_C::ExecuteUbergraph_UI_CharacterCreation(int32 EntryP
 
 void UUI_CharacterCreation_C::Generate_Tier_Weapons(const TArray<struct FStr_Passport_Weapon1>& TargetArray, Enum_Ranks Tier)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Generate Tier Weapons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Tier Weapons", FnName));
 
 	Params::UI_CharacterCreation_C_Generate_Tier_Weapons Parms{};
 
@@ -361,10 +325,8 @@ void UUI_CharacterCreation_C::Generate_Tier_Weapons(const TArray<struct FStr_Pas
 
 float UUI_CharacterCreation_C::Get_Slider_Background_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_Background_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_Background_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_Background_Value Parms{};
 
@@ -381,10 +343,8 @@ float UUI_CharacterCreation_C::Get_Slider_Background_Value()
 
 float UUI_CharacterCreation_C::Get_Slider_EyeColor_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_EyeColor_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_EyeColor_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_EyeColor_Value Parms{};
 
@@ -401,10 +361,8 @@ float UUI_CharacterCreation_C::Get_Slider_EyeColor_Value()
 
 float UUI_CharacterCreation_C::Get_Slider_Face_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_Face_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_Face_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_Face_Value Parms{};
 
@@ -421,10 +379,8 @@ float UUI_CharacterCreation_C::Get_Slider_Face_Value()
 
 float UUI_CharacterCreation_C::Get_Slider_Hair_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_Hair_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_Hair_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_Hair_Value Parms{};
 
@@ -441,10 +397,8 @@ float UUI_CharacterCreation_C::Get_Slider_Hair_Value()
 
 float UUI_CharacterCreation_C::Get_Slider_HairColor_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_HairColor_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_HairColor_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_HairColor_Value Parms{};
 
@@ -461,10 +415,8 @@ float UUI_CharacterCreation_C::Get_Slider_HairColor_Value()
 
 float UUI_CharacterCreation_C::Get_Slider_Stature_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Get_Slider_Stature_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_Stature_Value", FnName));
 
 	Params::UI_CharacterCreation_C_Get_Slider_Stature_Value Parms{};
 
@@ -481,10 +433,8 @@ float UUI_CharacterCreation_C::Get_Slider_Stature_Value()
 
 struct FSlateBrush UUI_CharacterCreation_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_CharacterCreation_C_GetBrush Parms{};
 
@@ -501,10 +451,8 @@ struct FSlateBrush UUI_CharacterCreation_C::GetBrush()
 
 struct FLinearColor UUI_CharacterCreation_C::GetColorAndOpacity()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "GetColorAndOpacity");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity", FnName));
 
 	Params::UI_CharacterCreation_C_GetColorAndOpacity Parms{};
 
@@ -521,10 +469,8 @@ struct FLinearColor UUI_CharacterCreation_C::GetColorAndOpacity()
 
 struct FLinearColor UUI_CharacterCreation_C::GetColorAndOpacity_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "GetColorAndOpacity_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_0", FnName));
 
 	Params::UI_CharacterCreation_C_GetColorAndOpacity_0 Parms{};
 
@@ -541,10 +487,8 @@ struct FLinearColor UUI_CharacterCreation_C::GetColorAndOpacity_0()
 
 class FText UUI_CharacterCreation_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_CharacterCreation_C_GetText Parms{};
 
@@ -561,10 +505,8 @@ class FText UUI_CharacterCreation_C::GetText()
 
 class FText UUI_CharacterCreation_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_CharacterCreation_C_GetText_0 Parms{};
 
@@ -581,10 +523,8 @@ class FText UUI_CharacterCreation_C::GetText_0()
 
 void UUI_CharacterCreation_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_CharacterCreation_C_PreConstruct Parms{};
 
@@ -603,10 +543,8 @@ void UUI_CharacterCreation_C::PreConstruct(bool IsDesignTime)
 
 void UUI_CharacterCreation_C::Set_Up_Trader_Item(class UObject* Item, class UObject* Widget, bool Trader)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CharacterCreation_C", "Set Up Trader Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Trader Item", FnName));
 
 	Params::UI_CharacterCreation_C_Set_Up_Trader_Item Parms{};
 

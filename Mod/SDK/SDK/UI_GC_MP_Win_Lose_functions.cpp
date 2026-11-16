@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_GC_MP_Win_Lose_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_GC_MP_Win_Lose_C::Construct()
 
 void UUI_GC_MP_Win_Lose_C::ExecuteUbergraph_UI_GC_MP_Win_Lose(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "ExecuteUbergraph_UI_GC_MP_Win_Lose");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_GC_MP_Win_Lose_C", "ExecuteUbergraph_UI_GC_MP_Win_Lose", FuncInfo);
 
 	Params::UI_GC_MP_Win_Lose_C_ExecuteUbergraph_UI_GC_MP_Win_Lose Parms{};
 
@@ -57,10 +53,8 @@ void UUI_GC_MP_Win_Lose_C::ExecuteUbergraph_UI_GC_MP_Win_Lose(int32 EntryPoint)
 
 struct FSlateBrush UUI_GC_MP_Win_Lose_C::Get_Player1_Pic_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Get_Player1_Pic_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Player1_Pic_Brush", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_Get_Player1_Pic_Brush Parms{};
 
@@ -77,10 +71,8 @@ struct FSlateBrush UUI_GC_MP_Win_Lose_C::Get_Player1_Pic_Brush()
 
 ESlateVisibility UUI_GC_MP_Win_Lose_C::Get_Player1Won_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Get_Player1Won_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Player1Won_Visibility", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_Get_Player1Won_Visibility Parms{};
 
@@ -97,10 +89,8 @@ ESlateVisibility UUI_GC_MP_Win_Lose_C::Get_Player1Won_Visibility()
 
 struct FSlateBrush UUI_GC_MP_Win_Lose_C::Get_Player2_Pic_Brush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Get_Player2_Pic_Brush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Player2_Pic_Brush", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_Get_Player2_Pic_Brush Parms{};
 
@@ -117,10 +107,8 @@ struct FSlateBrush UUI_GC_MP_Win_Lose_C::Get_Player2_Pic_Brush()
 
 ESlateVisibility UUI_GC_MP_Win_Lose_C::Get_Player2Won_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Get_Player2Won_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Player2Won_Visibility", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_Get_Player2Won_Visibility Parms{};
 
@@ -137,10 +125,8 @@ ESlateVisibility UUI_GC_MP_Win_Lose_C::Get_Player2Won_Visibility()
 
 ESlateVisibility UUI_GC_MP_Win_Lose_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_GetVisibility_0 Parms{};
 
@@ -158,10 +144,8 @@ ESlateVisibility UUI_GC_MP_Win_Lose_C::GetVisibility_0()
 
 void UUI_GC_MP_Win_Lose_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GC_MP_Win_Lose_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_GC_MP_Win_Lose_C_Tick Parms{};
 

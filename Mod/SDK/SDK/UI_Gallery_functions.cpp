@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Gallery_C::BndEvt__Command_BackFullScreen_K2Node_ComponentBoundEvent_4_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_BackFullScreen_K2Node_ComponentBoundEvent_4_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_BackFullScreen_K2Node_ComponentBoundEvent_4_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Gallery_C::BndEvt__Command_BackFullScreen_K2Node_ComponentBoundEvent_4_
 
 void UUI_Gallery_C::BndEvt__Command_Close_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Close_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Close_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Gallery_C::BndEvt__Command_Close_K2Node_ComponentBoundEvent_1_OnPressed
 
 void UUI_Gallery_C::BndEvt__Command_Fullscreen_Next_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Fullscreen_Next_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Fullscreen_Next_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Gallery_C::BndEvt__Command_Fullscreen_Next_K2Node_ComponentBoundEvent_3
 
 void UUI_Gallery_C::BndEvt__Command_Fullscreen_Previous_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Fullscreen_Previous_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Fullscreen_Previous_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Gallery_C::BndEvt__Command_Fullscreen_Previous_K2Node_ComponentBoundEve
 
 void UUI_Gallery_C::BndEvt__Command_Next_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Next_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Next_K2Node_ComponentBoundEvent_1_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Gallery_C::BndEvt__Command_Next_K2Node_ComponentBoundEvent_1_OnPressed_
 
 void UUI_Gallery_C::BndEvt__Command_PhotoMode_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_PhotoMode_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_PhotoMode_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Gallery_C::BndEvt__Command_PhotoMode_K2Node_ComponentBoundEvent_0_OnPre
 
 void UUI_Gallery_C::BndEvt__Command_Previous_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Previous_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Previous_K2Node_ComponentBoundEvent_0_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Gallery_C::BndEvt__Command_Previous_K2Node_ComponentBoundEvent_0_OnPres
 
 void UUI_Gallery_C::BndEvt__Command_Select_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_Select_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_Select_K2Node_ComponentBoundEvent_3_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Gallery_C::BndEvt__Command_Select_K2Node_ComponentBoundEvent_3_OnPresse
 
 void UUI_Gallery_C::BndEvt__Command_ShowMouse_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__Command_ShowMouse_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Command_ShowMouse_K2Node_ComponentBoundEvent_2_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Gallery_C::BndEvt__Command_ShowMouse_K2Node_ComponentBoundEvent_2_OnPre
 
 void UUI_Gallery_C::BndEvt__CommandButton_OpenPhotoModeFullscreen_K2Node_ComponentBoundEvent_5_OnPressed__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__CommandButton_OpenPhotoModeFullscreen_K2Node_ComponentBoundEvent_5_OnPressed__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__CommandButton_OpenPhotoModeFullscreen_K2Node_ComponentBoundEvent_5_OnPressed__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Gallery_C::BndEvt__CommandButton_OpenPhotoModeFullscreen_K2Node_Compone
 
 void UUI_Gallery_C::BndEvt__NextPageButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__NextPageButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__NextPageButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_Gallery_C::BndEvt__NextPageButton_K2Node_ComponentBoundEvent_0_OnButton
 
 void UUI_Gallery_C::BndEvt__PreviousPageButton_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "BndEvt__PreviousPageButton_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__PreviousPageButton_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_Gallery_C::BndEvt__PreviousPageButton_K2Node_ComponentBoundEvent_1_OnBu
 
 void UUI_Gallery_C::CloseFullscreen()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "CloseFullscreen");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CloseFullscreen", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_Gallery_C::CloseFullscreen()
 
 void UUI_Gallery_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_Gallery_C::Construct()
 
 void UUI_Gallery_C::CreatePages()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "CreatePages");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CreatePages", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_Gallery_C::CreatePages()
 
 void UUI_Gallery_C::DeletePhoto()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "DeletePhoto");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DeletePhoto", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_Gallery_C::DeletePhoto()
 
 void UUI_Gallery_C::Destruct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Destruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -261,10 +227,8 @@ void UUI_Gallery_C::Destruct()
 
 void UUI_Gallery_C::ExecuteUbergraph_UI_Gallery(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ExecuteUbergraph_UI_Gallery");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Gallery_C", "ExecuteUbergraph_UI_Gallery", FuncInfo);
 
 	Params::UI_Gallery_C_ExecuteUbergraph_UI_Gallery Parms{};
 
@@ -281,10 +245,8 @@ void UUI_Gallery_C::ExecuteUbergraph_UI_Gallery(int32 EntryPoint)
 
 void UUI_Gallery_C::Get_Any_Key(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Get Any Key");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Any Key", FnName));
 
 	Params::UI_Gallery_C_Get_Any_Key Parms{};
 
@@ -302,10 +264,8 @@ void UUI_Gallery_C::Get_Any_Key(const struct FKey& Key)
 
 void UUI_Gallery_C::LoadNextPrevPage(int32 NewPageIndex, bool PrevFocusOnTheFirstPhoto)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "LoadNextPrevPage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"LoadNextPrevPage", FnName));
 
 	Params::UI_Gallery_C_LoadNextPrevPage Parms{};
 
@@ -323,10 +283,8 @@ void UUI_Gallery_C::LoadNextPrevPage(int32 NewPageIndex, bool PrevFocusOnTheFirs
 
 ESlateVisibility UUI_Gallery_C::Next_Page_Button_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Next Page Button Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Next Page Button Visibility", FnName));
 
 	Params::UI_Gallery_C_Next_Page_Button_Visibility Parms{};
 
@@ -343,10 +301,8 @@ ESlateVisibility UUI_Gallery_C::Next_Page_Button_Visibility()
 
 void UUI_Gallery_C::NextPage(bool NextFocusOnTheFirstPhoto)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "NextPage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NextPage", FnName));
 
 	Params::UI_Gallery_C_NextPage Parms{};
 
@@ -365,10 +321,8 @@ void UUI_Gallery_C::NextPage(bool NextFocusOnTheFirstPhoto)
 
 struct FEventReply UUI_Gallery_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnKeyDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyDown", FnName));
 
 	Params::UI_Gallery_C_OnKeyDown Parms{};
 
@@ -390,10 +344,8 @@ struct FEventReply UUI_Gallery_C::OnKeyDown(const struct FGeometry& MyGeometry, 
 
 struct FEventReply UUI_Gallery_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnMouseButtonDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonDown", FnName));
 
 	Params::UI_Gallery_C_OnMouseButtonDown Parms{};
 
@@ -414,10 +366,8 @@ struct FEventReply UUI_Gallery_C::OnMouseButtonDown(const struct FGeometry& MyGe
 
 void UUI_Gallery_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnMouseEnter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseEnter", FnName));
 
 	Params::UI_Gallery_C_OnMouseEnter Parms{};
 
@@ -435,10 +385,8 @@ void UUI_Gallery_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struc
 
 void UUI_Gallery_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnMouseLeave");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseLeave", FnName));
 
 	Params::UI_Gallery_C_OnMouseLeave Parms{};
 
@@ -457,10 +405,8 @@ void UUI_Gallery_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 
 struct FEventReply UUI_Gallery_C::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnMouseMove");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseMove", FnName));
 
 	Params::UI_Gallery_C_OnMouseMove Parms{};
 
@@ -482,10 +428,8 @@ struct FEventReply UUI_Gallery_C::OnMouseMove(const struct FGeometry& MyGeometry
 
 struct FEventReply UUI_Gallery_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnMouseWheel");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseWheel", FnName));
 
 	Params::UI_Gallery_C_OnMouseWheel Parms{};
 
@@ -505,10 +449,8 @@ struct FEventReply UUI_Gallery_C::OnMouseWheel(const struct FGeometry& MyGeometr
 
 void UUI_Gallery_C::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "OnRemovedFromFocusPath");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnRemovedFromFocusPath", FnName));
 
 	Params::UI_Gallery_C_OnRemovedFromFocusPath Parms{};
 
@@ -525,10 +467,8 @@ void UUI_Gallery_C::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEven
 
 void UUI_Gallery_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Gallery_C_PreConstruct Parms{};
 
@@ -545,10 +485,8 @@ void UUI_Gallery_C::PreConstruct(bool IsDesignTime)
 
 ESlateVisibility UUI_Gallery_C::Previous_Page_Button_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Previous Page Button Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Previous Page Button Visibility", FnName));
 
 	Params::UI_Gallery_C_Previous_Page_Button_Visibility Parms{};
 
@@ -565,10 +503,8 @@ ESlateVisibility UUI_Gallery_C::Previous_Page_Button_Visibility()
 
 void UUI_Gallery_C::PreviousPage(bool PrevFocusOnTheFirstPhoto)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "PreviousPage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreviousPage", FnName));
 
 	Params::UI_Gallery_C_PreviousPage Parms{};
 
@@ -583,10 +519,8 @@ void UUI_Gallery_C::PreviousPage(bool PrevFocusOnTheFirstPhoto)
 
 void UUI_Gallery_C::ResetFocus()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ResetFocus");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetFocus", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -597,10 +531,8 @@ void UUI_Gallery_C::ResetFocus()
 
 void UUI_Gallery_C::ResetKeyboardIcons()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ResetKeyboardIcons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetKeyboardIcons", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -611,10 +543,8 @@ void UUI_Gallery_C::ResetKeyboardIcons()
 
 void UUI_Gallery_C::ResetShowMouseCursor()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ResetShowMouseCursor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetShowMouseCursor", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -627,10 +557,8 @@ void UUI_Gallery_C::ResetShowMouseCursor()
 
 void UUI_Gallery_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "SendPhotoData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SendPhotoData", FnName));
 
 	Params::UI_Gallery_C_SendPhotoData Parms{};
 
@@ -647,10 +575,8 @@ void UUI_Gallery_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 
 void UUI_Gallery_C::SetIcons(int32 Index_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "SetIcons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetIcons", FnName));
 
 	Params::UI_Gallery_C_SetIcons Parms{};
 
@@ -667,10 +593,8 @@ void UUI_Gallery_C::SetIcons(int32 Index_0)
 
 ESlateVisibility UUI_Gallery_C::ShowHideDeleteOption()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ShowHideDeleteOption");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ShowHideDeleteOption", FnName));
 
 	Params::UI_Gallery_C_ShowHideDeleteOption Parms{};
 
@@ -687,10 +611,8 @@ ESlateVisibility UUI_Gallery_C::ShowHideDeleteOption()
 
 class FText UUI_Gallery_C::ShowHideMouseTxt()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ShowHideMouseTxt");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ShowHideMouseTxt", FnName));
 
 	Params::UI_Gallery_C_ShowHideMouseTxt Parms{};
 
@@ -707,10 +629,8 @@ class FText UUI_Gallery_C::ShowHideMouseTxt()
 
 ESlateVisibility UUI_Gallery_C::ShowHideMouseVisibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ShowHideMouseVisibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ShowHideMouseVisibility", FnName));
 
 	Params::UI_Gallery_C_ShowHideMouseVisibility Parms{};
 
@@ -725,10 +645,8 @@ ESlateVisibility UUI_Gallery_C::ShowHideMouseVisibility()
 
 void UUI_Gallery_C::ShowMouse()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "ShowMouse");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ShowMouse", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -741,10 +659,8 @@ void UUI_Gallery_C::ShowMouse()
 
 ESlateVisibility UUI_Gallery_C::SwapUpDownLeftRightVisibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "SwapUpDownLeftRightVisibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwapUpDownLeftRightVisibility", FnName));
 
 	Params::UI_Gallery_C_SwapUpDownLeftRightVisibility Parms{};
 
@@ -762,10 +678,8 @@ ESlateVisibility UUI_Gallery_C::SwapUpDownLeftRightVisibility()
 
 void UUI_Gallery_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButtonPressed)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "TabToOpen");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TabToOpen", FnName));
 
 	Params::UI_Gallery_C_TabToOpen Parms{};
 
@@ -784,10 +698,8 @@ void UUI_Gallery_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButto
 
 void UUI_Gallery_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Gallery_C_Tick Parms{};
 
@@ -803,10 +715,8 @@ void UUI_Gallery_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 
 void UUI_Gallery_C::UpdatePhotosData()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Gallery_C", "UpdatePhotosData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdatePhotosData", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

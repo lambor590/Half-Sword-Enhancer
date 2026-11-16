@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_MeshBloodSim_C::ExecuteUbergraph_BP_MeshBloodSim(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSim_C", "ExecuteUbergraph_BP_MeshBloodSim");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_MeshBloodSim_C", "ExecuteUbergraph_BP_MeshBloodSim", FuncInfo);
 
 	Params::BP_MeshBloodSim_C_ExecuteUbergraph_BP_MeshBloodSim Parms{};
 
@@ -48,10 +46,8 @@ void ABP_MeshBloodSim_C::ExecuteUbergraph_BP_MeshBloodSim(int32 EntryPoint)
 
 void ABP_MeshBloodSim_C::Initialize(class UStaticMeshComponent* MeshSimulatedOn, double SlowFlowSpeed, double FastFlowSpeed, double MaxSimeTime, double DryoutSpeed, double IntensityMultiplier)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSim_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::BP_MeshBloodSim_C_Initialize Parms{};
 
@@ -71,10 +67,8 @@ void ABP_MeshBloodSim_C::Initialize(class UStaticMeshComponent* MeshSimulatedOn,
 
 void ABP_MeshBloodSim_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSim_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -87,10 +81,8 @@ void ABP_MeshBloodSim_C::ReceiveBeginPlay()
 
 void ABP_MeshBloodSim_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSim_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_MeshBloodSim_C_ReceiveTick Parms{};
 

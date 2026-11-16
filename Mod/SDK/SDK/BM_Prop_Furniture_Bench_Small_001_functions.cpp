@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABM_Prop_Furniture_Bench_Small_001_C::ExecuteUbergraph_BM_Prop_Furniture_Bench_Small_001(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BM_Prop_Furniture_Bench_Small_001_C", "ExecuteUbergraph_BM_Prop_Furniture_Bench_Small_001");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BM_Prop_Furniture_Bench_Small_001_C", "ExecuteUbergraph_BM_Prop_Furniture_Bench_Small_001", FuncInfo);
 
 	Params::BM_Prop_Furniture_Bench_Small_001_C_ExecuteUbergraph_BM_Prop_Furniture_Bench_Small_001 Parms{};
 
@@ -47,10 +45,8 @@ void ABM_Prop_Furniture_Bench_Small_001_C::ExecuteUbergraph_BM_Prop_Furniture_Be
 
 void ABM_Prop_Furniture_Bench_Small_001_C::BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BM_Prop_Furniture_Bench_Small_001_C", "BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BM_Prop_Furniture_Bench_Small_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 

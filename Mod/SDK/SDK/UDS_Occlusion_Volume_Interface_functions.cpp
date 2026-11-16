@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void IUDS_Occlusion_Volume_Interface_C::Get_Occlusion_Result(bool Weather, bool* Occluded)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("UDS_Occlusion_Volume_Interface_C", "Get Occlusion Result");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Get Occlusion Result", FnName));
 
 	Params::UDS_Occlusion_Volume_Interface_C_Get_Occlusion_Result Parms{};
 

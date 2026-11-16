@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ATrap_Kettle_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_Kettle_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ATrap_Kettle_BP_C::ReceiveBeginPlay()
 
 void ATrap_Kettle_BP_C::ExecuteUbergraph_Trap_Kettle_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_Kettle_BP_C", "ExecuteUbergraph_Trap_Kettle_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Trap_Kettle_BP_C", "ExecuteUbergraph_Trap_Kettle_BP", FuncInfo);
 
 	Params::Trap_Kettle_BP_C_ExecuteUbergraph_Trap_Kettle_BP Parms{};
 

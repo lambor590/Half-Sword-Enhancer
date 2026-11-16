@@ -25,10 +25,8 @@ SDK_NAMESPACE_START
 
 void UW_PaintCursor_C::SetUVPos(int32 U_Pos, int32 V_Pos, bool On_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "SetUVPos");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetUVPos", FnName));
 
 	Params::W_PaintCursor_C_SetUVPos Parms{};
 
@@ -48,10 +46,8 @@ void UW_PaintCursor_C::SetUVPos(int32 U_Pos, int32 V_Pos, bool On_)
 
 void UW_PaintCursor_C::SetBrushIcon(int32 V_Pos, bool On_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "SetBrushIcon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetBrushIcon", FnName));
 
 	Params::W_PaintCursor_C_SetBrushIcon Parms{};
 
@@ -69,10 +65,8 @@ void UW_PaintCursor_C::SetBrushIcon(int32 V_Pos, bool On_)
 
 void UW_PaintCursor_C::ExecuteUbergraph_W_PaintCursor(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "ExecuteUbergraph_W_PaintCursor");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "W_PaintCursor_C", "ExecuteUbergraph_W_PaintCursor", FuncInfo);
 
 	Params::W_PaintCursor_C_ExecuteUbergraph_W_PaintCursor Parms{};
 
@@ -87,10 +81,8 @@ void UW_PaintCursor_C::ExecuteUbergraph_W_PaintCursor(int32 EntryPoint)
 
 void UW_PaintCursor_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

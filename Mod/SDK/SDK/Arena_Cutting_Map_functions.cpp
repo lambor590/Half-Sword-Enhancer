@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AArena_Cutting_Map_C::Timeline_1__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_1__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void AArena_Cutting_Map_C::Timeline_1__UpdateFunc()
 
 void AArena_Cutting_Map_C::Timeline_1__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_1__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void AArena_Cutting_Map_C::Timeline_1__FinishedFunc()
 
 void AArena_Cutting_Map_C::Timeline_0__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_0__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void AArena_Cutting_Map_C::Timeline_0__UpdateFunc()
 
 void AArena_Cutting_Map_C::Timeline_0__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_0__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void AArena_Cutting_Map_C::Timeline_0__FinishedFunc()
 
 void AArena_Cutting_Map_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Arena_Cutting_Map_C_ReceiveTick Parms{};
 
@@ -97,10 +87,8 @@ void AArena_Cutting_Map_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AArena_Cutting_Map_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -111,10 +99,8 @@ void AArena_Cutting_Map_C::ReceiveBeginPlay()
 
 void AArena_Cutting_Map_C::LevelReset()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "LevelReset");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"LevelReset", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -127,10 +113,8 @@ void AArena_Cutting_Map_C::LevelReset()
 
 void AArena_Cutting_Map_C::ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ExecuteUbergraph_Arena_Cutting_Map");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Arena_Cutting_Map_C", "ExecuteUbergraph_Arena_Cutting_Map", FuncInfo);
 
 	Params::Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map Parms{};
 
@@ -145,10 +129,8 @@ void AArena_Cutting_Map_C::ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint)
 
 void AArena_Cutting_Map_C::Clear_Old_Actors()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clear Old Actors");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clear Old Actors", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +143,8 @@ void AArena_Cutting_Map_C::Clear_Old_Actors()
 
 void AArena_Cutting_Map_C::Clean_Blood(float Amount_to_Apply)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clean Blood");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clean Blood", FnName));
 
 	Params::Arena_Cutting_Map_C_Clean_Blood Parms{};
 
@@ -182,10 +162,8 @@ void AArena_Cutting_Map_C::Clean_Blood(float Amount_to_Apply)
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -204,10 +182,8 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_Acto
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -226,10 +202,8 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_Acto
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -248,10 +222,8 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_Acto
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -270,10 +242,8 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_Acto
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -292,10 +262,8 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_Acto
 
 void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
 

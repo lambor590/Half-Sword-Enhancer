@@ -12,15 +12,15 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C
-// 0x06B8 (0x0948 - 0x0290)
+// 0x06C0 (0x0950 - 0x0290)
 class AConstraint_Weapon_Stuck_BP_C final : public AActor
 {
 public:
@@ -33,7 +33,7 @@ public:
 	class UPrimitiveComponent*                    Component_1__Weapon_;                              // 0x02C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	class FName                                   Bone_Name_1;                                       // 0x02C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	class UPrimitiveComponent*                    Component_2__Body_;                                // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	class FName                                   Bone_Name_2;                                       // 0x02D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	class FName                                   Dismember_Bone_Name;                               // 0x02D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	double                                        Constraint_Strength;                               // 0x02E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        Tip;                                               // 0x02E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	bool                                          Activate_Constraint;                               // 0x02F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -114,7 +114,7 @@ public:
 	TMap<class FName, class AConstraint_Weapon_Stuck_BP_C*> NewVar_1;                                // 0x07B8(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	class FName                                   Parent_Bone;                                       // 0x0808(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	TArray<class FName>                           Overlapping_Bones;                                 // 0x0810(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	bool                                          NewVar_2;                                          // 0x0820(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Box_Overlap_Something;                             // 0x0820(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_821[0x7];                                      // 0x0821(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UPrimitiveComponent*>            Overlapped_Markers_Current;                        // 0x0828(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	bool                                          NewVar_3;                                          // 0x0838(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -124,7 +124,7 @@ public:
 	uint8                                         Pad_841[0x7];                                      // 0x0841(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TMap<class UPrimitiveComponent*, int32>       NewVar_6;                                          // 0x0848(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	int32                                         NewVar_7;                                          // 0x0898(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_DismembermentPart                        Enum_DismembermentPart;                            // 0x089C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_DismembermentPart                        Dismembered_Part;                                  // 0x089C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_89D[0x3];                                      // 0x089D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class FName>                           Neck_Bones;                                        // 0x08A0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 	TArray<class FName>                           Torso_Bones;                                       // 0x08B0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
@@ -132,7 +132,7 @@ public:
 	class UPrimitiveComponent*                    Farthest_Overlap_Marker;                           // 0x08C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                NewVar_9;                                          // 0x08D0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        NewVar_10;                                         // 0x08E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	TArray<class USphereComponent*>               As_Sphere_Collision;                               // 0x08F0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	TArray<class USphereComponent*>               Activated_DM_Sphere_Collisions;                    // 0x08F0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	bool                                          NewVar_11;                                         // 0x0900(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Dismemberment_In_Progress;                         // 0x0901(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_902[0x6];                                      // 0x0902(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
@@ -148,6 +148,10 @@ public:
 	bool                                          Is_Ammo;                                           // 0x0939(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_93A[0x6];                                      // 0x093A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Draw_Cut;                                          // 0x0940(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          UnLock_Constraint;                                 // 0x0948(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Self_Destruct_Called;                              // 0x0949(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Piercing_Heart;                                    // 0x094A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Piercing_Brain;                                    // 0x094B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_Out_Point_Scene(const struct FVector& Location);
@@ -156,8 +160,11 @@ public:
 	void Call_Dismember();
 	void Check_Dismember_2();
 	void Dismemberment_Check(double Damage);
+	void Event_Destroy_Self();
+	void Event_Lock_and_Unlock_Constraint();
 	void ExecuteUbergraph_Constraint_Weapon_Stuck_BP(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ReceiveDestroyed();
 	void ReceiveTick(float DeltaSeconds);
 	void Release_Constraint();
 	void Renew_Costrained_Bone();

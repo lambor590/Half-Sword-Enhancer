@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Flail_D_C::BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Flail_D_C", "BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_Flail_D_C_BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -55,10 +53,8 @@ void AModularWeaponBP_Flail_D_C::BndEvt__ModularWeaponBP_Flail_A_Blade1_K2Node_C
 
 void AModularWeaponBP_Flail_D_C::BndEvt__ModularWeaponBP_Flail_A_Link_1_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Flail_D_C", "BndEvt__ModularWeaponBP_Flail_A_Link 1_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Flail_A_Link 1_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_Flail_D_C_BndEvt__ModularWeaponBP_Flail_A_Link_1_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -79,10 +75,8 @@ void AModularWeaponBP_Flail_D_C::BndEvt__ModularWeaponBP_Flail_A_Link_1_K2Node_C
 
 void AModularWeaponBP_Flail_D_C::ExecuteUbergraph_ModularWeaponBP_Flail_D(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Flail_D_C", "ExecuteUbergraph_ModularWeaponBP_Flail_D");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Flail_D_C", "ExecuteUbergraph_ModularWeaponBP_Flail_D", FuncInfo);
 
 	Params::ModularWeaponBP_Flail_D_C_ExecuteUbergraph_ModularWeaponBP_Flail_D Parms{};
 
@@ -99,10 +93,8 @@ void AModularWeaponBP_Flail_D_C::ExecuteUbergraph_ModularWeaponBP_Flail_D(int32 
 
 void AModularWeaponBP_Flail_D_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Flail_D_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::ModularWeaponBP_Flail_D_C_ReceiveTick Parms{};
 
@@ -117,10 +109,8 @@ void AModularWeaponBP_Flail_D_C::ReceiveTick(float DeltaSeconds)
 
 void AModularWeaponBP_Flail_D_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Flail_D_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ANewBlueprint_C::ExecuteUbergraph_NewBlueprint(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NewBlueprint_C", "ExecuteUbergraph_NewBlueprint");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "NewBlueprint_C", "ExecuteUbergraph_NewBlueprint", FuncInfo);
 
 	Params::NewBlueprint_C_ExecuteUbergraph_NewBlueprint Parms{};
 
@@ -43,10 +41,8 @@ void ANewBlueprint_C::ExecuteUbergraph_NewBlueprint(int32 EntryPoint)
 
 void ANewBlueprint_C::InpActEvt_P_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NewBlueprint_C", "InpActEvt_P_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_P_K2Node_InputKeyEvent_0", FnName));
 
 	Params::NewBlueprint_C_InpActEvt_P_K2Node_InputKeyEvent_0 Parms{};
 
@@ -63,10 +59,8 @@ void ANewBlueprint_C::InpActEvt_P_K2Node_InputKeyEvent_0(const struct FKey& Key)
 
 void ANewBlueprint_C::InpActEvt_Pause_K2Node_InputActionEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NewBlueprint_C", "InpActEvt_Pause_K2Node_InputActionEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Pause_K2Node_InputActionEvent_0", FnName));
 
 	Params::NewBlueprint_C_InpActEvt_Pause_K2Node_InputActionEvent_0 Parms{};
 
@@ -81,10 +75,8 @@ void ANewBlueprint_C::InpActEvt_Pause_K2Node_InputActionEvent_0(const struct FKe
 
 void ANewBlueprint_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NewBlueprint_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -97,10 +89,8 @@ void ANewBlueprint_C::ReceiveBeginPlay()
 
 void ANewBlueprint_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NewBlueprint_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::NewBlueprint_C_ReceiveTick Parms{};
 

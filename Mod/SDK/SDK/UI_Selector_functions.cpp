@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_Selector_C::AddOption(const class FText& NewOption)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "AddOption");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddOption", FnName));
 
 	Params::UI_Selector_C_AddOption Parms{};
 
@@ -43,10 +41,8 @@ void UUI_Selector_C::AddOption(const class FText& NewOption)
 
 void UUI_Selector_C::AddOptions_Name_(TArray<class FName>& Options_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "AddOptions(Name)");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddOptions(Name)", FnName));
 
 	Params::UI_Selector_C_AddOptions_Name_ Parms{};
 
@@ -65,10 +61,8 @@ void UUI_Selector_C::AddOptions_Name_(TArray<class FName>& Options_0)
 
 void UUI_Selector_C::AddOptions_String_(TArray<class FString>& Options_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "AddOptions(String)");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddOptions(String)", FnName));
 
 	Params::UI_Selector_C_AddOptions_String_ Parms{};
 
@@ -87,10 +81,8 @@ void UUI_Selector_C::AddOptions_String_(TArray<class FString>& Options_0)
 
 void UUI_Selector_C::AddOptions_Text_(TArray<class FText>& Options_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "AddOptions(Text)");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddOptions(Text)", FnName));
 
 	Params::UI_Selector_C_AddOptions_Text_ Parms{};
 
@@ -107,10 +99,8 @@ void UUI_Selector_C::AddOptions_Text_(TArray<class FText>& Options_0)
 
 void UUI_Selector_C::BndEvt__btn_left_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "BndEvt__btn_left_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__btn_left_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -121,10 +111,8 @@ void UUI_Selector_C::BndEvt__btn_left_K2Node_ComponentBoundEvent_0_OnButtonClick
 
 void UUI_Selector_C::BndEvt__btn_right_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "BndEvt__btn_right_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__btn_right_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -137,10 +125,8 @@ void UUI_Selector_C::BndEvt__btn_right_K2Node_ComponentBoundEvent_1_OnButtonClic
 
 void UUI_Selector_C::BndEvt__Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "BndEvt__Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Selector_C_BndEvt__Slider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -158,10 +144,8 @@ void UUI_Selector_C::BndEvt__Slider_K2Node_ComponentBoundEvent_2_OnFloatValueCha
 
 void UUI_Selector_C::ChangeValue(double Value, bool bShouldFocus_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "ChangeValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ChangeValue", FnName));
 
 	Params::UI_Selector_C_ChangeValue Parms{};
 
@@ -177,10 +161,8 @@ void UUI_Selector_C::ChangeValue(double Value, bool bShouldFocus_0)
 
 void UUI_Selector_C::ClearOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "ClearOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ClearOptions", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -191,10 +173,8 @@ void UUI_Selector_C::ClearOptions()
 
 void UUI_Selector_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -207,10 +187,8 @@ void UUI_Selector_C::Construct()
 
 void UUI_Selector_C::ExecuteUbergraph_UI_Selector(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "ExecuteUbergraph_UI_Selector");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Selector_C", "ExecuteUbergraph_UI_Selector", FuncInfo);
 
 	Params::UI_Selector_C_ExecuteUbergraph_UI_Selector Parms{};
 
@@ -225,10 +203,8 @@ void UUI_Selector_C::ExecuteUbergraph_UI_Selector(int32 EntryPoint)
 
 void UUI_Selector_C::FocusThisWidget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "FocusThisWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FocusThisWidget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -239,10 +215,8 @@ void UUI_Selector_C::FocusThisWidget()
 
 void UUI_Selector_C::FocusWithMouseWheel()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "FocusWithMouseWheel");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FocusWithMouseWheel", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -264,10 +238,8 @@ void UUI_Selector_C::FocusWithMouseWheel()
 
 void UUI_Selector_C::getFocusedOrUnfocusedColor(bool bChangeSliderColorWhenFocused, bool bChangeTextColorWhenFocused_0, class USlider* Slider_0, class UImage* imgLeftButton, class UImage* imgRightButton, class UWidget* SliderTitle_0, class UWidget* SliderValue_0, bool bSetMargin, struct FSlateBrush* LeftButtonColor, struct FSlateBrush* RightButtonColor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "getFocusedOrUnfocusedColor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getFocusedOrUnfocusedColor", FnName));
 
 	Params::UI_Selector_C_getFocusedOrUnfocusedColor Parms{};
 
@@ -297,10 +269,8 @@ void UUI_Selector_C::getFocusedOrUnfocusedColor(bool bChangeSliderColorWhenFocus
 
 struct FSlateBrush UUI_Selector_C::getLeftButtonSettings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "getLeftButtonSettings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getLeftButtonSettings", FnName));
 
 	Params::UI_Selector_C_getLeftButtonSettings Parms{};
 
@@ -317,10 +287,8 @@ struct FSlateBrush UUI_Selector_C::getLeftButtonSettings()
 
 struct FSlateBrush UUI_Selector_C::getRightButtonSettings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "getRightButtonSettings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getRightButtonSettings", FnName));
 
 	Params::UI_Selector_C_getRightButtonSettings Parms{};
 
@@ -338,10 +306,8 @@ struct FSlateBrush UUI_Selector_C::getRightButtonSettings()
 
 void UUI_Selector_C::GetSelectedOption(int32* SelectedIndex, class FText* SelectedOption)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "GetSelectedOption");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSelectedOption", FnName));
 
 	Params::UI_Selector_C_GetSelectedOption Parms{};
 
@@ -362,10 +328,8 @@ void UUI_Selector_C::GetSelectedOption(int32* SelectedIndex, class FText* Select
 
 class FText UUI_Selector_C::getTxtValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "getTxtValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getTxtValue", FnName));
 
 	Params::UI_Selector_C_getTxtValue Parms{};
 
@@ -384,10 +348,8 @@ class FText UUI_Selector_C::getTxtValue()
 
 struct FEventReply UUI_Selector_C::OnMouseButtonDoubleClick(const struct FGeometry& InMyGeometry, const struct FPointerEvent& InMouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "OnMouseButtonDoubleClick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonDoubleClick", FnName));
 
 	Params::UI_Selector_C_OnMouseButtonDoubleClick Parms{};
 
@@ -408,10 +370,8 @@ struct FEventReply UUI_Selector_C::OnMouseButtonDoubleClick(const struct FGeomet
 
 void UUI_Selector_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "OnMouseEnter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseEnter", FnName));
 
 	Params::UI_Selector_C_OnMouseEnter Parms{};
 
@@ -429,10 +389,8 @@ void UUI_Selector_C::OnMouseEnter(const struct FGeometry& MyGeometry, const stru
 
 void UUI_Selector_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "OnMouseLeave");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseLeave", FnName));
 
 	Params::UI_Selector_C_OnMouseLeave Parms{};
 
@@ -451,10 +409,8 @@ void UUI_Selector_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 
 struct FEventReply UUI_Selector_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "OnMouseWheel");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseWheel", FnName));
 
 	Params::UI_Selector_C_OnMouseWheel Parms{};
 
@@ -474,10 +430,8 @@ struct FEventReply UUI_Selector_C::OnMouseWheel(const struct FGeometry& MyGeomet
 
 void UUI_Selector_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Selector_C_PreConstruct Parms{};
 
@@ -494,10 +448,8 @@ void UUI_Selector_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Selector_C::RemoveOption(const class FText& Item)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "RemoveOption");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RemoveOption", FnName));
 
 	Params::UI_Selector_C_RemoveOption Parms{};
 
@@ -515,10 +467,8 @@ void UUI_Selector_C::RemoveOption(const class FText& Item)
 
 void UUI_Selector_C::ResetSlider(bool bShouldFocus_0, bool bResetThisSlider)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "ResetSlider");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetSlider", FnName));
 
 	Params::UI_Selector_C_ResetSlider Parms{};
 
@@ -534,10 +484,8 @@ void UUI_Selector_C::ResetSlider(bool bShouldFocus_0, bool bResetThisSlider)
 
 void UUI_Selector_C::ResetSliderFocus()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "ResetSliderFocus");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetSliderFocus", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -550,10 +498,8 @@ void UUI_Selector_C::ResetSliderFocus()
 
 void UUI_Selector_C::SetDefaultOptionByIndex(int32 DefaultIndex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "SetDefaultOptionByIndex");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetDefaultOptionByIndex", FnName));
 
 	Params::UI_Selector_C_SetDefaultOptionByIndex Parms{};
 
@@ -571,10 +517,8 @@ void UUI_Selector_C::SetDefaultOptionByIndex(int32 DefaultIndex)
 
 void UUI_Selector_C::SetDefaultOptionByName(const class FText& ItemToFind, bool* bSuccess)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "SetDefaultOptionByName");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetDefaultOptionByName", FnName));
 
 	Params::UI_Selector_C_SetDefaultOptionByName Parms{};
 
@@ -592,10 +536,8 @@ void UUI_Selector_C::SetDefaultOptionByName(const class FText& ItemToFind, bool*
 
 void UUI_Selector_C::SetSliderFocus()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Selector_C", "SetSliderFocus");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetSliderFocus", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

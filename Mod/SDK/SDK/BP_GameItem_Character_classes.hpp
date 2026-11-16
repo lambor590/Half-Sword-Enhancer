@@ -17,12 +17,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameItem_Character.BP_GameItem_Character_C
-// 0x0148 (0x01B0 - 0x0068)
+// 0x0248 (0x02B8 - 0x0070)
 class UBP_GameItem_Character_C final : public UBP_GameItem_C
 {
 public:
-	struct FStr_Passport_Character1               Character_Passport;                                // 0x0068(0x0140)(Edit, BlueprintVisible, ExposeOnSpawn, HasGetValueTypeHash)
-	class UClass*                                 Spawned_Character;                                 // 0x01A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Character1               Character_Passport;                                // 0x0070(0x0240)(Edit, BlueprintVisible, ContainsInstancedReference, ExposeOnSpawn, HasGetValueTypeHash)
+	class UClass*                                 Spawned_Character;                                 // 0x02B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Initialize();

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_20_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_20_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_20_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_18_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_18_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_18_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_19_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_19_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_19_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_L2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_16_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_16_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_16_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R1_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_17_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_17_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_17_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -287,10 +249,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +261,8 @@ void UUI_WeaponSelection_C::BndEvt__UI_WeaponSelection_R2_K2Node_ComponentBoundE
 
 void UUI_WeaponSelection_C::Close_Widget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "Close Widget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Close Widget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -315,10 +273,8 @@ void UUI_WeaponSelection_C::Close_Widget()
 
 void UUI_WeaponSelection_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -331,10 +287,8 @@ void UUI_WeaponSelection_C::Construct()
 
 void UUI_WeaponSelection_C::ExecuteUbergraph_UI_WeaponSelection(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "ExecuteUbergraph_UI_WeaponSelection");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_WeaponSelection_C", "ExecuteUbergraph_UI_WeaponSelection", FuncInfo);
 
 	Params::UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection Parms{};
 
@@ -349,10 +303,8 @@ void UUI_WeaponSelection_C::ExecuteUbergraph_UI_WeaponSelection(int32 EntryPoint
 
 void UUI_WeaponSelection_C::Mouse_Click_Left()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "Mouse Click Left");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Mouse Click Left", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -363,10 +315,8 @@ void UUI_WeaponSelection_C::Mouse_Click_Left()
 
 void UUI_WeaponSelection_C::Mouse_Click_Right()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "Mouse Click Right");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Mouse Click Right", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -381,10 +331,8 @@ void UUI_WeaponSelection_C::Mouse_Click_Right()
 
 struct FEventReply UUI_WeaponSelection_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "OnKeyDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyDown", FnName));
 
 	Params::UI_WeaponSelection_C_OnKeyDown Parms{};
 
@@ -406,10 +354,8 @@ struct FEventReply UUI_WeaponSelection_C::OnKeyDown(const struct FGeometry& MyGe
 
 struct FEventReply UUI_WeaponSelection_C::OnKeyUp(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "OnKeyUp");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyUp", FnName));
 
 	Params::UI_WeaponSelection_C_OnKeyUp Parms{};
 
@@ -431,10 +377,8 @@ struct FEventReply UUI_WeaponSelection_C::OnKeyUp(const struct FGeometry& MyGeom
 
 struct FEventReply UUI_WeaponSelection_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "OnMouseButtonDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonDown", FnName));
 
 	Params::UI_WeaponSelection_C_OnMouseButtonDown Parms{};
 
@@ -456,10 +400,8 @@ struct FEventReply UUI_WeaponSelection_C::OnMouseButtonDown(const struct FGeomet
 
 struct FEventReply UUI_WeaponSelection_C::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "OnMouseMove");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseMove", FnName));
 
 	Params::UI_WeaponSelection_C_OnMouseMove Parms{};
 
@@ -479,10 +421,8 @@ struct FEventReply UUI_WeaponSelection_C::OnMouseMove(const struct FGeometry& My
 
 void UUI_WeaponSelection_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_WeaponSelection_C_PreConstruct Parms{};
 
@@ -500,10 +440,8 @@ void UUI_WeaponSelection_C::PreConstruct(bool IsDesignTime)
 
 void UUI_WeaponSelection_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WeaponSelection_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_WeaponSelection_C_Tick Parms{};
 

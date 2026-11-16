@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // Class AudioLinkEngine.AudioLinkBlueprintInterface
-// 0x0000 (0x0000 - 0x0000)
-class IAudioLinkBlueprintInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IAudioLinkBlueprintInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void PlayLink(float StartTime);
 	void SetLinkSound(class USoundBase* NewSound);

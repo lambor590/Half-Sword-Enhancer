@@ -10,19 +10,19 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Part_Master.Modular_Weapon_Part_Master_C
-// 0x0168 (0x03F8 - 0x0290)
+// 0x0170 (0x0400 - 0x0290)
 class AModular_Weapon_Part_Master_C : public AActor
 {
 public:
@@ -79,6 +79,7 @@ public:
 	Enum_Ranks                                    Module_Tier;                                       // 0x03E8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_3E9[0x7];                                      // 0x03E9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Use_Alt_Against_Armor_Rate_NPC;                    // 0x03F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Box_Collision;                                     // 0x03F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_Modular_Weapon_Part_Master(int32 EntryPoint);

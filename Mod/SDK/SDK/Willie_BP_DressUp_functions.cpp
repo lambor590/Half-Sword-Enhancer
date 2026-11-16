@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AWillie_BP_DressUp_C::ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "ExecuteUbergraph_Willie_BP_DressUp");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Willie_BP_DressUp_C", "ExecuteUbergraph_Willie_BP_DressUp", FuncInfo);
 
 	Params::Willie_BP_DressUp_C_ExecuteUbergraph_Willie_BP_DressUp Parms{};
 
@@ -41,10 +39,8 @@ void AWillie_BP_DressUp_C::ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint)
 
 void AWillie_BP_DressUp_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AWillie_BP_DressUp_C::ReceiveBeginPlay()
 
 void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Willie_BP_DressUp_C_ReceiveTick Parms{};
 
@@ -75,10 +69,8 @@ void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
 
 void AWillie_BP_DressUp_C::Reset_Character()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "Reset Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Character", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -89,18 +81,18 @@ void AWillie_BP_DressUp_C::Reset_Character()
 // Parameters:
 // bool                                    Clear_Previous                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    No_Check_Block__Kostyl__                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Change_All_Slots                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_DressUp_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__)
+void AWillie_BP_DressUp_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__, bool Change_All_Slots)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "Set Up Armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Armor", FnName));
 
 	Params::Willie_BP_DressUp_C_Set_Up_Armor Parms{};
 
 	Parms.Clear_Previous = Clear_Previous;
 	Parms.No_Check_Block__Kostyl__ = No_Check_Block__Kostyl__;
+	Parms.Change_All_Slots = Change_All_Slots;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -111,10 +103,8 @@ void AWillie_BP_DressUp_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block
 
 void AWillie_BP_DressUp_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

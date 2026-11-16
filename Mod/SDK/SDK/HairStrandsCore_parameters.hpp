@@ -10,6 +10,7 @@
 
 #include "Basic.hpp"
 
+#include "Engine_parameters.hpp"
 #include "HairStrandsCore_structs.hpp"
 
 

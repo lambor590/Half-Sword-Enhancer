@@ -10,6 +10,7 @@
 
 #include "Basic.hpp"
 
+#include "Engine_parameters.hpp"
 #include "CoreUObject_structs.hpp"
 #include "GeometryCache_structs.hpp"
 

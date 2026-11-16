@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Unlock_Lock_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Lock_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_Unlock_Lock_C::Construct()
 
 void UUI_Unlock_Lock_C::ExecuteUbergraph_UI_Unlock_Lock(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Lock_C", "ExecuteUbergraph_UI_Unlock_Lock");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Unlock_Lock_C", "ExecuteUbergraph_UI_Unlock_Lock", FuncInfo);
 
 	Params::UI_Unlock_Lock_C_ExecuteUbergraph_UI_Unlock_Lock Parms{};
 
@@ -58,10 +54,8 @@ void UUI_Unlock_Lock_C::ExecuteUbergraph_UI_Unlock_Lock(int32 EntryPoint)
 
 void UUI_Unlock_Lock_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Unlock_Lock_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Unlock_Lock_C_Tick Parms{};
 

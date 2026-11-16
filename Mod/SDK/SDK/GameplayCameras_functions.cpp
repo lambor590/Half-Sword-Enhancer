@@ -100,10 +100,8 @@ class ULegacyCameraShake* ULegacyCameraShake::StartLegacyCameraShakeFromSource(c
 
 void ULegacyCameraShake::BlueprintUpdateCameraShake(float DeltaTime, float Alpha, const struct FMinimalViewInfo& POV, struct FMinimalViewInfo* ModifiedPOV)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LegacyCameraShake", "BlueprintUpdateCameraShake");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintUpdateCameraShake", FnName));
 
 	Params::LegacyCameraShake_BlueprintUpdateCameraShake Parms{};
 
@@ -125,10 +123,8 @@ void ULegacyCameraShake::BlueprintUpdateCameraShake(float DeltaTime, float Alpha
 
 void ULegacyCameraShake::ReceivePlayShake(float Scale)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LegacyCameraShake", "ReceivePlayShake");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceivePlayShake", FnName));
 
 	Params::LegacyCameraShake_ReceivePlayShake Parms{};
 
@@ -145,10 +141,8 @@ void ULegacyCameraShake::ReceivePlayShake(float Scale)
 
 void ULegacyCameraShake::ReceiveStopShake(bool bImmediately)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LegacyCameraShake", "ReceiveStopShake");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveStopShake", FnName));
 
 	Params::LegacyCameraShake_ReceiveStopShake Parms{};
 
@@ -165,10 +159,8 @@ void ULegacyCameraShake::ReceiveStopShake(bool bImmediately)
 
 bool ULegacyCameraShake::ReceiveIsFinished() const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LegacyCameraShake", "ReceiveIsFinished");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveIsFinished", FnName));
 
 	Params::LegacyCameraShake_ReceiveIsFinished Parms{};
 

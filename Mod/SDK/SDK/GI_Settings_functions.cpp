@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UGI_Settings_C::Check_Insured_Items()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Check Insured Items");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Insured Items", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UGI_Settings_C::Check_Insured_Items()
 
 void UGI_Settings_C::Clear_Equipment_Pool()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Clear Equipment Pool");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clear Equipment Pool", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UGI_Settings_C::Clear_Equipment_Pool()
 
 void UGI_Settings_C::Delete_Save()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Delete Save");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Delete Save", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UGI_Settings_C::Delete_Save()
 
 void UGI_Settings_C::Event_Generate_Random_Combat_Events()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Event Generate Random Combat Events");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Generate Random Combat Events", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UGI_Settings_C::Event_Generate_Random_Combat_Events()
 
 void UGI_Settings_C::Event_Refresh_Outdated_Armors()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Event Refresh Outdated Armors");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Refresh Outdated Armors", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -93,10 +83,8 @@ void UGI_Settings_C::Event_Refresh_Outdated_Armors()
 
 void UGI_Settings_C::ExecuteUbergraph_GI_Settings(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "ExecuteUbergraph_GI_Settings");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "GI_Settings_C", "ExecuteUbergraph_GI_Settings", FuncInfo);
 
 	Params::GI_Settings_C_ExecuteUbergraph_GI_Settings Parms{};
 
@@ -106,17 +94,95 @@ void UGI_Settings_C::ExecuteUbergraph_GI_Settings(int32 EntryPoint)
 }
 
 
+// Function GI_Settings.GI_Settings_C.Generate Armor
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// Enum_Ranks                              Tier                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EArmorSlots_Enum                        Slot                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Module_Spawn_Chance                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Mercenary_Colors                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Force_Armor_Metal_Material                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESteel_Type                             Armor_Steel_Type_Forced                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESecondaryMetal_Type                    Armor_Metal_Pieces_Type_Forced                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Black_Colors                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FStr_Passport_Armor1*            Armor_Passport                                         (Parm, OutParm, HasGetValueTypeHash)
+
+void UGI_Settings_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, bool Black_Colors, struct FStr_Passport_Armor1* Armor_Passport)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Armor", FnName));
+
+	Params::GI_Settings_C_Generate_Armor Parms{};
+
+	Parms.Tier = Tier;
+	Parms.Slot = Slot;
+	Parms.Module_Spawn_Chance = Module_Spawn_Chance;
+	Parms.Mercenary_Colors = Mercenary_Colors;
+	Parms.Force_Armor_Metal_Material = Force_Armor_Metal_Material;
+	Parms.Armor_Steel_Type_Forced = Armor_Steel_Type_Forced;
+	Parms.Armor_Metal_Pieces_Type_Forced = Armor_Metal_Pieces_Type_Forced;
+	Parms.Black_Colors = Black_Colors;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Armor_Passport != nullptr)
+		*Armor_Passport = std::move(Parms.Armor_Passport);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Generate Character
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Generate_Character()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Character", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function GI_Settings.GI_Settings_C.Generate Mercenaries
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
 void UGI_Settings_C::Generate_Mercenaries()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Generate Mercenaries");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Mercenaries", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Generate Weapon
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// Enum_WeaponType                         Weapon_Type_Enum                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Enum_Ranks                              Tier                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Spawn_Specific_Weapon                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UClass*                           Specific_Class                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FStr_Passport_Weapon1&     Specific_Passport                                      (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
+// Enum_WeaponType_Specific                Weapon_Type_Specific                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FStr_Passport_Weapon1*           Weapon_Passport                                        (Parm, OutParm, NoDestructor, HasGetValueTypeHash)
+
+void UGI_Settings_C::Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, Enum_WeaponType_Specific Weapon_Type_Specific, struct FStr_Passport_Weapon1* Weapon_Passport)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Weapon", FnName));
+
+	Params::GI_Settings_C_Generate_Weapon Parms{};
+
+	Parms.Weapon_Type_Enum = Weapon_Type_Enum;
+	Parms.Tier = Tier;
+	Parms.Spawn_Specific_Weapon = Spawn_Specific_Weapon;
+	Parms.Specific_Class = Specific_Class;
+	Parms.Specific_Passport = std::move(Specific_Passport);
+	Parms.Weapon_Type_Specific = Weapon_Type_Specific;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Weapon_Passport != nullptr)
+		*Weapon_Passport = std::move(Parms.Weapon_Passport);
 }
 
 
@@ -125,10 +191,8 @@ void UGI_Settings_C::Generate_Mercenaries()
 
 void UGI_Settings_C::Load_Game()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Load Game");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Load Game", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -139,10 +203,8 @@ void UGI_Settings_C::Load_Game()
 
 void UGI_Settings_C::LoadKeyMappings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "LoadKeyMappings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"LoadKeyMappings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -155,10 +217,8 @@ void UGI_Settings_C::LoadKeyMappings()
 
 void UGI_Settings_C::Override_Player_Character_Equipment(bool Keep_Exact_Values)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Override Player Character Equipment");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Override Player Character Equipment", FnName));
 
 	Params::GI_Settings_C_Override_Player_Character_Equipment Parms{};
 
@@ -177,10 +237,8 @@ void UGI_Settings_C::Override_Player_Character_Equipment(bool Keep_Exact_Values)
 
 void UGI_Settings_C::Play_Music(class USoundBase* Sound, float VolumeMultiplier, bool bPersistAcrossLevelTransition)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Play Music");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Play Music", FnName));
 
 	Params::GI_Settings_C_Play_Music Parms{};
 
@@ -197,10 +255,8 @@ void UGI_Settings_C::Play_Music(class USoundBase* Sound, float VolumeMultiplier,
 
 void UGI_Settings_C::Refresh_NPCs_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Refresh NPCs Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Refresh NPCs Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -211,10 +267,8 @@ void UGI_Settings_C::Refresh_NPCs_Event()
 
 void UGI_Settings_C::Renew_Merchant()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Renew Merchant");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Renew Merchant", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -225,12 +279,28 @@ void UGI_Settings_C::Renew_Merchant()
 
 void UGI_Settings_C::Reset_Player_Character()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Reset Player Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Player Character", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Save Abyss Progress
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Extracted                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UGI_Settings_C::Save_Abyss_Progress(bool Extracted)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Abyss Progress", FnName));
+
+	Params::GI_Settings_C_Save_Abyss_Progress Parms{};
+
+	Parms.Extracted = Extracted;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -239,10 +309,8 @@ void UGI_Settings_C::Reset_Player_Character()
 
 void UGI_Settings_C::Save_Game()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Save Game");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Game", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -253,10 +321,8 @@ void UGI_Settings_C::Save_Game()
 
 void UGI_Settings_C::Save_Key_Mappings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Save Key Mappings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Key Mappings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -267,10 +333,8 @@ void UGI_Settings_C::Save_Key_Mappings()
 
 void UGI_Settings_C::Save_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Save Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -281,10 +345,8 @@ void UGI_Settings_C::Save_Settings()
 
 void UGI_Settings_C::Set_Up_Free_Mode_Inventory()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Up Free Mode Inventory");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Free Mode Inventory", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -295,10 +357,8 @@ void UGI_Settings_C::Set_Up_Free_Mode_Inventory()
 
 void UGI_Settings_C::Set_Up_Interface()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Up Interface");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Interface", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -309,10 +369,8 @@ void UGI_Settings_C::Set_Up_Interface()
 
 void UGI_Settings_C::Set_Up_Sound_Volume()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Up Sound Volume");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Sound Volume", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -325,10 +383,8 @@ void UGI_Settings_C::Set_Up_Sound_Volume()
 
 void UGI_Settings_C::Skip_Time_Event(double Price)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Skip Time Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Skip Time Event", FnName));
 
 	Params::GI_Settings_C_Skip_Time_Event Parms{};
 
@@ -343,10 +399,8 @@ void UGI_Settings_C::Skip_Time_Event(double Price)
 
 void UGI_Settings_C::Stop_Music()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Stop Music");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Stop Music", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void IBPI_Data_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Data_C", "SendPhotoData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"SendPhotoData", FnName));
 
 	Params::BPI_Data_C_SendPhotoData Parms{};
 
@@ -44,10 +42,8 @@ void IBPI_Data_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 
 void IBPI_Data_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButtonPressed)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Data_C", "TabToOpen");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"TabToOpen", FnName));
 
 	Params::BPI_Data_C_TabToOpen Parms{};
 

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_ScreenshotManager_C::ExecuteUbergraph_BP_ScreenshotManager(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ScreenshotManager_C", "ExecuteUbergraph_BP_ScreenshotManager");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_ScreenshotManager_C", "ExecuteUbergraph_BP_ScreenshotManager", FuncInfo);
 
 	Params::BP_ScreenshotManager_C_ExecuteUbergraph_BP_ScreenshotManager Parms{};
 
@@ -43,10 +41,8 @@ void ABP_ScreenshotManager_C::ExecuteUbergraph_BP_ScreenshotManager(int32 EntryP
 
 void ABP_ScreenshotManager_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ScreenshotManager_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_ScreenshotManager_C_ReceiveTick Parms{};
 
@@ -65,10 +61,8 @@ void ABP_ScreenshotManager_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_ScreenshotManager_C::TakeScreenshot(const struct FIntPoint& Size, const class FString& Path, const class FString& Filename)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ScreenshotManager_C", "TakeScreenshot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TakeScreenshot", FnName));
 
 	Params::BP_ScreenshotManager_C_TakeScreenshot Parms{};
 
@@ -85,10 +79,8 @@ void ABP_ScreenshotManager_C::TakeScreenshot(const struct FIntPoint& Size, const
 
 void ABP_ScreenshotManager_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_ScreenshotManager_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

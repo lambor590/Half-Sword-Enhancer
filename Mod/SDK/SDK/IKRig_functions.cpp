@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void IIKGoalCreatorInterface::AddIKGoals(TMap<class FName, struct FIKRigGoal>* OutGoals)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("IKGoalCreatorInterface", "AddIKGoals");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"AddIKGoals", FnName));
 
 	Params::IKGoalCreatorInterface_AddIKGoals Parms{};
 
@@ -147,6 +145,30 @@ void UIKRigComponent::SetIKRigGoalTransform(const class FName GoalName, const st
 	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function IKRig.IKGoalCreatorInterface.AddIKGoals
+// (Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// TMap<class FName, struct FIKRigGoal>*   OutGoals                                               (Parm, OutParm, NativeAccessSpecifierPublic)
+
+void UIKRigComponent::AddIKGoals(TMap<class FName, struct FIKRigGoal>* OutGoals)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddIKGoals", FnName));
+
+	Params::IKGoalCreatorInterface_AddIKGoals Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutGoals != nullptr)
+		*OutGoals = std::move(Parms.OutGoals);
 }
 
 

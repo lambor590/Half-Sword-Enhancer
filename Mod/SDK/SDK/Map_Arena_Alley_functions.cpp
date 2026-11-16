@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_Alley_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Map_Arena_Alley_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void AMap_Arena_Alley_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AMap_Arena_Alley_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AMap_Arena_Alley_C::ReceiveBeginPlay()
 
 void AMap_Arena_Alley_C::ExecuteUbergraph_Map_Arena_Alley(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "ExecuteUbergraph_Map_Arena_Alley");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_Alley_C", "ExecuteUbergraph_Map_Arena_Alley", FuncInfo);
 
 	Params::Map_Arena_Alley_C_ExecuteUbergraph_Map_Arena_Alley Parms{};
 
@@ -78,10 +72,8 @@ void AMap_Arena_Alley_C::ExecuteUbergraph_Map_Arena_Alley(int32 EntryPoint)
 
 void AMap_Arena_Alley_C::BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Map_Arena_Alley_C_BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
 

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ATrap_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ATrap_BP_C::ReceiveBeginPlay()
 
 void ATrap_BP_C::ExecuteUbergraph_Trap_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_BP_C", "ExecuteUbergraph_Trap_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Trap_BP_C", "ExecuteUbergraph_Trap_BP", FuncInfo);
 
 	Params::Trap_BP_C_ExecuteUbergraph_Trap_BP Parms{};
 
@@ -55,10 +51,8 @@ void ATrap_BP_C::ExecuteUbergraph_Trap_BP(int32 EntryPoint)
 
 void ATrap_BP_C::Event_Activate_Trap()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_BP_C", "Event Activate Trap");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Activate Trap", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -45,10 +45,9 @@ public:
 
 // Class MediaCompositing.MovieSceneMediaPlayerPropertyTrack
 // 0x0008 (0x00D0 - 0x00C8)
-class UMovieSceneMediaPlayerPropertyTrack final : public UMovieScenePropertyTrack
+class UMovieSceneMediaPlayerPropertyTrack final : public UMovieScenePropertyTrack, public IMovieSceneTrackTemplateProducer
 {
 public:
-	uint8                                         Pad_C8[0x8];                                       // 0x00C8(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -105,10 +104,9 @@ public:
 
 // Class MediaCompositing.MovieSceneMediaTrack
 // 0x0018 (0x00B0 - 0x0098)
-class UMovieSceneMediaTrack final : public UMovieSceneNameableTrack
+class UMovieSceneMediaTrack final : public UMovieSceneNameableTrack, public IMovieSceneTrackTemplateProducer
 {
 public:
-	uint8                                         Pad_98[0x8];                                       // 0x0098(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UMovieSceneSection*>             MediaSections;                                     // 0x00A0(0x0010)(ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPrivate, TObjectPtr)
 
 public:

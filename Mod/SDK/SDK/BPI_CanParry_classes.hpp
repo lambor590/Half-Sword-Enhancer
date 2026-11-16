@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_CanParry.BPI_CanParry_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_CanParry_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_CanParry_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul);
 

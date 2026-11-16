@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_CanParry_C", "Send Threat Location R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Send Threat Location R", FnName));
 
 	Params::BPI_CanParry_C_Send_Threat_Location_R Parms{};
 

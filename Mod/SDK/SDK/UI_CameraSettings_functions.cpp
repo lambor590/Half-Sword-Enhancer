@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBo
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Button_3_K2Node_ComponentBo
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_1_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_DamageNPC_1_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_DamageNPC_1_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_DamageNPC_1_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -71,10 +65,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_1_K2Node_Componen
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_2_K2Node_ComponentBoundEvent_21_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_DamageNPC_2_K2Node_ComponentBoundEvent_21_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_DamageNPC_2_K2Node_ComponentBoundEvent_21_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_DamageNPC_2_K2Node_ComponentBoundEvent_21_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -91,10 +83,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_2_K2Node_Componen
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_3_K2Node_ComponentBoundEvent_22_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_DamageNPC_3_K2Node_ComponentBoundEvent_22_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_DamageNPC_3_K2Node_ComponentBoundEvent_22_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_DamageNPC_3_K2Node_ComponentBoundEvent_22_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -111,10 +101,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_3_K2Node_Componen
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_DamageNPC_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_DamageNPC_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_DamageNPC_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -131,10 +119,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_DamageNPC_K2Node_ComponentB
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Slider_DamagePlayer_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_Slider_DamagePlayer_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_Slider_DamagePlayer_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_Slider_DamagePlayer_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -151,10 +137,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Slider_DamagePlayer_K2Node_
 
 void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Slider_FOV_1_K2Node_ComponentBoundEvent_28_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_CameraSettings_Slider_FOV_1_K2Node_ComponentBoundEvent_28_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_CameraSettings_Slider_FOV_1_K2Node_ComponentBoundEvent_28_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_CameraSettings_Slider_FOV_1_K2Node_ComponentBoundEvent_28_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -169,10 +153,8 @@ void UUI_CameraSettings_C::BndEvt__UI_CameraSettings_Slider_FOV_1_K2Node_Compone
 
 void UUI_CameraSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -183,10 +165,8 @@ void UUI_CameraSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEve
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -197,10 +177,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_Component
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -211,10 +189,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_Component
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -225,10 +201,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_Component
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -239,10 +213,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoun
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -253,10 +225,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoun
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -267,10 +237,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBou
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -281,10 +249,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBou
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -295,10 +261,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoun
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -309,10 +273,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoun
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -323,10 +285,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -337,10 +297,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -351,10 +309,8 @@ void UUI_CameraSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -365,10 +321,8 @@ void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -379,10 +333,8 @@ void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_LanguageSettings_Game_Button_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -395,10 +347,8 @@ void UUI_CameraSettings_C::BndEvt__UI_LanguageSettings_Game_Button_K2Node_Compon
 
 void UUI_CameraSettings_C::BndEvt__UI_Settings_AuVi_Slider_FOV_K2Node_ComponentBoundEvent_13_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_Settings_AuVi_Slider_FOV_K2Node_ComponentBoundEvent_13_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Slider_FOV_K2Node_ComponentBoundEvent_13_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_Settings_AuVi_Slider_FOV_K2Node_ComponentBoundEvent_13_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -413,10 +363,8 @@ void UUI_CameraSettings_C::BndEvt__UI_Settings_AuVi_Slider_FOV_K2Node_ComponentB
 
 void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -427,10 +375,8 @@ void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBou
 
 void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -443,10 +389,8 @@ void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBo
 
 void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_CameraSettings_C_BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -461,10 +405,8 @@ void UUI_CameraSettings_C::BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_C
 
 void UUI_CameraSettings_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -477,10 +419,8 @@ void UUI_CameraSettings_C::Construct()
 
 void UUI_CameraSettings_C::ExecuteUbergraph_UI_CameraSettings(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "ExecuteUbergraph_UI_CameraSettings");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_CameraSettings_C", "ExecuteUbergraph_UI_CameraSettings", FuncInfo);
 
 	Params::UI_CameraSettings_C_ExecuteUbergraph_UI_CameraSettings Parms{};
 
@@ -497,10 +437,8 @@ void UUI_CameraSettings_C::ExecuteUbergraph_UI_CameraSettings(int32 EntryPoint)
 
 float UUI_CameraSettings_C::Get_DamageNPC_1_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_DamageNPC_1_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_1_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_DamageNPC_1_Value Parms{};
 
@@ -517,10 +455,8 @@ float UUI_CameraSettings_C::Get_DamageNPC_1_Value()
 
 float UUI_CameraSettings_C::Get_DamageNPC_2_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_DamageNPC_2_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_2_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_DamageNPC_2_Value Parms{};
 
@@ -537,10 +473,8 @@ float UUI_CameraSettings_C::Get_DamageNPC_2_Value()
 
 float UUI_CameraSettings_C::Get_DamageNPC_3_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_DamageNPC_3_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_3_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_DamageNPC_3_Value Parms{};
 
@@ -557,10 +491,8 @@ float UUI_CameraSettings_C::Get_DamageNPC_3_Value()
 
 float UUI_CameraSettings_C::Get_DamageNPC_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_DamageNPC_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DamageNPC_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_DamageNPC_Value Parms{};
 
@@ -577,10 +509,8 @@ float UUI_CameraSettings_C::Get_DamageNPC_Value()
 
 float UUI_CameraSettings_C::Get_Slider_DamagePlayer_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_Slider_DamagePlayer_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_DamagePlayer_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_Slider_DamagePlayer_Value Parms{};
 
@@ -597,10 +527,8 @@ float UUI_CameraSettings_C::Get_Slider_DamagePlayer_Value()
 
 float UUI_CameraSettings_C::Get_Slider_FOV_1_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_Slider_FOV_1_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_FOV_1_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_Slider_FOV_1_Value Parms{};
 
@@ -617,10 +545,8 @@ float UUI_CameraSettings_C::Get_Slider_FOV_1_Value()
 
 float UUI_CameraSettings_C::Get_Slider_FOV_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_Slider_FOV_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_FOV_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_Slider_FOV_Value Parms{};
 
@@ -637,10 +563,8 @@ float UUI_CameraSettings_C::Get_Slider_FOV_Value()
 
 float UUI_CameraSettings_C::Get_Slider_LockOnSlider_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Get_Slider_LockOnSlider_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_LockOnSlider_Value", FnName));
 
 	Params::UI_CameraSettings_C_Get_Slider_LockOnSlider_Value Parms{};
 
@@ -657,10 +581,8 @@ float UUI_CameraSettings_C::Get_Slider_LockOnSlider_Value()
 
 void UUI_CameraSettings_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_CameraSettings_C_PreConstruct Parms{};
 
@@ -678,10 +600,8 @@ void UUI_CameraSettings_C::PreConstruct(bool IsDesignTime)
 
 void UUI_CameraSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CameraSettings_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_CameraSettings_C_Tick Parms{};
 

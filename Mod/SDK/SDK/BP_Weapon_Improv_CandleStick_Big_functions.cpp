@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_Weapon_Improv_CandleStick_Big_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ABP_Weapon_Improv_CandleStick_Big_C::UserConstructionScript()
 
 void ABP_Weapon_Improv_CandleStick_Big_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Weapon_Improv_CandleStick_Big_C_ReceiveTick Parms{};
 
@@ -55,10 +51,8 @@ void ABP_Weapon_Improv_CandleStick_Big_C::ReceiveTick(float DeltaSeconds_Receive
 
 void ABP_Weapon_Improv_CandleStick_Big_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -71,10 +65,8 @@ void ABP_Weapon_Improv_CandleStick_Big_C::ReceiveBeginPlay()
 
 void ABP_Weapon_Improv_CandleStick_Big_C::ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Big(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Big");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Weapon_Improv_CandleStick_Big_C", "ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Big", FuncInfo);
 
 	Params::BP_Weapon_Improv_CandleStick_Big_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Big Parms{};
 
@@ -95,10 +87,8 @@ void ABP_Weapon_Improv_CandleStick_Big_C::ExecuteUbergraph_BP_Weapon_Improv_Cand
 
 void ABP_Weapon_Improv_CandleStick_Big_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Weapon_Improv_CandleStick_Big_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -123,10 +113,8 @@ void ABP_Weapon_Improv_CandleStick_Big_C::BndEvt__Buckler_Buckler_K2Node_Compone
 
 void ABP_Weapon_Improv_CandleStick_Big_C::BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Big_C", "BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Weapon_Improv_CandleStick_Big_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 

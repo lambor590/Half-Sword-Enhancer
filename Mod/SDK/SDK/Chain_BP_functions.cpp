@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AChain_BP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Chain_BP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AChain_BP_C::UserConstructionScript()
 
 void AChain_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Chain_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Chain_BP_C_ReceiveTick Parms{};
 
@@ -57,10 +53,8 @@ void AChain_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AChain_BP_C::ExecuteUbergraph_Chain_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Chain_BP_C", "ExecuteUbergraph_Chain_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Chain_BP_C", "ExecuteUbergraph_Chain_BP", FuncInfo);
 
 	Params::Chain_BP_C_ExecuteUbergraph_Chain_BP Parms{};
 

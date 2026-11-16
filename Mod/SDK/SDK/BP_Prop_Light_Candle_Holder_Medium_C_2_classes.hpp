@@ -18,7 +18,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C
-// 0x0048 (0x02D8 - 0x0290)
+// 0x0050 (0x02E0 - 0x0290)
 class ABP_Prop_Light_Candle_Holder_Medium_C_2_C final : public AActor
 {
 public:
@@ -30,6 +30,7 @@ public:
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x02B8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	struct FLinearColor                           Defoult_light_color;                               // 0x02C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Light_Inensity;                                    // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Simulate_Physics;                                  // 0x02D8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void ReceiveBeginPlay();

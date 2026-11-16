@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Head_SubModule_Hammer_.Modular_PA_Head_SubModule_Hammer__C
-// 0x0000 (0x0430 - 0x0430)
+// 0x0000 (0x0438 - 0x0438)
 class AModular_PA_Head_SubModule_Hammer__C final : public AModular_PA_Head_SubModule_Master_C
 {
 public:

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_LordsHall_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_LordsHall_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AMap_Arena_LordsHall_C::ReceiveBeginPlay()
 
 void AMap_Arena_LordsHall_C::ExecuteUbergraph_Map_Arena_LordsHall(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_LordsHall_C", "ExecuteUbergraph_Map_Arena_LordsHall");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_LordsHall_C", "ExecuteUbergraph_Map_Arena_LordsHall", FuncInfo);
 
 	Params::Map_Arena_LordsHall_C_ExecuteUbergraph_Map_Arena_LordsHall Parms{};
 

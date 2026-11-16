@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,24 +57,32 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
 
-void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
+void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +93,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +105,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +117,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2
 
 void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2Node_ComponentBoundEvent_0_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2Node_ComponentBoundEvent_0_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2Node_ComponentBoundEvent_0_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +129,8 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2
 
 void UUI_Weapon_Reload_Crossbow_C::Close_Widget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "Close Widget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Close Widget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +141,20 @@ void UUI_Weapon_Reload_Crossbow_C::Close_Widget()
 
 void UUI_Weapon_Reload_Crossbow_C::Construct()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "Construct");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::Destruct()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -163,10 +167,8 @@ void UUI_Weapon_Reload_Crossbow_C::Construct()
 
 void UUI_Weapon_Reload_Crossbow_C::ExecuteUbergraph_UI_Weapon_Reload_Crossbow(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "ExecuteUbergraph_UI_Weapon_Reload_Crossbow");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Weapon_Reload_Crossbow_C", "ExecuteUbergraph_UI_Weapon_Reload_Crossbow", FuncInfo);
 
 	Params::UI_Weapon_Reload_Crossbow_C_ExecuteUbergraph_UI_Weapon_Reload_Crossbow Parms{};
 
@@ -183,10 +185,8 @@ void UUI_Weapon_Reload_Crossbow_C::ExecuteUbergraph_UI_Weapon_Reload_Crossbow(in
 
 bool UUI_Weapon_Reload_Crossbow_C::GetbIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetbIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetbIsEnabled", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetbIsEnabled Parms{};
 
@@ -203,10 +203,8 @@ bool UUI_Weapon_Reload_Crossbow_C::GetbIsEnabled()
 
 float UUI_Weapon_Reload_Crossbow_C::GetValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetValue Parms{};
 
@@ -223,10 +221,8 @@ float UUI_Weapon_Reload_Crossbow_C::GetValue()
 
 ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetVisibility_0 Parms{};
 
@@ -243,10 +239,8 @@ ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_0()
 
 ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetVisibility_1 Parms{};
 
@@ -263,10 +257,8 @@ ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_1()
 
 ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetVisibility_2 Parms{};
 
@@ -283,16 +275,44 @@ ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_2()
 
 ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "GetVisibility_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_3", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_GetVisibility_3 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.GetVisibility_4
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_4()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_4", FnName));
+
+	Params::UI_Weapon_Reload_Crossbow_C_GetVisibility_4 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.Grab Bolt
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::Grab_Bolt()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grab Bolt", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -305,10 +325,8 @@ ESlateVisibility UUI_Weapon_Reload_Crossbow_C::GetVisibility_3()
 
 void UUI_Weapon_Reload_Crossbow_C::OnDragDetected(const struct FGeometry& MyGeometry, const struct FPointerEvent& PointerEvent, class UDragDropOperation** Operation)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "OnDragDetected");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnDragDetected", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_OnDragDetected Parms{};
 
@@ -331,10 +349,8 @@ void UUI_Weapon_Reload_Crossbow_C::OnDragDetected(const struct FGeometry& MyGeom
 
 struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "OnKeyDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyDown", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_OnKeyDown Parms{};
 
@@ -356,10 +372,8 @@ struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnKeyDown(const struct FGeometr
 
 struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnKeyUp(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "OnKeyUp");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnKeyUp", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_OnKeyUp Parms{};
 
@@ -381,10 +395,8 @@ struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnKeyUp(const struct FGeometry&
 
 struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnMouseButtonUp(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "OnMouseButtonUp");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseButtonUp", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_OnMouseButtonUp Parms{};
 
@@ -406,10 +418,8 @@ struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnMouseButtonUp(const struct FG
 
 struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnPreviewMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "OnPreviewMouseButtonDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnPreviewMouseButtonDown", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_OnPreviewMouseButtonDown Parms{};
 
@@ -429,16 +439,38 @@ struct FEventReply UUI_Weapon_Reload_Crossbow_C::OnPreviewMouseButtonDown(const 
 
 void UUI_Weapon_Reload_Crossbow_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_PreConstruct Parms{};
 
 	Parms.IsDesignTime = IsDesignTime;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.Rearrange Bolts
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::Rearrange_Bolts()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Rearrange Bolts", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.Release Bolt
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::Release_Bolt()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Bolt", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -450,10 +482,8 @@ void UUI_Weapon_Reload_Crossbow_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Weapon_Reload_Crossbow_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Weapon_Reload_Crossbow_C_Tick Parms{};
 

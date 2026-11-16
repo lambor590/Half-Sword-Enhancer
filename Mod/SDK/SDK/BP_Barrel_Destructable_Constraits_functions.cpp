@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_Barrel_Destructable_Constraits_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_Barrel_Destructable_Constraits_C::UserConstructionScript()
 
 void ABP_Barrel_Destructable_Constraits_C::Temporarily_Disable_Destruction()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Temporarily Disable Destruction");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Temporarily Disable Destruction", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -53,10 +49,8 @@ void ABP_Barrel_Destructable_Constraits_C::Temporarily_Disable_Destruction()
 
 void ABP_Barrel_Destructable_Constraits_C::Spawn_Sound_On_Hit(class USceneComponent* AttachToComponent, const struct FVector& A, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Spawn Sound On Hit");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Sound On Hit", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_Spawn_Sound_On_Hit Parms{};
 
@@ -73,10 +67,8 @@ void ABP_Barrel_Destructable_Constraits_C::Spawn_Sound_On_Hit(class USceneCompon
 
 void ABP_Barrel_Destructable_Constraits_C::Reset_Sound_Threshold()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Reset Sound Threshold");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Sound Threshold", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -89,10 +81,8 @@ void ABP_Barrel_Destructable_Constraits_C::Reset_Sound_Threshold()
 
 void ABP_Barrel_Destructable_Constraits_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_ReceiveTick Parms{};
 
@@ -107,10 +97,8 @@ void ABP_Barrel_Destructable_Constraits_C::ReceiveTick(float DeltaSeconds_Receiv
 
 void ABP_Barrel_Destructable_Constraits_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -126,10 +114,8 @@ void ABP_Barrel_Destructable_Constraits_C::ReceiveBeginPlay()
 
 void ABP_Barrel_Destructable_Constraits_C::NewFunction(class UPrimitiveComponent* self2, const struct FVector& A, class AActor* InputPin, const struct FHitResult& InputPin1)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "NewFunction");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewFunction", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_NewFunction Parms{};
 
@@ -147,10 +133,8 @@ void ABP_Barrel_Destructable_Constraits_C::NewFunction(class UPrimitiveComponent
 
 void ABP_Barrel_Destructable_Constraits_C::Make_Fragile_Temporary()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Make Fragile Temporary");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Make Fragile Temporary", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -163,10 +147,8 @@ void ABP_Barrel_Destructable_Constraits_C::Make_Fragile_Temporary()
 
 void ABP_Barrel_Destructable_Constraits_C::ExecuteUbergraph_BP_Barrel_Destructable_Constraits(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "ExecuteUbergraph_BP_Barrel_Destructable_Constraits");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Barrel_Destructable_Constraits_C", "ExecuteUbergraph_BP_Barrel_Destructable_Constraits", FuncInfo);
 
 	Params::BP_Barrel_Destructable_Constraits_C_ExecuteUbergraph_BP_Barrel_Destructable_Constraits Parms{};
 
@@ -184,10 +166,8 @@ void ABP_Barrel_Destructable_Constraits_C::ExecuteUbergraph_BP_Barrel_Destructab
 
 void ABP_Barrel_Destructable_Constraits_C::Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Event Spawn Sound Detector");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Spawn Sound Detector", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_Event_Spawn_Sound_Detector Parms{};
 
@@ -205,10 +185,8 @@ void ABP_Barrel_Destructable_Constraits_C::Event_Spawn_Sound_Detector(double Sou
 
 void ABP_Barrel_Destructable_Constraits_C::Disable_COliision_Func(class UStaticMeshComponent* InputPin)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Disable COliision Func");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Disable COliision Func", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_Disable_COliision_Func Parms{};
 
@@ -225,10 +203,8 @@ void ABP_Barrel_Destructable_Constraits_C::Disable_COliision_Func(class UStaticM
 
 void ABP_Barrel_Destructable_Constraits_C::Constraits_Broken_Delegate(int32 ConstraintIndex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Constraits_Broken_Delegate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Constraits_Broken_Delegate", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_Constraits_Broken_Delegate Parms{};
 
@@ -249,10 +225,8 @@ void ABP_Barrel_Destructable_Constraits_C::Constraits_Broken_Delegate(int32 Cons
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -277,10 +251,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -305,10 +277,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -333,10 +303,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -361,10 +329,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -389,10 +355,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -417,10 +381,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -445,10 +407,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -473,10 +433,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -501,10 +459,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -529,10 +485,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -557,10 +511,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -585,10 +537,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -613,10 +563,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -641,10 +589,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -669,10 +615,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -697,10 +641,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -725,10 +667,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -753,10 +693,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::BP_Barrel_Destructable_Constraits_C_BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -775,10 +713,8 @@ void ABP_Barrel_Destructable_Constraits_C::BndEvt__BP_Barrel_Destructable_Constr
 
 void ABP_Barrel_Destructable_Constraits_C::Barrel_Is_Broken_Func()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Barrel_Destructable_Constraits_C", "Barrel Is Broken Func");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Barrel Is Broken Func", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

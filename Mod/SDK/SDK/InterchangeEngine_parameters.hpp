@@ -12,6 +12,7 @@
 
 #include "InterchangeCore_structs.hpp"
 #include "InterchangeEngine_structs.hpp"
+#include "Engine_parameters.hpp"
 
 
 SDK_NAMESPACE_START

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_0_OnB
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_58_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_58_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_58_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_0_K2Node_ComponentBoundEvent_58_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_1_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_1_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_1_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_1_K2Node_ComponentBoundEvent_59_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_2_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_2_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_2_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_2_K2Node_ComponentBoundEvent_61_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_3_K2Node_ComponentBoundEvent_62_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_3_K2Node_ComponentBoundEvent_62_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_3_K2Node_ComponentBoundEvent_62_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_3_K2Node_ComponentBoundEvent_62_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_1_OnBut
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Button_K2Node_ComponentBoundEvent_60_OnBu
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterial_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterial_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterial_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterial_K2Node_ComponentBound
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialBrass_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialBronze_K2Node_Componen
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialCopper_K2Node_Componen
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialGilded_K2Node_Componen
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialGold_K2Node_ComponentB
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialIron_K2Node_ComponentB
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonMetalMaterialSteel_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGripDown_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModuleGripDown_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModuleGripDown_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGripDown_K2Node_ComponentBoun
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGripUp_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModuleGripUp_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModuleGripUp_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGripUp_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGuardDown_K2Node_ComponentBou
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -287,10 +249,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleGuardUp_K2Node_ComponentBound
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +261,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModuleHeadUp_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModulePommelDown_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModulePommelDown_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModulePommelDown_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -315,10 +273,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModulePommelDown_K2Node_ComponentBo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModulePommelUp_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonModulePommelUp_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonModulePommelUp_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -329,10 +285,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonModulePommelUp_K2Node_ComponentBoun
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_63_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_63_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_63_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -343,10 +297,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModule1HeadUp_K2Node_ComponentBo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -357,10 +309,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModule2HeadUp_K2Node_ComponentBo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -371,10 +321,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModuleHead1Down_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_66_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_66_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_66_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -385,10 +333,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonSubModuleHead2Down_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonWoodColor_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_ButtonWoodColor_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_ButtonWoodColor_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -399,10 +345,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_ButtonWoodColor_K2Node_ComponentBoundEven
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_0_K2Node_ComponentBoundEvent_68_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_0_K2Node_ComponentBoundEvent_68_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_0_K2Node_ComponentBoundEvent_68_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -413,10 +357,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_0_K2Node_ComponentBoundEvent_6
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_140_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_140_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_140_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -427,10 +369,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_143_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_143_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_143_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -441,10 +381,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_10_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_144_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_144_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_144_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -455,10 +393,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_145_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_145_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_145_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -469,10 +405,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_11_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_147_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_147_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_147_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -483,10 +417,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_148_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_148_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_148_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -497,10 +429,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_12_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_146_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_146_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_146_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -511,10 +441,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_149_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_149_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_149_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -525,10 +453,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_13_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_150_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_150_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_150_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -539,10 +465,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_87_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_87_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_87_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -553,10 +477,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_14_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_152_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_152_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_152_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -567,10 +489,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_153_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_153_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_153_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -581,10 +501,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_15_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_1_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_1_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_1_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -595,10 +513,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_1_K2Node_ComponentBoundEvent_7
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_27_K2Node_ComponentBoundEvent_86_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_27_K2Node_ComponentBoundEvent_86_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_27_K2Node_ComponentBoundEvent_86_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -609,10 +525,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_27_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_138_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_138_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_138_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -623,10 +537,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_141_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_141_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_141_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -637,10 +549,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_29_K2Node_ComponentBoundEvent_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_2_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_2_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_2_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -651,10 +561,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_2_K2Node_ComponentBoundEvent_7
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_3_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_3_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_3_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -665,10 +573,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_3_K2Node_ComponentBoundEvent_7
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_151_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_151_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_151_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -679,10 +585,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_1
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_69_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_69_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_69_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -693,10 +597,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_4_K2Node_ComponentBoundEvent_6
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_5_K2Node_ComponentBoundEvent_67_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_5_K2Node_ComponentBoundEvent_67_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_5_K2Node_ComponentBoundEvent_67_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -707,10 +609,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_5_K2Node_ComponentBoundEvent_6
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_6_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_6_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_6_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -721,10 +621,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_6_K2Node_ComponentBoundEvent_8
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_7_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_7_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_7_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -735,10 +633,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_7_K2Node_ComponentBoundEvent_8
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_8_K2Node_ComponentBoundEvent_90_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_8_K2Node_ComponentBoundEvent_90_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_8_K2Node_ComponentBoundEvent_90_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -749,10 +645,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_8_K2Node_ComponentBoundEvent_9
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_139_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_139_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_139_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -763,10 +657,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_1
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_142_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_142_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_142_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -777,10 +669,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_9_K2Node_ComponentBoundEvent_1
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_Button_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_Button_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -791,10 +681,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_Button_K2Node_ComponentBoundEvent_71_
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_115_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_115_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialBrass_K2Node_ComponentBoundEvent_115_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -805,10 +693,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialBrass_K2Node_Compo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_116_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_116_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialBronze_K2Node_ComponentBoundEvent_116_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -819,10 +705,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialBronze_K2Node_Comp
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_114_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_114_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialCopper_K2Node_ComponentBoundEvent_114_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -833,10 +717,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialCopper_K2Node_Comp
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_113_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_113_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialGilded_K2Node_ComponentBoundEvent_113_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -847,10 +729,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialGilded_K2Node_Comp
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_117_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_117_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialGold_K2Node_ComponentBoundEvent_117_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -861,10 +741,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialGold_K2Node_Compon
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_112_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_112_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialIron_K2Node_ComponentBoundEvent_112_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -875,10 +753,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialIron_K2Node_Compon
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_111_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_111_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonMetalMaterialSteel_K2Node_ComponentBoundEvent_111_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -889,10 +765,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonMetalMaterialSteel_K2Node_Compo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGripDown_K2Node_ComponentBoundEvent_81_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleGripDown_K2Node_ComponentBoundEvent_81_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleGripDown_K2Node_ComponentBoundEvent_81_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -903,10 +777,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGripDown_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGripUp_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleGripUp_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleGripUp_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -917,10 +789,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGripUp_K2Node_ComponentBo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_82_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_82_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleGuardDown_K2Node_ComponentBoundEvent_82_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -931,10 +801,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGuardDown_K2Node_Componen
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleGuardUp_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -945,10 +813,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleGuardUp_K2Node_ComponentB
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleHeadDown_K2Node_ComponentBoundEvent_83_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleHeadDown_K2Node_ComponentBoundEvent_83_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleHeadDown_K2Node_ComponentBoundEvent_83_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -959,10 +825,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleHeadDown_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModuleHeadUp_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -973,10 +837,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModuleHeadUp_K2Node_ComponentBo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModulePommelDown_K2Node_ComponentBoundEvent_80_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModulePommelDown_K2Node_ComponentBoundEvent_80_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModulePommelDown_K2Node_ComponentBoundEvent_80_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -987,10 +849,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModulePommelDown_K2Node_Compone
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModulePommelUp_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonModulePommelUp_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonModulePommelUp_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1001,10 +861,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonModulePommelUp_K2Node_Component
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_84_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_84_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonSubModule1HeadUp_K2Node_ComponentBoundEvent_84_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1015,10 +873,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModule1HeadUp_K2Node_Compone
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_78_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_78_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonSubModule2HeadUp_K2Node_ComponentBoundEvent_78_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1029,10 +885,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModule2HeadUp_K2Node_Compone
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_85_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_85_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonSubModuleHead1Down_K2Node_ComponentBoundEvent_85_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1043,10 +897,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModuleHead1Down_K2Node_Compo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_79_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_79_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ButtonSubModuleHead2Down_K2Node_ComponentBoundEvent_79_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1057,10 +909,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ButtonSubModuleHead2Down_K2Node_Compo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_118_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_118_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_118_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1071,10 +921,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEv
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_91_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_91_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEvent_91_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1085,10 +933,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_1_K2Node_ComponentBoundEv
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_126_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_126_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_126_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1099,10 +945,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_99_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_99_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundEvent_99_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1113,10 +957,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_21_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_101_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_101_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_101_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1127,10 +969,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_128_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_128_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundEvent_128_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1141,10 +981,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_22_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_104_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_104_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_104_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1155,10 +993,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_131_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_131_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundEvent_131_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1169,10 +1005,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_23_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_107_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_107_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_107_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1183,10 +1017,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_134_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_134_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundEvent_134_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1197,10 +1029,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_24_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_109_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_109_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_109_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1211,10 +1041,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_136_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_136_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundEvent_136_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1225,10 +1053,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_25_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_119_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_119_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_119_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1239,10 +1065,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_92_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_92_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundEvent_92_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1253,10 +1077,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_26_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_120_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_120_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_120_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1267,10 +1089,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_93_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_93_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundEvent_93_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1281,10 +1101,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_27_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_121_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_121_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_121_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1295,10 +1113,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_94_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_94_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundEvent_94_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1309,10 +1125,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_28_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_122_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_122_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_122_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1323,10 +1137,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_95_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_95_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundEvent_95_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1337,10 +1149,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_29_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_124_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_124_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_124_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1351,10 +1161,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_97_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_97_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundEvent_97_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1365,10 +1173,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_30_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_125_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_125_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_125_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1379,10 +1185,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_98_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_98_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundEvent_98_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1393,10 +1197,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_31_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_100_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_100_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_100_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1407,10 +1209,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_127_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_127_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundEvent_127_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1421,10 +1221,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_32_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_102_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_102_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_102_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1435,10 +1233,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_129_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_129_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundEvent_129_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1449,10 +1245,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_33_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_103_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_103_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_103_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1463,10 +1257,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_130_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_130_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundEvent_130_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1477,10 +1269,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_34_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_105_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_105_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_105_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1491,10 +1281,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_132_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_132_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundEvent_132_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1505,10 +1293,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_35_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_106_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_106_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_106_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1519,10 +1305,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_133_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_133_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundEvent_133_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1533,10 +1317,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_36_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_108_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_108_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_108_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1547,10 +1329,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_135_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_135_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundEvent_135_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1561,10 +1341,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_37_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_110_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_110_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_110_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1575,10 +1353,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_137_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_137_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundEvent_137_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1589,10 +1365,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_38_K2Node_ComponentBoundE
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_123_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_123_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_123_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1603,10 +1377,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEven
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_96_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_96_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEvent_96_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1619,10 +1391,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Old_ColorSwatch_K2Node_ComponentBoundEven
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -1637,10 +1407,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_19_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_19_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_19_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1651,10 +1419,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_19_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_20_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_20_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_20_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1665,10 +1431,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_20_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_30_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_30_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_30_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1679,10 +1443,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_30_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_31_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_31_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_31_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1693,10 +1455,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_31_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_22_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_22_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_22_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1707,10 +1467,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_22_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_25_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_25_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_25_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1721,10 +1479,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_25_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_28_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_28_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_28_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1735,10 +1491,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_28_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_33_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_33_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_33_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1751,10 +1505,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_33_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_36_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_36_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_36_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_36_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -1769,10 +1521,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_1_K2Node_ComponentBoundEvent_36_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_23_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_23_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_23_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1783,10 +1533,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_23_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_26_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_26_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_26_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1797,10 +1545,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_26_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_29_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_29_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_29_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1811,10 +1557,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_29_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_34_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_34_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_34_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1827,10 +1571,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_34_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_37_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_37_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_37_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_37_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -1845,10 +1587,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_2_K2Node_ComponentBoundEvent_37_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_38_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_38_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_38_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1859,10 +1599,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_38_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_39_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_39_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_39_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1873,10 +1611,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_39_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_46_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_46_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_46_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1887,10 +1623,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_46_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_47_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_47_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_47_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1903,10 +1637,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_47_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_55_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_55_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_55_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_55_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -1921,10 +1653,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_3_K2Node_ComponentBoundEvent_55_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_40_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_40_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_40_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1935,10 +1665,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_40_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_41_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_41_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_41_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1949,10 +1677,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_41_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_48_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_48_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_48_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1963,10 +1689,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_48_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_49_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_49_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_49_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1979,10 +1703,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_49_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_54_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_54_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_54_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_54_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -1997,10 +1719,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_4_K2Node_ComponentBoundEvent_54_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_42_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_42_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_42_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2011,10 +1731,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_42_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_43_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_43_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_43_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2025,10 +1743,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_43_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_50_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_50_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_50_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2039,10 +1755,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_50_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_51_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_51_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_51_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2055,10 +1769,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_51_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_56_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_56_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_56_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_56_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -2073,10 +1785,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_5_K2Node_ComponentBoundEvent_56_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_44_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_44_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_44_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2087,10 +1797,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_44_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_45_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_45_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_45_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2101,10 +1809,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_45_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_52_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_52_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_52_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2115,10 +1821,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_52_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_53_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_53_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_53_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2131,10 +1835,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_53_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_57_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_57_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_57_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_57_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -2149,10 +1851,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_6_K2Node_ComponentBoundEvent_57_On
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_21_OnMouseCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_21_OnMouseCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_21_OnMouseCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2163,10 +1863,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_21_OnMo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_24_OnControllerCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_24_OnControllerCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_24_OnControllerCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2177,10 +1875,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_24_OnCo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_27_OnMouseCaptureEndEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_27_OnMouseCaptureEndEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_27_OnMouseCaptureEndEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2191,10 +1887,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_27_OnMo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_32_OnControllerCaptureBeginEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_32_OnControllerCaptureBeginEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_32_OnControllerCaptureBeginEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2207,10 +1901,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_32_OnCo
 
 void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_35_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_35_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_35_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_Forge_Old_C_BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_35_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -2225,10 +1917,8 @@ void UUI_Forge_Old_C::BndEvt__UI_Forge_Slider_K2Node_ComponentBoundEvent_35_OnFl
 
 void UUI_Forge_Old_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2241,10 +1931,8 @@ void UUI_Forge_Old_C::Construct()
 
 void UUI_Forge_Old_C::ExecuteUbergraph_UI_Forge_Old(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "ExecuteUbergraph_UI_Forge_Old");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Forge_Old_C", "ExecuteUbergraph_UI_Forge_Old", FuncInfo);
 
 	Params::UI_Forge_Old_C_ExecuteUbergraph_UI_Forge_Old Parms{};
 
@@ -2261,10 +1949,8 @@ void UUI_Forge_Old_C::ExecuteUbergraph_UI_Forge_Old(int32 EntryPoint)
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonGuardPommel_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonGuardPommel_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonGuardPommel_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonGuardPommel_Visibility Parms{};
 
@@ -2281,10 +1967,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonGuardPommel_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialBrass_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonMetalMaterialBrass_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonMetalMaterialBrass_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonMetalMaterialBrass_Visibility Parms{};
 
@@ -2301,10 +1985,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialBrass_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialBronze_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonMetalMaterialBronze_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonMetalMaterialBronze_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonMetalMaterialBronze_Visibility Parms{};
 
@@ -2321,10 +2003,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialBronze_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialCopper_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonMetalMaterialCopper_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonMetalMaterialCopper_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonMetalMaterialCopper_Visibility Parms{};
 
@@ -2341,10 +2021,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialCopper_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialGilded_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonMetalMaterialGilded_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonMetalMaterialGilded_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonMetalMaterialGilded_Visibility Parms{};
 
@@ -2361,10 +2039,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialGilded_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialGold_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_ButtonMetalMaterialGold_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ButtonMetalMaterialGold_Visibility", FnName));
 
 	Params::UI_Forge_Old_C_Get_ButtonMetalMaterialGold_Visibility Parms{};
 
@@ -2381,10 +2057,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_ButtonMetalMaterialGold_Visibility()
 
 ESlateVisibility UUI_Forge_Old_C::Get_VisibleIfPolearm()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Get_VisibleIfPolearm");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_VisibleIfPolearm", FnName));
 
 	Params::UI_Forge_Old_C_Get_VisibleIfPolearm Parms{};
 
@@ -2401,10 +2075,8 @@ ESlateVisibility UUI_Forge_Old_C::Get_VisibleIfPolearm()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity Parms{};
 
@@ -2421,10 +2093,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Brass()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Brass");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Brass", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Brass Parms{};
 
@@ -2441,10 +2111,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Brass()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Bronze()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Bronze");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Bronze", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Bronze Parms{};
 
@@ -2461,10 +2129,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Bronze()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Copper()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Copper");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Copper", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Copper Parms{};
 
@@ -2481,10 +2147,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Copper()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Current_Metal_Material_Indicator()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Current Metal Material Indicator");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Current Metal Material Indicator", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Current_Metal_Material_Indicator Parms{};
 
@@ -2501,10 +2165,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Current_Metal_Material_I
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Gilded()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Gilded");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Gilded", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Gilded Parms{};
 
@@ -2521,10 +2183,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Gilded()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Gold()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Gold");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Gold", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Gold Parms{};
 
@@ -2541,10 +2201,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Gold()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Iron()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Iron");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Iron", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Iron Parms{};
 
@@ -2561,10 +2219,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Iron()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Leather_Color()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Leather Color");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Leather Color", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Leather_Color Parms{};
 
@@ -2581,10 +2237,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Leather_Color()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Steel()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Steel");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Steel", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Steel Parms{};
 
@@ -2601,10 +2255,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Steel()
 
 struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Wood_Color()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity Wood Color");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity Wood Color", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_Wood_Color Parms{};
 
@@ -2621,10 +2273,8 @@ struct FLinearColor UUI_Forge_Old_C::GetColorAndOpacity_Wood_Color()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_0", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_0 Parms{};
 
@@ -2641,10 +2291,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_0()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_1", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_1 Parms{};
 
@@ -2661,10 +2309,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_1()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_2", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_2 Parms{};
 
@@ -2681,10 +2327,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_2()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_3", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_3 Parms{};
 
@@ -2701,10 +2345,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_3()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_4", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_4 Parms{};
 
@@ -2721,10 +2363,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_4()
 
 struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_5()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetColorAndOpacity_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorAndOpacity_5", FnName));
 
 	Params::UI_Forge_Old_C_GetColorAndOpacity_5 Parms{};
 
@@ -2741,10 +2381,8 @@ struct FSlateColor UUI_Forge_Old_C::GetColorAndOpacity_5()
 
 class FText UUI_Forge_Old_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Forge_Old_C_GetText Parms{};
 
@@ -2761,10 +2399,8 @@ class FText UUI_Forge_Old_C::GetText()
 
 class FText UUI_Forge_Old_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Forge_Old_C_GetText_0 Parms{};
 
@@ -2781,10 +2417,8 @@ class FText UUI_Forge_Old_C::GetText_0()
 
 class FText UUI_Forge_Old_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_Forge_Old_C_GetText_1 Parms{};
 
@@ -2801,10 +2435,8 @@ class FText UUI_Forge_Old_C::GetText_1()
 
 class FText UUI_Forge_Old_C::GetText_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetText_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_2", FnName));
 
 	Params::UI_Forge_Old_C_GetText_2 Parms{};
 
@@ -2821,10 +2453,8 @@ class FText UUI_Forge_Old_C::GetText_2()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_Choose_Metal_Material_DropDown()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility Choose Metal Material DropDown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility Choose Metal Material DropDown", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_Choose_Metal_Material_DropDown Parms{};
 
@@ -2841,10 +2471,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_Choose_Metal_Material_DropDown()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_If_Not_Picking_Colors()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility If Not Picking Colors");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility If Not Picking Colors", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_If_Not_Picking_Colors Parms{};
 
@@ -2861,10 +2489,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_If_Not_Picking_Colors()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_0 Parms{};
 
@@ -2881,10 +2507,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_0()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_1 Parms{};
 
@@ -2901,10 +2525,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_1()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_10()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_10", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_10 Parms{};
 
@@ -2921,10 +2543,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_10()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_11()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_11");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_11", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_11 Parms{};
 
@@ -2941,10 +2561,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_11()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_12()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_12");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_12", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_12 Parms{};
 
@@ -2961,10 +2579,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_12()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_13()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_13");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_13", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_13 Parms{};
 
@@ -2981,10 +2597,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_13()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_14()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_14");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_14", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_14 Parms{};
 
@@ -3001,10 +2615,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_14()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_15()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_15");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_15", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_15 Parms{};
 
@@ -3021,10 +2633,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_15()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_16()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_16");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_16", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_16 Parms{};
 
@@ -3041,10 +2651,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_16()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_17()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_17");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_17", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_17 Parms{};
 
@@ -3061,10 +2669,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_17()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_18()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_18");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_18", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_18 Parms{};
 
@@ -3081,10 +2687,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_18()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_19()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_19");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_19", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_19 Parms{};
 
@@ -3101,10 +2705,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_19()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_2 Parms{};
 
@@ -3121,10 +2723,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_2()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_20()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_20");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_20", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_20 Parms{};
 
@@ -3141,10 +2741,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_20()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_21()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_21");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_21", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_21 Parms{};
 
@@ -3161,10 +2759,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_21()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_22()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_22");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_22", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_22 Parms{};
 
@@ -3181,10 +2777,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_22()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_3", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_3 Parms{};
 
@@ -3201,10 +2795,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_3()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_4", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_4 Parms{};
 
@@ -3221,10 +2813,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_4()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_5()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_5", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_5 Parms{};
 
@@ -3241,10 +2831,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_5()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_6()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_6", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_6 Parms{};
 
@@ -3261,10 +2849,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_6()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_7()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_7", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_7 Parms{};
 
@@ -3281,10 +2867,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_7()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_8()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_8", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_8 Parms{};
 
@@ -3301,10 +2885,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_8()
 
 ESlateVisibility UUI_Forge_Old_C::GetVisibility_9()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_9", FnName));
 
 	Params::UI_Forge_Old_C_GetVisibility_9 Parms{};
 
@@ -3321,10 +2903,8 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_9()
 
 void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_2(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_2", FnName));
 
 	Params::UI_Forge_Old_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_2 Parms{};
 
@@ -3341,10 +2921,8 @@ void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_2(const str
 
 void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_3(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_3", FnName));
 
 	Params::UI_Forge_Old_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_3 Parms{};
 
@@ -3361,10 +2939,8 @@ void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_3(const str
 
 void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4", FnName));
 
 	Params::UI_Forge_Old_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4 Parms{};
 
@@ -3381,10 +2957,8 @@ void UUI_Forge_Old_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_4(const str
 
 void UUI_Forge_Old_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0", FnName));
 
 	Params::UI_Forge_Old_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0 Parms{};
 
@@ -3401,38 +2975,12 @@ void UUI_Forge_Old_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const st
 
 void UUI_Forge_Old_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1", FnName));
 
 	Params::UI_Forge_Old_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1 Parms{};
 
 	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_Forge_Old.UI_Forge_Old_C.NewFunction
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UClass*                           Class_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// double                                  Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Value1                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UUI_Forge_Old_C::NewFunction(class UClass* Class_0, double Value, double Value1)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "NewFunction");
-
-	Params::UI_Forge_Old_C_NewFunction Parms{};
-
-	Parms.Class_0 = Class_0;
-	Parms.Value = Value;
-	Parms.Value1 = Value1;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -3445,10 +2993,8 @@ void UUI_Forge_Old_C::NewFunction(class UClass* Class_0, double Value, double Va
 
 void UUI_Forge_Old_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Forge_Old_C_PreConstruct Parms{};
 
@@ -3465,14 +3011,34 @@ void UUI_Forge_Old_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Forge_Old_C::Refresh_Weapon_Event(bool Reset_Position)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Refresh Weapon Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Refresh Weapon Event", FnName));
 
 	Params::UI_Forge_Old_C_Refresh_Weapon_Event Parms{};
 
 	Parms.Reset_Position = Reset_Position;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Forge_Old.UI_Forge_Old_C.Set Up Module
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UClass*                           Class_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// double                                  Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Value1                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Forge_Old_C::Set_Up_Module(class UClass* Class_0, double Value, double Value1)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Module", FnName));
+
+	Params::UI_Forge_Old_C_Set_Up_Module Parms{};
+
+	Parms.Class_0 = Class_0;
+	Parms.Value = Value;
+	Parms.Value1 = Value1;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -3486,10 +3052,8 @@ void UUI_Forge_Old_C::Refresh_Weapon_Event(bool Reset_Position)
 
 void UUI_Forge_Old_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Forge_Old_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Forge_Old_C_Tick Parms{};
 

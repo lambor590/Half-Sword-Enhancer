@@ -20,9 +20,12 @@
 SDK_NAMESPACE_START
 
 // Class RigVM.RigVMGraphFunctionHost
-// 0x0000 (0x0000 - 0x0000)
-class IRigVMGraphFunctionHost final
+// 0x0008 (0x0008 - 0x0000)
+class IRigVMGraphFunctionHost
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -49,10 +52,9 @@ public:
 
 // Class RigVM.RigVMBlueprintGeneratedClass
 // 0x0028 (0x0388 - 0x0360)
-class URigVMBlueprintGeneratedClass : public UBlueprintGeneratedClass
+class URigVMBlueprintGeneratedClass : public UBlueprintGeneratedClass, public IRigVMGraphFunctionHost
 {
 public:
-	uint8                                         Pad_360[0x8];                                      // 0x0360(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRigVMGraphFunctionStore               GraphFunctionStore;                                // 0x0368(0x0020)(NativeAccessSpecifierPublic)
 
 public:
@@ -72,10 +74,9 @@ public:
 
 // Class RigVM.RigVMHost
 // 0x0250 (0x0278 - 0x0028)
-class URigVMHost : public UObject
+class URigVMHost : public UObject, public IInterface_AssetUserData
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRigVMRuntimeSettings                  VMRuntimeSettings;                                 // 0x0030(0x0018)(NativeAccessSpecifierPublic)
 	uint8                                         Pad_48[0x10];                                      // 0x0048(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class URigVM*                                 VM;                                                // 0x0058(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
@@ -130,6 +131,11 @@ public:
 	{
 		return GetDefaultObjImpl<URigVMHost>();
 	}
+
+public:
+	bool AddAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	class UAssetUserData* GetAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
+	bool HasAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass);
 };
 
 // Class RigVM.RigVMEditorSettings

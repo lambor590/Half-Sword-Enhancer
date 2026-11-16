@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Guard_B.Modular_PA_Guard_B_C
-// 0x0000 (0x0430 - 0x0430)
+// 0x0000 (0x0438 - 0x0438)
 class AModular_PA_Guard_B_C final : public AModular_PA_Guard_Master_C
 {
 public:

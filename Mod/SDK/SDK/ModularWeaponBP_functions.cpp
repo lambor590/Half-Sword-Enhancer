@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -55,10 +53,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundE
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Grip_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_Grip_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Grip_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_Grip_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -83,10 +79,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Grip_K2Node_ComponentBoundEvent
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Guard_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_Guard_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Guard_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_Guard_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -111,10 +105,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Guard_K2Node_ComponentBoundEven
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Head_SubModule_1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_Head SubModule 1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Head SubModule 1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_Head_SubModule_1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -139,10 +131,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Head_SubModule_1_K2Node_Compone
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Head_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_Head_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Head_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_Head_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -167,10 +157,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Head_K2Node_ComponentBoundEvent
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Pommel_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_Pommel_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Pommel_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_Pommel_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -195,10 +183,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_Pommel_K2Node_ComponentBoundEve
 
 void AModularWeaponBP_C::BndEvt__ModularWeaponBP_SubModule_2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "BndEvt__ModularWeaponBP_SubModule 2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_SubModule 2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_C_BndEvt__ModularWeaponBP_SubModule_2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -219,10 +205,8 @@ void AModularWeaponBP_C::BndEvt__ModularWeaponBP_SubModule_2_K2Node_ComponentBou
 
 void AModularWeaponBP_C::Clear_Stuck_Bone(class FName bone)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Clear Stuck Bone");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Clear Stuck Bone", FnName));
 
 	Params::ModularWeaponBP_C_Clear_Stuck_Bone Parms{};
 
@@ -242,10 +226,8 @@ void AModularWeaponBP_C::Clear_Stuck_Bone(class FName bone)
 
 void AModularWeaponBP_C::Collision_Hit(class UPrimitiveComponent* Hit_Component, class AActor* Other_Actor_0, const struct FVector& Normal_Impulse_0, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Collision Hit");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Collision Hit", FnName));
 
 	Params::ModularWeaponBP_C_Collision_Hit Parms{};
 
@@ -258,15 +240,73 @@ void AModularWeaponBP_C::Collision_Hit(class UPrimitiveComponent* Hit_Component,
 }
 
 
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Check Stuck In Static Mesh
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Check_Stuck_In_Static_Mesh()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Stuck In Static Mesh", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Force Reenable Static Mesh Collision
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Force_Reenable_Static_Mesh_Collision()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Force Reenable Static Mesh Collision", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Just Dropped
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Just_Dropped()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Just Dropped", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Just Picked Up
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Just_Picked_Up()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Just Picked Up", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function ModularWeaponBP.ModularWeaponBP_C.Event Reenable Last Parent Collision
 // (BlueprintCallable, BlueprintEvent)
 
 void AModularWeaponBP_C::Event_Reenable_Last_Parent_Collision()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reenable Last Parent Collision", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Event Reenable Last Parent Collision");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Remove Gifted Tag
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Remove_Gifted_Tag()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Remove Gifted Tag", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -279,10 +319,8 @@ void AModularWeaponBP_C::Event_Reenable_Last_Parent_Collision()
 
 void AModularWeaponBP_C::ExecuteUbergraph_ModularWeaponBP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "ExecuteUbergraph_ModularWeaponBP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_C", "ExecuteUbergraph_ModularWeaponBP", FuncInfo);
 
 	Params::ModularWeaponBP_C_ExecuteUbergraph_ModularWeaponBP Parms{};
 
@@ -297,10 +335,8 @@ void AModularWeaponBP_C::ExecuteUbergraph_ModularWeaponBP(int32 EntryPoint)
 
 void AModularWeaponBP_C::GGAGA()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "GGAGA");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GGAGA", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -311,10 +347,8 @@ void AModularWeaponBP_C::GGAGA()
 
 void AModularWeaponBP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -327,10 +361,8 @@ void AModularWeaponBP_C::ReceiveBeginPlay()
 
 void AModularWeaponBP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::ModularWeaponBP_C_ReceiveTick Parms{};
 
@@ -345,10 +377,8 @@ void AModularWeaponBP_C::ReceiveTick(float DeltaSeconds)
 
 void AModularWeaponBP_C::Refresh_Collisions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Refresh Collisions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Refresh Collisions", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -359,10 +389,8 @@ void AModularWeaponBP_C::Refresh_Collisions()
 
 void AModularWeaponBP_C::Release_All_Jammed_Bones()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Release All Jammed Bones");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release All Jammed Bones", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -373,10 +401,8 @@ void AModularWeaponBP_C::Release_All_Jammed_Bones()
 
 void AModularWeaponBP_C::ReSpawn_Weapon_Parts_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "ReSpawn Weapon Parts Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReSpawn Weapon Parts Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -395,10 +421,8 @@ void AModularWeaponBP_C::ReSpawn_Weapon_Parts_Event()
 
 void AModularWeaponBP_C::Set_Up_Module(class UStaticMeshComponent* Part, class USkeletalMeshComponent* Part_Sk, class AModular_Weapon_Part_Master_C* Spawned_Part, class USceneComponent* Socket, class AModular_Weapon_Part_Master_C* Sub_Module_1, class AModular_Weapon_Part_Master_C* Sub_Module_2, class UStaticMesh* Part_Static_Mesh)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Set Up Module");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Module", FnName));
 
 	Params::ModularWeaponBP_C_Set_Up_Module Parms{};
 
@@ -419,10 +443,8 @@ void AModularWeaponBP_C::Set_Up_Module(class UStaticMeshComponent* Part, class U
 
 void AModularWeaponBP_C::Set_Weapon_Damping_Drop()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Set Weapon Damping Drop");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Weapon Damping Drop", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -433,10 +455,8 @@ void AModularWeaponBP_C::Set_Weapon_Damping_Drop()
 
 void AModularWeaponBP_C::Set_Weapon_Damping_Pick_Up()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Set Weapon Damping Pick Up");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Weapon Damping Pick Up", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -447,10 +467,8 @@ void AModularWeaponBP_C::Set_Weapon_Damping_Pick_Up()
 
 void AModularWeaponBP_C::Sheathed_Mode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Sheathed Mode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sheathed Mode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -470,10 +488,8 @@ void AModularWeaponBP_C::Sheathed_Mode()
 
 class AModular_Weapon_Part_Master_C* AModularWeaponBP_C::Spawn_Module(const struct FVector& Scale, class UClass* InputPin, class UClass* Sub_Module_I, class UClass* Sub_Module_II, double Custom_Mass_Scale, class AModular_Weapon_Part_Master_C** Sub_Module_1, class AModular_Weapon_Part_Master_C** Sub_Module_2)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Spawn Module");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Module", FnName));
 
 	Params::ModularWeaponBP_C_Spawn_Module Parms{};
 
@@ -500,10 +516,8 @@ class AModular_Weapon_Part_Master_C* AModularWeaponBP_C::Spawn_Module(const stru
 
 void AModularWeaponBP_C::Temporary_Disable_Damage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Temporary Disable Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Temporary Disable Damage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -514,10 +528,8 @@ void AModularWeaponBP_C::Temporary_Disable_Damage()
 
 void AModularWeaponBP_C::Temporary_High_Collsion_Threshold()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Temporary High Collsion Threshold");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Temporary High Collsion Threshold", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -528,10 +540,8 @@ void AModularWeaponBP_C::Temporary_High_Collsion_Threshold()
 
 void AModularWeaponBP_C::Turn_Off_Collision()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Turn Off Collision");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn Off Collision", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -542,10 +552,8 @@ void AModularWeaponBP_C::Turn_Off_Collision()
 
 void AModularWeaponBP_C::Turn_On_Collision()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Turn On Collision");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn On Collision", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -556,10 +564,8 @@ void AModularWeaponBP_C::Turn_On_Collision()
 
 void AModularWeaponBP_C::Unsheathed_Mode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Unsheathed Mode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheathed Mode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -570,10 +576,8 @@ void AModularWeaponBP_C::Unsheathed_Mode()
 
 void AModularWeaponBP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -591,10 +595,8 @@ void AModularWeaponBP_C::UserConstructionScript()
 
 void AModularWeaponBP_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component, const struct FVector& Weapon_Velocity_0, const struct FHitResult& Hit_Result_0, double EdgeAllignment_Dot, bool Laser_temp_, class UClass* Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Weapon HIt");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Weapon HIt", FnName));
 
 	Params::ModularWeaponBP_C_Weapon_HIt Parms{};
 

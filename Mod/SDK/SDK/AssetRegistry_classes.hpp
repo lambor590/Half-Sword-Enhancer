@@ -52,9 +52,12 @@ public:
 };
 
 // Class AssetRegistry.AssetRegistry
-// 0x0000 (0x0000 - 0x0000)
-class IAssetRegistry final
+// 0x0008 (0x0008 - 0x0000)
+class IAssetRegistry
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void PrioritizeSearchPath(const class FString& PathToPrioritize);
 	void ScanFilesSynchronous(const TArray<class FString>& InFilePaths, bool bForceRescan);
@@ -111,10 +114,10 @@ public:
 
 // Class AssetRegistry.AssetRegistryImpl
 // 0x0E20 (0x0E48 - 0x0028)
-class UAssetRegistryImpl final : public UObject
+class UAssetRegistryImpl final : public UObject, public IAssetRegistry
 {
 public:
-	uint8                                         Pad_28[0xE20];                                     // 0x0028(0x0E20)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0xE18];                                     // 0x0030(0x0E18)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -129,6 +132,35 @@ public:
 	{
 		return GetDefaultObjImpl<UAssetRegistryImpl>();
 	}
+
+public:
+	void PrioritizeSearchPath(const class FString& PathToPrioritize);
+	void ScanFilesSynchronous(const TArray<class FString>& InFilePaths, bool bForceRescan);
+	void ScanModifiedAssetFiles(const TArray<class FString>& InFilePaths);
+	void ScanPathsSynchronous(const TArray<class FString>& InPaths, bool bForceRescan, bool bIgnoreDenyListScanFilters);
+	void SearchAllAssets(bool bSynchronousSearch);
+	void WaitForCompletion();
+	void WaitForPackage(const class FString& PackageName);
+	bool GetAllAssets(TArray<struct FAssetData>* OutAssetData, bool bIncludeOnlyOnDiskAssets) const;
+	void GetAllCachedPaths(TArray<class FString>* OutPathList) const;
+	bool GetAncestorClassNames(const struct FTopLevelAssetPath& ClassPathName, TArray<struct FTopLevelAssetPath>* OutAncestorClassNames) const;
+	struct FAssetData GetAssetByObjectPath(const class FName ObjectPath, bool bIncludeOnlyOnDiskAssets) const;
+	bool GetAssets(const struct FARFilter& Filter, TArray<struct FAssetData>* OutAssetData, bool bSkipARFilteredAssets) const;
+	bool GetAssetsByClass(const struct FTopLevelAssetPath& ClassPathName, TArray<struct FAssetData>* OutAssetData, bool bSearchSubClasses) const;
+	bool GetAssetsByPackageName(class FName PackageName, TArray<struct FAssetData>* OutAssetData, bool bIncludeOnlyOnDiskAssets, bool bSkipARFilteredAssets) const;
+	bool GetAssetsByPath(class FName PackagePath, TArray<struct FAssetData>* OutAssetData, bool bRecursive, bool bIncludeOnlyOnDiskAssets) const;
+	bool GetAssetsByPaths(const TArray<class FName>& PackagePaths, TArray<struct FAssetData>* OutAssetData, bool bRecursive, bool bIncludeOnlyOnDiskAssets) const;
+	void GetDerivedClassNames(const TArray<struct FTopLevelAssetPath>& ClassNames, const TSet<struct FTopLevelAssetPath>& ExcludedClassNames, TSet<struct FTopLevelAssetPath>* OutDerivedClassNames) const;
+	void GetSubPaths(const class FString& InBasePath, TArray<class FString>* OutPathList, bool bInRecurse) const;
+	bool HasAssets(const class FName PackagePath, const bool bRecursive) const;
+	bool IsLoadingAssets() const;
+	bool IsSearchAllAssets() const;
+	bool IsSearchAsync() const;
+	struct FAssetData K2_GetAssetByObjectPath(const struct FSoftObjectPath& ObjectPath, bool bIncludeOnlyOnDiskAssets, bool bSkipARFilteredAssets) const;
+	bool K2_GetDependencies(class FName PackageName, const struct FAssetRegistryDependencyOptions& DependencyOptions, TArray<class FName>* OutDependencies) const;
+	bool K2_GetReferencers(class FName PackageName, const struct FAssetRegistryDependencyOptions& ReferenceOptions, TArray<class FName>* OutReferencers) const;
+	void RunAssetsThroughFilter(TArray<struct FAssetData>& AssetDataList, const struct FARFilter& Filter) const;
+	void UseFilterToExcludeAssets(TArray<struct FAssetData>& AssetDataList, const struct FARFilter& Filter) const;
 };
 
 SDK_NAMESPACE_END

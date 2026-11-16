@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_Slums_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Map_Arena_Slums_C_ReceiveTick Parms{};
 
@@ -43,10 +41,8 @@ void AMap_Arena_Slums_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AMap_Arena_Slums_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveEndPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveEndPlay", FnName));
 
 	Params::Map_Arena_Slums_C_ReceiveEndPlay Parms{};
 
@@ -61,10 +57,8 @@ void AMap_Arena_Slums_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndP
 
 void AMap_Arena_Slums_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +71,8 @@ void AMap_Arena_Slums_C::ReceiveBeginPlay()
 
 void AMap_Arena_Slums_C::ExecuteUbergraph_Map_Arena_Slums(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ExecuteUbergraph_Map_Arena_Slums");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_Slums_C", "ExecuteUbergraph_Map_Arena_Slums", FuncInfo);
 
 	Params::Map_Arena_Slums_C_ExecuteUbergraph_Map_Arena_Slums Parms{};
 
@@ -98,10 +90,8 @@ void AMap_Arena_Slums_C::ExecuteUbergraph_Map_Arena_Slums(int32 EntryPoint)
 
 void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Map_Arena_Slums_C_BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -120,10 +110,8 @@ void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBou
 
 void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Map_Arena_Slums_C_BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
 

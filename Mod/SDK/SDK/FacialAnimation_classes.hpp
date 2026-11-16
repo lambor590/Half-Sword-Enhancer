@@ -17,7 +17,7 @@ SDK_NAMESPACE_START
 
 // Class FacialAnimation.AudioCurveSourceComponent
 // 0x0040 (0x0C50 - 0x0C10)
-class UAudioCurveSourceComponent final : public UAudioComponent
+class UAudioCurveSourceComponent final : public UAudioComponent, public ICurveSourceInterface
 {
 public:
 	class FName                                   CurveSourceBindingName;                            // 0x0C10(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -37,6 +37,11 @@ public:
 	{
 		return GetDefaultObjImpl<UAudioCurveSourceComponent>();
 	}
+
+public:
+	class FName GetBindingName() const;
+	void GetCurves(TArray<struct FNamedCurveValue>* OutValues) const;
+	float GetCurveValue(class FName CurveName) const;
 };
 
 SDK_NAMESPACE_END

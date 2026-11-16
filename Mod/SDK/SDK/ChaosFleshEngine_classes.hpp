@@ -22,10 +22,9 @@ SDK_NAMESPACE_START
 
 // Class ChaosFleshEngine.DeformablePhysicsComponent
 // 0x0010 (0x0530 - 0x0520)
-class UDeformablePhysicsComponent : public UPrimitiveComponent
+class UDeformablePhysicsComponent : public UPrimitiveComponent, public IDeformableInterface
 {
 public:
-	uint8                                         Pad_518[0x8];                                      // 0x0518(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDeformableSolverComponent*             PrimarySolverComponent;                            // 0x0520(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	uint8                                         Pad_528[0x8];                                      // 0x0528(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -77,10 +76,9 @@ public:
 
 // Class ChaosFleshEngine.DeformableSolverActor
 // 0x0018 (0x02A8 - 0x0290)
-class ADeformableSolverActor final : public AActor
+class ADeformableSolverActor final : public AActor, public IDeformableInterface
 {
 public:
-	uint8                                         Pad_290[0x8];                                      // 0x0290(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDeformableSolverComponent*             SolverComponent;                                   // 0x0298(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class UBillboardComponent*                    SpriteComponent;                                   // 0x02A0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 
@@ -101,10 +99,9 @@ public:
 
 // Class ChaosFleshEngine.DeformableSolverComponent
 // 0x00A0 (0x02D0 - 0x0230)
-class UDeformableSolverComponent final : public USceneComponent
+class UDeformableSolverComponent final : public USceneComponent, public IDeformableInterface
 {
 public:
-	uint8                                         Pad_230[0x8];                                      // 0x0230(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FConnectedObjectsGroup                 ConnectedObjects;                                  // 0x0238(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ContainsInstancedReference, NativeAccessSpecifierPublic)
 	struct FSolverTimingGroup                     SolverTiming;                                      // 0x0248(0x0014)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
 	struct FSolverEvolutionGroup                  SolverEvolution;                                   // 0x025C(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
@@ -181,10 +178,9 @@ public:
 
 // Class ChaosFleshEngine.DeformableCollisionsActor
 // 0x0028 (0x02B8 - 0x0290)
-class ADeformableCollisionsActor final : public AActor
+class ADeformableCollisionsActor final : public AActor, public IDeformableInterface
 {
 public:
-	uint8                                         Pad_290[0x8];                                      // 0x0290(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDeformableCollisionsComponent*         DeformableCollisionsComponent;                     // 0x0298(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class ADeformableSolverActor*                 PrimarySolver;                                     // 0x02A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<class AStaticMeshActor*>               StaticCollisions;                                  // 0x02A8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
@@ -267,10 +263,9 @@ public:
 
 // Class ChaosFleshEngine.FleshActor
 // 0x0018 (0x02A8 - 0x0290)
-class AFleshActor final : public AActor
+class AFleshActor final : public AActor, public IDeformableInterface
 {
 public:
-	uint8                                         Pad_290[0x8];                                      // 0x0290(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UFleshComponent*                        FleshComponent;                                    // 0x0298(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	class ADeformableSolverActor*                 PrimarySolver;                                     // 0x02A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 

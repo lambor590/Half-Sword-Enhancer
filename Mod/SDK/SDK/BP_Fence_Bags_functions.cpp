@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void ABP_Fence_Bags_C::BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Bags_C", "BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0_ComponentEndOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0_ComponentEndOverlapSignature__DelegateSignature", FnName));
 
 	Params::BP_Fence_Bags_C_BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0_ComponentEndOverlapSignature__DelegateSignature Parms{};
 
@@ -49,10 +47,8 @@ void ABP_Fence_Bags_C::BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0
 
 void ABP_Fence_Bags_C::ExecuteUbergraph_BP_Fence_Bags(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Bags_C", "ExecuteUbergraph_BP_Fence_Bags");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Fence_Bags_C", "ExecuteUbergraph_BP_Fence_Bags", FuncInfo);
 
 	Params::BP_Fence_Bags_C_ExecuteUbergraph_BP_Fence_Bags Parms{};
 
@@ -67,10 +63,8 @@ void ABP_Fence_Bags_C::ExecuteUbergraph_BP_Fence_Bags(int32 EntryPoint)
 
 void ABP_Fence_Bags_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Bags_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -81,10 +75,8 @@ void ABP_Fence_Bags_C::ReceiveBeginPlay()
 
 void ABP_Fence_Bags_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Fence_Bags_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Container_Master_C::Collision_Bug_Check_Event(class UPrimitiveComponent* Target)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "Collision Bug Check Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Collision Bug Check Event", FnName));
 
 	Params::BP_Container_Master_C_Collision_Bug_Check_Event Parms{};
 
@@ -44,10 +42,8 @@ void ABP_Container_Master_C::Collision_Bug_Check_Event(class UPrimitiveComponent
 
 void ABP_Container_Master_C::Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "Event Spawn Sound Detector");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Spawn Sound Detector", FnName));
 
 	Params::BP_Container_Master_C_Event_Spawn_Sound_Detector Parms{};
 
@@ -65,10 +61,8 @@ void ABP_Container_Master_C::Event_Spawn_Sound_Detector(double Sound_Volume, cla
 
 void ABP_Container_Master_C::ExecuteUbergraph_BP_Container_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "ExecuteUbergraph_BP_Container_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Container_Master_C", "ExecuteUbergraph_BP_Container_Master", FuncInfo);
 
 	Params::BP_Container_Master_C_ExecuteUbergraph_BP_Container_Master Parms{};
 
@@ -83,10 +77,8 @@ void ABP_Container_Master_C::ExecuteUbergraph_BP_Container_Master(int32 EntryPoi
 
 void ABP_Container_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -99,10 +91,8 @@ void ABP_Container_Master_C::ReceiveBeginPlay()
 
 void ABP_Container_Master_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Container_Master_C_ReceiveTick Parms{};
 
@@ -117,10 +107,8 @@ void ABP_Container_Master_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_Container_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

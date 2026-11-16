@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Data.BPI_Data_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_Data_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_Data_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void SendPhotoData(const struct FS_PhotosData& PhotoData);
 	void TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButtonPressed);

@@ -1669,9 +1669,12 @@ public:
 };
 
 // Class PCG.PCGGenSourceBase
-// 0x0000 (0x0000 - 0x0000)
-class IPCGGenSourceBase final
+// 0x0008 (0x0008 - 0x0000)
+class IPCGGenSourceBase
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -5732,10 +5735,9 @@ public:
 
 // Class PCG.PCGGenSourceComponent
 // 0x0008 (0x00A8 - 0x00A0)
-class UPCGGenSourceComponent final : public UActorComponent
+class UPCGGenSourceComponent final : public UActorComponent, public IPCGGenSourceBase
 {
 public:
-	uint8                                         Pad_A0[0x8];                                       // 0x00A0(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -5754,10 +5756,9 @@ public:
 
 // Class PCG.PCGGenSourceEditorCamera
 // 0x0008 (0x0030 - 0x0028)
-class UPCGGenSourceEditorCamera final : public UObject
+class UPCGGenSourceEditorCamera final : public UObject, public IPCGGenSourceBase
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -5776,10 +5777,10 @@ public:
 
 // Class PCG.PCGGenSourcePlayer
 // 0x0010 (0x0038 - 0x0028)
-class UPCGGenSourcePlayer final : public UObject
+class UPCGGenSourcePlayer final : public UObject, public IPCGGenSourceBase
 {
 public:
-	uint8                                         Pad_28[0x10];                                      // 0x0028(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -5798,10 +5799,10 @@ public:
 
 // Class PCG.PCGGenSourceWPStreamingSource
 // 0x0010 (0x0038 - 0x0028)
-class UPCGGenSourceWPStreamingSource final : public UObject
+class UPCGGenSourceWPStreamingSource final : public UObject, public IPCGGenSourceBase
 {
 public:
-	uint8                                         Pad_28[0x10];                                      // 0x0028(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()

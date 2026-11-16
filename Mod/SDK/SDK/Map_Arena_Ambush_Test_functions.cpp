@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_Ambush_Test_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Map_Arena_Ambush_Test_C_ReceiveTick Parms{};
 
@@ -43,10 +41,8 @@ void AMap_Arena_Ambush_Test_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AMap_Arena_Ambush_Test_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveEndPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveEndPlay", FnName));
 
 	Params::Map_Arena_Ambush_Test_C_ReceiveEndPlay Parms{};
 
@@ -61,10 +57,8 @@ void AMap_Arena_Ambush_Test_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_Recei
 
 void AMap_Arena_Ambush_Test_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +71,8 @@ void AMap_Arena_Ambush_Test_C::ReceiveBeginPlay()
 
 void AMap_Arena_Ambush_Test_C::ExecuteUbergraph_Map_Arena_Ambush_Test(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ExecuteUbergraph_Map_Arena_Ambush_Test");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_Ambush_Test_C", "ExecuteUbergraph_Map_Arena_Ambush_Test", FuncInfo);
 
 	Params::Map_Arena_Ambush_Test_C_ExecuteUbergraph_Map_Arena_Ambush_Test Parms{};
 

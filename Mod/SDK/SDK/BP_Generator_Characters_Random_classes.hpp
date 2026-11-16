@@ -13,12 +13,13 @@
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Medieval_Color_Swatches_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Steel_Type_structs.hpp"
-#include "Enum_Nationalities_structs.hpp"
-#include "SecondaryMetal_Type_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
+#include "Enum_Nationalities_structs.hpp"
+#include "Enum_Factions_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
+#include "Steel_Type_structs.hpp"
 #include "Enum_WeaponType_Specific_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
@@ -37,11 +38,11 @@ public:
 	struct FStr_Medieval_Color_Swatches           Colors;                                            // 0x02A8(0x0028)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	double                                        Equipment_Budget;                                  // 0x02D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	bool                                          Champion;                                          // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          Champion;                                          // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_Generator_Characters_Random(int32 EntryPoint);
-	void Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Ranks Tier, bool Is_Mercenary, bool Ignore_Budget, struct FStr_Passport_Character1* Character_Passport);
+	void Generate_Character(class UClass* Actor_Class, Enum_Nationalities Nationality, Enum_Factions Faction, Enum_Ranks Tier, bool Is_Mercenary, bool Ignore_Budget, bool Black_Knight, bool Boss, bool Is_Champion, struct FStr_Passport_Character1* Character_Passport);
 	void ReceiveBeginPlay();
 
 public:

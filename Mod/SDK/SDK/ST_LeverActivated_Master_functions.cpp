@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AST_LeverActivated_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AST_LeverActivated_Master_C::ReceiveBeginPlay()
 
 void AST_LeverActivated_Master_C::ExecuteUbergraph_ST_LeverActivated_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Master_C", "ExecuteUbergraph_ST_LeverActivated_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ST_LeverActivated_Master_C", "ExecuteUbergraph_ST_LeverActivated_Master", FuncInfo);
 
 	Params::ST_LeverActivated_Master_C_ExecuteUbergraph_ST_LeverActivated_Master Parms{};
 
@@ -55,10 +51,8 @@ void AST_LeverActivated_Master_C::ExecuteUbergraph_ST_LeverActivated_Master(int3
 
 void AST_LeverActivated_Master_C::Activate_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Master_C", "Activate Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Activate Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

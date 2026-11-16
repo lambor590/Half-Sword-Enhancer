@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Messer_Hilt_F.Weapon_Module_Messer_Hilt_F_C
-// 0x0000 (0x05F8 - 0x05F8)
+// 0x0000 (0x0600 - 0x0600)
 class AWeapon_Module_Messer_Hilt_F_C final : public AWeapon_Module_Messer_Hilt_Master_C
 {
 public:

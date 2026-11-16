@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void IBPI_UltraVolumetricsInteraction_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Trail");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Trail", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Trail Parms{};
 
@@ -43,10 +41,8 @@ void IBPI_UltraVolumetricsInteraction_C::Trail(class UTextureRenderTarget2D* RT_
 
 void IBPI_UltraVolumetricsInteraction_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "RT-Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"RT-Paint", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_RT_Paint Parms{};
 
@@ -66,10 +62,8 @@ void IBPI_UltraVolumetricsInteraction_C::RT_Paint(class UTextureRenderTarget2D* 
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile9", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile9 Parms{};
 
@@ -92,10 +86,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile9(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile8", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile8 Parms{};
 
@@ -118,10 +110,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile8(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile7", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile7 Parms{};
 
@@ -144,10 +134,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile7(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile6", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile6 Parms{};
 
@@ -170,10 +158,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile6(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile5", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile5 Parms{};
 
@@ -196,10 +182,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile5(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile4", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile4 Parms{};
 
@@ -222,10 +206,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile4(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile3", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile3 Parms{};
 
@@ -248,10 +230,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile3(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile2", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile2 Parms{};
 
@@ -274,10 +254,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile2(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile10", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile10 Parms{};
 
@@ -300,10 +278,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile10(const struct FVector& Star
 
 void IBPI_UltraVolumetricsInteraction_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Projectile1", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Projectile1 Parms{};
 
@@ -323,10 +299,8 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile1(const struct FVector& Start
 
 void IBPI_UltraVolumetricsInteraction_C::PaintResult(class UTexture2D* PaintTex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "PaintResult");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintResult", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_PaintResult Parms{};
 
@@ -343,10 +317,8 @@ void IBPI_UltraVolumetricsInteraction_C::PaintResult(class UTexture2D* PaintTex)
 
 void IBPI_UltraVolumetricsInteraction_C::Line3dWidth(double Width)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dWidth");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Line3dWidth", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Line3dWidth Parms{};
 
@@ -364,10 +336,8 @@ void IBPI_UltraVolumetricsInteraction_C::Line3dWidth(double Width)
 
 void IBPI_UltraVolumetricsInteraction_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dLocations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Line3dLocations", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Line3dLocations Parms{};
 
@@ -386,10 +356,8 @@ void IBPI_UltraVolumetricsInteraction_C::Line3dLocations(const struct FVector& S
 
 void IBPI_UltraVolumetricsInteraction_C::Grenade(const struct FVector& Location, double Radius)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Grenade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Grenade", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Grenade Parms{};
 
@@ -407,10 +375,8 @@ void IBPI_UltraVolumetricsInteraction_C::Grenade(const struct FVector& Location,
 
 void IBPI_UltraVolumetricsInteraction_C::Flashlight_Strength(double Strength)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight-Strength");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Flashlight-Strength", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Flashlight_Strength Parms{};
 
@@ -429,10 +395,8 @@ void IBPI_UltraVolumetricsInteraction_C::Flashlight_Strength(double Strength)
 
 void IBPI_UltraVolumetricsInteraction_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Flashlight", FnName));
 
 	Params::BPI_UltraVolumetricsInteraction_C_Flashlight Parms{};
 

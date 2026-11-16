@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Haft_High_Tier_Avg.Weapon_Part_Hafted_Haft_High_Tier_Avg_C
-// 0x0000 (0x05F8 - 0x05F8)
+// 0x0000 (0x0600 - 0x0600)
 class AWeapon_Part_Hafted_Haft_High_Tier_Avg_C final : public AModular_Weapon_Hafted_Haft_Master_C
 {
 public:

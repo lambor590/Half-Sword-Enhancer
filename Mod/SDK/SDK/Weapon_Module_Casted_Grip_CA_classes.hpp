@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Casted_Grip_CA.Weapon_Module_Casted_Grip_CA_C
-// 0x0000 (0x05F8 - 0x05F8)
+// 0x0000 (0x0600 - 0x0600)
 class AWeapon_Module_Casted_Grip_CA_C final : public AWeapon_Module_Casted_Grip_Master_C
 {
 public:

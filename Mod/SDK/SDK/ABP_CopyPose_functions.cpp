@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UABP_CopyPose_C::AnimGraph(struct FPoseLink* AnimGraph_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CopyPose_C", "AnimGraph");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AnimGraph", FnName));
 
 	Params::ABP_CopyPose_C_AnimGraph Parms{};
 
@@ -42,10 +40,8 @@ void UABP_CopyPose_C::AnimGraph(struct FPoseLink* AnimGraph_0)
 
 void UABP_CopyPose_C::BlueprintBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CopyPose_C", "BlueprintBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -56,10 +52,8 @@ void UABP_CopyPose_C::BlueprintBeginPlay()
 
 void UABP_CopyPose_C::BlueprintInitializeAnimation()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CopyPose_C", "BlueprintInitializeAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintInitializeAnimation", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -72,10 +66,8 @@ void UABP_CopyPose_C::BlueprintInitializeAnimation()
 
 void UABP_CopyPose_C::BlueprintUpdateAnimation(float DeltaTimeX)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CopyPose_C", "BlueprintUpdateAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BlueprintUpdateAnimation", FnName));
 
 	Params::ABP_CopyPose_C_BlueprintUpdateAnimation Parms{};
 
@@ -92,10 +84,8 @@ void UABP_CopyPose_C::BlueprintUpdateAnimation(float DeltaTimeX)
 
 void UABP_CopyPose_C::ExecuteUbergraph_ABP_CopyPose(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CopyPose_C", "ExecuteUbergraph_ABP_CopyPose");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ABP_CopyPose_C", "ExecuteUbergraph_ABP_CopyPose", FuncInfo);
 
 	Params::ABP_CopyPose_C_ExecuteUbergraph_ABP_CopyPose Parms{};
 

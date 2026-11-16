@@ -970,10 +970,8 @@ class UNiagaraSystem* UNiagaraBaselineController::GetSystem()
 
 void UNiagaraBaselineController::OnBeginTest()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraBaselineController", "OnBeginTest");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnBeginTest", FnName));
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -991,10 +989,8 @@ void UNiagaraBaselineController::OnBeginTest()
 
 void UNiagaraBaselineController::OnEndTest(const struct FNiagaraPerfBaselineStats& Stats)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraBaselineController", "OnEndTest");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnEndTest", FnName));
 
 	Params::NiagaraBaselineController_OnEndTest Parms{};
 
@@ -1016,10 +1012,8 @@ void UNiagaraBaselineController::OnEndTest(const struct FNiagaraPerfBaselineStat
 
 void UNiagaraBaselineController::OnOwnerTick(float DeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraBaselineController", "OnOwnerTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnOwnerTick", FnName));
 
 	Params::NiagaraBaselineController_OnOwnerTick Parms{};
 
@@ -1041,10 +1035,8 @@ void UNiagaraBaselineController::OnOwnerTick(float DeltaTime)
 
 bool UNiagaraBaselineController::OnTickTest()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraBaselineController", "OnTickTest");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnTickTest", FnName));
 
 	Params::NiagaraBaselineController_OnTickTest Parms{};
 
@@ -1509,10 +1501,8 @@ void UNiagaraParameterCollectionInstance::SetVectorParameter(const class FString
 
 void UNiagaraPreviewAxis::ApplyToPreview(class UNiagaraComponent* PreviewComponent, int32 PreviewIndex, bool bIsXAxis, class FString* OutLabelText)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraPreviewAxis", "ApplyToPreview");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ApplyToPreview", FnName));
 
 	Params::NiagaraPreviewAxis_ApplyToPreview Parms{};
 
@@ -1539,10 +1529,8 @@ void UNiagaraPreviewAxis::ApplyToPreview(class UNiagaraComponent* PreviewCompone
 
 int32 UNiagaraPreviewAxis::Num()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraPreviewAxis", "Num");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Num", FnName));
 
 	Params::NiagaraPreviewAxis_Num Parms{};
 
@@ -1584,10 +1572,8 @@ void UNiagaraScript::RaiseOnGPUCompilationComplete()
 
 void ANiagaraPreviewBase::SetLabelText(const class FText& InXAxisText, const class FText& InYAxisText)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraPreviewBase", "SetLabelText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetLabelText", FnName));
 
 	Params::NiagaraPreviewBase_SetLabelText Parms{};
 
@@ -1605,10 +1591,8 @@ void ANiagaraPreviewBase::SetLabelText(const class FText& InXAxisText, const cla
 
 void ANiagaraPreviewBase::SetSystem(class UNiagaraSystem* InSystem)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("NiagaraPreviewBase", "SetSystem");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetSystem", FnName));
 
 	Params::NiagaraPreviewBase_SetSystem Parms{};
 
@@ -5597,10 +5581,8 @@ void UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVectorValue(class
 
 void INiagaraParticleCallbackHandler::ReceiveParticleData(const TArray<struct FBasicParticleData>& Data, class UNiagaraSystem* NiagaraSystem, const struct FVector& SimulationPositionOffset)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("NiagaraParticleCallbackHandler", "ReceiveParticleData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"ReceiveParticleData", FnName));
 
 	Params::NiagaraParticleCallbackHandler_ReceiveParticleData Parms{};
 
@@ -6500,6 +6482,52 @@ class UNiagaraComponent* UNiagaraFunctionLibrary::SpawnSystemAttachedWithParams(
 	Func->FunctionFlags |= 0x400;
 
 	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.CameraLensEffectInterface.GetParticleComponents
+// (RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// TArray<class UFXSystemComponent*>       ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+TArray<class UFXSystemComponent*> ANiagaraLensEffectBase::GetParticleComponents() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetParticleComponents", FnName));
+
+	Params::CameraLensEffectInterface_GetParticleComponents Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.CameraLensEffectInterface.GetPrimaryParticleComponent
+// (RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// class UFXSystemComponent*               ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UFXSystemComponent* ANiagaraLensEffectBase::GetPrimaryParticleComponent() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPrimaryParticleComponent", FnName));
+
+	Params::CameraLensEffectInterface_GetPrimaryParticleComponent Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 

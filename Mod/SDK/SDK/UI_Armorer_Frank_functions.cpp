@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UUI_Armorer_Frank_C::Add_Armor_to_List(const struct FStr_Passport_Armor1& InputPin, bool Is_Equipped)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Add Armor to List");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Armor to List", FnName));
 
 	Params::UI_Armorer_Frank_C_Add_Armor_to_List Parms{};
 
@@ -46,10 +44,8 @@ void UUI_Armorer_Frank_C::Add_Armor_to_List(const struct FStr_Passport_Armor1& I
 
 void UUI_Armorer_Frank_C::AnimateFilterButton(class UButton* FilterButton, bool IsHovered_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "AnimateFilterButton");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AnimateFilterButton", FnName));
 
 	Params::UI_Armorer_Frank_C_AnimateFilterButton Parms{};
 
@@ -67,10 +63,8 @@ void UUI_Armorer_Frank_C::AnimateFilterButton(class UButton* FilterButton, bool 
 
 class FText UUI_Armorer_Frank_C::Attachment1_GetName()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment1_GetName");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attachment1_GetName", FnName));
 
 	Params::UI_Armorer_Frank_C_Attachment1_GetName Parms{};
 
@@ -87,10 +81,8 @@ class FText UUI_Armorer_Frank_C::Attachment1_GetName()
 
 class FText UUI_Armorer_Frank_C::Attachment2_GetName()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment2_GetName");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attachment2_GetName", FnName));
 
 	Params::UI_Armorer_Frank_C_Attachment2_GetName Parms{};
 
@@ -107,10 +99,8 @@ class FText UUI_Armorer_Frank_C::Attachment2_GetName()
 
 class FText UUI_Armorer_Frank_C::Attachment3_GetName()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Attachment3_GetName");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attachment3_GetName", FnName));
 
 	Params::UI_Armorer_Frank_C_Attachment3_GetName Parms{};
 
@@ -127,10 +117,8 @@ class FText UUI_Armorer_Frank_C::Attachment3_GetName()
 
 class FText UUI_Armorer_Frank_C::AttachmentCore_GetName()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "AttachmentCore_GetName");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AttachmentCore_GetName", FnName));
 
 	Params::UI_Armorer_Frank_C_AttachmentCore_GetName Parms{};
 
@@ -145,10 +133,8 @@ class FText UUI_Armorer_Frank_C::AttachmentCore_GetName()
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -159,10 +145,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -173,10 +157,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -187,10 +169,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_BevorFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -201,10 +181,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -215,10 +193,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_0_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -229,10 +205,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -243,10 +217,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_1_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -257,10 +229,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -271,10 +241,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_2_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -285,10 +253,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -299,10 +265,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_3_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -313,10 +277,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -327,10 +289,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_4_K2Node_ComponentBoun
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -341,10 +301,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundE
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -355,10 +313,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Button_K2Node_ComponentBoundE
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -369,10 +325,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -383,10 +337,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -400,10 +352,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_CuirassFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_0_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -422,10 +372,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Nod
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_13_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_13_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_13_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Armorer_Frank_C_BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Node_ComponentBoundEvent_13_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -441,10 +389,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_Customizable_Items_List_K2Nod
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -455,10 +401,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_46_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -469,10 +413,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -483,10 +425,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_GauntletFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -497,10 +437,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_Compo
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -511,10 +449,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_Compo
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -525,10 +461,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_HelmetFilter_Btn_K2Node_Compo
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -539,10 +473,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_Compone
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_42_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -553,10 +485,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_Compone
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_ComponentBoundEvent_43_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -567,10 +497,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_LegsFilter_Btn_K2Node_Compone
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -581,10 +509,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_Component
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -595,10 +521,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_Component
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -609,10 +533,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_NoFilter_Btn_K2Node_Component
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -623,10 +545,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -637,10 +557,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -651,10 +569,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_PauldronFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -665,10 +581,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_44_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -679,10 +593,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_ComponentBoundEvent_45_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -693,10 +605,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SabatonFilter_Btn_K2Node_Comp
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -707,10 +617,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectCustomizePanel_Btn_K2No
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -721,10 +629,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_SelectUpgradePanel_Btn_K2Node
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -735,10 +641,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_40_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -749,10 +653,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_ComponentBoundEvent_41_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -763,10 +665,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_VambraceFilter_Btn_K2Node_Com
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_21_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -777,10 +677,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -791,10 +689,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -807,10 +703,8 @@ void UUI_Armorer_Frank_C::BndEvt__UI_Armorer_Frank_WaistFilter_Btn_K2Node_Compon
 
 void UUI_Armorer_Frank_C::ExecuteUbergraph_UI_Armorer_Frank(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "ExecuteUbergraph_UI_Armorer_Frank");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Armorer_Frank_C", "ExecuteUbergraph_UI_Armorer_Frank", FuncInfo);
 
 	Params::UI_Armorer_Frank_C_ExecuteUbergraph_UI_Armorer_Frank Parms{};
 
@@ -825,10 +719,8 @@ void UUI_Armorer_Frank_C::ExecuteUbergraph_UI_Armorer_Frank(int32 EntryPoint)
 
 void UUI_Armorer_Frank_C::FillItemsList()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "FillItemsList");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FillItemsList", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -841,10 +733,8 @@ void UUI_Armorer_Frank_C::FillItemsList()
 
 void UUI_Armorer_Frank_C::FillSwatchesOfType(ESwatch_Type Type)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "FillSwatchesOfType");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FillSwatchesOfType", FnName));
 
 	Params::UI_Armorer_Frank_C_FillSwatchesOfType Parms{};
 
@@ -861,10 +751,8 @@ void UUI_Armorer_Frank_C::FillSwatchesOfType(ESwatch_Type Type)
 
 ESlateVisibility UUI_Armorer_Frank_C::Get_ArmorClassIcon_Img_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_ArmorClassIcon_Img_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_ArmorClassIcon_Img_Visibility", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_ArmorClassIcon_Img_Visibility Parms{};
 
@@ -881,10 +769,8 @@ ESlateVisibility UUI_Armorer_Frank_C::Get_ArmorClassIcon_Img_Visibility()
 
 bool UUI_Armorer_Frank_C::Get_Attachment1_Btn_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment1_Btn_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Attachment1_Btn_bIsEnabled", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_Attachment1_Btn_bIsEnabled Parms{};
 
@@ -901,10 +787,8 @@ bool UUI_Armorer_Frank_C::Get_Attachment1_Btn_bIsEnabled()
 
 bool UUI_Armorer_Frank_C::Get_Attachment2_Btn_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment2_Btn_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Attachment2_Btn_bIsEnabled", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_Attachment2_Btn_bIsEnabled Parms{};
 
@@ -921,10 +805,8 @@ bool UUI_Armorer_Frank_C::Get_Attachment2_Btn_bIsEnabled()
 
 bool UUI_Armorer_Frank_C::Get_Attachment3_Btn_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Attachment3_Btn_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Attachment3_Btn_bIsEnabled", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_Attachment3_Btn_bIsEnabled Parms{};
 
@@ -941,10 +823,8 @@ bool UUI_Armorer_Frank_C::Get_Attachment3_Btn_bIsEnabled()
 
 bool UUI_Armorer_Frank_C::Get_Core_Btn_bIsEnabled()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_Core_Btn_bIsEnabled");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Core_Btn_bIsEnabled", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_Core_Btn_bIsEnabled Parms{};
 
@@ -961,10 +841,8 @@ bool UUI_Armorer_Frank_C::Get_Core_Btn_bIsEnabled()
 
 class FText UUI_Armorer_Frank_C::Get_PlayerMoney_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Get_PlayerMoney_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_PlayerMoney_Text", FnName));
 
 	Params::UI_Armorer_Frank_C_Get_PlayerMoney_Text Parms{};
 
@@ -981,10 +859,8 @@ class FText UUI_Armorer_Frank_C::Get_PlayerMoney_Text()
 
 ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetCheckedState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState", FnName));
 
 	Params::UI_Armorer_Frank_C_GetCheckedState Parms{};
 
@@ -1001,10 +877,8 @@ ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState()
 
 ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetCheckedState_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_0", FnName));
 
 	Params::UI_Armorer_Frank_C_GetCheckedState_0 Parms{};
 
@@ -1021,10 +895,8 @@ ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_0()
 
 ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetCheckedState_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_1", FnName));
 
 	Params::UI_Armorer_Frank_C_GetCheckedState_1 Parms{};
 
@@ -1041,10 +913,8 @@ ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_1()
 
 ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetCheckedState_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState_2", FnName));
 
 	Params::UI_Armorer_Frank_C_GetCheckedState_2 Parms{};
 
@@ -1061,10 +931,8 @@ ECheckBoxState UUI_Armorer_Frank_C::GetCheckedState_2()
 
 class FText UUI_Armorer_Frank_C::GetMoneyCostText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetMoneyCostText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetMoneyCostText", FnName));
 
 	Params::UI_Armorer_Frank_C_GetMoneyCostText Parms{};
 
@@ -1081,10 +949,8 @@ class FText UUI_Armorer_Frank_C::GetMoneyCostText()
 
 class FText UUI_Armorer_Frank_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Armorer_Frank_C_GetText Parms{};
 
@@ -1101,10 +967,8 @@ class FText UUI_Armorer_Frank_C::GetText()
 
 class FText UUI_Armorer_Frank_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Armorer_Frank_C_GetText_0 Parms{};
 
@@ -1121,10 +985,8 @@ class FText UUI_Armorer_Frank_C::GetText_0()
 
 class FText UUI_Armorer_Frank_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_Armorer_Frank_C_GetText_1 Parms{};
 
@@ -1141,10 +1003,8 @@ class FText UUI_Armorer_Frank_C::GetText_1()
 
 class FText UUI_Armorer_Frank_C::GetText_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_2", FnName));
 
 	Params::UI_Armorer_Frank_C_GetText_2 Parms{};
 
@@ -1161,10 +1021,8 @@ class FText UUI_Armorer_Frank_C::GetText_2()
 
 class FText UUI_Armorer_Frank_C::GetText_7()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetText_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_7", FnName));
 
 	Params::UI_Armorer_Frank_C_GetText_7 Parms{};
 
@@ -1181,10 +1039,8 @@ class FText UUI_Armorer_Frank_C::GetText_7()
 
 ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Armorer_Frank_C_GetVisibility_0 Parms{};
 
@@ -1201,10 +1057,8 @@ ESlateVisibility UUI_Armorer_Frank_C::GetVisibility_0()
 
 void UUI_Armorer_Frank_C::OnItemSelected(class UBP_GameItem_Armor_C* SelectedArmor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnItemSelected");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnItemSelected", FnName));
 
 	Params::UI_Armorer_Frank_C_OnItemSelected Parms{};
 
@@ -1219,10 +1073,8 @@ void UUI_Armorer_Frank_C::OnItemSelected(class UBP_GameItem_Armor_C* SelectedArm
 
 void UUI_Armorer_Frank_C::OnSwatchesClick()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnSwatchesClick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnSwatchesClick", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1238,10 +1090,8 @@ void UUI_Armorer_Frank_C::OnSwatchesClick()
 
 void UUI_Armorer_Frank_C::OnSwatchesHover(const struct FLinearColor& NewColor, ESwatch_Type SwatchType, ESteel_Type SteelType, ESecondaryMetal_Type SecondaryMetalType)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "OnSwatchesHover");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnSwatchesHover", FnName));
 
 	Params::UI_Armorer_Frank_C_OnSwatchesHover Parms{};
 
@@ -1261,10 +1111,8 @@ void UUI_Armorer_Frank_C::OnSwatchesHover(const struct FLinearColor& NewColor, E
 
 void UUI_Armorer_Frank_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Armorer_Frank_C_PreConstruct Parms{};
 
@@ -1279,10 +1127,8 @@ void UUI_Armorer_Frank_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Armorer_Frank_C::RefreshSelectedSwatches()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "RefreshSelectedSwatches");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RefreshSelectedSwatches", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1296,10 +1142,8 @@ void UUI_Armorer_Frank_C::RefreshSelectedSwatches()
 
 void UUI_Armorer_Frank_C::Set_Up_List_Item(class UObject* Item, class UObject* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "Set Up List Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up List Item", FnName));
 
 	Params::UI_Armorer_Frank_C_Set_Up_List_Item Parms{};
 
@@ -1315,10 +1159,8 @@ void UUI_Armorer_Frank_C::Set_Up_List_Item(class UObject* Item, class UObject* W
 
 void UUI_Armorer_Frank_C::SetAttachmentButtonVisibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "SetAttachmentButtonVisibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetAttachmentButtonVisibility", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1331,10 +1173,8 @@ void UUI_Armorer_Frank_C::SetAttachmentButtonVisibility()
 
 void UUI_Armorer_Frank_C::SetItemsFilter(TArray<EArmorSlots_Enum>& PressedFilterType)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "SetItemsFilter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetItemsFilter", FnName));
 
 	Params::UI_Armorer_Frank_C_SetItemsFilter Parms{};
 
@@ -1351,10 +1191,8 @@ void UUI_Armorer_Frank_C::SetItemsFilter(TArray<EArmorSlots_Enum>& PressedFilter
 
 void UUI_Armorer_Frank_C::UnsetItemsFilter()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "UnsetItemsFilter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UnsetItemsFilter", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1365,10 +1203,8 @@ void UUI_Armorer_Frank_C::UnsetItemsFilter()
 
 void UUI_Armorer_Frank_C::UpdateMoneyCost()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Armorer_Frank_C", "UpdateMoneyCost");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateMoneyCost", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

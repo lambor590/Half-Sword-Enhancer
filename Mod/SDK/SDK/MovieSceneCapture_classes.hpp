@@ -159,9 +159,12 @@ public:
 };
 
 // Class MovieSceneCapture.MovieSceneCaptureInterface
-// 0x0000 (0x0000 - 0x0000)
-class IMovieSceneCaptureInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IMovieSceneCaptureInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -336,10 +339,10 @@ public:
 
 // Class MovieSceneCapture.MovieSceneCapture
 // 0x0210 (0x0238 - 0x0028)
-class UMovieSceneCapture : public UObject
+class UMovieSceneCapture : public UObject, public IMovieSceneCaptureInterface
 {
 public:
-	uint8                                         Pad_28[0x10];                                      // 0x0028(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FSoftClassPath                         ImageCaptureProtocolType;                          // 0x0038(0x0020)(Edit, ZeroConstructor, Config, NoClear, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FSoftClassPath                         AudioCaptureProtocolType;                          // 0x0058(0x0020)(Edit, ZeroConstructor, Config, NoClear, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UMovieSceneImageCaptureProtocolBase*    ImageCaptureProtocol;                              // 0x0078(0x0008)(Edit, ExportObject, ZeroConstructor, Transient, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)

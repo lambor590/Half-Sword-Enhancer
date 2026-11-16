@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
+#include "Weapon_Slots_Enum_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "LeftRight_Enum_structs.hpp"
 #include "UMG_structs.hpp"
 #include "InputCore_structs.hpp"
-#include "Weapon_Slots_Enum_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -151,8 +151,7 @@ public:
 	struct FEventReply                            ReturnValue;                                       // 0x0078(0x00B8)(Parm, OutParm, ReturnParm)
 	struct FKey                                   CallFunc_GetKey_ReturnValue;                       // 0x0130(0x0018)(HasGetValueTypeHash)
 	bool                                          CallFunc_EqualEqual_KeyKey_ReturnValue;            // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0149(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14A[0x6];                                      // 0x014A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_149[0x7];                                      // 0x0149(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FEventReply                            CallFunc_Handled_ReturnValue;                      // 0x0150(0x00B8)()
 };
 

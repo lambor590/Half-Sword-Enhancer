@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::BndEvt__UI_Widget_ArmorCustom
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::BndEvt__UI_Widget_ArmorCustom
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnEntryReleased()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "BP_OnEntryReleased");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnEntryReleased", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnEntryReleased()
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnItemExpansionChanged(bool bIsExpanded)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "BP_OnItemExpansionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemExpansionChanged", FnName));
 
 	Params::UI_Widget_ArmorCustomization_SelectedIcon_C_BP_OnItemExpansionChanged Parms{};
 
@@ -85,10 +77,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnItemExpansionChanged(boo
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnItemSelectionChanged(bool bIsSelected)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "BP_OnItemSelectionChanged");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BP_OnItemSelectionChanged", FnName));
 
 	Params::UI_Widget_ArmorCustomization_SelectedIcon_C_BP_OnItemSelectionChanged Parms{};
 
@@ -103,10 +93,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::BP_OnItemSelectionChanged(boo
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +107,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::Construct()
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::ExecuteUbergraph_UI_Widget_ArmorCustomization_SelectedIcon(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "ExecuteUbergraph_UI_Widget_ArmorCustomization_SelectedIcon");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Widget_ArmorCustomization_SelectedIcon_C", "ExecuteUbergraph_UI_Widget_ArmorCustomization_SelectedIcon", FuncInfo);
 
 	Params::UI_Widget_ArmorCustomization_SelectedIcon_C_ExecuteUbergraph_UI_Widget_ArmorCustomization_SelectedIcon Parms{};
 
@@ -137,10 +123,8 @@ void UUI_Widget_ArmorCustomization_SelectedIcon_C::ExecuteUbergraph_UI_Widget_Ar
 
 void UUI_Widget_ArmorCustomization_SelectedIcon_C::Initialize()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_ArmorCustomization_SelectedIcon_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

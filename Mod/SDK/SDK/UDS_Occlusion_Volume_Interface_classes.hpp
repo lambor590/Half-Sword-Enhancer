@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass UDS_Occlusion_Volume_Interface.UDS_Occlusion_Volume_Interface_C
-// 0x0000 (0x0000 - 0x0000)
-class IUDS_Occlusion_Volume_Interface_C final
+// 0x0008 (0x0008 - 0x0000)
+class IUDS_Occlusion_Volume_Interface_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Get_Occlusion_Result(bool Weather, bool* Occluded);
 

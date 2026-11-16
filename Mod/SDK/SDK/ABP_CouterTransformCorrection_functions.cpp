@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UABP_CouterTransformCorrection_C::AnimGraph(const struct FPoseLink& InPose, struct FPoseLink* AnimGraph_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CouterTransformCorrection_C", "AnimGraph");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AnimGraph", FnName));
 
 	Params::ABP_CouterTransformCorrection_C_AnimGraph Parms{};
 
@@ -47,10 +45,8 @@ void UABP_CouterTransformCorrection_C::AnimGraph(const struct FPoseLink& InPose,
 
 void UABP_CouterTransformCorrection_C::ExecuteUbergraph_ABP_CouterTransformCorrection(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ABP_CouterTransformCorrection_C", "ExecuteUbergraph_ABP_CouterTransformCorrection");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ABP_CouterTransformCorrection_C", "ExecuteUbergraph_ABP_CouterTransformCorrection", FuncInfo);
 
 	Params::ABP_CouterTransformCorrection_C_ExecuteUbergraph_ABP_CouterTransformCorrection Parms{};
 

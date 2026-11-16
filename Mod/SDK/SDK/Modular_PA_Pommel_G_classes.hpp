@@ -16,11 +16,11 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Pommel_G.Modular_PA_Pommel_G_C
-// 0x0008 (0x0438 - 0x0430)
+// 0x0008 (0x0440 - 0x0438)
 class AModular_PA_Pommel_G_C final : public AModular_PA_Pommel_Master_C
 {
 public:
-	class USceneComponent*                        Tip1;                                              // 0x0430(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0438(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	static class UClass* StaticClass()

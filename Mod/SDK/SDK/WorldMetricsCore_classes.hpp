@@ -64,9 +64,12 @@ public:
 };
 
 // Class WorldMetricsCore.WorldMetricsActorTrackerSubscriber
-// 0x0000 (0x0000 - 0x0000)
-class IWorldMetricsActorTrackerSubscriber final
+// 0x0008 (0x0008 - 0x0000)
+class IWorldMetricsActorTrackerSubscriber
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Structure_Board_Destructible_1X3M.BP_Structure_Board_Destructible_1X3M_C
-// 0x0000 (0x02E0 - 0x02E0)
+// 0x0000 (0x02F8 - 0x02F8)
 class ABP_Structure_Board_Destructible_1X3M_C final : public ABP_Structure_Plank_Destructible_Master_C
 {
 public:

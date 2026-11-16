@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Button_K2Node_Compone
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_23_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -52,10 +48,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Button_K2Node_Compone
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item_0, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -71,10 +65,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Inventory_Player_Items_List_K2N
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -85,10 +77,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -99,10 +89,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_0_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -113,10 +101,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -127,10 +113,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_1_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -141,10 +125,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -155,10 +137,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_2_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -169,10 +149,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -183,10 +161,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_3_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -197,10 +173,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -213,10 +187,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Button_4_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_CheckBox_K2Node_ComponentBoundEvent_12_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_CheckBox_K2Node_ComponentBoundEvent_12_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_CheckBox_K2Node_ComponentBoundEvent_12_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_BndEvt__UI_Tavern_Mercenaries_CheckBox_K2Node_ComponentBoundEvent_12_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -233,10 +205,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_CheckBox_K2Node_Com
 
 void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Player_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "BndEvt__UI_Tavern_Mercenaries_Player_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Tavern_Mercenaries_Player_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_BndEvt__UI_Tavern_Mercenaries_Player_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature Parms{};
 
@@ -251,10 +221,8 @@ void UUI_Tavern_Mercenaries_C::BndEvt__UI_Tavern_Mercenaries_Player_Items_List_K
 
 void UUI_Tavern_Mercenaries_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -265,10 +233,8 @@ void UUI_Tavern_Mercenaries_C::Construct()
 
 void UUI_Tavern_Mercenaries_C::ED_Check_Arming_Points_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "ED Check Arming Points_Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ED Check Arming Points_Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -279,10 +245,8 @@ void UUI_Tavern_Mercenaries_C::ED_Check_Arming_Points_Event()
 
 void UUI_Tavern_Mercenaries_C::Event_Setup_DressUp_Darling()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Event Setup DressUp Darling");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Setup DressUp Darling", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -295,10 +259,8 @@ void UUI_Tavern_Mercenaries_C::Event_Setup_DressUp_Darling()
 
 void UUI_Tavern_Mercenaries_C::ExecuteUbergraph_UI_Tavern_Mercenaries(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "ExecuteUbergraph_UI_Tavern_Mercenaries");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Tavern_Mercenaries_C", "ExecuteUbergraph_UI_Tavern_Mercenaries", FuncInfo);
 
 	Params::UI_Tavern_Mercenaries_C_ExecuteUbergraph_UI_Tavern_Mercenaries Parms{};
 
@@ -311,14 +273,12 @@ void UUI_Tavern_Mercenaries_C::ExecuteUbergraph_UI_Tavern_Mercenaries(int32 Entr
 // Function UI_Tavern_Mercenaries.UI_Tavern_Mercenaries_C.Get Player Character
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FStr_Passport_Character1         ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash)
+// struct FStr_Passport_Character1         ReturnValue                                            (Parm, OutParm, ReturnParm, ContainsInstancedReference, HasGetValueTypeHash)
 
 struct FStr_Passport_Character1 UUI_Tavern_Mercenaries_C::Get_Player_Character()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get Player Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Player Character", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Player_Character Parms{};
 
@@ -335,10 +295,8 @@ struct FStr_Passport_Character1 UUI_Tavern_Mercenaries_C::Get_Player_Character()
 
 const struct FStr_Inventory UUI_Tavern_Mercenaries_C::Get_Player_Inventory()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get Player Inventory");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Player Inventory", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Player_Inventory Parms{};
 
@@ -355,10 +313,8 @@ const struct FStr_Inventory UUI_Tavern_Mercenaries_C::Get_Player_Inventory()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Bevor_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Bevor_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Bevor_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Bevor_Visibility Parms{};
 
@@ -375,10 +331,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Bevor_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Coif_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Coif_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Coif_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Coif_Visibility Parms{};
 
@@ -395,10 +349,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Coif_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Cuirass_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Cuirass_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Cuirass_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Cuirass_Visibility Parms{};
 
@@ -415,10 +367,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Cuirass_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Cuisse_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Cuisse_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Cuisse_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Cuisse_Visibility Parms{};
 
@@ -435,10 +385,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Cuisse_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Doublet_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Doublet_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Doublet_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Doublet_Visibility Parms{};
 
@@ -455,10 +403,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Doublet_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Fould_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Fould_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Fould_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Fould_Visibility Parms{};
 
@@ -475,10 +421,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Fould_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Gauntlet_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Gauntlet_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Gauntlet_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Gauntlet_Visibility Parms{};
 
@@ -495,10 +439,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Gauntlet_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Greave_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Greave_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Greave_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Greave_Visibility Parms{};
 
@@ -515,10 +457,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Greave_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hauberk_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Hauberk_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Hauberk_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Hauberk_Visibility Parms{};
 
@@ -535,10 +475,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hauberk_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Helmet_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Helmet_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Helmet_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Helmet_Visibility Parms{};
 
@@ -555,10 +493,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Helmet_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hood_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Hood_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Hood_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Hood_Visibility Parms{};
 
@@ -575,10 +511,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hood_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hosen_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Hosen_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Hosen_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Hosen_Visibility Parms{};
 
@@ -595,10 +529,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Hosen_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Overcoat_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Overcoat_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Overcoat_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Overcoat_Visibility Parms{};
 
@@ -615,10 +547,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Overcoat_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Shoe_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Shoe_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Shoe_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Shoe_Visibility Parms{};
 
@@ -635,10 +565,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Shoe_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Spaulder_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Spaulder_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Spaulder_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Spaulder_Visibility Parms{};
 
@@ -655,10 +583,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Spaulder_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Standart_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Standart_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Standart_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Standart_Visibility Parms{};
 
@@ -675,10 +601,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Standart_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Vambrace_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_Vambrace_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_Vambrace_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_Vambrace_Visibility Parms{};
 
@@ -695,10 +619,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_Vambrace_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponL_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_WeaponL_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_WeaponL_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_WeaponL_Visibility Parms{};
 
@@ -715,10 +637,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponL_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponR_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_WeaponR_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_WeaponR_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_WeaponR_Visibility Parms{};
 
@@ -735,10 +655,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponR_Visibility()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedL2_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_WeaponSheathedL2_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_WeaponSheathedL2_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_WeaponSheathedL2_Visibility Parms{};
 
@@ -755,10 +673,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedL2_Visibilit
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedR1_1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_WeaponSheathedR1_1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_WeaponSheathedR1_1_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_WeaponSheathedR1_1_Visibility Parms{};
 
@@ -775,10 +691,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedR1_1_Visibil
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedR1_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Get_Button_WeaponSheathedR1_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Button_WeaponSheathedR1_Visibility", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Get_Button_WeaponSheathedR1_Visibility Parms{};
 
@@ -795,10 +709,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::Get_Button_WeaponSheathedR1_Visibilit
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush Parms{};
 
@@ -815,10 +727,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_0", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_0 Parms{};
 
@@ -835,10 +745,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_0()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_1", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_1 Parms{};
 
@@ -855,10 +763,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_1()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_2", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_2 Parms{};
 
@@ -875,10 +781,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_2()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_3", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_3 Parms{};
 
@@ -895,10 +799,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_3()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_4", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_4 Parms{};
 
@@ -915,10 +817,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_4()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_5()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_5", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_5 Parms{};
 
@@ -935,10 +835,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_5()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_6()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_6", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_6 Parms{};
 
@@ -955,10 +853,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_6()
 
 struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_7()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetBrush_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush_7", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetBrush_7 Parms{};
 
@@ -975,10 +871,8 @@ struct FSlateBrush UUI_Tavern_Mercenaries_C::GetBrush_7()
 
 ECheckBoxState UUI_Tavern_Mercenaries_C::GetCheckedState()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetCheckedState");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCheckedState", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetCheckedState Parms{};
 
@@ -995,10 +889,8 @@ ECheckBoxState UUI_Tavern_Mercenaries_C::GetCheckedState()
 
 class FText UUI_Tavern_Mercenaries_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetText Parms{};
 
@@ -1015,10 +907,8 @@ class FText UUI_Tavern_Mercenaries_C::GetText()
 
 class FText UUI_Tavern_Mercenaries_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetText_0 Parms{};
 
@@ -1035,10 +925,8 @@ class FText UUI_Tavern_Mercenaries_C::GetText_0()
 
 class FText UUI_Tavern_Mercenaries_C::GetText_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetText_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_1", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetText_1 Parms{};
 
@@ -1055,10 +943,8 @@ class FText UUI_Tavern_Mercenaries_C::GetText_1()
 
 float UUI_Tavern_Mercenaries_C::GetValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetValue Parms{};
 
@@ -1075,10 +961,8 @@ float UUI_Tavern_Mercenaries_C::GetValue()
 
 float UUI_Tavern_Mercenaries_C::GetValue_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetValue_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_0", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetValue_0 Parms{};
 
@@ -1095,10 +979,8 @@ float UUI_Tavern_Mercenaries_C::GetValue_0()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_0 Parms{};
 
@@ -1115,10 +997,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_0()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_1 Parms{};
 
@@ -1135,10 +1015,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_1()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_2 Parms{};
 
@@ -1155,10 +1033,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_2()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_3", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_3 Parms{};
 
@@ -1175,10 +1051,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_3()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_4", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_4 Parms{};
 
@@ -1195,10 +1069,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_4()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_5()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_5", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_5 Parms{};
 
@@ -1215,10 +1087,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_5()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_6()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_6", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_6 Parms{};
 
@@ -1235,10 +1105,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_6()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_7()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_7", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_7 Parms{};
 
@@ -1255,10 +1123,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_7()
 
 ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_8()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "GetVisibility_8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_8", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_GetVisibility_8 Parms{};
 
@@ -1275,10 +1141,8 @@ ESlateVisibility UUI_Tavern_Mercenaries_C::GetVisibility_8()
 
 void UUI_Tavern_Mercenaries_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_PreConstruct Parms{};
 
@@ -1295,10 +1159,8 @@ void UUI_Tavern_Mercenaries_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Tavern_Mercenaries_C::Remove_Armor_From_Slot(const EArmorSlots_Enum Slot_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Remove Armor From Slot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Remove Armor From Slot", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Remove_Armor_From_Slot Parms{};
 
@@ -1313,10 +1175,8 @@ void UUI_Tavern_Mercenaries_C::Remove_Armor_From_Slot(const EArmorSlots_Enum Slo
 
 void UUI_Tavern_Mercenaries_C::Reset_Character_to_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Reset Character to 0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Character to 0", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1330,10 +1190,8 @@ void UUI_Tavern_Mercenaries_C::Reset_Character_to_0()
 
 void UUI_Tavern_Mercenaries_C::Set_Up_Trader_Item(class UObject* Item_0, class UObject* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tavern_Mercenaries_C", "Set Up Trader Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Trader Item", FnName));
 
 	Params::UI_Tavern_Mercenaries_C_Set_Up_Trader_Item Parms{};
 

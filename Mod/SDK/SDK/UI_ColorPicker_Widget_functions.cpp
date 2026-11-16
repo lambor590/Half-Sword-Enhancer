@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEventSynth2D__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEventSynth2D__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEventSynth2D__DelegateSignature", FnName));
 
 	Params::UI_ColorPicker_Widget_C_BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_0_OnFloatValueChangedEventSynth2D__DelegateSignature Parms{};
 
@@ -43,10 +41,8 @@ void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K
 
 void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEventSynth2D__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEventSynth2D__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEventSynth2D__DelegateSignature", FnName));
 
 	Params::UI_ColorPicker_Widget_C_BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEventSynth2D__DelegateSignature Parms{};
 
@@ -61,10 +57,8 @@ void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K
 
 void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_2_OnMouseCaptureEndEventSynth2D__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_2_OnMouseCaptureEndEventSynth2D__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K2Node_ComponentBoundEvent_2_OnMouseCaptureEndEventSynth2D__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +71,8 @@ void UUI_ColorPicker_Widget_C::BndEvt__UI_ColorPicker_Widget_Synth2DSlider_201_K
 
 void UUI_ColorPicker_Widget_C::ExecuteUbergraph_UI_ColorPicker_Widget(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "ExecuteUbergraph_UI_ColorPicker_Widget");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_ColorPicker_Widget_C", "ExecuteUbergraph_UI_ColorPicker_Widget", FuncInfo);
 
 	Params::UI_ColorPicker_Widget_C_ExecuteUbergraph_UI_ColorPicker_Widget Parms{};
 
@@ -97,10 +89,8 @@ void UUI_ColorPicker_Widget_C::ExecuteUbergraph_UI_ColorPicker_Widget(int32 Entr
 
 void UUI_ColorPicker_Widget_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_ColorPicker_Widget_C_PreConstruct Parms{};
 
@@ -117,10 +107,8 @@ void UUI_ColorPicker_Widget_C::PreConstruct(bool IsDesignTime)
 
 void UUI_ColorPicker_Widget_C::Set_New_Value_Event(const struct FVector2D& New_Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "Set New Value Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set New Value Event", FnName));
 
 	Params::UI_ColorPicker_Widget_C_Set_New_Value_Event Parms{};
 
@@ -138,10 +126,8 @@ void UUI_ColorPicker_Widget_C::Set_New_Value_Event(const struct FVector2D& New_V
 
 void UUI_ColorPicker_Widget_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_ColorPicker_Widget_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_ColorPicker_Widget_C_Tick Parms{};
 

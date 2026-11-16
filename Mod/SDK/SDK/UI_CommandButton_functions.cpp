@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_CommandButton_C::BndEvt__Button_K2Node_ComponentBoundEvent_1_OnButtonPressedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "BndEvt__Button_K2Node_ComponentBoundEvent_1_OnButtonPressedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Button_K2Node_ComponentBoundEvent_1_OnButtonPressedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_CommandButton_C::BndEvt__Button_K2Node_ComponentBoundEvent_1_OnButtonPr
 
 void UUI_CommandButton_C::ExecuteUbergraph_UI_CommandButton(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "ExecuteUbergraph_UI_CommandButton");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_CommandButton_C", "ExecuteUbergraph_UI_CommandButton", FuncInfo);
 
 	Params::UI_CommandButton_C_ExecuteUbergraph_UI_CommandButton Parms{};
 
@@ -58,10 +54,8 @@ void UUI_CommandButton_C::ExecuteUbergraph_UI_CommandButton(int32 EntryPoint)
 
 void UUI_CommandButton_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "OnMouseEnter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseEnter", FnName));
 
 	Params::UI_CommandButton_C_OnMouseEnter Parms{};
 
@@ -79,10 +73,8 @@ void UUI_CommandButton_C::OnMouseEnter(const struct FGeometry& MyGeometry, const
 
 void UUI_CommandButton_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "OnMouseLeave");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseLeave", FnName));
 
 	Params::UI_CommandButton_C_OnMouseLeave Parms{};
 
@@ -99,10 +91,8 @@ void UUI_CommandButton_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 
 void UUI_CommandButton_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_CommandButton_C_PreConstruct Parms{};
 
@@ -119,10 +109,8 @@ void UUI_CommandButton_C::PreConstruct(bool IsDesignTime)
 
 void UUI_CommandButton_C::UpdateIconByIndex(int32 Index_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "UpdateIconByIndex");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateIconByIndex", FnName));
 
 	Params::UI_CommandButton_C_UpdateIconByIndex Parms{};
 
@@ -139,10 +127,8 @@ void UUI_CommandButton_C::UpdateIconByIndex(int32 Index_0)
 
 void UUI_CommandButton_C::UpdateIconDT(const struct FDataTableRowHandle& IconDT_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_CommandButton_C", "UpdateIconDT");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateIconDT", FnName));
 
 	Params::UI_CommandButton_C_UpdateIconDT Parms{};
 

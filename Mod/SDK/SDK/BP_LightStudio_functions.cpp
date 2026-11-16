@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_LightStudio_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_LightStudio_C::UserConstructionScript()
 
 void ABP_LightStudio_C::SunMobility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "SunMobility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SunMobility", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void ABP_LightStudio_C::SunMobility()
 
 void ABP_LightStudio_C::NormalizedSunAngle(double* Angle)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "NormalizedSunAngle");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NormalizedSunAngle", FnName));
 
 	Params::BP_LightStudio_C_NormalizedSunAngle Parms{};
 
@@ -70,10 +64,8 @@ void ABP_LightStudio_C::NormalizedSunAngle(double* Angle)
 
 void ABP_LightStudio_C::CalculateSunColor()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "CalculateSunColor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CalculateSunColor", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -84,10 +76,8 @@ void ABP_LightStudio_C::CalculateSunColor()
 
 void ABP_LightStudio_C::AtmosphereDensity()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "AtmosphereDensity");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AtmosphereDensity", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

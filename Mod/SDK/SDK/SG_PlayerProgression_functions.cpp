@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void USG_PlayerProgression_C::ExecuteUbergraph_SG_PlayerProgression(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("SG_PlayerProgression_C", "ExecuteUbergraph_SG_PlayerProgression");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "SG_PlayerProgression_C", "ExecuteUbergraph_SG_PlayerProgression", FuncInfo);
 
 	Params::SG_PlayerProgression_C_ExecuteUbergraph_SG_PlayerProgression Parms{};
 
@@ -43,10 +41,8 @@ void USG_PlayerProgression_C::ExecuteUbergraph_SG_PlayerProgression(int32 EntryP
 
 void USG_PlayerProgression_C::Save_Rank_Equipment_Event(const struct FStr_Loadout_Equipment& Saved_Equipment_Struct)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("SG_PlayerProgression_C", "Save Rank Equipment Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Rank Equipment Event", FnName));
 
 	Params::SG_PlayerProgression_C_Save_Rank_Equipment_Event Parms{};
 

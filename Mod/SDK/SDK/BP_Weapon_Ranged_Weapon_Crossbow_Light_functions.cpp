@@ -16,29 +16,91 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_L_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_L_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_L_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_L_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_R_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_R_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_R_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_BndEvt__BP_Weapon_Ranged_Weapon_Crossbow_Light_CM_Test_Shoulder_R_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.BndEvt__BP_Weapon_Ranged_Weapon_Pistol_CM_Test_Stock_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::BndEvt__BP_Weapon_Ranged_Weapon_Pistol_CM_Test_Stock_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_Weapon_Ranged_Weapon_Pistol_CM_Test_Stock_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_BndEvt__BP_Weapon_Ranged_Weapon_Pistol_CM_Test_Stock_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Add Bolt
 // (BlueprintCallable, BlueprintEvent)
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Add_Bolt()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Add Bolt");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Add Bolt From Hand
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Add_Bolt_From_Hand()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Add Bolt From Hand");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Add Bolt", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -46,13 +108,29 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Add_Bolt_From_Hand()
 
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Load Bolt
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class ABP_Weapon_Ranged_Projectle_Master_C*Loaded_Ammo_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_Bolt()
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_Bolt(class ABP_Weapon_Ranged_Projectle_Master_C* Loaded_Ammo_0)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Load Bolt", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Load Bolt");
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Event_Load_Bolt Parms{};
+
+	Parms.Loaded_Ammo_0 = Loaded_Ammo_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Load String
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_String()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Load String", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +141,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_Bolt()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Make_Bolt_Temporily_Undetachable()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Make Bolt Temporily Undetachable");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Make Bolt Temporily Undetachable", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,24 +153,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Make_Bolt_Temporily_Undeta
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Quiver_Minus_Bolt()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Quiver Minus Bolt");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Return Bolt to Quiver
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Return_Bolt_to_Quiver()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Return Bolt to Quiver");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Quiver Minus Bolt", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +165,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Return_Bolt_to_Quiver()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Shoot()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Shoot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Shoot", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -121,10 +179,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Shoot()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Spawn_Sound_Detector(double Sound)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Spawn Sound Detector");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Spawn Sound Detector", FnName));
 
 	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Event_Spawn_Sound_Detector Parms{};
 
@@ -139,10 +195,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Spawn_Sound_Detector(doubl
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_String_Grabbed()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event String Grabbed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event String Grabbed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -153,10 +207,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_String_Grabbed()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_String_Released()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event String Released");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event String Released", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -169,10 +221,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_String_Released()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Crossbow_Light(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Crossbow_Light");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Crossbow_Light", FuncInfo);
 
 	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Crossbow_Light Parms{};
 
@@ -182,37 +232,34 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ExecuteUbergraph_BP_Weapon_Range
 }
 
 
-// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Forget Loaded Bolt
-// (BlueprintCallable, BlueprintEvent)
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Unload Bolt
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class ABP_Weapon_Ranged_Projectle_Master_C**bolt                                                   (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Forget_Loaded_Bolt()
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Unload_Bolt(class ABP_Weapon_Ranged_Projectle_Master_C** bolt)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unload Bolt", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Forget Loaded Bolt");
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Unload_Bolt Parms{};
 
-	UObject::ProcessEvent(Func, nullptr);
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (bolt != nullptr)
+		*bolt = Parms.bolt;
 }
 
 
-// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Release Bolt Representation
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector2D&                 NewParam                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Unload String
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation(const struct FVector2D& NewParam)
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Unload_String()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unload String", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Release Bolt Representation");
-
-	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Release_Bolt_Representation Parms{};
-
-	Parms.NewParam = std::move(NewParam);
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -221,10 +268,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation(cons
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -237,10 +282,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveBeginPlay()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_ReceiveTick Parms{};
 
@@ -255,10 +298,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveTick(float DeltaSeconds)
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Set_Weapon_Damping_Pick_Up()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Set Weapon Damping Pick Up");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Weapon Damping Pick Up", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -269,10 +310,8 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Set_Weapon_Damping_Pick_Up()
 
 void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

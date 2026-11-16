@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AST_LeverActivated_Child_C::ExecuteUbergraph_ST_LeverActivated_Child(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Child_C", "ExecuteUbergraph_ST_LeverActivated_Child");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ST_LeverActivated_Child_C", "ExecuteUbergraph_ST_LeverActivated_Child", FuncInfo);
 
 	Params::ST_LeverActivated_Child_C_ExecuteUbergraph_ST_LeverActivated_Child Parms{};
 
@@ -41,10 +39,8 @@ void AST_LeverActivated_Child_C::ExecuteUbergraph_ST_LeverActivated_Child(int32 
 
 void AST_LeverActivated_Child_C::Activate_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Child_C", "Activate Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Activate Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

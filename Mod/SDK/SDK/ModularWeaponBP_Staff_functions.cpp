@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Staff_C::BndEvt__ModularWeaponBP_Axe_Grip_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Staff_C", "BndEvt__ModularWeaponBP_Axe_Grip_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ModularWeaponBP_Axe_Grip_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::ModularWeaponBP_Staff_C_BndEvt__ModularWeaponBP_Axe_Grip_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AModularWeaponBP_Staff_C::BndEvt__ModularWeaponBP_Axe_Grip_K2Node_Component
 
 void AModularWeaponBP_Staff_C::ExecuteUbergraph_ModularWeaponBP_Staff(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Staff_C", "ExecuteUbergraph_ModularWeaponBP_Staff");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Staff_C", "ExecuteUbergraph_ModularWeaponBP_Staff", FuncInfo);
 
 	Params::ModularWeaponBP_Staff_C_ExecuteUbergraph_ModularWeaponBP_Staff Parms{};
 
@@ -69,10 +65,8 @@ void AModularWeaponBP_Staff_C::ExecuteUbergraph_ModularWeaponBP_Staff(int32 Entr
 
 void AModularWeaponBP_Staff_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Staff_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

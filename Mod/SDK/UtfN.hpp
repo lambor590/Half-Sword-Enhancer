@@ -310,7 +310,7 @@ namespace UtfN
 					typename = decltype(std::begin(std::declval<container_type>())), // Has begin
 					typename = decltype(std::end(std::declval<container_type>())),   // Has end
 					typename iterator_deref_type = decltype(*std::end(std::declval<container_type>())), // Iterator can be dereferenced
-					typename = std::enable_if<sizeof(std::decay<iterator_deref_type>::type) == utf_char_type::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
+					typename = typename std::enable_if<sizeof(typename std::decay<iterator_deref_type>::type) == utf_char_type::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
 				>
 				explicit UTF_CONSTEXPR utf_char_iterator_base(container_type& Container)
 					: CurrentIterator(std::begin(Container)), NextCharStartIterator(std::begin(Container)), EndIterator(std::end(Container))
@@ -767,12 +767,12 @@ namespace UtfN
 	template<
 		typename codepoint_iterator_type,
 		typename iterator_deref_type = decltype(*std::declval<codepoint_iterator_type>()), // Iterator can be dereferenced
-		typename = typename std::enable_if<sizeof(std::decay<iterator_deref_type>::type) == utf_char8::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
+		typename = typename std::enable_if<sizeof(typename std::decay<iterator_deref_type>::type) == utf_char8::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
 	>
 	class utf8_iterator : public UtfImpl::Iterator::utf_char_iterator_base<utf8_iterator<codepoint_iterator_type>, codepoint_iterator_type, utf_char8>
 	{
 	private:
-		typedef typename utf8_iterator<codepoint_iterator_type> own_type;
+		typedef utf8_iterator<codepoint_iterator_type> own_type;
 
 		friend UtfImpl::Iterator::utf_char_iterator_base_child_acessor<own_type>;
 
@@ -812,12 +812,12 @@ namespace UtfN
 	template<
 		typename codepoint_iterator_type,
 		typename iterator_deref_type = decltype(*std::declval<codepoint_iterator_type>()), // Iterator can be dereferenced
-		typename = typename std::enable_if<sizeof(std::decay<iterator_deref_type>::type) == utf_char16::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
+		typename = typename std::enable_if<sizeof(typename std::decay<iterator_deref_type>::type) == utf_char16::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
 	>
 	class utf16_iterator : public UtfImpl::Iterator::utf_char_iterator_base<utf16_iterator<codepoint_iterator_type>, codepoint_iterator_type, utf_char16>
 	{
 	private:
-		typedef typename utf16_iterator<codepoint_iterator_type> own_type;
+		typedef utf16_iterator<codepoint_iterator_type> own_type;
 
 		friend UtfImpl::Iterator::utf_char_iterator_base_child_acessor<own_type>;
 
@@ -868,12 +868,12 @@ namespace UtfN
 	template<
 		typename codepoint_iterator_type,
 		typename iterator_deref_type = decltype(*std::declval<codepoint_iterator_type>()), // Iterator can be dereferenced
-		typename = typename std::enable_if<sizeof(std::decay<iterator_deref_type>::type) == utf_char32::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
+		typename = typename std::enable_if<sizeof(typename std::decay<iterator_deref_type>::type) == utf_char32::GetCodepointSize()>::type // Return-value of derferenced iterator has the same size as one codepoint
 	>
 	class utf32_iterator : public UtfImpl::Iterator::utf_char_iterator_base<utf32_iterator<codepoint_iterator_type>, codepoint_iterator_type, utf_char32>
 	{
 	private:
-		typedef typename utf32_iterator<codepoint_iterator_type> own_type;
+		typedef utf32_iterator<codepoint_iterator_type> own_type;
 
 		friend UtfImpl::Iterator::utf_char_iterator_base_child_acessor<own_type>;
 

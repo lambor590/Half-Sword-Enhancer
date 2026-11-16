@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_PhotoPage_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_PhotoPage_C::Construct()
 
 void UUI_PhotoPage_C::ExecuteUbergraph_UI_PhotoPage(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "ExecuteUbergraph_UI_PhotoPage");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_PhotoPage_C", "ExecuteUbergraph_UI_PhotoPage", FuncInfo);
 
 	Params::UI_PhotoPage_C_ExecuteUbergraph_UI_PhotoPage Parms{};
 
@@ -58,10 +54,8 @@ void UUI_PhotoPage_C::ExecuteUbergraph_UI_PhotoPage(int32 EntryPoint)
 
 void UUI_PhotoPage_C::Initialize(class UUI_Gallery_C* GalleryReference_0, int32 PageIndex_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::UI_PhotoPage_C_Initialize Parms{};
 
@@ -79,10 +73,8 @@ void UUI_PhotoPage_C::Initialize(class UUI_Gallery_C* GalleryReference_0, int32 
 
 void UUI_PhotoPage_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_PhotoPage_C_PreConstruct Parms{};
 
@@ -97,10 +89,8 @@ void UUI_PhotoPage_C::PreConstruct(bool IsDesignTime)
 
 void UUI_PhotoPage_C::ResetPage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "ResetPage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetPage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -114,10 +104,8 @@ void UUI_PhotoPage_C::ResetPage()
 
 void UUI_PhotoPage_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_PhotoPage_C_Tick Parms{};
 
@@ -133,10 +121,8 @@ void UUI_PhotoPage_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime
 
 void UUI_PhotoPage_C::UpdatePage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoPage_C", "UpdatePage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdatePage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

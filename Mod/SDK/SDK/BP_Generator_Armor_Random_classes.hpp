@@ -10,9 +10,10 @@
 
 #include "Basic.hpp"
 
+#include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
 
@@ -20,14 +21,17 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Generator_Armor_Random.BP_Generator_Armor_Random_C
-// 0x0008 (0x0298 - 0x0290)
+// 0x0010 (0x02A0 - 0x0290)
 class ABP_Generator_Armor_Random_C final : public AActor
 {
 public:
-	class USceneComponent*                        DefaultSceneRoot;                                  // 0x0290(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0290(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class USceneComponent*                        DefaultSceneRoot;                                  // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, struct FStr_Passport_Armor1* Armor_Passport);
+	void ExecuteUbergraph_BP_Generator_Armor_Random(int32 EntryPoint);
+	void Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, bool Black_Colors, struct FStr_Passport_Armor1* Armor_Passport);
+	void ReceiveBeginPlay();
 
 public:
 	static class UClass* StaticClass()

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AModular_Sword_Pommel_Master_C::ExecuteUbergraph_Modular_Sword_Pommel_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Pommel_Master_C", "ExecuteUbergraph_Modular_Sword_Pommel_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Modular_Sword_Pommel_Master_C", "ExecuteUbergraph_Modular_Sword_Pommel_Master", FuncInfo);
 
 	Params::Modular_Sword_Pommel_Master_C_ExecuteUbergraph_Modular_Sword_Pommel_Master Parms{};
 
@@ -43,10 +41,8 @@ void AModular_Sword_Pommel_Master_C::ExecuteUbergraph_Modular_Sword_Pommel_Maste
 
 void AModular_Sword_Pommel_Master_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Pommel_Master_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Modular_Sword_Pommel_Master_C_ReceiveTick Parms{};
 
@@ -61,10 +57,8 @@ void AModular_Sword_Pommel_Master_C::ReceiveTick(float DeltaSeconds)
 
 void AModular_Sword_Pommel_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Pommel_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

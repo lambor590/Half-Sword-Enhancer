@@ -16,11 +16,11 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Head_Center_A_2.Modular_PA_Head_Center_A_2_C
-// 0x0008 (0x0430 - 0x0428)
+// 0x0008 (0x0438 - 0x0430)
 class AModular_PA_Head_Center_A_2_C final : public AModular_PA_Head_Center_Master_C
 {
 public:
-	class USceneComponent*                        Tip1;                                              // 0x0428(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0430(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	static class UClass* StaticClass()

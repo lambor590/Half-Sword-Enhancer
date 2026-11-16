@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void UBPFL_PhotoModeUtilities_C::Directory_Path_Correction(bool Use_Custom_Path_, const class FString& Custom_Path, class UObject* __WorldContext, class FString* Corrected_Path)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Directory Path Correction");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Directory Path Correction", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Directory_Path_Correction Parms{};
 
@@ -52,10 +50,8 @@ void UBPFL_PhotoModeUtilities_C::Directory_Path_Correction(bool Use_Custom_Path_
 
 void UBPFL_PhotoModeUtilities_C::Get_Default_Screen_Resolution(class UObject* __WorldContext, struct FIntPoint* Resolution__X_and_Y_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Get Default Screen Resolution");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Get Default Screen Resolution", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Get_Default_Screen_Resolution Parms{};
 
@@ -81,10 +77,8 @@ void UBPFL_PhotoModeUtilities_C::Get_Default_Screen_Resolution(class UObject* __
 
 void UBPFL_PhotoModeUtilities_C::Get_Screenshot_File(class UObject* WorldContextObject, const class FString& FullFilePath, class UObject* __WorldContext, bool* IsValid_, class UTexture2D** TwoD_Image, class FString* Base_Filename, class FString* Full_File_Path)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Get Screenshot File");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Get Screenshot File", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Get_Screenshot_File Parms{};
 
@@ -119,10 +113,8 @@ void UBPFL_PhotoModeUtilities_C::Get_Screenshot_File(class UObject* WorldContext
 
 void UBPFL_PhotoModeUtilities_C::GetAllImersedPostProcess(class APlayerController* PlayerController, class UObject* __WorldContext, struct FVector* CameraLocation, TMap<class APostProcessVolume*, struct FTransform>* VolumesTransforms, TMap<class APostProcessVolume*, struct FVector>* VolumesExtent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "GetAllImersedPostProcess");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "GetAllImersedPostProcess", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_GetAllImersedPostProcess Parms{};
 
@@ -153,10 +145,8 @@ void UBPFL_PhotoModeUtilities_C::GetAllImersedPostProcess(class APlayerControlle
 
 void UBPFL_PhotoModeUtilities_C::Hide_HUD_When_Using_Photo_Mode(ESlateVisibility If_Not_Using_Photo_Mode_Set_This_Widget_As, class UBPC_PhotoMode_C* PhotoModeComponent, class UObject* __WorldContext, ESlateVisibility* Visibility, bool* Using_Photo_Mode_or_Gallery_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Hide HUD When Using Photo Mode");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Hide HUD When Using Photo Mode", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Hide_HUD_When_Using_Photo_Mode Parms{};
 
@@ -189,10 +179,8 @@ void UBPFL_PhotoModeUtilities_C::Hide_HUD_When_Using_Photo_Mode(ESlateVisibility
 
 void UBPFL_PhotoModeUtilities_C::HighResScreenshot__without_UI_(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, const struct FIntPoint& Resolution__X_and_Y_, E_ScreenshotMethod ScreenshotMethod, class ABP_ScreenshotManager_C* ScreenshotManager, class UObject* __WorldContext, class FString* Full_Photo_Path, class FString* Photo_Name)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "HighResScreenshot (without UI)");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "HighResScreenshot (without UI)", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_HighResScreenshot__without_UI_ Parms{};
 
@@ -223,10 +211,8 @@ void UBPFL_PhotoModeUtilities_C::HighResScreenshot__without_UI_(class UObject* W
 
 void UBPFL_PhotoModeUtilities_C::isGalleryOpened(class UObject* __WorldContext, bool* bIsOpened, class UUI_Gallery_C** WidgetReference)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "isGalleryOpened");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "isGalleryOpened", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_isGalleryOpened Parms{};
 
@@ -251,10 +237,8 @@ void UBPFL_PhotoModeUtilities_C::isGalleryOpened(class UObject* __WorldContext, 
 
 void UBPFL_PhotoModeUtilities_C::isPhotoModeOpened(class UObject* __WorldContext, bool* bIsOpened, class UUI_PhotoMode_C** WidgetReference)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "isPhotoModeOpened");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "isPhotoModeOpened", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_isPhotoModeOpened Parms{};
 
@@ -278,10 +262,8 @@ void UBPFL_PhotoModeUtilities_C::isPhotoModeOpened(class UObject* __WorldContext
 
 void UBPFL_PhotoModeUtilities_C::isPhotoModeOrGalleryOpened(class UObject* __WorldContext, bool* bIsOpened)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "isPhotoModeOrGalleryOpened");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "isPhotoModeOrGalleryOpened", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_isPhotoModeOrGalleryOpened Parms{};
 
@@ -303,10 +285,8 @@ void UBPFL_PhotoModeUtilities_C::isPhotoModeOrGalleryOpened(class UObject* __Wor
 
 void UBPFL_PhotoModeUtilities_C::LoadPhotos(class UObject* __WorldContext, bool* SaveGameIsValid_, TArray<struct FS_PhotosData>* PhotosData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "LoadPhotos");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "LoadPhotos", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_LoadPhotos Parms{};
 
@@ -338,10 +318,8 @@ void UBPFL_PhotoModeUtilities_C::LoadPhotos(class UObject* __WorldContext, bool*
 
 void UBPFL_PhotoModeUtilities_C::MakeThumbnail(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, const struct FIntPoint& Resolution__X_and_Y_, const class FString& PhotoName, E_ScreenshotMethod ScreenshotMethod, class ABP_ScreenshotManager_C* ScreenshotManager, class UObject* __WorldContext, class FString* Full_Thumbnail_Path, class FString* BaseThumbnailName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "MakeThumbnail");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "MakeThumbnail", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_MakeThumbnail Parms{};
 
@@ -375,10 +353,8 @@ void UBPFL_PhotoModeUtilities_C::MakeThumbnail(class UObject* World_Context_Obje
 
 void UBPFL_PhotoModeUtilities_C::Nearest_Distance_To_Box_With_Transform(const struct FVector& Point, const struct FTransform& BoxWorldTransform, const struct FVector& BoxExtent, class UObject* __WorldContext, double* Distance)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Nearest Distance To Box With Transform");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Nearest Distance To Box With Transform", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Nearest_Distance_To_Box_With_Transform Parms{};
 
@@ -403,10 +379,8 @@ void UBPFL_PhotoModeUtilities_C::Nearest_Distance_To_Box_With_Transform(const st
 
 void UBPFL_PhotoModeUtilities_C::NormalizeScreenshotPath(const class FString& Folder_Path, class UObject* __WorldContext, class FString* Normalized_Path)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "NormalizeScreenshotPath");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "NormalizeScreenshotPath", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_NormalizeScreenshotPath Parms{};
 
@@ -428,10 +402,8 @@ void UBPFL_PhotoModeUtilities_C::NormalizeScreenshotPath(const class FString& Fo
 
 void UBPFL_PhotoModeUtilities_C::SaveAllPhotos(TArray<struct FS_PhotosData>& SaveNewPhoto, class UObject* __WorldContext)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "SaveAllPhotos");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "SaveAllPhotos", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_SaveAllPhotos Parms{};
 
@@ -453,10 +425,8 @@ void UBPFL_PhotoModeUtilities_C::SaveAllPhotos(TArray<struct FS_PhotosData>& Sav
 
 void UBPFL_PhotoModeUtilities_C::SavePhoto(const struct FS_PhotosData& SaveNewPhoto, E_SaveSort Sort, class UObject* __WorldContext)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "SavePhoto");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "SavePhoto", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_SavePhoto Parms{};
 
@@ -480,10 +450,8 @@ void UBPFL_PhotoModeUtilities_C::SavePhoto(const struct FS_PhotosData& SaveNewPh
 
 void UBPFL_PhotoModeUtilities_C::Screenshot__with_UI_(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, class UObject* __WorldContext, class FString* Full_Screenshot_File_Path, class FString* PhotoName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("BPFL_PhotoModeUtilities_C", "Screenshot (with UI)");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "BPFL_PhotoModeUtilities_C", "Screenshot (with UI)", FuncInfo);
 
 	Params::BPFL_PhotoModeUtilities_C_Screenshot__with_UI_ Parms{};
 

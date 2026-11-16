@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "SheathSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -46,7 +46,6 @@ public:
 	void BndEvt__UI_Jester_Button_4_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Jester_ListView_89_K2Node_ComponentBoundEvent_0_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered);
 	void BndEvt__UI_Jester_ListView_89_K2Node_ComponentBoundEvent_1_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item);
 	void BndEvt__UI_Jester_ListView_89_K2Node_ComponentBoundEvent_2_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget);
 	void Construct();

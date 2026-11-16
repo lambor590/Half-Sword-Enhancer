@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_WeaponInteraction.BPI_WeaponInteraction_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_WeaponInteraction_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_WeaponInteraction_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Weapon_HIt(class UPrimitiveComponent* Hit_Component, const struct FVector& Weapon_Velocity, const struct FHitResult& Hit_Result, double EdgeAllignment_Dot, bool Laser_temp_, class UClass* Weapon);
 

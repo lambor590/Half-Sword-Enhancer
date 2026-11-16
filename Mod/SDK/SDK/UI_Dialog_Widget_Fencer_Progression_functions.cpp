@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Pro
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_2_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Pro
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Pro
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Fencer_Pro
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Button_5_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::BndEvt__UI_Dialog_Widget_Innkeeper_
 
 void UUI_Dialog_Widget_Fencer_Progression_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -177,10 +155,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::Construct()
 
 void UUI_Dialog_Widget_Fencer_Progression_C::ExecuteUbergraph_UI_Dialog_Widget_Fencer_Progression(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "ExecuteUbergraph_UI_Dialog_Widget_Fencer_Progression");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Fencer_Progression_C", "ExecuteUbergraph_UI_Dialog_Widget_Fencer_Progression", FuncInfo);
 
 	Params::UI_Dialog_Widget_Fencer_Progression_C_ExecuteUbergraph_UI_Dialog_Widget_Fencer_Progression Parms{};
 
@@ -197,10 +173,8 @@ void UUI_Dialog_Widget_Fencer_Progression_C::ExecuteUbergraph_UI_Dialog_Widget_F
 
 class FText UUI_Dialog_Widget_Fencer_Progression_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Dialog_Widget_Fencer_Progression_C_GetText Parms{};
 
@@ -217,10 +191,8 @@ class FText UUI_Dialog_Widget_Fencer_Progression_C::GetText()
 
 ESlateVisibility UUI_Dialog_Widget_Fencer_Progression_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_Dialog_Widget_Fencer_Progression_C_GetVisibility_0 Parms{};
 
@@ -237,10 +209,8 @@ ESlateVisibility UUI_Dialog_Widget_Fencer_Progression_C::GetVisibility_0()
 
 ESlateVisibility UUI_Dialog_Widget_Fencer_Progression_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_Dialog_Widget_Fencer_Progression_C_GetVisibility_1 Parms{};
 
@@ -257,10 +227,8 @@ ESlateVisibility UUI_Dialog_Widget_Fencer_Progression_C::GetVisibility_1()
 
 void UUI_Dialog_Widget_Fencer_Progression_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Fencer_Progression_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Fencer_Progression_C_PreConstruct Parms{};
 

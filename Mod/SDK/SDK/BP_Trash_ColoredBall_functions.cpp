@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Trash_ColoredBall_C::ExecuteUbergraph_BP_Trash_ColoredBall(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "ExecuteUbergraph_BP_Trash_ColoredBall");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Trash_ColoredBall_C", "ExecuteUbergraph_BP_Trash_ColoredBall", FuncInfo);
 
 	Params::BP_Trash_ColoredBall_C_ExecuteUbergraph_BP_Trash_ColoredBall Parms{};
 
@@ -41,10 +39,8 @@ void ABP_Trash_ColoredBall_C::ExecuteUbergraph_BP_Trash_ColoredBall(int32 EntryP
 
 void ABP_Trash_ColoredBall_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void ABP_Trash_ColoredBall_C::ReceiveBeginPlay()
 
 void ABP_Trash_ColoredBall_C::Turn_Blue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "Turn Blue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn Blue", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +63,8 @@ void ABP_Trash_ColoredBall_C::Turn_Blue()
 
 void ABP_Trash_ColoredBall_C::Turn_Green()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "Turn Green");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn Green", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +75,8 @@ void ABP_Trash_ColoredBall_C::Turn_Green()
 
 void ABP_Trash_ColoredBall_C::Turn_Red()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "Turn Red");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn Red", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -97,10 +87,8 @@ void ABP_Trash_ColoredBall_C::Turn_Red()
 
 void ABP_Trash_ColoredBall_C::Turn_Yellow()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Trash_ColoredBall_C", "Turn Yellow");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Turn Yellow", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

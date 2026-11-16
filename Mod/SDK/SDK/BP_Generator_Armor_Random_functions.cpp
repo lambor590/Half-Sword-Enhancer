@@ -16,6 +16,24 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Generator_Armor_Random.BP_Generator_Armor_Random_C.ExecuteUbergraph_BP_Generator_Armor_Random
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Generator_Armor_Random_C::ExecuteUbergraph_BP_Generator_Armor_Random(int32 EntryPoint)
+{
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Generator_Armor_Random_C", "ExecuteUbergraph_BP_Generator_Armor_Random", FuncInfo);
+
+	Params::BP_Generator_Armor_Random_C_ExecuteUbergraph_BP_Generator_Armor_Random Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Generator_Armor_Random.BP_Generator_Armor_Random_C.Generate Armor
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -26,14 +44,13 @@ SDK_NAMESPACE_START
 // bool                                    Force_Armor_Metal_Material                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // ESteel_Type                             Armor_Steel_Type_Forced                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // ESecondaryMetal_Type                    Armor_Metal_Pieces_Type_Forced                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Black_Colors                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FStr_Passport_Armor1*            Armor_Passport                                         (Parm, OutParm, HasGetValueTypeHash)
 
-void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, struct FStr_Passport_Armor1* Armor_Passport)
+void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, bool Black_Colors, struct FStr_Passport_Armor1* Armor_Passport)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Armor_Random_C", "Generate Armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Armor", FnName));
 
 	Params::BP_Generator_Armor_Random_C_Generate_Armor Parms{};
 
@@ -44,11 +61,24 @@ void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_E
 	Parms.Force_Armor_Metal_Material = Force_Armor_Metal_Material;
 	Parms.Armor_Steel_Type_Forced = Armor_Steel_Type_Forced;
 	Parms.Armor_Metal_Pieces_Type_Forced = Armor_Metal_Pieces_Type_Forced;
+	Parms.Black_Colors = Black_Colors;
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	if (Armor_Passport != nullptr)
 		*Armor_Passport = std::move(Parms.Armor_Passport);
+}
+
+
+// Function BP_Generator_Armor_Random.BP_Generator_Armor_Random_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Generator_Armor_Random_C::ReceiveBeginPlay()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

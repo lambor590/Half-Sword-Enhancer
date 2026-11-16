@@ -28,10 +28,8 @@ SDK_NAMESPACE_START
 
 void IBPI_Dismember_C::Dismember_Cut(class FName bone, const struct FVector& Location, class UPrimitiveComponent* Cut_Mesh, int32 Dism_Cut_Level, class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_Dismember_C", "Dismember Cut");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Dismember Cut", FnName));
 
 	Params::BPI_Dismember_C_Dismember_Cut Parms{};
 

@@ -11,7 +11,10 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
+#include "MovieSceneTracks_parameters.hpp"
+#include "Engine_parameters.hpp"
 #include "MovieScene_structs.hpp"
+#include "MovieScene_parameters.hpp"
 
 
 SDK_NAMESPACE_START

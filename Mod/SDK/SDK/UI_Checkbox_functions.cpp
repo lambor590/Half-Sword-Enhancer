@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_Checkbox_C::BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature", FnName));
 
 	Params::UI_Checkbox_C_BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
@@ -44,10 +42,8 @@ void UUI_Checkbox_C::BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBox
 
 void UUI_Checkbox_C::ChangeValue(bool bValue, bool bShouldFocus_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "ChangeValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ChangeValue", FnName));
 
 	Params::UI_Checkbox_C_ChangeValue Parms{};
 
@@ -63,10 +59,8 @@ void UUI_Checkbox_C::ChangeValue(bool bValue, bool bShouldFocus_0)
 
 void UUI_Checkbox_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +73,8 @@ void UUI_Checkbox_C::Construct()
 
 void UUI_Checkbox_C::ExecuteUbergraph_UI_Checkbox(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "ExecuteUbergraph_UI_Checkbox");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Checkbox_C", "ExecuteUbergraph_UI_Checkbox", FuncInfo);
 
 	Params::UI_Checkbox_C_ExecuteUbergraph_UI_Checkbox Parms{};
 
@@ -99,10 +91,8 @@ void UUI_Checkbox_C::ExecuteUbergraph_UI_Checkbox(int32 EntryPoint)
 
 void UUI_Checkbox_C::Initialize(bool bDefaultValue_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::UI_Checkbox_C_Initialize Parms{};
 
@@ -120,10 +110,8 @@ void UUI_Checkbox_C::Initialize(bool bDefaultValue_0)
 
 void UUI_Checkbox_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "OnMouseEnter");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnMouseEnter", FnName));
 
 	Params::UI_Checkbox_C_OnMouseEnter Parms{};
 
@@ -141,10 +129,8 @@ void UUI_Checkbox_C::OnMouseEnter(const struct FGeometry& MyGeometry, const stru
 
 void UUI_Checkbox_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Checkbox_C_PreConstruct Parms{};
 
@@ -161,10 +147,8 @@ void UUI_Checkbox_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Checkbox_C::ResetCheckbox(bool bShouldFocus_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "ResetCheckbox");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetCheckbox", FnName));
 
 	Params::UI_Checkbox_C_ResetCheckbox Parms{};
 
@@ -179,10 +163,8 @@ void UUI_Checkbox_C::ResetCheckbox(bool bShouldFocus_0)
 
 void UUI_Checkbox_C::ResetToggleFocus()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "ResetToggleFocus");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetToggleFocus", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -199,10 +181,8 @@ void UUI_Checkbox_C::ResetToggleFocus()
 
 void UUI_Checkbox_C::Set_Focused_or_Unfocused_Color(bool bChangeCheckboxColorWhenFocused_0, bool bChangeTextColorWhenFocused_0, class UCheckBox* CheckBox_0, class UWidget* CheckboxTitle, class UWidget* CheckboxValue_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "Set Focused or Unfocused Color");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Focused or Unfocused Color", FnName));
 
 	Params::UI_Checkbox_C_Set_Focused_or_Unfocused_Color Parms{};
 
@@ -221,10 +201,8 @@ void UUI_Checkbox_C::Set_Focused_or_Unfocused_Color(bool bChangeCheckboxColorWhe
 
 void UUI_Checkbox_C::SetToggleFocus()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "SetToggleFocus");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetToggleFocus", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -237,10 +215,8 @@ void UUI_Checkbox_C::SetToggleFocus()
 
 class FText UUI_Checkbox_C::setTxtValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "setTxtValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"setTxtValue", FnName));
 
 	Params::UI_Checkbox_C_setTxtValue Parms{};
 
@@ -258,10 +234,8 @@ class FText UUI_Checkbox_C::setTxtValue()
 
 class UWidget* UUI_Checkbox_C::ToggleUsingArrows(EUINavigation Navigation_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Checkbox_C", "ToggleUsingArrows");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ToggleUsingArrows", FnName));
 
 	Params::UI_Checkbox_C_ToggleUsingArrows Parms{};
 

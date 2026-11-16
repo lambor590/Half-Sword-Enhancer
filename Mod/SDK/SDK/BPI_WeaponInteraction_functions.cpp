@@ -28,10 +28,8 @@ SDK_NAMESPACE_START
 
 void IBPI_WeaponInteraction_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component, const struct FVector& Weapon_Velocity, const struct FHitResult& Hit_Result, double EdgeAllignment_Dot, bool Laser_temp_, class UClass* Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_WeaponInteraction_C", "Weapon HIt");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"Weapon HIt", FnName));
 
 	Params::BPI_WeaponInteraction_C_Weapon_HIt Parms{};
 

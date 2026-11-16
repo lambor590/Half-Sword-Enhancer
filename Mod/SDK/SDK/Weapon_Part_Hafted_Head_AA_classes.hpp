@@ -10,19 +10,19 @@
 
 #include "Basic.hpp"
 
+#include "Enum_MaterialLayer_structs.hpp"
 #include "Modular_Hafted_Head_Master_classes.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Head_AA.Weapon_Part_Hafted_Head_AA_C
-// 0x0008 (0x0438 - 0x0430)
+// 0x0008 (0x0440 - 0x0438)
 class AWeapon_Part_Hafted_Head_AA_C final : public AModular_Hafted_Head_Master_C
 {
 public:
-	class USceneComponent*                        Tip1;                                              // 0x0430(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0438(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

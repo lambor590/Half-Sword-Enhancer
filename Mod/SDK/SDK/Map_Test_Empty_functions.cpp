@@ -16,15 +16,31 @@
 
 SDK_NAMESPACE_START
 
+// Function Map_Test_Empty.Map_Test_Empty_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMap_Test_Empty_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
+
+	Params::Map_Test_Empty_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Map_Test_Empty.Map_Test_Empty_C.ReceiveBeginPlay
 // (Event, Protected, BlueprintEvent)
 
 void AMap_Test_Empty_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Test_Empty_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +53,8 @@ void AMap_Test_Empty_C::ReceiveBeginPlay()
 
 void AMap_Test_Empty_C::ExecuteUbergraph_Map_Test_Empty(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Test_Empty_C", "ExecuteUbergraph_Map_Test_Empty");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Test_Empty_C", "ExecuteUbergraph_Map_Test_Empty", FuncInfo);
 
 	Params::Map_Test_Empty_C_ExecuteUbergraph_Map_Test_Empty Parms{};
 

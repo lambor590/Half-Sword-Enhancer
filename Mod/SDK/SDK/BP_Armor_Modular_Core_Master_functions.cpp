@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Armor_Modular_Core_Master_C::ExecuteUbergraph_BP_Armor_Modular_Core_Master(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "ExecuteUbergraph_BP_Armor_Modular_Core_Master");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Armor_Modular_Core_Master_C", "ExecuteUbergraph_BP_Armor_Modular_Core_Master", FuncInfo);
 
 	Params::BP_Armor_Modular_Core_Master_C_ExecuteUbergraph_BP_Armor_Modular_Core_Master Parms{};
 
@@ -41,10 +39,8 @@ void ABP_Armor_Modular_Core_Master_C::ExecuteUbergraph_BP_Armor_Modular_Core_Mas
 
 void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
 
 void ABP_Armor_Modular_Core_Master_C::Set_Up_Module()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "Set Up Module");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Module", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +63,8 @@ void ABP_Armor_Modular_Core_Master_C::Set_Up_Module()
 
 void ABP_Armor_Modular_Core_Master_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

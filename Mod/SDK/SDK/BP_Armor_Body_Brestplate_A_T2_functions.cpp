@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Armor_Body_Brestplate_A_T2_C::ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Armor_Body_Brestplate_A_T2_C", "ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2", FuncInfo);
 
 	Params::BP_Armor_Body_Brestplate_A_T2_C_ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2 Parms{};
 
@@ -41,10 +39,8 @@ void ABP_Armor_Body_Brestplate_A_T2_C::ExecuteUbergraph_BP_Armor_Body_Brestplate
 
 void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveBeginPlay()
 
 void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Armor_Body_Brestplate_A_T2_C_ReceiveTick Parms{};
 

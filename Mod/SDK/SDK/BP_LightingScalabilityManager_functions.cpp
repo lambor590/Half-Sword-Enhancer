@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_LightingScalabilityManager_C::SetVisibilityForLowMedium(bool NewVisbility)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "SetVisibilityForLowMedium");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetVisibilityForLowMedium", FnName));
 
 	Params::BP_LightingScalabilityManager_C_SetVisibilityForLowMedium Parms{};
 
@@ -43,10 +41,8 @@ void ABP_LightingScalabilityManager_C::SetVisibilityForLowMedium(bool NewVisbili
 
 void ABP_LightingScalabilityManager_C::SetVisibilityForHighEpic(bool NewVisbility)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "SetVisibilityForHighEpic");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetVisibilityForHighEpic", FnName));
 
 	Params::BP_LightingScalabilityManager_C_SetVisibilityForHighEpic Parms{};
 
@@ -63,10 +59,8 @@ void ABP_LightingScalabilityManager_C::SetVisibilityForHighEpic(bool NewVisbilit
 
 void ABP_LightingScalabilityManager_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveEndPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveEndPlay", FnName));
 
 	Params::BP_LightingScalabilityManager_C_ReceiveEndPlay Parms{};
 
@@ -81,10 +75,8 @@ void ABP_LightingScalabilityManager_C::ReceiveEndPlay(EEndPlayReason EndPlayReas
 
 void ABP_LightingScalabilityManager_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -97,10 +89,8 @@ void ABP_LightingScalabilityManager_C::ReceiveBeginPlay()
 
 void ABP_LightingScalabilityManager_C::OnEffectsQualityChanged_Event(int32 NewValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "OnEffectsQualityChanged_Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnEffectsQualityChanged_Event", FnName));
 
 	Params::BP_LightingScalabilityManager_C_OnEffectsQualityChanged_Event Parms{};
 
@@ -117,10 +107,8 @@ void ABP_LightingScalabilityManager_C::OnEffectsQualityChanged_Event(int32 NewVa
 
 void ABP_LightingScalabilityManager_C::ExecuteUbergraph_BP_LightingScalabilityManager(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ExecuteUbergraph_BP_LightingScalabilityManager");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_LightingScalabilityManager_C", "ExecuteUbergraph_BP_LightingScalabilityManager", FuncInfo);
 
 	Params::BP_LightingScalabilityManager_C_ExecuteUbergraph_BP_LightingScalabilityManager Parms{};
 

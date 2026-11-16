@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void AShield_Pavise_Light_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Light_C", "BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::Shield_Pavise_Light_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -51,10 +49,8 @@ void AShield_Pavise_Light_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_
 
 void AShield_Pavise_Light_C::ExecuteUbergraph_Shield_Pavise_Light(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Light_C", "ExecuteUbergraph_Shield_Pavise_Light");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Shield_Pavise_Light_C", "ExecuteUbergraph_Shield_Pavise_Light", FuncInfo);
 
 	Params::Shield_Pavise_Light_C_ExecuteUbergraph_Shield_Pavise_Light Parms{};
 
@@ -69,10 +65,8 @@ void AShield_Pavise_Light_C::ExecuteUbergraph_Shield_Pavise_Light(int32 EntryPoi
 
 void AShield_Pavise_Light_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Light_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +77,8 @@ void AShield_Pavise_Light_C::ReceiveBeginPlay()
 
 void AShield_Pavise_Light_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Light_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

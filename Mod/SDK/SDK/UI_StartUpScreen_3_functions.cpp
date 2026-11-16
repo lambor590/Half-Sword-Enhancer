@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_StartUpScreen_3_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_3_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_AnyKey_K2Node_InputKeyEvent_0", FnName));
 
 	Params::UI_StartUpScreen_3_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
 
@@ -43,10 +41,8 @@ void UUI_StartUpScreen_3_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct
 
 void UUI_StartUpScreen_3_C::ExecuteUbergraph_UI_StartUpScreen_3(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_3_C", "ExecuteUbergraph_UI_StartUpScreen_3");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_StartUpScreen_3_C", "ExecuteUbergraph_UI_StartUpScreen_3", FuncInfo);
 
 	Params::UI_StartUpScreen_3_C_ExecuteUbergraph_UI_StartUpScreen_3 Parms{};
 
@@ -61,10 +57,8 @@ void UUI_StartUpScreen_3_C::ExecuteUbergraph_UI_StartUpScreen_3(int32 EntryPoint
 
 void UUI_StartUpScreen_3_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_3_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

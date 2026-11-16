@@ -17,7 +17,7 @@ SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
 // Function UI_DeleteSave_Confirm.UI_DeleteSave_Confirm_C.ExecuteUbergraph_UI_DeleteSave_Confirm
-// 0x0258 (0x0258 - 0x0000)
+// 0x0358 (0x0358 - 0x0000)
 struct UI_DeleteSave_Confirm_C_ExecuteUbergraph_UI_DeleteSave_Confirm final
 {
 public:
@@ -76,15 +76,15 @@ public:
 	TArray<int32>                                 CallFunc_Map_Keys_Keys;                            // 0x00D8(0x0010)(ReferenceParm)
 	int32                                         CallFunc_Array_Get_Item_3;                         // 0x00E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x00EC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Character1               CallFunc_Map_Find_Value;                           // 0x00F0(0x0140)(HasGetValueTypeHash)
-	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x0230(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue_3;                // 0x0231(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_232[0x6];                                      // 0x0232(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class UUI_Dialog_Widget_Innkeeper_ResetCharacter_C*> CallFunc_GetAllWidgetsOfClass_FoundWidgets_3; // 0x0238(0x0010)(ReferenceParm, ContainsInstancedReference)
-	class UUI_Dialog_Widget_Innkeeper_ResetCharacter_C* CallFunc_Array_Get_Item_4;                   // 0x0248(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue_4;               // 0x0250(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue_4;                // 0x0254(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x0255(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Character1               CallFunc_Map_Find_Value;                           // 0x00F0(0x0240)(ContainsInstancedReference, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x0330(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_3;                // 0x0331(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_332[0x6];                                      // 0x0332(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UUI_Dialog_Widget_Innkeeper_ResetCharacter_C*> CallFunc_GetAllWidgetsOfClass_FoundWidgets_3; // 0x0338(0x0010)(ReferenceParm, ContainsInstancedReference)
+	class UUI_Dialog_Widget_Innkeeper_ResetCharacter_C* CallFunc_Array_Get_Item_4;                   // 0x0348(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue_4;               // 0x0350(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue_4;                // 0x0354(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x0355(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function UI_DeleteSave_Confirm.UI_DeleteSave_Confirm_C.PreConstruct

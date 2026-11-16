@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Tier_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tier_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_Tier_C::Construct()
 
 void UUI_Tier_C::ExecuteUbergraph_UI_Tier(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tier_C", "ExecuteUbergraph_UI_Tier");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Tier_C", "ExecuteUbergraph_UI_Tier", FuncInfo);
 
 	Params::UI_Tier_C_ExecuteUbergraph_UI_Tier Parms{};
 
@@ -57,10 +53,8 @@ void UUI_Tier_C::ExecuteUbergraph_UI_Tier(int32 EntryPoint)
 
 struct FSlateBrush UUI_Tier_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Tier_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_Tier_C_GetBrush Parms{};
 

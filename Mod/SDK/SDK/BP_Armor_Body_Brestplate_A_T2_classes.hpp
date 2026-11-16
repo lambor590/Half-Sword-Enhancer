@@ -17,16 +17,16 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C
-// 0x0000 (0x0920 - 0x0920)
+// 0x0000 (0x0940 - 0x0940)
 class ABP_Armor_Body_Brestplate_A_T2_C : public ABP_Armor_Master_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0918(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0938(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
-	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
+	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

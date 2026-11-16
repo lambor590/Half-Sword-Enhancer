@@ -21,9 +21,12 @@
 SDK_NAMESPACE_START
 
 // Class OptimusCore.OptimusAlternativeSelectedObjectProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusAlternativeSelectedObjectProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusAlternativeSelectedObjectProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -49,9 +52,12 @@ public:
 };
 
 // Class OptimusCore.OptimusComponentBindingProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusComponentBindingProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusComponentBindingProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -77,9 +83,12 @@ public:
 };
 
 // Class OptimusCore.OptimusComponentBindingReceiver
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusComponentBindingReceiver final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusComponentBindingReceiver
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -105,9 +114,12 @@ public:
 };
 
 // Class OptimusCore.OptimusComputeKernelDataInterface
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusComputeKernelDataInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusComputeKernelDataInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -133,9 +145,12 @@ public:
 };
 
 // Class OptimusCore.OptimusComputeKernelProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusComputeKernelProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusComputeKernelProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -161,9 +176,12 @@ public:
 };
 
 // Class OptimusCore.OptimusDataInterfaceProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusDataInterfaceProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusDataInterfaceProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -189,9 +207,12 @@ public:
 };
 
 // Class OptimusCore.OptimusDeformerInstanceAccessor
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusDeformerInstanceAccessor final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusDeformerInstanceAccessor
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -217,9 +238,12 @@ public:
 };
 
 // Class OptimusCore.OptimusDeprecatedExecutionDataInterface
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusDeprecatedExecutionDataInterface final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusDeprecatedExecutionDataInterface
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -245,9 +269,12 @@ public:
 };
 
 // Class OptimusCore.OptimusExecutionDomainProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusExecutionDomainProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusExecutionDomainProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -273,9 +300,12 @@ public:
 };
 
 // Class OptimusCore.OptimusGeneratedClassDefiner
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusGeneratedClassDefiner final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusGeneratedClassDefiner
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -301,9 +331,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodeAdderPinProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodeAdderPinProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodeAdderPinProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -329,9 +362,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodeFunctionLibraryOwner
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodeFunctionLibraryOwner final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodeFunctionLibraryOwner
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -357,9 +393,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodeGraphCollectionOwner
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodeGraphCollectionOwner final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodeGraphCollectionOwner
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -385,9 +424,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodeGraphProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodeGraphProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodeGraphProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -413,9 +455,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodePairProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodePairProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodePairProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -441,9 +486,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodePinRouter
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodePinRouter final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodePinRouter
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -469,9 +517,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNodeSubGraphReferencer
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNodeSubGraphReferencer final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNodeSubGraphReferencer
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -497,9 +548,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNonCollapsibleNode
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNonCollapsibleNode final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNonCollapsibleNode
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -525,9 +579,12 @@ public:
 };
 
 // Class OptimusCore.OptimusNonCopyableNode
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusNonCopyableNode final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusNonCopyableNode
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -553,9 +610,12 @@ public:
 };
 
 // Class OptimusCore.OptimusParameterBindingProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusParameterBindingProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusParameterBindingProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -581,9 +641,12 @@ public:
 };
 
 // Class OptimusCore.OptimusPathResolver
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusPathResolver final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusPathResolver
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -609,9 +672,12 @@ public:
 };
 
 // Class OptimusCore.OptimusPersistentBufferProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusPersistentBufferProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusPersistentBufferProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -637,9 +703,12 @@ public:
 };
 
 // Class OptimusCore.OptimusPinMutabilityDefiner
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusPinMutabilityDefiner final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusPinMutabilityDefiner
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -665,9 +734,12 @@ public:
 };
 
 // Class OptimusCore.OptimusShaderTextProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusShaderTextProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusShaderTextProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -693,9 +765,12 @@ public:
 };
 
 // Class OptimusCore.OptimusUnnamedNodePinProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusUnnamedNodePinProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusUnnamedNodePinProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -721,9 +796,12 @@ public:
 };
 
 // Class OptimusCore.OptimusValueProvider
-// 0x0000 (0x0000 - 0x0000)
-class IOptimusValueProvider final
+// 0x0008 (0x0008 - 0x0000)
+class IOptimusValueProvider
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -992,10 +1070,9 @@ public:
 
 // Class OptimusCore.OptimusDeformer
 // 0x0100 (0x0128 - 0x0028)
-class UOptimusDeformer final : public UMeshDeformer
+class UOptimusDeformer final : public UMeshDeformer, public IInterface_PreviewMeshProvider, public IOptimusPathResolver, public IOptimusNodeGraphCollectionOwner, public IOptimusNodeFunctionLibraryOwner
 {
 public:
-	uint8                                         Pad_28[0x20];                                      // 0x0028(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	class USkeletalMesh*                          Mesh;                                              // 0x0048(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<struct FOptimusComputeGraphInfo>       ComputeGraphs;                                     // 0x0050(0x0010)(ZeroConstructor, Protected, NativeAccessSpecifierProtected)
 	class UOptimusActionStack*                    ActionStack;                                       // 0x0060(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -1092,10 +1169,9 @@ public:
 
 // Class OptimusCore.OptimusNodeGraph
 // 0x0068 (0x0090 - 0x0028)
-class UOptimusNodeGraph : public UObject
+class UOptimusNodeGraph : public UObject, public IOptimusNodeGraphCollectionOwner
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	EOptimusNodeGraphType                         GraphType;                                         // 0x0030(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UOptimusNode*>                   Nodes;                                             // 0x0038(0x0010)(ZeroConstructor, NonTransactional, UObjectWrapper, NativeAccessSpecifierPrivate, TObjectPtr)
@@ -1160,10 +1236,9 @@ public:
 
 // Class OptimusCore.OptimusNodeSubGraph
 // 0x00B8 (0x0148 - 0x0090)
-class UOptimusNodeSubGraph : public UOptimusNodeGraph
+class UOptimusNodeSubGraph : public UOptimusNodeGraph, public IOptimusParameterBindingProvider
 {
 public:
-	uint8                                         Pad_90[0x8];                                       // 0x0090(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FOptimusParameterBindingArray          InputBindings;                                     // 0x0098(0x0010)(Edit, NativeAccessSpecifierPublic)
 	struct FOptimusParameterBindingArray          OutputBindings;                                    // 0x00A8(0x0010)(Edit, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B8[0x90];                                      // 0x00B8(0x0090)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -1347,10 +1422,9 @@ public:
 
 // Class OptimusCore.OptimusSource
 // 0x0018 (0x0050 - 0x0038)
-class UOptimusSource final : public UComputeSource
+class UOptimusSource final : public UComputeSource, public IOptimusShaderTextProvider
 {
 public:
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 SourceText;                                        // 0x0040(0x0010)(Edit, ZeroConstructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 
 public:
@@ -1622,10 +1696,9 @@ public:
 
 // Class OptimusCore.OptimusCopyKernelDataInterface
 // 0x0020 (0x0048 - 0x0028)
-class UOptimusCopyKernelDataInterface final : public UComputeDataInterface
+class UOptimusCopyKernelDataInterface final : public UComputeDataInterface, public IOptimusComputeKernelDataInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TWeakObjectPtr<class UOptimusComponentSourceBinding> ComponentSourceBinding;                     // 0x0030(0x0008)(BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 NumThreadsExpression;                              // 0x0038(0x0010)(BlueprintReadOnly, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1668,10 +1741,9 @@ public:
 
 // Class OptimusCore.OptimusCustomComputeKernelDataInterface
 // 0x0038 (0x0060 - 0x0028)
-class UOptimusCustomComputeKernelDataInterface final : public UComputeDataInterface
+class UOptimusCustomComputeKernelDataInterface final : public UComputeDataInterface, public IOptimusComputeKernelDataInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TWeakObjectPtr<class UOptimusComponentSourceBinding> ComponentSourceBinding;                     // 0x0030(0x0008)(BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 NumThreadsExpression;                              // 0x0038(0x0010)(BlueprintReadOnly, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FOptimusConstantIdentifier             ExecutionDomainConstantIdentifier;                 // 0x0048(0x0018)(BlueprintReadOnly, Deprecated, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1828,10 +1900,9 @@ public:
 
 // Class OptimusCore.OptimusGraphDataProvider
 // 0x0030 (0x0058 - 0x0028)
-class UOptimusGraphDataProvider final : public UComputeDataProvider
+class UOptimusGraphDataProvider final : public UComputeDataProvider, public IOptimusDeformerInstanceAccessor
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMeshComponent*                         MeshComponent;                                     // 0x0030(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 	TArray<struct FOptimusGraphVariableDescription> Variables;                                       // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_48[0x8];                                       // 0x0048(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
@@ -2119,10 +2190,10 @@ public:
 
 // Class OptimusCore.OptimusImplicitPersistentBufferDataProvider
 // 0x0028 (0x00A8 - 0x0080)
-class UOptimusImplicitPersistentBufferDataProvider final : public UOptimusRawBufferDataProvider
+class UOptimusImplicitPersistentBufferDataProvider final : public UOptimusRawBufferDataProvider, public IOptimusPersistentBufferProvider
 {
 public:
-	uint8                                         Pad_80[0x28];                                      // 0x0080(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_88[0x20];                                      // 0x0088(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -2141,10 +2212,10 @@ public:
 
 // Class OptimusCore.OptimusPersistentBufferDataProvider
 // 0x0020 (0x00A0 - 0x0080)
-class UOptimusPersistentBufferDataProvider final : public UOptimusRawBufferDataProvider
+class UOptimusPersistentBufferDataProvider final : public UOptimusRawBufferDataProvider, public IOptimusPersistentBufferProvider
 {
 public:
-	uint8                                         Pad_80[0x20];                                      // 0x0080(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_88[0x18];                                      // 0x0088(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -2286,10 +2357,9 @@ public:
 
 // Class OptimusCore.OptimusSkinnedMeshExecDataInterface
 // 0x0010 (0x0038 - 0x0028)
-class UOptimusSkinnedMeshExecDataInterface final : public UOptimusComputeDataInterface
+class UOptimusSkinnedMeshExecDataInterface final : public UOptimusComputeDataInterface, public IOptimusDeprecatedExecutionDataInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	EOptimusSkinnedMeshExecDomain                 Domain;                                            // 0x0030(0x0001)(Edit, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_31[0x7];                                       // 0x0031(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -2376,10 +2446,9 @@ public:
 
 // Class OptimusCore.OptimusNode_DataInterface
 // 0x0028 (0x0130 - 0x0108)
-class UOptimusNode_DataInterface : public UOptimusNode
+class UOptimusNode_DataInterface : public UOptimusNode, public IOptimusDataInterfaceProvider, public IOptimusComponentBindingProvider, public IOptimusPinMutabilityDefiner
 {
 public:
-	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	TSubclassOf<class UObject>                    DataInterfaceClass;                                // 0x0120(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 	class UOptimusComputeDataInterface*           DataInterfaceData;                                 // 0x0128(0x0008)(Edit, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, Protected, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected, TObjectPtr)
 
@@ -2419,10 +2488,9 @@ public:
 
 // Class OptimusCore.OptimusNode_ComponentSource
 // 0x0028 (0x0130 - 0x0108)
-class UOptimusNode_ComponentSource final : public UOptimusNode
+class UOptimusNode_ComponentSource final : public UOptimusNode, public IOptimusComponentBindingProvider, public IOptimusNonCollapsibleNode
 {
 public:
-	uint8                                         Pad_108[0x10];                                     // 0x0108(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class UOptimusComponentSourceBinding*         Binding;                                           // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 	struct FOptimusNode_ComponentSource_DuplicationInfo DuplicationInfo;                             // 0x0120(0x0010)(DuplicateTransient, NoDestructor, NativeAccessSpecifierPrivate)
 
@@ -2443,10 +2511,9 @@ public:
 
 // Class OptimusCore.OptimusNode_ComputeKernelBase
 // 0x0008 (0x0110 - 0x0108)
-class UOptimusNode_ComputeKernelBase : public UOptimusNode
+class UOptimusNode_ComputeKernelBase : public UOptimusNode, public IOptimusComputeKernelProvider
 {
 public:
-	uint8                                         Pad_108[0x8];                                      // 0x0108(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -2535,10 +2602,9 @@ public:
 
 // Class OptimusCore.OptimusNode_ConstantValue
 // 0x0018 (0x0120 - 0x0108)
-class UOptimusNode_ConstantValue : public UOptimusNode
+class UOptimusNode_ConstantValue : public UOptimusNode, public IOptimusValueProvider, public IOptimusGeneratedClassDefiner, public IOptimusPinMutabilityDefiner
 {
 public:
-	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
@@ -2557,10 +2623,9 @@ public:
 
 // Class OptimusCore.OptimusNode_CustomComputeKernel
 // 0x00F0 (0x0200 - 0x0110)
-class UOptimusNode_CustomComputeKernel final : public UOptimusNode_ComputeKernelBase
+class UOptimusNode_CustomComputeKernel final : public UOptimusNode_ComputeKernelBase, public IOptimusShaderTextProvider, public IOptimusParameterBindingProvider, public IOptimusNodeAdderPinProvider, public IOptimusExecutionDomainProvider
 {
 public:
-	uint8                                         Pad_110[0x20];                                     // 0x0110(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	class FName                                   Category;                                          // 0x0130(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FOptimusValidatedName                  KernelName;                                        // 0x0138(0x0008)(Edit, NoDestructor, NativeAccessSpecifierPublic)
 	struct FOptimusExecutionDomain                ExecutionDomain;                                   // 0x0140(0x0020)(Edit, NativeAccessSpecifierPublic)
@@ -2592,10 +2657,9 @@ public:
 
 // Class OptimusCore.OptimusNode_FunctionReference
 // 0x0048 (0x0150 - 0x0108)
-class UOptimusNode_FunctionReference final : public UOptimusNode
+class UOptimusNode_FunctionReference final : public UOptimusNode, public IOptimusNodePinRouter, public IOptimusNodeGraphProvider, public IOptimusNodeSubGraphReferencer
 {
 public:
-	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	TSoftObjectPtr<class UOptimusFunctionNodeGraph> FunctionGraph;                                   // 0x0120(0x0028)(Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TWeakObjectPtr<class UOptimusNodePin>         DefaultComponentPin;                               // 0x0148(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 
@@ -2616,10 +2680,9 @@ public:
 
 // Class OptimusCore.OptimusNode_ResourceAccessorBase
 // 0x0088 (0x0190 - 0x0108)
-class UOptimusNode_ResourceAccessorBase : public UOptimusNode
+class UOptimusNode_ResourceAccessorBase : public UOptimusNode, public IOptimusDataInterfaceProvider, public IOptimusComponentBindingProvider, public IOptimusPinMutabilityDefiner, public IOptimusNonCollapsibleNode
 {
 public:
-	uint8                                         Pad_108[0x20];                                     // 0x0108(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	TWeakObjectPtr<class UOptimusResourceDescription> ResourceDesc;                                  // 0x0128(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	EOptimusBufferWriteType                       WriteType;                                         // 0x0130(0x0001)(ZeroConstructor, Deprecated, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_131[0x7];                                      // 0x0131(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
@@ -2661,10 +2724,9 @@ public:
 
 // Class OptimusCore.OptimusNode_GetVariable
 // 0x0048 (0x0150 - 0x0108)
-class UOptimusNode_GetVariable final : public UOptimusNode
+class UOptimusNode_GetVariable final : public UOptimusNode, public IOptimusValueProvider, public IOptimusPinMutabilityDefiner, public IOptimusNonCollapsibleNode
 {
 public:
-	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	TWeakObjectPtr<class UOptimusVariableDescription> VariableDesc;                                  // 0x0120(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	struct FOptimusNode_GetVariable_DuplicationInfo DuplicationInfo;                                 // 0x0128(0x0028)(DuplicateTransient, NativeAccessSpecifierPrivate)
 
@@ -2685,10 +2747,9 @@ public:
 
 // Class OptimusCore.OptimusNode_GraphTerminal
 // 0x0038 (0x0140 - 0x0108)
-class UOptimusNode_GraphTerminal final : public UOptimusNode
+class UOptimusNode_GraphTerminal final : public UOptimusNode, public IOptimusNodePinRouter, public IOptimusAlternativeSelectedObjectProvider, public IOptimusNonCollapsibleNode, public IOptimusNonCopyableNode
 {
 public:
-	uint8                                         Pad_108[0x20];                                     // 0x0108(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	EOptimusTerminalType                          TerminalType;                                      // 0x0128(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TWeakObjectPtr<class UOptimusNodePin>         DefaultComponentPin;                               // 0x012C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_134[0xC];                                      // 0x0134(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -2710,10 +2771,9 @@ public:
 
 // Class OptimusCore.OptimusNode_LoopTerminal
 // 0x0068 (0x0170 - 0x0108)
-class UOptimusNode_LoopTerminal final : public UOptimusNode
+class UOptimusNode_LoopTerminal final : public UOptimusNode, public IOptimusNodeAdderPinProvider, public IOptimusUnnamedNodePinProvider, public IOptimusNodePairProvider, public IOptimusPinMutabilityDefiner, public IOptimusParameterBindingProvider
 {
 public:
-	uint8                                         Pad_108[0x28];                                     // 0x0108(0x0028)(Fixing Size After Last Property [ Dumper-7 ])
 	EOptimusTerminalType                          TerminalType;                                      // 0x0130(0x0004)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_134[0x4];                                      // 0x0134(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FOptimusLoopTerminalInfo               LoopInfo;                                          // 0x0138(0x0018)(Edit, Protected, NativeAccessSpecifierProtected)
@@ -2776,10 +2836,9 @@ public:
 
 // Class OptimusCore.OptimusNode_SubGraphReference
 // 0x0030 (0x0138 - 0x0108)
-class UOptimusNode_SubGraphReference final : public UOptimusNode
+class UOptimusNode_SubGraphReference final : public UOptimusNode, public IOptimusNodePinRouter, public IOptimusNodeGraphProvider, public IOptimusNodeSubGraphReferencer
 {
 public:
-	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	class FName                                   SubgraphName;                                      // 0x0120(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TWeakObjectPtr<class UOptimusNodePin>         DefaultComponentPin;                               // 0x0128(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_130[0x8];                                      // 0x0130(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])

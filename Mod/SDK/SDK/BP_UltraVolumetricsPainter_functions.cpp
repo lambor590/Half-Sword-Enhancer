@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_UltraVolumetricsPainter_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Trail");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Trail", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Trail Parms{};
 
@@ -41,10 +39,8 @@ void ABP_UltraVolumetricsPainter_C::Trail(class UTextureRenderTarget2D* RT_textu
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveUp__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveUp__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveUp__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveUp__UpdateFunc()
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveUp__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveUp__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveUp__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +63,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveUp__FinishedFunc()
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveRight__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveRight__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveRight__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -83,10 +75,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveRight__UpdateFunc()
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveRight__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveRight__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveRight__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -97,10 +87,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveRight__FinishedFunc()
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveForward__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveForward__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveForward__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -111,10 +99,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveForward__UpdateFunc()
 
 void ABP_UltraVolumetricsPainter_C::TL_MoveForward__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "TL-MoveForward__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"TL-MoveForward__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -125,10 +111,8 @@ void ABP_UltraVolumetricsPainter_C::TL_MoveForward__FinishedFunc()
 
 void ABP_UltraVolumetricsPainter_C::StartTimer()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "StartTimer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"StartTimer", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -143,10 +127,8 @@ void ABP_UltraVolumetricsPainter_C::StartTimer()
 
 void ABP_UltraVolumetricsPainter_C::ScaleBrush(const struct FHitResult& Hit, double* BrushSize, struct FLinearColor* BrushScaling)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "ScaleBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScaleBrush", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_ScaleBrush Parms{};
 
@@ -167,10 +149,8 @@ void ABP_UltraVolumetricsPainter_C::ScaleBrush(const struct FHitResult& Hit, dou
 
 void ABP_UltraVolumetricsPainter_C::RunTimerFunctions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "RunTimerFunctions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RunTimerFunctions", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -183,10 +163,8 @@ void ABP_UltraVolumetricsPainter_C::RunTimerFunctions()
 
 void ABP_UltraVolumetricsPainter_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "RT-Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RT-Paint", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_RT_Paint Parms{};
 
@@ -201,10 +179,8 @@ void ABP_UltraVolumetricsPainter_C::RT_Paint(class UTextureRenderTarget2D* RT)
 
 void ABP_UltraVolumetricsPainter_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -220,10 +196,8 @@ void ABP_UltraVolumetricsPainter_C::ReceiveBeginPlay()
 
 void ABP_UltraVolumetricsPainter_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile9", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile9 Parms{};
 
@@ -246,10 +220,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile9(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile8", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile8 Parms{};
 
@@ -272,10 +244,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile8(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile7", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile7 Parms{};
 
@@ -298,10 +268,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile7(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile6", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile6 Parms{};
 
@@ -324,10 +292,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile6(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile5", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile5 Parms{};
 
@@ -350,10 +316,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile5(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile4", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile4 Parms{};
 
@@ -376,10 +340,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile4(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile3", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile3 Parms{};
 
@@ -402,10 +364,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile3(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile2", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile2 Parms{};
 
@@ -428,10 +388,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile2(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile10", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile10 Parms{};
 
@@ -454,10 +412,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile10(const struct FVector& Start, co
 
 void ABP_UltraVolumetricsPainter_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Projectile1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile1", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Projectile1 Parms{};
 
@@ -477,10 +433,8 @@ void ABP_UltraVolumetricsPainter_C::Projectile1(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsPainter_C::PaintResult(class UTexture2D* PaintTex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "PaintResult");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintResult", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_PaintResult Parms{};
 
@@ -495,10 +449,8 @@ void ABP_UltraVolumetricsPainter_C::PaintResult(class UTexture2D* PaintTex)
 
 void ABP_UltraVolumetricsPainter_C::MouseLook()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "MouseLook");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MouseLook", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -511,10 +463,8 @@ void ABP_UltraVolumetricsPainter_C::MouseLook()
 
 void ABP_UltraVolumetricsPainter_C::Line3dWidth(double Width)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Line3dWidth");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dWidth", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Line3dWidth Parms{};
 
@@ -532,10 +482,8 @@ void ABP_UltraVolumetricsPainter_C::Line3dWidth(double Width)
 
 void ABP_UltraVolumetricsPainter_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Line3dLocations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dLocations", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Line3dLocations Parms{};
 
@@ -553,10 +501,8 @@ void ABP_UltraVolumetricsPainter_C::Line3dLocations(const struct FVector& StartP
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_X_K2Node_InputKeyEvent_4(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_X_K2Node_InputKeyEvent_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_X_K2Node_InputKeyEvent_4", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_X_K2Node_InputKeyEvent_4 Parms{};
 
@@ -573,10 +519,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_X_K2Node_InputKeyEvent_4(const str
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_W_K2Node_InputKeyEvent_9(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_W_K2Node_InputKeyEvent_9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_W_K2Node_InputKeyEvent_9", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_9 Parms{};
 
@@ -593,10 +537,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_W_K2Node_InputKeyEvent_9(const str
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_W_K2Node_InputKeyEvent_8(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_W_K2Node_InputKeyEvent_8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_W_K2Node_InputKeyEvent_8", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_8 Parms{};
 
@@ -613,10 +555,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_W_K2Node_InputKeyEvent_8(const str
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_S_K2Node_InputKeyEvent_11(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_S_K2Node_InputKeyEvent_11");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_S_K2Node_InputKeyEvent_11", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_11 Parms{};
 
@@ -633,10 +573,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_S_K2Node_InputKeyEvent_11(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_S_K2Node_InputKeyEvent_10(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_S_K2Node_InputKeyEvent_10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_S_K2Node_InputKeyEvent_10", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_10 Parms{};
 
@@ -653,10 +591,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_S_K2Node_InputKeyEvent_10(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21 Parms{};
 
@@ -673,10 +609,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_RightMouseButton_K2Node_InputKeyEv
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20 Parms{};
 
@@ -693,10 +627,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_RightMouseButton_K2Node_InputKeyEv
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_Q_K2Node_InputKeyEvent_17(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_Q_K2Node_InputKeyEvent_17");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Q_K2Node_InputKeyEvent_17", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_17 Parms{};
 
@@ -713,10 +645,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_Q_K2Node_InputKeyEvent_17(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_Q_K2Node_InputKeyEvent_16(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_Q_K2Node_InputKeyEvent_16");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Q_K2Node_InputKeyEvent_16", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_16 Parms{};
 
@@ -733,10 +663,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_Q_K2Node_InputKeyEvent_16(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0 Parms{};
 
@@ -753,10 +681,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_MouseScrollUp_K2Node_InputKeyEvent
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1 Parms{};
 
@@ -773,10 +699,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_MouseScrollDown_K2Node_InputKeyEve
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_M_K2Node_InputKeyEvent_7(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_M_K2Node_InputKeyEvent_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_M_K2Node_InputKeyEvent_7", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_M_K2Node_InputKeyEvent_7 Parms{};
 
@@ -793,10 +717,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_M_K2Node_InputKeyEvent_7(const str
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftShift_K2Node_InputKeyEvent_3(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_LeftShift_K2Node_InputKeyEvent_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftShift_K2Node_InputKeyEvent_3", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_3 Parms{};
 
@@ -813,10 +735,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftShift_K2Node_InputKeyEvent_3(c
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftShift_K2Node_InputKeyEvent_2(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_LeftShift_K2Node_InputKeyEvent_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftShift_K2Node_InputKeyEvent_2", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_2 Parms{};
 
@@ -833,10 +753,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftShift_K2Node_InputKeyEvent_2(c
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6 Parms{};
 
@@ -853,10 +771,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEve
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5 Parms{};
 
@@ -873,10 +789,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_LeftMouseButton_K2Node_InputKeyEve
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_E_K2Node_InputKeyEvent_19(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_E_K2Node_InputKeyEvent_19");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_E_K2Node_InputKeyEvent_19", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_19 Parms{};
 
@@ -893,10 +807,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_E_K2Node_InputKeyEvent_19(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_E_K2Node_InputKeyEvent_18(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_E_K2Node_InputKeyEvent_18");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_E_K2Node_InputKeyEvent_18", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_18 Parms{};
 
@@ -913,10 +825,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_E_K2Node_InputKeyEvent_18(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_D_K2Node_InputKeyEvent_15(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_D_K2Node_InputKeyEvent_15");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_D_K2Node_InputKeyEvent_15", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_15 Parms{};
 
@@ -933,10 +843,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_D_K2Node_InputKeyEvent_15(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_D_K2Node_InputKeyEvent_14(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_D_K2Node_InputKeyEvent_14");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_D_K2Node_InputKeyEvent_14", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_14 Parms{};
 
@@ -953,10 +861,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_D_K2Node_InputKeyEvent_14(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_A_K2Node_InputKeyEvent_13(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_A_K2Node_InputKeyEvent_13");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_A_K2Node_InputKeyEvent_13", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_13 Parms{};
 
@@ -973,10 +879,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_A_K2Node_InputKeyEvent_13(const st
 
 void ABP_UltraVolumetricsPainter_C::InpActEvt_A_K2Node_InputKeyEvent_12(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "InpActEvt_A_K2Node_InputKeyEvent_12");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_A_K2Node_InputKeyEvent_12", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_12 Parms{};
 
@@ -994,10 +898,8 @@ void ABP_UltraVolumetricsPainter_C::InpActEvt_A_K2Node_InputKeyEvent_12(const st
 
 void ABP_UltraVolumetricsPainter_C::Grenade(const struct FVector& Location, double Radius)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Grenade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grenade", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Grenade Parms{};
 
@@ -1017,10 +919,8 @@ void ABP_UltraVolumetricsPainter_C::Grenade(const struct FVector& Location, doub
 
 void ABP_UltraVolumetricsPainter_C::GetUVPosition(class USceneComponent* Target, const struct FVector& Location, struct FLinearColor* Vector4)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "GetUVPosition");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetUVPosition", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_GetUVPosition Parms{};
 
@@ -1039,10 +939,8 @@ void ABP_UltraVolumetricsPainter_C::GetUVPosition(class USceneComponent* Target,
 
 void ABP_UltraVolumetricsPainter_C::FogPaint()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "FogPaint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FogPaint", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1055,10 +953,8 @@ void ABP_UltraVolumetricsPainter_C::FogPaint()
 
 void ABP_UltraVolumetricsPainter_C::Flashlight_Strength(double Strength)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Flashlight-Strength");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight-Strength", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Flashlight_Strength Parms{};
 
@@ -1077,10 +973,8 @@ void ABP_UltraVolumetricsPainter_C::Flashlight_Strength(double Strength)
 
 void ABP_UltraVolumetricsPainter_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "Flashlight");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight", FnName));
 
 	Params::BP_UltraVolumetricsPainter_C_Flashlight Parms{};
 
@@ -1099,10 +993,8 @@ void ABP_UltraVolumetricsPainter_C::Flashlight(const struct FVector& StartLocati
 
 void ABP_UltraVolumetricsPainter_C::ExecuteUbergraph_BP_UltraVolumetricsPainter(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "ExecuteUbergraph_BP_UltraVolumetricsPainter");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_UltraVolumetricsPainter_C", "ExecuteUbergraph_BP_UltraVolumetricsPainter", FuncInfo);
 
 	Params::BP_UltraVolumetricsPainter_C_ExecuteUbergraph_BP_UltraVolumetricsPainter Parms{};
 
@@ -1117,10 +1009,8 @@ void ABP_UltraVolumetricsPainter_C::ExecuteUbergraph_BP_UltraVolumetricsPainter(
 
 void ABP_UltraVolumetricsPainter_C::DisableFillMode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "DisableFillMode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DisableFillMode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1131,10 +1021,8 @@ void ABP_UltraVolumetricsPainter_C::DisableFillMode()
 
 void ABP_UltraVolumetricsPainter_C::AlignBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsPainter_C", "AlignBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AlignBrush", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

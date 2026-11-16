@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void AWillie_BP_C::Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Add and Remove Weapon Weights");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add and Remove Weapon Weights", FnName));
 
 	Params::Willie_BP_C_Add_and_Remove_Weapon_Weights Parms{};
 
@@ -38,15 +36,32 @@ void AWillie_BP_C::Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapo
 }
 
 
+// Function Willie_BP.Willie_BP_C.Add Bolt to Quiver
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool*                                   Added_Bolt                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Add_Bolt_to_Quiver(bool* Added_Bolt)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Bolt to Quiver", FnName));
+
+	Params::Willie_BP_C_Add_Bolt_to_Quiver Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Added_Bolt != nullptr)
+		*Added_Bolt = Parms.Added_Bolt;
+}
+
+
 // Function Willie_BP.Willie_BP_C.Add Startup Weapons
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::Add_Startup_Weapons()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Add Startup Weapons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Startup Weapons", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +78,8 @@ void AWillie_BP_C::Add_Startup_Weapons()
 
 void AWillie_BP_C::Add_Vertex_Paint_Blood(const struct FVector& Location, class FName bone, double Size, double Rate, int32 Channel)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Add Vertex Paint Blood");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Vertex Paint Blood", FnName));
 
 	Params::Willie_BP_C_Add_Vertex_Paint_Blood Parms{};
 
@@ -85,10 +98,8 @@ void AWillie_BP_C::Add_Vertex_Paint_Blood(const struct FVector& Location, class 
 
 void AWillie_BP_C::AI__Unstuck_Jammed_Weapons()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "AI  Unstuck Jammed Weapons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AI  Unstuck Jammed Weapons", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -99,10 +110,8 @@ void AWillie_BP_C::AI__Unstuck_Jammed_Weapons()
 
 void AWillie_BP_C::Ai_Finish_Thrust()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Ai Finish Thrust");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Ai Finish Thrust", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -114,19 +123,19 @@ void AWillie_BP_C::Ai_Finish_Thrust()
 // double                                  In_TIme                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class AWillie_BP_C*                     Attack_This_Target                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   At_This_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Aggression                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::AI_Get_Alerted(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location)
+void AWillie_BP_C::AI_Get_Alerted(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "AI Get Alerted");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AI Get Alerted", FnName));
 
 	Params::Willie_BP_C_AI_Get_Alerted Parms{};
 
 	Parms.In_TIme = In_TIme;
 	Parms.Attack_This_Target = Attack_This_Target;
 	Parms.At_This_Location = std::move(At_This_Location);
+	Parms.Aggression = Aggression;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -137,10 +146,8 @@ void AWillie_BP_C::AI_Get_Alerted(double In_TIme, class AWillie_BP_C* Attack_Thi
 
 void AWillie_BP_C::Apply_Gameplay_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Apply Gameplay Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Gameplay Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -151,24 +158,8 @@ void AWillie_BP_C::Apply_Gameplay_Settings()
 
 void AWillie_BP_C::Apply_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Apply Settings");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Apply Vertex Paint on New Armor Event
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Apply_Vertex_Paint_on_New_Armor_Event()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Apply Vertex Paint on New Armor Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Apply Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -179,10 +170,8 @@ void AWillie_BP_C::Apply_Vertex_Paint_on_New_Armor_Event()
 
 void AWillie_BP_C::Assign_L_Weapon_Slot()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Assign L Weapon Slot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Assign L Weapon Slot", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -193,32 +182,32 @@ void AWillie_BP_C::Assign_L_Weapon_Slot()
 
 void AWillie_BP_C::Assign_R_Weapon_Slot()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Assign R Weapon Slot");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Assign R Weapon Slot", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
 // Function Willie_BP.Willie_BP_C.Attach Bolt Quiver
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class ABP_Quiver_Master_C*              InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UActorComponent*                  Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Is_Quiver                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Attach_Bolt_Quiver(class ABP_Quiver_Master_C* InputPin)
+void AWillie_BP_C::Attach_Bolt_Quiver(class UActorComponent* Target, bool* Is_Quiver)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Attach Bolt Quiver");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attach Bolt Quiver", FnName));
 
 	Params::Willie_BP_C_Attach_Bolt_Quiver Parms{};
 
-	Parms.InputPin = InputPin;
+	Parms.Target = Target;
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (Is_Quiver != nullptr)
+		*Is_Quiver = Parms.Is_Quiver;
 }
 
 
@@ -231,10 +220,8 @@ void AWillie_BP_C::Attach_Bolt_Quiver(class ABP_Quiver_Master_C* InputPin)
 
 void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Attach Decal");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attach Decal", FnName));
 
 	Params::Willie_BP_C_Attach_Decal Parms{};
 
@@ -253,10 +240,8 @@ void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAtta
 
 void AWillie_BP_C::Attach_Empty_Quiver()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Attach Empty Quiver");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attach Empty Quiver", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -267,10 +252,8 @@ void AWillie_BP_C::Attach_Empty_Quiver()
 
 void AWillie_BP_C::Attach_L_Hand_To_Offhand_Position()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Attach L Hand To Offhand Position");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Attach L Hand To Offhand Position", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -281,10 +264,8 @@ void AWillie_BP_C::Attach_L_Hand_To_Offhand_Position()
 
 void AWillie_BP_C::Bite_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Bite Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Bite Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +282,8 @@ void AWillie_BP_C::Bite_Event()
 
 void AWillie_BP_C::BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature", FnName));
 
 	Params::Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
@@ -327,10 +306,8 @@ void AWillie_BP_C::BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEve
 
 void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature", FnName));
 
 	Params::Willie_BP_C_BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature Parms{};
 
@@ -354,10 +331,8 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 
 void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature", FnName));
 
 	Params::Willie_BP_C_BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature Parms{};
 
@@ -367,6 +342,110 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 	Parms.EstimatedColorAtHitLocationInfo = std::move(EstimatedColorAtHitLocationInfo);
 	Parms.AvarageColorInAreaInfo = std::move(AvarageColorInAreaInfo);
 	Parms.AdditionalData = std::move(AdditionalData);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_CM_Arm_L_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::BndEvt__Willie_BP_CM_Arm_L_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_CM_Arm_L_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::Willie_BP_C_BndEvt__Willie_BP_CM_Arm_L_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_CM_Arm_R_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::BndEvt__Willie_BP_CM_Arm_R_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_CM_Arm_R_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::Willie_BP_C_BndEvt__Willie_BP_CM_Arm_R_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_CM_Cuirass_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::BndEvt__Willie_BP_CM_Cuirass_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_CM_Cuirass_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::Willie_BP_C_BndEvt__Willie_BP_CM_Cuirass_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_CM_Helmet_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::BndEvt__Willie_BP_CM_Helmet_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_CM_Helmet_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature", FnName));
+
+	Params::Willie_BP_C_BndEvt__Willie_BP_CM_Helmet_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -384,10 +463,8 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 
 void AWillie_BP_C::BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature", FnName));
 
 	Params::Willie_BP_C_BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature Parms{};
 
@@ -412,10 +489,8 @@ void AWillie_BP_C::BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_Component
 
 void AWillie_BP_C::BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature", FnName));
 
 	Params::Willie_BP_C_BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature Parms{};
 
@@ -433,10 +508,8 @@ void AWillie_BP_C::BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_Component
 
 void AWillie_BP_C::Body_Skill_Up()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Body Skill Up");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Body Skill Up", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -452,10 +525,8 @@ void AWillie_BP_C::Body_Skill_Up()
 
 void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Box Vertex Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Box Vertex Paint", FnName));
 
 	Params::Willie_BP_C_Box_Vertex_Paint Parms{};
 
@@ -478,10 +549,8 @@ void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bo
 
 void AWillie_BP_C::BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BOXXX");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BOXXX", FnName));
 
 	Params::Willie_BP_C_BOXXX Parms{};
 
@@ -497,10 +566,8 @@ void AWillie_BP_C::BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComp
 
 void AWillie_BP_C::Break_Arm_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Arm L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Arm L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -511,10 +578,8 @@ void AWillie_BP_C::Break_Arm_L()
 
 void AWillie_BP_C::Break_Arm_R()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Arm R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Arm R", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -525,10 +590,8 @@ void AWillie_BP_C::Break_Arm_R()
 
 void AWillie_BP_C::Break_Back()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Back");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Back", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -539,10 +602,8 @@ void AWillie_BP_C::Break_Back()
 
 void AWillie_BP_C::Break_Head()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Head");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Head", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -552,17 +613,17 @@ void AWillie_BP_C::Break_Head()
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // bool                                    Slide                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Destroy_Constraint                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Break_L_Constraint(bool Slide)
+void AWillie_BP_C::Break_L_Constraint(bool Slide, bool Destroy_Constraint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break L Constraint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break L Constraint", FnName));
 
 	Params::Willie_BP_C_Break_L_Constraint Parms{};
 
 	Parms.Slide = Slide;
+	Parms.Destroy_Constraint = Destroy_Constraint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -573,10 +634,8 @@ void AWillie_BP_C::Break_L_Constraint(bool Slide)
 
 void AWillie_BP_C::Break_Leg_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Leg L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Leg L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -587,10 +646,8 @@ void AWillie_BP_C::Break_Leg_L()
 
 void AWillie_BP_C::Break_Leg_R()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Leg R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Leg R", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -598,15 +655,19 @@ void AWillie_BP_C::Break_Leg_R()
 
 // Function Willie_BP.Willie_BP_C.Break R Constraint
 // (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Destroy_Constraint                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Break_R_Constraint()
+void AWillie_BP_C::Break_R_Constraint(bool Destroy_Constraint)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break R Constraint", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break R Constraint");
+	Params::Willie_BP_C_Break_R_Constraint Parms{};
 
-	UObject::ProcessEvent(Func, nullptr);
+	Parms.Destroy_Constraint = Destroy_Constraint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -615,10 +676,8 @@ void AWillie_BP_C::Break_R_Constraint()
 
 void AWillie_BP_C::Break_Sheath_Constraint()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Break Sheath Constraint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Break Sheath Constraint", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -629,10 +688,8 @@ void AWillie_BP_C::Break_Sheath_Constraint()
 
 void AWillie_BP_C::Call_Minus_Enemy()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Call Minus Enemy");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Call Minus Enemy", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -643,10 +700,8 @@ void AWillie_BP_C::Call_Minus_Enemy()
 
 void AWillie_BP_C::Camera_Shake_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Camera Shake Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Camera Shake Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -657,10 +712,8 @@ void AWillie_BP_C::Camera_Shake_Timeline__FinishedFunc()
 
 void AWillie_BP_C::Camera_Shake_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Camera Shake Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Camera Shake Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -671,10 +724,8 @@ void AWillie_BP_C::Camera_Shake_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Check_Available_Weapon_L_in_All_Slots()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check Available Weapon L in All Slots");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Available Weapon L in All Slots", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -685,10 +736,20 @@ void AWillie_BP_C::Check_Available_Weapon_L_in_All_Slots()
 
 void AWillie_BP_C::Check_Available_Weapon_R_in_All_Slots()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Available Weapon R in All Slots", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check Available Weapon R in All Slots");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Check Bolts In Quiver
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Check_Bolts_In_Quiver()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Bolts In Quiver", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -699,10 +760,8 @@ void AWillie_BP_C::Check_Available_Weapon_R_in_All_Slots()
 
 void AWillie_BP_C::Check_if_L_Holding_Weapon()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check if L Holding Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check if L Holding Weapon", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -713,10 +772,8 @@ void AWillie_BP_C::Check_if_L_Holding_Weapon()
 
 void AWillie_BP_C::Check_if_R_Holding_Weapon()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check if R Holding Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check if R Holding Weapon", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -732,10 +789,8 @@ void AWillie_BP_C::Check_if_R_Holding_Weapon()
 
 void AWillie_BP_C::Check_Scabbard_Unsheath_State_L(class UPhysicsConstraintComponent* Sheath_Constraint, ESheathSlots_Enum Sheath_Enum, bool Unsheathing, double Length)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check Scabbard Unsheath State L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Scabbard Unsheath State L", FnName));
 
 	Params::Willie_BP_C_Check_Scabbard_Unsheath_State_L Parms{};
 
@@ -758,10 +813,8 @@ void AWillie_BP_C::Check_Scabbard_Unsheath_State_L(class UPhysicsConstraintCompo
 
 void AWillie_BP_C::Check_Scabbard_Unsheath_State_R(class UPhysicsConstraintComponent* Sheath_Constraint, ESheathSlots_Enum Sheath_Enum, bool Unsheathing, double Length)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Check Scabbard Unsheath State R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Scabbard Unsheath State R", FnName));
 
 	Params::Willie_BP_C_Check_Scabbard_Unsheath_State_R Parms{};
 
@@ -774,6 +827,18 @@ void AWillie_BP_C::Check_Scabbard_Unsheath_State_R(class UPhysicsConstraintCompo
 }
 
 
+// Function Willie_BP.Willie_BP_C.Check Where Defeated Soul Goes
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Check_Where_Defeated_Soul_Goes()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Check Where Defeated Soul Goes", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Control Physical Animation Str
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -781,10 +846,8 @@ void AWillie_BP_C::Check_Scabbard_Unsheath_State_R(class UPhysicsConstraintCompo
 
 void AWillie_BP_C::Control_Physical_Animation_Str(class UPhysicalAnimationComponent* Physical_Animation_Ref)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Control Physical Animation Str");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Control Physical Animation Str", FnName));
 
 	Params::Willie_BP_C_Control_Physical_Animation_Str Parms{};
 
@@ -801,10 +864,8 @@ void AWillie_BP_C::Control_Physical_Animation_Str(class UPhysicalAnimationCompon
 
 void AWillie_BP_C::Create_Sheath_Constraint_L(EWeapon_Slots_Enum Slot)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Create Sheath Constraint L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Sheath Constraint L", FnName));
 
 	Params::Willie_BP_C_Create_Sheath_Constraint_L Parms{};
 
@@ -821,10 +882,8 @@ void AWillie_BP_C::Create_Sheath_Constraint_L(EWeapon_Slots_Enum Slot)
 
 void AWillie_BP_C::Create_Sheath_Constraint_R(EWeapon_Slots_Enum Slot)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Create Sheath Constraint R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Sheath Constraint R", FnName));
 
 	Params::Willie_BP_C_Create_Sheath_Constraint_R Parms{};
 
@@ -841,16 +900,192 @@ void AWillie_BP_C::Create_Sheath_Constraint_R(EWeapon_Slots_Enum Slot)
 
 class USceneComponent* AWillie_BP_C::Current_Offhand_Position_Scene()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Current Offhand Position Scene");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Current Offhand Position Scene", FnName));
 
 	Params::Willie_BP_C_Current_Offhand_Position_Scene Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent", FnName));
+
+	Params::Willie_BP_C_CustomEvent Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent_1
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent_1(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent_1", FnName));
+
+	Params::Willie_BP_C_CustomEvent_1 Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent_2
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent_2(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent_2", FnName));
+
+	Params::Willie_BP_C_CustomEvent_2 Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent_3
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent_3(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent_3", FnName));
+
+	Params::Willie_BP_C_CustomEvent_3 Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent_5
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent_5(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent_5", FnName));
+
+	Params::Willie_BP_C_CustomEvent_5 Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.CustomEvent_6
+// (HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::CustomEvent_6(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CustomEvent_6", FnName));
+
+	Params::Willie_BP_C_CustomEvent_6 Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Cut Hair
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AModularWeaponBP_C*               Weapon                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Hair_Cut                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Cut_Hair(class AModularWeaponBP_C* Weapon, bool* Hair_Cut)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Cut Hair", FnName));
+
+	Params::Willie_BP_C_Cut_Hair Parms{};
+
+	Parms.Weapon = Weapon;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Hair_Cut != nullptr)
+		*Hair_Cut = Parms.Hair_Cut;
 }
 
 
@@ -861,10 +1096,8 @@ class USceneComponent* AWillie_BP_C::Current_Offhand_Position_Scene()
 
 double AWillie_BP_C::Damage_Rate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Damage Rate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Damage Rate", FnName));
 
 	Params::Willie_BP_C_Damage_Rate Parms{};
 
@@ -903,10 +1136,8 @@ double AWillie_BP_C::Damage_Rate()
 
 void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Extra_High_Velocity, double Draw_Cut, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Deal Complex Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Deal Complex Damage", FnName));
 
 	Params::Willie_BP_C_Deal_Complex_Damage Parms{};
 
@@ -955,10 +1186,8 @@ void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_
 
 void AWillie_BP_C::Death()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Death");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Death", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -969,10 +1198,8 @@ void AWillie_BP_C::Death()
 
 void AWillie_BP_C::Death_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Death Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Death Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -983,10 +1210,8 @@ void AWillie_BP_C::Death_Timeline__FinishedFunc()
 
 void AWillie_BP_C::Death_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Death Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Death Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -997,10 +1222,8 @@ void AWillie_BP_C::Death_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Destroy_Hair()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Destroy Hair");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Hair", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1011,10 +1234,8 @@ void AWillie_BP_C::Destroy_Hair()
 
 void AWillie_BP_C::Destroy_Willie()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Destroy Willie");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Willie", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1025,10 +1246,8 @@ void AWillie_BP_C::Destroy_Willie()
 
 void AWillie_BP_C::Disentergrate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Disentergrate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Disentergrate", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1041,14 +1260,30 @@ void AWillie_BP_C::Disentergrate()
 
 void AWillie_BP_C::Disintegrate_and_drop_armor(bool Condition__Temp_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Disintegrate and drop armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Disintegrate and drop armor", FnName));
 
 	Params::Willie_BP_C_Disintegrate_and_drop_armor Parms{};
 
 	Parms.Condition__Temp_ = Condition__Temp_;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Dislocate Bone
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class FName                             In_Bone                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Dislocate_Bone(class FName In_Bone)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dislocate Bone", FnName));
+
+	Params::Willie_BP_C_Dislocate_Bone Parms{};
+
+	Parms.In_Bone = In_Bone;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1066,10 +1301,8 @@ void AWillie_BP_C::Disintegrate_and_drop_armor(bool Condition__Temp_)
 
 void AWillie_BP_C::Dismember_Cut(class FName bone, const struct FVector& Location, class UPrimitiveComponent* Cut_Mesh, int32 Dism_Cut_Level, class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Dismember Cut");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dismember Cut", FnName));
 
 	Params::Willie_BP_C_Dismember_Cut Parms{};
 
@@ -1097,10 +1330,8 @@ void AWillie_BP_C::Dismember_Cut(class FName bone, const struct FVector& Locatio
 
 void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Dismember Function Delayed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dismember Function Delayed", FnName));
 
 	Params::Willie_BP_C_Dismember_Function_Delayed Parms{};
 
@@ -1128,13 +1359,12 @@ void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Mast
 // class UBoxComponent*                    VP_Box_Collision_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Box_Collision_2                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Dismember_Weapon                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class FName                             Dismember_Bone_Name                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Dismember_Function_Initiate(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon)
+void AWillie_BP_C::Dismember_Function_Initiate(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon, class FName Dismember_Bone_Name)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Dismember Function Initiate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dismember Function Initiate", FnName));
 
 	Params::Willie_BP_C_Dismember_Function_Initiate Parms{};
 
@@ -1145,6 +1375,7 @@ void AWillie_BP_C::Dismember_Function_Initiate(class USkeletalMeshComponent* Mas
 	Parms.VP_Box_Collision_1 = VP_Box_Collision_1;
 	Parms.VP_Box_Collision_2 = VP_Box_Collision_2;
 	Parms.Dismember_Weapon = Dismember_Weapon;
+	Parms.Dismember_Bone_Name = Dismember_Bone_Name;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -1160,10 +1391,8 @@ void AWillie_BP_C::Dismember_Function_Initiate(class USkeletalMeshComponent* Mas
 
 void AWillie_BP_C::Dismemberment_Finish_Event(Enum_DismembermentPart InputPin, class UPhysicsConstraintComponent* Target)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Dismemberment Finish Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dismemberment Finish Event", FnName));
 
 	Params::Willie_BP_C_Dismemberment_Finish_Event Parms{};
 
@@ -1183,10 +1412,8 @@ void AWillie_BP_C::Dismemberment_Finish_Event(Enum_DismembermentPart InputPin, c
 
 void AWillie_BP_C::Draw_Weapon(ELeftRight_Enum Hand, ELeftRight_Enum Side, EWeapon_Slots_Enum Slot)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Draw Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Draw Weapon", FnName));
 
 	Params::Willie_BP_C_Draw_Weapon Parms{};
 
@@ -1198,17 +1425,67 @@ void AWillie_BP_C::Draw_Weapon(ELeftRight_Enum Hand, ELeftRight_Enum Side, EWeap
 }
 
 
+// Function Willie_BP.Willie_BP_C.Drink From Bottle
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UObject*                          Bottle                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Drink_From_Bottle(class UObject* Bottle)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Drink From Bottle", FnName));
+
+	Params::Willie_BP_C_Drink_From_Bottle Parms{};
+
+	Parms.Bottle = Bottle;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Drop Attached Quiver
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Drop_Attached_Quiver()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Drop Attached Quiver", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Dying
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::Dying()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Dying");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dying", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Eat Held Food
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Held_Object                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Ate                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Eat_Held_Food(class UPrimitiveComponent* Held_Object, bool* Ate)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Eat Held Food", FnName));
+
+	Params::Willie_BP_C_Eat_Held_Food Parms{};
+
+	Parms.Held_Object = Held_Object;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Ate != nullptr)
+		*Ate = Parms.Ate;
 }
 
 
@@ -1217,12 +1494,34 @@ void AWillie_BP_C::Dying()
 
 void AWillie_BP_C::End_Arrow_Time_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "End Arrow Time Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"End Arrow Time Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Equip Armor
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USceneComponent*                  Picked_Armor                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class ABP_Armor_Master_C*               Armor_Actor                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Picked_Up                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Equip_Armor(class USceneComponent* Picked_Armor, class ABP_Armor_Master_C* Armor_Actor, bool* Picked_Up)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Equip Armor", FnName));
+
+	Params::Willie_BP_C_Equip_Armor Parms{};
+
+	Parms.Picked_Armor = Picked_Armor;
+	Parms.Armor_Actor = Armor_Actor;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Picked_Up != nullptr)
+		*Picked_Up = Parms.Picked_Up;
 }
 
 
@@ -1235,10 +1534,8 @@ void AWillie_BP_C::End_Arrow_Time_Event()
 
 void AWillie_BP_C::Event_Add_Blood_EmitterTo_Hit_Object(const struct FTransform& SpawnTransform, double Spawn_Rate, class USceneComponent* Parent)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Add Blood EmitterTo Hit Object");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Add Blood EmitterTo Hit Object", FnName));
 
 	Params::Willie_BP_C_Event_Add_Blood_EmitterTo_Hit_Object Parms{};
 
@@ -1255,10 +1552,32 @@ void AWillie_BP_C::Event_Add_Blood_EmitterTo_Hit_Object(const struct FTransform&
 
 void AWillie_BP_C::Event_Add_Sheathed_Weapon()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Add Sheathed Weapon", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Add Sheathed Weapon");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event AI Being Robbed
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_AI_Being_Robbed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event AI Being Robbed", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Auto Reload Crossbow
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Auto_Reload_Crossbow()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Auto Reload Crossbow", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1269,26 +1588,160 @@ void AWillie_BP_C::Event_Add_Sheathed_Weapon()
 
 void AWillie_BP_C::Event_Bend_Over_Extreme()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Bend Over Extreme");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bend Over Extreme", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Willie_BP.Willie_BP_C.Event Block Attach Offhand But Play Animatipn
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Arm L
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Arm_L(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Arm L", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Arm_L Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Arm R
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Arm_R(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Arm R", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Arm_R Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Cuirass
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Cuirass(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Cuirass", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Cuirass Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Helmet
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Helmet(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Helmet", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Helmet Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Leg L
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Leg_L(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Leg L", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Leg_L Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Bind CM OnHit Event Leg R
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Bind_CM_OnHit_Event_Leg_R(class UPrimitiveComponent* Target)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Bind CM OnHit Event Leg R", FnName));
+
+	Params::Willie_BP_C_Event_Bind_CM_OnHit_Event_Leg_R Parms{};
+
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Block And Reset Hair Cut
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Event_Block_Attach_Offhand_But_Play_Animatipn()
+void AWillie_BP_C::Event_Block_And_Reset_Hair_Cut()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Block Attach Offhand But Play Animatipn");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Block And Reset Hair Cut", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Block Attach Offhand But Play Animation
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Block_Attach_Offhand_But_Play_Animation()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Block Attach Offhand But Play Animation", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Block Bone Dislocation
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Disable_Weapons_Momentary                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Event_Block_Bone_Dislocation(bool Disable_Weapons_Momentary)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Block Bone Dislocation", FnName));
+
+	Params::Willie_BP_C_Event_Block_Bone_Dislocation Parms{};
+
+	Parms.Disable_Weapons_Momentary = Disable_Weapons_Momentary;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -1297,10 +1750,8 @@ void AWillie_BP_C::Event_Block_Attach_Offhand_But_Play_Animatipn()
 
 void AWillie_BP_C::Event_Block_L_Hand_Offhand_Attach__Dup_()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Block L Hand Offhand Attach (Dup)");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Block L Hand Offhand Attach (Dup)", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1311,10 +1762,8 @@ void AWillie_BP_C::Event_Block_L_Hand_Offhand_Attach__Dup_()
 
 void AWillie_BP_C::Event_Block_L_OffHand_Grab()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Block L OffHand Grab");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Block L OffHand Grab", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1325,10 +1774,8 @@ void AWillie_BP_C::Event_Block_L_OffHand_Grab()
 
 void AWillie_BP_C::Event_Check_Bone_Dislocation_Status()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Check Bone Dislocation Status");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Bone Dislocation Status", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1339,24 +1786,20 @@ void AWillie_BP_C::Event_Check_Bone_Dislocation_Status()
 
 void AWillie_BP_C::Event_Check_Dismembered_Part_Distance()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Check Dismembered Part Distance");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Dismembered Part Distance", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Willie_BP.Willie_BP_C.Event Check If Soul Goes To Hell
+// Function Willie_BP.Willie_BP_C.Event Check Environmaent Overlap For Muscle Growth
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Event_Check_If_Soul_Goes_To_Hell()
+void AWillie_BP_C::Event_Check_Environmaent_Overlap_For_Muscle_Growth()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Check If Soul Goes To Hell");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Environmaent Overlap For Muscle Growth", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1367,10 +1810,8 @@ void AWillie_BP_C::Event_Check_If_Soul_Goes_To_Hell()
 
 void AWillie_BP_C::Event_Check_If_Weapons_Are_Incapacitated()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Check If Weapons Are Incapacitated");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check If Weapons Are Incapacitated", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1381,10 +1822,20 @@ void AWillie_BP_C::Event_Check_If_Weapons_Are_Incapacitated()
 
 void AWillie_BP_C::Event_Clear_Sheathed_Weapon_Slots()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Clear Sheathed Weapon Slots", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Clear Sheathed Weapon Slots");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Destroy Pending Armor Meshes
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Destroy_Pending_Armor_Meshes()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Destroy Pending Armor Meshes", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1395,10 +1846,8 @@ void AWillie_BP_C::Event_Clear_Sheathed_Weapon_Slots()
 
 void AWillie_BP_C::Event_Detach_Grab_Point_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Detach Grab Point L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Detach Grab Point L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1409,10 +1858,152 @@ void AWillie_BP_C::Event_Detach_Grab_Point_L()
 
 void AWillie_BP_C::Event_Detach_Grab_Point_R()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Detach Grab Point R", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Detach Grab Point R");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Dislocate Arm L
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Dislocate_Arm_L()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Arm L", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Dislocate Arm R
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Dislocate_Arm_R()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Arm R", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Dislocate Leg L
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Dislocate_Leg_L()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Leg L", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Dislocate Leg R
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Dislocate_Leg_R()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Leg R", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event DIslocate Neck
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_DIslocate_Neck()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event DIslocate Neck", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Equip Armor From L Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Equip_Armor_From_L_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Equip Armor From L Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Equip Armor From R Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Equip_Armor_From_R_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Equip Armor From R Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Find Last Offenter from Damage
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Find_Last_Offenter_from_Damage()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Find Last Offenter from Damage", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Finish Armor Swapping
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Finish_Armor_Swapping()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Finish Armor Swapping", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Force Hands Switch
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Force_Hands_Switch()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Force Hands Switch", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Gain Muscle
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Gain_Muscle()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Gain Muscle", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Give Up UI Countdown
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Give_Up_UI_Countdown()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Give Up UI Countdown", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1423,10 +2014,8 @@ void AWillie_BP_C::Event_Detach_Grab_Point_R()
 
 void AWillie_BP_C::Event_Grab_Crossbow_String()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Grab Crossbow String");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Grab Crossbow String", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1437,30 +2026,38 @@ void AWillie_BP_C::Event_Grab_Crossbow_String()
 
 void AWillie_BP_C::Event_Grip_Just_Changed()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Grip Just Changed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Grip Just Changed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Willie_BP.Willie_BP_C.Event Is Grabbed
+// Function Willie_BP.Willie_BP_C.Event Gulp
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Gulp()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Gulp", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Instant Heal Flesh
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// bool                                    Disable_Weapons_Momentary                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Instant_Heal_Amount                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Event_Is_Grabbed(bool Disable_Weapons_Momentary)
+void AWillie_BP_C::Event_Instant_Heal_Flesh(double Instant_Heal_Amount)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Instant Heal Flesh", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Is Grabbed");
+	Params::Willie_BP_C_Event_Instant_Heal_Flesh Parms{};
 
-	Params::Willie_BP_C_Event_Is_Grabbed Parms{};
-
-	Parms.Disable_Weapons_Momentary = Disable_Weapons_Momentary;
+	Parms.Instant_Heal_Amount = Instant_Heal_Amount;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1471,10 +2068,8 @@ void AWillie_BP_C::Event_Is_Grabbed(bool Disable_Weapons_Momentary)
 
 void AWillie_BP_C::Event_Lose_Match()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Lose Match");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Lose Match", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1487,10 +2082,8 @@ void AWillie_BP_C::Event_Lose_Match()
 
 void AWillie_BP_C::Event_Master_Stroke_Switch(bool Master_Stroke_Grip_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Master Stroke Switch");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Master Stroke Switch", FnName));
 
 	Params::Willie_BP_C_Event_Master_Stroke_Switch Parms{};
 
@@ -1500,15 +2093,25 @@ void AWillie_BP_C::Event_Master_Stroke_Switch(bool Master_Stroke_Grip_0)
 }
 
 
+// Function Willie_BP.Willie_BP_C.Event Refresh Pelvis Constraints
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Refresh_Pelvis_Constraints()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Refresh Pelvis Constraints", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Release Crossbow String
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::Event_Release_Crossbow_String()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Release Crossbow String");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Release Crossbow String", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1521,10 +2124,8 @@ void AWillie_BP_C::Event_Release_Crossbow_String()
 
 void AWillie_BP_C::Event_Released_Grabbed_Willie_Collision_Enable_L(class AWillie_BP_C* Grabbed_Other_Willie)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Released Grabbed Willie Collision Enable L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Released Grabbed Willie Collision Enable L", FnName));
 
 	Params::Willie_BP_C_Event_Released_Grabbed_Willie_Collision_Enable_L Parms{};
 
@@ -1541,10 +2142,8 @@ void AWillie_BP_C::Event_Released_Grabbed_Willie_Collision_Enable_L(class AWilli
 
 void AWillie_BP_C::Event_Released_Grabbed_Willie_Collision_Enable_R(class AWillie_BP_C* Grabbed_Other_Willie)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Released Grabbed Willie Collision Enable R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Released Grabbed Willie Collision Enable R", FnName));
 
 	Params::Willie_BP_C_Event_Released_Grabbed_Willie_Collision_Enable_R Parms{};
 
@@ -1554,15 +2153,49 @@ void AWillie_BP_C::Event_Released_Grabbed_Willie_Collision_Enable_R(class AWilli
 }
 
 
+// Function Willie_BP.Willie_BP_C.Event Reset Bone Crack Sound
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Reset_Bone_Crack_Sound()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Bone Crack Sound", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Reset Dying
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Reset_Dying()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Dying", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Reset Minus Enemy
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Reset_Minus_Enemy()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Minus Enemy", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Reset Noise
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::Event_Reset_Noise()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Reset Noise");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Noise", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1573,10 +2206,20 @@ void AWillie_BP_C::Event_Reset_Noise()
 
 void AWillie_BP_C::Event_Reset_Noises__Allies_()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Noises (Allies)", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Reset Noises (Allies)");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Reset Plead
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Reset_Plead()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Plead", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1587,10 +2230,8 @@ void AWillie_BP_C::Event_Reset_Noises__Allies_()
 
 void AWillie_BP_C::Event_Reset_Voice_Noise()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Reset Voice Noise");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Voice Noise", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1601,10 +2242,32 @@ void AWillie_BP_C::Event_Reset_Voice_Noise()
 
 void AWillie_BP_C::Event_Reverse_Grip()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reverse Grip", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Reverse Grip");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Rob With L Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Rob_With_L_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Rob With L Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Rob With R Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Rob_With_R_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Rob With R Hand", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1615,10 +2278,8 @@ void AWillie_BP_C::Event_Reverse_Grip()
 
 void AWillie_BP_C::Event_Set_Physics_Substep_Time()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Set Physics Substep Time");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Set Physics Substep Time", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1629,10 +2290,20 @@ void AWillie_BP_C::Event_Set_Physics_Substep_Time()
 
 void AWillie_BP_C::Event_Slide_Right_Hand_Along_Shaft()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Slide Right Hand Along Shaft", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Slide Right Hand Along Shaft");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Spit
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Spit()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Spit", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1643,10 +2314,8 @@ void AWillie_BP_C::Event_Slide_Right_Hand_Along_Shaft()
 
 void AWillie_BP_C::Event_Swap_Hands_AI()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Swap Hands AI");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Swap Hands AI", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1657,10 +2326,116 @@ void AWillie_BP_C::Event_Swap_Hands_AI()
 
 void AWillie_BP_C::Event_Temporary_Block_Sheathing_After_Grab()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Temporary Block Sheathing After Grab", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Temporary Block Sheathing After Grab");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Temporary Disable L Weapon Collision
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Temporary_Disable_L_Weapon_Collision()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Temporary Disable L Weapon Collision", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Temporary Disable R Weapon Collision
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Temporary_Disable_R_Weapon_Collision()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Temporary Disable R Weapon Collision", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Throw Up
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Throw_Up()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Throw Up", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Un Give Up
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Un_Give_Up()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Un Give Up", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Unsheathe Hafted L
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Unsheathe_Hafted_L()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Unsheathe Hafted L", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Unsheathe Hafted R
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Unsheathe_Hafted_R()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Unsheathe Hafted R", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Use Left Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Use_Left_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Use Left Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Use Right Hand
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Use_Right_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Use Right Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Was Just Touched
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Was_Just_Touched()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Was Just Touched", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1673,10 +2448,8 @@ void AWillie_BP_C::Event_Temporary_Block_Sheathing_After_Grab()
 
 void AWillie_BP_C::ExecuteUbergraph_Willie_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "ExecuteUbergraph_Willie_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Willie_BP_C", "ExecuteUbergraph_Willie_BP", FuncInfo);
 
 	Params::Willie_BP_C_ExecuteUbergraph_Willie_BP Parms{};
 
@@ -1691,12 +2464,46 @@ void AWillie_BP_C::ExecuteUbergraph_Willie_BP(int32 EntryPoint)
 
 void AWillie_BP_C::Fall()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Fall");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fall", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Fall Asleep
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Depth                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Fall_Asleep(double Depth)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fall Asleep", FnName));
+
+	Params::Willie_BP_C_Fall_Asleep Parms{};
+
+	Parms.Depth = Depth;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Fall Asleep Event
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Depth                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Fall_Asleep_Event(double Depth)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fall Asleep Event", FnName));
+
+	Params::Willie_BP_C_Fall_Asleep_Event Parms{};
+
+	Parms.Depth = Depth;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -1705,10 +2512,8 @@ void AWillie_BP_C::Fall()
 
 void AWillie_BP_C::Feet_Rotation_and_Normal()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Feet Rotation and Normal");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Feet Rotation and Normal", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1719,10 +2524,8 @@ void AWillie_BP_C::Feet_Rotation_and_Normal()
 
 void AWillie_BP_C::Find_Ass_Touching_Ground_Loc_NOW()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Ass Touching Ground Loc NOW");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Ass Touching Ground Loc NOW", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1733,10 +2536,8 @@ void AWillie_BP_C::Find_Ass_Touching_Ground_Loc_NOW()
 
 void AWillie_BP_C::Find_Grab_Location_Left_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Grab Location Left Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Grab Location Left Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1747,10 +2548,8 @@ void AWillie_BP_C::Find_Grab_Location_Left_Event()
 
 void AWillie_BP_C::Find_Grab_Location_Right_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Grab Location Right Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Grab Location Right Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1768,10 +2567,8 @@ void AWillie_BP_C::Find_Grab_Location_Right_Event()
 
 void AWillie_BP_C::Find_Hit_Armor(class UPrimitiveComponent* Hit_Component_0, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, struct FStr_Passport_Armor1* Armor_Passport, bool* Armor_Found)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Hit Armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Hit Armor", FnName));
 
 	Params::Willie_BP_C_Find_Hit_Armor Parms{};
 
@@ -1795,10 +2592,8 @@ void AWillie_BP_C::Find_Hit_Armor(class UPrimitiveComponent* Hit_Component_0, cl
 
 void AWillie_BP_C::Find_Node_Time_Begin()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Node Time Begin");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Node Time Begin", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1809,10 +2604,8 @@ void AWillie_BP_C::Find_Node_Time_Begin()
 
 void AWillie_BP_C::Find_Node_Time_End()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Node Time End");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Node Time End", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1826,10 +2619,8 @@ void AWillie_BP_C::Find_Node_Time_End()
 
 double AWillie_BP_C::Find_Sheath_Length(class AModularWeaponBP_C* InputPin)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Sheath Length");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Find Sheath Length", FnName));
 
 	Params::Willie_BP_C_Find_Sheath_Length Parms{};
 
@@ -1846,10 +2637,8 @@ double AWillie_BP_C::Find_Sheath_Length(class AModularWeaponBP_C* InputPin)
 
 void AWillie_BP_C::Force_Finish_Match()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Force Finish Match");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Force Finish Match", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1860,12 +2649,30 @@ void AWillie_BP_C::Force_Finish_Match()
 
 void AWillie_BP_C::Force_TPP()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Force TPP");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Force TPP", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Func Talk to Others
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Aggressionn                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Fearr                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Func_Talk_to_Others(double Aggressionn, double Fearr)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Func Talk to Others", FnName));
+
+	Params::Willie_BP_C_Func_Talk_to_Others Parms{};
+
+	Parms.Aggressionn = Aggressionn;
+	Parms.Fearr = Fearr;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -1894,10 +2701,8 @@ void AWillie_BP_C::Force_TPP()
 
 void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power_0, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab__0, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double Draw_Cut, double* Damage_Out)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Get Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Damage", FnName));
 
 	Params::Willie_BP_C_Get_Damage Parms{};
 
@@ -1927,27 +2732,41 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 }
 
 
-// Function Willie_BP.Willie_BP_C.Get Insulted
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Other_Guy_Weight                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Other_Guy_Protection                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Other_Guy_Armed                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class AWillie_BP_C*                     Other_Guy                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// Function Willie_BP.Willie_BP_C.Get Last Offenders Passport
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Get_Insulted(double Other_Guy_Weight, double Other_Guy_Protection, bool Other_Guy_Armed, class AWillie_BP_C* Other_Guy)
+void AWillie_BP_C::Get_Last_Offenders_Passport()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Last Offenders Passport", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Get Insulted");
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Params::Willie_BP_C_Get_Insulted Parms{};
 
-	Parms.Other_Guy_Weight = Other_Guy_Weight;
-	Parms.Other_Guy_Protection = Other_Guy_Protection;
-	Parms.Other_Guy_Armed = Other_Guy_Armed;
-	Parms.Other_Guy = Other_Guy;
+// Function Willie_BP.Willie_BP_C.Get Nutrients (Food)
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Nutrients                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Liquid                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Medicine_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Alcohol                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Disgusting                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Enum_LiquidType                         Liquid_In_Mouth_Type_In                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Get_Nutrients__Food_(double Nutrients, double Liquid, double Medicine_0, double Alcohol, double Disgusting, Enum_LiquidType Liquid_In_Mouth_Type_In)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Nutrients (Food)", FnName));
+
+	Params::Willie_BP_C_Get_Nutrients__Food_ Parms{};
+
+	Parms.Nutrients = Nutrients;
+	Parms.Liquid = Liquid;
+	Parms.Medicine_0 = Medicine_0;
+	Parms.Alcohol = Alcohol;
+	Parms.Disgusting = Disgusting;
+	Parms.Liquid_In_Mouth_Type_In = Liquid_In_Mouth_Type_In;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1960,16 +2779,86 @@ void AWillie_BP_C::Get_Insulted(double Other_Guy_Weight, double Other_Guy_Protec
 
 void AWillie_BP_C::Get_Up__Pal(class AWillie_BP_C* Pal)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Get Up, Pal");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Up, Pal", FnName));
 
 	Params::Willie_BP_C_Get_Up__Pal Parms{};
 
 	Parms.Pal = Pal;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Give Up Hold Down Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Give_Up_Hold_Down_Timeline__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Up Hold Down Timeline__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Give Up Hold Down Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Give_Up_Hold_Down_Timeline__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Up Hold Down Timeline__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Give Up UI Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Give_Up_UI_Timeline__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Up UI Timeline__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Give Up UI Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Give_Up_UI_Timeline__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Give Up UI Timeline__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Grab Bolt From Quiver
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Grab_Bolt_From_Quiver()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grab Bolt From Quiver", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Grab Scabbard L Hand
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Grab_Scabbard_L_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grab Scabbard L Hand", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -1981,10 +2870,8 @@ void AWillie_BP_C::Get_Up__Pal(class AWillie_BP_C* Pal)
 
 void AWillie_BP_C::Grab_Specific_Object_L_H(class UPrimitiveComponent* Grab_Component_L_0, const struct FVector& NewLocation)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Grab Specific Object L H");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grab Specific Object L H", FnName));
 
 	Params::Willie_BP_C_Grab_Specific_Object_L_H Parms{};
 
@@ -2003,10 +2890,8 @@ void AWillie_BP_C::Grab_Specific_Object_L_H(class UPrimitiveComponent* Grab_Comp
 
 void AWillie_BP_C::Grab_Specific_Object_R_H(class UPrimitiveComponent* Grab_Component_R_0, const struct FVector& NewLocation)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Grab Specific Object R H");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grab Specific Object R H", FnName));
 
 	Params::Willie_BP_C_Grab_Specific_Object_R_H Parms{};
 
@@ -2017,15 +2902,85 @@ void AWillie_BP_C::Grab_Specific_Object_R_H(class UPrimitiveComponent* Grab_Comp
 }
 
 
+// Function Willie_BP.Willie_BP_C.Grow Hair
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Grow_Hair()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grow Hair", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Heal and Restore
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class FName                             Bone_Name                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Heal_Amount                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AWillie_BP_C*                     Saved_By_Willie                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool                                    Regenerate                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Heal_and_Restore(const struct FVector& Location, class FName Bone_Name, double Radius, double Heal_Amount, class AWillie_BP_C* Saved_By_Willie, bool Regenerate)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Heal and Restore", FnName));
+
+	Params::Willie_BP_C_Heal_and_Restore Parms{};
+
+	Parms.Location = std::move(Location);
+	Parms.Bone_Name = Bone_Name;
+	Parms.Radius = Radius;
+	Parms.Heal_Amount = Heal_Amount;
+	Parms.Saved_By_Willie = Saved_By_Willie;
+	Parms.Regenerate = Regenerate;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Heal DM Spheres
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Heal_DM_Spheres()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Heal DM Spheres", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Heal Wounds Visually
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              MeshComponent                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// double                                  Instant_Heal_Amount                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Heal_Wounds_Visually(class UPrimitiveComponent* MeshComponent, double Instant_Heal_Amount)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Heal Wounds Visually", FnName));
+
+	Params::Willie_BP_C_Heal_Wounds_Visually Parms{};
+
+	Parms.MeshComponent = MeshComponent;
+	Parms.Instant_Heal_Amount = Instant_Heal_Amount;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Helmet Muffle Voice
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::Helmet_Muffle_Voice()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Helmet Muffle Voice");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Helmet Muffle Voice", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2036,50 +2991,60 @@ void AWillie_BP_C::Helmet_Muffle_Voice()
 
 void AWillie_BP_C::Initialize_Camera_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Initialize Camera Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize Camera Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_B_K2Node_InputDebugKeyEvent_2
+// Function Willie_BP.Willie_BP_C.InpActEvt_CapsLock_K2Node_InputKeyEvent_2
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
-void AWillie_BP_C::InpActEvt_B_K2Node_InputDebugKeyEvent_2(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_2(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_CapsLock_K2Node_InputKeyEvent_2", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_B_K2Node_InputDebugKeyEvent_2");
-
-	Params::Willie_BP_C_InpActEvt_B_K2Node_InputDebugKeyEvent_2 Parms{};
+	Params::Willie_BP_C_InpActEvt_CapsLock_K2Node_InputKeyEvent_2 Parms{};
 
 	Parms.Key = std::move(Key);
-	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_CapsLock_K2Node_InputKeyEvent_3
+// Function Willie_BP.Willie_BP_C.InpActEvt_Chain Attack_K2Node_InputActionEvent_36
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_3(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Chain_Attack_K2Node_InputActionEvent_36(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Chain Attack_K2Node_InputActionEvent_36", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_CapsLock_K2Node_InputKeyEvent_3");
+	Params::Willie_BP_C_InpActEvt_Chain_Attack_K2Node_InputActionEvent_36 Parms{};
 
-	Params::Willie_BP_C_InpActEvt_CapsLock_K2Node_InputKeyEvent_3 Parms{};
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Chain Attack_K2Node_InputActionEvent_37
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Chain_Attack_K2Node_InputActionEvent_37(const struct FKey& Key)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Chain Attack_K2Node_InputActionEvent_37", FnName));
+
+	Params::Willie_BP_C_InpActEvt_Chain_Attack_K2Node_InputActionEvent_37 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2094,10 +3059,8 @@ void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_3(const struct FKey& 
 
 void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_2(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Change Camera_K2Node_InputActionEvent_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Change Camera_K2Node_InputActionEvent_2", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Change_Camera_K2Node_InputActionEvent_2 Parms{};
 
@@ -2114,10 +3077,8 @@ void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_2(const struc
 
 void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Hold_K2Node_InputActionEvent_10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Crouch Hold_K2Node_InputActionEvent_10", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10 Parms{};
 
@@ -2134,10 +3095,8 @@ void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10(const struct
 
 void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Hold_K2Node_InputActionEvent_9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Crouch Hold_K2Node_InputActionEvent_9", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9 Parms{};
 
@@ -2154,10 +3113,8 @@ void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct 
 
 void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_6(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Crouch Key_K2Node_InputActionEvent_6", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_6 Parms{};
 
@@ -2174,10 +3131,8 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_6(const struct F
 
 void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_7(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Crouch Key_K2Node_InputActionEvent_7", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_7 Parms{};
 
@@ -2194,10 +3149,8 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_7(const struct F
 
 void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_18(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_18");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Grab Left_K2Node_InputActionEvent_18", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_18 Parms{};
 
@@ -2214,10 +3167,8 @@ void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_18(const struct F
 
 void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_19(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_19");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Grab Left_K2Node_InputActionEvent_19", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_19 Parms{};
 
@@ -2234,10 +3185,8 @@ void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_19(const struct F
 
 void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_20(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_20");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Grab Right_K2Node_InputActionEvent_20", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_20 Parms{};
 
@@ -2254,10 +3203,8 @@ void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_20(const struct 
 
 void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_21(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_21");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Grab Right_K2Node_InputActionEvent_21", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_21 Parms{};
 
@@ -2267,19 +3214,17 @@ void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_21(const struct 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_H_K2Node_InputKeyEvent_4
+// Function Willie_BP.Willie_BP_C.InpActEvt_Inventory_K2Node_InputActionEvent_31
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_H_K2Node_InputKeyEvent_4(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Inventory_K2Node_InputActionEvent_31(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Inventory_K2Node_InputActionEvent_31", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_H_K2Node_InputKeyEvent_4");
-
-	Params::Willie_BP_C_InpActEvt_H_K2Node_InputKeyEvent_4 Parms{};
+	Params::Willie_BP_C_InpActEvt_Inventory_K2Node_InputActionEvent_31 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2287,19 +3232,17 @@ void AWillie_BP_C::InpActEvt_H_K2Node_InputKeyEvent_4(const struct FKey& Key)
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Inventory_K2Node_InputActionEvent_33
+// Function Willie_BP.Willie_BP_C.InpActEvt_Inventory_K2Node_InputActionEvent_32
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Inventory_K2Node_InputActionEvent_33(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Inventory_K2Node_InputActionEvent_32(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Inventory_K2Node_InputActionEvent_32", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Inventory_K2Node_InputActionEvent_33");
-
-	Params::Willie_BP_C_InpActEvt_Inventory_K2Node_InputActionEvent_33 Parms{};
+	Params::Willie_BP_C_InpActEvt_Inventory_K2Node_InputActionEvent_32 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2314,10 +3257,8 @@ void AWillie_BP_C::InpActEvt_Inventory_K2Node_InputActionEvent_33(const struct F
 
 void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_14(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Jump_K2Node_InputActionEvent_14");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Jump_K2Node_InputActionEvent_14", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Jump_K2Node_InputActionEvent_14 Parms{};
 
@@ -2334,10 +3275,8 @@ void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_14(const struct FKey& 
 
 void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_15(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Jump_K2Node_InputActionEvent_15");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Jump_K2Node_InputActionEvent_15", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Jump_K2Node_InputActionEvent_15 Parms{};
 
@@ -2347,19 +3286,17 @@ void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_15(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_26
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_24
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_26(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_24(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Back_K2Node_InputActionEvent_24", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Back_K2Node_InputActionEvent_26");
-
-	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_26 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_24 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2367,19 +3304,17 @@ void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_26(const struct FK
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_27
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_25
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_27(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_25(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Back_K2Node_InputActionEvent_25", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Back_K2Node_InputActionEvent_27");
-
-	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_27 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_25 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2387,19 +3322,17 @@ void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_27(const struct FK
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_24
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_22
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_24(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_22(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Forward_K2Node_InputActionEvent_22", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Forward_K2Node_InputActionEvent_24");
-
-	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_24 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_22 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2407,19 +3340,17 @@ void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_24(const struct
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_25
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_23
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_25(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_23(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Forward_K2Node_InputActionEvent_23", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Forward_K2Node_InputActionEvent_25");
-
-	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_25 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_23 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2427,19 +3358,17 @@ void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_25(const struct
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_30
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_28
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_30(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_28(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Left_K2Node_InputActionEvent_28", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Left_K2Node_InputActionEvent_30");
-
-	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_30 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_28 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2447,19 +3376,17 @@ void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_30(const struct FK
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_31
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_29
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_31(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_29(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Left_K2Node_InputActionEvent_29", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Left_K2Node_InputActionEvent_31");
-
-	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_31 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_29 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2467,19 +3394,17 @@ void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_31(const struct FK
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_28
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_26
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_28(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_26(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Right_K2Node_InputActionEvent_26", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Right_K2Node_InputActionEvent_28");
-
-	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_28 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_26 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2487,19 +3412,17 @@ void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_28(const struct F
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_29
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_27
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_29(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_27(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Key Right_K2Node_InputActionEvent_27", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Right_K2Node_InputActionEvent_29");
-
-	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_29 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_27 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2515,35 +3438,13 @@ void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_29(const struct F
 
 void AWillie_BP_C::InpActEvt_M_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_M_K2Node_InputDebugKeyEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_M_K2Node_InputDebugKeyEvent_1", FnName));
 
 	Params::Willie_BP_C_InpActEvt_M_K2Node_InputDebugKeyEvent_1 Parms{};
 
 	Parms.Key = std::move(Key);
 	Parms.ActionValue = std::move(ActionValue);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2");
-
-	Params::Willie_BP_C_InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2 Parms{};
-
-	Parms.Key = std::move(Key);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -2557,12 +3458,30 @@ void AWillie_BP_C::InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2(const stru
 
 void AWillie_BP_C::InpActEvt_N_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_N_K2Node_InputDebugKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_N_K2Node_InputDebugKeyEvent_0", FnName));
 
 	Params::Willie_BP_C_InpActEvt_N_K2Node_InputDebugKeyEvent_0 Parms{};
+
+	Parms.Key = std::move(Key);
+	Parms.ActionValue = std::move(ActionValue);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_O_K2Node_InputDebugKeyEvent_2
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+
+void AWillie_BP_C::InpActEvt_O_K2Node_InputDebugKeyEvent_2(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_O_K2Node_InputDebugKeyEvent_2", FnName));
+
+	Params::Willie_BP_C_InpActEvt_O_K2Node_InputDebugKeyEvent_2 Parms{};
 
 	Parms.Key = std::move(Key);
 	Parms.ActionValue = std::move(ActionValue);
@@ -2578,10 +3497,8 @@ void AWillie_BP_C::InpActEvt_N_K2Node_InputDebugKeyEvent_0(const struct FKey& Ke
 
 void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_3(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Pause_K2Node_InputActionEvent_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Pause_K2Node_InputActionEvent_3", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Pause_K2Node_InputActionEvent_3 Parms{};
 
@@ -2591,19 +3508,17 @@ void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_3(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_PhotoMode_K2Node_InputActionEvent_32
+// Function Willie_BP.Willie_BP_C.InpActEvt_PhotoMode_K2Node_InputActionEvent_30
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_PhotoMode_K2Node_InputActionEvent_32(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_PhotoMode_K2Node_InputActionEvent_30(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_PhotoMode_K2Node_InputActionEvent_30", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_PhotoMode_K2Node_InputActionEvent_32");
-
-	Params::Willie_BP_C_InpActEvt_PhotoMode_K2Node_InputActionEvent_32 Parms{};
+	Params::Willie_BP_C_InpActEvt_PhotoMode_K2Node_InputActionEvent_30 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2618,10 +3533,8 @@ void AWillie_BP_C::InpActEvt_PhotoMode_K2Node_InputActionEvent_32(const struct F
 
 void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0", FnName));
 
 	Params::Willie_BP_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0 Parms{};
 
@@ -2638,10 +3551,8 @@ void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struc
 
 void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1", FnName));
 
 	Params::Willie_BP_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1 Parms{};
 
@@ -2658,10 +3569,8 @@ void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struc
 
 void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_4(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Run_K2Node_InputActionEvent_4", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_4 Parms{};
 
@@ -2678,10 +3587,8 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_4(const struct FKey& Ke
 
 void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_5(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Run_K2Node_InputActionEvent_5", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_5 Parms{};
 
@@ -2698,10 +3605,8 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_5(const struct FKey& Ke
 
 void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_8(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_SloMo_K2Node_InputActionEvent_8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_SloMo_K2Node_InputActionEvent_8", FnName));
 
 	Params::Willie_BP_C_InpActEvt_SloMo_K2Node_InputActionEvent_8 Parms{};
 
@@ -2718,10 +3623,8 @@ void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_8(const struct FKey& 
 
 void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_16(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_16");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Swap Hands_K2Node_InputActionEvent_16", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_16 Parms{};
 
@@ -2738,10 +3641,8 @@ void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_16(const struct 
 
 void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_17(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_17");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Swap Hands_K2Node_InputActionEvent_17", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_17 Parms{};
 
@@ -2751,19 +3652,17 @@ void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_17(const struct 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_22
+// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_33
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_22(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_33(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Talk_K2Node_InputActionEvent_33", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Talk_K2Node_InputActionEvent_22");
-
-	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_22 Parms{};
+	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_33 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2771,19 +3670,17 @@ void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_22(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_23
+// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_34
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_23(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_34(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Talk_K2Node_InputActionEvent_34", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Talk_K2Node_InputActionEvent_23");
-
-	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_23 Parms{};
+	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_34 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2798,10 +3695,8 @@ void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_23(const struct FKey& 
 
 void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_11");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_11", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11 Parms{};
 
@@ -2818,10 +3713,8 @@ void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11(const str
 
 void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_12");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_12", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12 Parms{};
 
@@ -2838,10 +3731,8 @@ void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12(const str
 
 void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_0(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Thrust_K2Node_InputActionEvent_0", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_0 Parms{};
 
@@ -2858,10 +3749,8 @@ void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_0(const struct FKey&
 
 void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_1(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Thrust_K2Node_InputActionEvent_1", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_1 Parms{};
 
@@ -2878,12 +3767,28 @@ void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_1(const struct FKey&
 
 void AWillie_BP_C::InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_13");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_13", FnName));
 
 	Params::Willie_BP_C_InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Undress_K2Node_InputActionEvent_35
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Undress_K2Node_InputActionEvent_35(const struct FKey& Key)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpActEvt_Undress_K2Node_InputActionEvent_35", FnName));
+
+	Params::Willie_BP_C_InpActEvt_Undress_K2Node_InputActionEvent_35 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2898,10 +3803,8 @@ void AWillie_BP_C::InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13(const
 
 void AWillie_BP_C::InpAxisEvt_Left_Arm_Axis_K2Node_InputAxisEvent_3(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Left Arm Axis_K2Node_InputAxisEvent_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpAxisEvt_Left Arm Axis_K2Node_InputAxisEvent_3", FnName));
 
 	Params::Willie_BP_C_InpAxisEvt_Left_Arm_Axis_K2Node_InputAxisEvent_3 Parms{};
 
@@ -2918,10 +3821,8 @@ void AWillie_BP_C::InpAxisEvt_Left_Arm_Axis_K2Node_InputAxisEvent_3(float AxisVa
 
 void AWillie_BP_C::InpAxisEvt_Left_Guard_Axis_K2Node_InputAxisEvent_7(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Left Guard Axis_K2Node_InputAxisEvent_7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpAxisEvt_Left Guard Axis_K2Node_InputAxisEvent_7", FnName));
 
 	Params::Willie_BP_C_InpAxisEvt_Left_Guard_Axis_K2Node_InputAxisEvent_7 Parms{};
 
@@ -2938,10 +3839,8 @@ void AWillie_BP_C::InpAxisEvt_Left_Guard_Axis_K2Node_InputAxisEvent_7(float Axis
 
 void AWillie_BP_C::_Down_Gamepad_K2Node_InputAxisEvent_1(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Down Gamepad_K2Node_InputAxisEvent_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Down Gamepad_K2Node_InputAxisEvent_1", FnName));
 
 	Params::Willie_BP_C__Down_Gamepad_K2Node_InputAxisEvent_1 Parms{};
 
@@ -2958,10 +3857,8 @@ void AWillie_BP_C::_Down_Gamepad_K2Node_InputAxisEvent_1(float AxisValue)
 
 void AWillie_BP_C::_Down_Mouse_K2Node_InputAxisEvent_17(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Down Mouse_K2Node_InputAxisEvent_17");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Down Mouse_K2Node_InputAxisEvent_17", FnName));
 
 	Params::Willie_BP_C__Down_Mouse_K2Node_InputAxisEvent_17 Parms{};
 
@@ -2978,10 +3875,8 @@ void AWillie_BP_C::_Down_Mouse_K2Node_InputAxisEvent_17(float AxisValue)
 
 void AWillie_BP_C::_Backward_K2Node_InputAxisEvent_14(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Backward_K2Node_InputAxisEvent_14");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Backward_K2Node_InputAxisEvent_14", FnName));
 
 	Params::Willie_BP_C__Backward_K2Node_InputAxisEvent_14 Parms{};
 
@@ -2998,10 +3893,8 @@ void AWillie_BP_C::_Backward_K2Node_InputAxisEvent_14(float AxisValue)
 
 void AWillie_BP_C::_Left_K2Node_InputAxisEvent_19(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Left_K2Node_InputAxisEvent_19");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Left_K2Node_InputAxisEvent_19", FnName));
 
 	Params::Willie_BP_C__Left_K2Node_InputAxisEvent_19 Parms{};
 
@@ -3018,10 +3911,8 @@ void AWillie_BP_C::_Left_K2Node_InputAxisEvent_19(float AxisValue)
 
 void AWillie_BP_C::InpAxisEvt_Right_Arm_Axis_K2Node_InputAxisEvent_2(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Right Arm Axis_K2Node_InputAxisEvent_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpAxisEvt_Right Arm Axis_K2Node_InputAxisEvent_2", FnName));
 
 	Params::Willie_BP_C_InpAxisEvt_Right_Arm_Axis_K2Node_InputAxisEvent_2 Parms{};
 
@@ -3038,10 +3929,8 @@ void AWillie_BP_C::InpAxisEvt_Right_Arm_Axis_K2Node_InputAxisEvent_2(float AxisV
 
 void AWillie_BP_C::InpAxisEvt_Right_Guard_Axis_K2Node_InputAxisEvent_6(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Right Guard Axis_K2Node_InputAxisEvent_6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InpAxisEvt_Right Guard Axis_K2Node_InputAxisEvent_6", FnName));
 
 	Params::Willie_BP_C_InpAxisEvt_Right_Guard_Axis_K2Node_InputAxisEvent_6 Parms{};
 
@@ -3058,10 +3947,8 @@ void AWillie_BP_C::InpAxisEvt_Right_Guard_Axis_K2Node_InputAxisEvent_6(float Axi
 
 void AWillie_BP_C::_Left_Gamepad_K2Node_InputAxisEvent_0(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Left Gamepad_K2Node_InputAxisEvent_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Left Gamepad_K2Node_InputAxisEvent_0", FnName));
 
 	Params::Willie_BP_C__Left_Gamepad_K2Node_InputAxisEvent_0 Parms{};
 
@@ -3078,10 +3965,8 @@ void AWillie_BP_C::_Left_Gamepad_K2Node_InputAxisEvent_0(float AxisValue)
 
 void AWillie_BP_C::_Left_Mouse_K2Node_InputAxisEvent_16(float AxisValue)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", " Left Mouse_K2Node_InputAxisEvent_16");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L" Left Mouse_K2Node_InputAxisEvent_16", FnName));
 
 	Params::Willie_BP_C__Left_Mouse_K2Node_InputAxisEvent_16 Parms{};
 
@@ -3096,10 +3981,8 @@ void AWillie_BP_C::_Left_Mouse_K2Node_InputAxisEvent_16(float AxisValue)
 
 void AWillie_BP_C::Kick_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kick Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kick Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3110,10 +3993,8 @@ void AWillie_BP_C::Kick_Event()
 
 void AWillie_BP_C::Kick_L_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kick L Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kick L Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3124,10 +4005,8 @@ void AWillie_BP_C::Kick_L_Timeline__FinishedFunc()
 
 void AWillie_BP_C::Kick_L_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kick L Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kick L Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3138,10 +4017,8 @@ void AWillie_BP_C::Kick_L_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Kick_R_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kick R Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kick R Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3152,10 +4029,8 @@ void AWillie_BP_C::Kick_R_Timeline__FinishedFunc()
 
 void AWillie_BP_C::Kick_R_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kick R Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kick R Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3166,10 +4041,8 @@ void AWillie_BP_C::Kick_R_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Kneel_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Kneel Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Kneel Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3180,10 +4053,8 @@ void AWillie_BP_C::Kneel_Event()
 
 void AWillie_BP_C::L_Hand_Sheath_Start()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "L Hand Sheath Start");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"L Hand Sheath Start", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3196,10 +4067,8 @@ void AWillie_BP_C::L_Hand_Sheath_Start()
 
 double AWillie_BP_C::L_Hand_Stamina_Burn_Rate_f()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "L Hand Stamina Burn Rate f");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"L Hand Stamina Burn Rate f", FnName));
 
 	Params::Willie_BP_C_L_Hand_Stamina_Burn_Rate_f Parms{};
 
@@ -3214,10 +4083,8 @@ double AWillie_BP_C::L_Hand_Stamina_Burn_Rate_f()
 
 void AWillie_BP_C::L_Step_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "L Step Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"L Step Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3228,10 +4095,32 @@ void AWillie_BP_C::L_Step_Timeline__FinishedFunc()
 
 void AWillie_BP_C::L_Step_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"L Step Timeline__UpdateFunc", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "L Step Timeline__UpdateFunc");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Left Hand Constraint Soft Release
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Left_Hand_Constraint_Soft_Release()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Left Hand Constraint Soft Release", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Load Bolt To Crossbow
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Load_Bolt_To_Crossbow()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Load Bolt To Crossbow", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3245,10 +4134,8 @@ void AWillie_BP_C::L_Step_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Muscle_Motor(class USkeletalMeshComponent* Body_Mesh, bool UpperBody)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Muscle Motor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Muscle Motor", FnName));
 
 	Params::Willie_BP_C_Muscle_Motor Parms{};
 
@@ -3259,8 +4146,92 @@ void AWillie_BP_C::Muscle_Motor(class USkeletalMeshComponent* Body_Mesh, bool Up
 }
 
 
-// Function Willie_BP.Willie_BP_C.Paint Blood Bleed
+// Function Willie_BP.Willie_BP_C.NewFunction
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AActor*                           Other_Actor_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              Other_Comp_0                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   A_0                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Body_Hit_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AWillie_BP_C::NewFunction(class AActor* Other_Actor_0, class UPrimitiveComponent* Other_Comp_0, const struct FVector& A_0, const struct FHitResult& Body_Hit_0)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewFunction", FnName));
+
+	Params::Willie_BP_C_NewFunction Parms{};
+
+	Parms.Other_Actor_0 = Other_Actor_0;
+	Parms.Other_Comp_0 = Other_Comp_0;
+	Parms.A_0 = std::move(A_0);
+	Parms.Body_Hit_0 = std::move(Body_Hit_0);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.NewFunction_0
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UStaticMeshComponent*             InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::NewFunction_0(class UStaticMeshComponent* InputPin)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewFunction_0", FnName));
+
+	Params::Willie_BP_C_NewFunction_0 Parms{};
+
+	Parms.InputPin = InputPin;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.NewFunction_3
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FName&                      In_Bone                                                (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::NewFunction_3(const class FName& In_Bone)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewFunction_3", FnName));
+
+	Params::Willie_BP_C_NewFunction_3 Parms{};
+
+	Parms.In_Bone = In_Bone;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Paint All Meshes Load
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Paint_All_Meshes_Load()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Paint All Meshes Load", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Paint All Meshes Save
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Paint_All_Meshes_Save()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Paint All Meshes Save", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Paint Blood Bleed
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // const struct FVector&                   Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             BoneName                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -3269,10 +4240,8 @@ void AWillie_BP_C::Muscle_Motor(class USkeletalMeshComponent* Body_Mesh, bool Up
 
 void AWillie_BP_C::Paint_Blood_Bleed(const struct FVector& Location, class FName BoneName, double Size, double Rate)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Paint Blood Bleed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Paint Blood Bleed", FnName));
 
 	Params::Willie_BP_C_Paint_Blood_Bleed Parms{};
 
@@ -3285,55 +4254,49 @@ void AWillie_BP_C::Paint_Blood_Bleed(const struct FVector& Location, class FName
 }
 
 
-// Function Willie_BP.Willie_BP_C.Paint Blood Splash
+// Function Willie_BP.Willie_BP_C.Paint Splash
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
+// class USkeletalMeshComponent*           Painted_Mesh                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 // const struct FVector&                   Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             BoneName                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rate                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Enum_LiquidType                         Substance                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Paint_Blood_Splash(const struct FVector& Location, class FName BoneName, double Size, double Rate)
+void AWillie_BP_C::Paint_Splash(class USkeletalMeshComponent* Painted_Mesh, const struct FVector& Location, class FName BoneName, double Size, double Rate, Enum_LiquidType Substance)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Paint Splash", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Paint Blood Splash");
+	Params::Willie_BP_C_Paint_Splash Parms{};
 
-	Params::Willie_BP_C_Paint_Blood_Splash Parms{};
-
+	Parms.Painted_Mesh = Painted_Mesh;
 	Parms.Location = std::move(Location);
 	Parms.BoneName = BoneName;
 	Parms.Size = Size;
 	Parms.Rate = Rate;
+	Parms.Substance = Substance;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Willie_BP.Willie_BP_C.Pick Up Armor
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function Willie_BP.Willie_BP_C.Paint Wash
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class USceneComponent*                  Picked_Armor                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class ABP_Armor_Master_C*               Armor_Actor                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Picked_Up                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Blood                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_Armor_Master_C* Armor_Actor, bool* Picked_Up)
+void AWillie_BP_C::Paint_Wash(bool Blood)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Paint Wash", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Pick Up Armor");
+	Params::Willie_BP_C_Paint_Wash Parms{};
 
-	Params::Willie_BP_C_Pick_Up_Armor Parms{};
-
-	Parms.Picked_Armor = Picked_Armor;
-	Parms.Armor_Actor = Armor_Actor;
+	Parms.Blood = Blood;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	if (Picked_Up != nullptr)
-		*Picked_Up = Parms.Picked_Up;
 }
 
 
@@ -3342,10 +4305,8 @@ void AWillie_BP_C::Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_
 
 void AWillie_BP_C::Pick_Up_Left_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Pick Up Left Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Pick Up Left Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3356,10 +4317,8 @@ void AWillie_BP_C::Pick_Up_Left_Event()
 
 void AWillie_BP_C::Pick_Up_Right_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Pick Up Right Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Pick Up Right Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3370,10 +4329,8 @@ void AWillie_BP_C::Pick_Up_Right_Event()
 
 void AWillie_BP_C::Play_Curse_VO()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Play Curse VO");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Play Curse VO", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3386,10 +4343,8 @@ void AWillie_BP_C::Play_Curse_VO()
 
 void AWillie_BP_C::Play_Pain_Sound(double Volume)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Play Pain Sound");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Play Pain Sound", FnName));
 
 	Params::Willie_BP_C_Play_Pain_Sound Parms{};
 
@@ -3404,10 +4359,8 @@ void AWillie_BP_C::Play_Pain_Sound(double Volume)
 
 void AWillie_BP_C::Polearm_Hands_Switch()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Polearm Hands Switch");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Polearm Hands Switch", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3418,10 +4371,8 @@ void AWillie_BP_C::Polearm_Hands_Switch()
 
 void AWillie_BP_C::R_Hand_Sheath_Start()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "R Hand Sheath Start");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"R Hand Sheath Start", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3434,10 +4385,8 @@ void AWillie_BP_C::R_Hand_Sheath_Start()
 
 double AWillie_BP_C::R_Hand_Stamina_Burn_Rate_f()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "R Hand Stamina Burn Rate f");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"R Hand Stamina Burn Rate f", FnName));
 
 	Params::Willie_BP_C_R_Hand_Stamina_Burn_Rate_f Parms{};
 
@@ -3452,10 +4401,8 @@ double AWillie_BP_C::R_Hand_Stamina_Burn_Rate_f()
 
 void AWillie_BP_C::R_Step_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "R Step Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"R Step Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3466,10 +4413,8 @@ void AWillie_BP_C::R_Step_Timeline__FinishedFunc()
 
 void AWillie_BP_C::R_Step_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "R Step Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"R Step Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3480,12 +4425,40 @@ void AWillie_BP_C::R_Step_Timeline__UpdateFunc()
 
 void AWillie_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.ReceiveDestroyed
+// (Event, Public, BlueprintEvent)
+
+void AWillie_BP_C::ReceiveDestroyed()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveDestroyed", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveEndPlay", FnName));
+
+	Params::Willie_BP_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason = EndPlayReason;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -3496,10 +4469,8 @@ void AWillie_BP_C::ReceiveBeginPlay()
 
 void AWillie_BP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Willie_BP_C_ReceiveTick Parms{};
 
@@ -3514,10 +4485,8 @@ void AWillie_BP_C::ReceiveTick(float DeltaSeconds)
 
 void AWillie_BP_C::Reenable_Weapon_Collision_L_Hand()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reenable Weapon Collision L Hand");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reenable Weapon Collision L Hand", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3528,10 +4497,8 @@ void AWillie_BP_C::Reenable_Weapon_Collision_L_Hand()
 
 void AWillie_BP_C::Reenable_Weapon_Collision_R_Hand()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reenable Weapon Collision R Hand");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reenable Weapon Collision R Hand", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3546,10 +4513,8 @@ void AWillie_BP_C::Reenable_Weapon_Collision_R_Hand()
 
 struct FTransform AWillie_BP_C::Relative_Rotate(const struct FTransform& InputPin, const struct FRotator& Rotation)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Relative Rotate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Relative Rotate", FnName));
 
 	Params::Willie_BP_C_Relative_Rotate Parms{};
 
@@ -3567,10 +4532,8 @@ struct FTransform AWillie_BP_C::Relative_Rotate(const struct FTransform& InputPi
 
 void AWillie_BP_C::Release_Grab_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Release Grab L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Grab L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3581,10 +4544,8 @@ void AWillie_BP_C::Release_Grab_L()
 
 void AWillie_BP_C::Release_Grab_R()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Release Grab R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Grab R", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3595,10 +4556,8 @@ void AWillie_BP_C::Release_Grab_R()
 
 void AWillie_BP_C::Release_No_Dismember_Bones()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Release No Dismember Bones");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release No Dismember Bones", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3609,10 +4568,20 @@ void AWillie_BP_C::Release_No_Dismember_Bones()
 
 void AWillie_BP_C::Release_Offhand()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Offhand", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Release Offhand");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Release Scabbard L Hand
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Release_Scabbard_L_Hand()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Release Scabbard L Hand", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3628,10 +4597,8 @@ void AWillie_BP_C::Release_Offhand()
 
 void AWillie_BP_C::Remove_Armor(const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Slot, class USkeletalMeshComponent* Disable_Collision_With, class ABP_Armor_Modular_Core_Master_C** Spawned_Armor1)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Remove Armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Remove Armor", FnName));
 
 	Params::Willie_BP_C_Remove_Armor Parms{};
 
@@ -3651,10 +4618,8 @@ void AWillie_BP_C::Remove_Armor(const struct FTransform& SpawnTransform, const E
 
 void AWillie_BP_C::Remove_Hat()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Remove Hat");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Remove Hat", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3665,10 +4630,20 @@ void AWillie_BP_C::Remove_Hat()
 
 void AWillie_BP_C::Rescale_Character()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Rescale Character", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Rescale Character");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Reset Armor
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Reset_Armor()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Armor", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3679,10 +4654,8 @@ void AWillie_BP_C::Rescale_Character()
 
 void AWillie_BP_C::Reset_Blood_Bleed()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Blood Bleed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Blood Bleed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3693,10 +4666,8 @@ void AWillie_BP_C::Reset_Blood_Bleed()
 
 void AWillie_BP_C::Reset_Blood_Splash()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Blood Splash");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Blood Splash", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3707,10 +4678,8 @@ void AWillie_BP_C::Reset_Blood_Splash()
 
 void AWillie_BP_C::Reset_Body_Hit_Sound()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Body Hit Sound");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Body Hit Sound", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3721,10 +4690,8 @@ void AWillie_BP_C::Reset_Body_Hit_Sound()
 
 void AWillie_BP_C::Reset_Character()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Character");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Character", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3735,10 +4702,8 @@ void AWillie_BP_C::Reset_Character()
 
 void AWillie_BP_C::Reset_Last_Damage_Taken()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Last Damage Taken");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Last Damage Taken", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3749,10 +4714,8 @@ void AWillie_BP_C::Reset_Last_Damage_Taken()
 
 void AWillie_BP_C::Reset_Latest_Complex_Damage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Latest Complex Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Latest Complex Damage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3763,12 +4726,28 @@ void AWillie_BP_C::Reset_Latest_Complex_Damage()
 
 void AWillie_BP_C::Reset_Latest_VP_Damage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Latest VP Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Latest VP Damage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Burn
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USkeletalMeshComponent*           InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+
+void AWillie_BP_C::Burn(class USkeletalMeshComponent* InputPin)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Burn", FnName));
+
+	Params::Willie_BP_C_Burn Parms{};
+
+	Parms.InputPin = InputPin;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -3777,10 +4756,8 @@ void AWillie_BP_C::Reset_Latest_VP_Damage()
 
 void AWillie_BP_C::Reset_OffHand_Locked()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset OffHand Locked");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset OffHand Locked", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3791,10 +4768,8 @@ void AWillie_BP_C::Reset_OffHand_Locked()
 
 void AWillie_BP_C::Reset_Parry()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Parry");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Parry", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3805,10 +4780,8 @@ void AWillie_BP_C::Reset_Parry()
 
 void AWillie_BP_C::Reset_Splatter_Spawn_Cooldown()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Splatter Spawn Cooldown");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Splatter Spawn Cooldown", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3819,10 +4792,8 @@ void AWillie_BP_C::Reset_Splatter_Spawn_Cooldown()
 
 void AWillie_BP_C::Reset_Step_Sound_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Step Sound L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Step Sound L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3833,10 +4804,8 @@ void AWillie_BP_C::Reset_Step_Sound_L()
 
 void AWillie_BP_C::Reset_Step_Sound_R()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Step Sound R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Step Sound R", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3847,10 +4816,8 @@ void AWillie_BP_C::Reset_Step_Sound_R()
 
 void AWillie_BP_C::Reset_Sustained_Damage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Sustained Damage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Sustained Damage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3863,10 +4830,8 @@ void AWillie_BP_C::Reset_Sustained_Damage()
 
 void AWillie_BP_C::Reset_Trail_Blood(float Duration)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Reset Trail Blood");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Trail Blood", FnName));
 
 	Params::Willie_BP_C_Reset_Trail_Blood Parms{};
 
@@ -3876,15 +4841,65 @@ void AWillie_BP_C::Reset_Trail_Blood(float Duration)
 }
 
 
+// Function Willie_BP.Willie_BP_C.Restore Bone
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EBodyPart_Enum                          Body_Part                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Amount                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Regeneration                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Restore_Bone(EBodyPart_Enum Body_Part, double Amount, bool Regeneration)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Restore Bone", FnName));
+
+	Params::Willie_BP_C_Restore_Bone Parms{};
+
+	Parms.Body_Part = Body_Part;
+	Parms.Amount = Amount;
+	Parms.Regeneration = Regeneration;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Return Scabbard Constraint To Locked
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UStaticMeshComponent*             Scabbard                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Return_Scabbard_Constraint_To_Locked(class UStaticMeshComponent* Scabbard)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Return Scabbard Constraint To Locked", FnName));
+
+	Params::Willie_BP_C_Return_Scabbard_Constraint_To_Locked Parms{};
+
+	Parms.Scabbard = Scabbard;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Right Hand Constraint Soft Release
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Right_Hand_Constraint_Soft_Release()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Right Hand Constraint Soft Release", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.RT DRAW EVENT
 // (BlueprintCallable, BlueprintEvent)
 
 void AWillie_BP_C::RT_DRAW_EVENT()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "RT DRAW EVENT");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RT DRAW EVENT", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3895,10 +4910,8 @@ void AWillie_BP_C::RT_DRAW_EVENT()
 
 void AWillie_BP_C::Send_My_Regards_to_Dress_Up_Darling()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Send My Regards to Dress Up Darling");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Send My Regards to Dress Up Darling", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3914,10 +4927,8 @@ void AWillie_BP_C::Send_My_Regards_to_Dress_Up_Darling()
 
 void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Send Threat Location R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Send Threat Location R", FnName));
 
 	Params::Willie_BP_C_Send_Threat_Location_R Parms{};
 
@@ -3937,10 +4948,20 @@ void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_
 
 void AWillie_BP_C::Set_Character_Height()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Character Height", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Character Height");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Set Current Worn Skeletons
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Set_Current_Worn_Skeletons()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Current Worn Skeletons", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3953,10 +4974,8 @@ void AWillie_BP_C::Set_Character_Height()
 
 double AWillie_BP_C::Set_Equipment_Weight_to_Strength()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Equipment Weight to Strength");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Equipment Weight to Strength", FnName));
 
 	Params::Willie_BP_C_Set_Equipment_Weight_to_Strength Parms{};
 
@@ -3973,16 +4992,32 @@ double AWillie_BP_C::Set_Equipment_Weight_to_Strength()
 
 double AWillie_BP_C::Set_Equipment_Weight_to_Strength_Upper()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Equipment Weight to Strength Upper");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Equipment Weight to Strength Upper", FnName));
 
 	Params::Willie_BP_C_Set_Equipment_Weight_to_Strength_Upper Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function Willie_BP.Willie_BP_C.Burn
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USkeletalMeshComponent*           InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+
+void AWillie_BP_C::Burn_0(class USkeletalMeshComponent* InputPin)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Burn", FnName));
+
+	Params::Willie_BP_C_Burn_0 Parms{};
+
+	Parms.InputPin = InputPin;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -3994,10 +5029,8 @@ double AWillie_BP_C::Set_Equipment_Weight_to_Strength_Upper()
 
 void AWillie_BP_C::Set_Pain_Location(class FName BoneName, const struct FVector& A_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Pain Location");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Pain Location", FnName));
 
 	Params::Willie_BP_C_Set_Pain_Location Parms{};
 
@@ -4016,10 +5049,8 @@ void AWillie_BP_C::Set_Pain_Location(class FName BoneName, const struct FVector&
 
 void AWillie_BP_C::Set_Physics_LOD_Int(const class AActor* OtherActor, int32* Out_LOD)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Physics LOD Int");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Physics LOD Int", FnName));
 
 	Params::Willie_BP_C_Set_Physics_LOD_Int Parms{};
 
@@ -4032,23 +5063,41 @@ void AWillie_BP_C::Set_Physics_LOD_Int(const class AActor* OtherActor, int32* Ou
 }
 
 
+// Function Willie_BP.Willie_BP_C.Set Scabbard Constraint Free
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USceneComponent*                  Scabbard                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Set_Scabbard_Constraint_Free(class USceneComponent* Scabbard)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Scabbard Constraint Free", FnName));
+
+	Params::Willie_BP_C_Set_Scabbard_Constraint_Free Parms{};
+
+	Parms.Scabbard = Scabbard;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Set Up Armor
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // bool                                    Clear_Previous                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    No_Check_Block__Kostyl__                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Change_All_Slots                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__)
+void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__, bool Change_All_Slots)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Up Armor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Armor", FnName));
 
 	Params::Willie_BP_C_Set_Up_Armor Parms{};
 
 	Parms.Clear_Previous = Clear_Previous;
 	Parms.No_Check_Block__Kostyl__ = No_Check_Block__Kostyl__;
+	Parms.Change_All_Slots = Change_All_Slots;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -4062,13 +5111,12 @@ void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_Passport_Weapon1&     Weapon_Passport                                        (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
+// bool                                    Don_t_Save                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Weapon_Passport)
+void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Weapon_Passport, bool Don_t_Save)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Up Left Hand Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Left Hand Weapon", FnName));
 
 	Params::Willie_BP_C_Set_Up_Left_Hand_Weapon Parms{};
 
@@ -4077,6 +5125,7 @@ void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AMo
 	Parms.Dropped_With_no_Damage = Dropped_With_no_Damage;
 	Parms.Destroy_Previous = Destroy_Previous;
 	Parms.Weapon_Passport = std::move(Weapon_Passport);
+	Parms.Don_t_Save = Don_t_Save;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -4088,19 +5137,23 @@ void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AMo
 // class UStaticMesh*                      Collision_Mesh                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_ArmorProtection&      Protection_Str                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_Passport_Armor1&      Current_Armor_Passport                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// EArmorSlots_Enum                        Slot                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Module_Num                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   Mesh_Num                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Proxy_Collisions(class UStaticMesh* Collision_Mesh, const struct FStr_ArmorProtection& Protection_Str, const struct FStr_Passport_Armor1& Current_Armor_Passport)
+void AWillie_BP_C::Set_Up_Proxy_Collisions(class UStaticMesh* Collision_Mesh, const struct FStr_ArmorProtection& Protection_Str, const struct FStr_Passport_Armor1& Current_Armor_Passport, EArmorSlots_Enum Slot, int32 Module_Num, int32 Mesh_Num)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Up Proxy Collisions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Proxy Collisions", FnName));
 
 	Params::Willie_BP_C_Set_Up_Proxy_Collisions Parms{};
 
 	Parms.Collision_Mesh = Collision_Mesh;
 	Parms.Protection_Str = std::move(Protection_Str);
 	Parms.Current_Armor_Passport = std::move(Current_Armor_Passport);
+	Parms.Slot = Slot;
+	Parms.Module_Num = Module_Num;
+	Parms.Mesh_Num = Mesh_Num;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -4114,13 +5167,12 @@ void AWillie_BP_C::Set_Up_Proxy_Collisions(class UStaticMesh* Collision_Mesh, co
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FStr_Passport_Weapon1&     Str_Weapon_Passport                                    (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
+// bool                                    Don_t_Save                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_R_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Str_Weapon_Passport)
+void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_R_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Str_Weapon_Passport, bool Don_t_Save)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Up Right Hand Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Right Hand Weapon", FnName));
 
 	Params::Willie_BP_C_Set_Up_Right_Hand_Weapon Parms{};
 
@@ -4129,6 +5181,7 @@ void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AM
 	Parms.Dropped_With_no_Damage = Dropped_With_no_Damage;
 	Parms.Destroy_Previous = Destroy_Previous;
 	Parms.Str_Weapon_Passport = std::move(Str_Weapon_Passport);
+	Parms.Don_t_Save = Don_t_Save;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -4145,10 +5198,8 @@ void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AM
 
 void AWillie_BP_C::Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial, class ABP_Armor_Modular_Core_Master_C* Set_Up_Armor_Instance, bool Core)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Setup Armor Material");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Setup Armor Material", FnName));
 
 	Params::Willie_BP_C_Setup_Armor_Material Parms{};
 
@@ -4167,10 +5218,8 @@ void AWillie_BP_C::Setup_Armor_Material(class USkeletalMeshComponent* AddedArmor
 
 void AWillie_BP_C::Setup_Character_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Setup Character Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Setup Character Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4181,10 +5230,8 @@ void AWillie_BP_C::Setup_Character_Event()
 
 void AWillie_BP_C::Setup_FootIK_Placement()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Setup FootIK Placement");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Setup FootIK Placement", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4195,10 +5242,8 @@ void AWillie_BP_C::Setup_FootIK_Placement()
 
 void AWillie_BP_C::Setup_Simulated_Bones_Array()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Setup Simulated Bones Array");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Setup Simulated Bones Array", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4212,10 +5257,8 @@ void AWillie_BP_C::Setup_Simulated_Bones_Array()
 
 void AWillie_BP_C::Sheath_L(class FName Sheath_Slot, bool Scabbard_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Sheath L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sheath L", FnName));
 
 	Params::Willie_BP_C_Sheath_L Parms{};
 
@@ -4234,10 +5277,8 @@ void AWillie_BP_C::Sheath_L(class FName Sheath_Slot, bool Scabbard_)
 
 void AWillie_BP_C::Sheath_R(class FName Sheath_Slot, bool Scabbard_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Sheath R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sheath R", FnName));
 
 	Params::Willie_BP_C_Sheath_R Parms{};
 
@@ -4256,10 +5297,8 @@ void AWillie_BP_C::Sheath_R(class FName Sheath_Slot, bool Scabbard_)
 
 void AWillie_BP_C::Sheathe_on_Spawn(class AModularWeaponBP_C* Weapon, ESheathSlots_Enum Slot)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Sheathe on Spawn");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sheathe on Spawn", FnName));
 
 	Params::Willie_BP_C_Sheathe_on_Spawn Parms{};
 
@@ -4275,10 +5314,8 @@ void AWillie_BP_C::Sheathe_on_Spawn(class AModularWeaponBP_C* Weapon, ESheathSlo
 
 void AWillie_BP_C::Slomo_Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Slomo Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Slomo Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4289,10 +5326,8 @@ void AWillie_BP_C::Slomo_Timeline__FinishedFunc()
 
 void AWillie_BP_C::Slomo_Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Slomo Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Slomo Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4303,10 +5338,8 @@ void AWillie_BP_C::Slomo_Timeline__UpdateFunc()
 
 void AWillie_BP_C::Snap_Neck()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Snap Neck");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Snap Neck", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4328,10 +5361,8 @@ void AWillie_BP_C::Snap_Neck()
 
 void AWillie_BP_C::Spawn_Blood(const struct FTransform& Transform, double Spawn_Rate, class FName bone, EBodyPart_Enum Body_Partt, class USkeletalMeshComponent* Body_Mesh, int32 Loop_Count, bool Extra_Velocity, const struct FVector& Velocity, const struct FVector& Pover, bool Skip_Check)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Spawn Blood");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Blood", FnName));
 
 	Params::Willie_BP_C_Spawn_Blood Parms{};
 
@@ -4355,10 +5386,8 @@ void AWillie_BP_C::Spawn_Blood(const struct FTransform& Transform, double Spawn_
 
 void AWillie_BP_C::Start_Up_First_Person_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Start Up First Person Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Start Up First Person Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4372,10 +5401,8 @@ void AWillie_BP_C::Start_Up_First_Person_Event()
 
 void AWillie_BP_C::StopThatBlade(double Power, bool* Nul)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "StopThatBlade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"StopThatBlade", FnName));
 
 	Params::Willie_BP_C_StopThatBlade Parms{};
 
@@ -4397,10 +5424,8 @@ void AWillie_BP_C::StopThatBlade(double Power, bool* Nul)
 
 void AWillie_BP_C::Strip_Armor_From_Bone(class FName In_Bone, class AWillie_BP_C* Stripped_Willie, bool Right_Hand_Strip)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Strip Armor From Bone");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Strip Armor From Bone", FnName));
 
 	Params::Willie_BP_C_Strip_Armor_From_Bone Parms{};
 
@@ -4417,10 +5442,8 @@ void AWillie_BP_C::Strip_Armor_From_Bone(class FName In_Bone, class AWillie_BP_C
 
 void AWillie_BP_C::Swap_Weapons()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Swap Weapons");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Swap Weapons", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4431,10 +5454,8 @@ void AWillie_BP_C::Swap_Weapons()
 
 void AWillie_BP_C::Thrust_L()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Thrust L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Thrust L", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4445,10 +5466,8 @@ void AWillie_BP_C::Thrust_L()
 
 void AWillie_BP_C::Thrust_R()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Thrust R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Thrust R", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4459,10 +5478,8 @@ void AWillie_BP_C::Thrust_R()
 
 void AWillie_BP_C::Timeline_0__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_0__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_0__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4473,10 +5490,8 @@ void AWillie_BP_C::Timeline_0__FinishedFunc()
 
 void AWillie_BP_C::Timeline_0__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_0__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_0__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4487,10 +5502,8 @@ void AWillie_BP_C::Timeline_0__UpdateFunc()
 
 void AWillie_BP_C::Timeline_10__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_10__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_10__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4501,10 +5514,8 @@ void AWillie_BP_C::Timeline_10__FinishedFunc()
 
 void AWillie_BP_C::Timeline_10__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_10__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_10__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4515,10 +5526,8 @@ void AWillie_BP_C::Timeline_10__UpdateFunc()
 
 void AWillie_BP_C::Timeline_11__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_11__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_11__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4529,10 +5538,8 @@ void AWillie_BP_C::Timeline_11__FinishedFunc()
 
 void AWillie_BP_C::Timeline_11__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_11__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_11__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4543,10 +5550,8 @@ void AWillie_BP_C::Timeline_11__UpdateFunc()
 
 void AWillie_BP_C::Timeline_12__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_12__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_12__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4557,10 +5562,8 @@ void AWillie_BP_C::Timeline_12__FinishedFunc()
 
 void AWillie_BP_C::Timeline_12__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_12__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_12__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4571,10 +5574,8 @@ void AWillie_BP_C::Timeline_12__UpdateFunc()
 
 void AWillie_BP_C::Timeline_13__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_13__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_13__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4585,10 +5586,8 @@ void AWillie_BP_C::Timeline_13__FinishedFunc()
 
 void AWillie_BP_C::Timeline_13__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_13__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_13__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4599,10 +5598,8 @@ void AWillie_BP_C::Timeline_13__UpdateFunc()
 
 void AWillie_BP_C::Timeline_14__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_14__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_14__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4613,10 +5610,8 @@ void AWillie_BP_C::Timeline_14__FinishedFunc()
 
 void AWillie_BP_C::Timeline_14__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_14__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_14__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4627,10 +5622,8 @@ void AWillie_BP_C::Timeline_14__UpdateFunc()
 
 void AWillie_BP_C::Timeline_15__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_15__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_15__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4641,10 +5634,8 @@ void AWillie_BP_C::Timeline_15__FinishedFunc()
 
 void AWillie_BP_C::Timeline_15__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_15__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_15__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4655,10 +5646,8 @@ void AWillie_BP_C::Timeline_15__UpdateFunc()
 
 void AWillie_BP_C::Timeline_16__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_16__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_16__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4669,10 +5658,8 @@ void AWillie_BP_C::Timeline_16__FinishedFunc()
 
 void AWillie_BP_C::Timeline_16__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_16__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_16__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4683,10 +5670,8 @@ void AWillie_BP_C::Timeline_16__UpdateFunc()
 
 void AWillie_BP_C::Timeline_17__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_17__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_17__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4697,38 +5682,8 @@ void AWillie_BP_C::Timeline_17__FinishedFunc()
 
 void AWillie_BP_C::Timeline_17__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_17__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Timeline_18__FinishedFunc
-// (BlueprintEvent)
-
-void AWillie_BP_C::Timeline_18__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_18__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Timeline_18__UpdateFunc
-// (BlueprintEvent)
-
-void AWillie_BP_C::Timeline_18__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_18__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_17__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4739,10 +5694,8 @@ void AWillie_BP_C::Timeline_18__UpdateFunc()
 
 void AWillie_BP_C::Timeline_19__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_19__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_19__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4753,10 +5706,8 @@ void AWillie_BP_C::Timeline_19__FinishedFunc()
 
 void AWillie_BP_C::Timeline_19__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_19__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_19__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4767,10 +5718,8 @@ void AWillie_BP_C::Timeline_19__UpdateFunc()
 
 void AWillie_BP_C::Timeline_1__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_1__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_1__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4781,10 +5730,8 @@ void AWillie_BP_C::Timeline_1__FinishedFunc()
 
 void AWillie_BP_C::Timeline_1__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_1__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_1__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4795,10 +5742,8 @@ void AWillie_BP_C::Timeline_1__UpdateFunc()
 
 void AWillie_BP_C::Timeline_20__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_20__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_20__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4809,10 +5754,8 @@ void AWillie_BP_C::Timeline_20__FinishedFunc()
 
 void AWillie_BP_C::Timeline_20__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_20__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_20__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4823,10 +5766,8 @@ void AWillie_BP_C::Timeline_20__UpdateFunc()
 
 void AWillie_BP_C::Timeline_21__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_21__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_21__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4837,10 +5778,104 @@ void AWillie_BP_C::Timeline_21__FinishedFunc()
 
 void AWillie_BP_C::Timeline_21__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_21__UpdateFunc", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_21__UpdateFunc");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_23__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_23__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_23__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_23__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_23__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_23__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_25__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_25__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_25__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_25__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_25__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_25__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_26__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_26__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_26__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_26__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_26__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_26__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_27__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_27__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_27__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_27__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_27__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_27__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4851,10 +5886,8 @@ void AWillie_BP_C::Timeline_21__UpdateFunc()
 
 void AWillie_BP_C::Timeline_2__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_2__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_2__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4865,10 +5898,200 @@ void AWillie_BP_C::Timeline_2__FinishedFunc()
 
 void AWillie_BP_C::Timeline_2__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_2__UpdateFunc", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_2__UpdateFunc");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_30__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_30__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_30__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_30__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_30__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_30__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_31__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_31__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_31__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_31__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_31__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_31__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_32__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_32__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_32__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_32__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_32__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_32__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_33__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_33__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_33__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_33__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_33__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_33__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_35__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_35__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_35__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_35__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_35__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_35__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_36__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_36__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_36__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_36__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_36__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_36__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_37__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_37__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_37__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_37__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_37__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_37__UpdateFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_38__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_38__FinishedFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_38__FinishedFunc", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_38__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_38__UpdateFunc()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_38__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4879,10 +6102,8 @@ void AWillie_BP_C::Timeline_2__UpdateFunc()
 
 void AWillie_BP_C::Timeline_3__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_3__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4893,10 +6114,8 @@ void AWillie_BP_C::Timeline_3__FinishedFunc()
 
 void AWillie_BP_C::Timeline_3__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_3__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4907,10 +6126,8 @@ void AWillie_BP_C::Timeline_3__UpdateFunc()
 
 void AWillie_BP_C::Timeline_4__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_4__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_4__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4921,10 +6138,8 @@ void AWillie_BP_C::Timeline_4__FinishedFunc()
 
 void AWillie_BP_C::Timeline_4__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_4__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_4__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4935,10 +6150,8 @@ void AWillie_BP_C::Timeline_4__UpdateFunc()
 
 void AWillie_BP_C::Timeline_5__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_5__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_5__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4949,10 +6162,8 @@ void AWillie_BP_C::Timeline_5__FinishedFunc()
 
 void AWillie_BP_C::Timeline_5__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_5__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_5__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4963,10 +6174,8 @@ void AWillie_BP_C::Timeline_5__UpdateFunc()
 
 void AWillie_BP_C::Timeline_6__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_6__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_6__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4977,10 +6186,8 @@ void AWillie_BP_C::Timeline_6__FinishedFunc()
 
 void AWillie_BP_C::Timeline_6__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_6__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_6__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4991,10 +6198,8 @@ void AWillie_BP_C::Timeline_6__UpdateFunc()
 
 void AWillie_BP_C::Timeline_7__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_7__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_7__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5005,10 +6210,8 @@ void AWillie_BP_C::Timeline_7__FinishedFunc()
 
 void AWillie_BP_C::Timeline_7__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_7__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_7__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5019,10 +6222,8 @@ void AWillie_BP_C::Timeline_7__UpdateFunc()
 
 void AWillie_BP_C::Timeline_8__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_8__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_8__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5033,10 +6234,8 @@ void AWillie_BP_C::Timeline_8__FinishedFunc()
 
 void AWillie_BP_C::Timeline_8__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_8__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_8__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5047,10 +6246,8 @@ void AWillie_BP_C::Timeline_8__UpdateFunc()
 
 void AWillie_BP_C::Timeline_9__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_9__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_9__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5061,10 +6258,8 @@ void AWillie_BP_C::Timeline_9__FinishedFunc()
 
 void AWillie_BP_C::Timeline_9__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_9__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline_9__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5075,10 +6270,8 @@ void AWillie_BP_C::Timeline_9__UpdateFunc()
 
 void AWillie_BP_C::Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5089,10 +6282,8 @@ void AWillie_BP_C::Timeline__FinishedFunc()
 
 void AWillie_BP_C::Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5103,10 +6294,8 @@ void AWillie_BP_C::Timeline__UpdateFunc()
 
 void AWillie_BP_C::Toggle_Invert()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Toggle Invert");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Toggle Invert", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5117,10 +6306,8 @@ void AWillie_BP_C::Toggle_Invert()
 
 void AWillie_BP_C::Un_Bite_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Un Bite Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Un Bite Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5131,10 +6318,8 @@ void AWillie_BP_C::Un_Bite_Event()
 
 void AWillie_BP_C::Un_Kneel_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Un Kneel Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Un Kneel Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5147,10 +6332,8 @@ void AWillie_BP_C::Un_Kneel_Event()
 
 void AWillie_BP_C::Unsheath_Event_L_Delayed(class UPrimitiveComponent* Grab_Component_R_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Unsheath Event L Delayed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath Event L Delayed", FnName));
 
 	Params::Willie_BP_C_Unsheath_Event_L_Delayed Parms{};
 
@@ -5167,10 +6350,8 @@ void AWillie_BP_C::Unsheath_Event_L_Delayed(class UPrimitiveComponent* Grab_Comp
 
 void AWillie_BP_C::Unsheath_Event_R_Delayed(class UPrimitiveComponent* Grab_Component_R_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Unsheath Event R Delayed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath Event R Delayed", FnName));
 
 	Params::Willie_BP_C_Unsheath_Event_R_Delayed Parms{};
 
@@ -5187,16 +6368,26 @@ void AWillie_BP_C::Unsheath_Event_R_Delayed(class UPrimitiveComponent* Grab_Comp
 
 void AWillie_BP_C::Unsheath_L(class AModularWeaponBP_C* Unsheathed_Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Unsheath L");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath L", FnName));
 
 	Params::Willie_BP_C_Unsheath_L Parms{};
 
 	Parms.Unsheathed_Weapon = Unsheathed_Weapon;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Unsheath L Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Unsheath_L_Event()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath L Event", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -5207,10 +6398,8 @@ void AWillie_BP_C::Unsheath_L(class AModularWeaponBP_C* Unsheathed_Weapon)
 
 void AWillie_BP_C::Unsheath_R(class AModularWeaponBP_C* Unsheathed_Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Unsheath R");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath R", FnName));
 
 	Params::Willie_BP_C_Unsheath_R Parms{};
 
@@ -5225,10 +6414,8 @@ void AWillie_BP_C::Unsheath_R(class AModularWeaponBP_C* Unsheathed_Weapon)
 
 void AWillie_BP_C::Unsheath_R_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Unsheath R Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Unsheath R Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5239,10 +6426,8 @@ void AWillie_BP_C::Unsheath_R_Event()
 
 void AWillie_BP_C::Update_Aim()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Update Aim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Update Aim", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5253,10 +6438,8 @@ void AWillie_BP_C::Update_Aim()
 
 void AWillie_BP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5272,10 +6455,8 @@ void AWillie_BP_C::UserConstructionScript()
 
 void AWillie_BP_C::Velocity_Calculator_V(const struct FVector& Current_Location, const struct FVector& Delayed_Location, struct FVector* Velocity, struct FVector* Delayed_Out)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Velocity Calculator V");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Velocity Calculator V", FnName));
 
 	Params::Willie_BP_C_Velocity_Calculator_V Parms{};
 
@@ -5292,15 +6473,37 @@ void AWillie_BP_C::Velocity_Calculator_V(const struct FVector& Current_Location,
 }
 
 
-// Function Willie_BP.Willie_BP_C.VO Bark
+// Function Willie_BP.Willie_BP_C.VO Bite
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::VO_Bark()
+void AWillie_BP_C::VO_Bite()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Bite", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Bark");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.VO Choke
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Choke()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Choke", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.VO Clear Throat
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Clear_Throat()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Clear Throat", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5311,10 +6514,20 @@ void AWillie_BP_C::VO_Bark()
 
 void AWillie_BP_C::VO_Curse()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Curse", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Curse");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.VO Death Noize
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Death_Noize()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Death Noize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5325,10 +6538,20 @@ void AWillie_BP_C::VO_Curse()
 
 void AWillie_BP_C::VO_Deescalate()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Deescalate", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Deescalate");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.VO Gulp
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Gulp()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Gulp", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5339,10 +6562,8 @@ void AWillie_BP_C::VO_Deescalate()
 
 void AWillie_BP_C::VO_Insult()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Insult");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Insult", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5353,10 +6574,20 @@ void AWillie_BP_C::VO_Insult()
 
 void AWillie_BP_C::VO_Interrupt()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Interrupt", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Interrupt");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.VO Pain
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Pain()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Pain", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5367,24 +6598,32 @@ void AWillie_BP_C::VO_Interrupt()
 
 void AWillie_BP_C::VO_Plead()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "VO Plead");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Plead", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function Willie_BP.Willie_BP_C.Wake Up
+// Function Willie_BP.Willie_BP_C.VO Spit
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Wake_Up()
+void AWillie_BP_C::VO_Spit()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"VO Spit", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Wake Up");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Wake Up Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Wake_Up_Event()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Wake Up Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -5402,10 +6641,8 @@ void AWillie_BP_C::Wake_Up()
 
 void AWillie_BP_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component_0, const struct FVector& Weapon_Velocity, const struct FHitResult& Hit_Result, double EdgeAllignment_Dot, bool Laser_temp_, class UClass* Weapon)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Weapon HIt");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Weapon HIt", FnName));
 
 	Params::Willie_BP_C_Weapon_HIt Parms{};
 
@@ -5425,10 +6662,8 @@ void AWillie_BP_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component_0, const 
 
 void AWillie_BP_C::Weapon_Skill_Up()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Weapon Skill Up");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Weapon Skill Up", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Mace_Low_Tier_Short.ModularWeaponBP_Mace_Low_Tier_Short_C
-// 0x0000 (0x0BF8 - 0x0BF8)
+// 0x0000 (0x0C48 - 0x0C48)
 class AModularWeaponBP_Mace_Low_Tier_Short_C final : public AModularWeaponBP_C
 {
 public:

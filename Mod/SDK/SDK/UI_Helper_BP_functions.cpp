@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AUI_Helper_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::UI_Helper_BP_C_ReceiveTick Parms{};
 
@@ -43,10 +41,8 @@ void AUI_Helper_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AUI_Helper_BP_C::ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "ExecuteUbergraph_UI_Helper_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Helper_BP_C", "ExecuteUbergraph_UI_Helper_BP", FuncInfo);
 
 	Params::UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP Parms{};
 
@@ -61,10 +57,8 @@ void AUI_Helper_BP_C::ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint)
 
 void AUI_Helper_BP_C::Destroy_Handle_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "Destroy Handle Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Handle Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -80,10 +74,8 @@ void AUI_Helper_BP_C::Destroy_Handle_Event()
 
 void AUI_Helper_BP_C::Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "Add Handle Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Handle Event", FnName));
 
 	Params::UI_Helper_BP_C_Add_Handle_Event Parms{};
 

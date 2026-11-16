@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 struct FTransform IMovieSceneTransformOrigin::BP_GetTransformOrigin() const
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("MovieSceneTransformOrigin", "BP_GetTransformOrigin");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"BP_GetTransformOrigin", FnName));
 
 	Params::MovieSceneTransformOrigin_BP_GetTransformOrigin Parms{};
 

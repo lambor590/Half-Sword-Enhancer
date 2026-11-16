@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_PhotoThumbnail_C::Animation()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "Animation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Animation", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_PhotoThumbnail_C::Animation()
 
 void UUI_PhotoThumbnail_C::BndEvt__ButtonPhoto_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "BndEvt__ButtonPhoto_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__ButtonPhoto_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_PhotoThumbnail_C::BndEvt__ButtonPhoto_K2Node_ComponentBoundEvent_1_OnBu
 
 void UUI_PhotoThumbnail_C::DeleteData()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "DeleteData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DeleteData", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_PhotoThumbnail_C::DeleteData()
 
 void UUI_PhotoThumbnail_C::Destruct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "Destruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_PhotoThumbnail_C::Destruct()
 
 ESlateVisibility UUI_PhotoThumbnail_C::Edges_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "Edges Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Edges Visibility", FnName));
 
 	Params::UI_PhotoThumbnail_C_Edges_Visibility Parms{};
 
@@ -99,10 +89,8 @@ ESlateVisibility UUI_PhotoThumbnail_C::Edges_Visibility()
 
 void UUI_PhotoThumbnail_C::ExecuteUbergraph_UI_PhotoThumbnail(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "ExecuteUbergraph_UI_PhotoThumbnail");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_PhotoThumbnail_C", "ExecuteUbergraph_UI_PhotoThumbnail", FuncInfo);
 
 	Params::UI_PhotoThumbnail_C_ExecuteUbergraph_UI_PhotoThumbnail Parms{};
 
@@ -119,10 +107,8 @@ void UUI_PhotoThumbnail_C::ExecuteUbergraph_UI_PhotoThumbnail(int32 EntryPoint)
 
 struct FLinearColor UUI_PhotoThumbnail_C::FrameFocusedAndUnfocusedColor()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "FrameFocusedAndUnfocusedColor");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FrameFocusedAndUnfocusedColor", FnName));
 
 	Params::UI_PhotoThumbnail_C_FrameFocusedAndUnfocusedColor Parms{};
 
@@ -140,10 +126,8 @@ struct FLinearColor UUI_PhotoThumbnail_C::FrameFocusedAndUnfocusedColor()
 
 void UUI_PhotoThumbnail_C::Initialize(class UUI_Gallery_C* GalleryReference_0, class UUI_PhotoPage_C* OwnPage)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::UI_PhotoThumbnail_C_Initialize Parms{};
 
@@ -161,10 +145,8 @@ void UUI_PhotoThumbnail_C::Initialize(class UUI_Gallery_C* GalleryReference_0, c
 
 void UUI_PhotoThumbnail_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_PhotoThumbnail_C_PreConstruct Parms{};
 
@@ -179,10 +161,8 @@ void UUI_PhotoThumbnail_C::PreConstruct(bool IsDesignTime)
 
 void UUI_PhotoThumbnail_C::ResetThumb()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "ResetThumb");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetThumb", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -193,10 +173,8 @@ void UUI_PhotoThumbnail_C::ResetThumb()
 
 void UUI_PhotoThumbnail_C::ResetThumbAnimation()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "ResetThumbAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetThumbAnimation", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -209,10 +187,8 @@ void UUI_PhotoThumbnail_C::ResetThumbAnimation()
 
 void UUI_PhotoThumbnail_C::SetPhotoData(const struct FS_PhotosData& PhotoInfo)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "SetPhotoData");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetPhotoData", FnName));
 
 	Params::UI_PhotoThumbnail_C_SetPhotoData Parms{};
 
@@ -227,10 +203,8 @@ void UUI_PhotoThumbnail_C::SetPhotoData(const struct FS_PhotosData& PhotoInfo)
 
 void UUI_PhotoThumbnail_C::UpdatePhoto()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_PhotoThumbnail_C", "UpdatePhoto");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdatePhoto", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

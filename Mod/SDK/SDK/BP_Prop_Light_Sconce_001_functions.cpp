@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_Prop_Light_Sconce_001_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_Prop_Light_Sconce_001_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void ABP_Prop_Light_Sconce_001_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void ABP_Prop_Light_Sconce_001_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void ABP_Prop_Light_Sconce_001_C::ReceiveBeginPlay()
 
 void ABP_Prop_Light_Sconce_001_C::ExecuteUbergraph_BP_Prop_Light_Sconce_001(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ExecuteUbergraph_BP_Prop_Light_Sconce_001");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Prop_Light_Sconce_001_C", "ExecuteUbergraph_BP_Prop_Light_Sconce_001", FuncInfo);
 
 	Params::BP_Prop_Light_Sconce_001_C_ExecuteUbergraph_BP_Prop_Light_Sconce_001 Parms{};
 

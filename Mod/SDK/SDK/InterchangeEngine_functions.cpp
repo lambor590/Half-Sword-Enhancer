@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorAssetType(const EInterchangeTranslatorAssetType TranslatorAssetType, struct FInterchangeFilePickerParameters* Parameters, TArray<class FString>* OutFilenames)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InterchangeFilePickerBase", "ScriptedFilePickerForTranslatorAssetType");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScriptedFilePickerForTranslatorAssetType", FnName));
 
 	Params::InterchangeFilePickerBase_ScriptedFilePickerForTranslatorAssetType Parms{};
 
@@ -62,10 +60,8 @@ bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorAssetType(const 
 
 bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorType(const EInterchangeTranslatorType TranslatorType, struct FInterchangeFilePickerParameters* Parameters, TArray<class FString>* OutFilenames)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InterchangeFilePickerBase", "ScriptedFilePickerForTranslatorType");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScriptedFilePickerForTranslatorType", FnName));
 
 	Params::InterchangeFilePickerBase_ScriptedFilePickerForTranslatorType Parms{};
 
@@ -100,10 +96,8 @@ bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorType(const EInte
 
 EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationBase::ScriptedShowPipelineConfigurationDialog(TArray<struct FInterchangeStackInfo>* PipelineStacks, TArray<class UInterchangePipelineBase*>* OutPipelines, class UInterchangeSourceData* SourceData, class UInterchangeTranslatorBase* Translator, class UInterchangeBaseNodeContainer* BaseNodeContainer)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InterchangePipelineConfigurationBase", "ScriptedShowPipelineConfigurationDialog");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScriptedShowPipelineConfigurationDialog", FnName));
 
 	Params::InterchangePipelineConfigurationBase_ScriptedShowPipelineConfigurationDialog Parms{};
 
@@ -141,10 +135,8 @@ EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationB
 
 EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationBase::ScriptedShowReimportPipelineConfigurationDialog(TArray<struct FInterchangeStackInfo>* PipelineStacks, TArray<class UInterchangePipelineBase*>* OutPipelines, class UInterchangeSourceData* SourceData, class UInterchangeTranslatorBase* Translator, class UInterchangeBaseNodeContainer* BaseNodeContainer, class UObject* ReimportAsset)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InterchangePipelineConfigurationBase", "ScriptedShowReimportPipelineConfigurationDialog");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScriptedShowReimportPipelineConfigurationDialog", FnName));
 
 	Params::InterchangePipelineConfigurationBase_ScriptedShowReimportPipelineConfigurationDialog Parms{};
 
@@ -182,10 +174,8 @@ EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationB
 
 EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationBase::ScriptedShowScenePipelineConfigurationDialog(TArray<struct FInterchangeStackInfo>* PipelineStacks, TArray<class UInterchangePipelineBase*>* OutPipelines, class UInterchangeSourceData* SourceData, class UInterchangeTranslatorBase* Translator, class UInterchangeBaseNodeContainer* BaseNodeContainer)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InterchangePipelineConfigurationBase", "ScriptedShowScenePipelineConfigurationDialog");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScriptedShowScenePipelineConfigurationDialog", FnName));
 
 	Params::InterchangePipelineConfigurationBase_ScriptedShowScenePipelineConfigurationDialog Parms{};
 
@@ -205,6 +195,84 @@ EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationB
 
 	if (OutPipelines != nullptr)
 		*OutPipelines = std::move(Parms.OutPipelines);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.Interface_AssetUserData.AddAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UInterchangeSceneImportAsset::AddAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_AddAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.Interface_AssetUserData.GetAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UAssetUserData*                   ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UAssetUserData* UInterchangeSceneImportAsset::GetAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_GetAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.Interface_AssetUserData.HasAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UInterchangeSceneImportAsset::HasAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_HasAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
 
 	return Parms.ReturnValue;
 }

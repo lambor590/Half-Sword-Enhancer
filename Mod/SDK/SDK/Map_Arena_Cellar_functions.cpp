@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AMap_Arena_Cellar_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Cellar_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Map_Arena_Cellar_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void AMap_Arena_Cellar_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AMap_Arena_Cellar_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Cellar_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AMap_Arena_Cellar_C::ReceiveBeginPlay()
 
 void AMap_Arena_Cellar_C::ExecuteUbergraph_Map_Arena_Cellar(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Cellar_C", "ExecuteUbergraph_Map_Arena_Cellar");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Arena_Cellar_C", "ExecuteUbergraph_Map_Arena_Cellar", FuncInfo);
 
 	Params::Map_Arena_Cellar_C_ExecuteUbergraph_Map_Arena_Cellar Parms{};
 

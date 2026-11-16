@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_VertexPaint.BPI_VertexPaint_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_VertexPaint_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_VertexPaint_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 

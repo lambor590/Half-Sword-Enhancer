@@ -216,10 +216,9 @@ public:
 
 // Class PhysicsControl.PhysicsControlProfileAsset
 // 0x01E8 (0x0210 - 0x0028)
-class UPhysicsControlProfileAsset final : public UObject
+class UPhysicsControlProfileAsset final : public UObject, public IInterface_PreviewMeshProvider
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPhysicsControlCharacterSetupData      CharacterSetupData;                                // 0x0030(0x00C0)(NativeAccessSpecifierPublic)
 	struct FPhysicsControlAndBodyModifierCreationDatas AdditionalControlsAndModifiers;               // 0x00F0(0x00A0)(NativeAccessSpecifierPublic)
 	struct FPhysicsControlSetUpdates              AdditionalSets;                                    // 0x0190(0x0020)(NativeAccessSpecifierPublic)

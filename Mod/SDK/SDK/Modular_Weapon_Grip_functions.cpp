@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AModular_Weapon_Grip_C::ExecuteUbergraph_Modular_Weapon_Grip(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Weapon_Grip_C", "ExecuteUbergraph_Modular_Weapon_Grip");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Modular_Weapon_Grip_C", "ExecuteUbergraph_Modular_Weapon_Grip", FuncInfo);
 
 	Params::Modular_Weapon_Grip_C_ExecuteUbergraph_Modular_Weapon_Grip Parms{};
 
@@ -41,10 +39,8 @@ void AModular_Weapon_Grip_C::ExecuteUbergraph_Modular_Weapon_Grip(int32 EntryPoi
 
 void AModular_Weapon_Grip_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Weapon_Grip_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void AModular_Weapon_Grip_C::ReceiveBeginPlay()
 
 void AModular_Weapon_Grip_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Weapon_Grip_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

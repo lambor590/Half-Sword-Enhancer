@@ -403,6 +403,505 @@ void UVertexPaintDetectionComponent::TaskRemovedByTaskQueue(const struct FRVPDPC
 }
 
 
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothBeginOverlappingMesh
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"ClothBeginOverlappingMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_ClothBeginOverlappingMesh Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.Item = Item;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothEndOverlappingMesh
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"ClothEndOverlappingMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_ClothEndOverlappingMesh Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.Item = Item;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ColorsAppliedOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskSettings&   PaintedOnActorSettings                                 (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"ColorsAppliedOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_ColorsAppliedOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedOnActorSettings = std::move(PaintedOnActorSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.DetectTaskFinishedOnRegisteredMeshComponent
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"DetectTaskFinishedOnRegisteredMeshComponent", FnName));
+
+	Params::VertexPaintDetectionInterface_DetectTaskFinishedOnRegisteredMeshComponent Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetAllVertexColorsOnlyOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsOnlySettings&GotAllVertexColorsWithSettings                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"GetAllVertexColorsOnlyOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_GetAllVertexColorsOnlyOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GotAllVertexColorsWithSettings = std::move(GotAllVertexColorsWithSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetClosestVertexDataOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetClosestVertexDataSettings&GetClosestVertexDataSettings                           (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"GetClosestVertexDataOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_GetClosestVertexDataOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GetClosestVertexDataSettings = std::move(GetClosestVertexDataSettings);
+	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
+	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
+	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetColorsWithinArea
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsWithinAreaSettings&GetColorsWithinAreaSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"GetColorsWithinArea", FnName));
+
+	Params::VertexPaintDetectionInterface_GetColorsWithinArea Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GetColorsWithinAreaSettings = std::move(GetColorsWithinAreaSettings);
+	Parms.WithinAreaResults = std::move(WithinAreaResults);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetSkeletalMeshClothPhysicsSettings
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USkeletalMeshComponent*           SkeletalMeshComponentTryingToGetClothSettingsFor       (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+
+TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> IVertexPaintDetectionInterface::GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"GetSkeletalMeshClothPhysicsSettings", FnName));
+
+	Params::VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings Parms{};
+
+	Parms.SkeletalMeshComponentTryingToGetClothSettingsFor = SkeletalMeshComponentTryingToGetClothSettingsFor;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.OverrideVertexColorToApply
+// (Native, Event, Public, HasOutParams, HasDefaults, BlueprintEvent)
+// Parameters:
+// int32                                   OverrideID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UVertexPaintDetectionComponent*   AssociatedPaintComponent                               (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              MeshApplyingColorsTo                                   (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   CurrentLOD                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   CurrentVertexIndex                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UMaterialInterface*               MaterialVertexIsOn                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    IsVertexOnCloth                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      BoneVertexIsOn                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexPositionInWorldSpace                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexNormal                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    CurrentVertexColor                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EPhysicalSurface                        CurrentVertexMostDominantPhysicsSurface                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float                                   CurrentVertexMostDominantPhysicsSurfaceValue           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    UpdatedVertexColorToApply                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    WantsToApplyUpdatedVertexColor                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   ApplyUpdatedOrOverridenVertexColors                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   OverrideVertexColorsToApply                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FColor*                          VertexColorsToOverrideWith                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"OverrideVertexColorToApply", FnName));
+
+	Params::VertexPaintDetectionInterface_OverrideVertexColorToApply Parms{};
+
+	Parms.OverrideID = OverrideID;
+	Parms.AssociatedPaintComponent = AssociatedPaintComponent;
+	Parms.MeshApplyingColorsTo = MeshApplyingColorsTo;
+	Parms.CurrentLOD = CurrentLOD;
+	Parms.CurrentVertexIndex = CurrentVertexIndex;
+	Parms.MaterialVertexIsOn = MaterialVertexIsOn;
+	Parms.IsVertexOnCloth = IsVertexOnCloth;
+	Parms.BoneVertexIsOn = BoneVertexIsOn;
+	Parms.VertexPositionInWorldSpace = std::move(VertexPositionInWorldSpace);
+	Parms.VertexNormal = std::move(VertexNormal);
+	Parms.CurrentVertexColor = std::move(CurrentVertexColor);
+	Parms.CurrentVertexMostDominantPhysicsSurface = CurrentVertexMostDominantPhysicsSurface;
+	Parms.CurrentVertexMostDominantPhysicsSurfaceValue = CurrentVertexMostDominantPhysicsSurfaceValue;
+	Parms.UpdatedVertexColorToApply = std::move(UpdatedVertexColorToApply);
+	Parms.WantsToApplyUpdatedVertexColor = WantsToApplyUpdatedVertexColor;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (ApplyUpdatedOrOverridenVertexColors != nullptr)
+		*ApplyUpdatedOrOverridenVertexColors = Parms.ApplyUpdatedOrOverridenVertexColors;
+
+	if (OverrideVertexColorsToApply != nullptr)
+		*OverrideVertexColorsToApply = Parms.OverrideVertexColorsToApply;
+
+	if (VertexColorsToOverrideWith != nullptr)
+		*VertexColorsToOverrideWith = std::move(Parms.VertexColorsToOverrideWith);
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_AtLocation
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintedAtLocationSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_AtLocation", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_AtLocation Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedAtLocationSettings = std::move(PaintedAtLocationSettings);
+	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
+	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
+	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_EntireMesh
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintedEntireMeshSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_EntireMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_EntireMesh Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedEntireMeshSettings = std::move(PaintedEntireMeshSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_PaintColorSnippet
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintColorSnippetSettings&PaintedColorSnippetSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_PaintColorSnippet", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_PaintColorSnippet Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedColorSnippetSettings = std::move(PaintedColorSnippetSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColors
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsSettings&SetMeshComponentVertexColorSettings                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_SetMeshComponentVertexColors", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColors Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.SetMeshComponentVertexColorSettings = std::move(SetMeshComponentVertexColorSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsUsingSerializedStringSettings&SetMeshComponentVertexColorUsingSerializedStringSettings(ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.SetMeshComponentVertexColorUsingSerializedStringSettings = std::move(SetMeshComponentVertexColorUsingSerializedStringSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_WithinArea
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintedWithinAreaSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintedOnActor_WithinArea", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_WithinArea Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedWithinAreaSettings = std::move(PaintedWithinAreaSettings);
+	Parms.WithinAreaResults = std::move(WithinAreaResults);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintTaskFinishedOnRegisteredMeshComponent
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void IVertexPaintDetectionInterface::PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(AsUObject(), GetStaticName(L"PaintTaskFinishedOnRegisteredMeshComponent", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintTaskFinishedOnRegisteredMeshComponent Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
 // Function VertexPaintDetectionPlugin.AutoAddColorComponent.AutoPaintDelayFinished
 // (Final, Native, Private)
 // Parameters:
@@ -787,6 +1286,505 @@ bool UAutoAddColorComponent::IsNewRoundOfTasksGoingToStartAfterDelay() const
 	Func->FunctionFlags = Flgs;
 
 	return Parms.ReturnValue;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothBeginOverlappingMesh
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ClothBeginOverlappingMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_ClothBeginOverlappingMesh Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.Item = Item;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothEndOverlappingMesh
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ClothEndOverlappingMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_ClothEndOverlappingMesh Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.Item = Item;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ColorsAppliedOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskSettings&   PaintedOnActorSettings                                 (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ColorsAppliedOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_ColorsAppliedOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedOnActorSettings = std::move(PaintedOnActorSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.DetectTaskFinishedOnRegisteredMeshComponent
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DetectTaskFinishedOnRegisteredMeshComponent", FnName));
+
+	Params::VertexPaintDetectionInterface_DetectTaskFinishedOnRegisteredMeshComponent Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetAllVertexColorsOnlyOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsOnlySettings&GotAllVertexColorsWithSettings                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAllVertexColorsOnlyOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_GetAllVertexColorsOnlyOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GotAllVertexColorsWithSettings = std::move(GotAllVertexColorsWithSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetClosestVertexDataOnActor
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetClosestVertexDataSettings&GetClosestVertexDataSettings                           (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetClosestVertexDataOnActor", FnName));
+
+	Params::VertexPaintDetectionInterface_GetClosestVertexDataOnActor Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GetClosestVertexDataSettings = std::move(GetClosestVertexDataSettings);
+	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
+	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
+	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetColorsWithinArea
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsWithinAreaSettings&GetColorsWithinAreaSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetColorsWithinArea", FnName));
+
+	Params::VertexPaintDetectionInterface_GetColorsWithinArea Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.GetColorsWithinAreaSettings = std::move(GetColorsWithinAreaSettings);
+	Parms.WithinAreaResults = std::move(WithinAreaResults);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetSkeletalMeshClothPhysicsSettings
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class USkeletalMeshComponent*           SkeletalMeshComponentTryingToGetClothSettingsFor       (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+
+TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> UAutoAddColorComponent::GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSkeletalMeshClothPhysicsSettings", FnName));
+
+	Params::VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings Parms{};
+
+	Parms.SkeletalMeshComponentTryingToGetClothSettingsFor = SkeletalMeshComponentTryingToGetClothSettingsFor;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.OverrideVertexColorToApply
+// (Native, Event, Public, HasOutParams, HasDefaults, BlueprintEvent)
+// Parameters:
+// int32                                   OverrideID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UVertexPaintDetectionComponent*   AssociatedPaintComponent                               (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UPrimitiveComponent*              MeshApplyingColorsTo                                   (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   CurrentLOD                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   CurrentVertexIndex                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UMaterialInterface*               MaterialVertexIsOn                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    IsVertexOnCloth                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      BoneVertexIsOn                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexPositionInWorldSpace                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexNormal                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    CurrentVertexColor                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EPhysicalSurface                        CurrentVertexMostDominantPhysicsSurface                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float                                   CurrentVertexMostDominantPhysicsSurfaceValue           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    UpdatedVertexColorToApply                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    WantsToApplyUpdatedVertexColor                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   ApplyUpdatedOrOverridenVertexColors                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   OverrideVertexColorsToApply                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FColor*                          VertexColorsToOverrideWith                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OverrideVertexColorToApply", FnName));
+
+	Params::VertexPaintDetectionInterface_OverrideVertexColorToApply Parms{};
+
+	Parms.OverrideID = OverrideID;
+	Parms.AssociatedPaintComponent = AssociatedPaintComponent;
+	Parms.MeshApplyingColorsTo = MeshApplyingColorsTo;
+	Parms.CurrentLOD = CurrentLOD;
+	Parms.CurrentVertexIndex = CurrentVertexIndex;
+	Parms.MaterialVertexIsOn = MaterialVertexIsOn;
+	Parms.IsVertexOnCloth = IsVertexOnCloth;
+	Parms.BoneVertexIsOn = BoneVertexIsOn;
+	Parms.VertexPositionInWorldSpace = std::move(VertexPositionInWorldSpace);
+	Parms.VertexNormal = std::move(VertexNormal);
+	Parms.CurrentVertexColor = std::move(CurrentVertexColor);
+	Parms.CurrentVertexMostDominantPhysicsSurface = CurrentVertexMostDominantPhysicsSurface;
+	Parms.CurrentVertexMostDominantPhysicsSurfaceValue = CurrentVertexMostDominantPhysicsSurfaceValue;
+	Parms.UpdatedVertexColorToApply = std::move(UpdatedVertexColorToApply);
+	Parms.WantsToApplyUpdatedVertexColor = WantsToApplyUpdatedVertexColor;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (ApplyUpdatedOrOverridenVertexColors != nullptr)
+		*ApplyUpdatedOrOverridenVertexColors = Parms.ApplyUpdatedOrOverridenVertexColors;
+
+	if (OverrideVertexColorsToApply != nullptr)
+		*OverrideVertexColorsToApply = Parms.OverrideVertexColorsToApply;
+
+	if (VertexColorsToOverrideWith != nullptr)
+		*VertexColorsToOverrideWith = std::move(Parms.VertexColorsToOverrideWith);
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_AtLocation
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintedAtLocationSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_AtLocation", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_AtLocation Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedAtLocationSettings = std::move(PaintedAtLocationSettings);
+	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
+	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
+	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_EntireMesh
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintedEntireMeshSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_EntireMesh", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_EntireMesh Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedEntireMeshSettings = std::move(PaintedEntireMeshSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_PaintColorSnippet
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintColorSnippetSettings&PaintedColorSnippetSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_PaintColorSnippet", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_PaintColorSnippet Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedColorSnippetSettings = std::move(PaintedColorSnippetSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColors
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsSettings&SetMeshComponentVertexColorSettings                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_SetMeshComponentVertexColors", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColors Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.SetMeshComponentVertexColorSettings = std::move(SetMeshComponentVertexColorSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsUsingSerializedStringSettings&SetMeshComponentVertexColorUsingSerializedStringSettings(ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.SetMeshComponentVertexColorUsingSerializedStringSettings = std::move(SetMeshComponentVertexColorUsingSerializedStringSettings);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_WithinArea
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintedWithinAreaSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintedOnActor_WithinArea", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintedOnActor_WithinArea Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.PaintedWithinAreaSettings = std::move(PaintedWithinAreaSettings);
+	Parms.WithinAreaResults = std::move(WithinAreaResults);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintTaskFinishedOnRegisteredMeshComponent
+// (Native, Event, Public, HasOutParams, BlueprintEvent)
+// Parameters:
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+void UAutoAddColorComponent::PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintTaskFinishedOnRegisteredMeshComponent", FnName));
+
+	Params::VertexPaintDetectionInterface_PaintTaskFinishedOnRegisteredMeshComponent Parms{};
+
+	Parms.TaskResultInfo = std::move(TaskResultInfo);
+	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
+	Parms.AdditionalData = std::move(AdditionalData);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
 }
 
 
@@ -1492,537 +2490,6 @@ void UVertexPaintDetectionGISubSystem::RegisteredPaintTaskCallbackOwnerDestroyed
 	Func->FunctionFlags |= 0x400;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothBeginOverlappingMesh
-// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ClothBeginOverlappingMesh");
-
-	Params::VertexPaintDetectionInterface_ClothBeginOverlappingMesh Parms{};
-
-	Parms.OverlappedComponent = OverlappedComponent;
-	Parms.OtherActor = OtherActor;
-	Parms.OtherComp = OtherComp;
-	Parms.Item = Item;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ClothEndOverlappingMesh
-// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UPrimitiveComponent*              OverlappedComponent                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class AActor*                           OtherActor                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UPrimitiveComponent*              OtherComp                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   Item                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::ClothEndOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ClothEndOverlappingMesh");
-
-	Params::VertexPaintDetectionInterface_ClothEndOverlappingMesh Parms{};
-
-	Parms.OverlappedComponent = OverlappedComponent;
-	Parms.OtherActor = OtherActor;
-	Parms.OtherComp = OtherComp;
-	Parms.Item = Item;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ColorsAppliedOnActor
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskSettings&   PaintedOnActorSettings                                 (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ColorsAppliedOnActor");
-
-	Params::VertexPaintDetectionInterface_ColorsAppliedOnActor Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.PaintedOnActorSettings = std::move(PaintedOnActorSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.DetectTaskFinishedOnRegisteredMeshComponent
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "DetectTaskFinishedOnRegisteredMeshComponent");
-
-	Params::VertexPaintDetectionInterface_DetectTaskFinishedOnRegisteredMeshComponent Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetAllVertexColorsOnlyOnActor
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPGetColorsOnlySettings&GotAllVertexColorsWithSettings                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetAllVertexColorsOnlyOnActor");
-
-	Params::VertexPaintDetectionInterface_GetAllVertexColorsOnlyOnActor Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.GotAllVertexColorsWithSettings = std::move(GotAllVertexColorsWithSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetClosestVertexDataOnActor
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPGetClosestVertexDataSettings&GetClosestVertexDataSettings                           (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetClosestVertexDataOnActor");
-
-	Params::VertexPaintDetectionInterface_GetClosestVertexDataOnActor Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.GetClosestVertexDataSettings = std::move(GetClosestVertexDataSettings);
-	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
-	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
-	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetColorsWithinArea
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPGetColorsWithinAreaSettings&GetColorsWithinAreaSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetColorsWithinArea");
-
-	Params::VertexPaintDetectionInterface_GetColorsWithinArea Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.GetColorsWithinAreaSettings = std::move(GetColorsWithinAreaSettings);
-	Parms.WithinAreaResults = std::move(WithinAreaResults);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetSkeletalMeshClothPhysicsSettings
-// (Native, Event, Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class USkeletalMeshComponent*           SkeletalMeshComponentTryingToGetClothSettingsFor       (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> IVertexPaintDetectionInterface::GetSkeletalMeshClothPhysicsSettings(class USkeletalMeshComponent* SkeletalMeshComponentTryingToGetClothSettingsFor)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetSkeletalMeshClothPhysicsSettings");
-
-	Params::VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings Parms{};
-
-	Parms.SkeletalMeshComponentTryingToGetClothSettingsFor = SkeletalMeshComponentTryingToGetClothSettingsFor;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.OverrideVertexColorToApply
-// (Native, Event, Public, HasOutParams, HasDefaults, BlueprintEvent)
-// Parameters:
-// int32                                   OverrideID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UVertexPaintDetectionComponent*   AssociatedPaintComponent                               (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UPrimitiveComponent*              MeshApplyingColorsTo                                   (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   CurrentLOD                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   CurrentVertexIndex                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UMaterialInterface*               MaterialVertexIsOn                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    IsVertexOnCloth                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const class FName&                      BoneVertexIsOn                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector&                   VertexPositionInWorldSpace                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector&                   VertexNormal                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FColor&                    CurrentVertexColor                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EPhysicalSurface                        CurrentVertexMostDominantPhysicsSurface                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   CurrentVertexMostDominantPhysicsSurfaceValue           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FColor&                    UpdatedVertexColorToApply                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    WantsToApplyUpdatedVertexColor                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool*                                   ApplyUpdatedOrOverridenVertexColors                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool*                                   OverrideVertexColorsToApply                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FColor*                          VertexColorsToOverrideWith                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "OverrideVertexColorToApply");
-
-	Params::VertexPaintDetectionInterface_OverrideVertexColorToApply Parms{};
-
-	Parms.OverrideID = OverrideID;
-	Parms.AssociatedPaintComponent = AssociatedPaintComponent;
-	Parms.MeshApplyingColorsTo = MeshApplyingColorsTo;
-	Parms.CurrentLOD = CurrentLOD;
-	Parms.CurrentVertexIndex = CurrentVertexIndex;
-	Parms.MaterialVertexIsOn = MaterialVertexIsOn;
-	Parms.IsVertexOnCloth = IsVertexOnCloth;
-	Parms.BoneVertexIsOn = BoneVertexIsOn;
-	Parms.VertexPositionInWorldSpace = std::move(VertexPositionInWorldSpace);
-	Parms.VertexNormal = std::move(VertexNormal);
-	Parms.CurrentVertexColor = std::move(CurrentVertexColor);
-	Parms.CurrentVertexMostDominantPhysicsSurface = CurrentVertexMostDominantPhysicsSurface;
-	Parms.CurrentVertexMostDominantPhysicsSurfaceValue = CurrentVertexMostDominantPhysicsSurfaceValue;
-	Parms.UpdatedVertexColorToApply = std::move(UpdatedVertexColorToApply);
-	Parms.WantsToApplyUpdatedVertexColor = WantsToApplyUpdatedVertexColor;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	if (ApplyUpdatedOrOverridenVertexColors != nullptr)
-		*ApplyUpdatedOrOverridenVertexColors = Parms.ApplyUpdatedOrOverridenVertexColors;
-
-	if (OverrideVertexColorsToApply != nullptr)
-		*OverrideVertexColorsToApply = Parms.OverrideVertexColorsToApply;
-
-	if (VertexColorsToOverrideWith != nullptr)
-		*VertexColorsToOverrideWith = std::move(Parms.VertexColorsToOverrideWith);
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_AtLocation
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintAtLocationSettings&PaintedAtLocationSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_AtLocation");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_AtLocation Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.PaintedAtLocationSettings = std::move(PaintedAtLocationSettings);
-	Parms.ClosestVertexColorResult = std::move(ClosestVertexColorResult);
-	Parms.EstimatedColorAtHitLocationResult = std::move(EstimatedColorAtHitLocationResult);
-	Parms.AverageColorInAreaInfo = std::move(AverageColorInAreaInfo);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_EntireMesh
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintOnEntireMeshSettings&PaintedEntireMeshSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_EntireMesh");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_EntireMesh Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.PaintedEntireMeshSettings = std::move(PaintedEntireMeshSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_PaintColorSnippet
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintColorSnippetSettings&PaintedColorSnippetSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_PaintColorSnippet");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_PaintColorSnippet Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.PaintedColorSnippetSettings = std::move(PaintedColorSnippetSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColors
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPSetVertexColorsSettings&SetMeshComponentVertexColorSettings                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColors");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColors Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.SetMeshComponentVertexColorSettings = std::move(SetMeshComponentVertexColorSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPSetVertexColorsUsingSerializedStringSettings&SetMeshComponentVertexColorUsingSerializedStringSettings(ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.SetMeshComponentVertexColorUsingSerializedStringSettings = std::move(SetMeshComponentVertexColorUsingSerializedStringSettings);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_WithinArea
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintWithinAreaSettings&PaintedWithinAreaSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_WithinArea");
-
-	Params::VertexPaintDetectionInterface_PaintedOnActor_WithinArea Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.PaintedWithinAreaSettings = std::move(PaintedWithinAreaSettings);
-	Parms.WithinAreaResults = std::move(WithinAreaResults);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintTaskFinishedOnRegisteredMeshComponent
-// (Native, Event, Public, HasOutParams, BlueprintEvent)
-// Parameters:
-// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-void IVertexPaintDetectionInterface::PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintTaskFinishedOnRegisteredMeshComponent");
-
-	Params::VertexPaintDetectionInterface_PaintTaskFinishedOnRegisteredMeshComponent Parms{};
-
-	Parms.TaskResultInfo = std::move(TaskResultInfo);
-	Parms.PaintTaskResultInfo = std::move(PaintTaskResultInfo);
-	Parms.AdditionalData = std::move(AdditionalData);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }

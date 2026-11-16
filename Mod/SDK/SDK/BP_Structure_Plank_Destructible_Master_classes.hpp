@@ -18,7 +18,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C
-// 0x0050 (0x02E0 - 0x0290)
+// 0x0068 (0x02F8 - 0x0290)
 class ABP_Structure_Plank_Destructible_Master_C : public AActor
 {
 public:
@@ -33,13 +33,24 @@ public:
 	bool                                          Block_Navigation_On_Break;                         // 0x02D9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_2DA[0x2];                                      // 0x02DA(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         StartUp_Delay;                                     // 0x02DC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          Try_to_Attach;                                     // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_2E1[0x3];                                      // 0x02E1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Hit_Count;                                         // 0x02E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Accumulated_Noise;                                 // 0x02E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Sound;                                       // 0x02F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();
+	void Unblock_Sound();
 	void Temporarily_Disable_Destruction();
+	void Spawn_Sound_Detector(class USceneComponent* Target);
+	void Spawn_Sound(class USceneComponent* Target, const struct FVector& A, const struct FHitResult& Hit);
 	void ReceiveTick(float DeltaSeconds);
 	void ReceiveBeginPlay();
 	void ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint);
+	void Count_Hit_Count();
+	void BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_2_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Structure_Plank_Destructible_Master_Plank_Part_1_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 
 public:
 	static class UClass* StaticClass()

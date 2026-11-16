@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_Co
 
 void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_Co
 
 void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_Comp
 
 void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void UUI_DeleteSave_Confirm_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_Comp
 
 void UUI_DeleteSave_Confirm_C::ExecuteUbergraph_UI_DeleteSave_Confirm(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "ExecuteUbergraph_UI_DeleteSave_Confirm");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_DeleteSave_Confirm_C", "ExecuteUbergraph_UI_DeleteSave_Confirm", FuncInfo);
 
 	Params::UI_DeleteSave_Confirm_C_ExecuteUbergraph_UI_DeleteSave_Confirm Parms{};
 
@@ -99,10 +89,8 @@ void UUI_DeleteSave_Confirm_C::ExecuteUbergraph_UI_DeleteSave_Confirm(int32 Entr
 
 void UUI_DeleteSave_Confirm_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DeleteSave_Confirm_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_DeleteSave_Confirm_C_PreConstruct Parms{};
 

@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_DisplaySettings2_C::BndEvt__Settings_UI_GraphicsDown_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__Settings_UI_GraphicsDown_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Settings_UI_GraphicsDown_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_DisplaySettings2_C::BndEvt__Settings_UI_GraphicsDown_K2Node_ComponentBo
 
 void UUI_DisplaySettings2_C::BndEvt__Settings_UI_GraphicsUp_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__Settings_UI_GraphicsUp_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Settings_UI_GraphicsUp_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_DisplaySettings2_C::BndEvt__Settings_UI_GraphicsUp_K2Node_ComponentBoun
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundE
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_AntiAliaDown_K2Node_ComponentBoundEvent_35_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_AntiAliaDown_K2Node_ComponentBoundEvent_35_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_AntiAliaDown_K2Node_ComponentBoundEvent_35_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_AntiAliaDown_K2Node_Com
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_AntiAliaUp_K2Node_ComponentBoundEvent_36_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_AntiAliaUp_K2Node_ComponentBoundEvent_36_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_AntiAliaUp_K2Node_ComponentBoundEvent_36_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_AntiAliaUp_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_DLSSDOWN_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_DLSSDOWN_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_DLSSDOWN_K2Node_ComponentBoundEvent_33_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_DLSSDOWN_K2Node_Compone
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_DLSSUP_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_DLSSUP_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_DLSSUP_K2Node_ComponentBoundEvent_32_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_DLSSUP_K2Node_Component
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_EffectsDown_1_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_EffectsDown_1_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_EffectsDown_1_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_EffectsDown_1_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_EffectsUp_1_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_EffectsUp_1_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_EffectsUp_1_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_EffectsUp_1_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FGDOWN_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FGDOWN_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FGDOWN_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FGDOWN_K2Node_Component
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FGUP_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FGUP_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FGUP_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FGUP_K2Node_ComponentBo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FoliageDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FoliageDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FoliageDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FoliageDown_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FoliageUp_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FoliageUp_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FoliageUp_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FoliageUp_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FSRDOWN_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FSRDOWN_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FSRDOWN_K2Node_ComponentBoundEvent_61_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FSRDOWN_K2Node_Componen
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FSRUP_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_FSRUP_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_FSRUP_K2Node_ComponentBoundEvent_60_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FSRUP_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -287,10 +249,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +261,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -315,10 +273,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingDown_K2Node_Com
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -329,10 +285,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingUp_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_PostProcessDown_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_PostProcessDown_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_PostProcessDown_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -343,10 +297,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_PostProcessDown_K2Node_
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_PostProcessUp_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_PostProcessUp_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_PostProcessUp_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -357,10 +309,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_PostProcessUp_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ReflexDOWN_K2Node_ComponentBoundEvent_45_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ReflexDOWN_K2Node_ComponentBoundEvent_45_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ReflexDOWN_K2Node_ComponentBoundEvent_45_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -371,10 +321,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ReflexDOWN_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -385,10 +333,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_Compone
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -399,10 +345,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -413,10 +357,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadowDown_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadowDown_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ShadowDown_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -427,10 +369,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadowDown_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadowUp_K2Node_ComponentBoundEvent_44_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadowUp_K2Node_ComponentBoundEvent_44_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_ShadowUp_K2Node_ComponentBoundEvent_44_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -441,10 +381,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadowUp_K2Node_Compone
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_TextureDown_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_TextureDown_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_TextureDown_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -455,10 +393,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_TextureDown_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_TextureUp_K2Node_ComponentBoundEvent_34_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_TextureUp_K2Node_ComponentBoundEvent_34_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_TextureUp_K2Node_ComponentBoundEvent_34_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -469,10 +405,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_TextureUp_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_UpscalerSelectorDOWN_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_UpscalerSelectorDOWN_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_UpscalerSelectorDOWN_K2Node_ComponentBoundEvent_13_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -483,10 +417,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_UpscalerSelectorDOWN_K2
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_UpscalerSelectorUP_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_UpscalerSelectorUP_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings2_UpscalerSelectorUP_K2Node_ComponentBoundEvent_59_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -497,10 +429,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_UpscalerSelectorUP_K2No
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -511,10 +441,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -525,10 +453,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_BackButton_1_K2Node_ComponentBoundEvent_26_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -539,10 +465,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_BackButton_1_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_DisplayDown_1_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_DisplayDown_1_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_DisplayDown_1_K2Node_ComponentBoundEvent_16_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -553,10 +477,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_DisplayDown_1_K2Node_Com
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_DisplayUp_1_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_DisplayUp_1_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_DisplayUp_1_K2Node_ComponentBoundEvent_29_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -567,10 +489,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_DisplayUp_1_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_3_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_GraphicsDown_3_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_GraphicsDown_3_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -581,10 +501,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_3_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_4_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_GraphicsDown_4_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_GraphicsDown_4_K2Node_ComponentBoundEvent_28_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -595,10 +513,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_4_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_5_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_GraphicsDown_5_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_GraphicsDown_5_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -609,10 +525,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_5_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_6_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_GraphicsDown_6_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_GraphicsDown_6_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -623,10 +537,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_GraphicsDown_6_K2Node_Co
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_VsyncDown_1_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_VsyncDown_1_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_VsyncDown_1_K2Node_ComponentBoundEvent_30_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -637,10 +549,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_VsyncDown_1_K2Node_Compo
 
 void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_VsyncUp_1_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings_VsyncUp_1_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_DisplaySettings_VsyncUp_1_K2Node_ComponentBoundEvent_31_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -651,10 +561,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings_VsyncUp_1_K2Node_Compone
 
 void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -665,10 +573,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -679,10 +585,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -693,10 +597,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_Compon
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -707,10 +609,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_Componen
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -721,10 +621,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_Componen
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_BackButton_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -735,10 +633,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_BackButton_K2Node_Componen
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_17_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -749,10 +645,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -763,10 +657,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -777,10 +669,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_1_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -791,10 +681,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -805,10 +693,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_2_K2Node_ComponentB
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -819,10 +705,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBou
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -833,10 +717,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBou
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -847,10 +729,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Button_K2Node_ComponentBou
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_GraphicsDown_1_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_GraphicsDown_1_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_GraphicsDown_1_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -861,10 +741,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_GraphicsDown_1_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_GraphicsDown_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_GraphicsDown_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_GraphicsDown_2_K2Node_ComponentBoundEvent_14_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -877,10 +755,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_GraphicsDown_2_K2Node_Comp
 
 void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Slider_FOV_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature(float Value_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_Settings_AuVi_Slider_FOV_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Slider_FOV_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_DisplaySettings2_C_BndEvt__UI_Settings_AuVi_Slider_FOV_1_K2Node_ComponentBoundEvent_10_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -895,10 +771,8 @@ void UUI_DisplaySettings2_C::BndEvt__UI_Settings_AuVi_Slider_FOV_1_K2Node_Compon
 
 void UUI_DisplaySettings2_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -911,10 +785,8 @@ void UUI_DisplaySettings2_C::Construct()
 
 void UUI_DisplaySettings2_C::ExecuteUbergraph_UI_DisplaySettings2(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "ExecuteUbergraph_UI_DisplaySettings2");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_DisplaySettings2_C", "ExecuteUbergraph_UI_DisplaySettings2", FuncInfo);
 
 	Params::UI_DisplaySettings2_C_ExecuteUbergraph_UI_DisplaySettings2 Parms{};
 
@@ -931,10 +803,8 @@ void UUI_DisplaySettings2_C::ExecuteUbergraph_UI_DisplaySettings2(int32 EntryPoi
 
 class FText UUI_DisplaySettings2_C::Get_Reflex_Options()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Reflex Options");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Reflex Options", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Reflex_Options Parms{};
 
@@ -951,10 +821,8 @@ class FText UUI_DisplaySettings2_C::Get_Reflex_Options()
 
 class FText UUI_DisplaySettings2_C::Get_Upscaler_Options()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Upscaler Options");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Upscaler Options", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Upscaler_Options Parms{};
 
@@ -971,10 +839,8 @@ class FText UUI_DisplaySettings2_C::Get_Upscaler_Options()
 
 class FText UUI_DisplaySettings2_C::Get_Upscaler_Selector_Options()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Upscaler Selector Options");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Upscaler Selector Options", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Upscaler_Selector_Options Parms{};
 
@@ -991,10 +857,8 @@ class FText UUI_DisplaySettings2_C::Get_Upscaler_Selector_Options()
 
 class FText UUI_DisplaySettings2_C::Get_DisplayMode_2_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_DisplayMode_2_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DisplayMode_2_Text", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_DisplayMode_2_Text Parms{};
 
@@ -1011,10 +875,8 @@ class FText UUI_DisplaySettings2_C::Get_DisplayMode_2_Text()
 
 ESlateVisibility UUI_DisplaySettings2_C::Get_DLSS_Box_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_DLSS_Box_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DLSS_Box_Visibility", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_DLSS_Box_Visibility Parms{};
 
@@ -1031,10 +893,8 @@ ESlateVisibility UUI_DisplaySettings2_C::Get_DLSS_Box_Visibility()
 
 ESlateVisibility UUI_DisplaySettings2_C::Get_DLSSFG_Box_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_DLSSFG_Box_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_DLSSFG_Box_Visibility", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_DLSSFG_Box_Visibility Parms{};
 
@@ -1051,10 +911,8 @@ ESlateVisibility UUI_DisplaySettings2_C::Get_DLSSFG_Box_Visibility()
 
 class FText UUI_DisplaySettings2_C::Get_FGOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_FGOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FGOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_FGOptions Parms{};
 
@@ -1071,10 +929,8 @@ class FText UUI_DisplaySettings2_C::Get_FGOptions()
 
 float UUI_DisplaySettings2_C::Get_FOV()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_FOV");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FOV", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_FOV Parms{};
 
@@ -1091,10 +947,8 @@ float UUI_DisplaySettings2_C::Get_FOV()
 
 class FText UUI_DisplaySettings2_C::Get_FPS()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_FPS");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FPS", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_FPS Parms{};
 
@@ -1111,10 +965,8 @@ class FText UUI_DisplaySettings2_C::Get_FPS()
 
 ESlateVisibility UUI_DisplaySettings2_C::Get_FSR_Box_Visibility()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_FSR_Box_Visibility");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_FSR_Box_Visibility", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_FSR_Box_Visibility Parms{};
 
@@ -1131,10 +983,8 @@ ESlateVisibility UUI_DisplaySettings2_C::Get_FSR_Box_Visibility()
 
 class FText UUI_DisplaySettings2_C::Get_Graphics()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_Graphics");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Graphics", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Graphics Parms{};
 
@@ -1151,10 +1001,8 @@ class FText UUI_DisplaySettings2_C::Get_Graphics()
 
 float UUI_DisplaySettings2_C::Get_HUD()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_HUD");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_HUD", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_HUD Parms{};
 
@@ -1171,10 +1019,8 @@ float UUI_DisplaySettings2_C::Get_HUD()
 
 class FText UUI_DisplaySettings2_C::Get_Resolution()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_Resolution");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Resolution", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Resolution Parms{};
 
@@ -1191,10 +1037,8 @@ class FText UUI_DisplaySettings2_C::Get_Resolution()
 
 class FText UUI_DisplaySettings2_C::Get_Vsync()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_Vsync");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Vsync", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_Vsync Parms{};
 
@@ -1211,10 +1055,8 @@ class FText UUI_DisplaySettings2_C::Get_Vsync()
 
 class FText UUI_DisplaySettings2_C::Get_WindowMode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get_WindowMode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_WindowMode", FnName));
 
 	Params::UI_DisplaySettings2_C_Get_WindowMode Parms{};
 
@@ -1231,10 +1073,8 @@ class FText UUI_DisplaySettings2_C::Get_WindowMode()
 
 class FText UUI_DisplaySettings2_C::GetAntiAliasingOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetAntiAliasingOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAntiAliasingOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetAntiAliasingOptions Parms{};
 
@@ -1251,10 +1091,8 @@ class FText UUI_DisplaySettings2_C::GetAntiAliasingOptions()
 
 class FText UUI_DisplaySettings2_C::GetEffectsOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetEffectsOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetEffectsOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetEffectsOptions Parms{};
 
@@ -1271,10 +1109,8 @@ class FText UUI_DisplaySettings2_C::GetEffectsOptions()
 
 class FText UUI_DisplaySettings2_C::GetFoliageOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetFoliageOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetFoliageOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetFoliageOptions Parms{};
 
@@ -1291,10 +1127,8 @@ class FText UUI_DisplaySettings2_C::GetFoliageOptions()
 
 class FText UUI_DisplaySettings2_C::GetLandscapeOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetLandscapeOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLandscapeOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetLandscapeOptions Parms{};
 
@@ -1309,10 +1143,8 @@ class FText UUI_DisplaySettings2_C::GetLandscapeOptions()
 
 void UUI_DisplaySettings2_C::GetLastOpenedWidget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLastOpenedWidget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1325,10 +1157,8 @@ void UUI_DisplaySettings2_C::GetLastOpenedWidget()
 
 class FText UUI_DisplaySettings2_C::GetLightingOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetLightingOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLightingOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetLightingOptions Parms{};
 
@@ -1345,10 +1175,8 @@ class FText UUI_DisplaySettings2_C::GetLightingOptions()
 
 class FText UUI_DisplaySettings2_C::GetLumenOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetLumenOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLumenOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetLumenOptions Parms{};
 
@@ -1365,10 +1193,8 @@ class FText UUI_DisplaySettings2_C::GetLumenOptions()
 
 class FText UUI_DisplaySettings2_C::GetPostProcessOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetPostProcessOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetPostProcessOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetPostProcessOptions Parms{};
 
@@ -1385,10 +1211,8 @@ class FText UUI_DisplaySettings2_C::GetPostProcessOptions()
 
 class FText UUI_DisplaySettings2_C::GetShadingOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetShadingOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetShadingOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetShadingOptions Parms{};
 
@@ -1405,10 +1229,8 @@ class FText UUI_DisplaySettings2_C::GetShadingOptions()
 
 class FText UUI_DisplaySettings2_C::GetShadowOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetShadowOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetShadowOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetShadowOptions Parms{};
 
@@ -1425,10 +1247,8 @@ class FText UUI_DisplaySettings2_C::GetShadowOptions()
 
 class FText UUI_DisplaySettings2_C::GetTextureOptions()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetTextureOptions");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetTextureOptions", FnName));
 
 	Params::UI_DisplaySettings2_C_GetTextureOptions Parms{};
 
@@ -1445,10 +1265,8 @@ class FText UUI_DisplaySettings2_C::GetTextureOptions()
 
 void UUI_DisplaySettings2_C::IsGraphicsCustom(bool* IsCustom)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "IsGraphicsCustom");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IsGraphicsCustom", FnName));
 
 	Params::UI_DisplaySettings2_C_IsGraphicsCustom Parms{};
 
@@ -1464,10 +1282,8 @@ void UUI_DisplaySettings2_C::IsGraphicsCustom(bool* IsCustom)
 
 void UUI_DisplaySettings2_C::LoadScalabilitySettingsFromSGSettings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "LoadScalabilitySettingsFromSGSettings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"LoadScalabilitySettingsFromSGSettings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1481,10 +1297,8 @@ void UUI_DisplaySettings2_C::LoadScalabilitySettingsFromSGSettings()
 
 void UUI_DisplaySettings2_C::NewFunction(int32& SettingToChange, bool& IsDown)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "NewFunction");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"NewFunction", FnName));
 
 	Params::UI_DisplaySettings2_C_NewFunction Parms{};
 
@@ -1503,10 +1317,8 @@ void UUI_DisplaySettings2_C::NewFunction(int32& SettingToChange, bool& IsDown)
 
 void UUI_DisplaySettings2_C::SetAllScalabilitySettings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SetAllScalabilitySettings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetAllScalabilitySettings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1519,10 +1331,8 @@ void UUI_DisplaySettings2_C::SetAllScalabilitySettings()
 
 void UUI_DisplaySettings2_C::SetLastOpenedWidget(class UClass* UW)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetLastOpenedWidget", FnName));
 
 	Params::UI_DisplaySettings2_C_SetLastOpenedWidget Parms{};
 
@@ -1537,10 +1347,8 @@ void UUI_DisplaySettings2_C::SetLastOpenedWidget(class UClass* UW)
 
 void UUI_DisplaySettings2_C::SetScreenPercentage()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SetScreenPercentage");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetScreenPercentage", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1553,10 +1361,8 @@ void UUI_DisplaySettings2_C::SetScreenPercentage()
 
 void UUI_DisplaySettings2_C::SwitchDLSSFGModes(int32 NewMode)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SwitchDLSSFGModes");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchDLSSFGModes", FnName));
 
 	Params::UI_DisplaySettings2_C_SwitchDLSSFGModes Parms{};
 
@@ -1571,10 +1377,8 @@ void UUI_DisplaySettings2_C::SwitchDLSSFGModes(int32 NewMode)
 
 void UUI_DisplaySettings2_C::SwitchDLSSModes()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SwitchDLSSModes");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchDLSSModes", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1585,10 +1389,8 @@ void UUI_DisplaySettings2_C::SwitchDLSSModes()
 
 void UUI_DisplaySettings2_C::SwitchFSRModes()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SwitchFSRModes");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchFSRModes", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1599,10 +1401,8 @@ void UUI_DisplaySettings2_C::SwitchFSRModes()
 
 void UUI_DisplaySettings2_C::SwitchReflexMode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SwitchReflexMode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchReflexMode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1613,10 +1413,8 @@ void UUI_DisplaySettings2_C::SwitchReflexMode()
 
 void UUI_DisplaySettings2_C::SwitchUpscalerMode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "SwitchUpscalerMode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SwitchUpscalerMode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1630,10 +1428,8 @@ void UUI_DisplaySettings2_C::SwitchUpscalerMode()
 
 void UUI_DisplaySettings2_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_DisplaySettings2_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_DisplaySettings2_C_Tick Parms{};
 

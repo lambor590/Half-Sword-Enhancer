@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_GoreSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_GoreSettings_C::BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_BackButton_1_K2Node_ComponentBo
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundE
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_1_K2Node_ComponentBoundE
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBound
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_27_K2Node_ComponentBound
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentB
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Componen
 
 void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -233,10 +203,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_Componen
 
 void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GoreSettings_C_BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -251,10 +219,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_Compon
 
 void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_GraphicsDown_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_GraphicsDown_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GoreSettings_GraphicsDown_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -265,10 +231,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_GraphicsDown_K2Node_ComponentBo
 
 void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -279,10 +243,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoun
 
 void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -295,10 +257,8 @@ void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_Language_Button_K2Node_Componen
 
 void UUI_GoreSettings_C::BndEvt__UI_Settings_AuVi_Slider_1_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_Settings_AuVi_Slider_1_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_AuVi_Slider_1_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GoreSettings_C_BndEvt__UI_Settings_AuVi_Slider_1_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -315,10 +275,8 @@ void UUI_GoreSettings_C::BndEvt__UI_Settings_AuVi_Slider_1_K2Node_ComponentBound
 
 void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_BodyDensitySlid_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature(float Value)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_Settings_Game_BodyDensitySlid_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_BodyDensitySlid_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature", FnName));
 
 	Params::UI_GoreSettings_C_BndEvt__UI_Settings_Game_BodyDensitySlid_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature Parms{};
 
@@ -333,10 +291,8 @@ void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_BodyDensitySlid_K2Node_Compone
 
 void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -347,10 +303,8 @@ void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBound
 
 void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -361,10 +315,8 @@ void UUI_GoreSettings_C::BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoun
 
 void UUI_GoreSettings_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -375,10 +327,8 @@ void UUI_GoreSettings_C::Construct()
 
 void UUI_GoreSettings_C::Destruct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Destruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -389,10 +339,8 @@ void UUI_GoreSettings_C::Destruct()
 
 void UUI_GoreSettings_C::Event_Force_Apply_Settings()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Event Force Apply Settings");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Force Apply Settings", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -405,10 +353,8 @@ void UUI_GoreSettings_C::Event_Force_Apply_Settings()
 
 void UUI_GoreSettings_C::ExecuteUbergraph_UI_GoreSettings(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "ExecuteUbergraph_UI_GoreSettings");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_GoreSettings_C", "ExecuteUbergraph_UI_GoreSettings", FuncInfo);
 
 	Params::UI_GoreSettings_C_ExecuteUbergraph_UI_GoreSettings Parms{};
 
@@ -425,10 +371,8 @@ void UUI_GoreSettings_C::ExecuteUbergraph_UI_GoreSettings(int32 EntryPoint)
 
 float UUI_GoreSettings_C::Get_Gore_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Get Gore Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Gore Value", FnName));
 
 	Params::UI_GoreSettings_C_Get_Gore_Value Parms{};
 
@@ -445,10 +389,8 @@ float UUI_GoreSettings_C::Get_Gore_Value()
 
 float UUI_GoreSettings_C::Get_BodyDensitySlid_1_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Get_BodyDensitySlid_1_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_BodyDensitySlid_1_Value", FnName));
 
 	Params::UI_GoreSettings_C_Get_BodyDensitySlid_1_Value Parms{};
 
@@ -465,10 +407,8 @@ float UUI_GoreSettings_C::Get_BodyDensitySlid_1_Value()
 
 float UUI_GoreSettings_C::Get_Slider_DamagePlayer_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Get_Slider_DamagePlayer_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_DamagePlayer_Value", FnName));
 
 	Params::UI_GoreSettings_C_Get_Slider_DamagePlayer_Value Parms{};
 
@@ -485,10 +425,8 @@ float UUI_GoreSettings_C::Get_Slider_DamagePlayer_Value()
 
 float UUI_GoreSettings_C::Get_Slider_LockOnSlider_Value()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Get_Slider_LockOnSlider_Value");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_Slider_LockOnSlider_Value", FnName));
 
 	Params::UI_GoreSettings_C_Get_Slider_LockOnSlider_Value Parms{};
 
@@ -505,10 +443,8 @@ float UUI_GoreSettings_C::Get_Slider_LockOnSlider_Value()
 
 struct FSlateBrush UUI_GoreSettings_C::GetBrush()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetBrush");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetBrush", FnName));
 
 	Params::UI_GoreSettings_C_GetBrush Parms{};
 
@@ -525,10 +461,8 @@ struct FSlateBrush UUI_GoreSettings_C::GetBrush()
 
 class FText UUI_GoreSettings_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_GoreSettings_C_GetText Parms{};
 
@@ -545,10 +479,8 @@ class FText UUI_GoreSettings_C::GetText()
 
 float UUI_GoreSettings_C::GetValue()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue", FnName));
 
 	Params::UI_GoreSettings_C_GetValue Parms{};
 
@@ -565,10 +497,8 @@ float UUI_GoreSettings_C::GetValue()
 
 float UUI_GoreSettings_C::GetValue_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_1", FnName));
 
 	Params::UI_GoreSettings_C_GetValue_1 Parms{};
 
@@ -585,10 +515,8 @@ float UUI_GoreSettings_C::GetValue_1()
 
 float UUI_GoreSettings_C::GetValue_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_2", FnName));
 
 	Params::UI_GoreSettings_C_GetValue_2 Parms{};
 
@@ -605,10 +533,8 @@ float UUI_GoreSettings_C::GetValue_2()
 
 float UUI_GoreSettings_C::GetValue_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetValue_3", FnName));
 
 	Params::UI_GoreSettings_C_GetValue_3 Parms{};
 
@@ -625,10 +551,8 @@ float UUI_GoreSettings_C::GetValue_3()
 
 void UUI_GoreSettings_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_GoreSettings_C_PreConstruct Parms{};
 
@@ -646,10 +570,8 @@ void UUI_GoreSettings_C::PreConstruct(bool IsDesignTime)
 
 void UUI_GoreSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_GoreSettings_C_Tick Parms{};
 

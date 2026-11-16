@@ -821,6 +821,170 @@ bool ITestTypedElementInterfaceC::GetIsTested(const struct FScriptTypedElementHa
 }
 
 
+// Function TypedElementFramework.TestTypedElementInterfaceA.GetDisplayName
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+
+class FText UTestTypedElementInterfaceA_ImplTyped::GetDisplayName(const struct FScriptTypedElementHandle& InElementHandle)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDisplayName", FnName));
+
+	Params::TestTypedElementInterfaceA_GetDisplayName Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TestTypedElementInterfaceA.SetDisplayName
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FText&                      InNewName                                              (Parm, NativeAccessSpecifierPublic)
+// bool                                    bNotify                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UTestTypedElementInterfaceA_ImplTyped::SetDisplayName(const struct FScriptTypedElementHandle& InElementHandle, const class FText& InNewName, bool bNotify)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetDisplayName", FnName));
+
+	Params::TestTypedElementInterfaceA_SetDisplayName Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+	Parms.InNewName = std::move(InNewName);
+	Parms.bNotify = bNotify;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TestTypedElementInterfaceA.GetDisplayName
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+
+class FText UTestTypedElementInterfaceA_ImplUntyped::GetDisplayName(const struct FScriptTypedElementHandle& InElementHandle)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDisplayName", FnName));
+
+	Params::TestTypedElementInterfaceA_GetDisplayName Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TestTypedElementInterfaceA.SetDisplayName
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FText&                      InNewName                                              (Parm, NativeAccessSpecifierPublic)
+// bool                                    bNotify                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UTestTypedElementInterfaceA_ImplUntyped::SetDisplayName(const struct FScriptTypedElementHandle& InElementHandle, const class FText& InNewName, bool bNotify)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetDisplayName", FnName));
+
+	Params::TestTypedElementInterfaceA_SetDisplayName Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+	Parms.InNewName = std::move(InNewName);
+	Parms.bNotify = bNotify;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TestTypedElementInterfaceB.MarkAsTested
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UTestTypedElementInterfaceBAndC_Typed::MarkAsTested(const struct FScriptTypedElementHandle& InElementHandle)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MarkAsTested", FnName));
+
+	Params::TestTypedElementInterfaceB_MarkAsTested Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TestTypedElementInterfaceC.GetIsTested
+// (Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UTestTypedElementInterfaceBAndC_Typed::GetIsTested(const struct FScriptTypedElementHandle& InElementHandle) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetIsTested", FnName));
+
+	Params::TestTypedElementInterfaceC_GetIsTested Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function TypedElementFramework.TypedElementRegistry.GetInstance
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:

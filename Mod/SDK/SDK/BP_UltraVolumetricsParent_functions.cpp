@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_UltraVolumetricsParent_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_UltraVolumetricsParent_C::UserConstructionScript()
 
 void ABP_UltraVolumetricsParent_C::UpdateSequencer()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateSequencer");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateSequencer", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void ABP_UltraVolumetricsParent_C::UpdateSequencer()
 
 void ABP_UltraVolumetricsParent_C::UpdateParameters()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateParameters");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateParameters", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,10 +59,8 @@ void ABP_UltraVolumetricsParent_C::UpdateParameters()
 
 void ABP_UltraVolumetricsParent_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Trail");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Trail", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Trail Parms{};
 
@@ -85,10 +77,8 @@ void ABP_UltraVolumetricsParent_C::Trail(class UTextureRenderTarget2D* RT_textur
 
 void ABP_UltraVolumetricsParent_C::StopSplineAnim(bool Break)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StopSplineAnim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"StopSplineAnim", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_StopSplineAnim Parms{};
 
@@ -103,10 +93,8 @@ void ABP_UltraVolumetricsParent_C::StopSplineAnim(bool Break)
 
 void ABP_UltraVolumetricsParent_C::StartSplineAnimation()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StartSplineAnimation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"StartSplineAnimation", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -117,10 +105,8 @@ void ABP_UltraVolumetricsParent_C::StartSplineAnimation()
 
 void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SplineAnimTimeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -131,10 +117,8 @@ void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__UpdateFunc()
 
 void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SplineAnimTimeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -145,10 +129,8 @@ void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__FinishedFunc()
 
 void ABP_UltraVolumetricsParent_C::SetRandom()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SetRandom");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetRandom", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +171,8 @@ void ABP_UltraVolumetricsParent_C::SetRandom()
 
 void ABP_UltraVolumetricsParent_C::SetAllParameters(Enum_NoisePattern Noise_Patterm, Enum_ShapeType Shape_Type_0, double Shape_Edge_Falloff_0, bool Local_Space_Coordinates__0, bool Use_DF_, double DF___Height, double DF___Contrast, double Opacity_0, double SelfShadowAmount, double SelfShadow_Contrast, bool Self_Shadow_from_Directional_Light__0, const struct FVector& Noise_Size, double Noise___Power, double Noise___Multiply_0, const struct FVector& Panning_speed_0, double Rotation_Speed_0, const struct FLinearColor& Color_0, const struct FLinearColor& Emissive_Color_0, double SinePanAmount, double Godray_Amount, double Godrays_Scale_0, Enum_DistortionPattern Distortion_Pattern_0, const struct FVector2D& Distortion_Scale_0, double Distortion_Strength, double Distortion_Z_Strength, double Far_Fade_Distance_0, double Near_Fade_Distance_0, double Flowmap_Strength_0, bool Allow_Interaction__0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SetAllParameters");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetAllParameters", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_SetAllParameters Parms{};
 
@@ -237,10 +217,8 @@ void ABP_UltraVolumetricsParent_C::SetAllParameters(Enum_NoisePattern Noise_Patt
 
 void ABP_UltraVolumetricsParent_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "RT-Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RT-Paint", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_RT_Paint Parms{};
 
@@ -255,10 +233,8 @@ void ABP_UltraVolumetricsParent_C::RT_Paint(class UTextureRenderTarget2D* RT)
 
 void ABP_UltraVolumetricsParent_C::ResetFogQuality()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ResetFogQuality");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetFogQuality", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -269,10 +245,8 @@ void ABP_UltraVolumetricsParent_C::ResetFogQuality()
 
 void ABP_UltraVolumetricsParent_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -283,10 +257,8 @@ void ABP_UltraVolumetricsParent_C::ReceiveBeginPlay()
 
 void ABP_UltraVolumetricsParent_C::Randomize()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Randomize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Randomize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -297,10 +269,8 @@ void ABP_UltraVolumetricsParent_C::Randomize()
 
 void ABP_UltraVolumetricsParent_C::QualityDistanceDebug()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "QualityDistanceDebug");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"QualityDistanceDebug", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -316,10 +286,8 @@ void ABP_UltraVolumetricsParent_C::QualityDistanceDebug()
 
 void ABP_UltraVolumetricsParent_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile9", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile9 Parms{};
 
@@ -342,10 +310,8 @@ void ABP_UltraVolumetricsParent_C::Projectile9(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile8", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile8 Parms{};
 
@@ -368,10 +334,8 @@ void ABP_UltraVolumetricsParent_C::Projectile8(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile7", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile7 Parms{};
 
@@ -394,10 +358,8 @@ void ABP_UltraVolumetricsParent_C::Projectile7(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile6", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile6 Parms{};
 
@@ -420,10 +382,8 @@ void ABP_UltraVolumetricsParent_C::Projectile6(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile5", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile5 Parms{};
 
@@ -446,10 +406,8 @@ void ABP_UltraVolumetricsParent_C::Projectile5(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile4", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile4 Parms{};
 
@@ -472,10 +430,8 @@ void ABP_UltraVolumetricsParent_C::Projectile4(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile3", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile3 Parms{};
 
@@ -498,10 +454,8 @@ void ABP_UltraVolumetricsParent_C::Projectile3(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile2", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile2 Parms{};
 
@@ -524,10 +478,8 @@ void ABP_UltraVolumetricsParent_C::Projectile2(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile10", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile10 Parms{};
 
@@ -550,10 +502,8 @@ void ABP_UltraVolumetricsParent_C::Projectile10(const struct FVector& Start, con
 
 void ABP_UltraVolumetricsParent_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile1", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Projectile1 Parms{};
 
@@ -571,10 +521,8 @@ void ABP_UltraVolumetricsParent_C::Projectile1(const struct FVector& Start, cons
 
 void ABP_UltraVolumetricsParent_C::PlaySpline()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PlaySpline");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PlaySpline", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -585,10 +533,8 @@ void ABP_UltraVolumetricsParent_C::PlaySpline()
 
 void ABP_UltraVolumetricsParent_C::Parameters()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Parameters");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Parameters", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -599,10 +545,8 @@ void ABP_UltraVolumetricsParent_C::Parameters()
 
 void ABP_UltraVolumetricsParent_C::PanningDirectionDebug()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PanningDirectionDebug");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PanningDirectionDebug", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -615,10 +559,8 @@ void ABP_UltraVolumetricsParent_C::PanningDirectionDebug()
 
 void ABP_UltraVolumetricsParent_C::PaintResult(class UTexture2D* PaintTex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PaintResult");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintResult", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_PaintResult Parms{};
 
@@ -635,10 +577,8 @@ void ABP_UltraVolumetricsParent_C::PaintResult(class UTexture2D* PaintTex)
 
 void ABP_UltraVolumetricsParent_C::MoveAlongSplineAnim(double Alpha)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "MoveAlongSplineAnim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MoveAlongSplineAnim", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_MoveAlongSplineAnim Parms{};
 
@@ -655,10 +595,8 @@ void ABP_UltraVolumetricsParent_C::MoveAlongSplineAnim(double Alpha)
 
 void ABP_UltraVolumetricsParent_C::Line3dWidth(double Width)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dWidth");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dWidth", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Line3dWidth Parms{};
 
@@ -676,10 +614,8 @@ void ABP_UltraVolumetricsParent_C::Line3dWidth(double Width)
 
 void ABP_UltraVolumetricsParent_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dLocations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dLocations", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Line3dLocations Parms{};
 
@@ -695,10 +631,8 @@ void ABP_UltraVolumetricsParent_C::Line3dLocations(const struct FVector& StartPo
 
 void ABP_UltraVolumetricsParent_C::InitializeSpline()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "InitializeSpline");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InitializeSpline", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -712,10 +646,8 @@ void ABP_UltraVolumetricsParent_C::InitializeSpline()
 
 void ABP_UltraVolumetricsParent_C::Grenade(const struct FVector& Location, double Radius)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Grenade");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grenade", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Grenade Parms{};
 
@@ -731,10 +663,8 @@ void ABP_UltraVolumetricsParent_C::Grenade(const struct FVector& Location, doubl
 
 void ABP_UltraVolumetricsParent_C::GetDefaultQualityVars()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "GetDefaultQualityVars");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDefaultQualityVars", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -745,10 +675,8 @@ void ABP_UltraVolumetricsParent_C::GetDefaultQualityVars()
 
 void ABP_UltraVolumetricsParent_C::FogQualitySet()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "FogQualitySet");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"FogQualitySet", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -761,10 +689,8 @@ void ABP_UltraVolumetricsParent_C::FogQualitySet()
 
 void ABP_UltraVolumetricsParent_C::Fog_Quality__GridSizeZ(class FString* Output)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridSizeZ");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Quality- GridSizeZ", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridSizeZ Parms{};
 
@@ -782,10 +708,8 @@ void ABP_UltraVolumetricsParent_C::Fog_Quality__GridSizeZ(class FString* Output)
 
 void ABP_UltraVolumetricsParent_C::Fog_Quality__GridPixelSize(class FString* Output)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridPixelSize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Fog Quality- GridPixelSize", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridPixelSize Parms{};
 
@@ -803,10 +727,8 @@ void ABP_UltraVolumetricsParent_C::Fog_Quality__GridPixelSize(class FString* Out
 
 void ABP_UltraVolumetricsParent_C::Flashlight_Strength(double Strength)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight-Strength");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight-Strength", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Flashlight_Strength Parms{};
 
@@ -825,10 +747,8 @@ void ABP_UltraVolumetricsParent_C::Flashlight_Strength(double Strength)
 
 void ABP_UltraVolumetricsParent_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_Flashlight Parms{};
 
@@ -847,10 +767,8 @@ void ABP_UltraVolumetricsParent_C::Flashlight(const struct FVector& StartLocatio
 
 void ABP_UltraVolumetricsParent_C::ExpandPersistentAnim(double Alpha)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExpandPersistentAnim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ExpandPersistentAnim", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_ExpandPersistentAnim Parms{};
 
@@ -867,10 +785,8 @@ void ABP_UltraVolumetricsParent_C::ExpandPersistentAnim(double Alpha)
 
 void ABP_UltraVolumetricsParent_C::ExecuteUbergraph_BP_UltraVolumetricsParent(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExecuteUbergraph_BP_UltraVolumetricsParent");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_UltraVolumetricsParent_C", "ExecuteUbergraph_BP_UltraVolumetricsParent", FuncInfo);
 
 	Params::BP_UltraVolumetricsParent_C_ExecuteUbergraph_BP_UltraVolumetricsParent Parms{};
 
@@ -887,10 +803,8 @@ void ABP_UltraVolumetricsParent_C::ExecuteUbergraph_BP_UltraVolumetricsParent(in
 
 void ABP_UltraVolumetricsParent_C::DistanceQuality(TDelegate<void()> Delegate)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceQuality");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DistanceQuality", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_DistanceQuality Parms{};
 
@@ -905,10 +819,8 @@ void ABP_UltraVolumetricsParent_C::DistanceQuality(TDelegate<void()> Delegate)
 
 void ABP_UltraVolumetricsParent_C::DistanceCheck()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceCheck");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DistanceCheck", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -919,10 +831,8 @@ void ABP_UltraVolumetricsParent_C::DistanceCheck()
 
 void ABP_UltraVolumetricsParent_C::DestroyComponent()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DestroyComponent");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DestroyComponent", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -933,10 +843,8 @@ void ABP_UltraVolumetricsParent_C::DestroyComponent()
 
 void ABP_UltraVolumetricsParent_C::CreateNewPreset()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "CreateNewPreset");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"CreateNewPreset", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -949,10 +857,8 @@ void ABP_UltraVolumetricsParent_C::CreateNewPreset()
 
 void ABP_UltraVolumetricsParent_C::ContractPersistentAnim(double Alpha)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ContractPersistentAnim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ContractPersistentAnim", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_ContractPersistentAnim Parms{};
 
@@ -967,10 +873,8 @@ void ABP_UltraVolumetricsParent_C::ContractPersistentAnim(double Alpha)
 
 void ABP_UltraVolumetricsParent_C::ApplySeed()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplySeed");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ApplySeed", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -981,10 +885,8 @@ void ABP_UltraVolumetricsParent_C::ApplySeed()
 
 void ABP_UltraVolumetricsParent_C::ApplyPreset()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplyPreset");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ApplyPreset", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -997,10 +899,8 @@ void ABP_UltraVolumetricsParent_C::ApplyPreset()
 
 void ABP_UltraVolumetricsParent_C::AddSplineSMC(bool AddToArray_)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "AddSplineSMC");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddSplineSMC", FnName));
 
 	Params::BP_UltraVolumetricsParent_C_AddSplineSMC Parms{};
 

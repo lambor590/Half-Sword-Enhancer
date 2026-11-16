@@ -67,6 +67,19 @@ UFunction* BasicFilesImplUtils::FindFunctionByFName(const FName* Name)
 	return nullptr;
 }
 
+UFunction* BasicFilesImplUtils::FindFunctionViaClass(UClass* SearchClass, const char* OuterClassName, const char* FuncName)
+{
+	return SearchClass->GetFunction(OuterClassName, FuncName);
+}
+
+uint64 BasicFilesImplUtils::GetObjectOuterFNameAsUInt64(UObject* Obj)
+{
+	if (!Obj || !Obj->Outer)
+		return 0;
+
+	return *reinterpret_cast<uint64*>(&Obj->Outer->Name);
+}
+
 FName BasicFilesImplUtils::StringToName(const wchar_t* Name)
 {
 	return UKismetStringLibrary::Conv_StringToName(FString(Name));
@@ -90,10 +103,48 @@ const FName& GetStaticName(const wchar_t* Name, FName& StaticName)
 	return StaticName;
 }
 
+UFunction* GetStaticFunction(UClass* SearchClass, const char* OuterClassName, const char* FuncName, ReloadableFuncInfo& FuncInfo)
+{
+    static auto SetFuncInfo = [](class UFunction* Function, ReloadableFuncInfo& FuncInfoToSet) -> UFunction*
+    {
+        if (Function)
+        {
+            FuncInfoToSet.Index = Function->Index;
+            FuncInfoToSet.Name = Function->Name;
+            FuncInfoToSet.OuterName = Function->Outer ? Function->Outer->Name : FName();
+        }
+
+        return Function;
+    };
+
+    /* First initialisation. */
+    if (FuncInfo.Index == 0x0) [[unlikely]]
+        return SetFuncInfo(BasicFilesImplUtils::FindFunctionViaClass(SearchClass, OuterClassName, FuncName), FuncInfo);
+
+    UFunction* Function = static_cast<UFunction*>(UObject::GObjects->GetByIndex(FuncInfo.Index));
+
+    /* Reloading the function*/
+    if (!Function || Function->Name != FuncInfo.Name || !Function->Outer || Function->Outer->Name != FuncInfo.OuterName)
+        return SetFuncInfo(BasicFilesImplUtils::FindFunctionViaClass(SearchClass, OuterClassName, FuncName), FuncInfo);
+
+    return Function;
+}
+
+// Predefined Function
+
+bool FWeakObjectPtr::IsValid() const
+{
+	return ObjectIndex > 0;
+}
+
+
 // Predefined Function
 
 class UObject* FWeakObjectPtr::Get() const
 {
+	if (!IsValid())
+		return nullptr;
+
 	return UObject::GObjects->GetByIndex(ObjectIndex);
 }
 

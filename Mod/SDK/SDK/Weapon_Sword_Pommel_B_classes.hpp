@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Pommel_B.Weapon_Sword_Pommel_B_C
-// 0x0000 (0x0450 - 0x0450)
+// 0x0000 (0x0458 - 0x0458)
 class AWeapon_Sword_Pommel_B_C final : public AModular_Sword_Pommel_Master_C
 {
 public:

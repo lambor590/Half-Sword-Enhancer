@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_C
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_C
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_C
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_C
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_Com
 
 void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -107,10 +95,8 @@ void UUI_Mercenaries_Expired_C::BndEvt__UI_Mercenaries_Expired_Button_K2Node_Com
 
 void UUI_Mercenaries_Expired_C::ExecuteUbergraph_UI_Mercenaries_Expired(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "ExecuteUbergraph_UI_Mercenaries_Expired");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Mercenaries_Expired_C", "ExecuteUbergraph_UI_Mercenaries_Expired", FuncInfo);
 
 	Params::UI_Mercenaries_Expired_C_ExecuteUbergraph_UI_Mercenaries_Expired Parms{};
 
@@ -127,10 +113,8 @@ void UUI_Mercenaries_Expired_C::ExecuteUbergraph_UI_Mercenaries_Expired(int32 En
 
 class FText UUI_Mercenaries_Expired_C::Get_TextBlock_Text()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "Get_TextBlock_Text");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get_TextBlock_Text", FnName));
 
 	Params::UI_Mercenaries_Expired_C_Get_TextBlock_Text Parms{};
 
@@ -147,10 +131,8 @@ class FText UUI_Mercenaries_Expired_C::Get_TextBlock_Text()
 
 class FText UUI_Mercenaries_Expired_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Mercenaries_Expired_C_GetText Parms{};
 
@@ -167,10 +149,8 @@ class FText UUI_Mercenaries_Expired_C::GetText()
 
 class FText UUI_Mercenaries_Expired_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_Mercenaries_Expired_C_GetText_0 Parms{};
 
@@ -187,10 +167,8 @@ class FText UUI_Mercenaries_Expired_C::GetText_0()
 
 void UUI_Mercenaries_Expired_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Mercenaries_Expired_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Mercenaries_Expired_C_PreConstruct Parms{};
 

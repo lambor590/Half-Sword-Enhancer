@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AST_Lever_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_Lever_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::ST_Lever_C_ReceiveTick Parms{};
 
@@ -43,10 +41,8 @@ void AST_Lever_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AST_Lever_C::ExecuteUbergraph_ST_Lever(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_Lever_C", "ExecuteUbergraph_ST_Lever");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ST_Lever_C", "ExecuteUbergraph_ST_Lever", FuncInfo);
 
 	Params::ST_Lever_C_ExecuteUbergraph_ST_Lever Parms{};
 

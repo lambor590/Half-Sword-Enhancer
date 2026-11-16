@@ -243,10 +243,9 @@ public:
 
 // Class Paper2D.PaperSprite
 // 0x0090 (0x00B8 - 0x0028)
-class UPaperSprite final : public UObject
+class UPaperSprite final : public UObject, public IInterface_CollisionDataProvider, public ISlateTextureAtlasInterface
 {
 public:
-	uint8                                         Pad_28[0x10];                                      // 0x0028(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UTexture*>                       AdditionalSourceTextures;                          // 0x0038(0x0010)(Edit, ZeroConstructor, AssetRegistrySearchable, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
 	struct FVector2D                              BakedSourceUV;                                     // 0x0048(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	struct FVector2D                              BakedSourceDimension;                              // 0x0058(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)

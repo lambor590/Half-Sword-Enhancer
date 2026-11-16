@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void AWillie_BP_GrimReaper_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_GrimReaper_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void AWillie_BP_GrimReaper_C::ReceiveBeginPlay()
 
 void AWillie_BP_GrimReaper_C::ExecuteUbergraph_Willie_BP_GrimReaper(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_GrimReaper_C", "ExecuteUbergraph_Willie_BP_GrimReaper");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Willie_BP_GrimReaper_C", "ExecuteUbergraph_Willie_BP_GrimReaper", FuncInfo);
 
 	Params::Willie_BP_GrimReaper_C_ExecuteUbergraph_Willie_BP_GrimReaper Parms{};
 

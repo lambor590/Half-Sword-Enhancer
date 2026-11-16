@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_WIN_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WIN_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_WIN_C::Construct()
 
 void UUI_WIN_C::ExecuteUbergraph_UI_WIN(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WIN_C", "ExecuteUbergraph_UI_WIN");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_WIN_C", "ExecuteUbergraph_UI_WIN", FuncInfo);
 
 	Params::UI_WIN_C_ExecuteUbergraph_UI_WIN Parms{};
 
@@ -57,10 +53,8 @@ void UUI_WIN_C::ExecuteUbergraph_UI_WIN(int32 EntryPoint)
 
 void UUI_WIN_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WIN_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_WIN_C_PreConstruct Parms{};
 
@@ -78,10 +72,8 @@ void UUI_WIN_C::PreConstruct(bool IsDesignTime)
 
 void UUI_WIN_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_WIN_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_WIN_C_Tick Parms{};
 

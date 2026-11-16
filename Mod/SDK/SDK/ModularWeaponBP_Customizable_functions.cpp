@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AModularWeaponBP_Customizable_C::ExecuteUbergraph_ModularWeaponBP_Customizable(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "ExecuteUbergraph_ModularWeaponBP_Customizable");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "ModularWeaponBP_Customizable_C", "ExecuteUbergraph_ModularWeaponBP_Customizable", FuncInfo);
 
 	Params::ModularWeaponBP_Customizable_C_ExecuteUbergraph_ModularWeaponBP_Customizable Parms{};
 
@@ -41,10 +39,8 @@ void AModularWeaponBP_Customizable_C::ExecuteUbergraph_ModularWeaponBP_Customiza
 
 void AModularWeaponBP_Customizable_C::Refresh_Weapon()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "Refresh Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Refresh Weapon", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AModularWeaponBP_Customizable_C::Refresh_Weapon()
 
 void AModularWeaponBP_Customizable_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::ModularWeaponBP_Customizable_C_ReceiveTick Parms{};
 

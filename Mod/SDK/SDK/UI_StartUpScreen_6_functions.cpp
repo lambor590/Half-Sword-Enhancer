@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void UUI_StartUpScreen_6_C::ExecuteUbergraph_UI_StartUpScreen_6(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "ExecuteUbergraph_UI_StartUpScreen_6");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_StartUpScreen_6_C", "ExecuteUbergraph_UI_StartUpScreen_6", FuncInfo);
 
 	Params::UI_StartUpScreen_6_C_ExecuteUbergraph_UI_StartUpScreen_6 Parms{};
 
@@ -41,10 +39,8 @@ void UUI_StartUpScreen_6_C::ExecuteUbergraph_UI_StartUpScreen_6(int32 EntryPoint
 
 void UUI_StartUpScreen_6_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void UUI_StartUpScreen_6_C::Construct()
 
 void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -69,10 +63,8 @@ void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_Component
 
 void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

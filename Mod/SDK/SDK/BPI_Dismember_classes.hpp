@@ -16,9 +16,12 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPI_Dismember.BPI_Dismember_C
-// 0x0000 (0x0000 - 0x0000)
-class IBPI_Dismember_C final
+// 0x0008 (0x0008 - 0x0000)
+class IBPI_Dismember_C
 {
+public:
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
 public:
 	void Dismember_Cut(class FName bone, const struct FVector& Location, class UPrimitiveComponent* Cut_Mesh, int32 Dism_Cut_Level, class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2);
 

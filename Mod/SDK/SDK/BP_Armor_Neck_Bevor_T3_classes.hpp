@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Neck_Bevor_T3.BP_Armor_Neck_Bevor_T3_C
-// 0x0000 (0x0920 - 0x0920)
+// 0x0000 (0x0940 - 0x0940)
 class ABP_Armor_Neck_Bevor_T3_C final : public ABP_Armor_Neck_Bevor_T2_C
 {
 public:

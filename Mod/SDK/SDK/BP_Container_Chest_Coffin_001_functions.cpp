@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_Container_Chest_Coffin_001_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_Coffin_001_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ABP_Container_Chest_Coffin_001_C::ReceiveBeginPlay()
 
 void ABP_Container_Chest_Coffin_001_C::ExecuteUbergraph_BP_Container_Chest_Coffin_001(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_Coffin_001_C", "ExecuteUbergraph_BP_Container_Chest_Coffin_001");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Container_Chest_Coffin_001_C", "ExecuteUbergraph_BP_Container_Chest_Coffin_001", FuncInfo);
 
 	Params::BP_Container_Chest_Coffin_001_C_ExecuteUbergraph_BP_Container_Chest_Coffin_001 Parms{};
 

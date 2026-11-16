@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_CustomPostProcess_C::ExecuteUbergraph_BP_CustomPostProcess(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CustomPostProcess_C", "ExecuteUbergraph_BP_CustomPostProcess");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_CustomPostProcess_C", "ExecuteUbergraph_BP_CustomPostProcess", FuncInfo);
 
 	Params::BP_CustomPostProcess_C_ExecuteUbergraph_BP_CustomPostProcess Parms{};
 
@@ -43,10 +41,8 @@ void ABP_CustomPostProcess_C::ExecuteUbergraph_BP_CustomPostProcess(int32 EntryP
 
 void ABP_CustomPostProcess_C::getPostProcess(struct FPostProcessSettings* PostProcessSettings)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CustomPostProcess_C", "getPostProcess");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getPostProcess", FnName));
 
 	Params::BP_CustomPostProcess_C_getPostProcess Parms{};
 
@@ -64,10 +60,8 @@ void ABP_CustomPostProcess_C::getPostProcess(struct FPostProcessSettings* PostPr
 
 void ABP_CustomPostProcess_C::UpdatePostProcess(const struct FPostProcessSettings& PP_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CustomPostProcess_C", "UpdatePostProcess");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdatePostProcess", FnName));
 
 	Params::BP_CustomPostProcess_C_UpdatePostProcess Parms{};
 
@@ -82,10 +76,8 @@ void ABP_CustomPostProcess_C::UpdatePostProcess(const struct FPostProcessSetting
 
 void ABP_CustomPostProcess_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CustomPostProcess_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

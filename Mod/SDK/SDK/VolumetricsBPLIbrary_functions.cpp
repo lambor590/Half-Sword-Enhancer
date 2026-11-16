@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void UVolumetricsBPLIbrary_C::RT_Size_Compare(class UTextureRenderTarget2D*& A, class UTextureRenderTarget2D*& B, class UObject* __WorldContext, bool* Match)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "RT Size Compare");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "RT Size Compare", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_RT_Size_Compare Parms{};
 
@@ -58,10 +56,8 @@ void UVolumetricsBPLIbrary_C::RT_Size_Compare(class UTextureRenderTarget2D*& A, 
 
 void UVolumetricsBPLIbrary_C::PseudoVolume_Dimensions(EVolumeTextureDimensions Dimensions, class UObject* __WorldContext, struct FIntPoint* RT_Size, struct FIntPoint* XY_Frames, int32* Volume_Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "PseudoVolume Dimensions");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "PseudoVolume Dimensions", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_PseudoVolume_Dimensions Parms{};
 
@@ -91,10 +87,8 @@ void UVolumetricsBPLIbrary_C::PseudoVolume_Dimensions(EVolumeTextureDimensions D
 
 void UVolumetricsBPLIbrary_C::GetFirstActorOfClass(class UObject* WorldContent, class UClass* Class_0, class UObject* __WorldContext, class AActor** Actor)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "GetFirstActorOfClass");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "GetFirstActorOfClass", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_GetFirstActorOfClass Parms{};
 
@@ -118,10 +112,8 @@ void UVolumetricsBPLIbrary_C::GetFirstActorOfClass(class UObject* WorldContent, 
 
 void UVolumetricsBPLIbrary_C::Get_Texture_Size(class UTexture* Texture, class UObject* __WorldContext, struct FIntPoint* Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "Get Texture Size");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "Get Texture Size", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_Get_Texture_Size Parms{};
 
@@ -145,10 +137,8 @@ void UVolumetricsBPLIbrary_C::Get_Texture_Size(class UTexture* Texture, class UO
 
 void UVolumetricsBPLIbrary_C::Create_and_Assign_RT(class UTextureRenderTarget2D*& RT, const struct FIntPoint& Size, ETextureRenderTargetFormat Format, class UObject* __WorldContext)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "Create and Assign RT");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "Create and Assign RT", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_Create_and_Assign_RT Parms{};
 
@@ -172,10 +162,8 @@ void UVolumetricsBPLIbrary_C::Create_and_Assign_RT(class UTextureRenderTarget2D*
 
 void UVolumetricsBPLIbrary_C::Create_and_Assign_MID(class UMaterialInstanceDynamic*& Mid, class UMaterialInterface* Parent, class UObject* __WorldContext)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("VolumetricsBPLIbrary_C", "Create and Assign MID");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(StaticClass(), "VolumetricsBPLIbrary_C", "Create and Assign MID", FuncInfo);
 
 	Params::VolumetricsBPLIbrary_C_Create_and_Assign_MID Parms{};
 

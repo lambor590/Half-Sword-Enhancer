@@ -1423,10 +1423,8 @@ bool ULiveLinkPreset::ApplyToClient() const
 
 void ULiveLinkBlueprintVirtualSubject::OnInitialize()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LiveLinkBlueprintVirtualSubject", "OnInitialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnInitialize", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1437,10 +1435,8 @@ void ULiveLinkBlueprintVirtualSubject::OnInitialize()
 
 void ULiveLinkBlueprintVirtualSubject::OnUpdate()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("LiveLinkBlueprintVirtualSubject", "OnUpdate");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OnUpdate", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

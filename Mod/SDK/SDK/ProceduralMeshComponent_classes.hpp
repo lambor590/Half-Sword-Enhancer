@@ -51,10 +51,9 @@ public:
 
 // Class ProceduralMeshComponent.ProceduralMeshComponent
 // 0x0080 (0x05D0 - 0x0550)
-class UProceduralMeshComponent final : public UMeshComponent
+class UProceduralMeshComponent final : public UMeshComponent, public IInterface_CollisionDataProvider
 {
 public:
-	uint8                                         Pad_550[0x8];                                      // 0x0550(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	bool                                          bUseComplexAsSimpleCollision;                      // 0x0558(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bUseAsyncCooking;                                  // 0x0559(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_55A[0x6];                                      // 0x055A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])

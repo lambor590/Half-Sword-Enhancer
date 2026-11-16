@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -52,10 +48,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Button_0_K2Node_ComponentBoundEvent_
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Insurance_C_BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_5_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -74,10 +68,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBo
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Insurance_C_BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBoundEvent_7_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -96,10 +88,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Player_Items_List_K2Node_ComponentBo
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Insurance_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature Parms{};
 
@@ -117,10 +107,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBo
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature(class UObject* Item)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature", FnName));
 
 	Params::UI_Insurance_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_2_SimpleListItemEventDynamic__DelegateSignature Parms{};
 
@@ -138,10 +126,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBo
 
 void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature", FnName));
 
 	Params::UI_Insurance_C_BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature Parms{};
 
@@ -159,10 +145,8 @@ void UUI_Insurance_C::BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBo
 
 void UUI_Insurance_C::ExecuteUbergraph_UI_Insurance(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "ExecuteUbergraph_UI_Insurance");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Insurance_C", "ExecuteUbergraph_UI_Insurance", FuncInfo);
 
 	Params::UI_Insurance_C_ExecuteUbergraph_UI_Insurance Parms{};
 
@@ -179,10 +163,8 @@ void UUI_Insurance_C::ExecuteUbergraph_UI_Insurance(int32 EntryPoint)
 
 class FText UUI_Insurance_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_Insurance_C_GetText Parms{};
 
@@ -199,10 +181,8 @@ class FText UUI_Insurance_C::GetText()
 
 void UUI_Insurance_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Insurance_C_PreConstruct Parms{};
 
@@ -221,10 +201,8 @@ void UUI_Insurance_C::PreConstruct(bool IsDesignTime)
 
 void UUI_Insurance_C::Set_Up_Trader_Item(class UObject* Item, class UObject* Widget, bool Trader)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "Set Up Trader Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Up Trader Item", FnName));
 
 	Params::UI_Insurance_C_Set_Up_Trader_Item Parms{};
 
@@ -243,10 +221,8 @@ void UUI_Insurance_C::Set_Up_Trader_Item(class UObject* Item, class UObject* Wid
 
 void UUI_Insurance_C::Spawn_Hovered_Item(class UObject* Object)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Insurance_C", "Spawn Hovered Item");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Spawn Hovered Item", FnName));
 
 	Params::UI_Insurance_C_Spawn_Hovered_Item Parms{};
 

@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AMap_Hub_Tavern_Frank_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::Map_Hub_Tavern_Frank_C_ReceiveTick Parms{};
 
@@ -41,10 +39,8 @@ void AMap_Hub_Tavern_Frank_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void AMap_Hub_Tavern_Frank_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -57,10 +53,8 @@ void AMap_Hub_Tavern_Frank_C::ReceiveBeginPlay()
 
 void AMap_Hub_Tavern_Frank_C::ExecuteUbergraph_Map_Hub_Tavern_Frank(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ExecuteUbergraph_Map_Hub_Tavern_Frank");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Map_Hub_Tavern_Frank_C", "ExecuteUbergraph_Map_Hub_Tavern_Frank", FuncInfo);
 
 	Params::Map_Hub_Tavern_Frank_C_ExecuteUbergraph_Map_Hub_Tavern_Frank Parms{};
 
@@ -75,10 +69,8 @@ void AMap_Hub_Tavern_Frank_C::ExecuteUbergraph_Map_Hub_Tavern_Frank(int32 EntryP
 
 void AMap_Hub_Tavern_Frank_C::Day_Time_Change()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "Day Time Change");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Day Time Change", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

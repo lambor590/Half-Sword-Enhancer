@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ARunningBlood_BP_C::Bleed_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "Bleed Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Bleed Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ARunningBlood_BP_C::Bleed_Event()
 
 void ARunningBlood_BP_C::Destroy_Self()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "Destroy Self");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destroy Self", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void ARunningBlood_BP_C::Destroy_Self()
 
 void ARunningBlood_BP_C::ExecuteUbergraph_RunningBlood_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "ExecuteUbergraph_RunningBlood_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "RunningBlood_BP_C", "ExecuteUbergraph_RunningBlood_BP", FuncInfo);
 
 	Params::RunningBlood_BP_C_ExecuteUbergraph_RunningBlood_BP Parms{};
 
@@ -69,10 +63,8 @@ void ARunningBlood_BP_C::ExecuteUbergraph_RunningBlood_BP(int32 EntryPoint)
 
 void ARunningBlood_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -85,10 +77,8 @@ void ARunningBlood_BP_C::ReceiveBeginPlay()
 
 void ARunningBlood_BP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::RunningBlood_BP_C_ReceiveTick Parms{};
 
@@ -103,10 +93,8 @@ void ARunningBlood_BP_C::ReceiveTick(float DeltaSeconds)
 
 void ARunningBlood_BP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RunningBlood_BP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

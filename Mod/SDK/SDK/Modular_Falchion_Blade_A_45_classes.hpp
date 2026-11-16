@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Falchion_Blade_A_45.Modular_Falchion_Blade_A_45_C
-// 0x0000 (0x0458 - 0x0458)
+// 0x0000 (0x0460 - 0x0460)
 class AModular_Falchion_Blade_A_45_C final : public AModular_Falchion_Blade_Master_C
 {
 public:

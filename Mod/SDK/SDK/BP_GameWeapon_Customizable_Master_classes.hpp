@@ -17,24 +17,24 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameWeapon_Customizable_Master.BP_GameWeapon_Customizable_Master_C
-// 0x0090 (0x01F0 - 0x0160)
+// 0x0090 (0x01F8 - 0x0168)
 class UBP_GameWeapon_Customizable_Master_C : public UBP_GameWeapon_C
 {
 public:
-	Enum_Weapon_Customization_Type                Customization_Type;                                // 0x015C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_15D[0x3];                                      // 0x015D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class UClass*>                         Module_Heads_Array;                                // 0x0160(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Head_Sub_Module_1_Array;                           // 0x0170(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Head_Sub_Module_2_Array;                           // 0x0180(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Module_Guards_Array;                               // 0x0190(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Module_Grips_Array;                                // 0x01A0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Module_Pommels_Array;                              // 0x01B0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	double                                        Grip_Notch_Lower;                                  // 0x01C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Grip_Notch_Upper;                                  // 0x01C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Smaller_Size_Game_Weapon;                          // 0x01D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Bigger_Size_Game_Weapon;                           // 0x01D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Mass_Scale;                                        // 0x01E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Custom_Name;                                       // 0x01E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Weapon_Customization_Type                Customization_Type;                                // 0x0164(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_165[0x3];                                      // 0x0165(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UClass*>                         Module_Heads_Array;                                // 0x0168(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Head_Sub_Module_1_Array;                           // 0x0178(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Head_Sub_Module_2_Array;                           // 0x0188(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Module_Guards_Array;                               // 0x0198(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Module_Grips_Array;                                // 0x01A8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Module_Pommels_Array;                              // 0x01B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	double                                        Grip_Notch_Lower;                                  // 0x01C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Grip_Notch_Upper;                                  // 0x01D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Smaller_Size_Game_Weapon;                          // 0x01D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Bigger_Size_Game_Weapon;                           // 0x01E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Mass_Scale;                                        // 0x01E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Custom_Name;                                       // 0x01F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Initialize();

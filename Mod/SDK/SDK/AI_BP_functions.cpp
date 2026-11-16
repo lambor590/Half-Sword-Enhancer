@@ -16,17 +16,91 @@
 
 SDK_NAMESPACE_START
 
-// Function AI_BP.AI_BP_C.Attack
-// (BlueprintCallable, BlueprintEvent)
+// Function AI_BP.AI_BP_C.Activate L Hand
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    L_Hand_Active_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AAI_BP_C::Attack()
+void AAI_BP_C::Activate_L_Hand(bool L_Hand_Active_0)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Activate L Hand", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Attack");
+	Params::AI_BP_C_Activate_L_Hand Parms{};
 
-	UObject::ProcessEvent(Func, nullptr);
+	Parms.L_Hand_Active_0 = L_Hand_Active_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.Activate R Hand
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    R_Hand_Active_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Activate_R_Hand(bool R_Hand_Active_0)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Activate R Hand", FnName));
+
+	Params::AI_BP_C_Activate_R_Hand Parms{};
+
+	Parms.R_Hand_Active_0 = R_Hand_Active_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// int32                                   OtherBodyIndex                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    bFromSweep                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                SweepResult                                            (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void AAI_BP_C::BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature", FnName));
+
+	Params::AI_BP_C_BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.OtherBodyIndex = OtherBodyIndex;
+	Parms.bFromSweep = bFromSweep;
+	Parms.SweepResult = std::move(SweepResult);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              OverlappedComponent                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// int32                                   OtherBodyIndex                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature", FnName));
+
+	Params::AI_BP_C_BndEvt__AI_BP_Sphere_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature Parms{};
+
+	Parms.OverlappedComponent = OverlappedComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.OtherBodyIndex = OtherBodyIndex;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -35,24 +109,50 @@ void AAI_BP_C::Attack()
 
 void AAI_BP_C::Dash_Event()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Dash Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Dash Event", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function AI_BP.AI_BP_C.Event Alert Allies Nearby
+// Function AI_BP.AI_BP_C.Event Accept Gift
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AWillie_BP_C*                     Speking_With                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Event_Accept_Gift(class AWillie_BP_C* Speking_With)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Accept Gift", FnName));
+
+	Params::AI_BP_C_Event_Accept_Gift Parms{};
+
+	Parms.Speking_With = Speking_With;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Check Last Grab L Success
 // (BlueprintCallable, BlueprintEvent)
 
-void AAI_BP_C::Event_Alert_Allies_Nearby()
+void AAI_BP_C::Event_Check_Last_Grab_L_Success()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Last Grab L Success", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Alert Allies Nearby");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Check Last Grab R Success
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Check_Last_Grab_R_Success()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Check Last Grab R Success", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -64,21 +164,45 @@ void AAI_BP_C::Event_Alert_Allies_Nearby()
 // double                                  In_TIme                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class AWillie_BP_C*                     Attack_This_Target                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   At_This_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Aggression_0                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AAI_BP_C::Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location)
+void AAI_BP_C::Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Get Into Combat State");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Get Into Combat State", FnName));
 
 	Params::AI_BP_C_Event_Get_Into_Combat_State Parms{};
 
 	Parms.In_TIme = In_TIme;
 	Parms.Attack_This_Target = Attack_This_Target;
 	Parms.At_This_Location = std::move(At_This_Location);
+	Parms.Aggression_0 = Aggression_0;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Get Shocked
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Get_Shocked()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Get Shocked", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Give Gift
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Give_Gift()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Give Gift", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -87,10 +211,32 @@ void AAI_BP_C::Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* A
 
 void AAI_BP_C::Event_Initialize_AI()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Initialize AI", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Initialize AI");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Inspect
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Inspect()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Inspect", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Look Around
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Look_Around()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Look Around", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -101,10 +247,44 @@ void AAI_BP_C::Event_Initialize_AI()
 
 void AAI_BP_C::Event_Release_Touch()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Release Touch", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Release Touch");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Reset Just Talked
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Reset_Just_Talked()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Just Talked", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Reset L Grab Result (Stop)
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Reset_L_Grab_Result__Stop_()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset L Grab Result (Stop)", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Reset R Grab Result (Stop)
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Reset_R_Grab_Result__Stop_()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset R Grab Result (Stop)", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -115,24 +295,20 @@ void AAI_BP_C::Event_Release_Touch()
 
 void AAI_BP_C::Event_Reset_Touch()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Reset Touch");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Reset Touch", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function AI_BP.AI_BP_C.Event Search For Enemy
+// Function AI_BP.AI_BP_C.Event Search For Actors
 // (BlueprintCallable, BlueprintEvent)
 
-void AAI_BP_C::Event_Search_For_Enemy()
+void AAI_BP_C::Event_Search_For_Actors()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Search For Enemy");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Search For Actors", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -143,10 +319,8 @@ void AAI_BP_C::Event_Search_For_Enemy()
 
 void AAI_BP_C::Event_Touch()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Touch");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Touch", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -157,10 +331,8 @@ void AAI_BP_C::Event_Touch()
 
 void AAI_BP_C::Event_Unsheathe_Weapon()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Event Unsheathe Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Unsheathe Weapon", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -173,10 +345,8 @@ void AAI_BP_C::Event_Unsheathe_Weapon()
 
 void AAI_BP_C::ExecuteUbergraph_AI_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "ExecuteUbergraph_AI_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "AI_BP_C", "ExecuteUbergraph_AI_BP", FuncInfo);
 
 	Params::AI_BP_C_ExecuteUbergraph_AI_BP Parms{};
 
@@ -186,51 +356,67 @@ void AAI_BP_C::ExecuteUbergraph_AI_BP(int32 EntryPoint)
 }
 
 
-// Function AI_BP.AI_BP_C.Func Sent Insult And Alert Allies
+// Function AI_BP.AI_BP_C.Func Check Owned Items
 // (Public, BlueprintCallable, BlueprintEvent)
 
-void AAI_BP_C::Func_Sent_Insult_And_Alert_Allies()
+void AAI_BP_C::Func_Check_Owned_Items()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Func Sent Insult And Alert Allies");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Func Check Owned Items", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function AI_BP.AI_BP_C.Get Insulted
-// (BlueprintCallable, BlueprintEvent)
+// Function AI_BP.AI_BP_C.Func Say Something And Alert Allies
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class AWillie_BP_C*                     Other_Guy                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AWillie_BP_C*                     Speking_With                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AAI_BP_C::Get_Insulted(class AWillie_BP_C* Other_Guy)
+void AAI_BP_C::Func_Say_Something_And_Alert_Allies(class AWillie_BP_C* Speking_With)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Func Say Something And Alert Allies", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Get Insulted");
+	Params::AI_BP_C_Func_Say_Something_And_Alert_Allies Parms{};
 
-	Params::AI_BP_C_Get_Insulted Parms{};
-
-	Parms.Other_Guy = Other_Guy;
+	Parms.Speking_With = Speking_With;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function AI_BP.AI_BP_C.Minus Attack Intent
-// (BlueprintCallable, BlueprintEvent)
+// Function AI_BP.AI_BP_C.Get Spoken To
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AWillie_BP_C*                     Other_Guy                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// int32                                   In_Team                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Is_Armed                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    In_Combat_Stance                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Undead                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Weight                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Equipment_Rate                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Aggressionn                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Fearr                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AAI_BP_C::Minus_Attack_Intent()
+void AAI_BP_C::Get_Spoken_To(class AWillie_BP_C* Other_Guy, int32 In_Team, bool Is_Armed, bool In_Combat_Stance, bool Undead, double Weight, double Equipment_Rate, double Aggressionn, double Fearr)
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Spoken To", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Minus Attack Intent");
+	Params::AI_BP_C_Get_Spoken_To Parms{};
 
-	UObject::ProcessEvent(Func, nullptr);
+	Parms.Other_Guy = Other_Guy;
+	Parms.In_Team = In_Team;
+	Parms.Is_Armed = Is_Armed;
+	Parms.In_Combat_Stance = In_Combat_Stance;
+	Parms.Undead = Undead;
+	Parms.Weight = Weight;
+	Parms.Equipment_Rate = Equipment_Rate;
+	Parms.Aggressionn = Aggressionn;
+	Parms.Fearr = Fearr;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -239,10 +425,8 @@ void AAI_BP_C::Minus_Attack_Intent()
 
 void AAI_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -255,10 +439,8 @@ void AAI_BP_C::ReceiveBeginPlay()
 
 void AAI_BP_C::ReceiveTick(float DeltaSeconds)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::AI_BP_C_ReceiveTick Parms{};
 
@@ -268,29 +450,133 @@ void AAI_BP_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function AI_BP.AI_BP_C.Rotate Dagger Event
-// (BlueprintCallable, BlueprintEvent)
+// Function AI_BP.AI_BP_C.Reset Attack
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void AAI_BP_C::Rotate_Dagger_Event()
+void AAI_BP_C::Reset_Attack()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Rotate Dagger Event");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Reset Attack", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function AI_BP.AI_BP_C.Stop That Blade
+// Function AI_BP.AI_BP_C.Rotate Dagger Event
 // (BlueprintCallable, BlueprintEvent)
 
-void AAI_BP_C::Stop_That_Blade()
+void AAI_BP_C::Rotate_Dagger_Event()
 {
-	static class UFunction* Func = nullptr;
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Rotate Dagger Event", FnName));
 
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "Stop That Blade");
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Scan For Loot
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Look_For_Freshly_Dropped                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Own_All_Items_In_Radius                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Loot_Price_Out                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor**                          Loot_Out                                               (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Scan_For_Loot(bool Look_For_Freshly_Dropped, double Radius, bool Own_All_Items_In_Radius, double* Loot_Price_Out, class AActor** Loot_Out)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Scan For Loot", FnName));
+
+	Params::AI_BP_C_Scan_For_Loot Parms{};
+
+	Parms.Look_For_Freshly_Dropped = Look_For_Freshly_Dropped;
+	Parms.Radius = Radius;
+	Parms.Own_All_Items_In_Radius = Own_All_Items_In_Radius;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Loot_Price_Out != nullptr)
+		*Loot_Price_Out = Parms.Loot_Price_Out;
+
+	if (Loot_Out != nullptr)
+		*Loot_Out = Parms.Loot_Out;
+}
+
+
+// Function AI_BP.AI_BP_C.Sheath Check
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Sheath_Check()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Sheath Check", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Start Aggressive
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Start_Aggressive()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Start Aggressive", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Start Following
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AActor*                           Character_to_Follow_0                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Start_Following(class AActor* Character_to_Follow_0)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Start Following", FnName));
+
+	Params::AI_BP_C_Start_Following Parms{};
+
+	Parms.Character_to_Follow_0 = Character_to_Follow_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.Stop Following
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Stop_Following()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Stop Following", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Strart Searching
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Strart_Searching()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Strart Searching", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Talk To Someone
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Talk_To_Someone()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Talk To Someone", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -301,10 +587,8 @@ void AAI_BP_C::Stop_That_Blade()
 
 void AAI_BP_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("AI_BP_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

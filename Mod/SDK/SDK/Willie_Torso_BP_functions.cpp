@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void AWillie_Torso_BP_C::ExecuteUbergraph_Willie_Torso_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_Torso_BP_C", "ExecuteUbergraph_Willie_Torso_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "Willie_Torso_BP_C", "ExecuteUbergraph_Willie_Torso_BP", FuncInfo);
 
 	Params::Willie_Torso_BP_C_ExecuteUbergraph_Willie_Torso_BP Parms{};
 
@@ -41,10 +39,8 @@ void AWillie_Torso_BP_C::ExecuteUbergraph_Willie_Torso_BP(int32 EntryPoint)
 
 void AWillie_Torso_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_Torso_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

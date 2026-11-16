@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Mace_Strap_I.Weapon_Part_Mace_Strap_I_C
-// 0x0000 (0x0420 - 0x0420)
+// 0x0000 (0x0428 - 0x0428)
 class AWeapon_Part_Mace_Strap_I_C final : public AModular_Weapon_Module_C
 {
 public:

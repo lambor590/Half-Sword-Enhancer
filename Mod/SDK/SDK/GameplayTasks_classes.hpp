@@ -17,12 +17,42 @@
 
 SDK_NAMESPACE_START
 
-// Class GameplayTasks.GameplayTask
-// 0x0040 (0x0068 - 0x0028)
-class UGameplayTask : public UObject
+// Class GameplayTasks.GameplayTaskOwnerInterface
+// 0x0008 (0x0008 - 0x0000)
+class IGameplayTaskOwnerInterface
 {
 public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	void*                                         VTable;                                            // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("GameplayTaskOwnerInterface")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"GameplayTaskOwnerInterface")
+	}
+	static class IGameplayTaskOwnerInterface* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<IGameplayTaskOwnerInterface>();
+	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
+};
+
+// Class GameplayTasks.GameplayTask
+// 0x0040 (0x0068 - 0x0028)
+class UGameplayTask : public UObject, public IGameplayTaskOwnerInterface
+{
+public:
 	class FName                                   InstanceName;                                      // 0x0030(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_38[0x2];                                       // 0x0038(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	ETaskResourceOverlapPolicy                    ResourceOverlapPolicy;                             // 0x003A(0x0001)(ZeroConstructor, Config, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
@@ -45,34 +75,6 @@ public:
 	static class UGameplayTask* GetDefaultObj()
 	{
 		return GetDefaultObjImpl<UGameplayTask>();
-	}
-};
-
-// Class GameplayTasks.GameplayTaskOwnerInterface
-// 0x0000 (0x0000 - 0x0000)
-class IGameplayTaskOwnerInterface final
-{
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("GameplayTaskOwnerInterface")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"GameplayTaskOwnerInterface")
-	}
-	static class IGameplayTaskOwnerInterface* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<IGameplayTaskOwnerInterface>();
-	}
-
-	class UObject* AsUObject()
-	{
-		return reinterpret_cast<UObject*>(this);
-	}
-	const class UObject* AsUObject() const
-	{
-		return reinterpret_cast<const UObject*>(this);
 	}
 };
 
@@ -104,10 +106,10 @@ public:
 
 // Class GameplayTasks.GameplayTasksComponent
 // 0x0078 (0x0118 - 0x00A0)
-class UGameplayTasksComponent final : public UActorComponent
+class UGameplayTasksComponent final : public UActorComponent, public IGameplayTaskOwnerInterface, public IVisualLoggerDebugSnapshotInterface
 {
 public:
-	uint8                                         Pad_A0[0x18];                                      // 0x00A0(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_B0[0x8];                                       // 0x00B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UGameplayTask*>                  TaskPriorityQueue;                                 // 0x00B8(0x0010)(ZeroConstructor, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)
 	uint8                                         Pad_C8[0x10];                                      // 0x00C8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UGameplayTask*>                  TickingTasks;                                      // 0x00D8(0x0010)(ZeroConstructor, Protected, UObjectWrapper, NativeAccessSpecifierProtected, TObjectPtr)

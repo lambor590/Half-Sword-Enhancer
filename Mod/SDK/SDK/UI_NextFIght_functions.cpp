@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_2
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_1
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_1_K2Node_ComponentBoundEvent_5
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_6
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_2_K2Node_ComponentBoundEvent_7
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_3_O
 
 void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_NextFIght_C::BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_4_O
 
 void UUI_NextFIght_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -149,10 +131,8 @@ void UUI_NextFIght_C::Construct()
 
 void UUI_NextFIght_C::ExecuteUbergraph_UI_NextFIght(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "ExecuteUbergraph_UI_NextFIght");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_NextFIght_C", "ExecuteUbergraph_UI_NextFIght", FuncInfo);
 
 	Params::UI_NextFIght_C_ExecuteUbergraph_UI_NextFIght Parms{};
 
@@ -169,10 +149,8 @@ void UUI_NextFIght_C::ExecuteUbergraph_UI_NextFIght(int32 EntryPoint)
 
 class FText UUI_NextFIght_C::GetText()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetText");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
 
 	Params::UI_NextFIght_C_GetText Parms{};
 
@@ -189,10 +167,8 @@ class FText UUI_NextFIght_C::GetText()
 
 class FText UUI_NextFIght_C::GetText_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetText_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText_0", FnName));
 
 	Params::UI_NextFIght_C_GetText_0 Parms{};
 
@@ -209,10 +185,8 @@ class FText UUI_NextFIght_C::GetText_0()
 
 ESlateVisibility UUI_NextFIght_C::GetVisibility_0()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetVisibility_0");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_0", FnName));
 
 	Params::UI_NextFIght_C_GetVisibility_0 Parms{};
 
@@ -229,10 +203,8 @@ ESlateVisibility UUI_NextFIght_C::GetVisibility_0()
 
 ESlateVisibility UUI_NextFIght_C::GetVisibility_1()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetVisibility_1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_1", FnName));
 
 	Params::UI_NextFIght_C_GetVisibility_1 Parms{};
 
@@ -249,10 +221,8 @@ ESlateVisibility UUI_NextFIght_C::GetVisibility_1()
 
 ESlateVisibility UUI_NextFIght_C::GetVisibility_2()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetVisibility_2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_2", FnName));
 
 	Params::UI_NextFIght_C_GetVisibility_2 Parms{};
 
@@ -269,10 +239,8 @@ ESlateVisibility UUI_NextFIght_C::GetVisibility_2()
 
 ESlateVisibility UUI_NextFIght_C::GetVisibility_3()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetVisibility_3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_3", FnName));
 
 	Params::UI_NextFIght_C_GetVisibility_3 Parms{};
 
@@ -289,10 +257,8 @@ ESlateVisibility UUI_NextFIght_C::GetVisibility_3()
 
 ESlateVisibility UUI_NextFIght_C::GetVisibility_4()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "GetVisibility_4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetVisibility_4", FnName));
 
 	Params::UI_NextFIght_C_GetVisibility_4 Parms{};
 
@@ -309,10 +275,8 @@ ESlateVisibility UUI_NextFIght_C::GetVisibility_4()
 
 void UUI_NextFIght_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_NextFIght_C_PreConstruct Parms{};
 
@@ -330,10 +294,8 @@ void UUI_NextFIght_C::PreConstruct(bool IsDesignTime)
 
 void UUI_NextFIght_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_NextFIght_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_NextFIght_C_Tick Parms{};
 

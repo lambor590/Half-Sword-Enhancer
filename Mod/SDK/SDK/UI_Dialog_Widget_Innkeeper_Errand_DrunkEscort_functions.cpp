@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_Innkeeper_Errand_Barrel_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "BndEvt__UI_Dialog_Widget_Innkeeper_Errand_Barrel_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Innkeeper_Errand_Barrel_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Dialog_Widget_Merchant_Button_3_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::BndEvt__UI_Dialog_Widget_
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -93,10 +83,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::Construct()
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort", FuncInfo);
 
 	Params::UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C_ExecuteUbergraph_UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort Parms{};
 
@@ -113,10 +101,8 @@ void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::ExecuteUbergraph_UI_Dialo
 
 void UUI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_Dialog_Widget_Innkeeper_Errand_DrunkEscort_C_PreConstruct Parms{};
 

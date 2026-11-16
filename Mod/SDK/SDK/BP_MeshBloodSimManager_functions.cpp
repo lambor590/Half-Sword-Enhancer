@@ -25,10 +25,8 @@ SDK_NAMESPACE_START
 
 void ABP_MeshBloodSimManager_C::DoMeshBloodSim(class UStaticMeshComponent* MeshToSimOn, const struct FVector4& ParticleData, const struct FVector& ParticleVelocity)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSimManager_C", "DoMeshBloodSim");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"DoMeshBloodSim", FnName));
 
 	Params::BP_MeshBloodSimManager_C_DoMeshBloodSim Parms{};
 
@@ -49,10 +47,8 @@ void ABP_MeshBloodSimManager_C::DoMeshBloodSim(class UStaticMeshComponent* MeshT
 
 void ABP_MeshBloodSimManager_C::UpdateSimulations(class UStaticMeshComponent* MeshToSimOn, const struct FVector4& LocationAndSize, const struct FVector& Velocity)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_MeshBloodSimManager_C", "UpdateSimulations");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateSimulations", FnName));
 
 	Params::BP_MeshBloodSimManager_C_UpdateSimulations Parms{};
 

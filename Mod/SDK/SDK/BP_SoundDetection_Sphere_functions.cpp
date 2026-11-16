@@ -23,10 +23,8 @@ SDK_NAMESPACE_START
 
 void ABP_SoundDetection_Sphere_C::ExecuteUbergraph_BP_SoundDetection_Sphere(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SoundDetection_Sphere_C", "ExecuteUbergraph_BP_SoundDetection_Sphere");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_SoundDetection_Sphere_C", "ExecuteUbergraph_BP_SoundDetection_Sphere", FuncInfo);
 
 	Params::BP_SoundDetection_Sphere_C_ExecuteUbergraph_BP_SoundDetection_Sphere Parms{};
 
@@ -41,10 +39,8 @@ void ABP_SoundDetection_Sphere_C::ExecuteUbergraph_BP_SoundDetection_Sphere(int3
 
 void ABP_SoundDetection_Sphere_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SoundDetection_Sphere_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -55,10 +51,8 @@ void ABP_SoundDetection_Sphere_C::ReceiveBeginPlay()
 
 void ABP_SoundDetection_Sphere_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_SoundDetection_Sphere_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

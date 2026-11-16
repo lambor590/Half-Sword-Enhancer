@@ -24,10 +24,8 @@ SDK_NAMESPACE_START
 
 void UDA_Tavern_Character_Master_C::Get_Spawn_Chance(Enum_DayTime Time, double* Chance)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("DA_Tavern_Character_Master_C", "Get Spawn Chance");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Spawn Chance", FnName));
 
 	Params::DA_Tavern_Character_Master_C_Get_Spawn_Chance Parms{};
 

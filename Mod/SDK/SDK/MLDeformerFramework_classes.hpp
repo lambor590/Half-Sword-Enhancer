@@ -165,10 +165,10 @@ public:
 
 // Class MLDeformerFramework.MLDeformerModel
 // 0x00C8 (0x00F0 - 0x0028)
-class UMLDeformerModel : public UObject
+class UMLDeformerModel : public UObject, public IBoneReferenceSkeletonProvider
 {
 public:
-	uint8                                         Pad_28[0x98];                                      // 0x0028(0x0098)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_30[0x90];                                      // 0x0030(0x0090)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         NumBaseMeshVerts;                                  // 0x00C0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	int32                                         NumTargetMeshVerts;                                // 0x00C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	int32                                         MaxNumLODs;                                        // 0x00C8(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)

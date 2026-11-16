@@ -619,6 +619,84 @@ bool URigVMHost::SupportsEvent(const class FName& InEventName) const
 }
 
 
+// Function Engine.Interface_AssetUserData.AddAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool URigVMHost::AddAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AddAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_AddAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.Interface_AssetUserData.GetAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UAssetUserData*                   ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UAssetUserData* URigVMHost::GetAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_GetAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Engine.Interface_AssetUserData.HasAssetUserDataOfClass
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// TSubclassOf<class UAssetUserData>       InUserDataClass                                        (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool URigVMHost::HasAssetUserDataOfClass(TSubclassOf<class UAssetUserData> InUserDataClass)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasAssetUserDataOfClass", FnName));
+
+	Params::Interface_AssetUserData_HasAssetUserDataOfClass Parms{};
+
+	Parms.InUserDataClass = InUserDataClass;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function RigVM.RigVM.AddRigVMFunction
 // (Native, Public, HasOutParams)
 // Parameters:

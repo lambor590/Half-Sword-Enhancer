@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_CloudMaskGenerator_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABP_CloudMaskGenerator_C::UserConstructionScript()
 
 void ABP_CloudMaskGenerator_C::Snap_Clouds_to_Z()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "Snap Clouds to Z");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Snap Clouds to Z", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void ABP_CloudMaskGenerator_C::Snap_Clouds_to_Z()
 
 void ABP_CloudMaskGenerator_C::Save_Texture()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "Save Texture");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Save Texture", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void ABP_CloudMaskGenerator_C::Save_Texture()
 
 void ABP_CloudMaskGenerator_C::Render_Clouds()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "Render Clouds");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Render Clouds", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,10 +71,8 @@ void ABP_CloudMaskGenerator_C::Render_Clouds()
 
 void ABP_CloudMaskGenerator_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_CloudMaskGenerator_C_ReceiveTick Parms{};
 
@@ -97,10 +87,8 @@ void ABP_CloudMaskGenerator_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void ABP_CloudMaskGenerator_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -113,10 +101,8 @@ void ABP_CloudMaskGenerator_C::ReceiveBeginPlay()
 
 void ABP_CloudMaskGenerator_C::ExecuteUbergraph_BP_CloudMaskGenerator(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "ExecuteUbergraph_BP_CloudMaskGenerator");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_CloudMaskGenerator_C", "ExecuteUbergraph_BP_CloudMaskGenerator", FuncInfo);
 
 	Params::BP_CloudMaskGenerator_C_ExecuteUbergraph_BP_CloudMaskGenerator Parms{};
 
@@ -131,10 +117,8 @@ void ABP_CloudMaskGenerator_C::ExecuteUbergraph_BP_CloudMaskGenerator(int32 Entr
 
 void ABP_CloudMaskGenerator_C::Allocate_RTs()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CloudMaskGenerator_C", "Allocate RTs");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Allocate RTs", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

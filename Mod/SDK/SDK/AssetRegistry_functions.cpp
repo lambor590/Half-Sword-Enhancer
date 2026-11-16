@@ -1240,4 +1240,746 @@ void IAssetRegistry::UseFilterToExcludeAssets(TArray<struct FAssetData>& AssetDa
 }
 
 
+// Function AssetRegistry.AssetRegistry.PrioritizeSearchPath
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    PathToPrioritize                                       (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::PrioritizeSearchPath(const class FString& PathToPrioritize)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PrioritizeSearchPath", FnName));
+
+	Params::AssetRegistry_PrioritizeSearchPath Parms{};
+
+	Parms.PathToPrioritize = std::move(PathToPrioritize);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.ScanFilesSynchronous
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const TArray<class FString>&            InFilePaths                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// bool                                    bForceRescan                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::ScanFilesSynchronous(const TArray<class FString>& InFilePaths, bool bForceRescan)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScanFilesSynchronous", FnName));
+
+	Params::AssetRegistry_ScanFilesSynchronous Parms{};
+
+	Parms.InFilePaths = std::move(InFilePaths);
+	Parms.bForceRescan = bForceRescan;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.ScanModifiedAssetFiles
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const TArray<class FString>&            InFilePaths                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::ScanModifiedAssetFiles(const TArray<class FString>& InFilePaths)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScanModifiedAssetFiles", FnName));
+
+	Params::AssetRegistry_ScanModifiedAssetFiles Parms{};
+
+	Parms.InFilePaths = std::move(InFilePaths);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.ScanPathsSynchronous
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const TArray<class FString>&            InPaths                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// bool                                    bForceRescan                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bIgnoreDenyListScanFilters                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::ScanPathsSynchronous(const TArray<class FString>& InPaths, bool bForceRescan, bool bIgnoreDenyListScanFilters)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ScanPathsSynchronous", FnName));
+
+	Params::AssetRegistry_ScanPathsSynchronous Parms{};
+
+	Parms.InPaths = std::move(InPaths);
+	Parms.bForceRescan = bForceRescan;
+	Parms.bIgnoreDenyListScanFilters = bIgnoreDenyListScanFilters;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.SearchAllAssets
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// bool                                    bSynchronousSearch                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::SearchAllAssets(bool bSynchronousSearch)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SearchAllAssets", FnName));
+
+	Params::AssetRegistry_SearchAllAssets Parms{};
+
+	Parms.bSynchronousSearch = bSynchronousSearch;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.WaitForCompletion
+// (Native, Public, BlueprintCallable)
+
+void UAssetRegistryImpl::WaitForCompletion()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"WaitForCompletion", FnName));
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.WaitForPackage
+// (Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    PackageName                                            (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::WaitForPackage(const class FString& PackageName)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"WaitForPackage", FnName));
+
+	Params::AssetRegistry_WaitForPackage Parms{};
+
+	Parms.PackageName = std::move(PackageName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAllAssets
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAllAssets(TArray<struct FAssetData>* OutAssetData, bool bIncludeOnlyOnDiskAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAllAssets", FnName));
+
+	Params::AssetRegistry_GetAllAssets Parms{};
+
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAllCachedPaths
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// TArray<class FString>*                  OutPathList                                            (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::GetAllCachedPaths(TArray<class FString>* OutPathList) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAllCachedPaths", FnName));
+
+	Params::AssetRegistry_GetAllCachedPaths Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutPathList != nullptr)
+		*OutPathList = std::move(Parms.OutPathList);
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAncestorClassNames
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// const struct FTopLevelAssetPath&        ClassPathName                                          (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FTopLevelAssetPath>*      OutAncestorClassNames                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAncestorClassNames(const struct FTopLevelAssetPath& ClassPathName, TArray<struct FTopLevelAssetPath>* OutAncestorClassNames) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAncestorClassNames", FnName));
+
+	Params::AssetRegistry_GetAncestorClassNames Parms{};
+
+	Parms.ClassPathName = std::move(ClassPathName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAncestorClassNames != nullptr)
+		*OutAncestorClassNames = std::move(Parms.OutAncestorClassNames);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssetByObjectPath
+// (Native, Public, HasDefaults, BlueprintCallable, Const)
+// Parameters:
+// const class FName                       ObjectPath                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FAssetData                       ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FAssetData UAssetRegistryImpl::GetAssetByObjectPath(const class FName ObjectPath, bool bIncludeOnlyOnDiskAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetByObjectPath", FnName));
+
+	Params::AssetRegistry_GetAssetByObjectPath Parms{};
+
+	Parms.ObjectPath = ObjectPath;
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssets
+// (Native, Public, HasOutParams, HasDefaults, BlueprintCallable, Const)
+// Parameters:
+// const struct FARFilter&                 Filter                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bSkipARFilteredAssets                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAssets(const struct FARFilter& Filter, TArray<struct FAssetData>* OutAssetData, bool bSkipARFilteredAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssets", FnName));
+
+	Params::AssetRegistry_GetAssets Parms{};
+
+	Parms.Filter = std::move(Filter);
+	Parms.bSkipARFilteredAssets = bSkipARFilteredAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssetsByClass
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// const struct FTopLevelAssetPath&        ClassPathName                                          (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bSearchSubClasses                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAssetsByClass(const struct FTopLevelAssetPath& ClassPathName, TArray<struct FAssetData>* OutAssetData, bool bSearchSubClasses) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetsByClass", FnName));
+
+	Params::AssetRegistry_GetAssetsByClass Parms{};
+
+	Parms.ClassPathName = std::move(ClassPathName);
+	Parms.bSearchSubClasses = bSearchSubClasses;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssetsByPackageName
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// class FName                             PackageName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bSkipARFilteredAssets                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAssetsByPackageName(class FName PackageName, TArray<struct FAssetData>* OutAssetData, bool bIncludeOnlyOnDiskAssets, bool bSkipARFilteredAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetsByPackageName", FnName));
+
+	Params::AssetRegistry_GetAssetsByPackageName Parms{};
+
+	Parms.PackageName = PackageName;
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+	Parms.bSkipARFilteredAssets = bSkipARFilteredAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssetsByPath
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// class FName                             PackagePath                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bRecursive                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAssetsByPath(class FName PackagePath, TArray<struct FAssetData>* OutAssetData, bool bRecursive, bool bIncludeOnlyOnDiskAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetsByPath", FnName));
+
+	Params::AssetRegistry_GetAssetsByPath Parms{};
+
+	Parms.PackagePath = PackagePath;
+	Parms.bRecursive = bRecursive;
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetAssetsByPaths
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// const TArray<class FName>&              PackagePaths                                           (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FAssetData>*              OutAssetData                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bRecursive                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::GetAssetsByPaths(const TArray<class FName>& PackagePaths, TArray<struct FAssetData>* OutAssetData, bool bRecursive, bool bIncludeOnlyOnDiskAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetAssetsByPaths", FnName));
+
+	Params::AssetRegistry_GetAssetsByPaths Parms{};
+
+	Parms.PackagePaths = std::move(PackagePaths);
+	Parms.bRecursive = bRecursive;
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutAssetData != nullptr)
+		*OutAssetData = std::move(Parms.OutAssetData);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetDerivedClassNames
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// const TArray<struct FTopLevelAssetPath>&ClassNames                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TSet<struct FTopLevelAssetPath>&  ExcludedClassNames                                     (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// TSet<struct FTopLevelAssetPath>*        OutDerivedClassNames                                   (Parm, OutParm, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::GetDerivedClassNames(const TArray<struct FTopLevelAssetPath>& ClassNames, const TSet<struct FTopLevelAssetPath>& ExcludedClassNames, TSet<struct FTopLevelAssetPath>* OutDerivedClassNames) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetDerivedClassNames", FnName));
+
+	Params::AssetRegistry_GetDerivedClassNames Parms{};
+
+	Parms.ClassNames = std::move(ClassNames);
+	Parms.ExcludedClassNames = std::move(ExcludedClassNames);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutDerivedClassNames != nullptr)
+		*OutDerivedClassNames = std::move(Parms.OutDerivedClassNames);
+}
+
+
+// Function AssetRegistry.AssetRegistry.GetSubPaths
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// const class FString&                    InBasePath                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutPathList                                            (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    bInRecurse                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::GetSubPaths(const class FString& InBasePath, TArray<class FString>* OutPathList, bool bInRecurse) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSubPaths", FnName));
+
+	Params::AssetRegistry_GetSubPaths Parms{};
+
+	Parms.InBasePath = std::move(InBasePath);
+	Parms.bInRecurse = bInRecurse;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutPathList != nullptr)
+		*OutPathList = std::move(Parms.OutPathList);
+}
+
+
+// Function AssetRegistry.AssetRegistry.HasAssets
+// (Native, Public, BlueprintCallable, Const)
+// Parameters:
+// const class FName                       PackagePath                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bRecursive                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::HasAssets(const class FName PackagePath, const bool bRecursive) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"HasAssets", FnName));
+
+	Params::AssetRegistry_HasAssets Parms{};
+
+	Parms.PackagePath = PackagePath;
+	Parms.bRecursive = bRecursive;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.IsLoadingAssets
+// (Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::IsLoadingAssets() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IsLoadingAssets", FnName));
+
+	Params::AssetRegistry_IsLoadingAssets Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.IsSearchAllAssets
+// (Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::IsSearchAllAssets() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IsSearchAllAssets", FnName));
+
+	Params::AssetRegistry_IsSearchAllAssets Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.IsSearchAsync
+// (Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::IsSearchAsync() const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IsSearchAsync", FnName));
+
+	Params::AssetRegistry_IsSearchAsync Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.K2_GetAssetByObjectPath
+// (RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, Const)
+// Parameters:
+// const struct FSoftObjectPath&           ObjectPath                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bIncludeOnlyOnDiskAssets                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bSkipARFilteredAssets                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FAssetData                       ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FAssetData UAssetRegistryImpl::K2_GetAssetByObjectPath(const struct FSoftObjectPath& ObjectPath, bool bIncludeOnlyOnDiskAssets, bool bSkipARFilteredAssets) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"K2_GetAssetByObjectPath", FnName));
+
+	Params::AssetRegistry_K2_GetAssetByObjectPath Parms{};
+
+	Parms.ObjectPath = std::move(ObjectPath);
+	Parms.bIncludeOnlyOnDiskAssets = bIncludeOnlyOnDiskAssets;
+	Parms.bSkipARFilteredAssets = bSkipARFilteredAssets;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.K2_GetDependencies
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// class FName                             PackageName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAssetRegistryDependencyOptions&DependencyOptions                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// TArray<class FName>*                    OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::K2_GetDependencies(class FName PackageName, const struct FAssetRegistryDependencyOptions& DependencyOptions, TArray<class FName>* OutDependencies) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"K2_GetDependencies", FnName));
+
+	Params::AssetRegistry_K2_GetDependencies Parms{};
+
+	Parms.PackageName = PackageName;
+	Parms.DependencyOptions = std::move(DependencyOptions);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutDependencies != nullptr)
+		*OutDependencies = std::move(Parms.OutDependencies);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.K2_GetReferencers
+// (Native, Public, HasOutParams, BlueprintCallable, Const)
+// Parameters:
+// class FName                             PackageName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAssetRegistryDependencyOptions&ReferenceOptions                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// TArray<class FName>*                    OutReferencers                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UAssetRegistryImpl::K2_GetReferencers(class FName PackageName, const struct FAssetRegistryDependencyOptions& ReferenceOptions, TArray<class FName>* OutReferencers) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"K2_GetReferencers", FnName));
+
+	Params::AssetRegistry_K2_GetReferencers Parms{};
+
+	Parms.PackageName = PackageName;
+	Parms.ReferenceOptions = std::move(ReferenceOptions);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (OutReferencers != nullptr)
+		*OutReferencers = std::move(Parms.OutReferencers);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function AssetRegistry.AssetRegistry.RunAssetsThroughFilter
+// (Native, Public, HasOutParams, HasDefaults, BlueprintCallable, Const)
+// Parameters:
+// TArray<struct FAssetData>&              AssetDataList                                          (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FARFilter&                 Filter                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::RunAssetsThroughFilter(TArray<struct FAssetData>& AssetDataList, const struct FARFilter& Filter) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RunAssetsThroughFilter", FnName));
+
+	Params::AssetRegistry_RunAssetsThroughFilter Parms{};
+
+	Parms.AssetDataList = std::move(AssetDataList);
+	Parms.Filter = std::move(Filter);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	AssetDataList = std::move(Parms.AssetDataList);
+}
+
+
+// Function AssetRegistry.AssetRegistry.UseFilterToExcludeAssets
+// (Native, Public, HasOutParams, HasDefaults, BlueprintCallable, Const)
+// Parameters:
+// TArray<struct FAssetData>&              AssetDataList                                          (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FARFilter&                 Filter                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+
+void UAssetRegistryImpl::UseFilterToExcludeAssets(TArray<struct FAssetData>& AssetDataList, const struct FARFilter& Filter) const
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UseFilterToExcludeAssets", FnName));
+
+	Params::AssetRegistry_UseFilterToExcludeAssets Parms{};
+
+	Parms.AssetDataList = std::move(AssetDataList);
+	Parms.Filter = std::move(Filter);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	AssetDataList = std::move(Parms.AssetDataList);
+}
+
+
 SDK_NAMESPACE_END

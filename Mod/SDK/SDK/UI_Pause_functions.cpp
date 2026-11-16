@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_Pause_C::BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void UUI_Pause_C::BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButto
 
 void UUI_Pause_C::BndEvt__Pause_UI_ButtonSettings_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__Pause_UI_ButtonSettings_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Pause_UI_ButtonSettings_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -49,10 +45,8 @@ void UUI_Pause_C::BndEvt__Pause_UI_ButtonSettings_K2Node_ComponentBoundEvent_2_O
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -63,10 +57,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_12_
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -77,10 +69,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonContinue_K2Node_ComponentBoundEvent_7_O
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -91,10 +81,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_3_OnBu
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -105,10 +93,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_4_OnBu
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -119,10 +105,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_1_K2Node_ComponentBoundEvent_6_OnBu
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,10 +117,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_10_OnBut
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -147,10 +129,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_11_OnBut
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -161,10 +141,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonQit_K2Node_ComponentBoundEvent_13_OnBut
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -175,10 +153,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_1_O
 
 void UUI_Pause_C::BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -189,10 +165,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_ButtonSettings_K2Node_ComponentBoundEvent_5_O
 
 void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -203,10 +177,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_14_OnButto
 
 void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +189,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_17_OnButto
 
 void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -231,10 +201,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Desktop_K2Node_ComponentBoundEvent_9_OnButton
 
 void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -245,10 +213,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_15_OnButtonHo
 
 void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -259,10 +225,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_16_OnButtonHo
 
 void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -273,10 +237,8 @@ void UUI_Pause_C::BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_8_OnButtonCli
 
 void UUI_Pause_C::Construct()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "Construct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Construct", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -289,10 +251,8 @@ void UUI_Pause_C::Construct()
 
 void UUI_Pause_C::ExecuteUbergraph_UI_Pause(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "ExecuteUbergraph_UI_Pause");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_Pause_C", "ExecuteUbergraph_UI_Pause", FuncInfo);
 
 	Params::UI_Pause_C_ExecuteUbergraph_UI_Pause Parms{};
 
@@ -307,10 +267,8 @@ void UUI_Pause_C::ExecuteUbergraph_UI_Pause(int32 EntryPoint)
 
 void UUI_Pause_C::GetLastOpenedWidget()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "GetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetLastOpenedWidget", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -323,10 +281,8 @@ void UUI_Pause_C::GetLastOpenedWidget()
 
 void UUI_Pause_C::SetLastOpenedWidget(class UClass* UW)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "SetLastOpenedWidget");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetLastOpenedWidget", FnName));
 
 	Params::UI_Pause_C_SetLastOpenedWidget Parms{};
 
@@ -344,10 +300,8 @@ void UUI_Pause_C::SetLastOpenedWidget(class UClass* UW)
 
 void UUI_Pause_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_C", "Tick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
 
 	Params::UI_Pause_C_Tick Parms{};
 

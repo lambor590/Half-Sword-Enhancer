@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABossFight_Arena_BP_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -35,10 +33,8 @@ void ABossFight_Arena_BP_C::ReceiveBeginPlay()
 
 void ABossFight_Arena_BP_C::GREAT_ENEMY_FELLED()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_C", "GREAT ENEMY FELLED");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GREAT ENEMY FELLED", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,10 +47,8 @@ void ABossFight_Arena_BP_C::GREAT_ENEMY_FELLED()
 
 void ABossFight_Arena_BP_C::ExecuteUbergraph_BossFight_Arena_BP(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_C", "ExecuteUbergraph_BossFight_Arena_BP");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BossFight_Arena_BP_C", "ExecuteUbergraph_BossFight_Arena_BP", FuncInfo);
 
 	Params::BossFight_Arena_BP_C_ExecuteUbergraph_BossFight_Arena_BP Parms{};
 

@@ -10,14 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "Str_SubPassport_Equipment_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Str_SubPassport_Equipment_structs.hpp"
+#include "Str_Character_Body_Condition_structs.hpp"
+#include "Str_CharacterCondition_structs.hpp"
+#include "Str_CharacterPersonality_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Passport_Character1.Str_Passport_Character1
-// 0x0140 (0x0140 - 0x0000)
+// 0x0240 (0x0240 - 0x0000)
 struct FStr_Passport_Character1 final
 {
 public:
@@ -27,12 +30,16 @@ public:
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;        // 0x0018(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Weight_23_65E4C6534D14653F96EB739F159E58CD;        // 0x0020(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Skill_43_4CF5DCC248424BFADCCD6AB9F5F39CC9;         // 0x0028(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_SubPassport_Equipment             Equipment_26_741A2FC641801842FE691295645C604F;     // 0x0030(0x00F0)(Edit, BlueprintVisible, HasGetValueTypeHash)
-	int32                                         FaceType_34_FB5E4D464B2A5CF6406C3CB19051FCE3;      // 0x0120(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         EyeColor_46_826504294B0D51C1343D848E8B1AB4C6;      // 0x0124(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           HairColor_38_CBDC51B043E6816A062799A9A96EB232;     // 0x0128(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        HairLength_41_9295B3CF41DF9BED0FEDB9AE02E7FC16;    // 0x0138(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Fat_49_7A3AFCEF42B632594A9904B38CD43768;           // 0x0028(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Skill_43_4CF5DCC248424BFADCCD6AB9F5F39CC9;         // 0x0030(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_SubPassport_Equipment             Equipment_26_741A2FC641801842FE691295645C604F;     // 0x0038(0x00F0)(Edit, BlueprintVisible, HasGetValueTypeHash)
+	int32                                         FaceType_34_FB5E4D464B2A5CF6406C3CB19051FCE3;      // 0x0128(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         EyeColor_46_826504294B0D51C1343D848E8B1AB4C6;      // 0x012C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           HairColor_38_CBDC51B043E6816A062799A9A96EB232;     // 0x0130(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        HairLength_41_9295B3CF41DF9BED0FEDB9AE02E7FC16;    // 0x0140(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Character_Body_Condition          BodyPartConditions_53_B92150CC44DD32029917FB9E34A1ADF9; // 0x0148(0x0040)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_CharacterCondition                CharacterCondition_56_908E9ABB4FF9A55230FE04AE776220EA; // 0x0188(0x00A0)(Edit, BlueprintVisible, ContainsInstancedReference, HasGetValueTypeHash)
+	struct FStr_CharacterPersonality              Personality_59_088DA4F14933F7F158AB50864EDD5EEC;   // 0x0228(0x0018)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_NAMESPACE_END

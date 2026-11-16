@@ -142,10 +142,9 @@ public:
 
 // Class LiveLinkMovieScene.MovieSceneLiveLinkTrack
 // 0x0010 (0x00D8 - 0x00C8)
-class UMovieSceneLiveLinkTrack final : public UMovieScenePropertyTrack
+class UMovieSceneLiveLinkTrack final : public UMovieScenePropertyTrack, public IMovieSceneTrackTemplateProducer
 {
 public:
-	uint8                                         Pad_C8[0x8];                                       // 0x00C8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TSubclassOf<class ULiveLinkRole>              TrackRole;                                         // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 
 public:

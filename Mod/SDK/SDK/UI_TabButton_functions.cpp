@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void UUI_TabButton_C::BndEvt__Button_99_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "BndEvt__Button_99_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"BndEvt__Button_99_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void UUI_TabButton_C::BndEvt__Button_99_K2Node_ComponentBoundEvent_0_OnButtonCli
 
 void UUI_TabButton_C::ExecuteUbergraph_UI_TabButton(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "ExecuteUbergraph_UI_TabButton");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "UI_TabButton_C", "ExecuteUbergraph_UI_TabButton", FuncInfo);
 
 	Params::UI_TabButton_C_ExecuteUbergraph_UI_TabButton Parms{};
 
@@ -57,10 +53,8 @@ void UUI_TabButton_C::ExecuteUbergraph_UI_TabButton(int32 EntryPoint)
 
 void UUI_TabButton_C::Initialize(class UUI_PhotoMode_C* PhotoModeWidgetRef_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "Initialize");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Initialize", FnName));
 
 	Params::UI_TabButton_C_Initialize Parms{};
 
@@ -77,10 +71,8 @@ void UUI_TabButton_C::Initialize(class UUI_PhotoMode_C* PhotoModeWidgetRef_0)
 
 void UUI_TabButton_C::PreConstruct(bool IsDesignTime)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "PreConstruct");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PreConstruct", FnName));
 
 	Params::UI_TabButton_C_PreConstruct Parms{};
 
@@ -95,10 +87,8 @@ void UUI_TabButton_C::PreConstruct(bool IsDesignTime)
 
 void UUI_TabButton_C::SetSelectedTabStyle()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "SetSelectedTabStyle");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetSelectedTabStyle", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -109,10 +99,8 @@ void UUI_TabButton_C::SetSelectedTabStyle()
 
 void UUI_TabButton_C::SetUnselectedTabStyle()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_TabButton_C", "SetUnselectedTabStyle");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetUnselectedTabStyle", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }

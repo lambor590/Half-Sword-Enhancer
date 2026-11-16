@@ -21,10 +21,8 @@ SDK_NAMESPACE_START
 
 void ABP_InteractionController_C::UserConstructionScript()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "UserConstructionScript");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -37,10 +35,8 @@ void ABP_InteractionController_C::UserConstructionScript()
 
 void ABP_InteractionController_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Trail");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Trail", FnName));
 
 	Params::BP_InteractionController_C_Trail Parms{};
 
@@ -55,10 +51,8 @@ void ABP_InteractionController_C::Trail(class UTextureRenderTarget2D* RT_texture
 
 void ABP_InteractionController_C::SetRingTexture()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "SetRingTexture");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetRingTexture", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -74,10 +68,8 @@ void ABP_InteractionController_C::SetRingTexture()
 
 void ABP_InteractionController_C::SetProjectileParams(const struct FVector& Start, const struct FVector& End, double Size, const class FString& ProjectileName)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "SetProjectileParams");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"SetProjectileParams", FnName));
 
 	Params::BP_InteractionController_C_SetProjectileParams Parms{};
 
@@ -97,10 +89,8 @@ void ABP_InteractionController_C::SetProjectileParams(const struct FVector& Star
 
 void ABP_InteractionController_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "RT-Paint");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"RT-Paint", FnName));
 
 	Params::BP_InteractionController_C_RT_Paint Parms{};
 
@@ -117,10 +107,8 @@ void ABP_InteractionController_C::RT_Paint(class UTextureRenderTarget2D* RT)
 
 void ABP_InteractionController_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveTick");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveTick", FnName));
 
 	Params::BP_InteractionController_C_ReceiveTick Parms{};
 
@@ -135,10 +123,8 @@ void ABP_InteractionController_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 
 void ABP_InteractionController_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -149,10 +135,8 @@ void ABP_InteractionController_C::ReceiveBeginPlay()
 
 void ABP_InteractionController_C::Projectile9Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile9Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -163,10 +147,8 @@ void ABP_InteractionController_C::Projectile9Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile9Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile9Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -182,10 +164,8 @@ void ABP_InteractionController_C::Projectile9Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile9", FnName));
 
 	Params::BP_InteractionController_C_Projectile9 Parms{};
 
@@ -203,10 +183,8 @@ void ABP_InteractionController_C::Projectile9(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile8Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile8Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -217,10 +195,8 @@ void ABP_InteractionController_C::Projectile8Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile8Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile8Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -236,10 +212,8 @@ void ABP_InteractionController_C::Projectile8Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile8", FnName));
 
 	Params::BP_InteractionController_C_Projectile8 Parms{};
 
@@ -257,10 +231,8 @@ void ABP_InteractionController_C::Projectile8(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile7Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile7Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -271,10 +243,8 @@ void ABP_InteractionController_C::Projectile7Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile7Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile7Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -290,10 +260,8 @@ void ABP_InteractionController_C::Projectile7Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile7", FnName));
 
 	Params::BP_InteractionController_C_Projectile7 Parms{};
 
@@ -311,10 +279,8 @@ void ABP_InteractionController_C::Projectile7(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile6Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile6Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -325,10 +291,8 @@ void ABP_InteractionController_C::Projectile6Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile6Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile6Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -344,10 +308,8 @@ void ABP_InteractionController_C::Projectile6Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile6", FnName));
 
 	Params::BP_InteractionController_C_Projectile6 Parms{};
 
@@ -365,10 +327,8 @@ void ABP_InteractionController_C::Projectile6(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile5Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile5Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -379,10 +339,8 @@ void ABP_InteractionController_C::Projectile5Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile5Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile5Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -398,10 +356,8 @@ void ABP_InteractionController_C::Projectile5Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile5", FnName));
 
 	Params::BP_InteractionController_C_Projectile5 Parms{};
 
@@ -419,10 +375,8 @@ void ABP_InteractionController_C::Projectile5(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile4Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile4Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -433,10 +387,8 @@ void ABP_InteractionController_C::Projectile4Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile4Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile4Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -452,10 +404,8 @@ void ABP_InteractionController_C::Projectile4Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile4", FnName));
 
 	Params::BP_InteractionController_C_Projectile4 Parms{};
 
@@ -473,10 +423,8 @@ void ABP_InteractionController_C::Projectile4(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile3Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile3Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -487,10 +435,8 @@ void ABP_InteractionController_C::Projectile3Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile3Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile3Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -506,10 +452,8 @@ void ABP_InteractionController_C::Projectile3Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile3", FnName));
 
 	Params::BP_InteractionController_C_Projectile3 Parms{};
 
@@ -527,10 +471,8 @@ void ABP_InteractionController_C::Projectile3(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile2Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile2Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -541,12 +483,161 @@ void ABP_InteractionController_C::Projectile2Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile2Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile2Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.MakeVec4
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor ABP_InteractionController_C::MakeVec4(const struct FVector& Start, double Size)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"MakeVec4", FnName));
+
+	Params::BP_InteractionController_C_MakeVec4 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Line3dWidth
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Line3dWidth(double Width)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dWidth", FnName));
+
+	Params::BP_InteractionController_C_Line3dWidth Parms{};
+
+	Parms.Width = Width;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Line3dLocations
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Line3dLocations", FnName));
+
+	Params::BP_InteractionController_C_Line3dLocations Parms{};
+
+	Parms.StartPoint = std::move(StartPoint);
+	Parms.EndPoint = std::move(EndPoint);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.InitializeCapture
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void ABP_InteractionController_C::InitializeCapture()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InitializeCapture", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Grenade
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Grenade(const struct FVector& Location, double Radius)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Grenade", FnName));
+
+	Params::BP_InteractionController_C_Grenade Parms{};
+
+	Parms.Location = std::move(Location);
+	Parms.Radius = Radius;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Flashlight-Strength
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Flashlight_Strength(double Strength)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight-Strength", FnName));
+
+	Params::BP_InteractionController_C_Flashlight_Strength Parms{};
+
+	Parms.Strength = Strength;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Flashlight
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Flashlight", FnName));
+
+	Params::BP_InteractionController_C_Flashlight Parms{};
+
+	Parms.StartLocation = std::move(StartLocation);
+	Parms.EndLocation = std::move(EndLocation);
+	Parms.ConeAngle = ConeAngle;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.ExecuteUbergraph_BP_InteractionController
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::ExecuteUbergraph_BP_InteractionController(int32 EntryPoint)
+{
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_InteractionController_C", "ExecuteUbergraph_BP_InteractionController", FuncInfo);
+
+	Params::BP_InteractionController_C_ExecuteUbergraph_BP_InteractionController Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -560,10 +651,8 @@ void ABP_InteractionController_C::Projectile2Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile2", FnName));
 
 	Params::BP_InteractionController_C_Projectile2 Parms{};
 
@@ -581,10 +670,8 @@ void ABP_InteractionController_C::Projectile2(const struct FVector& Start, const
 
 void ABP_InteractionController_C::Projectile1Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile1Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -595,10 +682,8 @@ void ABP_InteractionController_C::Projectile1Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile1Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile1Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -609,10 +694,8 @@ void ABP_InteractionController_C::Projectile1Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile10Timeline__UpdateFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__UpdateFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile10Timeline__UpdateFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -623,10 +706,8 @@ void ABP_InteractionController_C::Projectile10Timeline__UpdateFunc()
 
 void ABP_InteractionController_C::Projectile10Timeline__FinishedFunc()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__FinishedFunc");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile10Timeline__FinishedFunc", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -642,10 +723,8 @@ void ABP_InteractionController_C::Projectile10Timeline__FinishedFunc()
 
 void ABP_InteractionController_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile10", FnName));
 
 	Params::BP_InteractionController_C_Projectile10 Parms{};
 
@@ -668,10 +747,8 @@ void ABP_InteractionController_C::Projectile10(const struct FVector& Start, cons
 
 void ABP_InteractionController_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Projectile1", FnName));
 
 	Params::BP_InteractionController_C_Projectile1 Parms{};
 
@@ -688,16 +765,14 @@ void ABP_InteractionController_C::Projectile1(const struct FVector& Start, const
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // double                                  FwdDistance                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Location                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Location_0                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FVector*                         FwdVecDistance                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FVector*                         FwdVec                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FVector* Location, struct FVector* FwdVecDistance, struct FVector* FwdVec)
+void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FVector* Location_0, struct FVector* FwdVecDistance, struct FVector* FwdVec)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "PlayerTransforms");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PlayerTransforms", FnName));
 
 	Params::BP_InteractionController_C_PlayerTransforms Parms{};
 
@@ -705,8 +780,8 @@ void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FV
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Location != nullptr)
-		*Location = std::move(Parms.Location);
+	if (Location_0 != nullptr)
+		*Location_0 = std::move(Parms.Location_0);
 
 	if (FwdVecDistance != nullptr)
 		*FwdVecDistance = std::move(Parms.FwdVecDistance);
@@ -723,181 +798,12 @@ void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FV
 
 void ABP_InteractionController_C::PaintResult(class UTexture2D* PaintTex)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "PaintResult");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"PaintResult", FnName));
 
 	Params::BP_InteractionController_C_PaintResult Parms{};
 
 	Parms.PaintTex = PaintTex;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.MakeVec4
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor ABP_InteractionController_C::MakeVec4(const struct FVector& Start, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "MakeVec4");
-
-	Params::BP_InteractionController_C_MakeVec4 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Line3dWidth
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Line3dWidth(double Width)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Line3dWidth");
-
-	Params::BP_InteractionController_C_Line3dWidth Parms{};
-
-	Parms.Width = Width;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Line3dLocations
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Line3dLocations");
-
-	Params::BP_InteractionController_C_Line3dLocations Parms{};
-
-	Parms.StartPoint = std::move(StartPoint);
-	Parms.EndPoint = std::move(EndPoint);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.InitializeCapture
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_InteractionController_C::InitializeCapture()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "InitializeCapture");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Grenade
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Grenade(const struct FVector& Location, double Radius)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Grenade");
-
-	Params::BP_InteractionController_C_Grenade Parms{};
-
-	Parms.Location = std::move(Location);
-	Parms.Radius = Radius;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Flashlight-Strength
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Flashlight_Strength(double Strength)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight-Strength");
-
-	Params::BP_InteractionController_C_Flashlight_Strength Parms{};
-
-	Parms.Strength = Strength;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Flashlight
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight");
-
-	Params::BP_InteractionController_C_Flashlight Parms{};
-
-	Parms.StartLocation = std::move(StartLocation);
-	Parms.EndLocation = std::move(EndLocation);
-	Parms.ConeAngle = ConeAngle;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.ExecuteUbergraph_BP_InteractionController
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::ExecuteUbergraph_BP_InteractionController(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ExecuteUbergraph_BP_InteractionController");
-
-	Params::BP_InteractionController_C_ExecuteUbergraph_BP_InteractionController Parms{};
-
-	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

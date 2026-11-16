@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Guard_PB.Weapon_Sword_Guard_PB_C
-// 0x0000 (0x0448 - 0x0448)
+// 0x0000 (0x0450 - 0x0450)
 class AWeapon_Sword_Guard_PB_C final : public AModular_Sword_Guard_Master_C
 {
 public:

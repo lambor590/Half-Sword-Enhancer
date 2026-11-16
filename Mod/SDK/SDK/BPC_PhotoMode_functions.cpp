@@ -27,10 +27,8 @@ SDK_NAMESPACE_START
 
 void UBPC_PhotoMode_C::Calculate_Weight_by_Ref(class APostProcessVolume* PostProcessVolume, double& PropertyTotal, double& PropertyCount, double PropertyValue, double DistanceWeight)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "Calculate Weight by Ref");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Calculate Weight by Ref", FnName));
 
 	Params::BPC_PhotoMode_C_Calculate_Weight_by_Ref Parms{};
 
@@ -52,10 +50,8 @@ void UBPC_PhotoMode_C::Calculate_Weight_by_Ref(class APostProcessVolume* PostPro
 
 void UBPC_PhotoMode_C::Create_Post_Process()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "Create Post Process");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Create Post Process", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -68,10 +64,8 @@ void UBPC_PhotoMode_C::Create_Post_Process()
 
 void UBPC_PhotoMode_C::ExecuteUbergraph_BPC_PhotoMode(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "ExecuteUbergraph_BPC_PhotoMode");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BPC_PhotoMode_C", "ExecuteUbergraph_BPC_PhotoMode", FuncInfo);
 
 	Params::BPC_PhotoMode_C_ExecuteUbergraph_BPC_PhotoMode Parms{};
 
@@ -89,10 +83,8 @@ void UBPC_PhotoMode_C::ExecuteUbergraph_BPC_PhotoMode(int32 EntryPoint)
 
 void UBPC_PhotoMode_C::Get_Active_Camera(class UCameraComponent** CurrentCamera, class USpringArmComponent** CurrentSpringArm)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "Get Active Camera");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Get Active Camera", FnName));
 
 	Params::BPC_PhotoMode_C_Get_Active_Camera Parms{};
 
@@ -113,10 +105,8 @@ void UBPC_PhotoMode_C::Get_Active_Camera(class UCameraComponent** CurrentCamera,
 
 void UBPC_PhotoMode_C::GetCameraLocation(struct FVector* CameraLocation)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "GetCameraLocation");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCameraLocation", FnName));
 
 	Params::BPC_PhotoMode_C_GetCameraLocation Parms{};
 
@@ -134,10 +124,8 @@ void UBPC_PhotoMode_C::GetCameraLocation(struct FVector* CameraLocation)
 
 void UBPC_PhotoMode_C::GetCameraManager(class APlayerCameraManager** PlayerCameraManager)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "GetCameraManager");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetCameraManager", FnName));
 
 	Params::BPC_PhotoMode_C_GetCameraManager Parms{};
 
@@ -155,10 +143,8 @@ void UBPC_PhotoMode_C::GetCameraManager(class APlayerCameraManager** PlayerCamer
 
 void UBPC_PhotoMode_C::getScreenshotPath(class FString* FullPath)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "getScreenshotPath");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"getScreenshotPath", FnName));
 
 	Params::BPC_PhotoMode_C_getScreenshotPath Parms{};
 
@@ -176,10 +162,8 @@ void UBPC_PhotoMode_C::getScreenshotPath(class FString* FullPath)
 
 void UBPC_PhotoMode_C::GetSliderCameraDistance(double* CameraDistance)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "GetSliderCameraDistance");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSliderCameraDistance", FnName));
 
 	Params::BPC_PhotoMode_C_GetSliderCameraDistance Parms{};
 
@@ -197,10 +181,8 @@ void UBPC_PhotoMode_C::GetSliderCameraDistance(double* CameraDistance)
 
 void UBPC_PhotoMode_C::GetSliderFOV(double* FOV)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "GetSliderFOV");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSliderFOV", FnName));
 
 	Params::BPC_PhotoMode_C_GetSliderFOV Parms{};
 
@@ -218,10 +200,8 @@ void UBPC_PhotoMode_C::GetSliderFOV(double* FOV)
 
 void UBPC_PhotoMode_C::GetSliderRoll(double* Roll)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "GetSliderRoll");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetSliderRoll", FnName));
 
 	Params::BPC_PhotoMode_C_GetSliderRoll Parms{};
 
@@ -239,10 +219,8 @@ void UBPC_PhotoMode_C::GetSliderRoll(double* Roll)
 
 void UBPC_PhotoMode_C::IconSelector___Gallery(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "IconSelector - Gallery");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IconSelector - Gallery", FnName));
 
 	Params::BPC_PhotoMode_C_IconSelector___Gallery Parms{};
 
@@ -259,10 +237,8 @@ void UBPC_PhotoMode_C::IconSelector___Gallery(const struct FKey& Key)
 
 void UBPC_PhotoMode_C::IconSelector___Photo_Mode_Menu(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "IconSelector - Photo Mode Menu");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"IconSelector - Photo Mode Menu", FnName));
 
 	Params::BPC_PhotoMode_C_IconSelector___Photo_Mode_Menu Parms{};
 
@@ -277,10 +253,8 @@ void UBPC_PhotoMode_C::IconSelector___Photo_Mode_Menu(const struct FKey& Key)
 
 void UBPC_PhotoMode_C::InitWidgets()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "InitWidgets");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"InitWidgets", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -293,10 +267,8 @@ void UBPC_PhotoMode_C::InitWidgets()
 
 void UBPC_PhotoMode_C::OpenGallery(const struct FKey& LastKey_0)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "OpenGallery");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"OpenGallery", FnName));
 
 	Params::BPC_PhotoMode_C_OpenGallery Parms{};
 
@@ -313,10 +285,8 @@ void UBPC_PhotoMode_C::OpenGallery(const struct FKey& LastKey_0)
 
 void UBPC_PhotoMode_C::Photo_Mode(const struct FKey& Key)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "Photo Mode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Photo Mode", FnName));
 
 	Params::BPC_PhotoMode_C_Photo_Mode Parms{};
 
@@ -331,10 +301,8 @@ void UBPC_PhotoMode_C::Photo_Mode(const struct FKey& Key)
 
 void UBPC_PhotoMode_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -345,10 +313,8 @@ void UBPC_PhotoMode_C::ReceiveBeginPlay()
 
 void UBPC_PhotoMode_C::ResetGallery()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "ResetGallery");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetGallery", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -359,10 +325,8 @@ void UBPC_PhotoMode_C::ResetGallery()
 
 void UBPC_PhotoMode_C::ResetPhotoMode()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "ResetPhotoMode");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ResetPhotoMode", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -376,10 +340,8 @@ void UBPC_PhotoMode_C::ResetPhotoMode()
 
 void UBPC_PhotoMode_C::UnpausedGameAxisMovementControl(double AxisValueIn, double* AxisValueOut)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "UnpausedGameAxisMovementControl");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UnpausedGameAxisMovementControl", FnName));
 
 	Params::BPC_PhotoMode_C_UnpausedGameAxisMovementControl Parms{};
 
@@ -399,10 +361,8 @@ void UBPC_PhotoMode_C::UnpausedGameAxisMovementControl(double AxisValueIn, doubl
 
 void UBPC_PhotoMode_C::UpdateOutputFolder(const class FString& Custom_Path)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "UpdateOutputFolder");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateOutputFolder", FnName));
 
 	Params::BPC_PhotoMode_C_UpdateOutputFolder Parms{};
 
@@ -419,10 +379,8 @@ void UBPC_PhotoMode_C::UpdateOutputFolder(const class FString& Custom_Path)
 
 void UBPC_PhotoMode_C::UpdateReferences(bool bCheckWidgets)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPC_PhotoMode_C", "UpdateReferences");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UpdateReferences", FnName));
 
 	Params::BPC_PhotoMode_C_UpdateReferences Parms{};
 

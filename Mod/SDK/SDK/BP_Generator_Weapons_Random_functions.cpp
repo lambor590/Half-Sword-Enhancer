@@ -26,10 +26,8 @@ SDK_NAMESPACE_START
 
 void ABP_Generator_Weapons_Random_C::Add_Weapon_Module_to_Array(class UClass* Weapon_Module, Enum_Ranks Tier_In, double* Module_Price, Enum_Ranks* Tier_Out)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Weapons_Random_C", "Add Weapon Module to Array");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Add Weapon Module to Array", FnName));
 
 	Params::BP_Generator_Weapons_Random_C_Add_Weapon_Module_to_Array Parms{};
 
@@ -53,10 +51,8 @@ void ABP_Generator_Weapons_Random_C::Add_Weapon_Module_to_Array(class UClass* We
 
 void ABP_Generator_Weapons_Random_C::ExecuteUbergraph_BP_Generator_Weapons_Random(int32 EntryPoint)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Weapons_Random_C", "ExecuteUbergraph_BP_Generator_Weapons_Random");
+	static ReloadableFuncInfo FuncInfo;
+	class UFunction* Func = GetStaticFunction(Class, "BP_Generator_Weapons_Random_C", "ExecuteUbergraph_BP_Generator_Weapons_Random", FuncInfo);
 
 	Params::BP_Generator_Weapons_Random_C_ExecuteUbergraph_BP_Generator_Weapons_Random Parms{};
 
@@ -79,10 +75,8 @@ void ABP_Generator_Weapons_Random_C::ExecuteUbergraph_BP_Generator_Weapons_Rando
 
 void ABP_Generator_Weapons_Random_C::Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, Enum_WeaponType_Specific Weapon_Type_Specific, struct FStr_Passport_Weapon1* Weapon_Passport)
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Weapons_Random_C", "Generate Weapon");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Generate Weapon", FnName));
 
 	Params::BP_Generator_Weapons_Random_C_Generate_Weapon Parms{};
 
@@ -105,10 +99,8 @@ void ABP_Generator_Weapons_Random_C::Generate_Weapon(Enum_WeaponType Weapon_Type
 
 void ABP_Generator_Weapons_Random_C::ReceiveBeginPlay()
 {
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Generator_Weapons_Random_C", "ReceiveBeginPlay");
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"ReceiveBeginPlay", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
