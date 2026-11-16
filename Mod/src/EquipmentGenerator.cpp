@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <string>
@@ -5,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "Utils/EngineArray.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GameClass.h"
 #include "Utils/GameConstants.h"
@@ -194,6 +196,16 @@ namespace EquipmentGenerator {
             return generator;
         }
 
+        std::vector<SDK::AActor*> PartGenerators(const SDK::UWorld* world) {
+            std::vector<SDK::AActor*> generators;
+            for (auto* type : {SDK::ABP_Generator_Weapons_Random_C::StaticClass(), SDK::ABP_Generator_Armor_Random_C::StaticClass()}) {
+                EngineArray<SDK::AActor*> actors;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, type, &actors);
+                for (auto* actor : actors) generators.push_back(actor);
+            }
+            return generators;
+        }
+
         SDK::UGI_Settings_C* SettingsOf(const SDK::UWorld* world) {
             auto* instance = world->OwningGameInstance;
             return instance && instance->IsA(SDK::UGI_Settings_C::StaticClass()) ? static_cast<SDK::UGI_Settings_C*>(instance)
@@ -349,10 +361,19 @@ namespace EquipmentGenerator {
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetGenerator<SDK::ABP_Generator_Characters_Random_C>(world);
         if (gen) {
-            EnsureSettingsArmorGenerator(SettingsOf(world), tier);
+            auto* settings = SettingsOf(world);
+            EnsureSettingsArmorGenerator(settings, tier);
+            const auto existing = PartGenerators(world);
             gen->Generate_Character(
                 actorClass, nationality, static_cast<SDK::Enum_Factions>(0), tier, mercenary, false, false, false, false, &output
             );
+            // The character generator leaves the weapon and armor generators it spawns in the world. The game
+            // instance keeps the ones it creates for itself.
+            const auto kept = [settings](const SDK::AActor* generator) {
+                return settings && (generator == settings->Weapon_Spawner || generator == settings->Armor_Spawner);
+            };
+            for (auto* generator : PartGenerators(world))
+                if (!kept(generator) && std::ranges::find(existing, generator) == existing.end()) generator->K2_DestroyActor();
         }
         return output;
     }
