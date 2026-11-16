@@ -89,10 +89,10 @@ namespace {
     void SetHudWidgetsHidden(SDK::UUI_HUD_C* hud, bool hideVisualEffects, bool hideResultMenus) {
         if (!hud) return;
 
-        const std::array<SDK::UWidget*, 13> visualEffectWidgets = {
-            hud->ArmLDmg,  hud->ArmRDmg,       hud->Black,           hud->HeadDmg, hud->HPDmg1,
-            hud->HPDmg2,   hud->HPDmg3,        hud->LegLDmg,         hud->LegRDmg, hud->TextHurt,
-            hud->Vignette, hud->Vignette_Pain, hud->Vignette_WakeUp,
+        const std::array<SDK::UWidget*, 14> visualEffectWidgets = {
+            hud->ArmLDmg,       hud->ArmRDmg,      hud->Black,         hud->HeadDmg,      hud->HPDmg1,
+            hud->HPDmg2,        hud->HPDmg3,       hud->LegLDmg,       hud->LegRDmg,      hud->Vignette,
+            hud->Vignette_Cold, hud->Vignette_Hot, hud->Vignette_Pain, hud->Vignette_WakeUp,
         };
         for (auto* widget : visualEffectWidgets)
             SetScreenOverlayHidden(widget, hideVisualEffects);
