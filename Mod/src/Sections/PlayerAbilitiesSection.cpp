@@ -115,7 +115,7 @@ namespace {
     constexpr std::array POSSESSION_CAMERA_BINDINGS{
         PossessionCameraBinding{&SDK::AWillie_BP_C::FollowCamera1, nullptr, false},
         PossessionCameraBinding{
-            &SDK::AWillie_BP_C::FollowCamera, &SDK::AWillie_BP_C::CameraBoom_Shoulder_, false
+            &SDK::AWillie_BP_C::FollowCamera, &SDK::AWillie_BP_C::CameraBoom_Head_, false
         },
         PossessionCameraBinding{
             &SDK::AWillie_BP_C::First_Person_Camera, &SDK::AWillie_BP_C::CameraBoomFP, true
