@@ -613,7 +613,7 @@ namespace PropertyBrowser {
             SDK::UStruct* structType = nullptr;
             SDK::UClass* objectType = nullptr;
             if (parameter && !parameter->Next && parameter->Offset == 0 &&
-                (setter->FunctionFlags & static_cast<SDK::uint32>(SDK::EFunctionFlags::Native)) &&
+                (static_cast<SDK::uint32>(setter->FunctionFlags) & static_cast<SDK::uint32>(SDK::EFunctionFlags::Native)) &&
                 (static_cast<SDK::EPropertyFlags>(parameter->PropertyFlags) & SDK::EPropertyFlags::Parm) &&
                 !(static_cast<SDK::EPropertyFlags>(parameter->PropertyFlags) &
                   (SDK::EPropertyFlags::ReturnParm | SDK::EPropertyFlags::OutParm)) &&
