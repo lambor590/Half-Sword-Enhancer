@@ -10,7 +10,6 @@
 #include "SDK/AIModule_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
-#include "SDK/Weapon_Feet_classes.hpp"
 #include "SDK/Weapon_Fists_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Willie_BP_parameters.hpp"
@@ -352,12 +351,6 @@ namespace {
         }
     }
 
-    SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
-        auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
-        return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
-                                                                         : nullptr;
-    }
-
     void BoostWeaponKnockback(SDK::AModularWeaponBP_C* weapon, float configuredMultiplier) noexcept {
         const auto multiplier = static_cast<double>(configuredMultiplier);
         if (weapon->Kick_Power < multiplier) {
@@ -594,9 +587,11 @@ template <bool playerScope> void PlayerAbilitiesSection::AddBoneControl() {
     });
 }
 
-PlayerAbilitiesSection::KickWindow* PlayerAbilitiesSection::FindKickWindow(SDK::AWeapon_Feet_C* foot) noexcept {
+PlayerAbilitiesSection::KickWindow* PlayerAbilitiesSection::FindKickWindow(
+    const SDK::AWillie_BP_C* attacker, bool leftKick
+) noexcept {
     for (auto& window : kickWindows) {
-        if (window.foot == foot) return &window;
+        if (window.attacker == attacker && window.left == leftKick) return &window;
     }
     return nullptr;
 }
@@ -629,30 +624,29 @@ void PlayerAbilitiesSection::OpenKickWindow(bool leftKick, GameHook::ProcessEven
     if (!attacker || (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies)) return;
 
     const float multiplier = cfg.kickPowerMultiplier;
-    auto* foot = GetKickFoot(attacker, leftKick);
-    if (!foot || multiplier <= 1.0f) return;
-    if (auto* window = FindKickWindow(foot)) {
+    if (multiplier <= 1.0f) return;
+    if (auto* window = FindKickWindow(attacker, leftKick)) {
         ApplyPendingKickImpulse(*window);
         return;
     }
 
     auto& window = kickWindows.emplace_back();
-    window.foot = foot;
+    window.attacker = attacker;
     window.left = leftKick;
     if (leftKick) {
         attacker->Kick_Rate_L *= multiplier;
     } else {
         attacker->Kick_Rate_R *= multiplier;
     }
-    BoostWeaponKnockback(foot, multiplier);
 }
 
 void PlayerAbilitiesSection::CloseKickWindow(bool leftKick, GameHook::ProcessEventContext& context) {
     auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
                          ? static_cast<SDK::AWillie_BP_C*>(context.object)
                          : nullptr;
-    auto* foot = GetKickFoot(attacker, leftKick);
-    std::erase_if(kickWindows, [foot](const KickWindow& window) { return window.foot == foot; });
+    std::erase_if(kickWindows, [attacker, leftKick](const KickWindow& window) {
+        return window.attacker == attacker && window.left == leftKick;
+    });
 }
 
 void PlayerAbilitiesSection::HandleKickHit(GameHook::ProcessEventContext& context) {
@@ -664,26 +658,32 @@ void PlayerAbilitiesSection::HandleKickHit(GameHook::ProcessEventContext& contex
     auto* target = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
                        ? static_cast<SDK::AWillie_BP_C*>(context.object)
                        : nullptr;
-    auto* foot = params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Feet_C::StaticClass())
-                     ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
-                     : nullptr;
-    auto* attacker = foot ? foot->Parent_Actor : nullptr;
+    // The game kicks with the leg bones of the kicking character's own mesh.
+    auto* attacker = params->OtherActor && params->OtherActor->IsA(SDK::AWillie_BP_C::StaticClass())
+                         ? static_cast<SDK::AWillie_BP_C*>(params->OtherActor)
+                         : nullptr;
     if (!target || !attacker || attacker == target ||
         (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies))
         return;
 
-    auto* window = FindKickWindow(foot);
-    if (!window || window->impulseSpent) return;
+    const auto kickingBone = params->Hit.BoneName;
+    const auto isKickBone = [&kickingBone](bool leftKick) {
+        const auto& bones = KickBones(leftKick);
+        return kickingBone == bones.foot || kickingBone == bones.calf || kickingBone == bones.thigh;
+    };
+    auto* window = isKickBone(true) ? FindKickWindow(attacker, true) : nullptr;
+    if (!window && isKickBone(false)) window = FindKickWindow(attacker, false);
+    if (!window || window->impulseSpent || !attacker->Mesh) return;
 
     const auto targetBone = params->Hit.MyBoneName;
     SDK::FVector impulse{};
     if (!ComputeKnockbackImpulse(
-            attacker, target, params->HitComponent, foot->Weapon_Velocity, params->Hit.ImpactPoint, targetBone,
+            attacker, target, params->HitComponent, attacker->Mesh->GetPhysicsLinearVelocity(kickingBone),
+            params->Hit.ImpactPoint, targetBone,
             KickLimbMass(attacker->Mesh, window->left), static_cast<double>(cfg.kickPowerMultiplier), impulse
         ))
         return;
 
-    BoostWeaponKnockback(foot, cfg.kickPowerMultiplier);
     window->pendingImpulseComponent = params->HitComponent;
     window->pendingImpulse = impulse;
     window->pendingImpulseLocation = params->Hit.ImpactPoint;

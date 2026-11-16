@@ -8,7 +8,7 @@
 #include "SDK/Engine_structs.hpp"
 
 namespace SDK {
-    class AWeapon_Feet_C;
+    class AWillie_BP_C;
     class UPrimitiveComponent;
 }
 
@@ -80,7 +80,7 @@ private:
     Config cfg;
     KeybindList keybinds;
     struct KickWindow {
-        SDK::AWeapon_Feet_C* foot = nullptr;
+        SDK::AWillie_BP_C* attacker = nullptr;
         SDK::UPrimitiveComponent* pendingImpulseComponent = nullptr;
         SDK::FVector pendingImpulse{};
         SDK::FVector pendingImpulseLocation{};
@@ -94,7 +94,7 @@ private:
     void InitKeybinds();
     template <bool playerScope> void AddBoneControl();
 
-    KickWindow* FindKickWindow(SDK::AWeapon_Feet_C* foot) noexcept;
+    KickWindow* FindKickWindow(const SDK::AWillie_BP_C* attacker, bool leftKick) noexcept;
     static void ClearPendingKickImpulse(KickWindow& window) noexcept;
     static void ApplyPendingKickImpulse(KickWindow& window);
     void OpenKickWindow(bool leftKick, GameHook::ProcessEventContext& context);
