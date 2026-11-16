@@ -294,7 +294,7 @@ namespace Spawner {
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         bool pickedUp = false;
-        willie->Pick_Up_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
+        willie->Equip_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
         if (!pickedUp) {
             actor->K2_DestroyActor();
             return false;
