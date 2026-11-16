@@ -705,7 +705,7 @@ void PlayerAbilitiesSection::HandlePunchHit(GameHook::ProcessEventContext& conte
     auto* fist = params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Fists_C::StaticClass())
                      ? static_cast<SDK::AWeapon_Fists_C*>(params->OtherActor)
                      : nullptr;
-    auto* attacker = fist ? fist->Parent_Actor : nullptr;
+    auto* attacker = fist && fist->Parent_Actors.Num() > 0 ? fist->Parent_Actors[0] : nullptr;
     if (!target || !attacker || attacker == target ||
         (!BoneControl::MatchesScope(attacker, true) && !cfg.knockbackAffectsEnemies))
         return;
