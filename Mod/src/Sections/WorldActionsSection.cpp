@@ -323,15 +323,25 @@ void WorldActionsSection::InitKeybinds() {
                 if (!player || !world) return;
                 const bool deadOnly = cfg.destroyDeadOnly;
                 const bool disintegrate = cfg.destroyDisintegrate;
-                ActorUtils::ForEachWillie(world, player, [deadOnly, disintegrate](SDK::AWillie_BP_C* willie) {
+                std::unordered_set<const SDK::AActor*> destroyed;
+                ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
                     if (!deadOnly || willie->Health <= GameConstants::MIN_HEALTH) {
                         if (disintegrate) {
                             willie->Disintegrate_and_drop_armor(true);
                         } else {
+                            destroyed.insert(willie);
                             willie->K2_DestroyActor();
                         }
                     }
                 });
+                // What a destroyed character held or had sheathed would stay behind, still held by nobody, where
+                // Clear Objects does not look for it.
+                if (!destroyed.empty())
+                    ActorUtils::ForEachObjectOfType<SDK::AModularWeaponBP_C>(world, [&](SDK::AModularWeaponBP_C* weapon) {
+                        if (!weapon->Is_Held && !weapon->Sheathed) return;
+                        for (auto* holder : weapon->Parent_Actors)
+                            if (destroyed.contains(holder)) return weapon->K2_DestroyActor();
+                    });
             },
         .params =
             {KeybindParam("dead_only", "Bodies Only", &cfg.destroyDeadOnly, "Leaves living NPCs untouched"),
