@@ -16,7 +16,6 @@
 #include "SDK/Basic.hpp"
 #include "SDK/Blood_BP_P4_classes.hpp"
 #include "SDK/Blood_BP_P4_parameters.hpp"
-#include "SDK/Blood_BP_PT_classes.hpp"
 #include "SDK/BP_BloodDecal_classes.hpp"
 #include "SDK/BP_MeshBloodSim_classes.hpp"
 #include "SDK/BP_MeshBloodSimManager_classes.hpp"
@@ -66,7 +65,7 @@ namespace {
 
     bool IsBloodDebugActor(SDK::UObject* object) {
         return object &&
-               (object->IsA(SDK::ABlood_BP_P4_C::StaticClass()) || object->IsA(SDK::ABlood_BP_PT_C::StaticClass()) ||
+               (object->IsA(SDK::ABlood_BP_P4_C::StaticClass()) ||
                 object->IsA(SDK::ABP_BloodDecal_C::StaticClass()) ||
                 object->IsA(SDK::ABP_MeshBloodSim_C::StaticClass()) ||
                 object->IsA(SDK::ABP_MeshBloodSimManager_C::StaticClass()) ||

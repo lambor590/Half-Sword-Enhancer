@@ -6,7 +6,6 @@
 #include "SDK/BP_BloodDecal_classes.hpp"
 #include "SDK/BP_MeshBloodSim_classes.hpp"
 #include "SDK/Blood_BP_P4_classes.hpp"
-#include "SDK/Blood_BP_PT_classes.hpp"
 #include "SDK/HSComputeShaders_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/RunningBlood_BP_classes.hpp"
@@ -61,7 +60,7 @@ namespace {
             }
         });
 
-        DestroyAllActors<SDK::ABlood_BP_P4_C, SDK::ABlood_BP_PT_C>(world);
+        DestroyAllActors<SDK::ABlood_BP_P4_C>(world);
         DestroyAllActors<SDK::ABP_BloodDecal_C, SDK::ARunningBlood_BP_C, SDK::AHSWoundsController>(world);
     }
 
