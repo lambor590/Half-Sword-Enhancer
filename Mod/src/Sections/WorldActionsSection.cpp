@@ -23,6 +23,18 @@ namespace {
         (ActorUtils::ForEachObjectOfType<ActorTypes>(world, destroy), ...);
     }
 
+    // A splatter on the ground or on a wall is a decal on whatever it hit, with its own instance of one of the game's
+    // blood materials. The game never takes them away, so they pile up for as long as the level lasts.
+    bool IsBloodDecal(const SDK::UDecalComponent* decal) {
+        for (const SDK::UMaterialInterface* material = decal->GetDecalMaterial(); material;) {
+            if (material->GetName().contains("Blood")) return true;
+            material = material->IsA(SDK::UMaterialInstance::StaticClass())
+                           ? static_cast<const SDK::UMaterialInstance*>(material)->Parent
+                           : nullptr;
+        }
+        return false;
+    }
+
     void ClearBlood(SDK::UWorld* world) {
         ActorUtils::ForEachWillie(world, nullptr, [](SDK::AWillie_BP_C* willie) {
             willie->Reset_Blood_Bleed();
@@ -62,6 +74,12 @@ namespace {
 
         DestroyAllActors<SDK::ABlood_BP_P4_C>(world);
         DestroyAllActors<SDK::ABP_BloodDecal_C, SDK::ARunningBlood_BP_C, SDK::AHSWoundsController>(world);
+
+        ActorUtils::ForEachObjectOfType<SDK::AActor>(world, [](SDK::AActor* actor) {
+            EngineArray<SDK::UActorComponent*> decals{actor->K2_GetComponentsByClass(SDK::UDecalComponent::StaticClass())};
+            for (auto* component : decals)
+                if (component && IsBloodDecal(static_cast<SDK::UDecalComponent*>(component))) component->K2_DestroyComponent(actor);
+        });
     }
 
     void ClearDroppedObjects(SDK::UWorld* world, SDK::AWillie_BP_C* player, float configuredRadius) {
