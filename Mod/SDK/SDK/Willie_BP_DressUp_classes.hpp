@@ -18,15 +18,15 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_DressUp.Willie_BP_DressUp_C
-// 0x0040 (0x5190 - 0x5150)
+// 0x0050 (0x51A0 - 0x5150)
 class AWillie_BP_DressUp_C final : public AWillie_BP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x5148(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UWidgetComponent*                       Widget;                                            // 0x5150(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Pointer_Scene;                                     // 0x5158(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                Default_Location;                                  // 0x5160(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FRotator                               Default_Rotation;                                  // 0x5178(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x5150(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class UWidgetComponent*                       Widget;                                            // 0x5158(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Pointer_Scene;                                     // 0x5160(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Default_Location;                                  // 0x5168(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FRotator                               Default_Rotation;                                  // 0x5180(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 
 public:
 	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);

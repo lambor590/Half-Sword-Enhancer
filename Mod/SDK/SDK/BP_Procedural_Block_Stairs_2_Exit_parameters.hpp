@@ -6,7 +6,7 @@
 * https://github.com/Encryqed/Dumper-7
 */
 
-// Package: BP_Procedural_Block_Stairs_1_Shortcut
+// Package: BP_Procedural_Block_Stairs_2_Exit
 
 #include "Basic.hpp"
 
@@ -14,9 +14,9 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function BP_Procedural_Block_Stairs_1_Shortcut.BP_Procedural_Block_Stairs_1_Shortcut_C.ExecuteUbergraph_BP_Procedural_Block_Stairs_1_Shortcut
+// Function BP_Procedural_Block_Stairs_2_Exit.BP_Procedural_Block_Stairs_2_Exit_C.ExecuteUbergraph_BP_Procedural_Block_Stairs_2_Exit
 // 0x0004 (0x0004 - 0x0000)
-struct BP_Procedural_Block_Stairs_1_Shortcut_C_ExecuteUbergraph_BP_Procedural_Block_Stairs_1_Shortcut final
+struct BP_Procedural_Block_Stairs_2_Exit_C_ExecuteUbergraph_BP_Procedural_Block_Stairs_2_Exit final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

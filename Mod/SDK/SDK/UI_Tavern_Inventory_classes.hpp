@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "Str_Passport_Armor1_structs.hpp"
+#include "Inventory_ItemFilter_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Inventory_ItemFilter_Enum_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
-#include "SlateCore_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "SheathType_Enum_structs.hpp"
+#include "SlateCore_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 
@@ -305,6 +305,7 @@ public:
 	void Set_Up_Trader_Item(class UObject* Item_0, class UObject* Widget);
 	void SetItemTypeFilter(EInventory_ItemFilter_Enum TypeToFilter);
 	void SetupBrushes();
+	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 	void UpdateReputationProgressBar();
 
 public:

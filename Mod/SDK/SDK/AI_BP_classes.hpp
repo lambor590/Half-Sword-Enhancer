@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "SheathType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
+#include "Enum_AI_Behavior_State_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "MeleeCombatRange_Enum_structs.hpp"
@@ -19,12 +19,12 @@
 #include "AI_CombatBehavior_Enum_structs.hpp"
 #include "GripType_Enum_structs.hpp"
 #include "AI_Strafe_Enum_structs.hpp"
-#include "Enum_AI_Behavior_State_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_AttackType_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
 #include "Enum_Attack_Sequence_structs.hpp"
 #include "Enum_AttackTarget_structs.hpp"
 #include "Enum_Attack_SwingStage_structs.hpp"
@@ -35,7 +35,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass AI_BP.AI_BP_C
-// 0x0A28 (0x0DE0 - 0x03B8)
+// 0x0A30 (0x0DE8 - 0x03B8)
 class AAI_BP_C final : public AAIController
 {
 public:
@@ -402,6 +402,8 @@ public:
 	double                                        Target_Equipment_Price;                            // 0x0DD0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Try_To_Rob;                                        // 0x0DD8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Try_OffHand_Punching;                              // 0x0DD9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_DDA[0x6];                                      // 0x0DDA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Weapon_At_Throat_Distance;                         // 0x0DE0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Activate_L_Hand(bool L_Hand_Active_0);

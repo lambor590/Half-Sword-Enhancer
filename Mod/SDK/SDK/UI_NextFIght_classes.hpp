@@ -12,10 +12,10 @@
 
 #include "Engine_structs.hpp"
 #include "Enum_Maps_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -50,6 +50,7 @@ public:
 	void BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_NextFIght_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature();
 	void Construct();
+	void Destruct();
 	void ExecuteUbergraph_UI_NextFIght(int32 EntryPoint);
 	class FText GetText();
 	class FText GetText_0();

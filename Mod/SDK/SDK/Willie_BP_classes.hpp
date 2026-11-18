@@ -10,35 +10,35 @@
 
 #include "Basic.hpp"
 
-#include "Enum_GameMode_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
-#include "FootStepping_Enum_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_PlayMode_structs.hpp"
-#include "Enum_VoiceType_structs.hpp"
-#include "BodyPart_Enum_structs.hpp"
-#include "Enum_ReverseGripType_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "GripType_Enum_structs.hpp"
-#include "SecondaryMetal_Type_structs.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
-#include "Willie_Bones_Enum_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
-#include "Attached_Transform_Str_structs.hpp"
-#include "Str_Loadout_Equipment_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "Weapon_Slots_Enum_structs.hpp"
-#include "VertexPaintDetectionPlugin_structs.hpp"
-#include "Enum_SheathSlot_Concrete_structs.hpp"
-#include "ArmorSlotContents_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
+#include "FootStepping_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Enum_LiquidType_structs.hpp"
+#include "Severable_BodyParts_Enum_structs.hpp"
+#include "Weapon_Slots_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
+#include "Enum_LiquidType_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
+#include "BodyPart_Enum_structs.hpp"
+#include "Enum_PlayMode_structs.hpp"
+#include "Willie_Bones_Enum_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
+#include "Attached_Transform_Str_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
+#include "Str_Loadout_Equipment_structs.hpp"
+#include "Enum_VoiceType_structs.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
+#include "Enum_SheathSlot_Concrete_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
+#include "ArmorSlotContents_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
@@ -49,8 +49,7 @@ SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP.Willie_BP_C
 // 0x4AE0 (0x5150 - 0x0670)
-#pragma pack(push, 0x1)
-class SDK_ALIGN(0x10) AWillie_BP_C : public ACharacter
+class AWillie_BP_C : public ACharacter
 {
 public:
 	uint8                                         Pad_668[0x8];                                      // 0x0668(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
@@ -1828,6 +1827,7 @@ public:
 	bool                                          Player_Match_End;                                  // 0x5140(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_5141[0x3];                                     // 0x5141(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Give_Up_Meter;                                     // 0x5144(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Immortal;                                          // 0x5148(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1855,7 +1855,6 @@ public:
 	void BndEvt__Willie_BP_CM_Helmet_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 	void BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
 	void BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	void Body_Skill_Up();
 	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 	void BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2);
 	void Break_Arm_L();
@@ -1934,11 +1933,6 @@ public:
 	void Event_Destroy_Pending_Armor_Meshes();
 	void Event_Detach_Grab_Point_L();
 	void Event_Detach_Grab_Point_R();
-	void Event_Dislocate_Arm_L();
-	void Event_Dislocate_Arm_R();
-	void Event_Dislocate_Leg_L();
-	void Event_Dislocate_Leg_R();
-	void Event_DIslocate_Neck();
 	void Event_Equip_Armor_From_L_Hand();
 	void Event_Equip_Armor_From_R_Hand();
 	void Event_Find_Last_Offenter_from_Damage();
@@ -2242,6 +2236,7 @@ public:
 	void Unsheath_R_Event();
 	void Update_Aim();
 	void UserConstructionScript();
+	void Vacant_Func();
 	void Velocity_Calculator_V(const struct FVector& Current_Location, const struct FVector& Delayed_Location, struct FVector* Velocity, struct FVector* Delayed_Out);
 	void VO_Bite();
 	void VO_Choke();
@@ -2273,6 +2268,5 @@ public:
 		return GetDefaultObjImpl<AWillie_BP_C>();
 	}
 };
-#pragma pack(pop)
 
 SDK_NAMESPACE_END

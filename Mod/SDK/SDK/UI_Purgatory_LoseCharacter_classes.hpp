@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Purgatory_LoseCharacter.UI_Purgatory_LoseCharacter_C
-// 0x0030 (0x0310 - 0x02E0)
+// 0x0038 (0x0318 - 0x02E0)
 class UUI_Purgatory_LoseCharacter_C final : public UUserWidget
 {
 public:
@@ -25,8 +25,9 @@ public:
 	class UImage*                                 Back;                                              // 0x02E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Button;                                            // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Button_1;                                          // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0300(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UUI_Pause_Eng_C*                        My_Pause;                                          // 0x0308(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_0;                                       // 0x0300(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0308(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UUI_Pause_Eng_C*                        My_Pause;                                          // 0x0310(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Mercenaries_Expired_Button_1_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature();
@@ -34,6 +35,7 @@ public:
 	void BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Mercenaries_Expired_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
 	void ExecuteUbergraph_UI_Purgatory_LoseCharacter(int32 EntryPoint);
+	class FText GetText();
 	void PreConstruct(bool IsDesignTime);
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 

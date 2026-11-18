@@ -77,6 +77,7 @@ public:
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void Win_Match();
 
 public:
 	static class UClass* StaticClass()

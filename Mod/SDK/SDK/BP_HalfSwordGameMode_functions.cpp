@@ -172,4 +172,16 @@ void ABP_HalfSwordGameMode_C::UserConstructionScript()
 }
 
 
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Win Match
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_HalfSwordGameMode_C::Win_Match()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Win Match", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 SDK_NAMESPACE_END

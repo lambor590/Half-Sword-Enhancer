@@ -440,13 +440,19 @@ void AModularWeaponBP_C::Set_Up_Module(class UStaticMeshComponent* Part, class U
 
 // Function ModularWeaponBP.ModularWeaponBP_C.Set Weapon Damping Drop
 // (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class UObject*                    Parent_To_Remove                                       (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AModularWeaponBP_C::Set_Weapon_Damping_Drop()
+void AModularWeaponBP_C::Set_Weapon_Damping_Drop(const class UObject* Parent_To_Remove)
 {
 	static class FName FnName;
 	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Set Weapon Damping Drop", FnName));
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::ModularWeaponBP_C_Set_Weapon_Damping_Drop Parms{};
+
+	Parms.Parent_To_Remove = Parent_To_Remove;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

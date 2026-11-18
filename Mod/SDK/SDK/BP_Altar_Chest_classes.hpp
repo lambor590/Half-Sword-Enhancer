@@ -18,7 +18,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Altar_Chest.BP_Altar_Chest_C
-// 0x0188 (0x0418 - 0x0290)
+// 0x0198 (0x0428 - 0x0290)
 class ABP_Altar_Chest_C final : public AActor
 {
 public:
@@ -43,6 +43,9 @@ public:
 	double                                        Donated_Price;                                     // 0x0308(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FStr_Passport_Weapon1                  Wine_Passport;                                     // 0x0310(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	int32                                         Wines_Spawned;                                     // 0x0410(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_414[0x4];                                      // 0x0414(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0418(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Insured_Item;                                // 0x0420(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ReceiveTick(float DeltaSeconds_ReceiveTick);

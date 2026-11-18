@@ -2512,6 +2512,26 @@ void UUI_Tavern_Inventory_C::SetupBrushes()
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Tick
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Tick", FnName));
+
+	Params::UI_Tavern_Inventory_C_Tick Parms{};
+
+	Parms.MyGeometry = std::move(MyGeometry);
+	Parms.InDeltaTime = InDeltaTime;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.UpdateReputationProgressBar
 // (Public, BlueprintCallable, BlueprintEvent)
 

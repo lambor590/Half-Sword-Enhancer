@@ -124,6 +124,18 @@ void UUI_NextFIght_C::Construct()
 }
 
 
+// Function UI_NextFIght.UI_NextFIght_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_NextFIght_C::Destruct()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Destruct", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_NextFIght.UI_NextFIght_C.ExecuteUbergraph_UI_NextFIght
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:

@@ -644,6 +644,18 @@ void UUI_Shop_Frank_C::CheckIfBarterCancelled()
 }
 
 
+// Function UI_Shop_Frank.UI_Shop_Frank_C.Event Close Widget
+// (BlueprintCallable, BlueprintEvent)
+
+void UUI_Shop_Frank_C::Event_Close_Widget()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Close Widget", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Shop_Frank.UI_Shop_Frank_C.ExecuteUbergraph_UI_Shop_Frank
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:

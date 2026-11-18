@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Character1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Enum_Nationalities_structs.hpp"
@@ -21,7 +21,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameManager.BP_GameManager_C
-// 0x0038 (0x02C8 - 0x0290)
+// 0x0050 (0x02E0 - 0x0290)
 class ABP_GameManager_C final : public AActor
 {
 public:
@@ -33,6 +33,8 @@ public:
 	bool                                          Nemesis_Combat_Event_Spawned;                      // 0x02B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2B2[0x6];                                      // 0x02B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FStr_Passport_Character1>       Nemesis_Opponents_to_Purge;                        // 0x02B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	TArray<class AWillie_BP_C*>                   Spawned_Willies;                                   // 0x02C8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	int32                                         Arena_Active_Opponents;                            // 0x02D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Create_Pre_Made_Weapon(const struct FStr_Passport_Weapon1& Str_Passport_Weapon, struct FStr_Passport_Weapon1* Weapon_Passport);

@@ -10,27 +10,27 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DayTime_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_GameMode_structs.hpp"
-#include "ScreenResolution_Enum_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Str_Inventory_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
-#include "Str_Passport_CombatEvent1_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "Enum_CombatEvent_Modes_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "Str_Character_Body_Condition_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Enum_PlayMode_structs.hpp"
-#include "Enum_PlayerPlayCondition_structs.hpp"
+#include "ScreenResolution_Enum_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
 #include "Enum_WeaponType_Specific_structs.hpp"
 #include "StreamlineReflexBlueprint_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
+#include "Str_Inventory_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
+#include "Str_Passport_CombatEvent1_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "Str_Character_Body_Condition_structs.hpp"
+#include "Enum_PlayMode_structs.hpp"
+#include "Enum_PlayerPlayCondition_structs.hpp"
 #include "Str_CurrentlyForgedWeapon_structs.hpp"
 #include "Enum_Maps_structs.hpp"
 #include "EUpscaler_structs.hpp"
@@ -45,7 +45,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x15B0 (0x1770 - 0x01C0)
+// 0x15C0 (0x1780 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -284,6 +284,7 @@ public:
 	struct FTransform                             P2_Transform_PM;                                   // 0x1650(0x0060)(Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FTransform                             P1_Transform_FM;                                   // 0x16B0(0x0060)(Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FTransform                             P2_Transform_FM;                                   // 0x1710(0x0060)(Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class ABP_GameManager_C*                      Current_Game_Manager;                              // 0x1770(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();

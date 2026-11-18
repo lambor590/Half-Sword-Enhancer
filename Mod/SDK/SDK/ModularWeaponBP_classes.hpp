@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "SheathType_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
-#include "Enum_ReverseGripType_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "GripType_Enum_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
@@ -295,7 +295,7 @@ public:
 	void Release_All_Jammed_Bones();
 	void ReSpawn_Weapon_Parts_Event();
 	void Set_Up_Module(class UStaticMeshComponent* Part, class USkeletalMeshComponent* Part_Sk, class AModular_Weapon_Part_Master_C* Spawned_Part, class USceneComponent* Socket, class AModular_Weapon_Part_Master_C* Sub_Module_1, class AModular_Weapon_Part_Master_C* Sub_Module_2, class UStaticMesh* Part_Static_Mesh);
-	void Set_Weapon_Damping_Drop();
+	void Set_Weapon_Damping_Drop(const class UObject* Parent_To_Remove);
 	void Set_Weapon_Damping_Pick_Up();
 	void Sheathed_Mode();
 	class AModular_Weapon_Part_Master_C* Spawn_Module(const struct FVector& Scale, class UClass* InputPin, class UClass* Sub_Module_I, class UClass* Sub_Module_II, double Custom_Mass_Scale, class AModular_Weapon_Part_Master_C** Sub_Module_1, class AModular_Weapon_Part_Master_C** Sub_Module_2);

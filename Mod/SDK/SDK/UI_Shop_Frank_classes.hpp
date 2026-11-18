@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "Inventory_ItemFilter_Enum_structs.hpp"
+#include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
@@ -114,6 +114,7 @@ public:
 	void BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature(class UObject* Item, class UUserWidget* Widget);
 	void BndEvt__UI_Shop_Frank_Trader_Items_List_K2Node_ComponentBoundEvent_4_OnItemIsHoveredChangedDynamic__DelegateSignature(class UObject* Item, bool bIsHovered);
 	void CheckIfBarterCancelled();
+	void Event_Close_Widget();
 	void ExecuteUbergraph_UI_Shop_Frank(int32 EntryPoint);
 	void FillMerchantItemsList();
 	void FillPlayerItemsList();

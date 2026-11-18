@@ -82,6 +82,24 @@ void UUI_Purgatory_LoseCharacter_C::ExecuteUbergraph_UI_Purgatory_LoseCharacter(
 }
 
 
+// Function UI_Purgatory_LoseCharacter.UI_Purgatory_LoseCharacter_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Purgatory_LoseCharacter_C::GetText()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"GetText", FnName));
+
+	Params::UI_Purgatory_LoseCharacter_C_GetText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Purgatory_LoseCharacter.UI_Purgatory_LoseCharacter_C.PreConstruct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:

@@ -503,18 +503,6 @@ void AWillie_BP_C::BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_Component
 }
 
 
-// Function Willie_BP.Willie_BP_C.Body Skill Up
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Body_Skill_Up()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Body Skill Up", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function Willie_BP.Willie_BP_C.Box Vertex Paint
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -1272,7 +1260,7 @@ void AWillie_BP_C::Disintegrate_and_drop_armor(bool Condition__Temp_)
 
 
 // Function Willie_BP.Willie_BP_C.Dislocate Bone
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class FName                             In_Bone                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -1860,66 +1848,6 @@ void AWillie_BP_C::Event_Detach_Grab_Point_R()
 {
 	static class FName FnName;
 	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Detach Grab Point R", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event Dislocate Arm L
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_Dislocate_Arm_L()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Arm L", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event Dislocate Arm R
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_Dislocate_Arm_R()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Arm R", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event Dislocate Leg L
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_Dislocate_Leg_L()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Leg L", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event Dislocate Leg R
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_Dislocate_Leg_R()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Dislocate Leg R", FnName));
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event DIslocate Neck
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_DIslocate_Neck()
-{
-	static class FName FnName;
-	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event DIslocate Neck", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4842,7 +4770,7 @@ void AWillie_BP_C::Reset_Trail_Blood(float Duration)
 
 
 // Function Willie_BP.Willie_BP_C.Restore Bone
-// (Public, BlueprintCallable, BlueprintEvent)
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // EBodyPart_Enum                          Body_Part                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Amount                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -6440,6 +6368,18 @@ void AWillie_BP_C::UserConstructionScript()
 {
 	static class FName FnName;
 	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"UserConstructionScript", FnName));
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Vacant Func
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Vacant_Func()
+{
+	static class FName FnName;
+	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Vacant Func", FnName));
 
 	UObject::ProcessEvent(Func, nullptr);
 }
