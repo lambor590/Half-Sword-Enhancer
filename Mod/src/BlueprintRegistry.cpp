@@ -28,6 +28,18 @@ static constexpr std::pair<std::string_view, std::string_view> WEAPON_PATH_CATEG
     {"Ranged", "Ranged"}, {"Treasure", "Treasure"}, {"Unique", "Unique"},
 };
 
+// The game's own names for these read as typos in a menu.
+static constexpr std::pair<std::string_view, std::string_view> RENAMED_ASSETS[] = {
+    {"BP_Barrel_Destructable_Constraits", "Destructible Barrel"},
+};
+
+static std::string DisplayNameFromAsset(std::string_view assetName) {
+    for (auto [asset, name] : RENAMED_ASSETS) {
+        if (assetName == asset) return std::string(name);
+    }
+    return BlueprintRegistry::CleanDisplayName(assetName);
+}
+
 static std::string DisplayNameFromClassPath(const std::string& path) {
     std::string_view name = path;
     const size_t dotPos = name.rfind('.');
@@ -188,7 +200,7 @@ void BlueprintRegistry::PerformScan(bool forceRefresh) {
                 }
 
                 BlueprintEntry entry;
-                entry.displayName = CleanDisplayName(assetName);
+                entry.displayName = DisplayNameFromAsset(assetName);
                 entry.classPath = asset.PackageName.GetRawString() + "." + assetName + "_C";
 
                 AddItem(std::move(entry), category, subcategory);
@@ -262,6 +274,16 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
 
     if (path.find("/Armor/") != std::string::npos) return {};
 
+    if (path.find("/Food/") != std::string::npos) {
+        if (assetName.find("Apple") != std::string::npos || assetName.find("Pear") != std::string::npos)
+            return {"Food", "Fruit"};
+        if (assetName.find("Bread") != std::string::npos) return {"Food", "Bread"};
+        return {"Food", "Meat and Fish"};
+    }
+
+    if (path.find("/Destructible/") != std::string::npos || assetName.starts_with("BP_Ragdoll_"))
+        return {"Props", "General"};
+
     if (path.find("/Props/") != std::string::npos) {
         if (path.find("/Lights/") != std::string::npos) return {"Props", "Lights"};
         if (path.find("/Furniture/") != std::string::npos) return {"Props", "Furniture"};
@@ -330,6 +352,7 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
          "BP_Fence_",
          "BP_Quiver_",
          "BP_Candle",
+         "BP_Food_",
          "Module_",
          "MODULE_",
          "BPI_",
@@ -433,7 +456,7 @@ void BlueprintRegistry::InjectCustomPaths() {
 }
 
 void BlueprintRegistry::SortCategories() {
-    static const char* categoryOrder[] = {"Weapons", "Modular Armor", "Props"};
+    static const char* categoryOrder[] = {"Weapons", "Modular Armor", "Props", "Food"};
     static constexpr size_t ORDER_COUNT = sizeof(categoryOrder) / sizeof(categoryOrder[0]);
 
     std::ranges::sort(categories, [](const CategoryData& a, const CategoryData& b) {
