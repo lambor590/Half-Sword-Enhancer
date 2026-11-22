@@ -10,53 +10,27 @@
 
 #include "Basic.hpp"
 
-#include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
 
 
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function BP_FreeCamera.BP_FreeCamera_C.Create Grab Handle
-// 0x02C0 (0x02C0 - 0x0000)
-struct BP_FreeCamera_C_Create_Grab_Handle final
+// Function BP_FreeCamera.BP_FreeCamera_C.UserConstructionScript
+// 0x0138 (0x0138 - 0x0000)
+struct BP_FreeCamera_C_UserConstructionScript final
 {
 public:
-	struct FVector                                GrabLocation;                                      // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    Component;                                         // 0x0018(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class FName                                   InBoneName;                                        // 0x0020(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_K2_GetComponentLocation_ReturnValue;      // 0x0028(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Vector_Distance_ReturnValue;              // 0x0040(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_K2_AttachToComponent_ReturnValue;         // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_49[0x7];                                       // 0x0049(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FHitResult                             CallFunc_K2_SetWorldLocation_SweepHitResult;       // 0x0050(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
-	bool                                          CallFunc_K2_AttachToComponent_ReturnValue_1;       // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_149[0x7];                                      // 0x0149(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FTransform                             Temp_struct_Variable;                              // 0x0150(0x0060)(ConstParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsHandleComponent*                CallFunc_AddComponent_ReturnValue;                 // 0x01B0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x01B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1B9[0x7];                                      // 0x01B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FHitResult                             CallFunc_K2_SetWorldLocation_SweepHitResult_1;     // 0x01C0(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
-};
-
-// Function BP_FreeCamera.BP_FreeCamera_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct BP_FreeCamera_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_FreeCamera.BP_FreeCamera_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1
-// 0x0018 (0x0018 - 0x0000)
-struct BP_FreeCamera_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_1 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+	struct FRotator                               CallFunc_MakeRotator_ReturnValue;                  // 0x0000(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor)
+	struct FHitResult                             CallFunc_K2_SetRelativeRotation_SweepHitResult;    // 0x0018(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	float                                         CallFunc_GetGlobalTimeDilation_ReturnValue;        // 0x0110(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_114[0x4];                                      // 0x0114(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_SafeDivide_ReturnValue;                   // 0x0118(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_MakeRotator_Roll_ImplicitCast;            // 0x0120(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetFieldOfView_InFieldOfView_ImplicitCast; // 0x0124(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_SafeDivide_B_ImplicitCast;                // 0x0128(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_VariableSet_CustomTimeDilation_ImplicitCast; // 0x0130(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_TearDown_Barricade_Door.BP_TearDown_Barricade_Door_C
-// 0x0098 (0x0328 - 0x0290)
+// 0x00A0 (0x0330 - 0x0290)
 class ABP_TearDown_Barricade_Door_C final : public AActor
 {
 public:
@@ -43,6 +43,7 @@ public:
 	class UStaticMeshComponent*                   My_Door;                                           // 0x0310(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0318(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class ABP_Procedural_Dungeon_Director_C*      My_Director;                                       // 0x0320(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 My_Level_Class;                                    // 0x0328(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__BP_TearDown_Barricade_Box_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);

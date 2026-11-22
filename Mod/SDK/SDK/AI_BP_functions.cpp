@@ -161,19 +161,19 @@ void AAI_BP_C::Event_Check_Last_Grab_R_Success()
 // Function AI_BP.AI_BP_C.Event Get Into Combat State
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  In_TIme                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  In_Time                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class AWillie_BP_C*                     Attack_This_Target                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   At_This_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Aggression_0                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AAI_BP_C::Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression_0)
+void AAI_BP_C::Event_Get_Into_Combat_State(double In_Time, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression_0)
 {
 	static class FName FnName;
 	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"Event Get Into Combat State", FnName));
 
 	Params::AI_BP_C_Event_Get_Into_Combat_State Parms{};
 
-	Parms.In_TIme = In_TIme;
+	Parms.In_Time = In_Time;
 	Parms.Attack_This_Target = Attack_This_Target;
 	Parms.At_This_Location = std::move(At_This_Location);
 	Parms.Aggression_0 = Aggression_0;

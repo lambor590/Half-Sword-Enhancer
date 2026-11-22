@@ -13,28 +13,28 @@
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "Str_Passport_CombatEvent1_structs.hpp"
 #include "ScreenResolution_Enum_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
-#include "Enum_WeaponType_Specific_structs.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
 #include "Str_Inventory_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
-#include "Str_Passport_CombatEvent1_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
 #include "Str_CurrentlyForgedWeapon_structs.hpp"
 #include "Enum_Maps_structs.hpp"
 #include "EUpscaler_structs.hpp"
 #include "EUpscalerMode_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
@@ -285,6 +285,7 @@ public:
 	struct FTransform                             P1_Transform_FM;                                   // 0x16B0(0x0060)(Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FTransform                             P2_Transform_FM;                                   // 0x1710(0x0060)(Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class ABP_GameManager_C*                      Current_Game_Manager;                              // 0x1770(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UUserWidget*                            Current_WinLose_UI_Window;                         // 0x1778(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();

@@ -120,19 +120,19 @@ void AWillie_BP_C::Ai_Finish_Thrust()
 // Function Willie_BP.Willie_BP_C.AI Get Alerted
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  In_TIme                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  In_Time                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class AWillie_BP_C*                     Attack_This_Target                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   At_This_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Aggression                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::AI_Get_Alerted(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression)
+void AWillie_BP_C::AI_Get_Alerted(double In_Time, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location, double Aggression)
 {
 	static class FName FnName;
 	class UFunction* Func = InSDKUtils::FindFunctionChecked(this, GetStaticName(L"AI Get Alerted", FnName));
 
 	Params::Willie_BP_C_AI_Get_Alerted Parms{};
 
-	Parms.In_TIme = In_TIme;
+	Parms.In_Time = In_Time;
 	Parms.Attack_This_Target = Attack_This_Target;
 	Parms.At_This_Location = std::move(At_This_Location);
 	Parms.Aggression = Aggression;
