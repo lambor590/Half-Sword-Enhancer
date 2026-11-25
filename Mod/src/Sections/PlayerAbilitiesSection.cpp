@@ -365,6 +365,13 @@ namespace {
         }
     }
 
+    // The values Half Sword ships for a Willie: what a feature scales and what it gives back when switched off. A copy
+    // in the Mod went stale when an update changed them (run speed 1.5 to 2, grip 10000 to 250000).
+    [[nodiscard]] const SDK::AWillie_BP_C* ShippedWillie() {
+        auto* game = SDK::AWillie_BP_C::GetDefaultObj();
+        return game && game->IsDefaultObject() ? game : nullptr;
+    }
+
     void BoostWeaponKnockback(SDK::AModularWeaponBP_C* weapon, float configuredMultiplier) noexcept {
         const auto multiplier = static_cast<double>(configuredMultiplier);
         if (weapon->Kick_Power < multiplier) {
@@ -949,11 +956,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .callback =
             [this](bool active, const RuntimeContextSnapshot& runtime) {
                 auto* p = runtime.player;
-                if (!p) return;
-                p->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
-                                               : GameConstants::DEFAULT_PLAYER_SPEED;
-                p->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
-                                                : GameConstants::DEFAULT_PLAYER_SPEED;
+                const auto* game = ShippedWillie();
+                if (!p || !game) return;
+                p->Running_Speed_Rate = game->Running_Speed_Rate * (active ? cfg.playerRunMultiplier : 1.0f);
+                p->Walk_Speed_Rate_Run = game->Walk_Speed_Rate_Run * (active ? cfg.playerWalkMultiplier : 1.0f);
             },
         .kind = KeybindKind::State,
         .applyOnToggle = true,
@@ -978,16 +984,13 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .callback =
             [this](bool active, const RuntimeContextSnapshot& runtime) {
                 auto* p = runtime.player;
-                if (!p) return;
-                p->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
-                                         : GameConstants::DEFAULT_MUSCLE_POWER;
-                p->R_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                                               : GameConstants::DEFAULT_GRAB_FORCE;
-                p->L_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                                               : GameConstants::DEFAULT_GRAB_FORCE;
+                const auto* game = ShippedWillie();
+                if (!p || !game) return;
+                p->Muscle_Power = game->Muscle_Power * (active ? cfg.playerStrengthMultiplier : 1.0f);
+                p->R_Grab_Force_Limit = game->R_Grab_Force_Limit * (active ? cfg.playerGrabForceMultiplier : 1.0f);
+                p->L_Grab_Force_Limit = game->L_Grab_Force_Limit * (active ? cfg.playerGrabForceMultiplier : 1.0f);
                 p->Hands_Rigidity__Gauntlets_ =
-                    active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
-                           : GameConstants::DEFAULT_HANDS_RIGIDITY;
+                    game->Hands_Rigidity__Gauntlets_ * (active ? cfg.playerHandsRigidityMultiplier : 1.0f);
             },
         .kind = KeybindKind::State,
         .applyOnToggle = true,
@@ -1016,9 +1019,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .callback =
             [this](bool active, const RuntimeContextSnapshot& runtime) {
                 auto* p = runtime.player;
-                if (!p) return;
-                p->All_Body_Tonus =
-                    GameConstants::DEFAULT_ALL_BODY_TONUS * (active ? cfg.bodyTonusAllBodyMultiplier : 1.0f);
+                const auto* game = ShippedWillie();
+                if (!p || !game) return;
+                p->All_Body_Tonus = game->All_Body_Tonus * (active ? cfg.bodyTonusAllBodyMultiplier : 1.0f);
                 if (active && cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
                     p->Head_Tonus = GameConstants::FULL_TONUS;
                     p->Arm_L_Tonus = GameConstants::FULL_TONUS;
