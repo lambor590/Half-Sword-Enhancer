@@ -195,9 +195,11 @@ namespace PresetApplication {
 
         auto* defaults = static_cast<SDK::ABP_Armor_Master_C*>(armorClass->ClassDefaultObject);
         const auto& passport = preset.passport;
-        const auto validateModuleIndex = [error](int index, int available, std::string_view field) {
-            if (index >= 0 && index <= available) return true;
-            if (error) *error = "The selected " + std::string(field) + " is unavailable for this armor";
+        const auto validateModuleIndex = [error, armorClass](int index, int available, std::string_view field) {
+            // Since 26737211 the game's own generator writes -1 for a slot the armor has no module for.
+            if (index >= -1 && index <= available) return true;
+            if (error) *error = std::string(field) + " unavailable for this armor (" + armorClass->GetName() + ": " +
+                                std::to_string(index) + " of " + std::to_string(available) + ")";
             return false;
         };
         if (GameClass::IsModularArmor(defaults)) {
