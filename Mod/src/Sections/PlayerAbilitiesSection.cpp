@@ -14,6 +14,7 @@
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Willie_BP_parameters.hpp"
 #include "Hooks/GameHook.h"
+#include "Utils/EngineArray.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
 #include "Utils/BoneControl.h"
@@ -330,21 +331,34 @@ namespace {
         QueuePossessionCameraActivation(activation);
     }
 
-    [[nodiscard]] bool IsHelmetMesh(const SDK::UActorComponent* component) {
-        // The game tags every worn armor mesh with the enumerator name of its slot. Modular helmets use the first
-        // of these slots and the older one-piece helmets the second.
-        static const std::array HELMET_SLOT_TAGS{
-            SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator14"),
-            SDK::BasicFilesImplUtils::StringToName(L"ArmorSlots_Enum::NewEnumerator0"),
-        };
+    // The game tags every worn armor mesh with the display name of its slot ("Head 2"), which an update can rename,
+    // so the names are read from the slot enum. Modular helmets use the first of these slots and the older one-piece
+    // helmets the second.
+    [[nodiscard]] std::vector<SDK::FName> HelmetSlotTags() {
+        std::vector<SDK::FName> tags;
+        auto* slots = SDK::UObject::FindObjectFast<SDK::UEnum>("ArmorSlots_Enum", SDK::EClassCastFlags::Enum);
+        if (!slots || !EngineMemory::freeBuffer) return tags;
+        for (const auto slot : {SDK::EArmorSlots_Enum::NewEnumerator14, SDK::EArmorSlots_Enum::NewEnumerator0}) {
+            auto name =
+                SDK::UKismetNodeHelperLibrary::GetEnumeratorUserFriendlyName(slots, static_cast<SDK::uint8>(slot));
+            const std::unique_ptr<wchar_t, EngineMemory::FreeFunction> storage(
+                const_cast<wchar_t*>(name.GetDataPtr()), EngineMemory::freeBuffer
+            );
+            if (name.IsValid()) tags.push_back(SDK::BasicFilesImplUtils::StringToName(name.CStr()));
+        }
+        return tags;
+    }
+
+    [[nodiscard]] bool HasAnyTag(const SDK::UActorComponent* component, const std::vector<SDK::FName>& tags) {
         for (const auto& tag : component->ComponentTags)
-            if (std::ranges::find(HELMET_SLOT_TAGS, tag) != HELMET_SLOT_TAGS.end()) return true;
+            if (std::ranges::find(tags, tag) != tags.end()) return true;
         return false;
     }
 
     void SetHelmetHiddenFromOwner(SDK::AWillie_BP_C* willie, bool hidden) {
+        const auto tags = HelmetSlotTags();
         for (auto* mesh : willie->Worn_Armor) {
-            if (!mesh || (mesh->bOwnerNoSee != 0) == hidden || !IsHelmetMesh(mesh)) continue;
+            if (!mesh || (mesh->bOwnerNoSee != 0) == hidden || !HasAnyTag(mesh, tags)) continue;
             mesh->SetOwnerNoSee(hidden);
             // An owner-hidden mesh stops casting shadows unless it is told to keep them.
             mesh->SetCastHiddenShadow(hidden);
